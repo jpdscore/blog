@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Japan Developer Support Core Team Blog</title>
+  
+  <subtitle>日本マイクロソフトの Japan Developer Support Core チームのブログです。</subtitle>
+  <link href="https://jpdscore.github.io/blog/atom.xml" rel="self"/>
+  
+  <link href="https://jpdscore.github.io/blog/"/>
+  <updated>2020-09-29T12:55:45.565Z</updated>
+  <id>https://jpdscore.github.io/blog/</id>
+  
+  <author>
+    <name>Developer Support Core Japan</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Azure App Service に色々な方法で WebApp をデプロイしてみよう！</title>
+    <link href="https://jpdscore.github.io/blog/azuredevops/deploy-webapp-to-azure/"/>
+    <id>https://jpdscore.github.io/blog/azuredevops/deploy-webapp-to-azure/</id>
+    <published>2020-09-29T12:46:00.000Z</published>
+    <updated>2020-09-29T12:55:45.565Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;こんにちは、Japan Developer Support Core チームです。 &lt;/p&gt;
+&lt;p&gt;今日は、色々な方法でMicrosoft Azure (以降、Azure) のAzure App Service (以降、AppService) にWebアプリ</summary>
+        
+      
+    
+    
+    
+    
+    <category term="ALM" scheme="https://jpdscore.github.io/blog/tags/ALM/"/>
+    
+    <category term="Azure Pipelines" scheme="https://jpdscore.github.io/blog/tags/Azure-Pipelines/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>ClickOnce アプリケーションのインストールや更新の後に発生する場合があるアプリケーション起動時のエラーについて</title>
+    <link href="https://jpdscore.github.io/blog/deployment/fail-to-launch-clickonce-apps-after-updated/"/>
+    <id>https://jpdscore.github.io/blog/deployment/fail-to-launch-clickonce-apps-after-updated/</id>
+    <published>2020-09-28T15:00:00.000Z</published>
+    <updated>2020-09-29T12:55:45.573Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;(※ 2018 年 2 月 20 日に Microsoft Japan Visual Studio Support Team Blog に公開した情報のアーカイブです。)&lt;/p&gt;
+&lt;p&gt;こんにちは、Visual Studio サポート</summary>
+        
+      
+    
+    
+    
+    
+    <category term="Deployment" scheme="https://jpdscore.github.io/blog/tags/Deployment/"/>
+    
+    <category term="ClickOnce" scheme="https://jpdscore.github.io/blog/tags/ClickOnce/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>.NET Framework の各バージョン同士の関係</title>
+    <link href="https://jpdscore.github.io/blog/dotnet/relationship-between-ndp-versions/"/>
+    <id>https://jpdscore.github.io/blog/dotnet/relationship-between-ndp-versions/</id>
+    <published>2020-09-28T15:00:00.000Z</published>
+    <updated>2020-09-29T12:55:45.573Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;(※ 2015 年 4 月 6 日に Microsoft Japan Visual Studio Support Team Blogに公開した情報のアーカイブです。)&lt;/p&gt;
+&lt;p&gt;こんにちは、Visual Studio サポート</summary>
+        
+      
+    
+    
+    
+    
+    <category term=".NET" scheme="https://jpdscore.github.io/blog/tags/NET/"/>
+    
+    <category term=".NET Framework" scheme="https://jpdscore.github.io/blog/tags/NET-Framework/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Developer Support Core チームのブログへようこそ</title>
+    <link href="https://jpdscore.github.io/blog/general/welcome/"/>
+    <id>https://jpdscore.github.io/blog/general/welcome/</id>
+    <published>2020-09-27T15:00:00.000Z</published>
+    <updated>2020-09-29T12:55:45.573Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;こんにちは、Developer Support Core チームです。&lt;/p&gt;
+&lt;p&gt;私たちのサポート チームでは下記の製品のサポートを行っています。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Visual Studio&lt;/li&gt;
+&lt;li&gt;.NET (.NET Framework /</summary>
+        
+      
+    
+    
+    
+    
+    <category term="全般" scheme="https://jpdscore.github.io/blog/tags/%E5%85%A8%E8%88%AC/"/>
+    
+  </entry>
+  
+</feed>
