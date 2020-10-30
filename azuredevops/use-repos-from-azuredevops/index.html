@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Azure DevOps から Repos を利用してみよう (Azure Repos/GitHub)！ | Japan Developer Support Core Team Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="こんにちは、Japan Developer Support Core チームです。 Azure Repos や GitHub など、世の中には様々なリポジトリ サービスが公開されていて、まさに群雄割拠の様相を呈していますね。今日は、これらのリポジトリ (Repos) を Azure DevOps (以降、DevOps) から利用して楽しんでみましょう。 本日のメニューはこちらです。  Visual">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Azure DevOps から Repos を利用してみよう (Azure Repos&#x2F;GitHub)！">
+<meta property="og:url" content="https://jpdscore.github.io/blog/azuredevops/use-repos-from-azuredevops/index.html">
+<meta property="og:site_name" content="Japan Developer Support Core Team Blog">
+<meta property="og:description" content="こんにちは、Japan Developer Support Core チームです。 Azure Repos や GitHub など、世の中には様々なリポジトリ サービスが公開されていて、まさに群雄割拠の様相を呈していますね。今日は、これらのリポジトリ (Repos) を Azure DevOps (以降、DevOps) から利用して楽しんでみましょう。 本日のメニューはこちらです。  Visual">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/use-repos-from-azuredevops/1.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/use-repos-from-azuredevops/2.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/use-repos-from-azuredevops/3.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/use-repos-from-azuredevops/4.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/use-repos-from-azuredevops/5.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/use-repos-from-azuredevops/6.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/use-repos-from-azuredevops/7.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/use-repos-from-azuredevops/8.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/use-repos-from-azuredevops/9.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/use-repos-from-azuredevops/10.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/use-repos-from-azuredevops/11.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/use-repos-from-azuredevops/12.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/use-repos-from-azuredevops/13.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/use-repos-from-azuredevops/14.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/use-repos-from-azuredevops/15.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/use-repos-from-azuredevops/16.png">
+<meta property="article:published_time" content="2020-10-29T15:00:00.000Z">
+<meta property="article:modified_time" content="2020-10-30T08:32:17.926Z">
+<meta property="article:author" content="Developer Support Core Japan">
+<meta property="article:tag" content="ALM">
+<meta property="article:tag" content="Azure Pipelines">
+<meta property="article:tag" content="Azure Repos">
+<meta property="article:tag" content="GitHub">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jpdscore.github.io/blog/azuredevops/use-repos-from-azuredevops/1.png">
+  
+    <link rel="alternate" href="../../blog/atom.xml" title="Japan Developer Support Core Team Blog" type="application/atom+xml">
+  
+
+  <link rel="icon" href="./favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png">
+  <link rel="manifest" href="./site.webmanifest">
+  <link rel="mask-icon" href="./safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="theme-color" content="#ffffff">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="../../css/style.css">
+
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="site-header-logo"></div>
+  <div id="site-header-blog-wrapper"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        <div id="ms-logo"></div>
+        
+          <a class="main-nav-link" href="../../index.html">Home</a>
+        
+          <a class="main-nav-link" href="../../archives">Archives</a>
+        
+        <a class="main-nav-link" target="_blank" rel="noopener" href="https://cssjpn.github.io/">サポート情報</a>
+        <a class="main-nav-link" href="/blog/general/welcome/">About</a>
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="../../blog/atom.xml" title="RSSフィード"></a>
+        
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//www.bing.com/search" method="get" accept-charset="UTF-8" name="bing-search" onsubmit="var f=this;if(f['q'].value){var searchUrl =  'https://www.bing.com/search?q=' +  encodeURIComponent(f['q'].value + ' site:' + f['sitesearch'].value) ;window.open(searchUrl, 'blank') };return false;" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="検索"><button type="submit" id="nav-search-btn" class="search-form-submit"></button><input type="hidden" name="sitesearch" value="https://jpdscore.github.io/blog"></form>
+      </div>
+    </div>
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="../../index.html" id="logo">Japan Developer Support Core Team Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="../../index.html" id="subtitle">日本マイクロソフトの Japan Developer Support Core チームのブログです。</a>
+        </h2>
+      
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-azuredevops/use-repos-from-azuredevops" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header-single">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Azure DevOps から Repos を利用してみよう (Azure Repos/GitHub)！
+    </h1>
+  
+
+      </header>
+      <div class="article-share">
+        Last Update: 
+        <a href="" class="article-date-single">
+  <time datetime="2020-10-29T15:00:00.000Z" itemprop="datePublished">2020-10-30</time>
+</a>
+        
+        
+        <a href="https://github.com/jpdscore/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+258e6f6a-b55d-597f-9331-877e39503641%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5BAzure+DevOps+%E3%81%8B%E3%82%89+Repos+%E3%82%92%E5%88%A9%E7%94%A8%E3%81%97%E3%81%A6%E3%81%BF%E3%82%88%E3%81%86+%28Azure+Repos%2FGitHub%29%EF%BC%81%5D%28https%3A%2F%2Fjpdscore.github.io%2Fblog%2Fazuredevops%2Fuse-repos-from-azuredevops%2F%29" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
+        
+        <a data-url="https://jpdscore.github.io/blog/azuredevops/use-repos-from-azuredevops/" data-id="ckgw00tqq00002gox96i9c1w2" class="article-share-link">共有</a>
+      </div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>こんにちは、Japan Developer Support Core チームです。</p>
+<p>Azure Repos や GitHub など、世の中には様々なリポジトリ サービスが公開されていて、まさに群雄割拠の様相を呈していますね。<br>今日は、これらのリポジトリ (Repos) を Azure DevOps (以降、DevOps) から利用して楽しんでみましょう。</p>
+<p>本日のメニューはこちらです。</p>
+<ol>
+<li><a href="#1-Visual-Studio-%E3%81%8B%E3%82%89%E3%83%97%E3%83%83%E3%82%B7%E3%83%A5%E3%81%97%E3%81%9F-Azure-Repos-%E4%B8%8A%E3%81%AE%E3%82%BD%E3%83%BC%E3%82%B9%E3%82%B3%E3%83%BC%E3%83%89%E3%82%92%E3%80%81Azure-Pipelines-%E7%B5%8C%E7%94%B1%E3%81%A7%E3%83%93%E3%83%AB%E3%83%89%E3%83%BB%E3%83%AA%E3%83%AA%E3%83%BC%E3%82%B9%E3%81%97%E3%81%A6%E3%80%81Azure-App-Service-%E3%82%92%E7%99%BA%E8%A1%8C%E3%81%99%E3%82%8B">Visual Studio からプッシュした Azure Repos 上のソースコードを、Azure Pipelines 経由でビルド・リリースして、Azure App Service を発行する</a></li>
+<li><a href="#2-Azure-%E3%83%9D%E3%83%BC%E3%82%BF%E3%83%AB%E3%81%8B%E3%82%89-Azure-Repos-%E3%81%AB%E6%8E%A5%E7%B6%9A%E3%81%97%E3%81%A6%E3%80%81Azure-Pipeline-%E7%B5%8C%E7%94%B1%E3%81%A7%E3%83%93%E3%83%AB%E3%83%89%E3%83%BB%E3%83%AA%E3%83%AA%E3%83%BC%E3%82%B9%E3%81%97%E3%81%A6%E3%80%81Azure-App-Service-%E3%82%92%E7%99%BA%E8%A1%8C%E3%81%99%E3%82%8B">Azure ポータルから Azure Repos に接続して、Azure Pipeline 経由でビルド・リリースして、Azure App Service を発行する</a></li>
+<li><a href="#3-GitHub-%E4%B8%8A%E3%81%AE%E3%82%BD%E3%83%BC%E3%82%B9%E3%82%B3%E3%83%BC%E3%83%89%E3%82%92%E3%80%81Azure-Pipelines-%E7%B5%8C%E7%94%B1%E3%81%A7%E3%83%93%E3%83%AB%E3%83%89%E3%83%BB%E3%83%AA%E3%83%AA%E3%83%BC%E3%82%B9%E3%81%97%E3%81%A6%E3%80%81Azure-App-Service-%E3%82%92%E7%99%BA%E8%A1%8C%E3%81%99%E3%82%8B">GitHub 上のソースコードを、Azure Pipelines 経由でビルド・リリースして、Azure App Service を発行する</a></li>
+</ol>
+<h2 id="前提条件"><a href="#前提条件" class="headerlink" title="前提条件"></a>前提条件</h2><ul>
+<li>アクティブなサブスクリプションが含まれる Azure アカウントをご用意ください。無料でアカウントを作成できます。</li>
+<li>このブログ記事では、Windows 上の AppService に <span>ASP.NET</span> Core Web アプリケーションをデプロイします。</li>
+<li>先に「Azure App Service に色々な方法で WebApp をデプロイしてみよう！」の「5. DevOps でビルドしたものを Azure Pipeline 経由で発行する」までを完了してください。</li>
+<li>GitHub アカウントを取得しておいてください。</li>
+</ul>
+<h2 id="1-Visual-Studio-からプッシュした-Azure-Repos-上のソースコードを、Azure-Pipelines-経由でビルド・リリースして、Azure-App-Service-を発行する"><a href="#1-Visual-Studio-からプッシュした-Azure-Repos-上のソースコードを、Azure-Pipelines-経由でビルド・リリースして、Azure-App-Service-を発行する" class="headerlink" title="1. Visual Studio からプッシュした Azure Repos 上のソースコードを、Azure Pipelines 経由でビルド・リリースして、Azure App Service を発行する"></a>1. Visual Studio からプッシュした Azure Repos 上のソースコードを、Azure Pipelines 経由でビルド・リリースして、Azure App Service を発行する</h2><p>まずは、前回「<a href="/blog/azuredevops/deploy-webapp-to-azure">Azure App Service に色々な方法で WebApp をデプロイしてみよう！</a>」の「5. DevOps でビルドしたものを Azure Pipeline 経由で発行する」までを完了してくださいね。<br>「5. DevOps でビルドしたものを Azure Pipeline 経由で発行する」を完了していると、以下のリソースが揃っている状態になります。</p>
+<ul>
+<li>VSCiCdProject-WebApp5：Visual Studio で作成した <span>ASP.NET</span> Core Web アプリケーション</li>
+<li>VSCiCdProject-WebApp5-prj：DevOps 上のプロジェクト</li>
+<li>VSCiCdProject-WebApp5：VSCiCdProject-WebApp5 のソリューション一式が push されている、VSCiCdProject-WebApp5-prj プロジェクトのリポジトリ</li>
+<li>VSCiCdProject-WebApp5-dev-as：DevOpsのVSCiCdProject-WebApp5-prj プロジェクトの VSCiCdProject-WebApp5 リポジトリから、CI/CD でデプロイされる Azure App Service</li>
+</ul>
+<h2 id="2-Azure-ポータルから-Azure-Repos-に接続して、Azure-Pipeline-経由でビルド・リリースして、Azure-App-Service-を発行する"><a href="#2-Azure-ポータルから-Azure-Repos-に接続して、Azure-Pipeline-経由でビルド・リリースして、Azure-App-Service-を発行する" class="headerlink" title="2. Azure ポータルから Azure Repos に接続して、Azure Pipeline 経由でビルド・リリースして、Azure App Service を発行する"></a>2. Azure ポータルから Azure Repos に接続して、Azure Pipeline 経由でビルド・リリースして、Azure App Service を発行する</h2><p>準備ができたら、ここで一つリポジトリを使って実験をしてみましょう。</p>
+<p>(1)    Azure ポータルから、新しい Azure App Service を一つ (DeployCenterCiCdProject-WebApp6) 作ります。<br><img src="1.png"><br><img src="2.png"></p>
+<p>(2)    DeployCenterCiCdProject-WebApp6 デプロイセンターから、Azure Repos を選択して CI/CD を続行します。<br><img src="3.png"></p>
+<p>(3) ビルドプロバイダーでは、Azure Pipeline を選択して続行します。<br><img src="4.png"></p>
+<p>(4)    VSCiCdProject-WebApp5-prj プロジェクトの VSCiCdProject-WebApp5 リポジトリを横取りしてみましょう。<br>プロジェクトは「VSCiCdProject-WebApp5-prj」、リポジトリは「VSCiCdProject-WebApp5」、ブランチは「master」、Web アプリケーション フレームは「<span>ASP.NET</span> Core」を選択して続行します。<br><img src="5.png"></p>
+<p>さて、何が起きるでしょうか。</p>
+<p>CI/CD の構成が完了した DeployCenterCiCdProject-WebApp6 のデプロイセンターから、「ビルド パイプライン」「リリース パイプライン」リンクをクリックして DevOps 側の状態を見てみましょう。<br><img src="6.png"></p>
+<p>まずは Build パイプラインから。<br>VSCiCdProject-WebApp5-prj の Build パイプラインに、「deploycentercicdproject-webapp6 - CI」が追加されているのが分かります。<br><img src="7.png"></p>
+<p>同じく、VSCiCdProject-WebApp5-prj の Release パイプラインに、「deploycentercicdproject-webapp6 - CD」が追加されているのが分かりますね。<br><img src="8.png"></p>
+<p>つまり、異なる二つの Azure App Service が、同じ Azure Repos のリポジトリ (VSCiCdProject-WebApp5) のソースコードを元に、異なるパイプライン経由で CI/CD されたことになります。</p>
+<h2 id="3-GitHub-上のソースコードを、Azure-Pipelines-経由でビルド・リリースして、Azure-App-Service-を発行する"><a href="#3-GitHub-上のソースコードを、Azure-Pipelines-経由でビルド・リリースして、Azure-App-Service-を発行する" class="headerlink" title="3. GitHub 上のソースコードを、Azure Pipelines 経由でビルド・リリースして、Azure App Service を発行する"></a>3. GitHub 上のソースコードを、Azure Pipelines 経由でビルド・リリースして、Azure App Service を発行する</h2><p>いよいよ、GitHub のリポジトリと CI/CD 連携してみましょう。<br>GitHub アカウントを取得しておいてくださいね。</p>
+<p>(1)    GitHub にサインインして、以下のサンプルを自分の GitHub リポジトリに fork しておきます。このリポジトリを使いましょう。<br>    <a target="_blank" rel="noopener" href="https://github.com/jpdscore/AspNetCoreWebApplicationCSharp">https://github.com/jpdscore/AspNetCoreWebApplicationCSharp</a></p>
+<p>(2)    DevOps にプロジェクト (GitHubCiCdProject-WebApp7-prj) を作成します。<br><img src="9.png"></p>
+<p>(3)    Azure ポータルから、新しい Azure App Service を一つ (GitHubCiCdProject-WebApp7) 作ります。<br><img src="10.png"></p>
+<p>(4)    GitHubCiCdProject-WebApp7 のデプロイセンターから、Github を選択して CI/CD を続行します。<br><img src="11.png"></p>
+<p>(5)    ビルドプロバイダーでは、Azure Pipelineを選択して続行します。<br><img src="12.png"></p>
+<p>(6)    GitHub の組織・リポジトリ・ブランチと、DevOps の組織・プロジェクト・フレームワークを選択します。組織は GitHub のサンプル (<a target="_blank" rel="noopener" href="https://github.com/jpdscore/AspNetCoreWebApplicationCSharp">https://github.com/jpdscore/AspNetCoreWebApplicationCSharp</a>) を fork した先の組織、リポジトリは「AspNetCoreWebApplicationCSharp」、ブランチは「master」、Azure DevOps 組織は「既存」の組織名、プロジェクトは「GitHubCiCdProject-WebApp7」、Webアプリケーション フレームは「<span>ASP.NET</span> Core」を選択して続行します。<br><img src="13.png"></p>
+<p>CI/CD の構成が完了したら、GitHubCiCdProject-WebApp7 のデプロイセンターから「ビルド パイプライン」「リリース パイプライン」リンクをクリックして DevOps 側の状態を見てみましょう。</p>
+<p>GitHubCiCdProject-WebApp7-prj の Build パイプラインに、「githubcicdproject-webapp7 - 1 - CI」が追加されているのが分かります。<br><img src="14.png"></p>
+<p>同じく GitHubCiCdProject-WebApp7-prj の Release パイプラインにも、「githubcicdproject-webapp7 - 1 - CD」が追加されているのが分かりますね。<br><img src="15.png"></p>
+<p>ここで、GitHubCiCdProject-WebApp7-prj の Project settings から、ブレード内の Service connections を開いてみましょう。<br>以下のように、二つの Service connection が自動生成されているのが分かります。<br><img src="16.png"></p>
+<p>この二つは、デプロイセンターから CI/CD を構成した際に自動的に作成されたもので、それぞれ以下のサービスに接続する時の認証を行うために必要な Service connection です。</p>
+<style>
+.normal {
+  border-width:thin;
+  border-style:double;
+}
+</style>
+
+<table class="normal">
+  <tr>
+    <td class="normal">githubcicdproject-webapp7 - 1 - Azure</td>
+    <td class="normal">Azure Resource ManagerへのService Connection(Service Principalを使用)</td>
+  </tr>
+  <tr>
+    <td class="normal">githubcicdproject-webapp7 - 1 - GitHub</td>
+    <td class="normal">GitHubへのService Connection(PATを使用)</td>
+  </tr>
+</table>
+
+<p>今回は、Azure Repos と GitHub のリポジトリに触れながら、Azure App Service を CI/CD で発行する方法のほんの一部をご紹介しました。次回は、もう少し違う CI/CD の方法ををご紹介するか、または Azure Pipeline の Agent についてご紹介しようと思っています。どうぞよろしくお願いします！</p>
+
+      
+      
+        <div class="article-disclaimer">
+        
+          <p><hr>本ブログの内容は弊社の公式見解として保証されるものではなく、開発・運用時の参考情報としてご活用いただくことを目的としています。もし公式な見解が必要な場合は、弊社ドキュメント (<a target="_blank" rel="noopener" href="https://docs.microsoft.com/">https://docs.microsoft.com</a> や <a target="_blank" rel="noopener" href="https://support.microsoft.com">https://support.microsoft.com</a>) をご参照いただくか、もしくは私共サポートまでお問い合わせください。</p>
+        
+        </div>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/ALM/" rel="tag">ALM</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Azure-Pipelines/" rel="tag">Azure Pipelines</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Azure-Repos/" rel="tag">Azure Repos</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/GitHub/" rel="tag">GitHub</a></li></ul>
+
+      <!-- 
+      
+        <a href="https://github.com/jpdscore/blog/edit/master/articles/azuredevops/use-repos-from-azuredevops.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
+        
+      -->
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="../deploy-webapp-to-azure/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前の記事</strong>
+      <div class="article-nav-title">Azure App Service に色々な方法で WebApp をデプロイしてみよう！</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最近の投稿</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="">Azure DevOps から Repos を利用してみよう (Azure Repos/GitHub)！</a>
+          </li>
+        
+          <li>
+            <a href="../deploy-webapp-to-azure/">Azure App Service に色々な方法で WebApp をデプロイしてみよう！</a>
+          </li>
+        
+          <li>
+            <a href="../../deployment/fail-to-launch-clickonce-apps-after-updated/">ClickOnce アプリケーションのインストールや更新の後に発生する場合があるアプリケーション起動時のエラーについて</a>
+          </li>
+        
+          <li>
+            <a href="../../dotnet/relationship-between-ndp-versions/">.NET Framework の各バージョン同士の関係</a>
+          </li>
+        
+          <li>
+            <a href="../../general/welcome/">Developer Support Core チームのブログへようこそ</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">タグ</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="../../tags/ALM/">ALM</a><span class="tag-list-count">2</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-Pipelines">Azure Pipelines</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-Repos">Azure Repos</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/GitHub">GitHub</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Deployment/">Deployment</a><span class="tag-list-count">1</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Deployment/ClickOnce">ClickOnce</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/NET/">.NET</a><span class="tag-list-count">1</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/NET-Framework">.NET Framework</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E5%85%A8%E8%88%AC/">全般</a><span class="tag-list-count">1</span><ul></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">アーカイブ</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/10/">2020 / 10</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/09/">2020 / 09</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">タグクラウド</h3>
+    <div class="widget tagcloud">
+      <a href="../../tags/NET/" style="font-size: 10px;">.NET</a> <a href="../../tags/NET-Framework/" style="font-size: 10px;">.NET Framework</a> <a href="../../tags/ALM/" style="font-size: 20px;">ALM</a> <a href="../../tags/Azure-Pipelines/" style="font-size: 20px;">Azure Pipelines</a> <a href="../../tags/Azure-Repos/" style="font-size: 10px;">Azure Repos</a> <a href="../../tags/ClickOnce/" style="font-size: 10px;">ClickOnce</a> <a href="../../tags/Deployment/" style="font-size: 10px;">Deployment</a> <a href="../../tags/GitHub/" style="font-size: 10px;">GitHub</a> <a href="../../tags/%E5%85%A8%E8%88%AC/" style="font-size: 10px;">全般</a>
+    </div>
+  </div>
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">旧ブログ/フォーラム</h3>
+  <div class="widget">
+    <ul>
+      
+        <li>
+          <a href="../../https:/social.msdn.microsoft.com/Forums/ja-jp/home?forum=visualstudiosupportteamja">Visual Studio サポートチーム フォーラム</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/social.msdn.microsoft.com/Forums/ja-jp/home?forum=windowssdksupportteamja&filter=alltypes&sort=lastpostdesc">Windows SDK サポートチーム フォーラム</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/docs.microsoft.com/en-us/archive/blogs/jpvsblog/">Visual Studio サポート チーム blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/docs.microsoft.com/en-us/archive/blogs/japan_platform_sdkwindows_sdk_support_team_blog/">JAPAN Platform SDK（Windows SDK） Support Team Blog</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 Developer Support Core Japan<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="../../index.html" class="mobile-nav-link">Home</a>
+  
+    <a href="../../archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+<script src="../../js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

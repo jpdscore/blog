@@ -6,7 +6,7 @@
   <link href="https://jpdscore.github.io/blog/atom.xml" rel="self"/>
   
   <link href="https://jpdscore.github.io/blog/"/>
-  <updated>2020-10-16T18:09:54.829Z</updated>
+  <updated>2020-10-30T08:32:17.926Z</updated>
   <id>https://jpdscore.github.io/blog/</id>
   
   <author>
@@ -17,11 +17,41 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Azure DevOps から Repos を利用してみよう (Azure Repos/GitHub)！</title>
+    <link href="https://jpdscore.github.io/blog/azuredevops/use-repos-from-azuredevops/"/>
+    <id>https://jpdscore.github.io/blog/azuredevops/use-repos-from-azuredevops/</id>
+    <published>2020-10-29T15:00:00.000Z</published>
+    <updated>2020-10-30T08:32:17.926Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;こんにちは、Japan Developer Support Core チームです。&lt;/p&gt;
+&lt;p&gt;Azure Repos や GitHub など、世の中には様々なリポジトリ サービスが公開されていて、まさに群雄割拠の様相を呈していますね。&lt;br&gt;今日は、これらのリポジトリ</summary>
+        
+      
+    
+    
+    
+    
+    <category term="ALM" scheme="https://jpdscore.github.io/blog/tags/ALM/"/>
+    
+    <category term="Azure Pipelines" scheme="https://jpdscore.github.io/blog/tags/Azure-Pipelines/"/>
+    
+    <category term="Azure Repos" scheme="https://jpdscore.github.io/blog/tags/Azure-Repos/"/>
+    
+    <category term="GitHub" scheme="https://jpdscore.github.io/blog/tags/GitHub/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Azure App Service に色々な方法で WebApp をデプロイしてみよう！</title>
     <link href="https://jpdscore.github.io/blog/azuredevops/deploy-webapp-to-azure/"/>
     <id>https://jpdscore.github.io/blog/azuredevops/deploy-webapp-to-azure/</id>
     <published>2020-09-29T12:46:00.000Z</published>
-    <updated>2020-10-16T18:09:54.829Z</updated>
+    <updated>2020-10-30T08:32:17.922Z</updated>
     
     
       
@@ -47,7 +77,7 @@
     <link href="https://jpdscore.github.io/blog/deployment/fail-to-launch-clickonce-apps-after-updated/"/>
     <id>https://jpdscore.github.io/blog/deployment/fail-to-launch-clickonce-apps-after-updated/</id>
     <published>2020-09-28T15:00:00.000Z</published>
-    <updated>2020-10-16T18:09:54.833Z</updated>
+    <updated>2020-10-30T08:32:17.930Z</updated>
     
     
       
@@ -73,7 +103,7 @@
     <link href="https://jpdscore.github.io/blog/dotnet/relationship-between-ndp-versions/"/>
     <id>https://jpdscore.github.io/blog/dotnet/relationship-between-ndp-versions/</id>
     <published>2020-09-28T15:00:00.000Z</published>
-    <updated>2020-10-16T18:09:54.833Z</updated>
+    <updated>2020-10-30T08:32:17.930Z</updated>
     
     
       
@@ -99,7 +129,7 @@
     <link href="https://jpdscore.github.io/blog/general/welcome/"/>
     <id>https://jpdscore.github.io/blog/general/welcome/</id>
     <published>2020-09-27T15:00:00.000Z</published>
-    <updated>2020-10-16T18:09:54.833Z</updated>
+    <updated>2020-10-30T08:32:17.930Z</updated>
     
     
       
