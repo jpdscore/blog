@@ -4,20 +4,25 @@
   <meta charset="utf-8">
   
   
-  <title>Developer Support Core チームのブログへようこそ | Japan Developer Support Core Team Blog</title>
+  <title>WinDbg で EXE や DLL を Dump ファイルのように開く | Japan Developer Support Core Team Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="こんにちは、Developer Support Core チームです。 私たちのサポート チームでは下記の製品のサポートを行っています。  Visual Studio .NET (.NET Framework &#x2F; .NET Core) Windows SDK Data Client (ODBC &#x2F; ADO.NET &#x2F; Entity Framework) アプリケーションの展開 (Windows I">
+  <meta name="description" content="こんにちは、Japan Developer Support Core チーム 平田 a.k.a ぴろとです。本日は WinDbg を使用して、EXE や DLL といった実行形式のバイナリ ファイルをダンプ ファイルのように開く方法をご紹介します。また、この方法を活用して、モジュールに実装された関数のアドレスについても確認することができますので、あわせてご紹介します。次回以降ご紹介するダンプ解析の">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Developer Support Core チームのブログへようこそ">
-<meta property="og:url" content="https://jpdscore.github.io/blog/general/welcome/index.html">
+<meta property="og:title" content="WinDbg で EXE や DLL を Dump ファイルのように開く">
+<meta property="og:url" content="https://jpdscore.github.io/blog/debugging/open-binaries-by-windbg/index.html">
 <meta property="og:site_name" content="Japan Developer Support Core Team Blog">
-<meta property="og:description" content="こんにちは、Developer Support Core チームです。 私たちのサポート チームでは下記の製品のサポートを行っています。  Visual Studio .NET (.NET Framework &#x2F; .NET Core) Windows SDK Data Client (ODBC &#x2F; ADO.NET &#x2F; Entity Framework) アプリケーションの展開 (Windows I">
+<meta property="og:description" content="こんにちは、Japan Developer Support Core チーム 平田 a.k.a ぴろとです。本日は WinDbg を使用して、EXE や DLL といった実行形式のバイナリ ファイルをダンプ ファイルのように開く方法をご紹介します。また、この方法を活用して、モジュールに実装された関数のアドレスについても確認することができますので、あわせてご紹介します。次回以降ご紹介するダンプ解析の">
 <meta property="og:locale" content="ja_JP">
-<meta property="article:published_time" content="2020-09-27T15:00:00.000Z">
+<meta property="og:image" content="https://jpdscore.github.io/blog/debugging/open-binaries-by-windbg/1.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/debugging/open-binaries-by-windbg/2.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/debugging/open-binaries-by-windbg/3.png">
+<meta property="article:published_time" content="2020-11-11T09:15:35.000Z">
 <meta property="article:modified_time" content="2020-11-11T09:17:26.487Z">
 <meta property="article:author" content="Developer Support Core Japan">
-<meta property="article:tag" content="全般">
+<meta property="article:tag" content="Windows SDK">
+<meta property="article:tag" content="Debug">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jpdscore.github.io/blog/debugging/open-binaries-by-windbg/1.png">
   
     <link rel="alternate" href="../../blog/atom.xml" title="Japan Developer Support Core Team Blog" type="application/atom+xml">
   
@@ -79,7 +84,7 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-general/welcome" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-debugging/open-binaries-by-windbg" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
     
@@ -88,7 +93,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Developer Support Core チームのブログへようこそ
+      WinDbg で EXE や DLL を Dump ファイルのように開く
     </h1>
   
 
@@ -96,36 +101,48 @@
       <div class="article-share">
         Last Update: 
         <a href="" class="article-date-single">
-  <time datetime="2020-09-27T15:00:00.000Z" itemprop="datePublished">2020-09-28</time>
+  <time datetime="2020-11-11T09:15:35.000Z" itemprop="datePublished">2020-11-11</time>
 </a>
         
         
-        <a href="https://github.com/jpdscore/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+2e1cffdf-33d7-58ee-9267-6de488b6ada1%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5BDeveloper+Support+Core+%E3%83%81%E3%83%BC%E3%83%A0%E3%81%AE%E3%83%96%E3%83%AD%E3%82%B0%E3%81%B8%E3%82%88%E3%81%86%E3%81%93%E3%81%9D%5D%28https%3A%2F%2Fjpdscore.github.io%2Fblog%2Fgeneral%2Fwelcome%2F%29" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
+        <a href="https://github.com/jpdscore/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+4b10ac16-7791-515d-88c1-7d82d6442b60%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5BWinDbg+%E3%81%A7+EXE+%E3%82%84+DLL+%E3%82%92+Dump+%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%81%AE%E3%82%88%E3%81%86%E3%81%AB%E9%96%8B%E3%81%8F%5D%28https%3A%2F%2Fjpdscore.github.io%2Fblog%2Fdebugging%2Fopen-binaries-by-windbg%2F%29" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
         
-        <a data-url="https://jpdscore.github.io/blog/general/welcome/" data-id="ckhd6x5ro00053uor6z4nb2ec" class="article-share-link">共有</a>
+        <a data-url="https://jpdscore.github.io/blog/debugging/open-binaries-by-windbg/" data-id="ckhd6x5ri00013uorf7m4gk7h" class="article-share-link">共有</a>
       </div>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>こんにちは、Developer Support Core チームです。</p>
-<p>私たちのサポート チームでは下記の製品のサポートを行っています。</p>
-<ul>
-<li>Visual Studio</li>
-<li>.NET (.NET Framework / .NET Core)</li>
-<li>Windows SDK</li>
-<li>Data Client (ODBC / ADO.NET / Entity Framework)</li>
-<li>アプリケーションの展開 (Windows Installer / ClickOnce / MSIX)</li>
-<li>スクリプト開発 (VBScript / PowerShell)</li>
-<li>HoloLens</li>
-<li>Azure DevOps Services / Azure DevOps Server</li>
-<li>Azure Dev Spaces</li>
-<li>Azure DevTest Labs / Azure Lab Services</li>
-<li>Azure Kinnect DK</li>
-<li>Azure PlayFab</li>
-<li>Azure Spatial Anchors</li>
-</ul>
-<p>このブログでは今後、弊社製品をより効果的に活用していただき、お客様とお客様の製品のご利用者様がより多くのことを達成できるよう、それぞれの製品に関する情報を発信していきます。</p>
-<p>本ブログの情報が皆様のお役に立てば幸いです。</p>
+        <p>こんにちは、Japan Developer Support Core チーム 平田 a.k.a ぴろとです。本日は WinDbg を使用して、EXE や DLL といった実行形式のバイナリ ファイルをダンプ ファイルのように開く方法をご紹介します。また、この方法を活用して、モジュールに実装された関数のアドレスについても確認することができますので、あわせてご紹介します。次回以降ご紹介するダンプ解析のテクニックでも関数のアドレスについては正しく理解している必要がありますので、是非、実際にコマンドを実行してご確認いただけましたら幸いです。</p>
+<p>初めてインストールする方は以下のダウンロードページからダウンロードしてください<br><a target="_blank" rel="noopener" href="https://docs.microsoft.com/ja-jp/windows-hardware/drivers/debugger/debugger-download-tools">Windows 用デバッグ ツールのダウンロード</a></p>
+<h2 id="EXE-DLL-SYS-ファイルについて"><a href="#EXE-DLL-SYS-ファイルについて" class="headerlink" title="EXE / DLL / SYS ファイルについて"></a>EXE / DLL / SYS ファイルについて</h2><p>これらのファイルは、<a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/windows/win32/debug/pe-format">PE Format</a> というフォーマットに準じてビルドされたものになります。通常のネイティブ コードでビルドされたものは、実行領域としてマシン語として格納されていて、CPU はこのマシン語をベースに実行されるものとなります。</p>
+<p>Visual Studio では、ビルドをした際にデバッグ シンボル ファイルを出力させることができます。こちらのファイルと合わせて PE Format のモジュールを見ることで、より多くの情報を確認することができます。</p>
+<p>特に重要な情報は、このマシン語がモジュールの先頭からのオフセットでどの関数が実行されているのかを求めることができます。例えば、hogehoge.dll + 1000 の箇所にて、クラッシュした場合をイメージしてください。このままだと、実際にどの関数なのかはわかりませんが、hogehoge.dll + 1000 の箇所に、定義されている関数を求めれば、関数の特定は容易になります。</p>
+<p>実際に notepad.exe をダンプとして開いてみましょう。コマンドラインからは、以下のコマンドを実行します。</p>
+<blockquote>
+<p>windbg -z notepad.exe </p>
+</blockquote>
+<p>もし、Windbg Preview を利用している場合には、以下の画面から実施します。<br>メニューから [File] を選択します</p>
+<p><img src="1.png"></p>
+<p>Open dump file を選択します。</p>
+<p><img src="2.png"></p>
+<p>最後に、右下の拡張子を exe / dll にして、notepad.exe を開きます。</p>
+<p><img src="3.png"></p>
+<p>ここまでできてしまえば、あとはモジュールの先頭のアドレスを確認します。</p>
+<pre><code>0:000&gt; lm
+start             end                 module name
+00000001`40000000 00000001`40038000   notepad    (pdb symbols)          C:\ProgramData\Dbg\sym\notepad.pdb\17F6F0A80039D425B20169009E11D8221\notepad.pdb</code></pre>
+<p>ここで <strong>1`40000000</strong> が先頭のアドレスであることがわかりますね。<br>次に、wWinMain 関数を探しましょう。</p>
+<pre><code>0:000&gt; x notepad!wwinmain
+00000001`4000b090 notepad!wWinMain (wWinMain)</code></pre>
+<p>ここで、<strong>b090</strong> のオフセットであることがわかります。つまり、モジュールの先頭から、**+b090** が main 関数のエントリポイントであることを確認できました！</p>
+<p>今度は、逆引きです。ln コマンドを使って、オフセットを足しこんだアドレスをパラメーターとして渡します。</p>
+<pre><code>0:000&gt; ln 1`4000b090
+Browse module
+Set bu breakpoint
+
+(00000001`4000b090)   notepad!wWinMain   |  (00000001`4000b454)   notepad!UpdateStatusBar
+Exact matches:</code></pre>
+<p>おお！ notepad!wWinMain のオフセットの部分が求まりました。<br>今回はここまでとなります。</p>
 
       
       
@@ -139,11 +156,11 @@
     <footer class="article-footer">
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/%E5%85%A8%E8%88%AC/" rel="tag">全般</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Debug/" rel="tag">Debug</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Windows-SDK/" rel="tag">Windows SDK</a></li></ul>
 
       <!-- 
       
-        <a href="https://github.com/jpdscore/blog/edit/master/articles/general/welcome.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
+        <a href="https://github.com/jpdscore/blog/edit/master/articles/debugging/open-binaries-by-windbg.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
         
       -->
     </footer>
@@ -152,15 +169,11 @@
     
 <nav id="article-nav">
   
-    <a href="../../dotnet/relationship-between-ndp-versions/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">次の記事</strong>
-      <div class="article-nav-title">
-        
-          .NET Framework の各バージョン同士の関係
-        
-      </div>
-    </a>
   
+    <a href="../../azuredevops/use-repos-from-azuredevops/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前の記事</strong>
+      <div class="article-nav-title">Azure DevOps から Repos を利用してみよう (Azure Repos/GitHub)！</div>
+    </a>
   
 </nav>
 
@@ -178,7 +191,7 @@
       <ul>
         
           <li>
-            <a href="../../debugging/open-binaries-by-windbg/">WinDbg で EXE や DLL を Dump ファイルのように開く</a>
+            <a href="">WinDbg で EXE や DLL を Dump ファイルのように開く</a>
           </li>
         
           <li>
