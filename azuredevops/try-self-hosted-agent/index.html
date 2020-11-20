@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>DevOps の Self-hosted エージェントを構築して使ってみよう！ | Japan Developer Support Core Team Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="こんにちは、Japan Developer Support Core チームです。   Azure DevOps におけるサイレント ヒーロー、縁の下の力持ちである Azure Pipelines エージェントには、いくつか種類があるのをご存じですか？  Microsoft-hosted エージェント Self-hosted エージェント Azure virtual machine scale s">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DevOps の Self-hosted エージェントを構築して使ってみよう！">
+<meta property="og:url" content="https://jpdscore.github.io/blog/azuredevops/try-self-hosted-agent/index.html">
+<meta property="og:site_name" content="Japan Developer Support Core Team Blog">
+<meta property="og:description" content="こんにちは、Japan Developer Support Core チームです。   Azure DevOps におけるサイレント ヒーロー、縁の下の力持ちである Azure Pipelines エージェントには、いくつか種類があるのをご存じですか？  Microsoft-hosted エージェント Self-hosted エージェント Azure virtual machine scale s">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/try-self-hosted-agent/all-public-and-private-images.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/try-self-hosted-agent/creating-vm.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/try-self-hosted-agent/download-RDP-file.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/try-self-hosted-agent/Self-hosted-VM-VS2019-license.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/try-self-hosted-agent/Create-a-new-personal-access-token.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/try-self-hosted-agent/PAT-creation-Succcess.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/try-self-hosted-agent/add-agent-pool.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/try-self-hosted-agent/Get-the-agent.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/try-self-hosted-agent/Start-menu-Run.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/try-self-hosted-agent/Save-As.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/try-self-hosted-agent/cmdlines.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/try-self-hosted-agent/DevOps-GitHub-Readiness-org-pool.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/try-self-hosted-agent/Self-hosted-VM0-Jobs.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/try-self-hosted-agent/Self-hosted-VM0-Capabilities.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/try-self-hosted-agent/GitHubSelf-hostedProject-WebApp9.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/try-self-hosted-agent/Imported-repos-from-GitHub.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/try-self-hosted-agent/Build-pipelines-now-building.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/try-self-hosted-agent/Agent-pools-now-building.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/try-self-hosted-agent/Edit-pipeline.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/try-self-hosted-agent/Agent-pools-now-building-and-releasing.png">
+<meta property="article:published_time" content="2020-11-19T15:00:00.000Z">
+<meta property="article:modified_time" content="2020-11-20T03:12:06.619Z">
+<meta property="article:author" content="Developer Support Core Japan">
+<meta property="article:tag" content="ALM">
+<meta property="article:tag" content="Azure Pipelines">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jpdscore.github.io/blog/azuredevops/try-self-hosted-agent/all-public-and-private-images.png">
+  
+    <link rel="alternate" href="../../blog/atom.xml" title="Japan Developer Support Core Team Blog" type="application/atom+xml">
+  
+
+  <link rel="icon" href="./favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png">
+  <link rel="manifest" href="./site.webmanifest">
+  <link rel="mask-icon" href="./safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="theme-color" content="#ffffff">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="../../css/style.css">
+
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="site-header-logo"></div>
+  <div id="site-header-blog-wrapper"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        <div id="ms-logo"></div>
+        
+          <a class="main-nav-link" href="../../index.html">Home</a>
+        
+          <a class="main-nav-link" href="../../archives">Archives</a>
+        
+        <a class="main-nav-link" target="_blank" rel="noopener" href="https://cssjpn.github.io/">サポート情報</a>
+        <a class="main-nav-link" href="/blog/general/welcome/">About</a>
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="../../blog/atom.xml" title="RSSフィード"></a>
+        
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//www.bing.com/search" method="get" accept-charset="UTF-8" name="bing-search" onsubmit="var f=this;if(f['q'].value){var searchUrl =  'https://www.bing.com/search?q=' +  encodeURIComponent(f['q'].value + ' site:' + f['sitesearch'].value) ;window.open(searchUrl, 'blank') };return false;" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="検索"><button type="submit" id="nav-search-btn" class="search-form-submit"></button><input type="hidden" name="sitesearch" value="https://jpdscore.github.io/blog"></form>
+      </div>
+    </div>
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="../../index.html" id="logo">Japan Developer Support Core Team Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="../../index.html" id="subtitle">日本マイクロソフトの Japan Developer Support Core チームのブログです。</a>
+        </h2>
+      
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-azuredevops/try-self-hosted-agent" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header-single">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      DevOps の Self-hosted エージェントを構築して使ってみよう！
+    </h1>
+  
+
+      </header>
+      <div class="article-share">
+        Last Update: 
+        <a href="" class="article-date-single">
+  <time datetime="2020-11-19T15:00:00.000Z" itemprop="datePublished">2020-11-20</time>
+</a>
+        
+        
+        <a href="https://github.com/jpdscore/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+a28fe3b2-5412-55ea-9cf2-de776a579e99%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5BDevOps+%E3%81%AE+Self-hosted+%E3%82%A8%E3%83%BC%E3%82%B8%E3%82%A7%E3%83%B3%E3%83%88%E3%82%92%E6%A7%8B%E7%AF%89%E3%81%97%E3%81%A6%E4%BD%BF%E3%81%A3%E3%81%A6%E3%81%BF%E3%82%88%E3%81%86%EF%BC%81%5D%28https%3A%2F%2Fjpdscore.github.io%2Fblog%2Fazuredevops%2Ftry-self-hosted-agent%2F%29" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
+        
+        <a data-url="https://jpdscore.github.io/blog/azuredevops/try-self-hosted-agent/" data-id="ckhpou1kn000s1sothpkedrs7" class="article-share-link">共有</a>
+      </div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>こんにちは、Japan Developer Support Core チームです。  </p>
+<p>Azure DevOps におけるサイレント ヒーロー、縁の下の力持ちである Azure Pipelines エージェントには、いくつか種類があるのをご存じですか？</p>
+<ul>
+<li>Microsoft-hosted エージェント</li>
+<li>Self-hosted エージェント</li>
+<li>Azure virtual machine scale set エージェント</li>
+</ul>
+<p>日頃、皆さんが DevOps からコードをビルドしたり、Azure Pipelines を使ってソフトウェアをデプロイする時には、裏でこれらのエージェントが働いています。<br>今日は、これら働き者のエージェントの中から Self-hosted エージェントを実際に構築して、Azure Pipelines から利用して楽しんでみましょう。</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/azure/devops/pipelines/agents/agents?view=azure-devops&tabs=browser#install" title="Azure Pipelines agents / Self-hosted agents">Azure Pipelines agents / Self-hosted agents</a></li>
+</ul>
+<p>本日のメニューはこちらです。</p>
+<ol>
+<li>Self-hosted エージェントを構築するための仮想マシンを用意する</li>
+<li>用意した仮想マシン上に、Self-hosted エージェントを構築する</li>
+<li>GitHub 上のソースコードをインポートし、Self-hosted エージェントを使って Azure Pipelines 経由でビルド・リリースして、Azure App Service を発行する</li>
+</ol>
+<h2 id="前提条件"><a href="#前提条件" class="headerlink" title="前提条件"></a>前提条件</h2><ul>
+<li>アクティブなサブスクリプションが含まれる Azure アカウントをご用意ください。無料でアカウントを作成できます。</li>
+<li>このブログ記事では、Windows 上の Azure App Service に ASP.NET Core Web アプリケーション(以降、WebApp)をデプロイします。</li>
+<li>先に「DevOps から Repos を利用してみよう (Azure Repos/GitHub)！」の「3. GitHub上のソースコードを、Azure Pipelines 経由でビルド・リリースして、Azure App Serviceを発行する」までを完了しておくことをお勧めします。</li>
+<li>GitHub アカウントを取得しておいてください。</li>
+</ul>
+<hr>
+<h2 id="1-Self-hosted-エージェントを構築するための仮想マシンを用意する"><a href="#1-Self-hosted-エージェントを構築するための仮想マシンを用意する" class="headerlink" title="1. Self-hosted エージェントを構築するための仮想マシンを用意する"></a>1. Self-hosted エージェントを構築するための仮想マシンを用意する</h2><hr>
+<p>Azure Pipelines エージェントは、Azure Pipelines と連携してビルドやデプロイを行うプログラムです。</p>
+<p>Microsoft-hosted エージェントを使う場合、パイプラインを実行する度に新しい仮想マシンが作成されて、その上でエージェント プログラムが動きます。  </p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/azure/devops/pipelines/agents/hosted?view=azure-devops&tabs=yaml" title="Microsoft-hosted agents">Microsoft-hosted agents</a></li>
+</ul>
+<p>そして一回使用する毎に、なんとその仮想マシンはじゃんじゃん破棄されています。<br>仮想マシンの使い捨て・・・贅沢ですね！</p>
+<p>これに対して、Self-hosted エージェントを使う場合、エージェント プログラムはユーザー自身で用意したマシンの上で動きます。  </p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/azure/devops/pipelines/agents/agents?view=azure-devops&tabs=browser#install" title="Self-hosted agents">Self-hosted agents</a></li>
+</ul>
+<p>そして Self-hosted エージェントを動かすマシンは、Azure VM 等の仮想マシンでも、オンプレミスの物理マシンでも OK です。<br>最新の CPU に SSD、メモリも潤沢に搭載した爆速マシンを用意して、とっておきのSelf-hosted エージェント環境を構築することもできるのです。<br>例えば、ビルド環境をクラウド上ではなくローカル環境で確保したい場合には、Self-hosted エージェントをオンプレミスの物理マシンで動かすことで実現できます。<br>また、複数の開発環境を構築済みのビルド専用マシンが既にある場合は、これを Self-hosted エージェントを動かすマシンとして利用することもできますね。<br>さらに Self-hosted エージェントは Microsoft-hosted エージェントのように一回使用する毎に使い捨て、ではないので、クリーンビルドを実行しないパイプラインを定義すれば、インクリメンタル ビルドによってビルドの実行速度を上げることもできます。<br>開発環境・ビルド環境としてのメンテナンスは必要ですが、その分、自由に手をかけることができるということですね。  </p>
+<p>話は逸れましたが、早速その Self-hosted エージェントを動かすためのマシンを用意していきましょう。  </p>
+<p>今回は、Azure ポータルから Azure 仮想マシンを一台作成します。<br>前述したとおり、Azure Pipelines エージェントは、Azure Pipelines と連携してビルドやデプロイを行うプログラムです。<br>このため、エージェントが動くマシンには、ビルドやデプロイを行うための開発環境がインストールされている必要があります。<br>エージェントはあくまでも、Azure Pipelines と連携してビルドやデプロイをキック・実行するプログラムでしかなく、実際のビルドやデプロイはこうした開発環境が行うのですね。<br>（実は、Microsoft-hosted エージェントを使う場合に毎回使い捨てされる仮想マシン達には、あらかじめ主要な開発環境が全てインストールされているんですよ！）  </p>
+<p>そして、Self-hosted エージェントを構築できるマシンのオペレーティングシステムには、以下の三種類が用意されています。  </p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/azure/devops/pipelines/agents/v2-osx?view=azure-devops" title="macOS agent">macOS agent</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/azure/devops/pipelines/agents/v2-linux?view=azure-devops" title="Linux agent (x64, ARM, RHEL6)">Linux agent (x64, ARM, RHEL6)</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/azure/devops/pipelines/agents/v2-windows?view=azure-devops" title="Windows agent (x64, x86)">Windows agent (x64, x86)</a></li>
+</ul>
+<p>なんと Docker コンテナーにも Self-hosted エージェントを構築することが可能ですよ。</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/azure/devops/pipelines/agents/docker?view=azure-devops" title="Docker agent">Docker agent</a></li>
+</ul>
+<p>今回は、あらかじめ Visual Studio 2019 が同梱された Windows 10 の仮想マシンを一台、Azure ポータルから作成することにしましょう。<br>なお、Azure VM のご利用においては課金が生じます。<br>以下のサイトで Virtual Machines の料金例をご紹介していますので、ご確認くださいね。  </p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://azure.microsoft.com/ja-jp/pricing/details/virtual-machines/windows/" title="Windows Virtual Machines の料金">Windows Virtual Machines の料金</a></li>
+</ul>
+<ol>
+<li>Marketplace から「Windows Server」をキーワードに検索を行い、「仮想マシンの作成」では「すべてのパブリックおよびプライベート イメージを参照する」リンクをクリックします。</li>
+</ol>
+<p><img src="all-public-and-private-images.png"></p>
+<ol start="2">
+<li>「イメージを選択してください」ウィンドウのブレードから「Developer Tools」を選択し、「Visual Studio 2019」をキーワードに検索を行い、「Visual Studio 2019 Enterprise (latest release) on Windows 10 Enterprise N (x64) - Gen1」を選択します。</li>
+<li>続くウィザードでは、利用したいマシン性能に応じて選択をしていきましょう。「パブリック受信ポート」では「RDP」を選択するのを忘れずに。**<font color="red">「管理者アカウント」の「ユーザー名」と「パスワード」も控えておいてくださいね。</font>**</li>
+</ol>
+<p><img src="creating-vm.png"></p>
+<p>ウィザード上での選択・入力を一通り終えたら、仮想マシンを「作成」しましょう。<br>久しぶりにコーヒーを一杯入れに行っている間に、きっと仮想マシンが出来上がっています。<br>出来上がりを確かめるために、先ほど「パブリック受信ポート」で選択した「RDP」を利用して、実際に仮想マシンの状態をのぞいてみましょう。  </p>
+<ol start="4">
+<li>Azureポータルから、作成した仮想マシン（例：Self-hosted-VM0）を開いて「接続」アイコンをクリックし、「RDP」を選択します。</li>
+<li>「RDPで接続する」画面で「RDPファイルのダウンロード」ボタンをクリックすると、拡張子.RDPのファイルがダウンロードされます。</li>
+</ol>
+<p><img src="download-RDP-file.png"></p>
+<ol start="6">
+<li>ダウンロードした.RDPファイルを開いて、仮想マシンにリモートデスクトップ接続しましょう。**<font color="red">手順3.の「管理者アカウント」で控えておいた「ユーザー名」と「パスワード」を使って接続してくださいね。</font>**</li>
+</ol>
+<p>これからこの仮想マシン上に、Self-hosted エージェントを構築していくのかと思うと、なかなかにワクワクしますね！<br>なお、接続した仮想マシンにインストールされている Visual Studio 2019 は、そのままではまだライセンスされていません。<br>ご利用にあたり、適切なユーザーライセンスを使用してVisual Studio 2019 のライセンス認証をお願いいたします。  </p>
+<p><img src="Self-hosted-VM-VS2019-license.png"></p>
+<hr>
+<h2 id="2-用意した仮想マシン上に、Self-hosted-エージェントを構築する"><a href="#2-用意した仮想マシン上に、Self-hosted-エージェントを構築する" class="headerlink" title="2. 用意した仮想マシン上に、Self-hosted エージェントを構築する"></a>2. 用意した仮想マシン上に、Self-hosted エージェントを構築する</h2><hr>
+<p>仮想マシンの準備ができたら、早速 Self-hosted エージェントを構築していきましょう。<br>Self-hosted エージェントの構築、というと仰々しいですが、実際にやることは、準備しておいた仮想マシン上にエージェント プログラムをインストールするだけです。<br>インストール用のスクリプトも Azure DevOps から入手できますので、気負わずやっつけてしまいましょう。<br>詳しい手順は、Docs サイトでもご紹介していますので、ご覧になってくださいね。  </p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/azure/devops/pipelines/agents/v2-windows?view=azure-devops" title="Self-hosted Windows agents">Self-hosted Windows agents</a></li>
+</ul>
+<ol>
+<li>組織の所有者 (Owner) 権限を持つアカウントで、DevOps にサインインします。テスト用に、あなたのアカウントで新しい組織を作成してしまうのも良いかもしれませんね。</li>
+<li>小さな「User settings」ボタンをクリックして「Profile」を選択し、ブレードから Security\Personal access tokensを選択します。「Personal Access Tokens」画面で「+New Token」をクリックすると「Create a new personal access token」ウィンドウが開きますので、お好きな PAT 名 (例：pat-DevOps-GitHub-Readiness-org) を入力し、以下の Docs サイトにあるように「Scope」には「read」「manage」のみを選んで「Create」ボタンをクリックしましょう。ここで作成した PAT は、エージェントの登録を完了するためだけに使用しますので、有効期限は短くてもオッケーですよ。PAT の作成に成功すると、PATのトークンが表示されます。**<font color="red">このトークンはこの画面で一度しか表示されませんので、必ず控えておいてくださいね。</font>**</li>
+</ol>
+<p><img src="Create-a-new-personal-access-token.png"></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/azure/devops/pipelines/agents/v2-windows?view=azure-devops#permissions" title="Prepare permissions">Prepare permissions</a></li>
+</ul>
+<p><img src="PAT-creation-Succcess.png"></p>
+<ol start="3">
+<li>DevOps ポータルのブレードから「Organization settings」を選択し、Pipelines\Agent pools を開きます。「Add pool」ボタンをクリックして、あなたのための Agent プールを一つ作成しましょう。「Pool type:」には「Self-hosted」を選んでくださいね。**<font color="red">Agentプールの名前（例：DevOps-GitHub-Readiness-org-pool）も控えておきましょう。</font>**</li>
+</ol>
+<p><img src="add-agent-pool.png"></p>
+<ol start="4">
+<li>作成した Agent プールを開いて「New agent」ボタンをクリックします。おお・・・核心に迫る感じのウィンドウが開きますね！ 今回、準備したのは Windows 10 の仮想マシンなので、「Windows」タブが選択されていることを確認しておいてくださいね。</li>
+</ol>
+<p><img src="Get-the-agent.png"></p>
+<ol start="5">
+<li>「Download the agent」の「Copy URL to Clipboard」ボタンをクリックして、**<font color="red">エージェント プログラムのインストール パッケージ（.ZIP ファイル）のダウンロード リンクを控えておきましょう。</font>** 続く「Create the agent」「Configure the agent」「Optionally run the agent interactively」のコマンドラインも、控えておくと後々便利です。</li>
+</ol>
+<h3 id="Create-the-agent"><a href="#Create-the-agent" class="headerlink" title="Create the agent"></a>Create the agent</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">PS</span> C:\&gt; mkdir agent ; <span class="built_in">cd</span> agent  </span><br><span class="line"><span class="built_in">PS</span> C:\agent&gt; <span class="built_in">Add-Type</span> <span class="literal">-AssemblyName</span> System.IO.Compression.FileSystem ; [<span class="type">System.IO.Compression.ZipFile</span>]::ExtractToDirectory  (<span class="string">&quot;<span class="variable">$HOME</span>\Downloads\vsts-agent-win-x64-2.175.2.zip&quot;</span>, <span class="string">&quot;<span class="variable">$PWD</span>&quot;</span>)  </span><br></pre></td></tr></table></figure>
+
+<h3 id="Configure-the-agent"><a href="#Configure-the-agent" class="headerlink" title="Configure the agent"></a>Configure the agent</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">PS</span> C:\agent&gt; .\config.cmd  </span><br></pre></td></tr></table></figure>
+
+<h3 id="Optionally-run-the-agent-interactively"><a href="#Optionally-run-the-agent-interactively" class="headerlink" title="Optionally run the agent interactively"></a>Optionally run the agent interactively</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">PS</span> C:\agent&gt; .\run.cmd  </span><br></pre></td></tr></table></figure>
+
+<ol start="6">
+<li>ここからは、先ほどリモートデスクトップ接続で接続しておいた仮想マシンに戻っての作業になります。仮想マシンのスタートメニューから「ファイル名を指定して実行」を開いて、手順5.で控えておいたエージェント プログラムのインストール パッケージのダウンロード リンクを入力して実行し、ユーザープロファイルの Downloads フォルダに .ZIP ファイルを保存してください。  </li>
+</ol>
+<p><img src="Start-menu-Run.png"></p>
+<p><img src="Save-As.png"></p>
+<ol start="7">
+<li>Windows PowerShell を管理者として実行し、手順 5. で控えておいたコマンドラインを順番に実行していきます。「Configure the agent」のコマンドラインだけ、以下のように対話的に入力を求められますので、注意してくださいね。  </li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">Enter server URL &gt; .\run.cmd  </span><br><span class="line">Enter a valid value <span class="keyword">for</span> server URL.</span><br><span class="line">Enter server URL &gt; https:<span class="comment">//dev.azure.com/DevOps-GitHub-Readiness-org  // ここでは「https://dev.azure.com/&#123;your-organization&#125;」を入力します。  </span></span><br><span class="line"><span class="function">Enter authentication <span class="title">type</span> <span class="params">(press enter <span class="keyword">for</span> PAT)</span> &gt;</span></span><br><span class="line"><span class="function">Enter personal access token &gt;   ****************************************************  <span class="comment">// 手順 2. で控えておいた PAT のトークンを入力します。  </span></span></span><br><span class="line">Connecting to server ...</span><br><span class="line"></span><br><span class="line">&gt;&gt; Register Agent:</span><br><span class="line"></span><br><span class="line">Enter agent pool (press enter for default) &gt;   DevOps-GitHub-Readiness-org-pool  // 手順 3. で控えておいた Agent プールの名前を入力 (例：DevOps-GitHub-Readiness-org-pool) します。  </span><br><span class="line"><span class="function">Enter agent <span class="title">name</span> <span class="params">(press enter <span class="keyword">for</span> Self-hosted-VM0)</span> &gt;  <span class="comment">// このエージェントの名前を入力します。既定は仮想マシンのリソース名です。  </span></span></span><br><span class="line">Scanning for tool capabilities.  </span><br><span class="line">Connecting to the server.  </span><br><span class="line">Successfully added the agent  </span><br><span class="line">Testing agent connection.  </span><br><span class="line"><span class="function">Enter work <span class="title">folder</span> <span class="params">(press enter <span class="keyword">for</span> _work)</span> &gt;  <span class="comment">// このエージェントの作業フォルダ名を入力します。既定の「_work」のままにしておくことをお勧めします。  </span></span></span><br><span class="line">2020-10-27 16:03:12Z: Settings Saved.  </span><br><span class="line">Enter run agent as service? (Y/N) (press enter <span class="keyword">for</span> N) &gt; Y  <span class="comment">// このエージェント プログラムを、Windows サービスとして実行するかどうかを指定します。ここでは既定の「Windowsサービス」としての実行を選択します。  </span></span><br><span class="line"><span class="function">Enter User account to use <span class="keyword">for</span> the <span class="title">service</span> <span class="params">(press enter <span class="keyword">for</span> NT AUTHORITY\NETWORK SERVICE)</span> &gt;  <span class="comment">// エージェントプログラムを Windows サービスとして実行する場合の、実行アカウントを指定します。ここでは既定の「NT AUTHORITY\NETWORK SERVICE」を選択します。  </span></span></span><br><span class="line">Granting file permissions to &#x27;NT AUTHORITY\NETWORK SERVICE&#x27;.  </span><br><span class="line">Service vstsagent.DevOps-GitHub-Readiness-o.DevOps-GitHub-Readiness-o.Self-hosted-VM0 successfully installed  </span><br><span class="line">Service vstsagent.DevOps-GitHub-Readiness-o.DevOps-GitHub-Readiness-o.Self-hosted-VM0 successfully <span class="built_in">set</span> recovery option  </span><br><span class="line">Service vstsagent.DevOps-GitHub-Readiness-o.DevOps-GitHub-Readiness-o.Self-hosted-VM0 successfully <span class="built_in">set</span> to delayed <span class="keyword">auto</span> start  </span><br><span class="line">Service vstsagent.DevOps-GitHub-Readiness-o.DevOps-GitHub-Readiness-o.Self-hosted-VM0 successfully configured  </span><br><span class="line">Service vstsagent.DevOps-GitHub-Readiness-o.DevOps-GitHub-Readiness-o.Self-hosted-VM0 started successfully  </span><br></pre></td></tr></table></figure>
+
+<p>カッコいいので、PowerShell の画面もご紹介しちゃいます。<br>レガシーな感じのアスキーアートが痺れますね・・・！ 好き・・・！ </p>
+<p><img src="cmdlines.png"></p>
+<p>さて、手順 7. まで無事終了したところで、仮想マシン上での Self-hosted エージェントの構築は完了です。<br>お疲れさまでした！<br>・・・と言いたいところですが、ここで息切れしてしまわない内に DevOps ポータルに戻って、構築した Self-hosted エージェントがキッチリ働く準備ができているかどうかチェックしましょう。<br>手順 3. で作成した Agent プールを開いて、「Agents」タブを開きます。<br>Self-hosted エージェントの構築が適切に完了できていれば、下図のようにあなたの Self-hosted エージェントが表示されます！  </p>
+<p><img src="DevOps-GitHub-Readiness-org-pool.png"></p>
+<p>表示されている Self-hosted エージェントをクリックすると、さらにこのエージェントの詳細情報を確認できますよ。<br>「Jobs」タブには現在実行 (Run) 中のジョブが表示されます。<br>今はまだ、何もパイプラインのジョブが実行されていないので空のリストが見えるだけですね。  </p>
+<p><img src="Self-hosted-VM0-Jobs.png"></p>
+<p>「Capabilities」タブには、このエージェントが実行されているマシンのシステム性能や環境変数などがリストアップされています。<br>今回は、あらかじめ Visual Studio 2019 が同梱された Windows 10 の仮想マシンを準備しましたので、Visual Studio 関連の変数もリスト内で見つけることができます。</p>
+<p><img src="Self-hosted-VM0-Capabilities.png"></p>
+<hr>
+<h2 id="3-GitHub-上のソースコードを、Self-hosted-エージェントを使って-Azure-Pipelines-経由でビルド・リリースして、Azure-App-Service-を発行する"><a href="#3-GitHub-上のソースコードを、Self-hosted-エージェントを使って-Azure-Pipelines-経由でビルド・リリースして、Azure-App-Service-を発行する" class="headerlink" title="3. GitHub 上のソースコードを、Self-hosted エージェントを使って Azure Pipelines 経由でビルド・リリースして、Azure App Service を発行する"></a>3. GitHub 上のソースコードを、Self-hosted エージェントを使って Azure Pipelines 経由でビルド・リリースして、Azure App Service を発行する</h2><hr>
+<p>下拵えの完了した Self-hosted エージェントを使って、早速お料理していきましょう！<br>GitHub アカウントを取得しておいてくださいね。  </p>
+<ol>
+<li>GitHub にサインインして、以下のサンプルを自分の GitHub リポジトリに fork しておきます。このリポジトリを使いましょう。<br> <a target="_blank" rel="noopener" href="https://github.com/jpdscore/AspNetCoreWebApplicationCSharp">https://github.com/jpdscore/AspNetCoreWebApplicationCSharp</a>  </li>
+<li>Azure ポータルから、新しい Azure App Service を一つ (GitHubSelf-hostedProject-WebApp9) 作ります。</li>
+</ol>
+<p><img src="GitHubSelf-hostedProject-WebApp9.png"></p>
+<ol start="3">
+<li>DevOps ポータルから、Self-hosted エージェントを登録した DevOps の組織 (例：<a target="_blank" rel="noopener" href="https://dev.azure.com/DevOps-GitHub-Readiness-org">https://dev.azure.com/DevOps-GitHub-Readiness-org</a> ) に、新しいプロジェクト (GitHubSelf-hostedProject-WebApp9-prj) を作成します。</li>
+<li>プロジェクトのブレードから Repos\Files を開いて、「Import a repository」の「Import」ボタンをクリックします。手順 1. で fork しておいた GitHub のリポジトリ URL を指定してインポートします。</li>
+</ol>
+<p><img src="Imported-repos-from-GitHub.png"></p>
+<ol start="5">
+<li>プロジェクトのブレードから Pipelines を開いて、「Create Pipeline」ボタンをクリックします。「Where is your code?」画面では「Azure Repos Git (YAML)」を選択します。「Select a repository」画面では手順 4. でインポートしておいたリポジトリを選択します。「Configure your pipeline」画面では「ASP.NET Core (.NET Framework)」を選択します。</li>
+<li>「Review your pipeline YAML」画面で、表示された YAML を以下のように修正します。このパイプラインで使用するエージェントプールとして、Self-hosted エージェントのプールを指定していることにになりますね。編集が終わったら「Save &amp; Run」ボタンをクリックしましょう。</li>
+</ol>
+<h4 id="修正前"><a href="#修正前" class="headerlink" title="修正前"></a>修正前</h4><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">pool:</span>  </span><br><span class="line">  <span class="attr">vmImage:</span> <span class="string">&#x27;windows-latest&#x27;</span>  </span><br></pre></td></tr></table></figure>
+<h4 id="修正後"><a href="#修正後" class="headerlink" title="修正後"></a>修正後</h4><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">pool:</span> <span class="string">DevOps-GitHub-Readiness-org-pool</span>  </span><br></pre></td></tr></table></figure>
+
+<ol start="7">
+<li>パイプラインの実行 (Run) が始まったら、急いで Agent プールを開いてみましょう！ 手順 6. で指定した Self-hosted エージェントをクリックすると、先ほどは空だった「Jobs」タブ内でジョブが動いているのを確認できますよ。</li>
+</ol>
+<p><img src="Build-pipelines-now-building.png"></p>
+<p><img src="Agent-pools-now-building.png"></p>
+<ol start="8">
+<li>Self-hosted エージェント上でのビルドは成功したので、次はデプロイ (リリース) にもチャレンジしましょう。プロジェクトのブレードから Pipelines を開いて、先ほど作成したパイプラインを「Edit」で開きます。</li>
+</ol>
+<p><img src="Edit-pipeline.png"></p>
+<ol start="9">
+<li>Yaml の末尾にマウスカーソルを置いた状態で、「Show assistant」ボタンをクリックし、「Azure App Service deploy」タスクを探します。デプロイ先として、手順 2. で作っておいた Azure App Service を指定していきますが、*<em><font color="red">ここで注意！ 「Package or folder」のパスをよく確認してください。</font>** 2020 年 11 月現在、既定で「$(System.DefaultWorkingDirectory)/**/</em>.zip」が入力されていますが、これを「$(build.artifactStagingDirectory)\WebApp.zip」に変更しておきましょう。この Yaml ファイルでは、下記 VSBuild タスク内でビルド成果物 (Artifacts) を「$(build.artifactStagingDirectory)\WebApp.zip」に生成しますので、「Package or folder」のパスもこの Artifacts のパス「$(build.artifactStagingDirectory)\WebApp.zip」に合致させる必要があるんですね。</li>
+</ol>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">-</span> <span class="attr">task:</span> <span class="string">VSBuild@1</span>  </span><br><span class="line">  <span class="attr">inputs:</span>  </span><br><span class="line">    <span class="attr">solution:</span> <span class="string">&#x27;$(solution)&#x27;</span>  </span><br><span class="line">    <span class="attr">msbuildArgs:</span> <span class="string">&#x27;/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation=&quot;$(build.artifactStagingDirectory)\WebApp.zip&quot; /p:DeployIisAppPath=&quot;Default Web Site&quot;&#x27;</span>  </span><br><span class="line">    <span class="attr">platform:</span> <span class="string">&#x27;$(buildPlatform)&#x27;</span>  </span><br><span class="line">    <span class="attr">configuration:</span> <span class="string">&#x27;$(buildConfiguration)&#x27;</span>  </span><br></pre></td></tr></table></figure>
+
+<p>追加の終わった AzureRmWebAppDeployment タスクは以下のようになります。<br>それでは Yaml を「Save」してみましょう。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">-</span> <span class="attr">task:</span> <span class="string">AzureRmWebAppDeployment@4</span>  </span><br><span class="line">  <span class="attr">inputs:</span>  </span><br><span class="line">    <span class="attr">ConnectionType:</span> <span class="string">&#x27;AzureRM&#x27;</span>  </span><br><span class="line">    <span class="attr">azureSubscription:</span> <span class="string">&#x27;あなたのサブスクリプション(xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx)&#x27;</span>  </span><br><span class="line">    <span class="attr">appType:</span> <span class="string">&#x27;webApp&#x27;</span>  </span><br><span class="line">    <span class="attr">WebAppName:</span> <span class="string">&#x27;GitHubSelf-hostedProject-WebApp9&#x27;</span>  </span><br><span class="line">    <span class="attr">packageForLinux:</span> <span class="string">&#x27;$(build.artifactStagingDirectory)\WebApp.zip&#x27;</span>  </span><br></pre></td></tr></table></figure>
+
+<ol start="10">
+<li>パイプラインの実行 (Run) が始まったら、またまた急いで Agent プールを開いてみましょう！ 手順 6. で指定した Self-hosted エージェントをクリックすると、先ほどの「Jobs」タブ内でジョブが動いているのを確認できますよ。しばらくすると、無事全てタスクが終了して、Self-hosted エージェント上でのビルドとリリース (デプロイ) が完了します。<br>今度こそ、お疲れさまでした！</li>
+</ol>
+<p><img src="Agent-pools-now-building-and-releasing.png"></p>
+<p>今回は、Self-hosted エージェントを構築して、実際に Azure Pipelines から使ってみるところまでの手順を一通りご紹介しました。<br>次回は、Azure DevOps で行うコンテナーデプロイについてご紹介しようと思っています。<br>どうぞよろしくお願いします！</p>
+
+      
+      
+        <div class="article-disclaimer">
+        
+          <p><hr>本ブログの内容は弊社の公式見解として保証されるものではなく、開発・運用時の参考情報としてご活用いただくことを目的としています。もし公式な見解が必要な場合は、弊社ドキュメント (<a target="_blank" rel="noopener" href="https://docs.microsoft.com/">https://docs.microsoft.com</a> や <a target="_blank" rel="noopener" href="https://support.microsoft.com">https://support.microsoft.com</a>) をご参照いただくか、もしくは私共サポートまでお問い合わせください。</p>
+        
+        </div>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/ALM/" rel="tag">ALM</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Azure-Pipelines/" rel="tag">Azure Pipelines</a></li></ul>
+
+      <!-- 
+      
+        <a href="https://github.com/jpdscore/blog/edit/master/articles/azuredevops/try-self-hosted-agent.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
+        
+      -->
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="../../debugging/open-binaries-by-windbg/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前の記事</strong>
+      <div class="article-nav-title">WinDbg で EXE や DLL を Dump ファイルのように開く</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最近の投稿</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="">DevOps の Self-hosted エージェントを構築して使ってみよう！</a>
+          </li>
+        
+          <li>
+            <a href="../../debugging/open-binaries-by-windbg/">WinDbg で EXE や DLL を Dump ファイルのように開く</a>
+          </li>
+        
+          <li>
+            <a href="../use-repos-from-azuredevops/">Azure DevOps から Repos を利用してみよう (Azure Repos/GitHub)！</a>
+          </li>
+        
+          <li>
+            <a href="../deploy-webapp-to-azure/">Azure App Service に色々な方法で WebApp をデプロイしてみよう！</a>
+          </li>
+        
+          <li>
+            <a href="../../deployment/fail-to-launch-clickonce-apps-after-updated/">ClickOnce アプリケーションのインストールや更新の後に発生する場合があるアプリケーション起動時のエラーについて</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">タグ</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="../../tags/ALM/">ALM</a><span class="tag-list-count">3</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-Pipelines">Azure Pipelines</a><span class="tag-list-count">3</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-Repos">Azure Repos</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/GitHub">GitHub</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Windows-SDK/">Windows SDK</a><span class="tag-list-count">1</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Debug">Debug</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Debug/">Debug</a><span class="tag-list-count">1</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Windows-SDK">Windows SDK</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Deployment/">Deployment</a><span class="tag-list-count">1</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Deployment/ClickOnce">ClickOnce</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/NET/">.NET</a><span class="tag-list-count">1</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/NET-Framework">.NET Framework</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E5%85%A8%E8%88%AC/">全般</a><span class="tag-list-count">1</span><ul></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">アーカイブ</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/11/">2020 / 11</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/10/">2020 / 10</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/09/">2020 / 09</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">タグクラウド</h3>
+    <div class="widget tagcloud">
+      <a href="../../tags/NET/" style="font-size: 10px;">.NET</a> <a href="../../tags/NET-Framework/" style="font-size: 10px;">.NET Framework</a> <a href="../../tags/ALM/" style="font-size: 20px;">ALM</a> <a href="../../tags/Azure-Pipelines/" style="font-size: 20px;">Azure Pipelines</a> <a href="../../tags/Azure-Repos/" style="font-size: 10px;">Azure Repos</a> <a href="../../tags/ClickOnce/" style="font-size: 10px;">ClickOnce</a> <a href="../../tags/Debug/" style="font-size: 10px;">Debug</a> <a href="../../tags/Deployment/" style="font-size: 10px;">Deployment</a> <a href="../../tags/GitHub/" style="font-size: 10px;">GitHub</a> <a href="../../tags/Windows-SDK/" style="font-size: 10px;">Windows SDK</a> <a href="../../tags/%E5%85%A8%E8%88%AC/" style="font-size: 10px;">全般</a>
+    </div>
+  </div>
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">旧ブログ/フォーラム</h3>
+  <div class="widget">
+    <ul>
+      
+        <li>
+          <a href="../../https:/social.msdn.microsoft.com/Forums/ja-jp/home?forum=visualstudiosupportteamja">Visual Studio サポートチーム フォーラム</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/social.msdn.microsoft.com/Forums/ja-jp/home?forum=windowssdksupportteamja&filter=alltypes&sort=lastpostdesc">Windows SDK サポートチーム フォーラム</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/docs.microsoft.com/en-us/archive/blogs/jpvsblog/">Visual Studio サポート チーム blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/docs.microsoft.com/en-us/archive/blogs/japan_platform_sdkwindows_sdk_support_team_blog/">JAPAN Platform SDK（Windows SDK） Support Team Blog</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 Developer Support Core Japan<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="../../index.html" class="mobile-nav-link">Home</a>
+  
+    <a href="../../archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+<script src="../../js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
