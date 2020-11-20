@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>WinDbg で Dump ファイルを開く | Japan Developer Support Core Team Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="こんにちは、Japan Developer Support Core チーム 平田 a.k.a ぴろとです。本日は WinDbg を使用して、ダンプ ファイルを開いて、解析を進める方法をご紹介します。今回は、クラッシュダンプの解析を進めていきます。まずはダンプといっても、取得をする目的を明確にする必要があります。以下に Dump ファイルについて説明を記載しましたため、合わせてご確認ください。 初">
+<meta property="og:type" content="article">
+<meta property="og:title" content="WinDbg で Dump ファイルを開く">
+<meta property="og:url" content="https://jpdscore.github.io/blog/debugging/open-dump-by-windbg/index.html">
+<meta property="og:site_name" content="Japan Developer Support Core Team Blog">
+<meta property="og:description" content="こんにちは、Japan Developer Support Core チーム 平田 a.k.a ぴろとです。本日は WinDbg を使用して、ダンプ ファイルを開いて、解析を進める方法をご紹介します。今回は、クラッシュダンプの解析を進めていきます。まずはダンプといっても、取得をする目的を明確にする必要があります。以下に Dump ファイルについて説明を記載しましたため、合わせてご確認ください。 初">
+<meta property="og:locale" content="ja_JP">
+<meta property="article:published_time" content="2020-11-20T04:27:35.000Z">
+<meta property="article:modified_time" content="2020-11-20T07:59:58.271Z">
+<meta property="article:author" content="Developer Support Core Japan">
+<meta property="article:tag" content="Windows SDK">
+<meta property="article:tag" content="Debug">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="../../blog/atom.xml" title="Japan Developer Support Core Team Blog" type="application/atom+xml">
+  
+
+  <link rel="icon" href="./favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png">
+  <link rel="manifest" href="./site.webmanifest">
+  <link rel="mask-icon" href="./safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="theme-color" content="#ffffff">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="../../css/style.css">
+
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="site-header-logo"></div>
+  <div id="site-header-blog-wrapper"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        <div id="ms-logo"></div>
+        
+          <a class="main-nav-link" href="../../index.html">Home</a>
+        
+          <a class="main-nav-link" href="../../archives">Archives</a>
+        
+        <a class="main-nav-link" target="_blank" rel="noopener" href="https://cssjpn.github.io/">サポート情報</a>
+        <a class="main-nav-link" href="/blog/general/welcome/">About</a>
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="../../blog/atom.xml" title="RSSフィード"></a>
+        
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//www.bing.com/search" method="get" accept-charset="UTF-8" name="bing-search" onsubmit="var f=this;if(f['q'].value){var searchUrl =  'https://www.bing.com/search?q=' +  encodeURIComponent(f['q'].value + ' site:' + f['sitesearch'].value) ;window.open(searchUrl, 'blank') };return false;" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="検索"><button type="submit" id="nav-search-btn" class="search-form-submit"></button><input type="hidden" name="sitesearch" value="https://jpdscore.github.io/blog"></form>
+      </div>
+    </div>
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="../../index.html" id="logo">Japan Developer Support Core Team Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="../../index.html" id="subtitle">日本マイクロソフトの Japan Developer Support Core チームのブログです。</a>
+        </h2>
+      
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-debugging/open-dump-by-windbg" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header-single">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      WinDbg で Dump ファイルを開く
+    </h1>
+  
+
+      </header>
+      <div class="article-share">
+        Last Update: 
+        <a href="" class="article-date-single">
+  <time datetime="2020-11-20T04:27:35.000Z" itemprop="datePublished">2020-11-20</time>
+</a>
+        
+        
+        <a href="https://github.com/jpdscore/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+9927c9d0-b487-5a76-9c07-c02e2ae0b343%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5BWinDbg+%E3%81%A7+Dump+%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%82%92%E9%96%8B%E3%81%8F%5D%28https%3A%2F%2Fjpdscore.github.io%2Fblog%2Fdebugging%2Fopen-dump-by-windbg%2F%29" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
+        
+        <a data-url="https://jpdscore.github.io/blog/debugging/open-dump-by-windbg/" data-id="ckhpz47ug000u1dp5c8aw3ked" class="article-share-link">共有</a>
+      </div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>こんにちは、Japan Developer Support Core チーム 平田 a.k.a ぴろとです。本日は WinDbg を使用して、ダンプ ファイルを開いて、解析を進める方法をご紹介します。今回は、クラッシュダンプの解析を進めていきます。まずはダンプといっても、取得をする目的を明確にする必要があります。以下に Dump ファイルについて説明を記載しましたため、合わせてご確認ください。</p>
+<p>初めてインストールする方は以下のダウンロードページからダウンロードしてください<br><a target="_blank" rel="noopener" href="https://docs.microsoft.com/ja-jp/windows-hardware/drivers/debugger/debugger-download-tools">Windows 用デバッグ ツールのダウンロード</a></p>
+<h2 id="Dump-ファイルについて-dmp"><a href="#Dump-ファイルについて-dmp" class="headerlink" title="Dump ファイルについて (*.dmp)"></a>Dump ファイルについて (*.dmp)</h2><p>こちらのファイルは、アプリケーションがクラッシュをしたり、ハングをした際にアプリケーションプロセスのメモリの内容をディスクへ書き出しを行うことで生成されるファイルとなります。　　</p>
+<h3 id="ハング-ダンプ"><a href="#ハング-ダンプ" class="headerlink" title="ハング ダンプ"></a>ハング ダンプ</h3><p>ハング ダンプは、プロセスがハングしてしまった場合に採取を検討します。アプリケーション クラッシュとは異なり、アプリケーション自体は何か例外を起こした訳ではないため、解析をする観点としては、何を待っているのか、無限ループになっているか等に注目をして解析を進めます。</p>
+<h3 id="クラッシュ-ダンプ"><a href="#クラッシュ-ダンプ" class="headerlink" title="クラッシュ ダンプ"></a>クラッシュ ダンプ</h3><p>こちらは、アプリケーションがクラッシュをした場合に取得するダンプとなります。これは、例外コードの確認、例外がどのような流れで発生したのかを注目し、解析を進めていくこととなります。</p>
+<h2 id="クラッシュ-ダンプの採取"><a href="#クラッシュ-ダンプの採取" class="headerlink" title="クラッシュ ダンプの採取"></a>クラッシュ ダンプの採取</h2><p>メモリリークや、クラッシュ等のパターンがいくつか試せるサンプル プログラムと WinDbg の理解を進めることができるドキュメントが提供されている素敵なサイトがあります。本当に素晴らしいドキュメントなので、是非ご参照ください。こちらから、CrashMe アプリケーションをダウンロードします。すでにビルドされていて、デバッグ シンボル ファイルもそろっているので、すぐに始められます。</p>
+<p><a target="_blank" rel="noopener" href="http://www.windbg.info/">windbg.info</a><br><a target="_blank" rel="noopener" href="http://www.windbg.info/download/doc/pdf/WinDbg_A_to_Z_color_JP.pdf">WinDbg. From A to Z! 日本語版</a><br><strong>リンク先のウェブサイトは、Microsoft のウェブサイトではなく、Microsoft とは異なりますことをご了承ください</strong></p>
+<p>こちら Release に格納されているリリース ビルド版のアプリケーションを起動し、[Dump Me] を押下してみます。今回は、\CrashMeDumps\v1.0-20201117-180813-31880-31888.dmp というダンプ ファイルが出力されました。こちらは、アプリケーション側でダンプをとってくれるように実装してあるので、簡単ですね。実際のダンプ採取を行う手順等についてダンプの採取方法として、今後の回で改めてご案内します。</p>
+<h2 id="ダンプを-WinDbg-にて開く"><a href="#ダンプを-WinDbg-にて開く" class="headerlink" title="ダンプを WinDbg にて開く"></a>ダンプを WinDbg にて開く</h2><p>前回の EXE/DLL を開く場合と同様に Open dump file を選択し、ダイアログから上記のオペレーションにて出力された dmp ファイルを選択も忘れずに。<br>次に、デバッグ シンボル ファイルを参照するように設定します。まずは、Microsoft の提供するパブリック シンボルをダウンロードさせる設定をします。</p>
+<blockquote>
+<p>.sympath srv*<a target="_blank" rel="noopener" href="https://msdl.microsoft.com/download/symbols">https://msdl.microsoft.com/download/symbols</a></p>
+</blockquote>
+<p>その後、実際のアプリケーションのパスを入れます。リリース ビルドのフォルダーに CrashMe.pdb があるので、そのディレクトリになります。</p>
+<blockquote>
+<p>.sympath+ C:\Users\test\Downloads\CrashMe\release</p>
+</blockquote>
+<p>シンボル ファイルの設定が完了しましたら、!analyze -v コマンドを実行します。</p>
+<blockquote>
+<p>!analyze -v</p>
+</blockquote>
+<p>こちらのコマンドの結果を見てみましょう。</p>
+<pre><code>0:000&gt; !analyze -v
+*******************************************************************************
+*                                                                             *
+*                        Exception Analysis                                   *
+*                                                                             *
+*******************************************************************************
+
+
+KEY_VALUES_STRING: 1
+
+    Key  : AV.Dereference
+    Value: NullPtr
+
+    Key  : AV.Fault
+    Value: Write
+
+    Key  : Analysis.CPU.mSec
+    Value: 811
+
+    Key  : Analysis.DebugAnalysisProvider.CPP
+    Value: Create: 8007007e on PIROTONE3950
+
+    Key  : Analysis.DebugData
+    Value: CreateObject
+
+    Key  : Analysis.DebugModel
+    Value: CreateObject
+
+    Key  : Analysis.Elapsed.mSec
+    Value: 1255
+
+    Key  : Analysis.Memory.CommitPeak.Mb
+    Value: 82
+
+    Key  : Analysis.System
+    Value: CreateObject
+
+    Key  : Timeline.OS.Boot.DeltaSec
+    Value: 247278
+
+    Key  : Timeline.Process.Start.DeltaSec
+    Value: 2
+
+    Key  : WER.OS.Branch
+    Value: vb_release
+
+    Key  : WER.OS.Timestamp
+    Value: 2019-12-06T14:06:00Z
+
+    Key  : WER.OS.Version
+    Value: 10.0.19041.1
+
+    Key  : WER.Process.Version
+    Value: 1.0.0.1
+
+
+ADDITIONAL_XML: 1
+
+OS_BUILD_LAYERS: 1
+
+NTGLOBALFLAG:  0
+
+PROCESS_BAM_CURRENT_THROTTLED: 0
+
+PROCESS_BAM_PREVIOUS_THROTTLED: 0
+
+APPLICATION_VERIFIER_FLAGS:  0
+
+CONTEXT:  (.ecxr)
+eax=00000000 ebx=00000001 ecx=0019fdfc edx=00000000 esi=0046bc18 edi=0019fdfc
+eip=0045c137 esp=0019f6c4 ebp=0019f6f4 iopl=0         nv up ei ng nz na po nc
+cs=0023  ss=002b  ds=002b  es=002b  fs=0053  gs=002b             efl=00010282
+CrashMe!CCrashMeDlg::OnBnClicked_DumpMeOnException+0x47:
+0045c137 c70000000000    mov     dword ptr [eax],0    ds:002b:00000000=????????
+Resetting default scope
+
+EXCEPTION_RECORD:  (.exr -1)
+ExceptionAddress: 0045c137 (CrashMe!CCrashMeDlg::OnBnClicked_DumpMeOnException+0x00000047)
+   ExceptionCode: c0000005 (Access violation)
+  ExceptionFlags: 00000000
+NumberParameters: 2
+   Parameter[0]: 00000001
+   Parameter[1]: 00000000
+Attempt to write to address 00000000
+
+PROCESS_NAME:  CrashMe.exe
+
+WRITE_ADDRESS:  00000000 
+
+ERROR_CODE: (NTSTATUS) 0xc0000005 - 0x%p          0x%p            Q           B         %s                              B
+
+EXCEPTION_CODE_STR:  c0000005
+
+EXCEPTION_PARAMETER1:  00000001
+
+EXCEPTION_PARAMETER2:  00000000
+
+FAULTING_LOCAL_VARIABLE_NAME:  pBadPtr
+
+STACK_TEXT:  
+0019f6f4 0040adce     0046bc18 00000111 0019f734 CrashMe!CCrashMeDlg::OnBnClicked_DumpMeOnException+0x47
+0019f704 0040afdb     0019fdfc 00000083 00000000 CrashMe!_AfxDispatchCmdMsg+0x43
+0019f734 004087df     00000083 00000000 00000000 CrashMe!CCmdTarget::OnCmdMsg+0x118
+0019f758 0040655f     00000083 00000000 00000000 CrashMe!CDialog::OnCmdMsg+0x1b
+0019f7a8 0040728e     00000000 0004058a f6d70f6c CrashMe!CWnd::OnCommand+0x90
+0019f844 004025d1     00000111 00000083 0004058a CrashMe!CWnd::OnWndMsg+0x36
+0019f864 0040559f     00000111 00000083 0004058a CrashMe!CWnd::WindowProc+0x22
+0019f8cc 0040562c     00000000 00030920 00000111 CrashMe!AfxCallWndProc+0x9a
+0019f8ec 76feef6b     00030920 00000111 00000083 CrashMe!AfxWndProc+0x34
+0019f918 76fe5efa     004055f8 00030920 00000111 user32!_InternalCallWinProc+0x2b
+0019f9fc 76fe52d9     004055f8 00000000 00000111 user32!UserCallWinProcCheckWow+0x33a
+0019fa60 76fe390f     00eee1f0 00000000 0004058a user32!SendMessageWorker+0x829
+0019fa80 6c786da8     00030920 00000111 00000083 user32!SendMessageW+0x6f
+0019faa0 6c786d6d     00617b78 00000202 00000000 comctl32!Button_NotifyParent+0x39
+0019fab8 6c7c69d3     00000202 0004058a 6c7c5fd0 comctl32!Button_ReleaseCapture+0x9a
+0019fb54 76feef6b     0004058a 00000202 00000000 comctl32!Button_WndProc+0xa03
+0019fb80 76fe5efa     6c7c5fd0 0004058a 00000202 user32!_InternalCallWinProc+0x2b
+0019fc64 76fe3c5a     6c7c5fd0 00000000 00000202 user32!UserCallWinProcCheckWow+0x33a
+0019fcd8 76fe7e68     005f96a0 0019fdfc 00000000 user32!DispatchMessageWorker+0x22a
+0019fd0c 0040a0f9     00030920 005f96a0 0019fdfc user32!IsDialogMessageW+0x108
+0019fd1c 00402b74     005f96a0 004087bf 005f96a0 CrashMe!CWnd::IsDialogMessageW+0x2e
+0019fd24 004087bf     005f96a0 005f96a0 00030920 CrashMe!CWnd::PreTranslateInput+0x29
+0019fd34 0040511b     005f96a0 005f96a0 0019fdfc CrashMe!CDialog::PreTranslateMessage+0x96
+0019fd44 0040d103     00030920 005f96a0 005f96a0 CrashMe!CWnd::WalkPreTranslateTree+0x1f
+0019fd58 0040d2c5     005f96a0 0040d149 005f96a0 CrashMe!AfxInternalPreTranslateMessage+0x3b
+0019fd60 0040d149     005f96a0 0040d312 005f96a0 CrashMe!CWinThread::PreTranslateMessage+0x9
+0019fd68 0040d312     005f96a0 00000000 0019fdfc CrashMe!AfxPreTranslateMessage+0x15
+0019fd78 004046db     00000004 0019fdfc 0019fde8 CrashMe!AfxInternalPumpMessage+0x2b
+0019fd9c 00408e85     00000004 f6d70ac0 0047d7b8 CrashMe!CWnd::RunModalLoop+0xca
+0019fde8 0045b22f     f6d709e0 0047d7b8 00000000 CrashMe!CDialog::DoModal+0x12c
+0019fec8 0045b110     000023f0 00000002 00000001 CrashMe!CCrashMeApp::InitInstance+0x8f
+0019fed8 0042ff26     00400000 00000000 005f1f80 CrashMe!AfxWinMain+0x47
+0019ff70 76bbfa29     002c3000 76bbfa10 0019ffdc CrashMe!__tmainCRTStartup+0x176
+0019ff80 773f75f4     002c3000 9fb796fc 00000000 kernel32!BaseThreadInitThunk+0x19
+0019ffdc 773f75c4     ffffffff 77417360 00000000 ntdll!__RtlUserThreadStart+0x2f
+0019ffec 00000000     0042ff8f 002c3000 00000000 ntdll!_RtlUserThreadStart+0x1b
+
+
+FAULTING_SOURCE_LINE:  c:\crashme\crashme\crashmedlg.cpp
+
+FAULTING_SOURCE_FILE:  c:\crashme\crashme\crashmedlg.cpp
+
+FAULTING_SOURCE_LINE_NUMBER:  766
+
+FAULTING_SOURCE_CODE:  
+No source found for &#39;c:\crashme\crashme\crashmedlg.cpp&#39;
+
+
+SYMBOL_NAME:  CrashMe!CCrashMeDlg::OnBnClicked_DumpMeOnException+47
+
+MODULE_NAME: CrashMe
+
+IMAGE_NAME:  CrashMe.exe
+
+STACK_COMMAND:  ~0s ; .ecxr ; kb
+
+FAILURE_BUCKET_ID:  NULL_POINTER_WRITE_c0000005_CrashMe.exe!CCrashMeDlg::OnBnClicked_DumpMeOnException
+
+OS_VERSION:  10.0.19041.1
+
+BUILDLAB_STR:  vb_release
+
+OSPLATFORM_TYPE:  x86
+
+OSNAME:  Windows 10
+
+IMAGE_VERSION:  1.0.0.1
+
+FAILURE_ID_HASH:  &#123;3dc2efab-8a71-eb68-832d-9f05cebd3392&#125;
+
+Followup:     MachineOwner
+---------</code></pre>
+<p>この内容から、重要な部分を抜粋します。ExceptionCode が <strong>c0000005</strong> となっていますね。こちらのコードは、<strong>Access Violation</strong> の例外コードになります。</p>
+<pre><code>EXCEPTION_RECORD:  (.exr -1)
+ExceptionAddress: 0045c137 (CrashMe!CCrashMeDlg::OnBnClicked_DumpMeOnException+0x00000047)
+   ExceptionCode: c0000005 (Access violation)
+  ExceptionFlags: 00000000
+NumberParameters: 2
+   Parameter[0]: 00000001
+   Parameter[1]: 00000000
+Attempt to write to address 00000000</code></pre>
+<p>実際に例外が起きた箇所を確認するために重要な部分を抜粋します。</p>
+<pre><code>CONTEXT:  (.ecxr)
+eax=00000000 ebx=00000001 ecx=0019fdfc edx=00000000 esi=0046bc18 edi=0019fdfc
+eip=0045c137 esp=0019f6c4 ebp=0019f6f4 iopl=0         nv up ei ng nz na po nc
+cs=0023  ss=002b  ds=002b  es=002b  fs=0053  gs=002b             efl=00010282
+CrashMe!CCrashMeDlg::OnBnClicked_DumpMeOnException+0x47:
+0045c137 c70000000000    mov     dword ptr [eax],0    ds:002b:00000000=????????
+Resetting default scope</code></pre>
+<p>こちらは、<strong>CrashMe!CCrashMeDlg::OnBnClicked_DumpMeOnException+0x47</strong> に展開されている mov 命令語で eax に格納されている 0 をポインタとして参照をしていることがわかります。0 番アドレスは、参照ができないため、???????? になっていますね。<br>実際のソースコードの場所を確認するために、ソース コードもデバッガーに読み込ませましょう。</p>
+<blockquote>
+<p>.srcpath+ C:\Users\test\Downloads\CrashMe</p>
+</blockquote>
+<p>ソース コードを設定したら、<a target="_blank" rel="noopener" href="https://docs.microsoft.com/ja-jp/windows-hardware/drivers/debugger/-ecxr--display-exception-context-record-">.ecxr</a> コマンドを実行します。(!analyze -v にて、例外が発生したコンテキスト レコードを表示するための例が載っています)</p>
+<pre><code>0:000&gt; .ecxr
+eax=00000000 ebx=00000001 ecx=0019fdfc edx=00000000 esi=0046bc18 edi=0019fdfc
+eip=0045c137 esp=0019f6c4 ebp=0019f6f4 iopl=0         nv up ei ng nz na po nc
+cs=0023  ss=002b  ds=002b  es=002b  fs=0053  gs=002b             efl=00010282
+CrashMe!CCrashMeDlg::OnBnClicked_DumpMeOnException+0x47:
+0045c137 c70000000000    mov     dword ptr [eax],0    ds:002b:00000000=????????</code></pre>
+<p>ソース コードが設定されていると、このコマンドでソース コードとのマッチングがされるかと思います。デバッグ シンボルのなせる業です。ソース コードをデバッグ ログに残しておく場合には、<a target="_blank" rel="noopener" href="https://docs.microsoft.com/ja-jp/windows-hardware/drivers/debugger/ls--lsa--list-source-lines-">lsa</a> コマンドが利用できます。</p>
+<pre><code>0:000&gt; lsa .
+   762:     __try
+   763:     &#123;
+   764:         // -&gt; the clean way would be to 
+   765:         int *pBadPtr = NULL;
+&gt;  766:         *pBadPtr = 0;
+   767:     &#125;
+   768:     __except( GenerateDump(GetExceptionInformation(), MiniDumpWithFullMemory) )
+   769:     &#123;
+   770:     &#125;
+   771: &#125;</code></pre>
+<p>最後にスタックを確認します。crashmedlg.cpp の 766 行目であることがわかります。MFC のランタイムは、ソース コードが Visual Studio をインストールされると参照が可能です。そのため、デバッグ シンボルにてソース コードが解決されています。しかしながら、OS コンポーネントになる user32.dll 等は、解決できません。</p>
+<pre><code>0:000&gt; k
+*** Stack trace for last set context - .thread/.cxr resets it
+# ChildEBP RetAddr      
+00 0019f6f4 0040adce     CrashMe!CCrashMeDlg::OnBnClicked_DumpMeOnException+0x47 [c:\crashme\crashme\crashmedlg.cpp @ 766] 
+01 0019f704 0040afdb     CrashMe!_AfxDispatchCmdMsg+0x43 [f:\dd\vctools\vc7libs\ship\atlmfc\src\mfc\cmdtarg.cpp @ 82] 
+02 0019f734 004087df     CrashMe!CCmdTarget::OnCmdMsg+0x118 [f:\dd\vctools\vc7libs\ship\atlmfc\src\mfc\cmdtarg.cpp @ 381] 
+03 0019f758 0040655f     CrashMe!CDialog::OnCmdMsg+0x1b [f:\dd\vctools\vc7libs\ship\atlmfc\src\mfc\dlgcore.cpp @ 85] 
+04 0019f7a8 0040728e     CrashMe!CWnd::OnCommand+0x90 [f:\dd\vctools\vc7libs\ship\atlmfc\src\mfc\wincore.cpp @ 2299] 
+05 0019f844 004025d1     CrashMe!CWnd::OnWndMsg+0x36 [f:\dd\vctools\vc7libs\ship\atlmfc\src\mfc\wincore.cpp @ 1755] 
+06 0019f864 0040559f     CrashMe!CWnd::WindowProc+0x22 [f:\dd\vctools\vc7libs\ship\atlmfc\src\mfc\wincore.cpp @ 1741] 
+07 0019f8cc 0040562c     CrashMe!AfxCallWndProc+0x9a [f:\dd\vctools\vc7libs\ship\atlmfc\src\mfc\wincore.cpp @ 243] 
+08 0019f8ec 76feef6b     CrashMe!AfxWndProc+0x34 [f:\dd\vctools\vc7libs\ship\atlmfc\src\mfc\wincore.cpp @ 388] 
+09 0019f918 76fe5efa     user32!_InternalCallWinProc+0x2b
+0a 0019f9fc 76fe52d9     user32!UserCallWinProcCheckWow+0x33a
+0b 0019fa60 76fe390f     user32!SendMessageWorker+0x829
+0c 0019fa80 6c786da8     user32!SendMessageW+0x6f
+0d 0019faa0 6c786d6d     comctl32!Button_NotifyParent+0x39
+0e 0019fab8 6c7c69d3     comctl32!Button_ReleaseCapture+0x9a
+0f 0019fb54 76feef6b     comctl32!Button_WndProc+0xa03
+10 0019fb80 76fe5efa     user32!_InternalCallWinProc+0x2b
+11 0019fc64 76fe3c5a     user32!UserCallWinProcCheckWow+0x33a
+12 0019fcd8 76fe7e68     user32!DispatchMessageWorker+0x22a
+13 0019fd0c 0040a0f9     user32!IsDialogMessageW+0x108
+14 0019fd1c 00402b74     CrashMe!CWnd::IsDialogMessageW+0x2e [f:\dd\vctools\vc7libs\ship\atlmfc\src\mfc\winocc.cpp @ 197] 
+15 0019fd24 004087bf     CrashMe!CWnd::PreTranslateInput+0x29 [f:\dd\vctools\vc7libs\ship\atlmfc\src\mfc\wincore.cpp @ 4267] 
+16 0019fd34 0040511b     CrashMe!CDialog::PreTranslateMessage+0x96 [f:\dd\vctools\vc7libs\ship\atlmfc\src\mfc\dlgcore.cpp @ 79] 
+17 0019fd44 0040d103     CrashMe!CWnd::WalkPreTranslateTree+0x1f [f:\dd\vctools\vc7libs\ship\atlmfc\src\mfc\wincore.cpp @ 2882] 
+18 0019fd58 0040d2c5     CrashMe!AfxInternalPreTranslateMessage+0x3b [f:\dd\vctools\vc7libs\ship\atlmfc\src\mfc\thrdcore.cpp @ 233] 
+19 0019fd60 0040d149     CrashMe!CWinThread::PreTranslateMessage+0x9 [f:\dd\vctools\vc7libs\ship\atlmfc\src\mfc\thrdcore.cpp @ 773] 
+1a 0019fd68 0040d312     CrashMe!AfxPreTranslateMessage+0x15 [f:\dd\vctools\vc7libs\ship\atlmfc\src\mfc\thrdcore.cpp @ 255] 
+1b 0019fd78 004046db     CrashMe!AfxInternalPumpMessage+0x2b [f:\dd\vctools\vc7libs\ship\atlmfc\src\mfc\thrdcore.cpp @ 178] 
+1c 0019fd9c 00408e85     CrashMe!CWnd::RunModalLoop+0xca [f:\dd\vctools\vc7libs\ship\atlmfc\src\mfc\wincore.cpp @ 4322] 
+1d 0019fde8 0045b22f     CrashMe!CDialog::DoModal+0x12c [f:\dd\vctools\vc7libs\ship\atlmfc\src\mfc\dlgcore.cpp @ 587] 
+1e 0019fec8 0045b110     CrashMe!CCrashMeApp::InitInstance+0x8f [c:\crashme\crashme\crashme.cpp @ 64] 
+1f 0019fed8 0042ff26     CrashMe!AfxWinMain+0x47 [f:\dd\vctools\vc7libs\ship\atlmfc\src\mfc\winmain.cpp @ 37] 
+20 0019ff70 76bbfa29     CrashMe!__tmainCRTStartup+0x176 [f:\dd\vctools\crt_bld\self_x86\crt\src\crt0.c @ 324] 
+21 0019ff80 773f75f4     kernel32!BaseThreadInitThunk+0x19
+22 0019ffdc 773f75c4     ntdll!__RtlUserThreadStart+0x2f
+23 0019ffec 00000000     ntdll!_RtlUserThreadStart+0x1b</code></pre>
+<p>今回は以上になります。</p>
+
+      
+      
+        <div class="article-disclaimer">
+        
+          <p><hr>本ブログの内容は弊社の公式見解として保証されるものではなく、開発・運用時の参考情報としてご活用いただくことを目的としています。もし公式な見解が必要な場合は、弊社ドキュメント (<a target="_blank" rel="noopener" href="https://docs.microsoft.com/">https://docs.microsoft.com</a> や <a target="_blank" rel="noopener" href="https://support.microsoft.com">https://support.microsoft.com</a>) をご参照いただくか、もしくは私共サポートまでお問い合わせください。</p>
+        
+        </div>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Debug/" rel="tag">Debug</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Windows-SDK/" rel="tag">Windows SDK</a></li></ul>
+
+      <!-- 
+      
+        <a href="https://github.com/jpdscore/blog/edit/master/articles/debugging/open-dump-by-windbg.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
+        
+      -->
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="../../azuredevops/try-self-hosted-agent/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前の記事</strong>
+      <div class="article-nav-title">DevOps の Self-hosted エージェントを構築して使ってみよう！</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最近の投稿</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="">WinDbg で Dump ファイルを開く</a>
+          </li>
+        
+          <li>
+            <a href="../../azuredevops/try-self-hosted-agent/">DevOps の Self-hosted エージェントを構築して使ってみよう！</a>
+          </li>
+        
+          <li>
+            <a href="../open-binaries-by-windbg/">WinDbg で EXE や DLL を Dump ファイルのように開く</a>
+          </li>
+        
+          <li>
+            <a href="../../azuredevops/use-repos-from-azuredevops/">Azure DevOps から Repos を利用してみよう (Azure Repos/GitHub)！</a>
+          </li>
+        
+          <li>
+            <a href="../../azuredevops/deploy-webapp-to-azure/">Azure App Service に色々な方法で WebApp をデプロイしてみよう！</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">タグ</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="../../tags/ALM/">ALM</a><span class="tag-list-count">3</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-Pipelines">Azure Pipelines</a><span class="tag-list-count">3</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-Repos">Azure Repos</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/GitHub">GitHub</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Windows-SDK/">Windows SDK</a><span class="tag-list-count">2</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Debug">Debug</a><span class="tag-list-count">2</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Debug/">Debug</a><span class="tag-list-count">2</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Windows-SDK">Windows SDK</a><span class="tag-list-count">2</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Deployment/">Deployment</a><span class="tag-list-count">1</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Deployment/ClickOnce">ClickOnce</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/NET/">.NET</a><span class="tag-list-count">1</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/NET-Framework">.NET Framework</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E5%85%A8%E8%88%AC/">全般</a><span class="tag-list-count">1</span><ul></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">アーカイブ</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/11/">2020 / 11</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/10/">2020 / 10</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/09/">2020 / 09</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">タグクラウド</h3>
+    <div class="widget tagcloud">
+      <a href="../../tags/NET/" style="font-size: 10px;">.NET</a> <a href="../../tags/NET-Framework/" style="font-size: 10px;">.NET Framework</a> <a href="../../tags/ALM/" style="font-size: 20px;">ALM</a> <a href="../../tags/Azure-Pipelines/" style="font-size: 20px;">Azure Pipelines</a> <a href="../../tags/Azure-Repos/" style="font-size: 10px;">Azure Repos</a> <a href="../../tags/ClickOnce/" style="font-size: 10px;">ClickOnce</a> <a href="../../tags/Debug/" style="font-size: 15px;">Debug</a> <a href="../../tags/Deployment/" style="font-size: 10px;">Deployment</a> <a href="../../tags/GitHub/" style="font-size: 10px;">GitHub</a> <a href="../../tags/Windows-SDK/" style="font-size: 15px;">Windows SDK</a> <a href="../../tags/%E5%85%A8%E8%88%AC/" style="font-size: 10px;">全般</a>
+    </div>
+  </div>
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">旧ブログ/フォーラム</h3>
+  <div class="widget">
+    <ul>
+      
+        <li>
+          <a href="../../https:/social.msdn.microsoft.com/Forums/ja-jp/home?forum=visualstudiosupportteamja">Visual Studio サポートチーム フォーラム</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/social.msdn.microsoft.com/Forums/ja-jp/home?forum=windowssdksupportteamja&filter=alltypes&sort=lastpostdesc">Windows SDK サポートチーム フォーラム</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/docs.microsoft.com/en-us/archive/blogs/jpvsblog/">Visual Studio サポート チーム blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/docs.microsoft.com/en-us/archive/blogs/japan_platform_sdkwindows_sdk_support_team_blog/">JAPAN Platform SDK（Windows SDK） Support Team Blog</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 Developer Support Core Japan<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="../../index.html" class="mobile-nav-link">Home</a>
+  
+    <a href="../../archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+<script src="../../js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
