@@ -4,25 +4,23 @@
   <meta charset="utf-8">
   
   
-  <title>WinDbg で EXE や DLL を Dump ファイルのように開く | Japan Developer Support Core Team Blog</title>
+  <title>Dump ファイルの取得 | Japan Developer Support Core Team Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="こんにちは、Japan Developer Support Core チーム 平田 a.k.a ぴろとです。本日は WinDbg を使用して、EXE や DLL といった実行形式のバイナリ ファイルをダンプ ファイルのように開く方法をご紹介します。また、この方法を活用して、モジュールに実装された関数のアドレスについても確認することができますので、あわせてご紹介します。次回以降ご紹介するダンプ解析の">
+  <meta name="description" content="こんにちは、Japan Developer Support Core チーム 平田 a.k.a ぴろとです。本日は ProcDump を使用して、アプリケーションのダンプの採取を行う方法についてご案内をさせていただきます。サポート部門で以前は、adplus というツールを利用することが多かったのですが、最近は、ProcDump をご案内することが多くなってきました。adplus は、Debuggi">
 <meta property="og:type" content="article">
-<meta property="og:title" content="WinDbg で EXE や DLL を Dump ファイルのように開く">
-<meta property="og:url" content="https://jpdscore.github.io/blog/debugging/open-binaries-by-windbg/index.html">
+<meta property="og:title" content="Dump ファイルの取得">
+<meta property="og:url" content="https://jpdscore.github.io/blog/debugging/collect-dump/index.html">
 <meta property="og:site_name" content="Japan Developer Support Core Team Blog">
-<meta property="og:description" content="こんにちは、Japan Developer Support Core チーム 平田 a.k.a ぴろとです。本日は WinDbg を使用して、EXE や DLL といった実行形式のバイナリ ファイルをダンプ ファイルのように開く方法をご紹介します。また、この方法を活用して、モジュールに実装された関数のアドレスについても確認することができますので、あわせてご紹介します。次回以降ご紹介するダンプ解析の">
+<meta property="og:description" content="こんにちは、Japan Developer Support Core チーム 平田 a.k.a ぴろとです。本日は ProcDump を使用して、アプリケーションのダンプの採取を行う方法についてご案内をさせていただきます。サポート部門で以前は、adplus というツールを利用することが多かったのですが、最近は、ProcDump をご案内することが多くなってきました。adplus は、Debuggi">
 <meta property="og:locale" content="ja_JP">
-<meta property="og:image" content="https://jpdscore.github.io/blog/debugging/open-binaries-by-windbg/1.png">
-<meta property="og:image" content="https://jpdscore.github.io/blog/debugging/open-binaries-by-windbg/2.png">
-<meta property="og:image" content="https://jpdscore.github.io/blog/debugging/open-binaries-by-windbg/3.png">
-<meta property="article:published_time" content="2020-11-11T09:15:35.000Z">
-<meta property="article:modified_time" content="2020-11-11T09:15:35.000Z">
+<meta property="og:image" content="https://jpdscore.github.io/blog/debugging/collect-dump/1.png">
+<meta property="article:published_time" content="2020-11-24T08:33:19.000Z">
+<meta property="article:modified_time" content="2020-11-24T08:33:19.000Z">
 <meta property="article:author" content="Developer Support Core Japan">
 <meta property="article:tag" content="Windows SDK">
 <meta property="article:tag" content="Debug">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://jpdscore.github.io/blog/debugging/open-binaries-by-windbg/1.png">
+<meta name="twitter:image" content="https://jpdscore.github.io/blog/debugging/collect-dump/1.png">
   
     <link rel="alternate" href="../../blog/atom.xml" title="Japan Developer Support Core Team Blog" type="application/atom+xml">
   
@@ -84,7 +82,7 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-debugging/open-binaries-by-windbg" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="Dump ファイルの取得-debugging/collect-dump" class="article article-type-Dump ファイルの取得" itemscope itemprop="blogPost">
   <div class="article-inner">
     
     
@@ -93,7 +91,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      WinDbg で EXE や DLL を Dump ファイルのように開く
+      Dump ファイルの取得
     </h1>
   
 
@@ -101,48 +99,43 @@
       <div class="article-share">
         Last Update: 
         <a href="" class="article-date-single">
-  <time datetime="2020-11-11T09:15:35.000Z" itemprop="datePublished">2020-11-11</time>
+  <time datetime="2020-11-24T08:33:19.000Z" itemprop="datePublished">2020-11-24</time>
 </a>
         
         
-        <a href="https://github.com/jpdscore/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+4b10ac16-7791-515d-88c1-7d82d6442b60%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5BWinDbg+%E3%81%A7+EXE+%E3%82%84+DLL+%E3%82%92+Dump+%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%81%AE%E3%82%88%E3%81%86%E3%81%AB%E9%96%8B%E3%81%8F%5D%28https%3A%2F%2Fjpdscore.github.io%2Fblog%2Fdebugging%2Fopen-binaries-by-windbg%2F%29" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
+        <a href="https://github.com/jpdscore/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+ba9a7400-e7d7-552f-860d-74794bcf3c2a%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5BDump+%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%81%AE%E5%8F%96%E5%BE%97%5D%28https%3A%2F%2Fjpdscore.github.io%2Fblog%2Fdebugging%2Fcollect-dump%2F%29" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
         
-        <a data-url="https://jpdscore.github.io/blog/debugging/open-binaries-by-windbg/" data-id="ckhvq66x20003zcn83azag764" class="article-share-link">共有</a>
+        <a data-url="https://jpdscore.github.io/blog/debugging/collect-dump/" data-id="ckhvq66wy0001zcn80c9x21ju" class="article-share-link">共有</a>
       </div>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>こんにちは、Japan Developer Support Core チーム 平田 a.k.a ぴろとです。本日は WinDbg を使用して、EXE や DLL といった実行形式のバイナリ ファイルをダンプ ファイルのように開く方法をご紹介します。また、この方法を活用して、モジュールに実装された関数のアドレスについても確認することができますので、あわせてご紹介します。次回以降ご紹介するダンプ解析のテクニックでも関数のアドレスについては正しく理解している必要がありますので、是非、実際にコマンドを実行してご確認いただけましたら幸いです。</p>
-<p>初めてインストールする方は以下のダウンロードページからダウンロードしてください<br><a target="_blank" rel="noopener" href="https://docs.microsoft.com/ja-jp/windows-hardware/drivers/debugger/debugger-download-tools">Windows 用デバッグ ツールのダウンロード</a></p>
-<h2 id="EXE-DLL-SYS-ファイルについて"><a href="#EXE-DLL-SYS-ファイルについて" class="headerlink" title="EXE / DLL / SYS ファイルについて"></a>EXE / DLL / SYS ファイルについて</h2><p>これらのファイルは、<a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/windows/win32/debug/pe-format">PE Format</a> というフォーマットに準じてビルドされたものになります。通常のネイティブ コードでビルドされたものは、実行領域としてマシン語として格納されていて、CPU はこのマシン語をベースに実行されるものとなります。</p>
-<p>Visual Studio では、ビルドをした際にデバッグ シンボル ファイルを出力させることができます。こちらのファイルと合わせて PE Format のモジュールを見ることで、より多くの情報を確認することができます。</p>
-<p>特に重要な情報は、このマシン語がモジュールの先頭からのオフセットでどの関数が実行されているのかを求めることができます。例えば、hogehoge.dll + 1000 の箇所にて、クラッシュした場合をイメージしてください。このままだと、実際にどの関数なのかはわかりませんが、hogehoge.dll + 1000 の箇所に、定義されている関数を求めれば、関数の特定は容易になります。</p>
-<p>実際に notepad.exe をダンプとして開いてみましょう。コマンドラインからは、以下のコマンドを実行します。</p>
-<blockquote>
-<p>windbg -z notepad.exe </p>
-</blockquote>
-<p>もし、Windbg Preview を利用している場合には、以下の画面から実施します。<br>メニューから [File] を選択します</p>
+        <p>こんにちは、Japan Developer Support Core チーム 平田 a.k.a ぴろとです。本日は ProcDump を使用して、アプリケーションのダンプの採取を行う方法についてご案内をさせていただきます。サポート部門で以前は、adplus というツールを利用することが多かったのですが、最近は、ProcDump をご案内することが多くなってきました。adplus は、Debugging Tools for Windows に同梱されるツールになっています。そのため、あらかじめ Windows SDK を別途インストールをしていただいた環境から、WinDbg のインストールをするための再頒布パッケージを採取環境にインストールが必要になってしまうため、情報採取までの手順が長いためとなります。</p>
+<h2 id="ProdDump-の入手方法について"><a href="#ProdDump-の入手方法について" class="headerlink" title="ProdDump の入手方法について"></a>ProdDump の入手方法について</h2><p>ProcDump は、<a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/sysinternals/downloads/sysinternals-suite">Sysinternal Suites</a> のツールになります。全部一括でダウンロードをする場合は、Sysinternal Suites のハイパー リンクをクリックし、ダウンロードをください。便利なツールが沢山あります。<br>個別にダウンロードをすることも可能です。<a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/sysinternals/downloads/procdump">ProcDump v10.0</a> こちらからダウンロードを行い、Zip ファイルを展開したものを任意のフォルダーに保存します。</p>
+<h3 id="ハング-ダンプの採取について"><a href="#ハング-ダンプの採取について" class="headerlink" title="ハング ダンプの採取について"></a>ハング ダンプの採取について</h3><p>ハングダンプは、アプリケーションがハング状態や無応答になった場合に採取を行うものとなります。ハング状態となるパターンはいくつかあります。考えられるシナリオについては、デッドロックといったパターンです。これは、ロック A と ロック B をあるスレッドは、A -&gt; B の順番にとって、他方のスレッドは、 B -&gt; A の順番にロックをとるシナリオです。  </p>
+<p>この場合、スレッド1 は、ロック A を取得後、ロック B の取得を行いに行きます。しかしながら、スレッド 2 では、ロック B をすでにとっている状況で、ロック A の開放待ちになっているといったことが発生し得ます。</p>
 <p><img src="1.png"></p>
-<p>Open dump file を選択します。</p>
-<p><img src="2.png"></p>
-<p>最後に、右下の拡張子を exe / dll にして、notepad.exe を開きます。</p>
-<p><img src="3.png"></p>
-<p>ここまでできてしまえば、あとはモジュールの先頭のアドレスを確認します。</p>
-<pre><code>0:000&gt; lm
-start             end                 module name
-00000001`40000000 00000001`40038000   notepad    (pdb symbols)          C:\ProgramData\Dbg\sym\notepad.pdb\17F6F0A80039D425B20169009E11D8221\notepad.pdb</code></pre>
-<p>ここで <strong>1`40000000</strong> が先頭のアドレスであることがわかりますね。<br>次に、wWinMain 関数を探しましょう。</p>
-<pre><code>0:000&gt; x notepad!wwinmain
-00000001`4000b090 notepad!wWinMain (wWinMain)</code></pre>
-<p>ここで、<strong>b090</strong> のオフセットであることがわかります。つまり、モジュールの先頭から、**+b090** が main 関数のエントリポイントであることを確認できました！</p>
-<p>今度は、逆引きです。ln コマンドを使って、オフセットを足しこんだアドレスをパラメーターとして渡します。</p>
-<pre><code>0:000&gt; ln 1`4000b090
-Browse module
-Set bu breakpoint
-
-(00000001`4000b090)   notepad!wWinMain   |  (00000001`4000b454)   notepad!UpdateStatusBar
-Exact matches:</code></pre>
-<p>おお！ notepad!wWinMain のオフセットの部分が求まりました。<br>今回はここまでとなります。</p>
+<p>アプリケーション自体はクラッシュはしませんので、とるタイミングは事象が発生している最中にとる必要があります。<br>管理者として、起動したコマンドプロンプトにて、ダウンロードをした ProcDump を使って以下のコマンドを実施します。基本的には、EXE の名前だけで入力が可能ですが、同一のプロセス名のプロセスがある場合には、プロセス ID で設定します。</p>
+<blockquote>
+<p>procdump -ma &lt;プロセスの EXE 名&gt;<br>procdump -ma &lt;プロセス ID&gt;</p>
+</blockquote>
+<p>コマンド例 (notepad.exe (PID:1234) だった場合)</p>
+<blockquote>
+<p>procdump -ma notepad.exe<br>procdump -ma 1234</p>
+</blockquote>
+<p>デッドロックの場合は、ユーザーモードの時間が割り当たらないことがほとんどです。解析を進めてデッドロックではない場合には、インターバルを設けて何度か取得をして複数のダンプを採取します。解析をする際には、<a target="_blank" rel="noopener" href="https://docs.microsoft.com/ja-jp/windows-hardware/drivers/debugger/-runaway">!runaway</a> コマンドで CPU 時間を確認します。もし狙ったスレッドが動いている場合には、無限ループ等も考慮します。</p>
+<h3 id="クラッシュ-ダンプの採取について"><a href="#クラッシュ-ダンプの採取について" class="headerlink" title="クラッシュ ダンプの採取について"></a>クラッシュ ダンプの採取について</h3><p>こちらは、アプリケーションがクラッシュした場合に採取をするものになります。そのため、クラッシュするオペレーションがわかっている場合には、再現をする前に、ProcDump をアタッチしておく必要があります。アタッチしている状況にて、アプリケーションで例外が発生すると、ダンプを取得し、アプリケーション自体は終了します。-e オプションは、ハンドルされない例外が発生した場合に出力をするという設定です。なお、例外ハンドラーにてハンドリングされてしまうタイプの例外を検出したい場合には、-e 1 といった形で、1st change 例外を出力するようにします。</p>
+<pre><code>-e      Write a dump when the process encounters an unhandled exception.
+        Include the 1 to create dump on first chance exceptions.</code></pre>
+<blockquote>
+<p>procdump -e -ma &lt;プロセスの EXE 名&gt;<br>procdump -e -ma &lt;プロセス ID&gt;</p>
+</blockquote>
+<p>コマンド例 (notepad.exe (PID:1234) だった場合)</p>
+<blockquote>
+<p>procdump -e -ma notepad.exe<br>procdump -e -ma 1234</p>
+</blockquote>
+<p>1st chance / 2nd chance という用語がでてきています。1st chance 例外は、エラーハンドリングをされることで回復を期待される例外になります。それに比べ、2nd chance 例外は、エラーハンドリングがされていない例外または、回復処理で回復できないため、再度例外を発生した場合になります。</p>
+<p>今回はここまでとなります。</p>
 
       
       
@@ -160,7 +153,7 @@ Exact matches:</code></pre>
 
       <!-- 
       
-        <a href="https://github.com/jpdscore/blog/edit/master/articles/debugging/open-binaries-by-windbg.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
+        <a href="https://github.com/jpdscore/blog/edit/master/articles/debugging/collect-dump.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
         
       -->
     </footer>
@@ -169,19 +162,10 @@ Exact matches:</code></pre>
     
 <nav id="article-nav">
   
-    <a href="../../azuredevops/try-self-hosted-agent/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">次の記事</strong>
-      <div class="article-nav-title">
-        
-          DevOps の Self-hosted エージェントを構築して使ってみよう！
-        
-      </div>
-    </a>
   
-  
-    <a href="../../azuredevops/use-repos-from-azuredevops/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="../open-dump-by-windbg/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">前の記事</strong>
-      <div class="article-nav-title">Azure DevOps から Repos を利用してみよう (Azure Repos/GitHub)！</div>
+      <div class="article-nav-title">WinDbg で Dump ファイルを開く</div>
     </a>
   
 </nav>
@@ -200,7 +184,7 @@ Exact matches:</code></pre>
       <ul>
         
           <li>
-            <a href="../collect-dump/">Dump ファイルの取得</a>
+            <a href="">Dump ファイルの取得</a>
           </li>
         
           <li>
@@ -212,7 +196,7 @@ Exact matches:</code></pre>
           </li>
         
           <li>
-            <a href="">WinDbg で EXE や DLL を Dump ファイルのように開く</a>
+            <a href="../open-binaries-by-windbg/">WinDbg で EXE や DLL を Dump ファイルのように開く</a>
           </li>
         
           <li>
