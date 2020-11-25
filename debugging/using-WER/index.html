@@ -4,19 +4,20 @@
   <meta charset="utf-8">
   
   
-  <title>Developer Support Core チームのブログへようこそ | Japan Developer Support Core Team Blog</title>
+  <title>WER を使って Dump を採取する | Japan Developer Support Core Team Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="こんにちは、Developer Support Core チームです。 私たちのサポート チームでは下記の製品のサポートを行っています。  Visual Studio .NET (.NET Framework &#x2F; .NET Core) Windows SDK Data Client (ODBC &#x2F; ADO.NET &#x2F; Entity Framework) アプリケーションの展開 (Windows I">
+  <meta name="description" content="Windows エラー報告 (Windows Error Reporting) を使って Dump を採取するこんにちは、Japan Developer Support Core チーム 平田 a.k.a ぴろとです。以前は、ミニ四駆に精を出していましたが、最近はメダカの飼育にはまってます。マイクロソフトの中の人には、沼にはまった趣味を持つ人が多いので、話を聞くだけでもいろいろな視点をもたらしてく">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Developer Support Core チームのブログへようこそ">
-<meta property="og:url" content="https://jpdscore.github.io/blog/general/welcome/index.html">
+<meta property="og:title" content="WER を使って Dump を採取する">
+<meta property="og:url" content="https://jpdscore.github.io/blog/debugging/using-WER/index.html">
 <meta property="og:site_name" content="Japan Developer Support Core Team Blog">
-<meta property="og:description" content="こんにちは、Developer Support Core チームです。 私たちのサポート チームでは下記の製品のサポートを行っています。  Visual Studio .NET (.NET Framework &#x2F; .NET Core) Windows SDK Data Client (ODBC &#x2F; ADO.NET &#x2F; Entity Framework) アプリケーションの展開 (Windows I">
+<meta property="og:description" content="Windows エラー報告 (Windows Error Reporting) を使って Dump を採取するこんにちは、Japan Developer Support Core チーム 平田 a.k.a ぴろとです。以前は、ミニ四駆に精を出していましたが、最近はメダカの飼育にはまってます。マイクロソフトの中の人には、沼にはまった趣味を持つ人が多いので、話を聞くだけでもいろいろな視点をもたらしてく">
 <meta property="og:locale" content="ja_JP">
-<meta property="article:published_time" content="2020-09-27T15:00:00.000Z">
-<meta property="article:modified_time" content="2020-09-27T15:00:00.000Z">
+<meta property="article:published_time" content="2020-11-25T01:32:06.000Z">
+<meta property="article:modified_time" content="2020-11-25T01:32:06.000Z">
 <meta property="article:author" content="Developer Support Core Japan">
-<meta property="article:tag" content="全般">
+<meta property="article:tag" content="Windows SDK">
+<meta property="article:tag" content="Debug">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternate" href="../../blog/atom.xml" title="Japan Developer Support Core Team Blog" type="application/atom+xml">
@@ -79,7 +80,7 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-general/welcome" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-debugging/using-WER" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
     
@@ -88,7 +89,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Developer Support Core チームのブログへようこそ
+      WER を使って Dump を採取する
     </h1>
   
 
@@ -96,36 +97,36 @@
       <div class="article-share">
         Last Update: 
         <a href="" class="article-date-single">
-  <time datetime="2020-09-27T15:00:00.000Z" itemprop="datePublished">2020-09-28</time>
+  <time datetime="2020-11-25T01:32:06.000Z" itemprop="datePublished">2020-11-25</time>
 </a>
         
         
-        <a href="https://github.com/jpdscore/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+2e1cffdf-33d7-58ee-9267-6de488b6ada1%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5BDeveloper+Support+Core+%E3%83%81%E3%83%BC%E3%83%A0%E3%81%AE%E3%83%96%E3%83%AD%E3%82%B0%E3%81%B8%E3%82%88%E3%81%86%E3%81%93%E3%81%9D%5D%28https%3A%2F%2Fjpdscore.github.io%2Fblog%2Fgeneral%2Fwelcome%2F%29" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
+        <a href="https://github.com/jpdscore/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+019314cf-540f-521e-a7a5-f572f6c70825%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5BWER+%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6+Dump+%E3%82%92%E6%8E%A1%E5%8F%96%E3%81%99%E3%82%8B%5D%28https%3A%2F%2Fjpdscore.github.io%2Fblog%2Fdebugging%2Fusing-WER%2F%29" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
         
-        <a data-url="https://jpdscore.github.io/blog/general/welcome/" data-id="ckhwryu490008z7oth9ij53gl" class="article-share-link">共有</a>
+        <a data-url="https://jpdscore.github.io/blog/debugging/using-WER/" data-id="ckhwryu450004z7ot0v94dz0d" class="article-share-link">共有</a>
       </div>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>こんにちは、Developer Support Core チームです。</p>
-<p>私たちのサポート チームでは下記の製品のサポートを行っています。</p>
-<ul>
-<li>Visual Studio</li>
-<li>.NET (.NET Framework / .NET Core)</li>
-<li>Windows SDK</li>
-<li>Data Client (ODBC / ADO.NET / Entity Framework)</li>
-<li>アプリケーションの展開 (Windows Installer / ClickOnce / MSIX)</li>
-<li>スクリプト開発 (VBScript / PowerShell)</li>
-<li>HoloLens</li>
-<li>Azure DevOps Services / Azure DevOps Server</li>
-<li>Azure Dev Spaces</li>
-<li>Azure DevTest Labs / Azure Lab Services</li>
-<li>Azure Kinnect DK</li>
-<li>Azure PlayFab</li>
-<li>Azure Spatial Anchors</li>
-</ul>
-<p>このブログでは今後、弊社製品をより効果的に活用していただき、お客様とお客様の製品のご利用者様がより多くのことを達成できるよう、それぞれの製品に関する情報を発信していきます。</p>
-<p>本ブログの情報が皆様のお役に立てば幸いです。</p>
+        <h2 id="Windows-エラー報告-Windows-Error-Reporting-を使って-Dump-を採取する"><a href="#Windows-エラー報告-Windows-Error-Reporting-を使って-Dump-を採取する" class="headerlink" title="Windows エラー報告 (Windows Error Reporting) を使って Dump を採取する"></a>Windows エラー報告 (Windows Error Reporting) を使って Dump を採取する</h2><p>こんにちは、Japan Developer Support Core チーム 平田 a.k.a ぴろとです。<br>以前は、ミニ四駆に精を出していましたが、最近はメダカの飼育にはまってます。マイクロソフトの中の人には、沼にはまった趣味を持つ人が多いので、話を聞くだけでもいろいろな視点をもたらしてくれるよい同僚がいて、刺激を受けてます。  </p>
+<p>話を戻して、前回は、ProcDump を用いてダンプの採取をおこないました。クラッシュ系のダンプを採取する場合には、ProcDump のようにアタッチをしたままで運用することが難しいパターンもあります。この場合は、Windows が提供している Windows Error Reporting を用いてクラッシュ時に自動でダンプを取得するように設定をすることも検討する価値があります。</p>
+<h3 id="Windows-エラー報告-Windows-Error-Reporting"><a href="#Windows-エラー報告-Windows-Error-Reporting" class="headerlink" title="Windows エラー報告 (Windows Error Reporting)"></a>Windows エラー報告 (Windows Error Reporting)</h3><p>Windows エラー報告 (Windows Error Reporting、以下 WER) は、Windows XP 以前では、Dr.Watson の機能に該当していたものですが、Windows Vista 以降では、WER に置き換えられました。これにより、いつ発生するかわからない例外によるクラッシュ時のダンプをとることを可能にすることができます。基本的には、クラッシュ ダンプになるため、1st Chance 例外の場合はダンプが取れない場合があります。この場合には、恐れ入りますが、ProcDump による採取をご検討いただくのが良いかと思います。</p>
+<h3 id="設定方法"><a href="#設定方法" class="headerlink" title="設定方法"></a>設定方法</h3><p><strong>重要このセクション、方法、またはタスクには、レジストリの編集方法が記載されています。レジストリを誤って変更すると、深刻な問題が発生することがあります。レジストリを変更する際には十分に注意してください。万一に備えて、編集の前にレジストリをバックアップしてください。問題が発生した場合でも、レジストリを復元できます。レジストリのバックアップ方法および復元方法の詳細を参照するには、以下のマイクロソフト サポート技術情報番号をクリックしてください。<br><a target="_blank" rel="noopener" href="https://support.microsoft.com/ja-jp/help/322756/how-to-back-up-and-restore-the-registry-in-windows">322756</a> Windows でレジストリをバックアップおよび復元する方法</strong></p>
+<pre><code>1. レジストリ エディタを起動します。
+2. 左ペインより、以下のキーを展開後、右クリックし、[新規] - [キー] を選択します。
+   HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\Windows Error Reporting
+3. 作成された [新しいキー #1] の名前を以下に変更します。
+   LocalDumps
+4. [LocalDumps] を右クリックし、[新規] - [Dword (32 ビット) 値] を選択します。
+5. 作成された [新しい値 #1] の名前を以下に変更します。
+   DumpType
+6. [DumpType] をダブルクリックし、[値のデータ] を 2 に設定します。
+7. [LocalDumps] を右クリックし、[新規] - [展開可能な文字列] を選択します。
+8. 作成された [新しい値 #1] の名前を以下に変更します。
+   DumpFolder
+9. [DumpFolder] をダブルクリックし、[値のデータ] にダンプの出力先として
+   任意のフォルダ名を設定します。</code></pre>
+<p>実施するのは、以上になります。再現したら、ここで指定されたフォルダーにダンプされるため、出力されるのを待ちます。<br>そのあとには、解析を進めていくこととなります。</p>
 
       
       
@@ -139,11 +140,11 @@
     <footer class="article-footer">
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/%E5%85%A8%E8%88%AC/" rel="tag">全般</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Debug/" rel="tag">Debug</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Windows-SDK/" rel="tag">Windows SDK</a></li></ul>
 
       <!-- 
       
-        <a href="https://github.com/jpdscore/blog/edit/master/articles/general/welcome.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
+        <a href="https://github.com/jpdscore/blog/edit/master/articles/debugging/using-WER.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
         
       -->
     </footer>
@@ -152,15 +153,11 @@
     
 <nav id="article-nav">
   
-    <a href="../../dotnet/relationship-between-ndp-versions/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">次の記事</strong>
-      <div class="article-nav-title">
-        
-          .NET Framework の各バージョン同士の関係
-        
-      </div>
-    </a>
   
+    <a href="../collect-dump/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前の記事</strong>
+      <div class="article-nav-title">Dump ファイルの取得</div>
+    </a>
   
 </nav>
 
@@ -178,15 +175,15 @@
       <ul>
         
           <li>
-            <a href="../../debugging/using-WER/">WER を使って Dump を採取する</a>
+            <a href="">WER を使って Dump を採取する</a>
           </li>
         
           <li>
-            <a href="../../debugging/collect-dump/">Dump ファイルの取得</a>
+            <a href="../collect-dump/">Dump ファイルの取得</a>
           </li>
         
           <li>
-            <a href="../../debugging/open-dump-by-windbg/">WinDbg で Dump ファイルを開く</a>
+            <a href="../open-dump-by-windbg/">WinDbg で Dump ファイルを開く</a>
           </li>
         
           <li>
@@ -194,7 +191,7 @@
           </li>
         
           <li>
-            <a href="../../debugging/open-binaries-by-windbg/">WinDbg で EXE や DLL を Dump ファイルのように開く</a>
+            <a href="../open-binaries-by-windbg/">WinDbg で EXE や DLL を Dump ファイルのように開く</a>
           </li>
         
       </ul>

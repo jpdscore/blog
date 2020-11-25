@@ -6,7 +6,7 @@
   <link href="https://jpdscore.github.io/blog/atom.xml" rel="self"/>
   
   <link href="https://jpdscore.github.io/blog/"/>
-  <updated>2020-11-24T08:33:19.000Z</updated>
+  <updated>2020-11-25T01:32:06.000Z</updated>
   <id>https://jpdscore.github.io/blog/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>WER を使って Dump を採取する</title>
+    <link href="https://jpdscore.github.io/blog/debugging/using-WER/"/>
+    <id>https://jpdscore.github.io/blog/debugging/using-WER/</id>
+    <published>2020-11-25T01:32:06.000Z</published>
+    <updated>2020-11-25T01:32:06.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;Windows-エラー報告-Windows-Error-Reporting-を使って-Dump-を採取する&quot;&gt;&lt;a href=&quot;#Windows-エラー報告-Windows-Error-Reporting-を使って-Dump-を採取する&quot;</summary>
+        
+      
+    
+    
+    
+    
+    <category term="Windows SDK" scheme="https://jpdscore.github.io/blog/tags/Windows-SDK/"/>
+    
+    <category term="Debug" scheme="https://jpdscore.github.io/blog/tags/Debug/"/>
+    
+  </entry>
   
   <entry>
     <title>Dump ファイルの取得</title>
