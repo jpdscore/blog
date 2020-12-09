@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>32 bit アプリケーションで発生するメモリ不足に関連するエラーについて | Japan Developer Support Core Team Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="こんにちは、Japan Developer Support Core チームの松井です。今回は、32 bit アプリケーションで発生するメモリ不足に関連するエラーについて、よくあるお問い合わせとその一般的な回答や見解などをご案内します。 大きなサイズのデータを扱うアプリケーションや、長時間実行し続ける 32 bit アプリケーションは、メモリ不足によりメモリ割り当てに失敗する問題に悩まされる場合が">
+<meta property="og:type" content="article">
+<meta property="og:title" content="32 bit アプリケーションで発生するメモリ不足に関連するエラーについて">
+<meta property="og:url" content="https://jpdscore.github.io/blog/debugging/oom-on-x86apps/index.html">
+<meta property="og:site_name" content="Japan Developer Support Core Team Blog">
+<meta property="og:description" content="こんにちは、Japan Developer Support Core チームの松井です。今回は、32 bit アプリケーションで発生するメモリ不足に関連するエラーについて、よくあるお問い合わせとその一般的な回答や見解などをご案内します。 大きなサイズのデータを扱うアプリケーションや、長時間実行し続ける 32 bit アプリケーションは、メモリ不足によりメモリ割り当てに失敗する問題に悩まされる場合が">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:image" content="https://jpdscore.github.io/blog/debugging/oom-on-x86apps/virtual-memory-fragmentation.png">
+<meta property="article:published_time" content="2020-12-08T15:00:00.000Z">
+<meta property="article:modified_time" content="2020-12-08T15:00:00.000Z">
+<meta property="article:author" content="Developer Support Core Japan">
+<meta property="article:tag" content="Debug">
+<meta property="article:tag" content="Memory">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jpdscore.github.io/blog/debugging/oom-on-x86apps/virtual-memory-fragmentation.png">
+  
+    <link rel="alternate" href="../../blog/atom.xml" title="Japan Developer Support Core Team Blog" type="application/atom+xml">
+  
+
+  <link rel="icon" href="./favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png">
+  <link rel="manifest" href="./site.webmanifest">
+  <link rel="mask-icon" href="./safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="theme-color" content="#ffffff">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="../../css/style.css">
+
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="site-header-logo"></div>
+  <div id="site-header-blog-wrapper"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        <div id="ms-logo"></div>
+        
+          <a class="main-nav-link" href="../../index.html">Home</a>
+        
+          <a class="main-nav-link" href="../../archives">Archives</a>
+        
+        <a class="main-nav-link" target="_blank" rel="noopener" href="https://cssjpn.github.io/">サポート情報</a>
+        <a class="main-nav-link" href="/blog/general/welcome/">About</a>
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="../../blog/atom.xml" title="RSSフィード"></a>
+        
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//www.bing.com/search" method="get" accept-charset="UTF-8" name="bing-search" onsubmit="var f=this;if(f['q'].value){var searchUrl =  'https://www.bing.com/search?q=' +  encodeURIComponent(f['q'].value + ' site:' + f['sitesearch'].value) ;window.open(searchUrl, 'blank') };return false;" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="検索"><button type="submit" id="nav-search-btn" class="search-form-submit"></button><input type="hidden" name="sitesearch" value="https://jpdscore.github.io/blog"></form>
+      </div>
+    </div>
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="../../index.html" id="logo">Japan Developer Support Core Team Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="../../index.html" id="subtitle">日本マイクロソフトの Japan Developer Support Core チームのブログです。</a>
+        </h2>
+      
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-debugging/oom-on-x86apps" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header-single">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      32 bit アプリケーションで発生するメモリ不足に関連するエラーについて
+    </h1>
+  
+
+      </header>
+      <div class="article-share">
+        Last Update: 
+        <a href="" class="article-date-single">
+  <time datetime="2020-12-08T15:00:00.000Z" itemprop="datePublished">2020-12-09</time>
+</a>
+        
+        
+        <a href="https://github.com/jpdscore/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+b1c0a4fe-f45c-587d-a3f2-7a3222a91b27%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5B32+bit+%E3%82%A2%E3%83%97%E3%83%AA%E3%82%B1%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E3%81%A7%E7%99%BA%E7%94%9F%E3%81%99%E3%82%8B%E3%83%A1%E3%83%A2%E3%83%AA%E4%B8%8D%E8%B6%B3%E3%81%AB%E9%96%A2%E9%80%A3%E3%81%99%E3%82%8B%E3%82%A8%E3%83%A9%E3%83%BC%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6%5D%28https%3A%2F%2Fjpdscore.github.io%2Fblog%2Fdebugging%2Foom-on-x86apps%2F%29" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
+        
+        <a data-url="https://jpdscore.github.io/blog/debugging/oom-on-x86apps/" data-id="ckih70dzj00038how92rnbk82" class="article-share-link">共有</a>
+      </div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>こんにちは、Japan Developer Support Core チームの松井です。<br>今回は、32 bit アプリケーションで発生するメモリ不足に関連するエラーについて、よくあるお問い合わせとその一般的な回答や見解などをご案内します。</p>
+<p>大きなサイズのデータを扱うアプリケーションや、長時間実行し続ける 32 bit アプリケーションは、メモリ不足によりメモリ割り当てに失敗する問題に悩まされる場合があります。メモリ割り当てに失敗する状況は ERROR_NOT_ENOUGH_MEMORY (8) が返される、System.OutOfMemoryException がスローされるなどの形で顕在化しますが、原因はメモリ リークによる枯渇やフラグメンテーションなど様々です。</p>
+<p>本記事の内容がメモリ不足に関連するエラーが発生したときの考え方やトラブルシュートの際の参考になれば幸いです。</p>
+<hr>
+<h1 id="よくあるお問い合わせ"><a href="#よくあるお問い合わせ" class="headerlink" title="よくあるお問い合わせ"></a>よくあるお問い合わせ</h1><h2 id="物理メモリ-RAM-は十分あるのにメモリ割り当てに失敗する"><a href="#物理メモリ-RAM-は十分あるのにメモリ割り当てに失敗する" class="headerlink" title="物理メモリ (RAM) は十分あるのにメモリ割り当てに失敗する"></a>物理メモリ (RAM) は十分あるのにメモリ割り当てに失敗する</h2><p>アプリケーションが利用するメモリは通常、物理メモリ (RAM) から直接割り当てるのではなく仮想アドレス空間の中から割り当てられます。物理メモリの搭載量に関わらず、32 bit アプリケーションが利用可能な仮想アドレス空間は 32 bit で表現が可能な範囲 (0x00000000 ～ 0xFFFFFFFF) に制限されます。</p>
+<p>さらに、仮想アドレス空間はユーザー モードで利用される領域とカーネル モードで利用される領域に分けられており、既定ではユーザー モードで利用できる領域は 0x00000000 ～ 0x7FFFFFFF の 2 GB です。</p>
+<p>たとえ物理メモリが 4 GB 以上搭載されていても、32 bit アプリケーションからはユーザー モードの仮想アドレス空間のサイズを超えてメモリを利用することはできません。</p>
+<hr>
+<h2 id="2-GB-に達していないのにメモリ割り当てに失敗する"><a href="#2-GB-に達していないのにメモリ割り当てに失敗する" class="headerlink" title="2 GB に達していないのにメモリ割り当てに失敗する"></a>2 GB に達していないのにメモリ割り当てに失敗する</h2><p>メモリ割り当てを行うほとんどの方法では、指定したサイズの連続したメモリ領域を要求します。そのため、例えば空きメモリ領域の合計が 1 GB 以上あったとしても、空き領域が 500 MB と 500 MB に分断されているような場合は 500 MB を超えるメモリ割り当ては失敗します。</p>
+<p><img src="virtual-memory-fragmentation.png"><br>こちらの図は典型的な仮想メモリの断片化 (フラグメンテーション) の状況を <a target="_blank" rel="noopener" href="https://docs.microsoft.com/ja-jp/sysinternals/downloads/vmmap">vmmap.exe</a> の Fragmentation view で表示したものです。白い部分はメモリの空き領域を、黄色い部分はコミット済みの領域を示しています。合計で見れば空き領域はたくさん空いているように見えますが、実際にはコミット済みの領域で分断されているため、大きなサイズの割り当てを要求した場合、連続領域が確保できず失敗します。</p>
+<hr>
+<h2 id="確実に-xxx-MB-の連続した領域を確保できるようにしたい"><a href="#確実に-xxx-MB-の連続した領域を確保できるようにしたい" class="headerlink" title="確実に xxx MB の連続した領域を確保できるようにしたい"></a>確実に xxx MB の連続した領域を確保できるようにしたい</h2><p>残念ながら 32 bit アプリケーションでは、数百 MB といった大きなサイズのメモリ領域の割り当てを確実に成功させることは困難です。前述のようにメモリ割り当てには連続したメモリの空き領域が必要ですが、以下のようなアプリケーション以外の様々な要因で連続した空き領域は変動します。</p>
+<ul>
+<li>OS や .NET Framework などのランタイムやライブラリによって利用するメモリのサイズは一定ではない</li>
+<li>セキュリティ上の理由などによりモジュールやヒープなどのメモリ配置はランダムとなるため、連続した空き領域も一定ではない</li>
+<li>ウィルス対策ソフトウェアなどアプリケーションの動作に介入するソフトウェアの影響も受ける可能性がある</li>
+<li>他のアプリケーションのアドオンとして動作する場合は、アプリケーション自体の動作や他のアドオンの影響も受ける可能性がある</li>
+</ul>
+<p>同様の理由で、アプリケーションで確実に確保できる最大のメモリ サイズを事前に見積もることも困難です。一般的に、数百 MB 単位のサイズの要求は、開発環境や評価環境では問題なく成功しても、アプリケーションの変更や環境の相違によって失敗する可能性があります。また、アプリケーションの実行時間が長くなることでフラグメンテーションが進行して割り当てができなくなる場合もあります。</p>
+<p>64 bit への移行ができない場合、メモリ確保に失敗する要因を個別に調査して取り除く方法を検討する余地はありますが、調査に時間を要する上に有効な方法が見つからないことも多くあります。一般的には、以下のような対処方法や緩和策が必要となります。</p>
+<ul>
+<li>大きなサイズのメモリを必要とする処理を別プロセスに分離する</li>
+<li>要求するメモリ サイズを分割する</li>
+<li>比較的変動しにくいアプリケーション起動後の早い段階で大きなサイズが必要なメモリを予め確保しておく</li>
+<li>LAA フラグを指定する</li>
+</ul>
+<p>また、メモリ確保の失敗に備えたエラーからの復帰処理や、メッセージやログの出力を用意しておくことも重要です。</p>
+<hr>
+<h2 id="LAA-フラグを有効にする場合の注意点"><a href="#LAA-フラグを有効にする場合の注意点" class="headerlink" title="LAA フラグを有効にする場合の注意点"></a>LAA フラグを有効にする場合の注意点</h2><p>LAA フラグは、アプリケーションが 2 GB 以上のアドレス空間を扱えることを示すフラグです。</p>
+<p>32 bit 版 Windows では、<a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/troubleshoot/windows-server/performance/switch-options-for-boot-files#3gb">OS の /3GB スイッチ</a> を有効にすることで、LAA フラグが有効なアプリケーションに対して、カーネル モードで利用できるアドレス空間を 1 GB に縮小する代わりにユーザー モードで利用できるアドレス空間を 3 GB に拡張できます。ただし、カーネル モードのアドレス空間が減少することで、カーネル リソースを多く利用するアプリケーションでは正常に動作しなくなるなど影響を生じる可能性があります。そのため、運用に近い環境と条件での十分な検証が必要です。</p>
+<p>64 bit 版 Windows では、32 bit アプリケーションは WOW64 と呼ばれるエミュレートされた 32 bit プロセス環境上で動作しており、ユーザー モードのアドレス空間を拡張することに伴うカーネル モードのアドレス空間の縮小は発生しません。そのため、32 bit OS 上で考慮が必要であったカーネル モードのアドレス空間が縮小することに伴う影響はありません。</p>
+<p>また、LAA フラグを有効にした場合はアドレスとして 0x7FFFFFFF 以上の値が返される可能性が生じますが、これに関連してアプリケーションの実装において以下のような点に注意が必要です。</p>
+<ul>
+<li>システム DLL の多くは仮想アドレス空間の 2 GB 境界 (0x7FFFFFFF) 付近 に配置されるため、LAA フラグを有効にした場合も 2 GB を超える連続したメモリ領域の確保はできません。</li>
+<li>ポインター値の最上位ビットが 0 であることを仮定して何らかのフラグのように利用している場合は、正常に動作しなくなる可能性があります。</li>
+<li>ポインター値を符号付き整数として扱っている場合は意図しない結果となる可能性があります。特に、比較演算では結果が反転するなどの問題を生じます。</li>
+</ul>
+<hr>
+<h2 id="NET-Framework-アプリケーションで-LAA-フラグを利用したい"><a href="#NET-Framework-アプリケーションで-LAA-フラグを利用したい" class="headerlink" title=".NET Framework アプリケーションで LAA フラグを利用したい"></a>.NET Framework アプリケーションで LAA フラグを利用したい</h2><p>現時点では、C# や Visual Basic .NET のコンパイラーには LAA フラグを有効化するコンパイル オプションは用意されていません。そのため、以下のように Visual Studio に附属する <a target="_blank" rel="noopener" href="https://docs.microsoft.com/ja-jp/cpp/build/reference/largeaddressaware">editbin ユーティリティ</a> を使用して LAA フラグを付与する必要があります。</p>
+<blockquote>
+<p>editbin.exe /LARGEADDRESSAWARE myapplication.exe</p>
+</blockquote>
+<p>なお、フラグの変更はバイナリ ファイルの変更を伴うため、アプリケーションに署名している場合は署名とファイルのハッシュ値が一致しなくなります。アプリケーションに署名が必要な場合、(1) 署名なしでコンパイル、(2) editbin で LAA フラグを付与、(3) 署名、の順となるようにビルド ステップを変更する必要がありますのでご注意ください。</p>
+<hr>
+<h2 id="3rd-party-アプリケーションのLAA-フラグを変更したい"><a href="#3rd-party-アプリケーションのLAA-フラグを変更したい" class="headerlink" title="3rd party アプリケーションのLAA フラグを変更したい"></a>3rd party アプリケーションのLAA フラグを変更したい</h2><p>editbin による LAA フラグの付与はアプリケーションの変更となるため、使用許諾などに反する可能性があります。また、アプリケーションが LAA フラグの有効化を想定しておらず、予期しない動作となる可能性があります。3rd party アプリケーションの変更については開発元へお問い合わせをお願いします。</p>
+<hr>
+<h2 id="OS-や-NET-Framework-などのバージョンを上げたらメモリ不足に関連するエラーが発生するようになった"><a href="#OS-や-NET-Framework-などのバージョンを上げたらメモリ不足に関連するエラーが発生するようになった" class="headerlink" title="OS や .NET Framework などのバージョンを上げたらメモリ不足に関連するエラーが発生するようになった"></a>OS や .NET Framework などのバージョンを上げたらメモリ不足に関連するエラーが発生するようになった</h2><p>OS や .NET Framework のバージョンが異なると、仕様や実装の変更などでメモリなどのリソースの使われ方が変わる場合があります。32 bit アプリケーションが扱うには非常にシビアなメモリ要件、例えば大きなサイズの連続した領域を必要とする場合や、全体で 1 GB を超えるような仮想メモリ使用量となる場合は、一般的には影響を受けないようなわずかな変更であってもアプリケーションで問題を生じる可能性はあります。</p>
+<p>このような場合、OS や .NET Framework などの変更点の観点で、何故バージョンを変えることでエラーが発生するようになったのか、想定される原因について知りたいといったお問い合わせをいただくことがあります。しかしながら、使用しているクラスや関数が特定済みで調査範囲が限定されている場合を除き、このような方法で原因の調査を進めることはお勧めしません。必要な情報採取などの手間はありますが、アプリケーションのメモリ割り当てや解放の状況について、変更前後のバージョンの両方で比較しながら相違が生じている処理を追及していくほうが調査を進める上では近道となることが多いです。</p>
+<p>一般的に、OS や .NET Framework のバージョンが変わる場合には非常に多くの変更点があります。変更点が多いということは、原因の可能性となる仮説が多いということでもあり、問題の原因を特定するためにはすべての仮説について机上または実際に動作をさせての検証作業が必要になります。そのため、OS や .NET Framework の仕様変更や実装変更の観点から原因調査を進めることは難しく、非常に多くの時間がかかる作業になります。また、アプリケーションの動作も詳細に理解しないと仮説が正しいかどうか確かめる術もなく、結局アプリケーションの観点から情報採取などを進めて調査を進める流れとなることも多くあります。</p>
+<p>弊社へお問い合わせをいただければ、サポート エンジニアにて問題が発生する際の状況やアプリケーションの詳細など背景を伺わせていただき、最適な調査方法を検討の上で提案をさせていただきます。是非アプリケーションのデバッグのご支援を含むサポート サービスのご利用をご検討ください。</p>
+<hr>
+<h2 id="メモリ-リークについて"><a href="#メモリ-リークについて" class="headerlink" title="メモリ リークについて"></a>メモリ リークについて</h2><p>アプリケーションのメモリ リークのデバッグは奥が深いテーマです。リークしているリソースの種類やタイミングの特定、リークなのかただキャッシュしているだけなのかの判断および原因調査などを、複数のツールや手法を用いて適切に進める必要があります。アプリケーションのメモリ リークのデバッグについては、今後別の記事で取り上げたいと思います。</p>
+
+      
+      
+        <div class="article-disclaimer">
+        
+          <p><hr>本ブログの内容は弊社の公式見解として保証されるものではなく、開発・運用時の参考情報としてご活用いただくことを目的としています。もし公式な見解が必要な場合は、弊社ドキュメント (<a target="_blank" rel="noopener" href="https://docs.microsoft.com/">https://docs.microsoft.com</a> や <a target="_blank" rel="noopener" href="https://support.microsoft.com">https://support.microsoft.com</a>) をご参照いただくか、もしくは私共サポートまでお問い合わせください。</p>
+        
+        </div>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Debug/" rel="tag">Debug</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Memory/" rel="tag">Memory</a></li></ul>
+
+      <!-- 
+      
+        <a href="https://github.com/jpdscore/blog/edit/master/articles/debugging/oom-on-x86apps.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
+        
+      -->
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="../using-WER/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前の記事</strong>
+      <div class="article-nav-title">WER を使って Dump を採取する</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最近の投稿</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="">32 bit アプリケーションで発生するメモリ不足に関連するエラーについて</a>
+          </li>
+        
+          <li>
+            <a href="../using-WER/">WER を使って Dump を採取する</a>
+          </li>
+        
+          <li>
+            <a href="../collect-dump/">Dump ファイルの取得</a>
+          </li>
+        
+          <li>
+            <a href="../open-dump-by-windbg/">WinDbg で Dump ファイルを開く</a>
+          </li>
+        
+          <li>
+            <a href="../../azuredevops/try-self-hosted-agent/">DevOps の Self-hosted エージェントを構築して使ってみよう！</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">タグ</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="../../tags/ALM/">ALM</a><span class="tag-list-count">3</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-Pipelines">Azure Pipelines</a><span class="tag-list-count">3</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-Repos">Azure Repos</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/GitHub">GitHub</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Windows-SDK/">Windows SDK</a><span class="tag-list-count">4</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Debug">Debug</a><span class="tag-list-count">4</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Debug/">Debug</a><span class="tag-list-count">5</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Memory">Memory</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Windows-SDK">Windows SDK</a><span class="tag-list-count">4</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Deployment/">Deployment</a><span class="tag-list-count">1</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Deployment/ClickOnce">ClickOnce</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/NET/">.NET</a><span class="tag-list-count">1</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/NET-Framework">.NET Framework</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E5%85%A8%E8%88%AC/">全般</a><span class="tag-list-count">1</span><ul></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">アーカイブ</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/12/">2020 / 12</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/11/">2020 / 11</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/10/">2020 / 10</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/09/">2020 / 09</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">タグクラウド</h3>
+    <div class="widget tagcloud">
+      <a href="../../tags/NET/" style="font-size: 10px;">.NET</a> <a href="../../tags/NET-Framework/" style="font-size: 10px;">.NET Framework</a> <a href="../../tags/ALM/" style="font-size: 13.33px;">ALM</a> <a href="../../tags/Azure-Pipelines/" style="font-size: 13.33px;">Azure Pipelines</a> <a href="../../tags/Azure-Repos/" style="font-size: 10px;">Azure Repos</a> <a href="../../tags/ClickOnce/" style="font-size: 10px;">ClickOnce</a> <a href="../../tags/Debug/" style="font-size: 20px;">Debug</a> <a href="../../tags/Deployment/" style="font-size: 10px;">Deployment</a> <a href="../../tags/GitHub/" style="font-size: 10px;">GitHub</a> <a href="../../tags/Memory/" style="font-size: 10px;">Memory</a> <a href="../../tags/Windows-SDK/" style="font-size: 16.67px;">Windows SDK</a> <a href="../../tags/%E5%85%A8%E8%88%AC/" style="font-size: 10px;">全般</a>
+    </div>
+  </div>
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">旧ブログ/フォーラム</h3>
+  <div class="widget">
+    <ul>
+      
+        <li>
+          <a href="../../https:/social.msdn.microsoft.com/Forums/ja-jp/home?forum=visualstudiosupportteamja">Visual Studio サポートチーム フォーラム</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/social.msdn.microsoft.com/Forums/ja-jp/home?forum=windowssdksupportteamja&filter=alltypes&sort=lastpostdesc">Windows SDK サポートチーム フォーラム</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/docs.microsoft.com/en-us/archive/blogs/jpvsblog/">Visual Studio サポート チーム blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/docs.microsoft.com/en-us/archive/blogs/japan_platform_sdkwindows_sdk_support_team_blog/">JAPAN Platform SDK（Windows SDK） Support Team Blog</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 Developer Support Core Japan<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="../../index.html" class="mobile-nav-link">Home</a>
+  
+    <a href="../../archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+<script src="../../js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

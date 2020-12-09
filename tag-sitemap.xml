@@ -3,8 +3,15 @@
 
 
     <url>
+        <loc>https://jpdscore.github.io/blog/tags/Memory/</loc>
+        <lastmod>2020-12-08T15:00:00.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
         <loc>https://jpdscore.github.io/blog/tags/Debug/</loc>
-        <lastmod>2020-11-25T01:32:06.000Z</lastmod>
+        <lastmod>2020-12-08T15:00:00.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>

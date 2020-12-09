@@ -6,7 +6,7 @@
   <link href="https://jpdscore.github.io/blog/atom.xml" rel="self"/>
   
   <link href="https://jpdscore.github.io/blog/"/>
-  <updated>2020-11-25T01:32:06.000Z</updated>
+  <updated>2020-12-08T15:00:00.000Z</updated>
   <id>https://jpdscore.github.io/blog/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>32 bit アプリケーションで発生するメモリ不足に関連するエラーについて</title>
+    <link href="https://jpdscore.github.io/blog/debugging/oom-on-x86apps/"/>
+    <id>https://jpdscore.github.io/blog/debugging/oom-on-x86apps/</id>
+    <published>2020-12-08T15:00:00.000Z</published>
+    <updated>2020-12-08T15:00:00.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;こんにちは、Japan Developer Support Core チームの松井です。&lt;br&gt;今回は、32 bit</summary>
+        
+      
+    
+    
+    
+    
+    <category term="Debug" scheme="https://jpdscore.github.io/blog/tags/Debug/"/>
+    
+    <category term="Memory" scheme="https://jpdscore.github.io/blog/tags/Memory/"/>
+    
+  </entry>
   
   <entry>
     <title>WER を使って Dump を採取する</title>
@@ -199,32 +224,6 @@
   </entry>
   
   <entry>
-    <title>ClickOnce アプリケーションのインストールや更新の後に発生する場合があるアプリケーション起動時のエラーについて</title>
-    <link href="https://jpdscore.github.io/blog/deployment/fail-to-launch-clickonce-apps-after-updated/"/>
-    <id>https://jpdscore.github.io/blog/deployment/fail-to-launch-clickonce-apps-after-updated/</id>
-    <published>2020-09-28T15:00:00.000Z</published>
-    <updated>2020-09-28T15:00:00.000Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;(※ 2018 年 2 月 20 日に Microsoft Japan Visual Studio Support Team Blog に公開した情報のアーカイブです。)&lt;/p&gt;
-&lt;p&gt;こんにちは、Visual Studio サポート</summary>
-        
-      
-    
-    
-    
-    
-    <category term="Deployment" scheme="https://jpdscore.github.io/blog/tags/Deployment/"/>
-    
-    <category term="ClickOnce" scheme="https://jpdscore.github.io/blog/tags/ClickOnce/"/>
-    
-  </entry>
-  
-  <entry>
     <title>.NET Framework の各バージョン同士の関係</title>
     <link href="https://jpdscore.github.io/blog/dotnet/relationship-between-ndp-versions/"/>
     <id>https://jpdscore.github.io/blog/dotnet/relationship-between-ndp-versions/</id>
@@ -247,6 +246,32 @@
     <category term=".NET" scheme="https://jpdscore.github.io/blog/tags/NET/"/>
     
     <category term=".NET Framework" scheme="https://jpdscore.github.io/blog/tags/NET-Framework/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>ClickOnce アプリケーションのインストールや更新の後に発生する場合があるアプリケーション起動時のエラーについて</title>
+    <link href="https://jpdscore.github.io/blog/deployment/fail-to-launch-clickonce-apps-after-updated/"/>
+    <id>https://jpdscore.github.io/blog/deployment/fail-to-launch-clickonce-apps-after-updated/</id>
+    <published>2020-09-28T15:00:00.000Z</published>
+    <updated>2020-09-28T15:00:00.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;(※ 2018 年 2 月 20 日に Microsoft Japan Visual Studio Support Team Blog に公開した情報のアーカイブです。)&lt;/p&gt;
+&lt;p&gt;こんにちは、Visual Studio サポート</summary>
+        
+      
+    
+    
+    
+    
+    <category term="Deployment" scheme="https://jpdscore.github.io/blog/tags/Deployment/"/>
+    
+    <category term="ClickOnce" scheme="https://jpdscore.github.io/blog/tags/ClickOnce/"/>
     
   </entry>
   
