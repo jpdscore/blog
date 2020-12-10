@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>イベント ID 1000 で記録される Application Error のイベント ログについて | Japan Developer Support Core Team Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="こんにちは、Japan Developer Support Core チームの松井です。今回は、イベント ID 1000 で記録される Application Error のイベント ログについて、ログに記録されている内容の意味や、調査を進める上で一般的に必要となる情報について紹介します。 Application Error が発生する原因は様々で、原因を特定するために必要な調査手法も一様ではなく">
+<meta property="og:type" content="article">
+<meta property="og:title" content="イベント ID 1000 で記録される Application Error のイベント ログについて">
+<meta property="og:url" content="https://jpdscore.github.io/blog/debugging/application-error-eventlog/index.html">
+<meta property="og:site_name" content="Japan Developer Support Core Team Blog">
+<meta property="og:description" content="こんにちは、Japan Developer Support Core チームの松井です。今回は、イベント ID 1000 で記録される Application Error のイベント ログについて、ログに記録されている内容の意味や、調査を進める上で一般的に必要となる情報について紹介します。 Application Error が発生する原因は様々で、原因を特定するために必要な調査手法も一様ではなく">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:image" content="https://jpdscore.github.io/blog/debugging/application-error-eventlog/applicationerror1000.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/debugging/application-error-eventlog/wer1.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/debugging/application-error-eventlog/wer2.png">
+<meta property="article:published_time" content="2020-12-09T15:00:00.000Z">
+<meta property="article:modified_time" content="2020-12-09T15:00:00.000Z">
+<meta property="article:author" content="Developer Support Core Japan">
+<meta property="article:tag" content="Debug">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jpdscore.github.io/blog/debugging/application-error-eventlog/applicationerror1000.png">
+  
+    <link rel="alternate" href="../../blog/atom.xml" title="Japan Developer Support Core Team Blog" type="application/atom+xml">
+  
+
+  <link rel="icon" href="./favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png">
+  <link rel="manifest" href="./site.webmanifest">
+  <link rel="mask-icon" href="./safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="theme-color" content="#ffffff">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="../../css/style.css">
+
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="site-header-logo"></div>
+  <div id="site-header-blog-wrapper"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        <div id="ms-logo"></div>
+        
+          <a class="main-nav-link" href="../../index.html">Home</a>
+        
+          <a class="main-nav-link" href="../../archives">Archives</a>
+        
+        <a class="main-nav-link" target="_blank" rel="noopener" href="https://cssjpn.github.io/">サポート情報</a>
+        <a class="main-nav-link" href="/blog/general/welcome/">About</a>
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="../../blog/atom.xml" title="RSSフィード"></a>
+        
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//www.bing.com/search" method="get" accept-charset="UTF-8" name="bing-search" onsubmit="var f=this;if(f['q'].value){var searchUrl =  'https://www.bing.com/search?q=' +  encodeURIComponent(f['q'].value + ' site:' + f['sitesearch'].value) ;window.open(searchUrl, 'blank') };return false;" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="検索"><button type="submit" id="nav-search-btn" class="search-form-submit"></button><input type="hidden" name="sitesearch" value="https://jpdscore.github.io/blog"></form>
+      </div>
+    </div>
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="../../index.html" id="logo">Japan Developer Support Core Team Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="../../index.html" id="subtitle">日本マイクロソフトの Japan Developer Support Core チームのブログです。</a>
+        </h2>
+      
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-debugging/application-error-eventlog" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header-single">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      イベント ID 1000 で記録される Application Error のイベント ログについて
+    </h1>
+  
+
+      </header>
+      <div class="article-share">
+        Last Update: 
+        <a href="" class="article-date-single">
+  <time datetime="2020-12-09T15:00:00.000Z" itemprop="datePublished">2020-12-10</time>
+</a>
+        
+        
+        <a href="https://github.com/jpdscore/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+35dbd1c5-d44d-5fa7-b52a-784004b94d81%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5B%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88+ID+1000+%E3%81%A7%E8%A8%98%E9%8C%B2%E3%81%95%E3%82%8C%E3%82%8B+Application+Error+%E3%81%AE%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88+%E3%83%AD%E3%82%B0%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6%5D%28https%3A%2F%2Fjpdscore.github.io%2Fblog%2Fdebugging%2Fapplication-error-eventlog%2F%29" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
+        
+        <a data-url="https://jpdscore.github.io/blog/debugging/application-error-eventlog/" data-id="ckiim4b7u00110row0bz58p25" class="article-share-link">共有</a>
+      </div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>こんにちは、Japan Developer Support Core チームの松井です。<br>今回は、イベント ID 1000 で記録される Application Error のイベント ログについて、ログに記録されている内容の意味や、調査を進める上で一般的に必要となる情報について紹介します。</p>
+<p>Application Error が発生する原因は様々で、原因を特定するために必要な調査手法も一様ではなく、調査には困難を伴うことが多くあります。この記事では Application Error に関して概要をお伝えしますが、お客様が開発したアプリケーションで発生しているエラーのデバッグや調査を弊社のサポート サービスで承っていますので、お困りのことがあればサポート サービスのご利用もご検討いただければ幸いです。</p>
+<h2 id="1-イベント-ログに記録される-Application-Error-の内容について"><a href="#1-イベント-ログに記録される-Application-Error-の内容について" class="headerlink" title="1. イベント ログに記録される Application Error の内容について"></a>1. イベント ログに記録される Application Error の内容について</h2><p>アプリケーションの実行中に何らかのエラーにより異常終了した場合、以下のようにイベント ログに ID 1000 のログが記録されることがあります。</p>
+<p><img src="applicationerror1000.png"></p>
+<blockquote>
+<p>障害が発生しているアプリケーション名: ConsoleApplication7.exe、バージョン: 0.0.0.0、タイム スタンプ: 0x5f9f901d<br>障害が発生しているモジュール名: MSVCR120.dll、バージョン: 12.0.21005.1、タイム スタンプ: 0x524f83ff<br>例外コード: 0xc0000409<br>障害オフセット: 0x000000000006dd27<br>障害が発生しているプロセス ID: 0x5f8<br>障害が発生しているアプリケーションの開始時刻: 0x01d6b0d3e99e5ff4<br>障害が発生しているアプリケーション パス: C:\Users\kemats\Desktop\ConsoleApplication7.exe<br>障害が発生しているモジュール パス: C:\Windows\SYSTEM32\MSVCR120.dll</p>
+</blockquote>
+<p>このログが記録されている場合、”障害が発生しているアプリケーション名” に記載されているアプリケーションで何らかのエラーが発生しており、ほとんどの場合アプリケーションは異常終了しています。そのため、原因を調査し、原因に応じた適切な対処が必要になります。しかし残念ながら、イベント ログに記録されている内容のみからアプリケーション エラーの原因を特定することは一般的には難しく、多くの場合はさらに詳細な情報が必要となります。</p>
+<p>このとき、”障害が発生しているモジュール名” に記載されているモジュールは、必ずしもアプリケーション エラーの直接の原因であるとは限らないことに注意してください。例えば上記の例では、モジュール名に MSVCR120.dll が記録されているためこの DLL の不具合によりアプリケーション エラーが発生したと捉えられがちですが、アプリケーションから DLL に渡された値に問題があって DLL からエラーを通知した場合も、イベント ログの “障害が発生しているモジュール名” には通知を行った DLL、このケースでは MSVCR120.dll が記録されます。問題がある箇所を想定する際には、記載されているモジュールだけに限定しないことが重要です。後の項でもいくつか例をご案内しますが、RaiseException 関数が呼ばれたことによりその関数を公開する kernelbase.dll がモジュール名となるケースや、ヒープの破損が検出された場合にヒープの機能を実装する ntdll.dll がモジュール名となるケースなどは、特に多くのお問い合わせをいただきます。このような場合に “障害が発生しているモジュール名” だけを根拠に kernelbase.dll や ntdll.dll の不具合と仮定して調査を進めると、ほとんどの場合、問題の原因にはたどり着けません。</p>
+<p>“例外コード” は、アプリケーション エラーの発生の原因となった例外の種類を示しています。ただし、同じ例外コードがアプリケーションやモジュールなどによって異なる意味を持つ可能性がありますので注意してください。例えば、例外コード 0xc0000409 は STATUS_STACK_BUFFER_OVERRUN のエラー コードで、システムやランタイムがスタック領域におけるバッファー オーバーランの検出を示すことが <a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-erref/596a1078-e883-4972-9bbc-49e60bebca55">NTSTATUS に関するドキュメント</a> に記載されています。しかしながら、MSVCR120.dll ではランタイム関数に不正なパラメーターが渡された場合など他の原因でも例外 0xc0000409 が記録されることがあるため、上記のアプリケーション エラーのログから原因をバッファー オーバーランと断定することはできません。</p>
+<p>“例外オフセット” は、”障害が発生しているモジュール名” に記載されているモジュール内で、例外を発生させた命令が配置されているアドレスです。この値のみでは残念ながら、どのような命令が実行されたのか、どの関数やクラス内の処理なのか、といった情報を得ることはできません。この値は、実際に実行していたモジュールと、そのモジュールがビルドされたときに同時に生成されたシンボル ファイル (*.pdb や *.dbg) が揃うことによって、実行された命令や関数などを特定することが可能になります。</p>
+<h2 id="2-Application-Error-が記録されている場合に初動の対応で必要となる情報"><a href="#2-Application-Error-が記録されている場合に初動の対応で必要となる情報" class="headerlink" title="2. Application Error が記録されている場合に初動の対応で必要となる情報"></a>2. Application Error が記録されている場合に初動の対応で必要となる情報</h2><p>前述のように Application Error のログのみからは原因の特定が難しいことがほとんどですが、エラーの再現手順や条件が不明で頻度も少なく、事後に残されているログから何らかの手がかりを得ることが求められる場合や、再発時に調査を進めるための方法の検討が必要となる場合も多くあります。すべてのアプリケーションやエラーを網羅できるものではありませんが、一般的に以下のような情報があれば、Application Error の内容に対する原因の推測や調査方針の検討といった初動の対応を進めることが可能です。</p>
+<ol>
+<li><p><b>エラーの発生日時と行った操作</b><br>エラーの発生日時は、ログなどから調査の範囲を特定する上で重要となります。また、エラーの発生に至った操作や手順などが分かる場合も、原因の推測や調査方針の検討を行う上で重要です。</p>
+</li>
+<li><p><b>イベント ログ (Application, システム)</b><br>以下のコマンドで出力が可能です。</p>
+<blockquote>
+<p>wevtutil epl Application %userprofile%\desktop\Application.evtx<br>wevtutil epl System %userprofile%\desktop\System.evtx</p>
+</blockquote>
+<p>後の項でいくつか例を紹介しますが、イベント ログに記録されている Application Error 以外のエラーや警告、あるいはエラーの発生頻度なども、調査の重要な手がかりとなる可能性があります。テキスト形式やスクリーンショットで該当の Application Error のみを抜粋した場合はより少ない手がかりから調査を進めることとなるため、調査が難しくなります。</p>
+</li>
+<li><p><b>イベント ログで “障害が発生しているモジュール パス” に配置されているモジュールのコピー</b><br>障害オフセットから、エラーが発生した実行命令や関数を確認するために必要です。弊社製品以外のアプリケーションやモジュールの場合は、モジュールのビルド時に同時に生成されたシンボル ファイル (*.pdb や *.dbg) も必要となります。モジュール名とファイル バージョンが同一であっても内容が異なるモジュールが存在する可能性がありますので、弊社製品のモジュールであってもイベント ログに記録されているパスから取得することが確実です。</p>
+</li>
+<li><p><b>C:\programdata\Microsoft\Windows\WER フォルダー一式</b><br>このフォルダーには、Windows Error Reporting の機能によってミニ ダンプが出力されます。ミニ ダンプには最小限の情報しか含まれていないため調査のために得られる情報は限定的ですが、事後に取得できるログなどの中では最も多くの情報が含まれています。<br>エラーの発生から時間が経過していない場合は、エラー発生時のミニ ダンプが残されている可能性があります。Application のイベント ログに記録されている Windows Error Reporting のソースのレコードからパスが特定できる場合がありますが、間違いがないようフォルダーごと取得することをお勧めします。</p>
+</li>
+<li><p><b>アプリケーションが独自に出力しているログ</b><br>アプリケーションが独自に出力しているログも、イベント ログの内容やミニ ダンプと照らし合わせることで重要な手がかりとなる可能性があります。アプリケーションやモジュールが弊社の製品ではない場合も、処理の経過や関数の戻り値などが調査のヒントとなる場合があります。</p>
+</li>
+</ol>
+<h2 id="3-再発時の情報採取に向けての設定-Windows-Error-Reporting"><a href="#3-再発時の情報採取に向けての設定-Windows-Error-Reporting" class="headerlink" title="3. 再発時の情報採取に向けての設定 (Windows Error Reporting)"></a>3. 再発時の情報採取に向けての設定 (Windows Error Reporting)</h2><p>Windows Vista 以降では、<a target="_blank" rel="noopener" href="https://docs.microsoft.com/ja-jp/windows/win32/wer/windows-error-reporting">Windows Error Reporting</a> の機能を利用して、Application Error のログが記録される多くの状況においてアプリケーションのクラッシュ ダンプを出力することが可能です。クラッシュ ダンプはアプリケーションが異常終了した時点におけるプロセスの状態のスナップショットで、Visual Studio や WinDbg などのツールを利用して詳細な状況を調査することが出来ます。Application Error のログが記録されている場合の多くはイベント ログの情報のみから原因を特定することができないため、調査を進めるための次のステップとして Windows Error Reporting の設定によるクラッシュ ダンプの取得を行う流れとなることが多いです。</p>
+<p>Windows Error Reporting でクラッシュ ダンプを出力するには、以下のレジストリ設定の追加が必要です。すべてのアプリケーションを対象とする設定と、アプリケーション毎の設定が用意されています。さらに詳細な情報が必要な場合は<a target="_blank" rel="noopener" href="https://docs.microsoft.com/ja-jp/windows/win32/wer/collecting-user-mode-dumps">ドキュメント</a>をご確認ください。レジストリの設定後、アプリケーションや Windows Error Reporting サービス、システムなどの再起動は不要です。</p>
+<h4 id="■-すべてのアプリケーションを対象とする場合"><a href="#■-すべてのアプリケーションを対象とする場合" class="headerlink" title="■ すべてのアプリケーションを対象とする場合"></a>■ すべてのアプリケーションを対象とする場合</h4><p>キー名: HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\Windows Error Reporting\LocalDumps</p>
+<table>
+<thead>
+<tr>
+<th>値名</th>
+<th>種類</th>
+<th>設定例</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>DumpType</td>
+<td>REG_DWORD</td>
+<td>2</td>
+<td>出力するダンプの種類。2 はフル ダンプを示します。</td>
+</tr>
+<tr>
+<td>DumpFolder</td>
+<td>REG_EXPAND_SZ</td>
+<td>C:\Logs</td>
+<td>ダンプの出力先フォルダーを指定します。</td>
+</tr>
+<tr>
+<td>DumpCount</td>
+<td>REG_DWORD</td>
+<td>10</td>
+<td>ダンプの出力数を指定します。<br>指定した値を超える場合は古いファイルが上書きされます。</td>
+</tr>
+</tbody></table>
+<p><img src="wer1.png"></p>
+<blockquote>
+<p>Windows Registry Editor Version 5.00</p>
+<p>[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\Windows Error Reporting\LocalDumps]<br>“DumpType”=dword:00000002<br>“DumpFolder”=hex(2):43,00,3a,00,5c,00,4c,00,6f,00,67,00,73,00,00,00<br>“DumpCount”=dword:0000000a</p>
+</blockquote>
+<h4 id="■-特定のアプリケーションを対象とする場合-例-MyApplication-exe"><a href="#■-特定のアプリケーションを対象とする場合-例-MyApplication-exe" class="headerlink" title="■ 特定のアプリケーションを対象とする場合 (例: MyApplication.exe)"></a>■ 特定のアプリケーションを対象とする場合 (例: MyApplication.exe)</h4><p>キー名: HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\Windows Error Reporting\LocalDumps\MyApplication.exe</p>
+<p>※ レジストリ値の設定は全てのアプリケーションを対象とする場合と同様のため割愛します。</p>
+<p><img src="wer2.png"></p>
+<blockquote>
+<p>Windows Registry Editor Version 5.00</p>
+<p>[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\Windows Error Reporting\LocalDumps\MyApplication.exe]<br>“DumpFolder”=hex(2):43,00,3a,00,5c,00,4c,00,6f,00,67,00,73,00,00,00<br>“DumpCount”=dword:0000000a<br>“DumpType”=dword:00000002</p>
+</blockquote>
+<h4 id="■-すべてのアプリケーションと特定のアプリケーションのどちらを利用するべきか"><a href="#■-すべてのアプリケーションと特定のアプリケーションのどちらを利用するべきか" class="headerlink" title="■ すべてのアプリケーションと特定のアプリケーションのどちらを利用するべきか"></a>■ すべてのアプリケーションと特定のアプリケーションのどちらを利用するべきか</h4><p>すべてのアプリケーションを対象とする場合、発生している問題とは関係がないアプリケーションについてもダンプ出力の対象となり、ディスク領域の枯渇や上限数の超過によりダンプが上書きされる等の問題を引き起こす可能性があります。Application Error が他にも多数記録されている場合や、調査が必要なアプリケーション名が特定できている場合は、特定のアプリケーションのみを対象とすることをお勧めします。</p>
+<p>また、せっかく事象が再発したにも関わらず情報が採取できなかったといったリスクは可能な限り軽減する必要があります。どちらの設定を行った場合も、意図的に Application Error を発生させるアプリケーションを作成するなどの方法により正しくクラッシュ ダンプが出力されるかテストすることを強くお勧めします。</p>
+<h4 id="■-Windows-Error-Reporting-による情報採取が与える影響とクラッシュ-ダンプのサイズ"><a href="#■-Windows-Error-Reporting-による情報採取が与える影響とクラッシュ-ダンプのサイズ" class="headerlink" title="■ Windows Error Reporting による情報採取が与える影響とクラッシュ ダンプのサイズ"></a>■ Windows Error Reporting による情報採取が与える影響とクラッシュ ダンプのサイズ</h4><p>Windows Error Reporting は、OS がアプリケーションで発生した例外の通知を受けて情報採取を行う動作となっており、アプリケーションの平常時には動作に影響を与えません。ただし、情報採取が完了するまではアプリケーションのプロセスが起動したままとなる点に注意が必要な場合があります。例えばアプリケーションが多重起動防止の仕組みを実装している場合、情報採取が完了するまでユーザーがアプリケーションを起動できなくなる可能性があります。通常情報採取に必要な時間は数秒から数十秒程度ですが、数十 GB の仮想メモリを使用するような大規模なアプリケーションでは数分から十数分といった時間を要する場合もありますので注意してください。</p>
+<p>クラッシュ ダンプのサイズは、アプリケーションが利用する仮想メモリのサイズとおおよそ一致します。多くの場合数百 MB から数 GB 程度ですが、こちらも前述の例のような大規模なアプリケーションや、メモリ リークにより意図せず多くの仮想メモリが使用されているようなケースで非常に大きなサイズとなる場合があります。ログ出力先フォルダーをシステム ドライブに指定している場合は、ファイルが出力されないだけでなくディスク容量の枯渇によりシステムの動作に影響を与える可能性があるため、十分な空き容量があることを事前に確認し、必要に応じて Windows Error Reporting によるダンプ出力数の設定を行ってください。</p>
+<h1 id="4-Application-Error-が発生する例"><a href="#4-Application-Error-が発生する例" class="headerlink" title="4. Application Error が発生する例"></a>4. Application Error が発生する例</h1><p>イベント ログに記録される Application Error については、私たちのサポート チームへよくいただくお問い合わせの一つです。障害が発生するモジュールとして弊社製品の名称が記録されることから、記載されているモジュールについての不具合調査、および修正のご要望という形でお問い合わせいただくことも多くあります。</p>
+<p>お問い合わせの中で見かける例外コードは多様ですが、いくつかの代表的な例外コードについて概要と発生するソースコードの具体例を紹介します。調査される際やお問い合わせをいただく際の参考にしていただけると幸いです。各エラーについては、今後当ブログでも調査手法などをさらに掘り下げて紹介していく予定です。</p>
+<ul>
+<li><a href="#%E4%BE%8B%E5%A4%96%E3%82%B3%E3%83%BC%E3%83%89-0xc0000005">例外コード 0xc0000005</a></li>
+<li><a href="#%E4%BE%8B%E5%A4%96%E3%82%B3%E3%83%BC%E3%83%89-0xc0000005-%E3%83%A2%E3%82%B8%E3%83%A5%E3%83%BC%E3%83%AB%E5%90%8D%E3%81%8C-unknown-%E3%81%AB%E3%81%AA%E3%82%8B%E5%A0%B4%E5%90%88">例外コード 0xc0000005 (モジュール名が unknown になる場合)</a></li>
+<li><a href="#%E4%BE%8B%E5%A4%96%E3%82%B3%E3%83%BC%E3%83%89-0xc0000005-mscorwks-dll-%E3%81%BE%E3%81%9F%E3%81%AF-clr-dll">例外コード 0xc0000005 (mscorwks.dll または clr.dll)</a></li>
+<li><a href="#%E4%BE%8B%E5%A4%96%E3%82%B3%E3%83%BC%E3%83%89-0xc0000374">例外コード 0xc0000374</a></li>
+<li><a href="#%E4%BE%8B%E5%A4%96%E3%82%B3%E3%83%BC%E3%83%89-0xc0000409">例外コード 0xc0000409</a></li>
+<li><a href="#%E4%BE%8B%E5%A4%96%E3%82%B3%E3%83%BC%E3%83%89-0xe0434352">例外コード 0xe0434352</a></li>
+</ul>
+<h2 id="例外コード-0xc0000005"><a href="#例外コード-0xc0000005" class="headerlink" title="例外コード 0xc0000005"></a>例外コード 0xc0000005</h2><p>この例外コードは STATUS_ACCESS_VIOLATION 例外の値で、アクセスできないメモリやリソースへの読み取りや書き込み、実行が OS やランタイムによって検出された場合に記録されます。以下の C++ コードでは、ヒープから割り当てたメモリの解放後に書き込みが行われることでヒープ破損が生じ、アプリケーション終了に伴うヒープの解放時に破損によって不正となったヒープのデータ構造へのアクセスが発生して 0xc0000005 が記録されます。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">foo</span><span class="params">(<span class="keyword">int</span> *ptr)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// do something.</span></span><br><span class="line">    <span class="keyword">delete</span> ptr;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> *ptr = <span class="keyword">new</span> <span class="keyword">int</span>;</span><br><span class="line">    foo(ptr);</span><br><span class="line">    *ptr = <span class="number">10</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>イベント ログには以下のような Application Error が記録されます。</p>
+<blockquote>
+<p>障害が発生しているアプリケーション名: ConsoleApplication27.exe、バージョン: 0.0.0.0、タイム スタンプ: 0x5fa18ea3<br>障害が発生しているモジュール名: ntdll.dll、バージョン: 10.0.19041.546、タイム スタンプ: 0xd49544eb<br>例外コード: 0xc0000005<br>障害オフセット: 0x00048a78<br>障害が発生しているプロセス ID: 0x4ae8<br>障害が発生しているアプリケーションの開始時刻: 0x01d6b20403a2a82b<br>障害が発生しているアプリケーション パス: C:\Users\kemats\source\repos\ConsoleApplication27\Release\ConsoleApplication27.exe<br>障害が発生しているモジュール パス: C:\WINDOWS\SYSTEM32\ntdll.dll</p>
+</blockquote>
+<p>0xc0000005 が記録されている場合はイベント ログやミニ ダンプから調査を進めることが出来ないことが多くありますが、クラッシュ ダンプから例外が発生したメモリ アクセスは突き止めることが可能です。ただし上記のコードのように、実際にエラーが発生したタイミング (アプリケーション終了時) とエラーの原因となったタイミング (foo 関数内のメモリ解放と main 関数でのメモリ書き込み) は大きく離れているケースも多く、このような場合はクラッシュ ダンプからは原因の特定が困難です。この場合、再現手順の確立や別のデバッグ ツールを利用するなど、調査の進め方を検討する必要があります。</p>
+<hr>
+<h2 id="例外コード-0xc0000005-モジュール名が-unknown-になる場合"><a href="#例外コード-0xc0000005-モジュール名が-unknown-になる場合" class="headerlink" title="例外コード 0xc0000005 (モジュール名が unknown になる場合)"></a>例外コード 0xc0000005 (モジュール名が unknown になる場合)</h2><p>STATUS_ACCESS_VIOLATION 例外では、障害が発生しているモジュールが unknown となる場合があります。障害が発生しているモジュールは実行された命令のアドレスに基づいて記録されますが、何らかの理由で不正なアドレスの命令が実行され、そのアドレスにいずれのモジュールもロードされていなかった場合は unknown として記録されます。</p>
+<p>例えば、以下の C++ コードを x86 ビルドし、標準入力に “aaaaaaaaaaaaaaaaaaa” の入力を与えた場合、main 関数のリターン アドレスが 0x61616161 (ASCII コード表現で “aaaa”) となって main 関数を抜けた後で実行されるアドレスが不正となり、このアドレスに何のモジュールもロードされていなかった場合はモジュール名が unknown となります。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> _CRT_SECURE_NO_WARNINGS</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> check_stack(off)</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">char</span> buf[<span class="number">4</span>];</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%s&quot;</span>, buf);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>イベント ログには以下のような Application Error が記録されます。</p>
+<blockquote>
+<p>障害が発生しているアプリケーション名: ConsoleApplication26.exe、バージョン: 0.0.0.0、タイム スタンプ: 0x5fa18c75<br>障害が発生しているモジュール名: unknown、バージョン: 0.0.0.0、タイム スタンプ: 0x00000000<br>例外コード: 0xc0000005<br>障害オフセット: 0x61616161<br>障害が発生しているプロセス ID: 0xa20<br>障害が発生しているアプリケーションの開始時刻: 0x01d6b202e27ce34b<br>障害が発生しているアプリケーション パス: C:\Users\kemats\source\repos\ConsoleApplication26\Release\ConsoleApplication26.exe<br>障害が発生しているモジュール パス: unknown</p>
+</blockquote>
+<hr>
+<h2 id="例外コード-0xc0000005-mscorwks-dll-または-clr-dll"><a href="#例外コード-0xc0000005-mscorwks-dll-または-clr-dll" class="headerlink" title="例外コード 0xc0000005 (mscorwks.dll または clr.dll)"></a>例外コード 0xc0000005 (mscorwks.dll または clr.dll)</h2><p>.NET Framework のランタイム (CLR 2.0 系は mscorwks.dll、CLR 4.0 系は clr.dll) は、ランタイム内部の処理で発生した STATUS_ACCESS_VIOLATION 例外を一旦捕捉し、処理が継続できないと判断された場合はイベント ソース “.NET Runtime” としてイベント ログを出力した上でアプリケーションを終了する場合があります。例えば以下のC# のコードは、マネージ ヒープのデータ構造が破損した場合にガベージ コレクションの処理でエラーが発生し、”.NET Runtime” のエラーでアプリケーションが終了する一例です。(このように意図的に破損させることは実際のアプリケーションではあり得ませんが、プラットフォーム相互運用や COM 相互運用などネイティブ コードとの連携におけるコーディング ミスなどで発生することが弊社へいただくお問い合わせにおいてもしばしば見られます。)</p>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> System;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">ConsoleApp29</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">class</span> <span class="title">Program</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>(<span class="params"><span class="keyword">string</span>[] args</span>)</span></span><br><span class="line"><span class="function"></span>        &#123;</span><br><span class="line">            <span class="keyword">int</span>[] array = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">10</span>];</span><br><span class="line"></span><br><span class="line">            <span class="keyword">unsafe</span></span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">fixed</span> (Int32* ptr = array)</span><br><span class="line">                &#123;</span><br><span class="line">                    *(ptr - <span class="number">2</span>) = <span class="number">0xFFFF</span>;</span><br><span class="line">                    *(ptr - <span class="number">4</span>) = <span class="number">0xFFFF</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            GC.Collect();</span><br><span class="line">            Console.WriteLine(<span class="string">&quot;OK!&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>この例では、Application Error のイベント ログは以下のようになります。</p>
+<blockquote>
+<p>障害が発生しているアプリケーション名: ConsoleApp29.exe、バージョン: 1.0.0.0、タイム スタンプ: 0x90f707e8<br>障害が発生しているモジュール名: clr.dll、バージョン: 4.8.4250.0、タイム スタンプ: 0x5f2a0630<br>例外コード: 0xc0000005<br>障害オフセット: 0x0010b38e<br>障害が発生しているプロセス ID: 0x37c<br>障害が発生しているアプリケーションの開始時刻: 0x01d6b1fd641ae427<br>障害が発生しているアプリケーション パス: C:\Users\kemats\source\repos\ConsoleApp29\bin\Debug\ConsoleApp29.exe<br>障害が発生しているモジュール パス: C:\Windows\Microsoft.NET\Framework\v4.0.30319\clr.dll</p>
+</blockquote>
+<p>この場合、Application Error とともにソース “.NET Runtime”、イベント ID “1023” で以下のようなイベント ログが記録されます。</p>
+<blockquote>
+<p>アプリケーション:ConsoleApp29.exe<br>フレームワークのバージョン:v4.0.30319<br>説明: .NET ランタイムの内部エラーのため、プロセスが中止されました IP 745FB38E (744F0000)、終了コード 80131506。</p>
+</blockquote>
+<p>.NET ランタイムの内部エラーは、上記のようなアプリケーションのコードに起因して発生するケースだけでなく、.NET ランタイム自身の不具合によっても発生する可能性もあります。このエラーは調査が非常に難しく、調査を進めるためには再現手順を確立することが重要となります。</p>
+<hr>
+<h2 id="例外コード-0xc0000374"><a href="#例外コード-0xc0000374" class="headerlink" title="例外コード 0xc0000374"></a>例外コード 0xc0000374</h2><p>この例外コードは STATUS_HEAP_CORRUPTION 例外の値で、OS やランタイムがヒープ破損を検出した場合に記録されます。malloc 関数や new 演算子で確保したヒープ領域のメモリにおけるバッファー オーバーランや 2 重解放、解放後のメモリ使用などが典型的な原因として挙げられます。以下は例外コード 0xc0000374 が発生する C++ コードの例です。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">bar</span><span class="params">(<span class="keyword">int</span> *ptr)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// do something.</span></span><br><span class="line">    <span class="keyword">delete</span> ptr;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> *ptr = <span class="keyword">new</span> <span class="keyword">int</span>;</span><br><span class="line">    bar(ptr);</span><br><span class="line">    <span class="keyword">delete</span> ptr;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>この場合、障害が発生しているモジュールは以下のように ntdll.dll となります。</p>
+<blockquote>
+<p>障害が発生しているアプリケーション名: ConsoleApplication23.exe、バージョン: 0.0.0.0、タイム スタンプ: 0x5fa17177<br>障害が発生しているモジュール名: ntdll.dll、バージョン: 10.0.19041.546、タイム スタンプ: 0xd49544eb<br>例外コード: 0xc0000374<br>障害オフセット: 0x000e6763<br>障害が発生しているプロセス ID: 0x2fa0<br>障害が発生しているアプリケーションの開始時刻: 0x01d6b1f2a0c86f53<br>障害が発生しているアプリケーション パス: C:\Users\kemats\source\repos\ConsoleApplication23\Release\ConsoleApplication23.exe<br>障害が発生しているモジュール パス: C:\WINDOWS\SYSTEM32\ntdll.dll</p>
+</blockquote>
+<p>あくまでもヒープの処理を実装している ntdll.dll がヒープ破損を検知したためモジュール名として記録されている状況で、このケースでは ntdll.dll の不具合ではなくアプリケーションのコードに問題があります。ただし、ヒープの問題はアプリケーションで非常に一般的な問題ですので、ヒープ破損が記録されている場合は調査範囲を特定のモジュールやアプリケーションに限定せず、<a target="_blank" rel="noopener" href="https://docs.microsoft.com/ja-jp/windows-hardware/drivers/debugger/example-12---using-page-heap-verification-to-find-a-bug">ページ ヒープ</a>を有効にするなどヒープの問題に適した方法で調査を進めることが重要です。</p>
+<p>なお、ヒープ破損が発生している場合は 0xc0000374 以外に 0xc0000005 のエラーが発生する可能性がありますので注意してください。OS やランタイムがヒープの破損を検知した場合は 0xc0000374 のエラーが、ヒープの破損を検知できず不正な状態のヒープのデータ構造へのアクセスが発生した場合は 0xc0000005 のエラーが発生します。</p>
+<hr>
+<h2 id="例外コード-0xc0000409"><a href="#例外コード-0xc0000409" class="headerlink" title="例外コード 0xc0000409"></a>例外コード 0xc0000409</h2><p>この例外コードは STATUS_STACK_BUFFER_OVERRUN のエラー コードで、一般的にはシステムやランタイムがスタック領域におけるバッファー オーバーランの検出を示しています。Visual C++ アプリケーションでは、バッファー オーバーランに限らず実行が継続できないエラーをランタイムが検出した場合に様々な状況でこのエラー コードが記録される可能性があります。以下は例外コード 0xc0000409 が発生する C++ コードの例です。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    strcpy_s(<span class="literal">NULL</span>, <span class="number">0</span>, <span class="literal">NULL</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>以下は Visual Studio 2015 以降でビルドした場合の例ですが、Visual Studio のバージョンやランタイムのリンク方法によってモジュール名が異なる可能性があります。</p>
+<blockquote>
+<p>障害が発生しているアプリケーション名: ConsoleApplication22.exe、バージョン: 0.0.0.0、タイム スタンプ: 0x5fa16ece<br>障害が発生しているモジュール名: ucrtbase.dll、バージョン: 10.0.19041.546、タイム スタンプ: 0x73123758<br>例外コード: 0xc0000409<br>障害オフセット: 0x0009d112<br>障害が発生しているプロセス ID: 0x424c<br>障害が発生しているアプリケーションの開始時刻: 0x01d6b1f11424c381<br>障害が発生しているアプリケーション パス: C:\Users\kemats\source\repos\ConsoleApplication22\Release\ConsoleApplication22.exe<br>障害が発生しているモジュール パス: C:\WINDOWS\System32\ucrtbase.dll</p>
+</blockquote>
+<p>なお、例外コードが 0xc0000409 となることは Visual C++ の想定された動作で、ランタイムが実行を継続できないエラーを検知した場合は <a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/cpp/intrinsics/fastfail">__failfast 関数</a>が呼び出されることに起因しています。__fastfail 関数にはさらにエラーの種類を示すサブ コード 5 (FAST_FAIL_INVALID_ARG) が指定されますが、この値は Application Error のログには出力されず、後続の Windows Error Reporting のイベント ログで以下のように P9 の値として出力されます。</p>
+<blockquote>
+<p>問題の署名:<br>P1: ConsoleApplication22.exe<br>P2: 0.0.0.0<br>P3: 5fa16ece<br>P4: ucrtbase.dll<br>P5: 10.0.19041.546<br>P6: 73123758<br>P7: 0009d112<br>P8: c0000409<br>P9: 00000005<br>P10: </p>
+</blockquote>
+<p>サブ コードには以下をはじめとする様々な種類があり、Windows SDK の winnt.h で定義されています。</p>
+<blockquote>
+<p>#define FAST_FAIL_LEGACY_GS_VIOLATION               0<br>#define FAST_FAIL_VTGUARD_CHECK_FAILURE             1<br>#define FAST_FAIL_STACK_COOKIE_CHECK_FAILURE        2<br>#define FAST_FAIL_CORRUPT_LIST_ENTRY                3<br>#define FAST_FAIL_INCORRECT_STACK                   4<br>#define FAST_FAIL_INVALID_ARG                       5<br>#define FAST_FAIL_GS_COOKIE_INIT                    6<br>#define FAST_FAIL_FATAL_APP_EXIT                    7<br>…</p>
+</blockquote>
+<p>winnt.h は、Windows 10 SDK の場合 C:\Program Files (x86)\Windows Kits\10\Include\10.x.x.x\um\winnt.h にインストールされています。</p>
+<hr>
+<h2 id="例外コード-0xe0434352"><a href="#例外コード-0xe0434352" class="headerlink" title="例外コード 0xe0434352"></a>例外コード 0xe0434352</h2><p>この例外コードは EXCEPTION_COMPLUS のエラー コードで、.NET Framework / .NET Core アプリケーション内で発生した例外やエラーはこの例外コードにマッピングされ、kernelbase.dll の RaiseException 関数が呼び出されることによって OS へ通知されます。以下は例外コード 0xe0434352 が発生する C# コードの例です。</p>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> System;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">ConsoleApp27</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">class</span> <span class="title">Program</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>(<span class="params"><span class="keyword">string</span>[] args</span>)</span></span><br><span class="line"><span class="function"></span>        &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> Exception();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>障害が発生しているアプリケーション名: ConsoleApp27.exe、バージョン: 1.0.0.0、タイム スタンプ: 0xd6688933<br>障害が発生しているモジュール名: KERNELBASE.dll、バージョン: 10.0.19041.572、タイム スタンプ: 0x979ddb1d<br>例外コード: 0xe0434352<br>障害オフセット: 0x00129ab2<br>障害が発生しているプロセス ID: 0x2064<br>障害が発生しているアプリケーションの開始時刻: 0x01d6b1f36899e46b<br>障害が発生しているアプリケーション パス: C:\Users\kemats\source\repos\ConsoleApp27\bin\Debug\ConsoleApp27.exe<br>障害が発生しているモジュール パス: C:\WINDOWS\System32\KERNELBASE.dll</p>
+</blockquote>
+<p>この場合、直前にソース “.NET Runtime”、イベント ID “1026” で以下のようなイベント ログも出力されます。こちらの例外情報から手がかりが得られる可能性があるため、Application Error に限定せず他のイベント ログも取得して確認することが重要となります。</p>
+<blockquote>
+<p>アプリケーション:ConsoleApp27.exe<br>フレームワークのバージョン:v4.0.30319<br>説明: ハンドルされない例外のため、プロセスが中止されました。<br>例外情報:System.Exception<br>  場所 ConsoleApp27.Program.Main(System.String[])</p>
+</blockquote>
+
+      
+      
+        <div class="article-disclaimer">
+        
+          <p><hr>本ブログの内容は弊社の公式見解として保証されるものではなく、開発・運用時の参考情報としてご活用いただくことを目的としています。もし公式な見解が必要な場合は、弊社ドキュメント (<a target="_blank" rel="noopener" href="https://docs.microsoft.com/">https://docs.microsoft.com</a> や <a target="_blank" rel="noopener" href="https://support.microsoft.com">https://support.microsoft.com</a>) をご参照いただくか、もしくは私共サポートまでお問い合わせください。</p>
+        
+        </div>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Debug/" rel="tag">Debug</a></li></ul>
+
+      <!-- 
+      
+        <a href="https://github.com/jpdscore/blog/edit/master/articles/debugging/application-error-eventlog.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
+        
+      -->
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="../oom-on-x86apps/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前の記事</strong>
+      <div class="article-nav-title">32 bit アプリケーションで発生するメモリ不足に関連するエラーについて</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最近の投稿</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="">イベント ID 1000 で記録される Application Error のイベント ログについて</a>
+          </li>
+        
+          <li>
+            <a href="../oom-on-x86apps/">32 bit アプリケーションで発生するメモリ不足に関連するエラーについて</a>
+          </li>
+        
+          <li>
+            <a href="../using-WER/">WER を使って Dump を採取する</a>
+          </li>
+        
+          <li>
+            <a href="../collect-dump/">Dump ファイルの取得</a>
+          </li>
+        
+          <li>
+            <a href="../open-dump-by-windbg/">WinDbg で Dump ファイルを開く</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">タグ</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="../../tags/ALM/">ALM</a><span class="tag-list-count">3</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-Pipelines">Azure Pipelines</a><span class="tag-list-count">3</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-Repos">Azure Repos</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/GitHub">GitHub</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Windows-SDK/">Windows SDK</a><span class="tag-list-count">4</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Debug">Debug</a><span class="tag-list-count">4</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Debug/">Debug</a><span class="tag-list-count">6</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Memory">Memory</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Windows-SDK">Windows SDK</a><span class="tag-list-count">4</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Deployment/">Deployment</a><span class="tag-list-count">1</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Deployment/ClickOnce">ClickOnce</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/NET/">.NET</a><span class="tag-list-count">1</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/NET-Framework">.NET Framework</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E5%85%A8%E8%88%AC/">全般</a><span class="tag-list-count">1</span><ul></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">アーカイブ</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/12/">2020 / 12</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/11/">2020 / 11</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/10/">2020 / 10</a></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/09/">2020 / 09</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">タグクラウド</h3>
+    <div class="widget tagcloud">
+      <a href="../../tags/NET/" style="font-size: 10px;">.NET</a> <a href="../../tags/NET-Framework/" style="font-size: 10px;">.NET Framework</a> <a href="../../tags/ALM/" style="font-size: 13.33px;">ALM</a> <a href="../../tags/Azure-Pipelines/" style="font-size: 13.33px;">Azure Pipelines</a> <a href="../../tags/Azure-Repos/" style="font-size: 10px;">Azure Repos</a> <a href="../../tags/ClickOnce/" style="font-size: 10px;">ClickOnce</a> <a href="../../tags/Debug/" style="font-size: 20px;">Debug</a> <a href="../../tags/Deployment/" style="font-size: 10px;">Deployment</a> <a href="../../tags/GitHub/" style="font-size: 10px;">GitHub</a> <a href="../../tags/Memory/" style="font-size: 10px;">Memory</a> <a href="../../tags/Windows-SDK/" style="font-size: 16.67px;">Windows SDK</a> <a href="../../tags/%E5%85%A8%E8%88%AC/" style="font-size: 10px;">全般</a>
+    </div>
+  </div>
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">旧ブログ/フォーラム</h3>
+  <div class="widget">
+    <ul>
+      
+        <li>
+          <a href="../../https:/social.msdn.microsoft.com/Forums/ja-jp/home?forum=visualstudiosupportteamja">Visual Studio サポートチーム フォーラム</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/social.msdn.microsoft.com/Forums/ja-jp/home?forum=windowssdksupportteamja&filter=alltypes&sort=lastpostdesc">Windows SDK サポートチーム フォーラム</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/docs.microsoft.com/en-us/archive/blogs/jpvsblog/">Visual Studio サポート チーム blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/docs.microsoft.com/en-us/archive/blogs/japan_platform_sdkwindows_sdk_support_team_blog/">JAPAN Platform SDK（Windows SDK） Support Team Blog</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 Developer Support Core Japan<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="../../index.html" class="mobile-nav-link">Home</a>
+  
+    <a href="../../archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+<script src="../../js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

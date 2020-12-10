@@ -3,14 +3,14 @@
 
 
     <url>
-        <loc>https://jpdscore.github.io/blog/tags/Memory/</loc>
-        <lastmod>2020-12-08T15:00:00.000Z</lastmod>
+        <loc>https://jpdscore.github.io/blog/tags/Debug/</loc>
+        <lastmod>2020-12-09T15:00:00.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
-        <loc>https://jpdscore.github.io/blog/tags/Debug/</loc>
+        <loc>https://jpdscore.github.io/blog/tags/Memory/</loc>
         <lastmod>2020-12-08T15:00:00.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
