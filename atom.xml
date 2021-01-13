@@ -41,6 +41,35 @@
   </entry>
   
   <entry>
+    <title>浮動小数点を利用する際に知っておきたいこと</title>
+    <link href="https://jpdscore.github.io/blog/vs/what-developers-should-know-about-floating-point/"/>
+    <id>https://jpdscore.github.io/blog/vs/what-developers-should-know-about-floating-point/</id>
+    <published>2021-01-12T15:00:00.000Z</published>
+    <updated>2021-01-12T15:00:00.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;(※ 2014 年 10 月 28 日に Microsoft Japan Visual Studio Support Team Blog に公開した情報のアーカイブです。)&lt;br&gt;(※</summary>
+        
+      
+    
+    
+    
+    
+    <category term="Visual Studio" scheme="https://jpdscore.github.io/blog/tags/Visual-Studio/"/>
+    
+    <category term="C++" scheme="https://jpdscore.github.io/blog/tags/C/"/>
+    
+    <category term="C#" scheme="https://jpdscore.github.io/blog/tags/C/"/>
+    
+    <category term="VB.NET" scheme="https://jpdscore.github.io/blog/tags/VB-NET/"/>
+    
+  </entry>
+  
+  <entry>
     <title>[メモリリーク #1] [HOWTO] UMDH を用いたメモリリーク調査技法</title>
     <link href="https://jpdscore.github.io/blog/debugging/UMDH/"/>
     <id>https://jpdscore.github.io/blog/debugging/UMDH/</id>
