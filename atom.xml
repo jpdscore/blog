@@ -6,7 +6,7 @@
   <link href="https://jpdscore.github.io/blog/atom.xml" rel="self"/>
   
   <link href="https://jpdscore.github.io/blog/"/>
-  <updated>2021-01-12T15:00:00.000Z</updated>
+  <updated>2021-01-14T15:00:00.000Z</updated>
   <id>https://jpdscore.github.io/blog/</id>
   
   <author>
@@ -17,19 +17,18 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>Visual Studio 2019 version 16.0 サポート終了のご案内</title>
-    <link href="https://jpdscore.github.io/blog/vs/vs2019-16-0-eos/"/>
-    <id>https://jpdscore.github.io/blog/vs/vs2019-16-0-eos/</id>
-    <published>2021-01-12T15:00:00.000Z</published>
-    <updated>2021-01-12T15:00:00.000Z</updated>
+    <title>Visual Studio 2019 version 16.3.x でビルドした C/C++ アプリが例外 0xC000001d で異常終了する</title>
+    <link href="https://jpdscore.github.io/blog/vs/vs2019-16-3-incorrectly-detect-avx512/"/>
+    <id>https://jpdscore.github.io/blog/vs/vs2019-16-3-incorrectly-detect-avx512/</id>
+    <published>2021-01-14T15:00:00.000Z</published>
+    <updated>2021-01-14T15:00:00.000Z</updated>
     
     
       
       
         
         
-    <summary type="html">&lt;p&gt;こんにちは、Japan Developer Support Core チームの松井です。&lt;br&gt;今回は Visual Studio 2019 version 16.0 のサポート終了についてご案内します。&lt;/p&gt;
-&lt;h1</summary>
+    <summary type="html">&lt;p&gt;こんにちは、Japan Developer Support Core チームの松井です。&lt;br&gt;今回は Visual Studio 2019 version 16.3.x でビルドした C/C++ アプリケーションが特定の環境で 0xC000001d</summary>
         
       
     
@@ -37,6 +36,8 @@
     
     
     <category term="Visual Studio" scheme="https://jpdscore.github.io/blog/tags/Visual-Studio/"/>
+    
+    <category term="C++" scheme="https://jpdscore.github.io/blog/tags/C/"/>
     
   </entry>
   
@@ -66,6 +67,30 @@
     <category term="C#" scheme="https://jpdscore.github.io/blog/tags/C/"/>
     
     <category term="VB.NET" scheme="https://jpdscore.github.io/blog/tags/VB-NET/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Visual Studio 2019 version 16.0 サポート終了のご案内</title>
+    <link href="https://jpdscore.github.io/blog/vs/vs2019-16-0-eos/"/>
+    <id>https://jpdscore.github.io/blog/vs/vs2019-16-0-eos/</id>
+    <published>2021-01-12T15:00:00.000Z</published>
+    <updated>2021-01-12T15:00:00.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;こんにちは、Japan Developer Support Core チームの松井です。&lt;br&gt;今回は Visual Studio 2019 version 16.0 のサポート終了についてご案内します。&lt;/p&gt;
+&lt;h1</summary>
+        
+      
+    
+    
+    
+    
+    <category term="Visual Studio" scheme="https://jpdscore.github.io/blog/tags/Visual-Studio/"/>
     
   </entry>
   
@@ -328,32 +353,6 @@
   </entry>
   
   <entry>
-    <title>ClickOnce アプリケーションのインストールや更新の後に発生する場合があるアプリケーション起動時のエラーについて</title>
-    <link href="https://jpdscore.github.io/blog/deployment/fail-to-launch-clickonce-apps-after-updated/"/>
-    <id>https://jpdscore.github.io/blog/deployment/fail-to-launch-clickonce-apps-after-updated/</id>
-    <published>2020-09-28T15:00:00.000Z</published>
-    <updated>2020-09-28T15:00:00.000Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;(※ 2018 年 2 月 20 日に Microsoft Japan Visual Studio Support Team Blog に公開した情報のアーカイブです。)&lt;/p&gt;
-&lt;p&gt;こんにちは、Visual Studio サポート</summary>
-        
-      
-    
-    
-    
-    
-    <category term="Deployment" scheme="https://jpdscore.github.io/blog/tags/Deployment/"/>
-    
-    <category term="ClickOnce" scheme="https://jpdscore.github.io/blog/tags/ClickOnce/"/>
-    
-  </entry>
-  
-  <entry>
     <title>.NET Framework の各バージョン同士の関係</title>
     <link href="https://jpdscore.github.io/blog/dotnet/relationship-between-ndp-versions/"/>
     <id>https://jpdscore.github.io/blog/dotnet/relationship-between-ndp-versions/</id>
@@ -376,6 +375,32 @@
     <category term=".NET" scheme="https://jpdscore.github.io/blog/tags/NET/"/>
     
     <category term=".NET Framework" scheme="https://jpdscore.github.io/blog/tags/NET-Framework/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>ClickOnce アプリケーションのインストールや更新の後に発生する場合があるアプリケーション起動時のエラーについて</title>
+    <link href="https://jpdscore.github.io/blog/deployment/fail-to-launch-clickonce-apps-after-updated/"/>
+    <id>https://jpdscore.github.io/blog/deployment/fail-to-launch-clickonce-apps-after-updated/</id>
+    <published>2020-09-28T15:00:00.000Z</published>
+    <updated>2020-09-28T15:00:00.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;(※ 2018 年 2 月 20 日に Microsoft Japan Visual Studio Support Team Blog に公開した情報のアーカイブです。)&lt;/p&gt;
+&lt;p&gt;こんにちは、Visual Studio サポート</summary>
+        
+      
+    
+    
+    
+    
+    <category term="Deployment" scheme="https://jpdscore.github.io/blog/tags/Deployment/"/>
+    
+    <category term="ClickOnce" scheme="https://jpdscore.github.io/blog/tags/ClickOnce/"/>
     
   </entry>
   

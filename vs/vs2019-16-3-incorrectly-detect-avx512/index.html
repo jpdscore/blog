@@ -4,20 +4,20 @@
   <meta charset="utf-8">
   
   
-  <title>WER を使って Dump を採取する | Japan Developer Support Core Team Blog</title>
+  <title>Visual Studio 2019 version 16.3.x でビルドした C/C++ アプリが例外 0xC000001d で異常終了する | Japan Developer Support Core Team Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Windows エラー報告 (Windows Error Reporting) を使って Dump を採取するこんにちは、Japan Developer Support Core チーム 平田 a.k.a ぴろとです。以前は、ミニ四駆に精を出していましたが、最近はメダカの飼育にはまってます。マイクロソフトの中の人には、沼にはまった趣味を持つ人が多いので、話を聞くだけでもいろいろな視点をもたらしてく">
+  <meta name="description" content="こんにちは、Japan Developer Support Core チームの松井です。今回は Visual Studio 2019 version 16.3.x でビルドした C&#x2F;C++ アプリケーションが特定の環境で 0xC000001d により異常終了する事象についてご案内します。 なお、この記事は Developer Community で報告されている問題についてご案内しております。対応">
 <meta property="og:type" content="article">
-<meta property="og:title" content="WER を使って Dump を採取する">
-<meta property="og:url" content="https://jpdscore.github.io/blog/debugging/using-WER/index.html">
+<meta property="og:title" content="Visual Studio 2019 version 16.3.x でビルドした C&#x2F;C++ アプリが例外 0xC000001d で異常終了する">
+<meta property="og:url" content="https://jpdscore.github.io/blog/vs/vs2019-16-3-incorrectly-detect-avx512/index.html">
 <meta property="og:site_name" content="Japan Developer Support Core Team Blog">
-<meta property="og:description" content="Windows エラー報告 (Windows Error Reporting) を使って Dump を採取するこんにちは、Japan Developer Support Core チーム 平田 a.k.a ぴろとです。以前は、ミニ四駆に精を出していましたが、最近はメダカの飼育にはまってます。マイクロソフトの中の人には、沼にはまった趣味を持つ人が多いので、話を聞くだけでもいろいろな視点をもたらしてく">
+<meta property="og:description" content="こんにちは、Japan Developer Support Core チームの松井です。今回は Visual Studio 2019 version 16.3.x でビルドした C&#x2F;C++ アプリケーションが特定の環境で 0xC000001d により異常終了する事象についてご案内します。 なお、この記事は Developer Community で報告されている問題についてご案内しております。対応">
 <meta property="og:locale" content="ja_JP">
-<meta property="article:published_time" content="2020-11-25T01:32:06.000Z">
-<meta property="article:modified_time" content="2020-11-25T01:32:06.000Z">
+<meta property="article:published_time" content="2021-01-14T15:00:00.000Z">
+<meta property="article:modified_time" content="2021-01-14T15:00:00.000Z">
 <meta property="article:author" content="Developer Support Core Japan">
-<meta property="article:tag" content="Windows SDK">
-<meta property="article:tag" content="Debug">
+<meta property="article:tag" content="Visual Studio">
+<meta property="article:tag" content="C++">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternate" href="../../blog/atom.xml" title="Japan Developer Support Core Team Blog" type="application/atom+xml">
@@ -80,7 +80,7 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-debugging/using-WER" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-vs/vs2019-16-3-incorrectly-detect-avx512" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
     
@@ -89,7 +89,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      WER を使って Dump を採取する
+      Visual Studio 2019 version 16.3.x でビルドした C/C++ アプリが例外 0xC000001d で異常終了する
     </h1>
   
 
@@ -97,54 +97,57 @@
       <div class="article-share">
         Last Update: 
         <a href="" class="article-date-single">
-  <time datetime="2020-11-25T01:32:06.000Z" itemprop="datePublished">2020-11-25</time>
+  <time datetime="2021-01-14T15:00:00.000Z" itemprop="datePublished">2021-01-15</time>
 </a>
         
         
-        <a href="https://github.com/jpdscore/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+019314cf-540f-521e-a7a5-f572f6c70825%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5BWER+%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6+Dump+%E3%82%92%E6%8E%A1%E5%8F%96%E3%81%99%E3%82%8B%5D%28https%3A%2F%2Fjpdscore.github.io%2Fblog%2Fdebugging%2Fusing-WER%2F%29" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
+        <a href="https://github.com/jpdscore/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+590e76b9-364e-5f62-95cf-d4379e1eab93%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5BVisual+Studio+2019+version+16.3.x+%E3%81%A7%E3%83%93%E3%83%AB%E3%83%89%E3%81%97%E3%81%9F+C%2FC%2B%2B+%E3%82%A2%E3%83%97%E3%83%AA%E3%81%8C%E4%BE%8B%E5%A4%96+0xC000001d+%E3%81%A7%E7%95%B0%E5%B8%B8%E7%B5%82%E4%BA%86%E3%81%99%E3%82%8B%5D%28https%3A%2F%2Fjpdscore.github.io%2Fblog%2Fvs%2Fvs2019-16-3-incorrectly-detect-avx512%2F%29" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
         
-        <a data-url="https://jpdscore.github.io/blog/debugging/using-WER/" data-id="ckjy3jvlq00072iom0qd932tj" class="article-share-link">共有</a>
+        <a data-url="https://jpdscore.github.io/blog/vs/vs2019-16-3-incorrectly-detect-avx512/" data-id="ckjy3jvmb001e2iom85lgfylb" class="article-share-link">共有</a>
       </div>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="Windows-エラー報告-Windows-Error-Reporting-を使って-Dump-を採取する"><a href="#Windows-エラー報告-Windows-Error-Reporting-を使って-Dump-を採取する" class="headerlink" title="Windows エラー報告 (Windows Error Reporting) を使って Dump を採取する"></a>Windows エラー報告 (Windows Error Reporting) を使って Dump を採取する</h2><p>こんにちは、Japan Developer Support Core チーム 平田 a.k.a ぴろとです。<br>以前は、ミニ四駆に精を出していましたが、最近はメダカの飼育にはまってます。マイクロソフトの中の人には、沼にはまった趣味を持つ人が多いので、話を聞くだけでもいろいろな視点をもたらしてくれるよい同僚がいて、刺激を受けてます。  </p>
-<p>話を戻して、前回は、ProcDump を用いてダンプの採取をおこないました。クラッシュ系のダンプを採取する場合には、ProcDump のようにアタッチをしたままで運用することが難しいパターンもあります。この場合は、Windows が提供している Windows Error Reporting を用いてクラッシュ時に自動でダンプを取得するように設定をすることも検討する価値があります。</p>
-<h3 id="Windows-エラー報告-Windows-Error-Reporting"><a href="#Windows-エラー報告-Windows-Error-Reporting" class="headerlink" title="Windows エラー報告 (Windows Error Reporting)"></a>Windows エラー報告 (Windows Error Reporting)</h3><p>Windows エラー報告 (Windows Error Reporting、以下 WER) は、Windows XP 以前では、Dr.Watson の機能に該当していたものですが、Windows Vista 以降では、WER に置き換えられました。これにより、いつ発生するかわからない例外によるクラッシュ時のダンプをとることを可能にすることができます。基本的には、クラッシュ ダンプになるため、1st Chance 例外の場合はダンプが取れない場合があります。この場合には、恐れ入りますが、ProcDump による採取をご検討いただくのが良いかと思います。</p>
-<h3 id="設定方法"><a href="#設定方法" class="headerlink" title="設定方法"></a>設定方法</h3><p><strong>重要このセクション、方法、またはタスクには、レジストリの編集方法が記載されています。レジストリを誤って変更すると、深刻な問題が発生することがあります。レジストリを変更する際には十分に注意してください。万一に備えて、編集の前にレジストリをバックアップしてください。問題が発生した場合でも、レジストリを復元できます。レジストリのバックアップ方法および復元方法の詳細を参照するには、以下のマイクロソフト サポート技術情報番号をクリックしてください。<br><a target="_blank" rel="noopener" href="https://support.microsoft.com/ja-jp/help/322756/how-to-back-up-and-restore-the-registry-in-windows">322756</a> Windows でレジストリをバックアップおよび復元する方法</strong></p>
-<pre><code>1. レジストリ エディタを起動します。
-2. 左ペインより、以下のキーを展開後、右クリックし、[新規] - [キー] を選択します。
-   HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\Windows Error Reporting
-3. 作成された [新しいキー #1] の名前を以下に変更します。
-   LocalDumps
-4. [LocalDumps] を右クリックし、[新規] - [Dword (32 ビット) 値] を選択します。
-5. 作成された [新しい値 #1] の名前を以下に変更します。
-   DumpType
-6. [DumpType] をダブルクリックし、[値のデータ] を 2 に設定します。
-7. [LocalDumps] を右クリックし、[新規] - [展開可能な文字列] を選択します。
-8. 作成された [新しい値 #1] の名前を以下に変更します。
-   DumpFolder
-9. [DumpFolder] をダブルクリックし、[値のデータ] にダンプの出力先として
-   任意のフォルダ名を設定します。</code></pre>
-<p>実施するのは、以上になります。再現したら、ここで指定されたフォルダーにダンプされるため、出力されるのを待ちます。<br>そのあとには、解析を進めていくこととなります。</p>
+        <p>こんにちは、Japan Developer Support Core チームの松井です。<br>今回は Visual Studio 2019 version 16.3.x でビルドした C/C++ アプリケーションが特定の環境で 0xC000001d により異常終了する事象についてご案内します。</p>
+<p>なお、この記事は Developer Community で報告されている問題についてご案内しております。対応の経緯などの詳細内容については、<a href="#%E5%8F%82%E8%80%83%E6%83%85%E5%A0%B1">参考情報</a>の項に記載しているリンク先のドキュメントをご参照ください。</p>
+<h1 id="現象"><a href="#現象" class="headerlink" title="現象"></a>現象</h1><p>Visual Studio 2019 version 16.3.x でビルドした C/C++ アプリケーションで、下記すべての条件を満たす場合に、例外コード 0xC000001d でアプリケーションが異常終了する場合があります。</p>
+<ul>
+<li><p>ハードウェア<br>AVX-512 命令をサポートする CPU</p>
+</li>
+<li><p>オペレーティング システム<br>Windows 8.1 および Windows Server 2012 R2 以前のバージョン<br>(Windows 10 および Windows Server 2016 以降では発生しません。)</p>
+</li>
+<li><p>アプリケーションの実装<br>アプリケーションで浮動小数点型と整数型の間で型変換を行う処理がある</p>
+</li>
+<li><p>Visual Studio のバージョン<br>Visual Studio 2019 version 16.3.x</p>
+</li>
+</ul>
+<p>この現象が発生した場合、アプリケーションの異常終了に伴ってソース “Application Error”、イベント ID “1000” で以下のような内容が Application のイベント ログに記録されます。</p>
+<blockquote>
+<blockquote>
+<blockquote>
+</blockquote>
+<p>障害が発生しているアプリケーション名: ConsoleApplication1.exe、バージョン: 0.0.0.0、タイム スタンプ: 0x5fdc4598<br>障害が発生しているモジュール名: ConsoleApplication1.exe、バージョン: 0.0.0.0、タイム スタンプ: 0x5fdc4598<br>例外コード: 0xc000001d<br>障害オフセット: 0x000514f6<br>障害が発生しているプロセス ID: 0xb14<br>障害が発生しているアプリケーションの開始時刻: 0x01d6ea62224296c8<br>障害が発生しているアプリケーション パス: C:\Users\Administrator\Desktop\ConsoleApplication1.exe<br>障害が発生しているモジュール パス: C:\Users\Administrator\Desktop\ConsoleApplication1.exe<br>レポート ID: 6049bc77-5655-11eb-80b5-00155d864f04<br>障害が発生しているパッケージの完全な名前:<br>障害が発生しているパッケージに関連するアプリケーション ID: </p>
+<blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+<h1 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h1><p>Visual C/C++ コンパイラーは、浮動小数点型と整数型の間で型変換を行うために、実行環境で利用可能な命令セットに基づいて出来る限り高速な命令の利用を試みます。<br>型変換に利用されている AVX-512 命令セットを利用するには Windows 10 / Windows Server 2016 以降が必要ですが、Visual Studio 2019 version 16.3.x では OS バージョンが考慮されていませんでした。そのため、ハードウェアが AVX-512 命令セットをサポートし、OS が AVX-512 命令に対応していないバージョンの場合に、利用できない命令セットの実行により例外コード 0xC000001d (STATUS_ILLEGAL_INSTRUCTION) でアプリケーションが異常終了します。</p>
+<h1 id="対処方法"><a href="#対処方法" class="headerlink" title="対処方法"></a>対処方法</h1><p><a href="#%E7%8F%BE%E8%B1%A1">現象</a>の項で記載した条件に合致して影響を受けるアプリケーションについては、OS の設定等で回避する方法はありません。Visual Studio 2019 version 16.4 以降でアプリケーションをリビルドしてください。<br>条件に合致していない場合は、対処の必要はありません。</p>
+<h1 id="参考情報"><a href="#参考情報" class="headerlink" title="参考情報"></a>参考情報</h1><p>この問題は Microsoft の Developer Community で報告され、Visual Studio 2019 version 16.4 のリリースで修正されました。<br>ただし、<a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/visualstudio/releases/2019/release-notes-v16.4">リリース ノート</a>への記載が漏れていましたので、Developer Community の報告へのリンクが 2021 年 1 月 14 日に追記されています。</p>
+<p>  VS2019 16.3 seems to incorrectly detect AVX512 on Windows 7 64 bit when it is not present<br>  <a target="_blank" rel="noopener" href="https://developercommunity.visualstudio.com/content/problem/787296/vs2019-163-seems-to-incorrectly-detect-avx512-on-w.html">https://developercommunity.visualstudio.com/content/problem/787296/vs2019-163-seems-to-incorrectly-detect-avx512-on-w.html</a></p>
+<h1 id="更新履歴"><a href="#更新履歴" class="headerlink" title="更新履歴"></a>更新履歴</h1><p>2021/01/15: 初版</p>
 
       
-      
-        <div class="article-disclaimer">
-        
-          <p><hr>本ブログの内容は弊社の公式見解として保証されるものではなく、開発・運用時の参考情報としてご活用いただくことを目的としています。もし公式な見解が必要な場合は、弊社ドキュメント (<a target="_blank" rel="noopener" href="https://docs.microsoft.com/">https://docs.microsoft.com</a> や <a target="_blank" rel="noopener" href="https://support.microsoft.com">https://support.microsoft.com</a>) をご参照いただくか、もしくは私共サポートまでお問い合わせください。</p>
-        
-        </div>
       
     </div>
     <footer class="article-footer">
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Debug/" rel="tag">Debug</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Windows-SDK/" rel="tag">Windows SDK</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/C/" rel="tag">C++</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Visual-Studio/" rel="tag">Visual Studio</a></li></ul>
 
       <!-- 
       
-        <a href="https://github.com/jpdscore/blog/edit/master/articles/debugging/using-WER.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
+        <a href="https://github.com/jpdscore/blog/edit/master/articles/vs/vs2019-16-3-incorrectly-detect-avx512.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
         
       -->
     </footer>
@@ -153,19 +156,10 @@
     
 <nav id="article-nav">
   
-    <a href="../oom-on-x86apps/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">次の記事</strong>
-      <div class="article-nav-title">
-        
-          32 bit アプリケーションで発生するメモリ不足に関連するエラーについて
-        
-      </div>
-    </a>
   
-  
-    <a href="../collect-dump/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="../what-developers-should-know-about-floating-point/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">前の記事</strong>
-      <div class="article-nav-title">Dump ファイルの取得</div>
+      <div class="article-nav-title">浮動小数点を利用する際に知っておきたいこと</div>
     </a>
   
 </nav>
@@ -184,31 +178,31 @@
       <ul>
         
           <li>
-            <a href="../../vs/vs2019-16-3-incorrectly-detect-avx512/">Visual Studio 2019 version 16.3.x でビルドした C/C++ アプリが例外 0xC000001d で異常終了する</a>
+            <a href="">Visual Studio 2019 version 16.3.x でビルドした C/C++ アプリが例外 0xC000001d で異常終了する</a>
           </li>
         
           <li>
-            <a href="../../vs/what-developers-should-know-about-floating-point/">浮動小数点を利用する際に知っておきたいこと</a>
+            <a href="../what-developers-should-know-about-floating-point/">浮動小数点を利用する際に知っておきたいこと</a>
           </li>
         
           <li>
-            <a href="../../vs/vs2019-16-0-eos/">Visual Studio 2019 version 16.0 サポート終了のご案内</a>
+            <a href="../vs2019-16-0-eos/">Visual Studio 2019 version 16.0 サポート終了のご案内</a>
           </li>
         
           <li>
-            <a href="../UMDH/">[メモリリーク #1] [HOWTO] UMDH を用いたメモリリーク調査技法</a>
+            <a href="../../debugging/UMDH/">[メモリリーク #1] [HOWTO] UMDH を用いたメモリリーク調査技法</a>
           </li>
         
           <li>
-            <a href="../application-error-eventlog/">イベント ID 1000 で記録される Application Error のイベント ログについて</a>
+            <a href="../../debugging/application-error-eventlog/">イベント ID 1000 で記録される Application Error のイベント ログについて</a>
           </li>
         
           <li>
-            <a href="../oom-on-x86apps/">32 bit アプリケーションで発生するメモリ不足に関連するエラーについて</a>
+            <a href="../../debugging/oom-on-x86apps/">32 bit アプリケーションで発生するメモリ不足に関連するエラーについて</a>
           </li>
         
           <li>
-            <a href="">WER を使って Dump を採取する</a>
+            <a href="../../debugging/using-WER/">WER を使って Dump を採取する</a>
           </li>
         
       </ul>

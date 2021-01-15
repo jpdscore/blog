@@ -9,6 +9,14 @@
 
 
     <url>
+        <loc>https://jpdscore.github.io/blog/vs/vs2019-16-3-incorrectly-detect-avx512/</loc>
+        <lastmod>2021-01-14T15:00:00.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://jpdscore.github.io/blog/vs/vs2019-16-0-eos/</loc>
         <lastmod>2021-01-12T15:00:00.000Z</lastmod>
         <changefreq>weekly</changefreq>

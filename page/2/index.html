@@ -98,6 +98,56 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-debugging/open-binaries-by-windbg" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <div class="article-inner">
+    <!-- post date -->
+    <div class="article-meta">
+      <a href="../../debugging/open-binaries-by-windbg/" class="article-date">
+  <time datetime="2020-11-11T09:15:35.000Z" itemprop="datePublished">2020-11-11</time>
+</a>
+      
+    </div>
+
+    
+    <!-- post title -->
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="../../debugging/open-binaries-by-windbg/">WinDbg で EXE や DLL を Dump ファイルのように開く</a>
+    </h1>
+  
+
+      </header>
+    
+
+    <!-- post caption -->
+    <div class="article-entry" itemprop="articleBody">
+      
+        こんにちは、Japan Developer Support Core チーム 平田 a.k.a ぴろとです。本日は WinDbg を使用して、EXE や DLL といった実行形式のバイナリ ファイルをダンプ ファイルのように開く方法をご紹介します。また、この方法を活用して、モジュールに実装された関数のアドレスについても確認することができますので、あわせてご紹介します。次回以降ご紹介するダンプ解析のテクニックでも関数のアドレスについては正しく理解している必要がありますので、是非、実際にコマンドを実行してご確認いただけましたら幸いです。
+初めてインストールする方は以下のダウンロードページからダウンロードしてくださいWindows 用デバッグ ツールのダウンロード
+EXE / DLL / SYS ファイルについてこれらのファイルは、PE Format というフォーマットに準じてビルドされたものに...
+        <p class="article-readmore">
+          <a href="../../debugging/open-binaries-by-windbg/">Read more</a>
+        </p>
+      
+    </div>
+
+    <footer class="article-footer">
+      <!--a data-url="https://jpdscore.github.io/blog/debugging/open-binaries-by-windbg/" data-id="ckjy3jvlp00052ioma81ng93w" class="article-share-link">共有</a-->
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Debug/" rel="tag">Debug</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Windows-SDK/" rel="tag">Windows SDK</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-azuredevops/use-repos-from-azuredevops" class="article article-type-post" itemscope itemprop="blogPost">
 
   <div class="article-inner">
@@ -140,7 +190,7 @@ GitHub 上のソースコードを、Azure ...
     </div>
 
     <footer class="article-footer">
-      <!--a data-url="https://jpdscore.github.io/blog/azuredevops/use-repos-from-azuredevops/" data-id="ckjuwfz6p000005oj2li08fw3" class="article-share-link">共有</a-->
+      <!--a data-url="https://jpdscore.github.io/blog/azuredevops/use-repos-from-azuredevops/" data-id="ckjy3jvlc00002iom9kho4w3r" class="article-share-link">共有</a-->
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/ALM/" rel="tag">ALM</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Azure-Pipelines/" rel="tag">Azure Pipelines</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Azure-Repos/" rel="tag">Azure Repos</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/GitHub/" rel="tag">GitHub</a></li></ul>
@@ -200,10 +250,61 @@ DevOps でビルドしたものを Azure Pipeline 経由でデプロイする
     </div>
 
     <footer class="article-footer">
-      <!--a data-url="https://jpdscore.github.io/blog/azuredevops/deploy-webapp-to-azure/" data-id="ckjuwfz7t001p05oje622fcuf" class="article-share-link">共有</a-->
+      <!--a data-url="https://jpdscore.github.io/blog/azuredevops/deploy-webapp-to-azure/" data-id="ckjy3jvmg001h2iomhxaq9zlf" class="article-share-link">共有</a-->
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/ALM/" rel="tag">ALM</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Azure-Pipelines/" rel="tag">Azure Pipelines</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-dotnet/relationship-between-ndp-versions" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <div class="article-inner">
+    <!-- post date -->
+    <div class="article-meta">
+      <a href="../../dotnet/relationship-between-ndp-versions/" class="article-date">
+  <time datetime="2020-09-28T15:00:00.000Z" itemprop="datePublished">2020-09-29</time>
+</a>
+      
+    </div>
+
+    
+    <!-- post title -->
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="../../dotnet/relationship-between-ndp-versions/">.NET Framework の各バージョン同士の関係</a>
+    </h1>
+  
+
+      </header>
+    
+
+    <!-- post caption -->
+    <div class="article-entry" itemprop="articleBody">
+      
+        (※ 2015 年 4 月 6 日に Microsoft Japan Visual Studio Support Team Blogに公開した情報のアーカイブです。)
+こんにちは、Visual Studio サポート チームです。
+今回は、.NET Framework のランタイムがテーマです。2015 年 4 月現在、主な .NET Framework のバージョンとしては、9 つ (1.0、1.1、2.0、3.0、3.5、4、4.5、4.5.1、4.5.2) がリリースされています。これらの .NET Framework のバージョン間の関係性について説明します。
+.NET Framework の各バージョンと機能について下図のとおり、.NET Framework の各バージョンには、コア コンポーネントとして共通言語ランタイム (CLR: Common Language Runtim...
+        <p class="article-readmore">
+          <a href="../../dotnet/relationship-between-ndp-versions/">Read more</a>
+        </p>
+      
+    </div>
+
+    <footer class="article-footer">
+      <!--a data-url="https://jpdscore.github.io/blog/dotnet/relationship-between-ndp-versions/" data-id="ckjy3jvls000a2iom115e9ezn" class="article-share-link">共有</a-->
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/NET/" rel="tag">.NET</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/NET-Framework/" rel="tag">.NET Framework</a></li></ul>
 
     </footer>
   </div>
@@ -252,61 +353,10 @@ ClickOnce 起動時のエラーについてhttps://social.msdn.microsoft.com/For
     </div>
 
     <footer class="article-footer">
-      <!--a data-url="https://jpdscore.github.io/blog/deployment/fail-to-launch-clickonce-apps-after-updated/" data-id="ckjuwfz73000705oj47pf4qxn" class="article-share-link">共有</a-->
+      <!--a data-url="https://jpdscore.github.io/blog/deployment/fail-to-launch-clickonce-apps-after-updated/" data-id="ckjy3jvlr00082iomcht63s1a" class="article-share-link">共有</a-->
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/ClickOnce/" rel="tag">ClickOnce</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Deployment/" rel="tag">Deployment</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-dotnet/relationship-between-ndp-versions" class="article article-type-post" itemscope itemprop="blogPost">
-
-  <div class="article-inner">
-    <!-- post date -->
-    <div class="article-meta">
-      <a href="../../dotnet/relationship-between-ndp-versions/" class="article-date">
-  <time datetime="2020-09-28T15:00:00.000Z" itemprop="datePublished">2020-09-29</time>
-</a>
-      
-    </div>
-
-    
-    <!-- post title -->
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="../../dotnet/relationship-between-ndp-versions/">.NET Framework の各バージョン同士の関係</a>
-    </h1>
-  
-
-      </header>
-    
-
-    <!-- post caption -->
-    <div class="article-entry" itemprop="articleBody">
-      
-        (※ 2015 年 4 月 6 日に Microsoft Japan Visual Studio Support Team Blogに公開した情報のアーカイブです。)
-こんにちは、Visual Studio サポート チームです。
-今回は、.NET Framework のランタイムがテーマです。2015 年 4 月現在、主な .NET Framework のバージョンとしては、9 つ (1.0、1.1、2.0、3.0、3.5、4、4.5、4.5.1、4.5.2) がリリースされています。これらの .NET Framework のバージョン間の関係性について説明します。
-.NET Framework の各バージョンと機能について下図のとおり、.NET Framework の各バージョンには、コア コンポーネントとして共通言語ランタイム (CLR: Common Language Runtim...
-        <p class="article-readmore">
-          <a href="../../dotnet/relationship-between-ndp-versions/">Read more</a>
-        </p>
-      
-    </div>
-
-    <footer class="article-footer">
-      <!--a data-url="https://jpdscore.github.io/blog/dotnet/relationship-between-ndp-versions/" data-id="ckjuwfz76000a05oj8dbu3xpx" class="article-share-link">共有</a-->
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/NET/" rel="tag">.NET</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/NET-Framework/" rel="tag">.NET Framework</a></li></ul>
 
     </footer>
   </div>
@@ -365,7 +415,7 @@ Azure PlayFa...
     </div>
 
     <footer class="article-footer">
-      <!--a data-url="https://jpdscore.github.io/blog/general/welcome/" data-id="ckjuwfz76000b05oj4zgsc5b1" class="article-share-link">共有</a-->
+      <!--a data-url="https://jpdscore.github.io/blog/general/welcome/" data-id="ckjy3jvlt000b2ioma4tvbmdl" class="article-share-link">共有</a-->
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/%E5%85%A8%E8%88%AC/" rel="tag">全般</a></li></ul>
@@ -394,11 +444,15 @@ Azure PlayFa...
       <ul>
         
           <li>
-            <a href="../../vs/vs2019-16-0-eos/">Visual Studio 2019 version 16.0 サポート終了のご案内</a>
+            <a href="../../vs/vs2019-16-3-incorrectly-detect-avx512/">Visual Studio 2019 version 16.3.x でビルドした C/C++ アプリが例外 0xC000001d で異常終了する</a>
           </li>
         
           <li>
             <a href="../../vs/what-developers-should-know-about-floating-point/">浮動小数点を利用する際に知っておきたいこと</a>
+          </li>
+        
+          <li>
+            <a href="../../vs/vs2019-16-0-eos/">Visual Studio 2019 version 16.0 サポート終了のご案内</a>
           </li>
         
           <li>
@@ -417,10 +471,6 @@ Azure PlayFa...
             <a href="../../debugging/using-WER/">WER を使って Dump を採取する</a>
           </li>
         
-          <li>
-            <a href="../../debugging/collect-dump/">Dump ファイルの取得</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -430,7 +480,7 @@ Azure PlayFa...
   <div class="widget-wrap">
     <h3 class="widget-title">タグ</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="../../tags/ALM/">ALM</a><span class="tag-list-count">3</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-Pipelines">Azure Pipelines</a><span class="tag-list-count">3</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-Repos">Azure Repos</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/GitHub">GitHub</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Windows-SDK/">Windows SDK</a><span class="tag-list-count">5</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Debug">Debug</a><span class="tag-list-count">5</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Leak">Leak</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Debug/">Debug</a><span class="tag-list-count">7</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Leak">Leak</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Memory">Memory</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Windows-SDK">Windows SDK</a><span class="tag-list-count">5</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Deployment/">Deployment</a><span class="tag-list-count">1</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Deployment/ClickOnce">ClickOnce</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/NET/">.NET</a><span class="tag-list-count">1</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/NET-Framework">.NET Framework</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E5%85%A8%E8%88%AC/">全般</a><span class="tag-list-count">1</span><ul></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Visual-Studio/">Visual Studio</a><span class="tag-list-count">2</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/C">C#</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/C">C++</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/VB-NET">VB.NET</a><span class="tag-list-count">1</span></li></ul></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="../../tags/ALM/">ALM</a><span class="tag-list-count">3</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-Pipelines">Azure Pipelines</a><span class="tag-list-count">3</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-Repos">Azure Repos</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/GitHub">GitHub</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Windows-SDK/">Windows SDK</a><span class="tag-list-count">5</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Debug">Debug</a><span class="tag-list-count">5</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Leak">Leak</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Debug/">Debug</a><span class="tag-list-count">7</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Leak">Leak</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Memory">Memory</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Windows-SDK">Windows SDK</a><span class="tag-list-count">5</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Deployment/">Deployment</a><span class="tag-list-count">1</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Deployment/ClickOnce">ClickOnce</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/NET/">.NET</a><span class="tag-list-count">1</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/NET-Framework">.NET Framework</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E5%85%A8%E8%88%AC/">全般</a><span class="tag-list-count">1</span><ul></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Visual-Studio/">Visual Studio</a><span class="tag-list-count">3</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/C">C#</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/C">C++</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/VB-NET">VB.NET</a><span class="tag-list-count">1</span></li></ul></li></ul>
     </div>
   </div>
 
@@ -440,7 +490,7 @@ Azure PlayFa...
   <div class="widget-wrap">
     <h3 class="widget-title">アーカイブ</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/01/">2021 / 01</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/12/">2020 / 12</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/11/">2020 / 11</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/10/">2020 / 10</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/09/">2020 / 09</a><span class="archive-list-count">4</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/01/">2021 / 01</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/12/">2020 / 12</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/11/">2020 / 11</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/10/">2020 / 10</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/09/">2020 / 09</a><span class="archive-list-count">4</span></li></ul>
     </div>
   </div>
 
