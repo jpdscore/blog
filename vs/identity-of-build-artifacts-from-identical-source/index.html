@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>同一ソースコードから生成されるビルド成果物のバイナリ同一性について | Japan Developer Support Core Team Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="こんにちは、Japan Developer Support Core チームの松井です。今回は、Visual Studio に含まれる C++, C#, Visual Basic.NET における、同一ソースコードから生成されるビルド成果物のバイナリ同一性についてご案内します。 はじめに「同一ソースコードをビルドして得られる成果物は、毎回のビルド毎にバイナリ レベルで同一であることが保証されるか?">
+<meta property="og:type" content="article">
+<meta property="og:title" content="同一ソースコードから生成されるビルド成果物のバイナリ同一性について">
+<meta property="og:url" content="https://jpdscore.github.io/blog/vs/identity-of-build-artifacts-from-identical-source/index.html">
+<meta property="og:site_name" content="Japan Developer Support Core Team Blog">
+<meta property="og:description" content="こんにちは、Japan Developer Support Core チームの松井です。今回は、Visual Studio に含まれる C++, C#, Visual Basic.NET における、同一ソースコードから生成されるビルド成果物のバイナリ同一性についてご案内します。 はじめに「同一ソースコードをビルドして得られる成果物は、毎回のビルド毎にバイナリ レベルで同一であることが保証されるか?">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:image" content="https://jpdscore.github.io/blog/vs/identity-of-build-artifacts-from-identical-source/timedatestamp.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/vs/identity-of-build-artifacts-from-identical-source/debughash.png">
+<meta property="article:published_time" content="2021-01-20T15:00:00.000Z">
+<meta property="article:modified_time" content="2021-01-20T15:00:00.000Z">
+<meta property="article:author" content="Developer Support Core Japan">
+<meta property="article:tag" content="Visual Studio">
+<meta property="article:tag" content="C++">
+<meta property="article:tag" content="C#">
+<meta property="article:tag" content="VB.NET">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jpdscore.github.io/blog/vs/identity-of-build-artifacts-from-identical-source/timedatestamp.png">
+  
+    <link rel="alternate" href="../../blog/atom.xml" title="Japan Developer Support Core Team Blog" type="application/atom+xml">
+  
+
+  <link rel="icon" href="./favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png">
+  <link rel="manifest" href="./site.webmanifest">
+  <link rel="mask-icon" href="./safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="theme-color" content="#ffffff">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="../../css/style.css">
+
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="site-header-logo"></div>
+  <div id="site-header-blog-wrapper"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        <div id="ms-logo"></div>
+        
+          <a class="main-nav-link" href="../../index.html">Home</a>
+        
+          <a class="main-nav-link" href="../../archives">Archives</a>
+        
+        <a class="main-nav-link" target="_blank" rel="noopener" href="https://cssjpn.github.io/">サポート情報</a>
+        <a class="main-nav-link" href="/blog/general/welcome/">About</a>
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="../../blog/atom.xml" title="RSSフィード"></a>
+        
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//www.bing.com/search" method="get" accept-charset="UTF-8" name="bing-search" onsubmit="var f=this;if(f['q'].value){var searchUrl =  'https://www.bing.com/search?q=' +  encodeURIComponent(f['q'].value + ' site:' + f['sitesearch'].value) ;window.open(searchUrl, 'blank') };return false;" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="検索"><button type="submit" id="nav-search-btn" class="search-form-submit"></button><input type="hidden" name="sitesearch" value="https://jpdscore.github.io/blog"></form>
+      </div>
+    </div>
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="../../index.html" id="logo">Japan Developer Support Core Team Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="../../index.html" id="subtitle">日本マイクロソフトの Japan Developer Support Core チームのブログです。</a>
+        </h2>
+      
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-vs/identity-of-build-artifacts-from-identical-source" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header-single">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      同一ソースコードから生成されるビルド成果物のバイナリ同一性について
+    </h1>
+  
+
+      </header>
+      <div class="article-share">
+        Last Update: 
+        <a href="" class="article-date-single">
+  <time datetime="2021-01-20T15:00:00.000Z" itemprop="datePublished">2021-01-21</time>
+</a>
+        
+        
+        <a href="https://github.com/jpdscore/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+3a19a2be-0189-5a61-b81f-13f0692693c5%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5B%E5%90%8C%E4%B8%80%E3%82%BD%E3%83%BC%E3%82%B9%E3%82%B3%E3%83%BC%E3%83%89%E3%81%8B%E3%82%89%E7%94%9F%E6%88%90%E3%81%95%E3%82%8C%E3%82%8B%E3%83%93%E3%83%AB%E3%83%89%E6%88%90%E6%9E%9C%E7%89%A9%E3%81%AE%E3%83%90%E3%82%A4%E3%83%8A%E3%83%AA%E5%90%8C%E4%B8%80%E6%80%A7%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6%5D%28https%3A%2F%2Fjpdscore.github.io%2Fblog%2Fvs%2Fidentity-of-build-artifacts-from-identical-source%2F%29" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
+        
+        <a data-url="https://jpdscore.github.io/blog/vs/identity-of-build-artifacts-from-identical-source/" data-id="ckk6bwv82000d0ropfmsd9nru" class="article-share-link">共有</a>
+      </div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>こんにちは、Japan Developer Support Core チームの松井です。<br>今回は、Visual Studio に含まれる C++, C#, Visual Basic.NET における、同一ソースコードから生成されるビルド成果物のバイナリ同一性についてご案内します。</p>
+<h1 id="はじめに"><a href="#はじめに" class="headerlink" title="はじめに"></a>はじめに</h1><p>「同一ソースコードをビルドして得られる成果物は、毎回のビルド毎にバイナリ レベルで同一であることが保証されるか?」というご質問は、私たちのサポート チームによくいただくお問い合わせ内容の一つです。同一ソースコードからバイト単位で同一のビルド成果物を得られるようにすることは、決定論的 (deterministic) ビルド、再現可能 (reproducible) ビルドなどとして弊社製品に限らず様々な場所で議論されています。</p>
+<p>ご質問の背景は様々ですが、お客様からいただく代表的なものとして以下のような状況が挙げられます。</p>
+<ol>
+<li>ビルド環境 (OS や Visual Studio など) の移行を行うので、移行前後の成果物を比較してビルド環境に問題がないことを保証したい</li>
+<li>ビルド毎に得られる成果物をバイナリ比較することでそれらが同等であるかを確認し、再テストや再リリースの要否を判断したい</li>
+</ol>
+<p>結論から述べると、1. については環境もビルドの入力と見なされることから実現できずビルド成果物は同一にならない可能性があり、また同一になったとしてもビルド環境に問題がないことの保証にもなりません。2. についてもビルド ツールの対応や環境などについて前提条件が生じます。そのため、ビルド成果物に相違が生じる要因やビルド ツールの対応状況、同一のビルド成果物を得るための前提条件について理解することが重要です。</p>
+<p>なお、この記事ではビルド成果物をバイト単位で見たときのバイナリ レベルの同一性について触れています。ソースコードやリンクされるオブジェクト類が同一であれば、同じビルド ツールによって生成されるビルド成果物の動作や機能に相違が生じるようなことは通常ありません。この点はご安心ください。</p>
+<h1 id="ビルド成果物に相違が生じる主な要因について"><a href="#ビルド成果物に相違が生じる主な要因について" class="headerlink" title="ビルド成果物に相違が生じる主な要因について"></a>ビルド成果物に相違が生じる主な要因について</h1><p>EXE や DLL などのヘッダー情報 (Portable Executable header) には <a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/windows/win32/debug/pe-format#coff-file-header-object-and-image">TimeDateStamp</a> フィールドが含まれており、成果物が作成された日時がコンパイラーやリンカーなどのビルド ツールによって書き込まれます。また、EXE や DLL とそのデバッグ情報を含むシンボル ファイル (PDB ファイル) を一意に関連付けるために、ビルド時にランダムな値が識別子として生成され EXE や DLL、PDB ファイルに埋め込まれます。これらはビルドする度に毎回異なる値となりますので、比較すると下図のように相違が生じていることが分かります。</p>
+<p><img src="timedatestamp.png" alt="タイムスタンプ"><br><img src="debughash.png" alt="デバッグ情報の一意の ID"></p>
+<p>同一ソースコードをビルドした成果物にバイナリ レベルで相違が生じる原因としては、生成されるファイル内に埋め込まれるこのようなタイム スタンプやソース ファイルのパス、乱数が主なものとして挙げられます。また、C# および Visual Basic.NET における <a target="_blank" rel="noopener" href="https://docs.microsoft.com/ja-jp/dotnet/api/system.runtime.compilerservices.callerfilepathattribute">CallerFilePath 属性</a>や、C/C++ における <strong>FILE</strong> マクロや <strong>DATE</strong> マクロのように、コンパイルしたソースコードの場所や日時などに展開するための機能もあり、このような言語やプラットフォームに固有の機能も決定論的ビルドの妨げとなる可能性があります。その他にも弊社の<a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/oldnewthing/20180103-00/?p=97705">ブログ記事</a>の中でいくつかの要因が挙げられていますので、興味のある方はあわせてご参照ください。</p>
+<h1 id="Visual-C-の対応について"><a href="#Visual-C-の対応について" class="headerlink" title="Visual C++ の対応について"></a>Visual C++ の対応について</h1><p>Visual C++ のコンパイラーおよびリンカーは、この記事の執筆時点では決定論的ビルドをサポートしていません。</p>
+<p>Visual Studio に付属する dumpbin ツールの <a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/cpp/build/reference/disasm">/disasm オプション</a>を使用することで、前項で挙げたタイムスタンプやシンボル ファイルの識別子といった要因を除外して実行命令のみを逆アセンブルして抽出することが可能ですので、この方法でビルド成果物を比較した場合は一致が見られる可能性はあります。</p>
+<p>ただし、決定論的ビルドはサポートされておらずビルド成果物のバイナリ レベルでの一致も保証されていませんので、逆アセンブルした結果で比較しても相違が生じている可能性があります。また、どのような条件でどのような相違が生じるのかについても、すべてを網羅して明確にお答えすることはできません。</p>
+<h1 id="C-および-Visual-Basic-NET-の対応について"><a href="#C-および-Visual-Basic-NET-の対応について" class="headerlink" title="C# および Visual Basic.NET の対応について"></a>C# および Visual Basic.NET の対応について</h1><p>C# および Visual Basic.NET のコンパイラー、およびビルド ツールとして利用される MSBuild では、決定論的ビルドを行うためのコンパイラー オプションやプロパティが提供されています。</p>
+<p>[C#] <a target="_blank" rel="noopener" href="https://docs.microsoft.com/ja-jp/dotnet/csharp/language-reference/compiler-options/deterministic-compiler-option">https://docs.microsoft.com/ja-jp/dotnet/csharp/language-reference/compiler-options/deterministic-compiler-option</a><br>[VB.NET] <a target="_blank" rel="noopener" href="https://docs.microsoft.com/ja-jp/dotnet/visual-basic/reference/command-line-compiler/deterministic">https://docs.microsoft.com/ja-jp/dotnet/visual-basic/reference/command-line-compiler/deterministic</a><br>[MSBuild] <a target="_blank" rel="noopener" href="https://docs.microsoft.com/ja-jp/visualstudio/msbuild/common-msbuild-project-properties">https://docs.microsoft.com/ja-jp/visualstudio/msbuild/common-msbuild-project-properties</a></p>
+<p>C# および Visual Basic.NET における決定論的ビルドは “同一の入力” に対して “同一の出力” を生成することを目的としています。”入力” として見なされる事項は以下のドキュメントで列挙されていますが、ソースコード以外にも様々あり、これらの条件が異なれば生成されるビルド成果物にも相違が生じる可能性がありますので注意してください。<br><a target="_blank" rel="noopener" href="https://github.com/dotnet/roslyn/blob/master/docs/compilers/Deterministic%20Inputs.md">https://github.com/dotnet/roslyn/blob/master/docs/compilers/Deterministic%20Inputs.md</a></p>
+<p>なお、この機能は <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/dotnet/whats-new-for-c-and-vb-in-visual-studio/">Visual Studio 2015 Update 2 で追加</a>されました。以前のバージョンの Visual Studio には含まれていませんので、利用する場合は新しいバージョンの Visual Studio へアップグレードしてください。</p>
+<h3 id="参考情報"><a href="#参考情報" class="headerlink" title="参考情報"></a>参考情報</h3><p>弊社外のサイトとなりますが、以下のブログ記事で C# および Visual Basic.NET の決定論的ビルドに関連して詳細に解説されていますので、参考にしていただければ幸いです。<br><a target="_blank" rel="noopener" href="https://blog.paranoidcoding.com/2016/04/05/deterministic-builds-in-roslyn.html">https://blog.paranoidcoding.com/2016/04/05/deterministic-builds-in-roslyn.html</a></p>
+
+      
+      
+        <div class="article-disclaimer">
+        
+          <p><hr>本ブログの内容は弊社の公式見解として保証されるものではなく、開発・運用時の参考情報としてご活用いただくことを目的としています。もし公式な見解が必要な場合は、弊社ドキュメント (<a target="_blank" rel="noopener" href="https://docs.microsoft.com/">https://docs.microsoft.com</a> や <a target="_blank" rel="noopener" href="https://support.microsoft.com">https://support.microsoft.com</a>) をご参照いただくか、もしくは私共サポートまでお問い合わせください。</p>
+        
+        </div>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/C/" rel="tag">C#</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/C/" rel="tag">C++</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/VB-NET/" rel="tag">VB.NET</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Visual-Studio/" rel="tag">Visual Studio</a></li></ul>
+
+      <!-- 
+      
+        <a href="https://github.com/jpdscore/blog/edit/master/articles/vs/identity-of-build-artifacts-from-identical-source.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
+        
+      -->
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="../vs2019-16-3-incorrectly-detect-avx512/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前の記事</strong>
+      <div class="article-nav-title">Visual Studio 2019 version 16.3.x でビルドした C/C++ アプリが例外 0xC000001d で異常終了する</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最近の投稿</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="">同一ソースコードから生成されるビルド成果物のバイナリ同一性について</a>
+          </li>
+        
+          <li>
+            <a href="../vs2019-16-3-incorrectly-detect-avx512/">Visual Studio 2019 version 16.3.x でビルドした C/C++ アプリが例外 0xC000001d で異常終了する</a>
+          </li>
+        
+          <li>
+            <a href="../what-developers-should-know-about-floating-point/">浮動小数点を利用する際に知っておきたいこと</a>
+          </li>
+        
+          <li>
+            <a href="../vs2019-16-0-eos/">Visual Studio 2019 version 16.0 サポート終了のご案内</a>
+          </li>
+        
+          <li>
+            <a href="../../debugging/UMDH/">[メモリリーク #1] [HOWTO] UMDH を用いたメモリリーク調査技法</a>
+          </li>
+        
+          <li>
+            <a href="../../debugging/application-error-eventlog/">イベント ID 1000 で記録される Application Error のイベント ログについて</a>
+          </li>
+        
+          <li>
+            <a href="../../debugging/oom-on-x86apps/">32 bit アプリケーションで発生するメモリ不足に関連するエラーについて</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">タグ</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="../../tags/ALM/">ALM</a><span class="tag-list-count">3</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-Pipelines">Azure Pipelines</a><span class="tag-list-count">3</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-Repos">Azure Repos</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/GitHub">GitHub</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Windows-SDK/">Windows SDK</a><span class="tag-list-count">5</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Debug">Debug</a><span class="tag-list-count">5</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Leak">Leak</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Debug/">Debug</a><span class="tag-list-count">7</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Leak">Leak</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Memory">Memory</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Windows-SDK">Windows SDK</a><span class="tag-list-count">5</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Deployment/">Deployment</a><span class="tag-list-count">1</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Deployment/ClickOnce">ClickOnce</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/NET/">.NET</a><span class="tag-list-count">1</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/NET-Framework">.NET Framework</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E5%85%A8%E8%88%AC/">全般</a><span class="tag-list-count">1</span><ul></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Visual-Studio/">Visual Studio</a><span class="tag-list-count">4</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/C">C#</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/C">C++</a><span class="tag-list-count">3</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/VB-NET">VB.NET</a><span class="tag-list-count">2</span></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">アーカイブ</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/01/">2021 / 01</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/12/">2020 / 12</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/11/">2020 / 11</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/10/">2020 / 10</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/09/">2020 / 09</a><span class="archive-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">旧ブログ/フォーラム</h3>
+  <div class="widget">
+    <ul>
+      
+        <li>
+          <a href="../../https:/social.msdn.microsoft.com/Forums/ja-jp/home?forum=visualstudiosupportteamja">Visual Studio サポートチーム フォーラム</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/social.msdn.microsoft.com/Forums/ja-jp/home?forum=windowssdksupportteamja&filter=alltypes&sort=lastpostdesc">Windows SDK サポートチーム フォーラム</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/docs.microsoft.com/en-us/archive/blogs/jpvsblog/">Visual Studio サポート チーム blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/docs.microsoft.com/en-us/archive/blogs/japan_platform_sdkwindows_sdk_support_team_blog/">JAPAN Platform SDK（Windows SDK） Support Team Blog</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">関連リンク</h3>
+  <div class="widget">
+    <ul>
+      
+        <li>
+          <a href="../../https:/developercommunity.visualstudio.com/">Developer Community</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/devblogs.microsoft.com/dotnet/">.NET Blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/devblogs.microsoft.com/visualstudio/">Visual Studio Blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/devblogs.microsoft.com/cppblog/">C++ Team Blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/devblogs.microsoft.com/xamarin/">Xamarin Blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/devblogs.microsoft.com/devops/">Azure DevOps Blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/techcommunity.microsoft.com/t5/azure-lab-services/bg-p/AzureLabServicesBlog/">Azure Lab Services Blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/devblogs.microsoft.com/appcenter/">App Center Blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/status.azure.com/status/">Azure Status</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/status.dev.azure.com/">Azure DevOps - Status</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2021 Developer Support Core Japan<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="../../index.html" class="mobile-nav-link">Home</a>
+  
+    <a href="../../archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+<script src="../../js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

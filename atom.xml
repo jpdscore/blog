@@ -6,7 +6,7 @@
   <link href="https://jpdscore.github.io/blog/atom.xml" rel="self"/>
   
   <link href="https://jpdscore.github.io/blog/"/>
-  <updated>2021-01-14T15:00:00.000Z</updated>
+  <updated>2021-01-20T15:00:00.000Z</updated>
   <id>https://jpdscore.github.io/blog/</id>
   
   <author>
@@ -15,6 +15,35 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>同一ソースコードから生成されるビルド成果物のバイナリ同一性について</title>
+    <link href="https://jpdscore.github.io/blog/vs/identity-of-build-artifacts-from-identical-source/"/>
+    <id>https://jpdscore.github.io/blog/vs/identity-of-build-artifacts-from-identical-source/</id>
+    <published>2021-01-20T15:00:00.000Z</published>
+    <updated>2021-01-20T15:00:00.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;こんにちは、Japan Developer Support Core チームの松井です。&lt;br&gt;今回は、Visual Studio に含まれる C++, C#, Visual Basic.NET</summary>
+        
+      
+    
+    
+    
+    
+    <category term="Visual Studio" scheme="https://jpdscore.github.io/blog/tags/Visual-Studio/"/>
+    
+    <category term="C++" scheme="https://jpdscore.github.io/blog/tags/C/"/>
+    
+    <category term="C#" scheme="https://jpdscore.github.io/blog/tags/C/"/>
+    
+    <category term="VB.NET" scheme="https://jpdscore.github.io/blog/tags/VB-NET/"/>
+    
+  </entry>
   
   <entry>
     <title>Visual Studio 2019 version 16.3.x でビルドした C/C++ アプリが例外 0xC000001d で異常終了する</title>
