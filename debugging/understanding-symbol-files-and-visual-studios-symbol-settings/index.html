@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>シンボル ファイルと Visual Studio のシンボル設定を理解する | Japan Developer Support Core Team Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="こんにちは、Japan Developer Support Core チームの松井です。今回は、シンボル ファイルと Visual Studio のシンボル設定についてご案内します。 シンボル ファイルはアプリケーションをデバッグする上で欠かせないものの一つです。アプリケーションのデバッグは開発時だけでなくリリース後も必要になる可能性があり、またシンボルをロードするにはそのシンボルがモジュールのビ">
+<meta property="og:type" content="article">
+<meta property="og:title" content="シンボル ファイルと Visual Studio のシンボル設定を理解する">
+<meta property="og:url" content="https://jpdscore.github.io/blog/debugging/understanding-symbol-files-and-visual-studios-symbol-settings/index.html">
+<meta property="og:site_name" content="Japan Developer Support Core Team Blog">
+<meta property="og:description" content="こんにちは、Japan Developer Support Core チームの松井です。今回は、シンボル ファイルと Visual Studio のシンボル設定についてご案内します。 シンボル ファイルはアプリケーションをデバッグする上で欠かせないものの一つです。アプリケーションのデバッグは開発時だけでなくリリース後も必要になる可能性があり、またシンボルをロードするにはそのシンボルがモジュールのビ">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:image" content="https://jpdscore.github.io/blog/debugging/understanding-symbol-files-and-visual-studios-symbol-settings/unable-to-hit-breakpoint.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/debugging/understanding-symbol-files-and-visual-studios-symbol-settings/callstack.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/debugging/understanding-symbol-files-and-visual-studios-symbol-settings/symbols-status-in-modules-window.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/debugging/understanding-symbol-files-and-visual-studios-symbol-settings/symbol-load-information-menu.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/debugging/understanding-symbol-files-and-visual-studios-symbol-settings/symbol-load-information.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/debugging/understanding-symbol-files-and-visual-studios-symbol-settings/symbols-option.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/debugging/understanding-symbol-files-and-visual-studios-symbol-settings/auto-load-symbols.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/debugging/understanding-symbol-files-and-visual-studios-symbol-settings/manual-load-symbols-from-callstack-window.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/debugging/understanding-symbol-files-and-visual-studios-symbol-settings/manual-load-symbols-from-modules-window.png">
+<meta property="article:published_time" content="2021-02-11T15:00:00.000Z">
+<meta property="article:modified_time" content="2021-02-11T15:00:00.000Z">
+<meta property="article:author" content="Developer Support Core Japan">
+<meta property="article:tag" content="Debug">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jpdscore.github.io/blog/debugging/understanding-symbol-files-and-visual-studios-symbol-settings/unable-to-hit-breakpoint.png">
+  
+    <link rel="alternate" href="../../blog/atom.xml" title="Japan Developer Support Core Team Blog" type="application/atom+xml">
+  
+
+  <link rel="icon" href="./favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png">
+  <link rel="manifest" href="./site.webmanifest">
+  <link rel="mask-icon" href="./safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="theme-color" content="#ffffff">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="../../css/style.css">
+
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="site-header-logo"></div>
+  <div id="site-header-blog-wrapper"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        <div id="ms-logo"></div>
+        
+          <a class="main-nav-link" href="../../index.html">Home</a>
+        
+          <a class="main-nav-link" href="../../archives">Archives</a>
+        
+        <a class="main-nav-link" target="_blank" rel="noopener" href="https://cssjpn.github.io/">サポート情報</a>
+        <a class="main-nav-link" href="/blog/general/welcome/">About</a>
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="../../blog/atom.xml" title="RSSフィード"></a>
+        
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//www.bing.com/search" method="get" accept-charset="UTF-8" name="bing-search" onsubmit="var f=this;if(f['q'].value){var searchUrl =  'https://www.bing.com/search?q=' +  encodeURIComponent(f['q'].value + ' site:' + f['sitesearch'].value) ;window.open(searchUrl, 'blank') };return false;" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="検索"><button type="submit" id="nav-search-btn" class="search-form-submit"></button><input type="hidden" name="sitesearch" value="https://jpdscore.github.io/blog"></form>
+      </div>
+    </div>
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="../../index.html" id="logo">Japan Developer Support Core Team Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="../../index.html" id="subtitle">日本マイクロソフトの Japan Developer Support Core チームのブログです。</a>
+        </h2>
+      
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-debugging/understanding-symbol-files-and-visual-studios-symbol-settings" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header-single">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      シンボル ファイルと Visual Studio のシンボル設定を理解する
+    </h1>
+  
+
+      </header>
+      <div class="article-share">
+        Last Update: 
+        <a href="" class="article-date-single">
+  <time datetime="2021-02-11T15:00:00.000Z" itemprop="datePublished">2021-02-12</time>
+</a>
+        
+        
+        <a href="https://github.com/jpdscore/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+17f4ed9d-28fa-5d62-9380-3deddb024cc7%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5B%E3%82%B7%E3%83%B3%E3%83%9C%E3%83%AB+%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%81%A8+Visual+Studio+%E3%81%AE%E3%82%B7%E3%83%B3%E3%83%9C%E3%83%AB%E8%A8%AD%E5%AE%9A%E3%82%92%E7%90%86%E8%A7%A3%E3%81%99%E3%82%8B%5D%28https%3A%2F%2Fjpdscore.github.io%2Fblog%2Fdebugging%2Funderstanding-symbol-files-and-visual-studios-symbol-settings%2F%29" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
+        
+        <a data-url="https://jpdscore.github.io/blog/debugging/understanding-symbol-files-and-visual-studios-symbol-settings/" data-id="ckl24nb3q00206roubfbf2v3i" class="article-share-link">共有</a>
+      </div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>こんにちは、Japan Developer Support Core チームの松井です。<br>今回は、シンボル ファイルと Visual Studio のシンボル設定についてご案内します。</p>
+<p>シンボル ファイルはアプリケーションをデバッグする上で欠かせないものの一つです。アプリケーションのデバッグは開発時だけでなくリリース後も必要になる可能性があり、またシンボルをロードするにはそのシンボルがモジュールのビルドと同時に生成されたものである必要があるため、リリース用のビルドであってもシンボル ファイルを生成して手元で大切に保管しておかなければなりません。そのため、Visual Studio のコンパイル オプションではシンボル ファイルの生成が既定で有効となっています。</p>
+<p>シンボル ファイルがない場合、ユニファイド サポート等で弊社へアプリケーションのデバッグのご支援をご依頼いただいても効果的なご支援が出来ない場合があります。逆アセンブルによって処理を追跡することが困難で非常に多くの時間を要する作業となること理由の一つですが、たとえ問題のある処理が特定できたとしても対処が必要なソースコードの位置を示すことができない点もご支援が難しくなる大きな理由です。</p>
+<p>残念ながらシンボル ファイルの重要性はあまり認知されておらず、弊社へのお問い合わせでもシンボル ファイルが保管されていないため採取できたダンプ ファイルからすぐに調査を進められないことが多くあります。再現が容易な場合はアプリケーションをビルドしなおしてもう一度再現させていただくことで調査が進められますが、一度しか発生しておらず問題が再現出来ない場合はせっかく取得できたダンプが無駄になる可能性があります。</p>
+<p>2015 年 1 月 5 日に Visual Studio Blog で公開された記事 <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/devops/understanding-symbol-files-and-visual-studios-symbol-settings/">Understanding symbol files and Visual Studio’s symbol settings</a> で、シンボルについての説明や Visual Studio での利用方法および設定が英語で紹介されていますので、この記事の内容がシンボルについてご理解いただくためのお役に立てれば幸いです。以降は上記ブログ記事の和訳となります。</p>
+<hr>
+<hr>
+<h1 id="Understanding-symbol-files-and-Visual-Studio’s-symbol-settings"><a href="#Understanding-symbol-files-and-Visual-Studio’s-symbol-settings" class="headerlink" title="Understanding symbol files and Visual Studio’s symbol settings"></a>Understanding symbol files and Visual Studio’s symbol settings</h1><p>シンボルは、デバッグおよびその他の診断ツールの基本要件です。幸い、ほとんどの場合、Visual Studio でアプリケーションをビルドして Visual Studio でアプリケーションを起動するときにコードのシンボルについて意識する必要はほとんどありません。ただし、シンボルのロード方法やデバッガーのシンボル検索場所を変更したり、サードパーティ製品 (Windows や .NET ライブラリなど) のシンボルをロードすることがいつか必要になるかもしれません。また、シンボルはデバッグにおける非常に基本的なものであるため、私たちは継続してそのエクスペリエンスの調整を行っており、Visual Studio の動作の詳細を理解することで何時間ものフラストレーションを軽減できます。</p>
+<p>このブログ ポストでは、シンボルとは何か、Visual Studio のシンボル設定を構成する方法 (デバッガーだけでなくパフォーマンス ツールや IntelliTrace などの診断ツールでも使用されます)、デバッグ時に利用できる様々な設定、Visual Studio が必要なシンボル ファイルを見つけられない場合のトラブルシュート方法について説明します。</p>
+<h2 id="シンボルの基本"><a href="#シンボルの基本" class="headerlink" title="シンボルの基本"></a>シンボルの基本</h2><p>シンボル ファイルの詳細について詳しく説明する前に、シンボルとは何か、なぜシンボルが重要なのかを簡単に確認しておきます。</p>
+<ul>
+<li><strong>シンボルとは何ですか?:</strong> Microsoft コンパイラーの場合、シンボルはビルドの一部として生成される .pdb ファイルです。</li>
+<li><strong>シンボル (.pdb) ファイルには何が含まれていますか?:</strong> シンボル ファイルの正確な内容は言語ごと、コンパイラーの設定によって異なりますが、ざっくり言えば、その内容はコンパイラーがソースコードをプロセッサが実行する命令に変換した方法の記録です。</li>
+<li><strong>なぜシンボルが必要なのですか?:</strong> シンボルがないと、ツールはアプリケーションで実行されている命令をその元になったソースコードに関連付けることができません。<ul>
+<li>デバッグ時、シンボル ファイルがないと特定のコード行にブレークポイントを設定できません。シンボルがロードされていない場合、デバッグ モードで警告マークがついた中抜きの丸が表示され、その上にマウス カーソルを置くと、シンボルがロードされていないためブレークポイントにヒットしないことがツールチップに表示されます。<img src="unable-to-hit-breakpoint.png"></li>
+<li>デバッグ対象によっては、完全な呼び出し履歴の表示やウォッチ ウィンドウによるオブジェクトの調査、データ ヒントの表示にはシンボルが必要になります。(例えば C++ はこれに当てはまります。)</li>
+<li>注:ヒープを含まないダンプ ファイルをデバッグしている場合、デバッガーが元のバイナリ ファイルにアクセスしてロードする正しいシンボル ファイルを決定できるようにする必要があります。別の言い方をすれば、ヒープ情報を含まないダンプをデバッグする場合、対応するバイナリ ファイルとシンボル ファイルの両方がシンボル パスに配置されている必要があります。</li>
+</ul>
+</li>
+</ul>
+<h2 id="Visual-Studio-の既定の動作"><a href="#Visual-Studio-の既定の動作" class="headerlink" title="Visual Studio の既定の動作"></a>Visual Studio の既定の動作</h2><p>Visual Studio の詳細設定を見ていく前に、一度立ち止まって既定の動作 (つまり、設定を変更したことがない場合にどのように動作するのか) を確認しておきます。</p>
+<ul>
+<li>Visual Studio はプロセス内のすべてのバイナリ (モジュールと呼ばれます) について、モジュールがロードされたときにシンボルのロードを試みます。また、既に読み込まれている全てのモジュールについて、プロセスにアタッチしたときにシンボルのロードを試みます。<ul>
+<li>例外として、マネージド (.NET) アプリケーションをデバッグしている場合、[マイ コードのみを有効にする] が設定されていると「マイ コードではない」とみなされたシンボルをロードしません。</li>
+</ul>
+</li>
+<li>シンボルの場所が設定されていないため、Microsoft のランタイム ライブラリのシンボルは見つかりません。<ul>
+<li>[呼び出し履歴] ウィンドウまたは [モジュール] ウィンドウでモジュールを右クリックしてシンボルの読み込みを選択すると、ローカル マシンにシンボルが見つからないと仮定して自動的に Microsoft パブリック シンボル サーバーからシンボルの取得を試みます。</li>
+</ul>
+</li>
+<li>次の場合、Visual Studio は常にシンボルを検索します。<ul>
+<li>シンボル ファイルが対応するモジュールと同じフォルダーにある場合。Visual Studio プロジェクトのデフォルトのビルド出力設定では、バイナリと同じフォルダーにシンボルが出力されます。これは、Visual Studio が常にプロジェクトのシンボルを見つけられることを意味します。</li>
+<li>シンボル ファイルがコンパイル時に配置されたディレクトリと同じ場所にある場合。.pdb ファイルのフル パスはビルド時にバイナリ ファイル内に書き込まれます。</li>
+</ul>
+</li>
+</ul>
+<h2 id="シンボルがロードされているかどうか、ロードされていない場合はその理由をどのように確認できますか"><a href="#シンボルがロードされているかどうか、ロードされていない場合はその理由をどのように確認できますか" class="headerlink" title="シンボルがロードされているかどうか、ロードされていない場合はその理由をどのように確認できますか?"></a>シンボルがロードされているかどうか、ロードされていない場合はその理由をどのように確認できますか?</h2><p>上記のスクリーンショット (中抜きされた丸のブレークポイント) は、ブレークポイントを設定しようとしているソース ファイルのシンボルが読み込まれなかった状況を示しています。シンボルがロードされているかどうかを判断する方法は以下があります。</p>
+<ul>
+<li>シンボルが読み込まれなかったことを示すメッセージが [呼び出し履歴] ウィンドウに表示されます。<img src="callstack.png"></li>
+<li>[モジュール] ウィンドウ ([デバッグ] - [ウィンドウ] - [モジュール]) に次の内容が表示されます。<ul>
+<li>シンボル ファイルの状態 (読み込み済み、スキップ、シンボルが見つからない、バイナリがデバッグ情報と一緒にビルドされていない)</li>
+<li>読み込まれたバイナリ ファイルのパス</li>
+<li>読み込まれたシンボル ファイルのパス (読み込まれている場合)</li>
+<li>モジュールのバージョン</li>
+<li>モジュールのタイム スタンプ<br><img src="symbols-status-in-modules-window.png"></li>
+</ul>
+</li>
+</ul>
+<p>さらに、デバッガーはシンボルが読み込まれなかった理由とシンボルを検索した場所を表示できます。この情報を表示するには、[モジュール] ウィンドウ開いてモジュールを右クリックし、[シンボル読み込み情報] を選択します。<img src="symbol-load-information-menu.png"></p>
+<p>これにより、デバッガーがシンボル ファイルを検索したすべてのパスを示すメッセージ ボックスが表示されます。<img src="symbol-load-information.png"></p>
+<p>シンボルが読み込まれない一般的な理由は以下のとおりです。</p>
+<ul>
+<li>シンボル パスが正しい場所を示していない。</li>
+<li>シンボル ファイルがプロセスにロードされたものと異なるバージョンのモジュールから生成されている。<ul>
+<li>Visual Studio では、シンボル ファイルがモジュールと同じビルドで生成されたものである必要があります。ソースコードが同一であっても、異なるビルドで生成されたシンボルを読み込むことはできません。</li>
+</ul>
+</li>
+<li>[マイ コードのみを有効にする] の設定はデバッガーのシンボル ファイルの読み込みを抑止します。(マネージドの場合のみ)</li>
+</ul>
+<h2 id="Visual-Studio-設定の構成"><a href="#Visual-Studio-設定の構成" class="headerlink" title="Visual Studio 設定の構成"></a>Visual Studio 設定の構成</h2><p>シンボルとは何か、およびシンボルがロードされているかどうかを判断するう方法を理解したところで、Visual Studio のシンボル設置絵を構成する方法を見ていきましょう。シンボル設定を表示するには、[デバッグ] メニューに移動して [オプション] (古いバージョンの Visual Studio では [オプションと設定]) を選択し、[シンボル] サブ ページを選択します。<img src="symbols-option.png"></p>
+<p>このページには以下の設定があります。</p>
+<ul>
+<li>シンボル ファイル (.pdb) の場所</li>
+<li>シンボル キャッシュの設定</li>
+<li>[すべてのシンボルを読み込む] ボタン</li>
+<li>シンボルの自動読み込みの設定</li>
+</ul>
+<h2 id="シンボル-ファイルの場所"><a href="#シンボル-ファイルの場所" class="headerlink" title="シンボル ファイルの場所"></a>シンボル ファイルの場所</h2><p>Visual Studio から自分のアプリケーションをビルドしてデバッグしている場合は自分のモジュールのシンボルでは当てはまらないかもしれませんが、サードパーティのシンボル ファイル (Microsoft のシンボル ファイルなど) が必要な場合や、ローカル マシンにシンボルがない可能性がある環境で作業している場合 (アプリケーションがビルド サーバーでビルドされているなど(※)) は、リモートのシンボルの場所 (シンボル サーバー) がシンボルの読み込みで使用されます。</p>
+<p>[シンボル ファイルの場所] ダイアログは、デバッガーにシンボル ファイルを検索する場所を指示します。シンボル ファイルを検索する場所は、http シンボル サーバー (既定で登録されている “Microsoft シンボル サーバー” など) やネットワーク共有、またはローカル マシン上のフォルダーが指定できます。</p>
+<ul>
+<li>必要な数のパスを追加できます。</li>
+<li>Microsoft のパブリック シンボル サーバーの設定が既定で登録されています。Microsoft 製品のモジュール (ランタイムやオペレーティング システムなど) のシンボルをロードする場合、このチェック ボックスにチェックを入れてください。</li>
+<li>Visual Studio は、指定された順序に関係なく、ネットワーク パスへ照会する前にローカル パスを検索します。</li>
+<li>パフォーマンス上の理由から、Visual Studio 2012 Update 1 以降では、自動シンボル読み込みが有効になっている場合、Visual Studio は 1 つのセッション (Visual Studio を再起動するまで) で 1 つのシンボル ファイルに対して各シンボル サーバーを 1 回だけ検索します。つまり、サーバーにファイルが含まれていない場合に、デバッグを開始する度に毎回ネットワーク接続のコストを払う必要はありません。</li>
+<li>シンボル ファイルの場所に “環境変数: _NT_SYMBOL_PATH” が表示されている場合は、環境変数 _NT_SYMBOL_PATH が設定されていることを示します。Visual Studio は、Windows のライブラリを使用してシンボルを読み込みます。このライブラリは、常にこの環境変数に指定されている場所からシンボル ファイルを検索します。そのため、Visuak Studio でこのオプションのチェックを外すことはできません。Visual Studio でこの環境変数を使わない場合は、環境変数の設定を解除する必要があります。<br>他の目的でこの環境変数が必要な場合、環境変数を Visual Studio に限定して局所的に解除する簡単な方法は、開発者コマンド プロンプトを開いて “set _NT_SYMBOL_PATH=” を入力してから Visual Studio を起動することです。システムの環境変数は影響を受けません。</li>
+</ul>
+<p>※ Azure DevOps Server (Team Foundation Server) を使用している場合は、シンボルとソースのアーカイブのサポートを追加する方法についてのこちらの記事も参考にしてください。<a target="_blank" rel="noopener" href="http://bit.ly/SymbolServerTFS">http://bit.ly/SymbolServerTFS</a></p>
+<p>※ 訳注: Azure DevOps Services はプライベート シンボル サーバーとしてもご利用いただけますので、ビルドに利用されている方は是非シンボルの管理でもご活用ください。<a target="_blank" rel="noopener" href="https://docs.microsoft.com/ja-jp/azure/devops/artifacts/concepts/symbols?view=azure-devops">https://docs.microsoft.com/ja-jp/azure/devops/artifacts/concepts/symbols?view=azure-devops</a></p>
+<h2 id="シンボル-キャッシュ"><a href="#シンボル-キャッシュ" class="headerlink" title="シンボル キャッシュ"></a>シンボル キャッシュ</h2><p>シンボル キャッシュは、Visual Studio がリモートの場所から見つけたシンボルを、後の利用のために複製を置いておくためのローカルの場所です。シンボル キャッシュのパスを指定すると、Visual Studio はシンボル ファイルの場所からシンボルを検索する前に、シンボル キャッシュを検索します。パフォーマンス上の理由から、リモートの場所にシンボルを格納する必要がある場合は、シンボル キャッシュを指定することをお勧めします。</p>
+<h2 id="すべてのシンボルの読み込む"><a href="#すべてのシンボルの読み込む" class="headerlink" title="すべてのシンボルの読み込む"></a>すべてのシンボルの読み込む</h2><p>このボタンは、Visual Studio がデバッグ モードの間のみ有効になり、クリックすると、プロセス内のすべてのモジュールのシンボルの読み込みを試みるようデバッガーに指示します。</p>
+<h2 id="シンボルの自動読み込みの設定"><a href="#シンボルの自動読み込みの設定" class="headerlink" title="シンボルの自動読み込みの設定"></a>シンボルの自動読み込みの設定</h2><p>Visual Studio は、2 つのシンボルの自動読み込みのモードを提供しています。</p>
+<ul>
+<li><p><b>除外されていないすべてのモジュールを読み込む:</b> タイトルが示すように、[除外されるモジュールの指定] をクリックしてモジュールを除外リストに追加しない限り、Visual Studio はプロセス内のすべてのモジュールのシンボルの読み込みを試みます。この設定は一般的に、プロセス内のほぼすべてのシンボルを読み込みたい場合、またはメモリやデバッグ開始のパフォーマンス上の理由からロードしたくない非常に大きなシンボルがごく一部しかない場合に適しています。</p>
+</li>
+<li><p><b>指定したモジュールのみを読み込む:</b> この設定は既定でディスク上のバイナリと同じ場所にあるシンボルを読み込みますが、[含まれるモジュールの指定] をクリックしてモジュールを含めるリストに追加しない限り他のモジュールのシンボルの読み込みは試みません。</p>
+<ul>
+<li>Visual Studio 2013 Update 2 以降、[含まれるモジュールの指定] ダイアログはモジュール名として * を受け付けます。したがって、例えば手動読み込みを使用したいが名前に “Microsoft” が含まれるシンボルは常に読み込みたい場合は、”*Microsoft*“  と入力することが可能です。<img src="auto-load-symbols.png"></li>
+</ul>
+</li>
+<li><p>シンボルは、必要に応じて [呼び出し履歴] ウィンドウから手動で読み込むことができます。これを行うには、個々のフレームを選択して (または Ctrl+a ですべてを選択して)、右クリックして [シンボルの読み込み] を選択します。これにより、その時点で [呼び出し履歴] ウィンドウにあったすべてのモジュールのシンボルが読み込まれます。前回の読み込みによって現れたモジュールのシンボルの読み込みは自動的に行われないため、シンボルの読み込みで呼び出し履歴が改善され追加のモジュールが見つかった場合はこの手順を繰り返す必要があります。 <img src="manual-load-symbols-from-callstack-window.png"></p>
+</li>
+<li><p>デバッグ中にシンボルを手動で読み込むもう一つの選択肢は、[モジュール] ウィンドウ ([デバッグ] - [ウィンドウ] - [モジュール]]) でそのモジュールを指定することです。<img src="manual-load-symbols-from-modules-window.png"></p>
+</li>
+</ul>
+<h2 id="手動によるシンボル読み込みの詳細"><a href="#手動によるシンボル読み込みの詳細" class="headerlink" title="手動によるシンボル読み込みの詳細"></a>手動によるシンボル読み込みの詳細</h2><p>[指定されたモジュールのみを読み込む] が私と Visual Studio チームの多くのメンバーが推奨する設定であることを強調しておきます。その理由は次のとおりです。</p>
+<ul>
+<li><p>非常に大きなアプリケーションをデバッグする場合に、必要に応じてオンデマンドでシンボルを読み込むことができます。これは以下の点で役立ちます。</p>
+<ul>
+<li>デバッグ セッションのパフォーマンス - デバッグ中のプロセスのすべてのシンボルがロードされるのを待つ必要はありません。</li>
+<li>Visual Studio のメモリ - 非常に大きなアプリケーションをデバッグする場合は、関心のあるモジュールのみのシンボルを選択的に読み込む必要がある場合があります。Visual Studio は 32 ビット プロセスであるため、仮想メモリで最大 4 GB まで拡張できます。非常に大きなアプリケーションの場合、シンボル ファイルはこれより大きくなる可能性があります。</li>
+</ul>
+</li>
+<li><p>新しいアプリケーションをデバッグするとき、または新しい Visual Studio インスタンスでの最初のデバッグ セッション中に、予期しないパフォーマンスの問題に遭遇することなくシンボル サーバーを有効のままにしておくことができます。</p>
+</li>
+</ul>
+<p>マシン上で全体をビルドする非常に大きなソリューションがある場合は、[モジュールと同じ場所にあるシンボルを常に読み込む] チェックボックスをオフにして、上記の利点を確認する必要があります。</p>
+<p>次に、デバッグ中にオンデマンドでシンボルを読み込むか、自動的に読み込む必要があるシンボルを設定する必要があります。</p>
+<ul>
+<li>これらのモジュールでブレークポイントをヒットさせる必要がある場合は、自動的に読み込むように設定する必要があります。</li>
+<li>事前にシンボルが必要かどうかわからない場合は、オブジェクトの確認や呼び出し履歴の補完で必要な場合のみ、シンボルを読み込む必要があります。</li>
+</ul>
+<h2 id="まとめ"><a href="#まとめ" class="headerlink" title="まとめ"></a>まとめ</h2><p>シンボルについて把握し、設定を正しく構成して最適なパフォーマンスを得ることは、非常に複雑になる可能性があります。上記の内容が、利用可能な設定を理解する上でお役に立てれば幸いです。ただし、ここで取り上げていない問題が発生した場合、または共有したいその他のフィードバックがある場合は、Visual Studio の “スマイルを送る” 機能 (※)、または <a target="_blank" rel="noopener" href="https://social.msdn.microsoft.com/Forums/ja-JP/home">MSDN フォーラム</a> でお知らせください。</p>
+<p>※訳注 この機能は新しい Visual Studio のバージョンでは廃止されています。<a target="_blank" rel="noopener" href="https://docs.microsoft.com/ja-jp/visualstudio/ide/feedback-options">https://docs.microsoft.com/ja-jp/visualstudio/ide/feedback-options</a> の方法でフィードバックをお願いします。</p>
+
+      
+      
+        <div class="article-disclaimer">
+        
+          <p><hr>本ブログの内容は弊社の公式見解として保証されるものではなく、開発・運用時の参考情報としてご活用いただくことを目的としています。もし公式な見解が必要な場合は、弊社ドキュメント (<a target="_blank" rel="noopener" href="https://docs.microsoft.com/">https://docs.microsoft.com</a> や <a target="_blank" rel="noopener" href="https://support.microsoft.com">https://support.microsoft.com</a>) をご参照いただくか、もしくは私共サポートまでお問い合わせください。</p>
+        
+        </div>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Debug/" rel="tag">Debug</a></li></ul>
+
+      <!-- 
+      
+        <a href="https://github.com/jpdscore/blog/edit/master/articles/debugging/understanding-symbol-files-and-visual-studios-symbol-settings.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
+        
+      -->
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="../../vs/identity-of-build-artifacts-from-identical-source/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前の記事</strong>
+      <div class="article-nav-title">同一ソースコードから生成されるビルド成果物のバイナリ同一性について</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最近の投稿</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="">シンボル ファイルと Visual Studio のシンボル設定を理解する</a>
+          </li>
+        
+          <li>
+            <a href="../../vs/identity-of-build-artifacts-from-identical-source/">同一ソースコードから生成されるビルド成果物のバイナリ同一性について</a>
+          </li>
+        
+          <li>
+            <a href="../../vs/vs2019-16-3-incorrectly-detect-avx512/">Visual Studio 2019 version 16.3.x でビルドした C/C++ アプリが例外 0xC000001d で異常終了する</a>
+          </li>
+        
+          <li>
+            <a href="../../vs/vs2019-16-0-eos/">Visual Studio 2019 version 16.0 サポート終了のご案内</a>
+          </li>
+        
+          <li>
+            <a href="../../vs/what-developers-should-know-about-floating-point/">浮動小数点を利用する際に知っておきたいこと</a>
+          </li>
+        
+          <li>
+            <a href="../UMDH/">[メモリリーク #1] [HOWTO] UMDH を用いたメモリリーク調査技法</a>
+          </li>
+        
+          <li>
+            <a href="../application-error-eventlog/">イベント ID 1000 で記録される Application Error のイベント ログについて</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">タグ</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="../../tags/ALM/">ALM</a><span class="tag-list-count">3</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-Pipelines">Azure Pipelines</a><span class="tag-list-count">3</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-Repos">Azure Repos</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/GitHub">GitHub</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Windows-SDK/">Windows SDK</a><span class="tag-list-count">5</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Debug">Debug</a><span class="tag-list-count">5</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Leak">Leak</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Debug/">Debug</a><span class="tag-list-count">8</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Leak">Leak</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Memory">Memory</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Windows-SDK">Windows SDK</a><span class="tag-list-count">5</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Deployment/">Deployment</a><span class="tag-list-count">1</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Deployment/ClickOnce">ClickOnce</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/NET/">.NET</a><span class="tag-list-count">1</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/NET-Framework">.NET Framework</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E5%85%A8%E8%88%AC/">全般</a><span class="tag-list-count">1</span><ul></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Visual-Studio/">Visual Studio</a><span class="tag-list-count">4</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/C">C#</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/C">C++</a><span class="tag-list-count">3</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/VB-NET">VB.NET</a><span class="tag-list-count">2</span></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">アーカイブ</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/02/">2021 / 02</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/01/">2021 / 01</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/12/">2020 / 12</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/11/">2020 / 11</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/10/">2020 / 10</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/09/">2020 / 09</a><span class="archive-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">旧ブログ/フォーラム</h3>
+  <div class="widget">
+    <ul>
+      
+        <li>
+          <a href="../../https:/social.msdn.microsoft.com/Forums/ja-jp/home?forum=visualstudiosupportteamja">Visual Studio サポートチーム フォーラム</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/social.msdn.microsoft.com/Forums/ja-jp/home?forum=windowssdksupportteamja&filter=alltypes&sort=lastpostdesc">Windows SDK サポートチーム フォーラム</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/docs.microsoft.com/en-us/archive/blogs/jpvsblog/">Visual Studio サポート チーム blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/docs.microsoft.com/en-us/archive/blogs/japan_platform_sdkwindows_sdk_support_team_blog/">JAPAN Platform SDK（Windows SDK） Support Team Blog</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">関連リンク</h3>
+  <div class="widget">
+    <ul>
+      
+        <li>
+          <a href="../../https:/developercommunity.visualstudio.com/">Developer Community</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/devblogs.microsoft.com/dotnet/">.NET Blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/devblogs.microsoft.com/visualstudio/">Visual Studio Blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/devblogs.microsoft.com/cppblog/">C++ Team Blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/devblogs.microsoft.com/xamarin/">Xamarin Blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/devblogs.microsoft.com/devops/">Azure DevOps Blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/techcommunity.microsoft.com/t5/azure-lab-services/bg-p/AzureLabServicesBlog/">Azure Lab Services Blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/devblogs.microsoft.com/appcenter/">App Center Blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/status.azure.com/status/">Azure Status</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/status.dev.azure.com/">Azure DevOps - Status</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2021 Developer Support Core Japan<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="../../index.html" class="mobile-nav-link">Home</a>
+  
+    <a href="../../archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+<script src="../../js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

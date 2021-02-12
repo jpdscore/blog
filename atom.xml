@@ -6,7 +6,7 @@
   <link href="https://jpdscore.github.io/blog/atom.xml" rel="self"/>
   
   <link href="https://jpdscore.github.io/blog/"/>
-  <updated>2021-01-20T15:00:00.000Z</updated>
+  <updated>2021-02-11T15:00:00.000Z</updated>
   <id>https://jpdscore.github.io/blog/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>シンボル ファイルと Visual Studio のシンボル設定を理解する</title>
+    <link href="https://jpdscore.github.io/blog/debugging/understanding-symbol-files-and-visual-studios-symbol-settings/"/>
+    <id>https://jpdscore.github.io/blog/debugging/understanding-symbol-files-and-visual-studios-symbol-settings/</id>
+    <published>2021-02-11T15:00:00.000Z</published>
+    <updated>2021-02-11T15:00:00.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;こんにちは、Japan Developer Support Core チームの松井です。&lt;br&gt;今回は、シンボル ファイルと Visual Studio のシンボル設定についてご案内します。&lt;/p&gt;
+&lt;p&gt;シンボル</summary>
+        
+      
+    
+    
+    
+    
+    <category term="Debug" scheme="https://jpdscore.github.io/blog/tags/Debug/"/>
+    
+  </entry>
   
   <entry>
     <title>同一ソースコードから生成されるビルド成果物のバイナリ同一性について</title>
@@ -71,6 +95,30 @@
   </entry>
   
   <entry>
+    <title>Visual Studio 2019 version 16.0 サポート終了のご案内</title>
+    <link href="https://jpdscore.github.io/blog/vs/vs2019-16-0-eos/"/>
+    <id>https://jpdscore.github.io/blog/vs/vs2019-16-0-eos/</id>
+    <published>2021-01-12T15:00:00.000Z</published>
+    <updated>2021-01-12T15:00:00.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;こんにちは、Japan Developer Support Core チームの松井です。&lt;br&gt;今回は Visual Studio 2019 version 16.0 のサポート終了についてご案内します。&lt;/p&gt;
+&lt;h1</summary>
+        
+      
+    
+    
+    
+    
+    <category term="Visual Studio" scheme="https://jpdscore.github.io/blog/tags/Visual-Studio/"/>
+    
+  </entry>
+  
+  <entry>
     <title>浮動小数点を利用する際に知っておきたいこと</title>
     <link href="https://jpdscore.github.io/blog/vs/what-developers-should-know-about-floating-point/"/>
     <id>https://jpdscore.github.io/blog/vs/what-developers-should-know-about-floating-point/</id>
@@ -96,30 +144,6 @@
     <category term="C#" scheme="https://jpdscore.github.io/blog/tags/C/"/>
     
     <category term="VB.NET" scheme="https://jpdscore.github.io/blog/tags/VB-NET/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Visual Studio 2019 version 16.0 サポート終了のご案内</title>
-    <link href="https://jpdscore.github.io/blog/vs/vs2019-16-0-eos/"/>
-    <id>https://jpdscore.github.io/blog/vs/vs2019-16-0-eos/</id>
-    <published>2021-01-12T15:00:00.000Z</published>
-    <updated>2021-01-12T15:00:00.000Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;こんにちは、Japan Developer Support Core チームの松井です。&lt;br&gt;今回は Visual Studio 2019 version 16.0 のサポート終了についてご案内します。&lt;/p&gt;
-&lt;h1</summary>
-        
-      
-    
-    
-    
-    
-    <category term="Visual Studio" scheme="https://jpdscore.github.io/blog/tags/Visual-Studio/"/>
     
   </entry>
   
