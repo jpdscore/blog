@@ -6,7 +6,7 @@
   <link href="https://jpdscore.github.io/blog/atom.xml" rel="self"/>
   
   <link href="https://jpdscore.github.io/blog/"/>
-  <updated>2021-02-18T15:00:00.000Z</updated>
+  <updated>2021-04-01T15:00:00.000Z</updated>
   <id>https://jpdscore.github.io/blog/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>ClickOnce 信頼プロンプトで公開元が&quot;不明な公開元です。&quot;として表示される場合の原因と対処方法</title>
+    <link href="https://jpdscore.github.io/blog/deployment/unknown-publisher-on-clickonce-trust-prompt/"/>
+    <id>https://jpdscore.github.io/blog/deployment/unknown-publisher-on-clickonce-trust-prompt/</id>
+    <published>2021-04-01T15:00:00.000Z</published>
+    <updated>2021-04-01T15:00:00.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;こんにちは、Japan Developer Support Core チームの松井です。&lt;br&gt;今回は、ClickOnce アプリケーションのインストール時に表示される信頼プロンプトで、公開元が “不明な公開元”</summary>
+        
+      
+    
+    
+    
+    
+    <category term="Deployment" scheme="https://jpdscore.github.io/blog/tags/Deployment/"/>
+    
+    <category term="ClickOnce" scheme="https://jpdscore.github.io/blog/tags/ClickOnce/"/>
+    
+  </entry>
   
   <entry>
     <title>Process Monitor ログの採取手順</title>
