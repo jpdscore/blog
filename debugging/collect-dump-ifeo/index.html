@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>アプリケーションの起動時に自動的にツールをアタッチさせて例外発生時のダンプ ファイルを採取する | Japan Developer Support Core Team Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="こんにちは、Japan Developer Support Core チームの早川です。 アプリケーションが例外によりクラッシュしてしまう問題の調査では、例外発生時のプロセスのダンプ ファイルを採取して解析することが 1 つの有効な手段となります。本ブログでも WER を使って Dump を採取する の記事で、OS に付属の機能である Windows Error Reporting (WER) を">
+<meta property="og:type" content="article">
+<meta property="og:title" content="アプリケーションの起動時に自動的にツールをアタッチさせて例外発生時のダンプ ファイルを採取する">
+<meta property="og:url" content="https://jpdscore.github.io/blog/debugging/collect-dump-ifeo/index.html">
+<meta property="og:site_name" content="Japan Developer Support Core Team Blog">
+<meta property="og:description" content="こんにちは、Japan Developer Support Core チームの早川です。 アプリケーションが例外によりクラッシュしてしまう問題の調査では、例外発生時のプロセスのダンプ ファイルを採取して解析することが 1 つの有効な手段となります。本ブログでも WER を使って Dump を採取する の記事で、OS に付属の機能である Windows Error Reporting (WER) を">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:image" content="https://jpdscore.github.io/blog/debugging/collect-dump-ifeo/procdump.png">
+<meta property="article:published_time" content="2021-04-05T23:41:59.000Z">
+<meta property="article:modified_time" content="2021-04-05T23:41:59.000Z">
+<meta property="article:author" content="Developer Support Core Japan">
+<meta property="article:tag" content="Debug">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jpdscore.github.io/blog/debugging/collect-dump-ifeo/procdump.png">
+  
+    <link rel="alternate" href="../../blog/atom.xml" title="Japan Developer Support Core Team Blog" type="application/atom+xml">
+  
+
+  <link rel="icon" href="./favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png">
+  <link rel="manifest" href="./site.webmanifest">
+  <link rel="mask-icon" href="./safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="theme-color" content="#ffffff">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="../../css/style.css">
+
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="site-header-logo"></div>
+  <div id="site-header-blog-wrapper"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        <div id="ms-logo"></div>
+        
+          <a class="main-nav-link" href="../../index.html">Home</a>
+        
+          <a class="main-nav-link" href="../../archives">Archives</a>
+        
+        <a class="main-nav-link" target="_blank" rel="noopener" href="https://cssjpn.github.io/">サポート情報</a>
+        <a class="main-nav-link" href="/blog/general/welcome/">About</a>
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="../../blog/atom.xml" title="RSSフィード"></a>
+        
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//www.bing.com/search" method="get" accept-charset="UTF-8" name="bing-search" onsubmit="var f=this;if(f['q'].value){var searchUrl =  'https://www.bing.com/search?q=' +  encodeURIComponent(f['q'].value + ' site:' + f['sitesearch'].value) ;window.open(searchUrl, 'blank') };return false;" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="検索"><button type="submit" id="nav-search-btn" class="search-form-submit"></button><input type="hidden" name="sitesearch" value="https://jpdscore.github.io/blog"></form>
+      </div>
+    </div>
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="../../index.html" id="logo">Japan Developer Support Core Team Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="../../index.html" id="subtitle">日本マイクロソフトの Japan Developer Support Core チームのブログです。</a>
+        </h2>
+      
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-debugging/collect-dump-ifeo" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header-single">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      アプリケーションの起動時に自動的にツールをアタッチさせて例外発生時のダンプ ファイルを採取する
+    </h1>
+  
+
+      </header>
+      <div class="article-share">
+        Last Update: 
+        <a href="" class="article-date-single">
+  <time datetime="2021-04-05T23:41:59.000Z" itemprop="datePublished">2021-04-06</time>
+</a>
+        
+        
+        <a href="https://github.com/jpdscore/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+eddde85c-e1a3-5896-80c7-b7cbc07f689d%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5B%E3%82%A2%E3%83%97%E3%83%AA%E3%82%B1%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E3%81%AE%E8%B5%B7%E5%8B%95%E6%99%82%E3%81%AB%E8%87%AA%E5%8B%95%E7%9A%84%E3%81%AB%E3%83%84%E3%83%BC%E3%83%AB%E3%82%92%E3%82%A2%E3%82%BF%E3%83%83%E3%83%81%E3%81%95%E3%81%9B%E3%81%A6%E4%BE%8B%E5%A4%96%E7%99%BA%E7%94%9F%E6%99%82%E3%81%AE%E3%83%80%E3%83%B3%E3%83%97+%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%82%92%E6%8E%A1%E5%8F%96%E3%81%99%E3%82%8B%5D%28https%3A%2F%2Fjpdscore.github.io%2Fblog%2Fdebugging%2Fcollect-dump-ifeo%2F%29" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
+        
+        <a data-url="https://jpdscore.github.io/blog/debugging/collect-dump-ifeo/" data-id="ckn5vadhq0003tvox54xn7fbm" class="article-share-link">共有</a>
+      </div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>こんにちは、Japan Developer Support Core チームの早川です。</p>
+<p>アプリケーションが例外によりクラッシュしてしまう問題の調査では、例外発生時のプロセスのダンプ ファイルを採取して解析することが 1 つの有効な手段となります。本ブログでも <a href="https://jpdscore.github.io/blog/debugging/using-WER/">WER を使って Dump を採取する</a> の記事で、OS に付属の機能である Windows Error Reporting (WER) を利用してクラッシュ時のダンプ ファイルを採取する方法をご紹介していますので是非ご覧ください。</p>
+<p>WER は有効な機能ですが、first-chance 例外を検知するものでは無いことから、例えば、アプリケーションが利用しているサードパーティ製のミドルウェアが例外を独自にハンドリングして、プロセスとしては正常に終了させるといった処理を行われているようなケースではご利用いただけません。この他、アプリケーション内の try/catch で例外をハンドリングしているが、例外発生時の詳しい情報を確認したい場合などにも、first-chance 例外を捕捉してダンプ ファイルを出力する必要がありますが、こういった場合には、デバッガー ツールを対象のプロセスにアタッチして first-chance 例外を捕捉してダンプを出力するような必要があります。</p>
+<p>一方で、再現性の低い問題や、自動起動するサービスで発生する問題、エンド ユーザーの環境で発生しているような問題の場合は、アプリケーションを起動するたびに毎回デバッガーをアタッチしてダンプ出力の設定を行うことは困難です。</p>
+<p>本稿ではそのようなケースでご利用いただけるダンプ ファイルの採取方法についてご案内いたします。<br>以下では <a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/sysinternals/">Sysinternals</a> に含まれる <a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/sysinternals/downloads/procdump">ProcDump</a> というツールと、Image File Execution Options というレジストリを利用します。</p>
+<h3 id="Image-File-Execution-Options-について"><a href="#Image-File-Execution-Options-について" class="headerlink" title="Image File Execution Options について"></a>Image File Execution Options について</h3><p>Image File Execution Options (IFEO) のレジストリを設定することで、指定したアプリケーションの実行時に <a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/windows-hardware/drivers/debugger/gflags-details">GFlags</a> を適用したり、デバッガー ツールがアタッチされた状態でアプリケーションが起動するように設定することができます。(参考 : <a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/visualstudio/debugger/debug-multiple-processes?view=vs-2019#BKMK_Automatically_start_an_process_in_the_debugger">Use the Registry Editor to automatically start a process in the debugger</a>)</p>
+<h2 id="ご注意"><a href="#ご注意" class="headerlink" title="ご注意"></a>ご注意</h2><p>IFEO のレジストリを設定することでアプリケーション起動時にデバッガーを自動的にアタッチさせることができますが、設定を誤ると対象のアプリケーションを起動できなくなる場合があります。通常のアプリケーションであればレジストリを元に戻すことで対応できますが、OS の起動に必要なサービスやプロセスに対して誤った設定をしてしまった場合、復旧が困難になる可能性があります。このため、<strong>OS が提供するプロセスやサービスに対して IFEO を設定したり変更しないようご注意ください。</strong></p>
+<h2 id="手順"><a href="#手順" class="headerlink" title="手順"></a>手順</h2><ol>
+<li><p><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/sysinternals/downloads/procdump">ProcDump</a> から最新バージョンのツールをダウンロードして zip 展開し、対象の環境にコピーします。以下では、<strong>C:\ProcDump</strong> フォルダー内に配置したものとして説明します。また、ダンプの出力先フォルダーとして <strong>C:\Logs</strong> フォルダーを作成しておきます。</p>
+</li>
+<li><p>レジストリ エディターを開き、以下のキーが存在しない場合は作成します。<p/>(32 bit OS 上で動作する 32 bit アプリ、または、64 bit OS 上で動作する 64 bit アプリの場合)<p/><code>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\&lt;アプリケーション実行ファイル名&gt;</code><p/>(64 bit OS 上で動作する 32 bit アプリの場合)<p/><code>HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\&lt;アプリケーション実行ファイル名&gt;</code><p/>※ レジストリ エディターの誤った操作はシステムに深刻な問題を及ぼすことがありますので、ご利用に際しては十分ご注意くださいますようお願いいたします。<p/><strong>例 : sampleapp.exe の場合</strong><p/>(32 bit OS 上で動作する 32 bit アプリ、または、64 bit OS 上で動作する 64 bit アプリの場合)<p/><code>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\sampleapp.exe</code><p/>(64 bit OS 上で動作する 32 bit アプリの場合)<p/><code>HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\sampleapp.exe</code></p>
+</li>
+<li><p>手順 2 で作成、または確認したキーに、以下の項目を作成します。<p/><code>名前 : debugger</code><p/><code>種類 : REG_SZ</code></p>
+</li>
+<li><p>手順 3 で作成した項目のデータに指定したデバッガー ツールがアプリケーションの起動時に自動的にアタッチされます。アプリケーションの種類や調査対象の問題に応じてデータを設定します。以下に、いくつか例をご案内します。ProcDump のパス、およびダンプ出力先フォルダーについては、適宜読み替えてください。<p/><strong>例1) System.InvalidOperationException の first-chance 例外を最大 10 回まで捕捉してダンプ出力する</strong><p/><code>C:\ProcDump\procdump.exe -accepteula -ma -e 1 -f &quot;System.InvalidOperationException&quot; -n 10 -x c:\Logs</code><p/><strong>例2) second-chance 例外または正常終了した場合にダンプ出力する</strong><p/><code>C:\ProcDump\procdump.exe -accepteula -ma -e -t -x c:\Logs</code><p/><strong>例3) CPU 使用率 50% 以上が 10 秒以上続いたら最大 3 個までダンプ出力する</strong><p/><code>C:\ProcDump\procdump.exe -accepteula -ma -c 50 -s 10 -n 3 -x c:\Logs</code><p/><strong>例4) .NET アプリ内で発生したネイティブ コードの first chance 例外を最大 10 回まで捕捉してダンプ出力する</strong><p/><code>C:\ProcDump\procdump.exe -accepteula -ma -e 1 -n 3 -g -x c:\Logs</code></p>
+</li>
+</ol>
+<p>設定は以上になります。<br>設定が機能している場合、アプリケーションの起動時に以下のような画面が表示されます。<br><img src="procdump.png"></p>
+<p>設定を解除する場合は、上記手順で設定したレジストリ キーの debugger エントリを削除してください。</p>
+<hr>
+<p>ProcDump には指定可能なオプションが多数あり、上記以外にもご利用いただけるシナリオがありますので、ドキュメントに記載のオプションについても是非ご参考ください。ダンプ ファイルの採取に WER をご利用いただけないようなケースでは、本稿でご紹介した方法もご検討いただけましたら幸いです。</p>
+<p>最後に、上記の設定でツールが動作することを検証するための C# のサンプル コードをご案内します。</p>
+<h3 id="例外や-High-CPU-を模擬するサンプル-アプリケーション"><a href="#例外や-High-CPU-を模擬するサンプル-アプリケーション" class="headerlink" title="例外や High CPU を模擬するサンプル アプリケーション"></a>例外や High CPU を模擬するサンプル アプリケーション</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br></pre></td><td class="code"><pre><span class="line">using System;</span><br><span class="line">using System.Diagnostics;</span><br><span class="line">using System.Runtime.InteropServices;</span><br><span class="line">using System.Threading.Tasks;</span><br><span class="line">namespace sampleapp</span><br><span class="line">&#123;</span><br><span class="line">    class Program</span><br><span class="line">    &#123;</span><br><span class="line">        static void Usage()</span><br><span class="line">        &#123;</span><br><span class="line">            Console.WriteLine(&quot;Arguments required.&quot;);</span><br><span class="line">            Console.WriteLine(&quot; 1st --- Pause before test? Y&#x2F;N&quot;);</span><br><span class="line">            Console.WriteLine(&quot; 2nd --- Test pattern&quot;);</span><br><span class="line">            Console.WriteLine(&quot;           1 : First-chance exception&quot;);</span><br><span class="line">            Console.WriteLine(&quot;           2 : Second-chance exception&quot;);</span><br><span class="line">            Console.WriteLine(&quot;           3 : High CPU&quot;);</span><br><span class="line">            Console.WriteLine(&quot;           4 : Execution engine exception&quot;);</span><br><span class="line">            Console.WriteLine(&quot;           5 : Access violation&quot;);</span><br><span class="line">            Console.WriteLine(&quot; 3rd --- Exception type for pattern 1 and 2.&quot;);</span><br><span class="line">            Console.WriteLine(&quot;         Duration (sec) for pattern 3&quot;);</span><br><span class="line">            Console.WriteLine(&quot;&quot;);</span><br><span class="line">            Console.WriteLine(&quot; Ex. sampleapp.exe Y 1 System.InvalidOperationException&quot;);</span><br><span class="line">            Console.WriteLine(&quot; Ex. sampleapp.exe N 2 System.ArgumentException&quot;);</span><br><span class="line">            Console.WriteLine(&quot; Ex. sampleapp.exe Y 3 30&quot;);</span><br><span class="line">            Console.WriteLine(&quot; Ex. sampleapp.exe N 4&quot;);</span><br><span class="line">            Console.WriteLine(&quot; Ex. sampleapp.exe Y 5&quot;);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        const int TESTPATTERN_FIRST_CHANCE &#x3D; 1;</span><br><span class="line">        const int TESTPATTERN_SECOND_CHANCE &#x3D; 2;</span><br><span class="line">        const int TESTPATTERN_HIGH_CPU &#x3D; 3;</span><br><span class="line">        const int TESTPATTERN_EEE &#x3D; 4;</span><br><span class="line">        const int TESTPATTERN_AccessViolation &#x3D; 5;</span><br><span class="line"></span><br><span class="line">        [DllImport(&quot;msvcrt.dll&quot;, EntryPoint &#x3D; &quot;memset&quot;, CallingConvention &#x3D; CallingConvention.Cdecl, SetLastError &#x3D; false)]</span><br><span class="line">        public static extern IntPtr MemSet(IntPtr dest, int c, int byteCount);</span><br><span class="line"></span><br><span class="line">        static void Main(string[] args)</span><br><span class="line">        &#123;</span><br><span class="line">            if (! (args.Length &#x3D;&#x3D; 2 || args.Length &#x3D;&#x3D; 3))</span><br><span class="line">            &#123;</span><br><span class="line">                Usage();</span><br><span class="line">                return;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            if (args[0].ToUpper() &#x3D;&#x3D; &quot;Y&quot; ? true : false)</span><br><span class="line">            &#123;</span><br><span class="line">                Console.WriteLine(&quot;Press enter to execute...&quot;);</span><br><span class="line">                Console.ReadLine();</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            int testPattern &#x3D; Int32.Parse(args[1]);</span><br><span class="line">            Type t;</span><br><span class="line">            Object o;</span><br><span class="line"></span><br><span class="line">            switch (testPattern)</span><br><span class="line">            &#123;</span><br><span class="line">                case TESTPATTERN_FIRST_CHANCE:</span><br><span class="line">                    try</span><br><span class="line">                    &#123;</span><br><span class="line">                        t &#x3D; Type.GetType(args[2]);</span><br><span class="line">                        o &#x3D; Activator.CreateInstance(t);</span><br><span class="line">                        throw o as System.Exception;</span><br><span class="line">                    &#125;</span><br><span class="line">                    catch</span><br><span class="line">                    &#123;</span><br><span class="line">                    &#125;</span><br><span class="line">                    break;</span><br><span class="line"></span><br><span class="line">                case TESTPATTERN_SECOND_CHANCE:</span><br><span class="line">                    t &#x3D; Type.GetType(args[2]);</span><br><span class="line">                    o &#x3D; Activator.CreateInstance(t);</span><br><span class="line">                    throw o as System.Exception;</span><br><span class="line"></span><br><span class="line">                case TESTPATTERN_HIGH_CPU:</span><br><span class="line">                    Stopwatch sw &#x3D; new Stopwatch();</span><br><span class="line">                    int val &#x3D; 0;</span><br><span class="line">                    sw.Start();</span><br><span class="line">                    while (sw.Elapsed.TotalSeconds &lt; Int32.Parse(args[2]))</span><br><span class="line">                    &#123;</span><br><span class="line">                        Parallel.Invoke(</span><br><span class="line">                            () &#x3D;&gt; val +&#x3D; 1,</span><br><span class="line">                            () &#x3D;&gt; val +&#x3D; 1,</span><br><span class="line">                            () &#x3D;&gt; val +&#x3D; 1,</span><br><span class="line">                            () &#x3D;&gt; val +&#x3D; 1,</span><br><span class="line">                            () &#x3D;&gt; val +&#x3D; 1,</span><br><span class="line">                            () &#x3D;&gt; val +&#x3D; 1,</span><br><span class="line">                            () &#x3D;&gt; val +&#x3D; 1,</span><br><span class="line">                            () &#x3D;&gt; val +&#x3D; 1</span><br><span class="line">                            ); </span><br><span class="line">                    &#125;</span><br><span class="line">                    Console.WriteLine(val.ToString());</span><br><span class="line">                    break;</span><br><span class="line"></span><br><span class="line">                case TESTPATTERN_EEE:</span><br><span class="line">                    int[] array &#x3D; new int[8];</span><br><span class="line">                    unsafe</span><br><span class="line">                    &#123;</span><br><span class="line">                        fixed (Int32* ptr &#x3D; array)</span><br><span class="line">                        &#123;</span><br><span class="line">                            *(ptr - 2) &#x3D; 0xFFFF;</span><br><span class="line">                            *(ptr - 4) &#x3D; 0xFFFF;</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                    GC.Collect();</span><br><span class="line">                    break;</span><br><span class="line"></span><br><span class="line">                case TESTPATTERN_AccessViolation:</span><br><span class="line">                    MemSet((IntPtr) 0, 0xFF, 100);</span><br><span class="line">                    break;</span><br><span class="line"></span><br><span class="line">                default:</span><br><span class="line">                    Usage();</span><br><span class="line">                    break;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+      
+        <div class="article-disclaimer">
+        
+          <p><hr>本ブログの内容は弊社の公式見解として保証されるものではなく、開発・運用時の参考情報としてご活用いただくことを目的としています。もし公式な見解が必要な場合は、弊社ドキュメント (<a target="_blank" rel="noopener" href="https://docs.microsoft.com/">https://docs.microsoft.com</a> や <a target="_blank" rel="noopener" href="https://support.microsoft.com">https://support.microsoft.com</a>) をご参照いただくか、もしくは私共サポートまでお問い合わせください。</p>
+        
+        </div>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Debug/" rel="tag">Debug</a></li></ul>
+
+      <!-- 
+      
+        <a href="https://github.com/jpdscore/blog/edit/master/articles/debugging/collect-dump-ifeo.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
+        
+      -->
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="../../deployment/unknown-publisher-on-clickonce-trust-prompt/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前の記事</strong>
+      <div class="article-nav-title">ClickOnce 信頼プロンプトで公開元が&#34;不明な公開元です。&#34;として表示される場合の原因と対処方法</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最近の投稿</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="">アプリケーションの起動時に自動的にツールをアタッチさせて例外発生時のダンプ ファイルを採取する</a>
+          </li>
+        
+          <li>
+            <a href="../../deployment/unknown-publisher-on-clickonce-trust-prompt/">ClickOnce 信頼プロンプトで公開元が&#34;不明な公開元です。&#34;として表示される場合の原因と対処方法</a>
+          </li>
+        
+          <li>
+            <a href="../collect-procmon/">Process Monitor ログの採取手順</a>
+          </li>
+        
+          <li>
+            <a href="../understanding-symbol-files-and-visual-studios-symbol-settings/">シンボル ファイルと Visual Studio のシンボル設定を理解する</a>
+          </li>
+        
+          <li>
+            <a href="../../vs/identity-of-build-artifacts-from-identical-source/">同一ソースコードから生成されるビルド成果物のバイナリ同一性について</a>
+          </li>
+        
+          <li>
+            <a href="../../vs/vs2019-16-3-incorrectly-detect-avx512/">Visual Studio 2019 version 16.3.x でビルドした C/C++ アプリが例外 0xC000001d で異常終了する</a>
+          </li>
+        
+          <li>
+            <a href="../../vs/what-developers-should-know-about-floating-point/">浮動小数点を利用する際に知っておきたいこと</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">タグ</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="../../tags/ALM/">ALM</a><span class="tag-list-count">3</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-Pipelines">Azure Pipelines</a><span class="tag-list-count">3</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-Repos">Azure Repos</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/GitHub">GitHub</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Windows-SDK/">Windows SDK</a><span class="tag-list-count">5</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Debug">Debug</a><span class="tag-list-count">5</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Leak">Leak</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Debug/">Debug</a><span class="tag-list-count">9</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Leak">Leak</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Memory">Memory</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Windows-SDK">Windows SDK</a><span class="tag-list-count">5</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/">情報採取手順</a><span class="tag-list-count">1</span><ul></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Deployment/">Deployment</a><span class="tag-list-count">2</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Deployment/ClickOnce">ClickOnce</a><span class="tag-list-count">2</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/NET/">.NET</a><span class="tag-list-count">1</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/NET-Framework">.NET Framework</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E5%85%A8%E8%88%AC/">全般</a><span class="tag-list-count">1</span><ul></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Visual-Studio/">Visual Studio</a><span class="tag-list-count">4</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/C">C#</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/C">C++</a><span class="tag-list-count">3</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/VB-NET">VB.NET</a><span class="tag-list-count">2</span></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">アーカイブ</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/04/">2021 / 04</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/02/">2021 / 02</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/01/">2021 / 01</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/12/">2020 / 12</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/11/">2020 / 11</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/10/">2020 / 10</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/09/">2020 / 09</a><span class="archive-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">旧ブログ/フォーラム</h3>
+  <div class="widget">
+    <ul>
+      
+        <li>
+          <a href="../../https:/social.msdn.microsoft.com/Forums/ja-jp/home?forum=visualstudiosupportteamja">Visual Studio サポートチーム フォーラム</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/social.msdn.microsoft.com/Forums/ja-jp/home?forum=windowssdksupportteamja&filter=alltypes&sort=lastpostdesc">Windows SDK サポートチーム フォーラム</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/docs.microsoft.com/en-us/archive/blogs/jpvsblog/">Visual Studio サポート チーム blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/docs.microsoft.com/en-us/archive/blogs/japan_platform_sdkwindows_sdk_support_team_blog/">JAPAN Platform SDK（Windows SDK） Support Team Blog</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">関連リンク</h3>
+  <div class="widget">
+    <ul>
+      
+        <li>
+          <a href="../../https:/developercommunity.visualstudio.com/">Developer Community</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/devblogs.microsoft.com/dotnet/">.NET Blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/devblogs.microsoft.com/visualstudio/">Visual Studio Blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/devblogs.microsoft.com/cppblog/">C++ Team Blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/devblogs.microsoft.com/xamarin/">Xamarin Blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/devblogs.microsoft.com/devops/">Azure DevOps Blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/techcommunity.microsoft.com/t5/azure-lab-services/bg-p/AzureLabServicesBlog/">Azure Lab Services Blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/devblogs.microsoft.com/appcenter/">App Center Blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/status.azure.com/status/">Azure Status</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/status.dev.azure.com/">Azure DevOps - Status</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2021 Developer Support Core Japan<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="../../index.html" class="mobile-nav-link">Home</a>
+  
+    <a href="../../archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+<script src="../../js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

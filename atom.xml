@@ -6,7 +6,7 @@
   <link href="https://jpdscore.github.io/blog/atom.xml" rel="self"/>
   
   <link href="https://jpdscore.github.io/blog/"/>
-  <updated>2021-04-01T15:00:00.000Z</updated>
+  <updated>2021-04-05T23:41:59.000Z</updated>
   <id>https://jpdscore.github.io/blog/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>アプリケーションの起動時に自動的にツールをアタッチさせて例外発生時のダンプ ファイルを採取する</title>
+    <link href="https://jpdscore.github.io/blog/debugging/collect-dump-ifeo/"/>
+    <id>https://jpdscore.github.io/blog/debugging/collect-dump-ifeo/</id>
+    <published>2021-04-05T23:41:59.000Z</published>
+    <updated>2021-04-05T23:41:59.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;こんにちは、Japan Developer Support Core チームの早川です。&lt;/p&gt;
+&lt;p&gt;アプリケーションが例外によりクラッシュしてしまう問題の調査では、例外発生時のプロセスのダンプ ファイルを採取して解析することが 1</summary>
+        
+      
+    
+    
+    
+    
+    <category term="Debug" scheme="https://jpdscore.github.io/blog/tags/Debug/"/>
+    
+  </entry>
   
   <entry>
     <title>ClickOnce 信頼プロンプトで公開元が&quot;不明な公開元です。&quot;として表示される場合の原因と対処方法</title>
@@ -454,32 +478,6 @@
   </entry>
   
   <entry>
-    <title>.NET Framework の各バージョン同士の関係</title>
-    <link href="https://jpdscore.github.io/blog/dotnet/relationship-between-ndp-versions/"/>
-    <id>https://jpdscore.github.io/blog/dotnet/relationship-between-ndp-versions/</id>
-    <published>2020-09-28T15:00:00.000Z</published>
-    <updated>2020-09-28T15:00:00.000Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;(※ 2015 年 4 月 6 日に Microsoft Japan Visual Studio Support Team Blogに公開した情報のアーカイブです。)&lt;/p&gt;
-&lt;p&gt;こんにちは、Visual Studio サポート</summary>
-        
-      
-    
-    
-    
-    
-    <category term=".NET" scheme="https://jpdscore.github.io/blog/tags/NET/"/>
-    
-    <category term=".NET Framework" scheme="https://jpdscore.github.io/blog/tags/NET-Framework/"/>
-    
-  </entry>
-  
-  <entry>
     <title>ClickOnce アプリケーションのインストールや更新の後に発生する場合があるアプリケーション起動時のエラーについて</title>
     <link href="https://jpdscore.github.io/blog/deployment/fail-to-launch-clickonce-apps-after-updated/"/>
     <id>https://jpdscore.github.io/blog/deployment/fail-to-launch-clickonce-apps-after-updated/</id>
@@ -506,29 +504,28 @@
   </entry>
   
   <entry>
-    <title>Developer Support Core チームのブログへようこそ</title>
-    <link href="https://jpdscore.github.io/blog/general/welcome/"/>
-    <id>https://jpdscore.github.io/blog/general/welcome/</id>
-    <published>2020-09-27T15:00:00.000Z</published>
-    <updated>2020-09-27T15:00:00.000Z</updated>
+    <title>.NET Framework の各バージョン同士の関係</title>
+    <link href="https://jpdscore.github.io/blog/dotnet/relationship-between-ndp-versions/"/>
+    <id>https://jpdscore.github.io/blog/dotnet/relationship-between-ndp-versions/</id>
+    <published>2020-09-28T15:00:00.000Z</published>
+    <updated>2020-09-28T15:00:00.000Z</updated>
     
     
       
       
         
         
-    <summary type="html">&lt;p&gt;こんにちは、Developer Support Core チームです。&lt;/p&gt;
-&lt;p&gt;私たちのサポート チームでは下記の製品のサポートを行っています。&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Visual Studio&lt;/li&gt;
-&lt;li&gt;.NET (.NET Framework /</summary>
+    <summary type="html">&lt;p&gt;(※ 2015 年 4 月 6 日に Microsoft Japan Visual Studio Support Team Blogに公開した情報のアーカイブです。)&lt;/p&gt;
+&lt;p&gt;こんにちは、Visual Studio サポート</summary>
         
       
     
     
     
     
-    <category term="全般" scheme="https://jpdscore.github.io/blog/tags/%E5%85%A8%E8%88%AC/"/>
+    <category term=".NET" scheme="https://jpdscore.github.io/blog/tags/NET/"/>
+    
+    <category term=".NET Framework" scheme="https://jpdscore.github.io/blog/tags/NET-Framework/"/>
     
   </entry>
   
