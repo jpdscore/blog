@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>VS2019 から、Xamarin.UITest で Xamarin.Forms アプリの UI テストをしてみよう！ | Japan Developer Support Core Team Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="こんにちは、Japan Developer Support Core チームです。   Xamarin.Forms アプリの User Interface (UI) テストを可能にするフレームワーク、Xamairn.UITest を皆様ご存じでしょうか？    Xamarin.UITest  Microsoft の Docs サイトや Developer Community サイトでは、よく「Xa">
+<meta property="og:type" content="article">
+<meta property="og:title" content="VS2019 から、Xamarin.UITest で Xamarin.Forms アプリの UI テストをしてみよう！">
+<meta property="og:url" content="https://jpdscore.github.io/blog/xamarin/create-xamarinforms-try-xamarinuitest-vs2019/index.html">
+<meta property="og:site_name" content="Japan Developer Support Core Team Blog">
+<meta property="og:description" content="こんにちは、Japan Developer Support Core チームです。   Xamarin.Forms アプリの User Interface (UI) テストを可能にするフレームワーク、Xamairn.UITest を皆様ご存じでしょうか？    Xamarin.UITest  Microsoft の Docs サイトや Developer Community サイトでは、よく「Xa">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:image" content="https://jpdscore.github.io/blog/xamarin/create-xamarinforms-try-xamarinuitest-vs2019/1.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/xamarin/create-xamarinforms-try-xamarinuitest-vs2019/2.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/xamarin/create-xamarinforms-try-xamarinuitest-vs2019/3.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/xamarin/create-xamarinforms-try-xamarinuitest-vs2019/4.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/xamarin/create-xamarinforms-try-xamarinuitest-vs2019/5.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/xamarin/create-xamarinforms-try-xamarinuitest-vs2019/6.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/xamarin/create-xamarinforms-try-xamarinuitest-vs2019/7.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/xamarin/create-xamarinforms-try-xamarinuitest-vs2019/8.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/xamarin/create-xamarinforms-try-xamarinuitest-vs2019/9.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/xamarin/create-xamarinforms-try-xamarinuitest-vs2019/10.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/xamarin/create-xamarinforms-try-xamarinuitest-vs2019/11.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/xamarin/create-xamarinforms-try-xamarinuitest-vs2019/12.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/xamarin/create-xamarinforms-try-xamarinuitest-vs2019/13.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/xamarin/create-xamarinforms-try-xamarinuitest-vs2019/14.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/xamarin/create-xamarinforms-try-xamarinuitest-vs2019/15.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/xamarin/create-xamarinforms-try-xamarinuitest-vs2019/16.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/xamarin/create-xamarinforms-try-xamarinuitest-vs2019/17.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/xamarin/create-xamarinforms-try-xamarinuitest-vs2019/18.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/xamarin/create-xamarinforms-try-xamarinuitest-vs2019/19.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/xamarin/create-xamarinforms-try-xamarinuitest-vs2019/20.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/xamarin/create-xamarinforms-try-xamarinuitest-vs2019/21.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/xamarin/create-xamarinforms-try-xamarinuitest-vs2019/22.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/xamarin/create-xamarinforms-try-xamarinuitest-vs2019/23.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/xamarin/create-xamarinforms-try-xamarinuitest-vs2019/24.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/xamarin/create-xamarinforms-try-xamarinuitest-vs2019/25.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/xamarin/create-xamarinforms-try-xamarinuitest-vs2019/26.png">
+<meta property="article:published_time" content="2021-04-13T00:00:00.000Z">
+<meta property="article:modified_time" content="2021-04-13T00:00:00.000Z">
+<meta property="article:author" content="Developer Support Core Japan">
+<meta property="article:tag" content="Xamarin">
+<meta property="article:tag" content="UITest">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jpdscore.github.io/blog/xamarin/create-xamarinforms-try-xamarinuitest-vs2019/1.png">
+  
+    <link rel="alternate" href="../../blog/atom.xml" title="Japan Developer Support Core Team Blog" type="application/atom+xml">
+  
+
+  <link rel="icon" href="./favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png">
+  <link rel="manifest" href="./site.webmanifest">
+  <link rel="mask-icon" href="./safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="theme-color" content="#ffffff">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="../../css/style.css">
+
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="site-header-logo"></div>
+  <div id="site-header-blog-wrapper"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        <div id="ms-logo"></div>
+        
+          <a class="main-nav-link" href="../../index.html">Home</a>
+        
+          <a class="main-nav-link" href="../../archives">Archives</a>
+        
+        <a class="main-nav-link" target="_blank" rel="noopener" href="https://cssjpn.github.io/">サポート情報</a>
+        <a class="main-nav-link" href="/blog/general/welcome/">About</a>
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="../../blog/atom.xml" title="RSSフィード"></a>
+        
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//www.bing.com/search" method="get" accept-charset="UTF-8" name="bing-search" onsubmit="var f=this;if(f['q'].value){var searchUrl =  'https://www.bing.com/search?q=' +  encodeURIComponent(f['q'].value + ' site:' + f['sitesearch'].value) ;window.open(searchUrl, 'blank') };return false;" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="検索"><button type="submit" id="nav-search-btn" class="search-form-submit"></button><input type="hidden" name="sitesearch" value="https://jpdscore.github.io/blog"></form>
+      </div>
+    </div>
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="../../index.html" id="logo">Japan Developer Support Core Team Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="../../index.html" id="subtitle">日本マイクロソフトの Japan Developer Support Core チームのブログです。</a>
+        </h2>
+      
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-xamarin/create-xamarinforms-try-xamarinuitest-vs2019" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header-single">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      VS2019 から、Xamarin.UITest で Xamarin.Forms アプリの UI テストをしてみよう！
+    </h1>
+  
+
+      </header>
+      <div class="article-share">
+        Last Update: 
+        <a href="" class="article-date-single">
+  <time datetime="2021-04-13T00:00:00.000Z" itemprop="datePublished">2021-04-13</time>
+</a>
+        
+        
+        <a href="https://github.com/jpdscore/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+7a393bd9-fd79-5a6a-8dcc-628971d763a7%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5BVS2019+%E3%81%8B%E3%82%89%E3%80%81Xamarin.UITest+%E3%81%A7+Xamarin.Forms+%E3%82%A2%E3%83%97%E3%83%AA%E3%81%AE+UI+%E3%83%86%E3%82%B9%E3%83%88%E3%82%92%E3%81%97%E3%81%A6%E3%81%BF%E3%82%88%E3%81%86%EF%BC%81%5D%28https%3A%2F%2Fjpdscore.github.io%2Fblog%2Fxamarin%2Fcreate-xamarinforms-try-xamarinuitest-vs2019%2F%29" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
+        
+        <a data-url="https://jpdscore.github.io/blog/xamarin/create-xamarinforms-try-xamarinuitest-vs2019/" data-id="cknfsnsr5002ndvoe8zn5ga12" class="article-share-link">共有</a>
+      </div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>こんにちは、Japan Developer Support Core チームです。  </p>
+<p>Xamarin.Forms アプリの User Interface (UI) テストを可能にするフレームワーク、Xamairn.UITest を皆様ご存じでしょうか？  </p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/appcenter/test-cloud/frameworks/uitest/" title="Xamarin.UITest">Xamarin.UITest</a></li>
+</ul>
+<p>Microsoft の Docs サイトや Developer Community サイトでは、よく「Xamarin.UITest クロスプラットフォームのテストプロジェクト」を利用したチュートリアルが紹介されていますね。<br>今日は、必要なライブラリや UI Test の構成の理解を深めるために、この「Xamarin.UITest クロスプラットフォームのテストプロジェクト」を利用せず全て手作りで、Xamarin.UITest を使用した Xamarin.Forms アプリの UI Test にチャレンジしてみましょう！  </p>
+<p>早速ですが、本日のメニューはこちらです。</p>
+<p><a href="#1-%E7%92%B0%E5%A2%83%E3%81%AE%E6%BA%96%E5%82%99">1. 環境の準備</a><br><a href="#2-%E3%83%86%E3%82%B9%E3%83%88%E5%AF%BE%E8%B1%A1%E3%81%AB%E3%81%AA%E3%82%8B-Xamarin-Forms-%E3%82%A2%E3%83%97%E3%83%AA%E3%82%92%E4%BD%9C%E3%82%8B">2. テスト対象になる Xamarin.Forms アプリを作る</a><br><a href="#3-%E3%83%86%E3%82%B9%E3%83%88%E5%AF%BE%E8%B1%A1%E3%81%AE-Xamarin-Forms-%E3%82%A2%E3%83%97%E3%83%AA%E3%81%A7%E3%80%81UI-Test-%E3%81%AE%E6%BA%96%E5%82%99%E3%82%92%E3%81%99%E3%82%8B">3. テスト対象の Xamarin.Forms アプリで、UI Test の準備をする</a><br><a href="#4-%E4%BD%9C%E3%81%A3%E3%81%9F-Xamarin-Forms-%E3%82%A2%E3%83%97%E3%83%AA%E3%82%92%E3%83%91%E3%83%83%E3%82%B1%E3%83%BC%E3%82%B8%E5%8C%96%E3%81%99%E3%82%8B">4. 作った Xamarin.Forms アプリをパッケージ化する</a><br><a href="#5-Xamarin-UITest-%E3%83%97%E3%83%AD%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E3%82%92%E6%BA%96%E5%82%99%E3%81%99%E3%82%8B">5. Xamarin.UITest プロジェクトを準備する</a><br><a href="#6-UI-Test-%E3%82%92%E5%AE%9F%E6%96%BD%E3%81%99%E3%82%8B">6. UI Test を実施する</a>  </p>
+<h2 id="前提条件"><a href="#前提条件" class="headerlink" title="前提条件"></a>前提条件</h2><ul>
+<li>Visual Studio 2019 (以降、VS2019) をご用意ください。</li>
+<li>本記事では、Xamarin.Forms アプリや Xamarin.UITest モジュールの開発技法・コーディングについては詳しく言及していません。Xamarin.UITest を使用して Xamarin.Forms アプリの UI テストを行うために必要となるプロジェクト構成や、準備しておくべき設定、クラス、ソースコードのみを紹介します。</li>
+</ul>
+<hr>
+<h2 id="1-環境の準備"><a href="#1-環境の準備" class="headerlink" title="1. 環境の準備"></a>1. 環境の準備</h2><hr>
+<p>はじめに、開発環境の端末の Windows に、以下の環境変数を追加しておきましょう。<br>(下記例では、C ドライブ配下へのインストールを前提としたパスの記載になっています。ご利用の開発環境の構成にあわせて、パスを変更してくださいね。)<br>ユーザー変数で OK ですよ！  </p>
+<p>変数 : JAVA_HOME </p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">C:\Program Files\Android\Jdk\microsoft_dist_openjdk_1<span class="number">.8</span><span class="number">.0</span><span class="number">.25</span> </span><br></pre></td></tr></table></figure>
+
+<p>変数 : ANDROID_HOME </p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">C:\Program Files (x86)\Android\android-sdk </span><br></pre></td></tr></table></figure>
+
+<p>変数 : Path に以下を追加 </p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">%ANDROID_HOME%\tools </span><br><span class="line">%ANDROID_HOME%\platform-tools </span><br></pre></td></tr></table></figure>
+
+<p>次に Android SDK も、VS2019 の [ツール] – [ツールと機能を取得] から [Visual Studio インストーラー] を開いて、バージョンアップしておきましょう。  </p>
+<p><img src="1.png"></p>
+<p>続いて、VS2019 の [ツール] -&gt; [Android] -&gt; [Android SDK マネージャー] から、プラットフォームとツールも揃えておきましょう。   </p>
+<p>＜プラットフォーム＞<br><img src="2.png"></p>
+<p>＜ツール＞<br><img src="3.png"></p>
+<p>最後に Xamarin も、VS2019 の [ツール] – [ツールと機能を取得] から [Visual Studio インストーラー] を開いて、各コンポーネントを揃えておきましょう。  </p>
+<p><img src="4.png"></p>
+<p>ここまでの作業で、だいたいの下拵えは完了です。  </p>
+<hr>
+<h2 id="2-テスト対象になる-Xamarin-Forms-アプリを作る"><a href="#2-テスト対象になる-Xamarin-Forms-アプリを作る" class="headerlink" title="2. テスト対象になる Xamarin.Forms アプリを作る"></a>2. テスト対象になる Xamarin.Forms アプリを作る</h2><hr>
+<p>それでは、テストのターゲットになる Xamarin アプリ本体を作っていきましょう。  </p>
+<p>VS2019 から [新しいプロジェクトの作成] で、「モバイル アプリ(Xamarin.Forms)」を選択します。<br>ここでは開発言語に「C#」をチョイスしました。  </p>
+<p><img src="5.png"></p>
+<p>ここでは、プロジェクト名「MyXamarinFormsApp」、ソリューション名「MyXamarin」にしてみました。  </p>
+<p><img src="6.png"></p>
+<p>ウィザードの最後、アプリのテンプレートを選択する際は「空白」をチョイス、そして「予定している開発対象」には「Android」のみをセレクトしました。<br>今回の UITest は Android 一択でいきます！  </p>
+<p><img src="7.png"></p>
+<p>テストのターゲットになる Xamarin アプリ本体のプロジェクトと、そのソリューションが出来上がりました。<br>MyXamarinFormsApp プロジェクトが、アプリケーション固有の実装を含むプロジェクトで、MyXamarinFormsApp.Android プロジェクトが、デバイス (ここでは Android) 依存の実装を含むプロジェクトです。  </p>
+<p><img src="8.png"></p>
+<p>VS2019 のソリューション エクスプローラーから、各プロジェクトを右クリックして [NuGet パッケージの管理] を選択すると、それぞれどんな NuGet パッケージに依存しているかを確認できますよ。  </p>
+<p>＜MyXamarinFormsApp プロジェクト : アプリケーション固有の実装を含むプロジェクト＞<br><img src="9.png"></p>
+<p>＜MyXamarinFormsApp.Android プロジェクト : デバイス (ここでは Android) 依存の実装を含むプロジェクト＞<br><img src="10.png"></p>
+<hr>
+<h2 id="3-テスト対象の-Xamarin-Forms-アプリで、UI-Test-の準備をする"><a href="#3-テスト対象の-Xamarin-Forms-アプリで、UI-Test-の準備をする" class="headerlink" title="3. テスト対象の Xamarin.Forms アプリで、UI Test の準備をする"></a>3. テスト対象の Xamarin.Forms アプリで、UI Test の準備をする</h2><hr>
+<p>Xamarin.UITest では、ユーザーインターフェース (UI) のテスト対象となる各 UI 要素に対して、予め「AutomationId」を追加定義しておく必要があります。<br>詳しくは Microsoft Docs サイトをご照覧あれ。  </p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/appcenter/test-cloud/frameworks/uitest/xamarin-forms?tabs=windows#adding-uitest-support-to-xamarinforms-apps" title="Adding UITest support to Xamarin.Forms apps">Adding UITest support to Xamarin.Forms apps</a></li>
+</ul>
+<p>今しがた作成したばかりの Xamarin.Forms アプリの場合は、メインの UI を MyXamarinFormsApp\MainPage.xaml で定義しているので、ここを編集しておきましょう。<br>ちょっと手を抜いて、ここでは新しく追加した Button と Label のみを UITest 対象として、それぞれ AutomationId を定義しました。  </p>
+<p>// MyXamarinFormsApp\MainPage.xaml </p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;utf-8&quot;</span> ?&gt; </span><br><span class="line">&lt;ContentPage xmlns=<span class="string">&quot;http://xamarin.com/schemas/2014/forms&quot;</span> </span><br><span class="line">             xmlns:x=<span class="string">&quot;http://schemas.microsoft.com/winfx/2009/xaml&quot;</span> </span><br><span class="line">             x:Class=<span class="string">&quot;MyXamarinFormsApp.MainPage&quot;</span>&gt; </span><br><span class="line">    &lt;StackLayout&gt; </span><br><span class="line">        &lt;Frame BackgroundColor=<span class="string">&quot;#2196F3&quot;</span> Padding=<span class="string">&quot;24&quot;</span> CornerRadius=<span class="string">&quot;0&quot;</span>&gt; </span><br><span class="line">            &lt;Label Text=<span class="string">&quot;Welcome to Xamarin.Forms!&quot;</span> HorizontalTextAlignment=<span class="string">&quot;Center&quot;</span> TextColor=<span class="string">&quot;White&quot;</span> FontSize=<span class="string">&quot;36&quot;</span>/&gt; </span><br><span class="line">        &lt;/Frame&gt; </span><br><span class="line">        &lt;Label Text=<span class="string">&quot;Start developing now&quot;</span> FontSize=<span class="string">&quot;Title&quot;</span> Padding=<span class="string">&quot;30,10,30,10&quot;</span>/&gt; </span><br><span class="line">        &lt;Label Text=<span class="string">&quot;Make changes to your XAML file and save to see your UI update in the running app with XAML Hot Reload. Give it a try!&quot;</span> FontSize=<span class="string">&quot;16&quot;</span> Padding=<span class="string">&quot;30,0,30,0&quot;</span>/&gt; </span><br><span class="line">        &lt;Label FontSize=<span class="string">&quot;16&quot;</span> Padding=<span class="string">&quot;30,24,30,0&quot;</span>&gt; </span><br><span class="line">            &lt;Label.FormattedText&gt; </span><br><span class="line">                &lt;FormattedString&gt; </span><br><span class="line">                    &lt;FormattedString.Spans&gt; </span><br><span class="line">                        &lt;Span Text=<span class="string">&quot;Learn more at &quot;</span>/&gt; </span><br><span class="line">                        &lt;Span Text=<span class="string">&quot;https://aka.ms/xamarin-quickstart&quot;</span> FontAttributes=<span class="string">&quot;Bold&quot;</span>/&gt; </span><br><span class="line">                    &lt;/FormattedString.Spans&gt; </span><br><span class="line">                &lt;/FormattedString&gt; </span><br><span class="line">            &lt;/Label.FormattedText&gt; </span><br><span class="line">        &lt;/Label&gt; </span><br><span class="line">        &lt;Button x:Name=<span class="string">&quot;b&quot;</span> AutomationId=<span class="string">&quot;MyButton&quot;</span> Text=<span class="string">&quot;Click me&quot;</span>/&gt; </span><br><span class="line">        &lt;Label x:Name=<span class="string">&quot;l&quot;</span> AutomationId=<span class="string">&quot;MyLabel&quot;</span> Text=<span class="string">&quot;Hello, Xamarin.Forms!&quot;</span> /&gt; </span><br><span class="line">    &lt;/StackLayout&gt; </span><br><span class="line">&lt;/ContentPage&gt; </span><br></pre></td></tr></table></figure>
+
+<p>ここまで実装が完了したら、一度ソリューションを Debug モードでリビルドしてみましょう！  </p>
+<p>リビルドをパスしたら、ついでに Android のエミュレーター (下記例では「Pixel 2 Pie 9.0 - API 28」) 上でデバッグ実行・アプリが起動するところまで確認しておくと安心です。  </p>
+<p><img src="11.png"></p>
+<hr>
+<h2 id="4-作った-Xamarin-Forms-アプリをパッケージ化する"><a href="#4-作った-Xamarin-Forms-アプリをパッケージ化する" class="headerlink" title="4. 作った Xamarin.Forms アプリをパッケージ化する"></a>4. 作った Xamarin.Forms アプリをパッケージ化する</h2><hr>
+<p>無事、UITest 準備を済ませた Xamarin.Forms アプリが出来上がったところで、今度はこのアプリをパッケージングしましょう。<br>因みに Android の場合は、拡張子「.APK」でパッケージングされますよ。  </p>
+<p>それでは早速、VS2019 のソリューション エクスプローラーから、デバイス (ここでは Android) 依存の実装を含むプロジェクト MyXamarinFormsApp.Android のプロパティを開いてください。<br>ここから少し力作業です、間違えないように気をつけながらブレードにリストアップされている各種設定を進めましょう！  </p>
+<table>
+<thead>
+<tr>
+<th>アプリケーション</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Android バージョンを使用したコンパイル (ターゲット フレームワーク)</td>
+<td>「Android 11.0 (Pie)」</td>
+</tr>
+<tr>
+<td><img src="12.png"></td>
+<td></td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>Android マニフェスト</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>パッケージ名</td>
+<td>「com.DSC.myxamarinformsapp」</td>
+</tr>
+<tr>
+<td>ターゲット Android バージョン</td>
+<td>「Android 9.0 (API レベル 28 - Pie)」</td>
+</tr>
+<tr>
+<td><img src="13.png"></td>
+<td></td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>Android オプション</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Android パッケージ形式</td>
+<td>「apk」</td>
+</tr>
+<tr>
+<td>リンク中</td>
+<td>「SDK アセンブリのみ」</td>
+</tr>
+<tr>
+<td><img src="14.png"></td>
+<td></td>
+</tr>
+</tbody></table>
+<p>画像が見切れちゃいました、すみません。。。  </p>
+<p><img src="15.png"></p>
+<p>プロジェクトのプロパティ設定を済ませたら、いよいよパッケージを作成します。<br>VS2019 のソリューション エクスプローラーから、デバイス (ここでは Android) 依存の実装を含むプロジェクト MyXamarinFormsApp.Android を右クリックして [アーカイブ] を選択します。<br>アーカイブが成功すると、アーカイブマネージャーの画面から [フォルダーを開く] ボタンをクリックして、生成された .apk ファイルを確認できますよ。  </p>
+<p><img src="16.png"></p>
+<p>割と深い階層にありますね、適宜見つけやすい場所にコピーしておくと良いかもしれません。<br>ここでは例として C:\TEMP フォルダ直下へコピーしておきましょう。  </p>
+<p><img src="17.png"></p>
+<p>【参考情報】  </p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/ja-jp/xamarin/android/deploy-test/release-prep/?tabs=windows" title="リリースに向けてアプリケーションを準備する">リリースに向けてアプリケーションを準備する</a>  </li>
+</ul>
+<hr>
+<h2 id="5-Xamarin-UITest-プロジェクトを準備する"><a href="#5-Xamarin-UITest-プロジェクトを準備する" class="headerlink" title="5. Xamarin.UITest プロジェクトを準備する"></a>5. Xamarin.UITest プロジェクトを準備する</h2><hr>
+<p>満を持して、Xamarin.UITest を使用した UI テストのプロジェクトを作っていくことにしましょう。<br>冒頭でもお伝えしたとおり、今回は「Xamarin.UITest クロスプラットフォームのテストプロジェクト」を利用せずに、全て手作りしていきますよ！  </p>
+<p>VS2019 のソリューション エクスプローラーから、ソリューションを右クリックして [追加] - [新しいプロジェクト] を選択します。<br>プロジェクト テンプレートには、C# クラス ライブラリ (.dll) を作成するためのプロジェクト「クラス ライブラリ (.NET Framework)」を選んでくださいね。  </p>
+<p><img src="18.png"> </p>
+<p>テスト モジュールになるプロジェクトが出来上がりました。<br>MyXamarinUITestDll プロジェクトが、Xamarin.UITest パッケージを使用して UI テストを行うテスト モジュールを含むプロジェクトです。  </p>
+<p><img src="19.png"></p>
+<p>UI テスト モジュールのスケルトンが出来上がったところで、早速 UI テストのソースコードを実装していきましょう。  </p>
+<p>VS2019 のソリューションエクスプローラーから、UI テストを行うテスト モジュールを含むプロジェクト MyXamarinUITestDll を右クリックして、[追加] - [新しい項目] を選択し、「AppInitializer.cs」という名前の新しい C# クラスを作成します。  </p>
+<p><img src="20.png"></p>
+<p>作成した新しい AppInitializer.cs を開いて、次のようにコードを実装します。<br>このクラスでは、このテスト モジュールの初期化処理を実装します。<br>StartApp() 内で呼び出している ConfigureApp メソッドに、先ほど作成したパッケージ ファイル (.APK) へのパスを指定するのを忘れずに。  </p>
+<p><img src="21.png"></p>
+<p>一見して、色々と using できていないエラーが散見されますが、これには後で対処しますので先ずはこのままでオッケーですよ！  </p>
+<p>※ コピペ用に、どうぞ。。。  </p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> System; </span><br><span class="line"><span class="keyword">using</span> System.Collections.Generic; </span><br><span class="line"><span class="keyword">using</span> System.Linq; </span><br><span class="line"><span class="keyword">using</span> System.Text; </span><br><span class="line"><span class="keyword">using</span> System.Threading.Tasks; </span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> Xamarin.UITest; </span><br><span class="line"><span class="keyword">using</span> Xamarin.UITest.Queries; </span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> MyXamarinUITestDll </span><br><span class="line">&#123; </span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">AppInitializer</span> </span></span><br><span class="line"><span class="class">    &#123;</span> </span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> IApp <span class="title">StartApp</span><span class="params">(Platform platform)</span> </span></span><br><span class="line"><span class="function">        </span>&#123; </span><br><span class="line">            <span class="keyword">if</span> (platform == Platform.Android) </span><br><span class="line">            &#123; </span><br><span class="line">                <span class="keyword">return</span> ConfigureApp </span><br><span class="line">                         .Android </span><br><span class="line">                         .ApkFile(@<span class="string">&quot;C:\TEMP\com.dsc.myxamarinformsapp.apk&quot;</span>)</span><br><span class="line">                         .StartApp(); </span><br><span class="line">            &#125; </span><br><span class="line">            <span class="keyword">return</span> ConfigureApp.iOS.StartApp(); </span><br><span class="line">        &#125; </span><br><span class="line">    &#125; </span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+
+<p>続いて、この UI テスト モジュールで行うテスト コードを実装していきましょう。  </p>
+<p>VS2019 のソリューションエクスプローラーから、UI テストを行うテスト モジュールを含むプロジェクト MyXamarinUITestDll 配下に、既定という名のデフォルトで「Class1.cs」ファイルを右クリックして [名前の変更] を選択し、「Tests.cs」に編集します。<br>「ファイルの名前を変更しようとしています。このプロジェクトのコード要素 ‘Class1’ への参照をすべて変更しますか？」と聞かれたら「はい」で進めてくださいね。  </p>
+<p>ファイル名とクラス名が変更された Tests.Cs を開いて、次のようにコードを実装します。<br>[SetUp] エリアの BeforeEachTest() 内で、先ほど実装した AppInitializer クラスの StartApp() を呼んでいますね。<br>そして [Test] エリアの WelcomeTextIsDisplayed() これが、このテスト モジュールで実装されているテスト メソッドになります。  </p>
+<p>ここではどんなテストをしているかというと、先ず 33 行目の IApp::WaitForElement() で “Welcome to Xamarin.Forms!” と表記されている UI 要素の表示を待機し、次に 34 行目の IApp::Screenshot() で現在表示されている画面のスクリーンショットを取得し、最後に 36 行目で、このテスト メソッドの実行結果が真 (True) でなければアサートしています。<br>(なおサンプル プログラムあるあるで、実際にこのテスト メソッドが実行されても results 値が True 以外の値になることはないため、IsTrue() メソッドによってアサートされることはありません。あしからず。)   </p>
+<p><img src="22.png"></p>
+<p>※ コピペ用に、どうぞ。。。   </p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> System; </span><br><span class="line"><span class="keyword">using</span> System.Collections.Generic; </span><br><span class="line"><span class="keyword">using</span> System.Linq; </span><br><span class="line"><span class="keyword">using</span> System.Text; </span><br><span class="line"><span class="keyword">using</span> System.Threading.Tasks; </span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> NUnit.Framework; </span><br><span class="line"><span class="keyword">using</span> Xamarin.UITest; </span><br><span class="line"><span class="keyword">using</span> Xamarin.UITest.Queries; </span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> MyXamarinUITestDll </span><br><span class="line">&#123; </span><br><span class="line">    [TestFixture(Platform.Android)] </span><br><span class="line">    <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Tests</span> </span></span><br><span class="line"><span class="class">    &#123;</span> </span><br><span class="line">        IApp app; </span><br><span class="line">        Platform platform; </span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">Tests</span><span class="params">(Platform platform)</span> </span></span><br><span class="line"><span class="function">        </span>&#123; </span><br><span class="line">            <span class="keyword">this</span>.platform = platform; </span><br><span class="line">        &#125; </span><br><span class="line"></span><br><span class="line">        [SetUp] </span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">BeforeEachTest</span><span class="params">()</span> </span></span><br><span class="line"><span class="function">        </span>&#123; </span><br><span class="line">            app = AppInitializer.StartApp(platform); </span><br><span class="line">        &#125; </span><br><span class="line"></span><br><span class="line">        [Test] </span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">WelcomeTextIsDisplayed</span><span class="params">()</span> </span></span><br><span class="line"><span class="function">        </span>&#123; </span><br><span class="line">            AppResult[] results = app.WaitForElement(c =&gt; c.Marked(<span class="string">&quot;Welcome to Xamarin.Forms!&quot;</span>)); </span><br><span class="line">            app.Screenshot(<span class="string">&quot;Welcome screen.&quot;</span>); </span><br><span class="line">            Assert.IsTrue(results.Any()); </span><br><span class="line">        &#125; </span><br><span class="line">    &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>やっとコーディングが終わりましたので、先ほどから気になっていた「色々と using できていないエラー」に対処していきましょう。  </p>
+<p>VS2019 のソリューションエクスプローラーから、UI テストを行うテスト モジュールを含むプロジェクト MyXamarinUITestDll を右クリックして [NuGet パッケージの管理] を選択してください。<br>ここからまた、力仕事です・・・以下のパッケージを選択し、間違えないようにプロジェクトへインストールして追加していきましょう。  </p>
+<table>
+<thead>
+<tr>
+<th>パッケージ名</th>
+<th>バージョン</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>NUnit</td>
+<td>v3.13.1</td>
+</tr>
+<tr>
+<td>NUnit3TestAdapter</td>
+<td>v3.17.0</td>
+</tr>
+<tr>
+<td>Xamarin.UITest</td>
+<td>v3.0.15</td>
+</tr>
+</tbody></table>
+<p><img src="23.png"></p>
+<p>全てのパッケージのインストールが完了すると、先ほどから気になっていた「色々と using できていないエラー」が全て解消されています。<br>VS2019 のソリューションエクスプローラーから、UI テストを行うテスト モジュールを含むプロジェクト MyXamarinUITestDll を右クリックして、[リビルド] しておきましょう。  </p>
+<hr>
+<h2 id="6-UI-Test-を実施する"><a href="#6-UI-Test-を実施する" class="headerlink" title="6. UI Test を実施する"></a>6. UI Test を実施する</h2><hr>
+<p>それでは、いよいよ UITest を走らせてみましょう！  </p>
+<p>VS2019 の [ツール] - [Android] から [Android デバイスマネージャー] を起動し、ここでは先ほどもご覧いただいた「Pixel 2 Pie 9.0 - API 28」(Pie 9.0 - API 28) という Android OS を先に [開始] しておきます。<br>先にエミュレーターを開始しておくことで、テスト実行時にデバイスへの接続でタイムアウトが発生することを回避しやすくなりますよ。  </p>
+<p><img src="24.png"></p>
+<p>エミュレーターによってデバイスが開始されてきたら、VS2019 のツールバーから [テスト] - [テスト エクスプローラー] を選択してテスト エクスプローラーを起動します。<br>テストエクスプローラーによって、現在のソリューションに含まれるテスト モジュールとテスト メソッドの検索が行われて、ツリー状に表示されます。<br>ソースコードのリンクから、実際のテスト メソッドが実装されているソースコードを参照することもできますよ。  </p>
+<p><img src="25.png"></p>
+<p>テスト エクスプローラーのツリーから、先ほど実装した WelcomeTextIsDisplayed を右クリックして [実行] すれば、テストの開始です。<br>エミュレーター上の Android デバイス上で、Xamarin.Forms アプリが起動され、起動されたアプリに Xamarin.UITest の UI テストモジュールがロードされて、[実行] したテスト メソッドが実行されます。  </p>
+<p>そしてテスト結果はご覧のとおり、当然ながらオールグリーンです！<br>お疲れさまでした！  </p>
+<p><img src="26.png"></p>
+<p>今回は、VS2019 上で Xamarin.Forms アプリとアプリのパッケージ、そしてアプリのパッケージの UI Test を行う Xamarin.UITest モジュールを作成して、実際に VS2019 のテスト エクスプローラーから UI Test を行うところまでの手順を一通りご紹介しました。<br>次回は、Visual Studio AppCenter 上で行う UI Test についてご紹介しようと思っています。<br>どうぞよろしくお願いします！  </p>
+
+      
+      
+        <div class="article-disclaimer">
+        
+          <p><hr>本ブログの内容は弊社の公式見解として保証されるものではなく、開発・運用時の参考情報としてご活用いただくことを目的としています。もし公式な見解が必要な場合は、弊社ドキュメント (<a target="_blank" rel="noopener" href="https://docs.microsoft.com/">https://docs.microsoft.com</a> や <a target="_blank" rel="noopener" href="https://support.microsoft.com">https://support.microsoft.com</a>) をご参照いただくか、もしくは私共サポートまでお問い合わせください。</p>
+        
+        </div>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/UITest/" rel="tag">UITest</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Xamarin/" rel="tag">Xamarin</a></li></ul>
+
+      <!-- 
+      
+        <a href="https://github.com/jpdscore/blog/edit/master/articles/xamarin/create-xamarinforms-try-xamarinuitest-vs2019.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
+        
+      -->
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="../../debugging/collect-dump-ifeo/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前の記事</strong>
+      <div class="article-nav-title">アプリケーションの起動時に自動的にツールをアタッチさせて例外発生時のダンプ ファイルを採取する</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最近の投稿</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="">VS2019 から、Xamarin.UITest で Xamarin.Forms アプリの UI テストをしてみよう！</a>
+          </li>
+        
+          <li>
+            <a href="../../debugging/collect-dump-ifeo/">アプリケーションの起動時に自動的にツールをアタッチさせて例外発生時のダンプ ファイルを採取する</a>
+          </li>
+        
+          <li>
+            <a href="../../deployment/unknown-publisher-on-clickonce-trust-prompt/">ClickOnce 信頼プロンプトで公開元が&#34;不明な公開元です。&#34;として表示される場合の原因と対処方法</a>
+          </li>
+        
+          <li>
+            <a href="../../debugging/collect-procmon/">Process Monitor ログの採取手順</a>
+          </li>
+        
+          <li>
+            <a href="../../debugging/understanding-symbol-files-and-visual-studios-symbol-settings/">シンボル ファイルと Visual Studio のシンボル設定を理解する</a>
+          </li>
+        
+          <li>
+            <a href="../../vs/identity-of-build-artifacts-from-identical-source/">同一ソースコードから生成されるビルド成果物のバイナリ同一性について</a>
+          </li>
+        
+          <li>
+            <a href="../../vs/vs2019-16-3-incorrectly-detect-avx512/">Visual Studio 2019 version 16.3.x でビルドした C/C++ アプリが例外 0xC000001d で異常終了する</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">タグ</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="../../tags/ALM/">ALM</a><span class="tag-list-count">3</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-Pipelines">Azure Pipelines</a><span class="tag-list-count">3</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-Repos">Azure Repos</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/GitHub">GitHub</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Windows-SDK/">Windows SDK</a><span class="tag-list-count">5</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Debug">Debug</a><span class="tag-list-count">5</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Leak">Leak</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Debug/">Debug</a><span class="tag-list-count">9</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Leak">Leak</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Memory">Memory</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Windows-SDK">Windows SDK</a><span class="tag-list-count">5</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/">情報採取手順</a><span class="tag-list-count">1</span><ul></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Deployment/">Deployment</a><span class="tag-list-count">2</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Deployment/ClickOnce">ClickOnce</a><span class="tag-list-count">2</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/NET/">.NET</a><span class="tag-list-count">1</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/NET-Framework">.NET Framework</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E5%85%A8%E8%88%AC/">全般</a><span class="tag-list-count">1</span><ul></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Visual-Studio/">Visual Studio</a><span class="tag-list-count">4</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/C">C#</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/C">C++</a><span class="tag-list-count">3</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/VB-NET">VB.NET</a><span class="tag-list-count">2</span></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">アーカイブ</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/04/">2021 / 04</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/02/">2021 / 02</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/01/">2021 / 01</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/12/">2020 / 12</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/11/">2020 / 11</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/10/">2020 / 10</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/09/">2020 / 09</a><span class="archive-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">旧ブログ/フォーラム</h3>
+  <div class="widget">
+    <ul>
+      
+        <li>
+          <a href="../../https:/social.msdn.microsoft.com/Forums/ja-jp/home?forum=visualstudiosupportteamja">Visual Studio サポートチーム フォーラム</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/social.msdn.microsoft.com/Forums/ja-jp/home?forum=windowssdksupportteamja&filter=alltypes&sort=lastpostdesc">Windows SDK サポートチーム フォーラム</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/docs.microsoft.com/en-us/archive/blogs/jpvsblog/">Visual Studio サポート チーム blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/docs.microsoft.com/en-us/archive/blogs/japan_platform_sdkwindows_sdk_support_team_blog/">JAPAN Platform SDK（Windows SDK） Support Team Blog</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">関連リンク</h3>
+  <div class="widget">
+    <ul>
+      
+        <li>
+          <a href="../../https:/developercommunity.visualstudio.com/">Developer Community</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/devblogs.microsoft.com/dotnet/">.NET Blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/devblogs.microsoft.com/visualstudio/">Visual Studio Blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/devblogs.microsoft.com/cppblog/">C++ Team Blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/devblogs.microsoft.com/xamarin/">Xamarin Blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/devblogs.microsoft.com/devops/">Azure DevOps Blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/techcommunity.microsoft.com/t5/azure-lab-services/bg-p/AzureLabServicesBlog/">Azure Lab Services Blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/devblogs.microsoft.com/appcenter/">App Center Blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/status.azure.com/status/">Azure Status</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/status.dev.azure.com/">Azure DevOps - Status</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2021 Developer Support Core Japan<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="../../index.html" class="mobile-nav-link">Home</a>
+  
+    <a href="../../archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+<script src="../../js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

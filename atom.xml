@@ -6,7 +6,7 @@
   <link href="https://jpdscore.github.io/blog/atom.xml" rel="self"/>
   
   <link href="https://jpdscore.github.io/blog/"/>
-  <updated>2021-04-05T23:41:59.000Z</updated>
+  <updated>2021-04-13T00:00:00.000Z</updated>
   <id>https://jpdscore.github.io/blog/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>VS2019 から、Xamarin.UITest で Xamarin.Forms アプリの UI テストをしてみよう！</title>
+    <link href="https://jpdscore.github.io/blog/xamarin/create-xamarinforms-try-xamarinuitest-vs2019/"/>
+    <id>https://jpdscore.github.io/blog/xamarin/create-xamarinforms-try-xamarinuitest-vs2019/</id>
+    <published>2021-04-13T00:00:00.000Z</published>
+    <updated>2021-04-13T00:00:00.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;こんにちは、Japan Developer Support Core チームです。  &lt;/p&gt;
+&lt;p&gt;Xamarin.Forms アプリの User Interface (UI) テストを可能にするフレームワーク、Xamairn.UITest を皆様ご存じでしょうか？ </summary>
+        
+      
+    
+    
+    
+    
+    <category term="Xamarin" scheme="https://jpdscore.github.io/blog/tags/Xamarin/"/>
+    
+    <category term="UITest" scheme="https://jpdscore.github.io/blog/tags/UITest/"/>
+    
+  </entry>
   
   <entry>
     <title>アプリケーションの起動時に自動的にツールをアタッチさせて例外発生時のダンプ ファイルを採取する</title>
@@ -474,32 +500,6 @@
     <category term="ALM" scheme="https://jpdscore.github.io/blog/tags/ALM/"/>
     
     <category term="Azure Pipelines" scheme="https://jpdscore.github.io/blog/tags/Azure-Pipelines/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>ClickOnce アプリケーションのインストールや更新の後に発生する場合があるアプリケーション起動時のエラーについて</title>
-    <link href="https://jpdscore.github.io/blog/deployment/fail-to-launch-clickonce-apps-after-updated/"/>
-    <id>https://jpdscore.github.io/blog/deployment/fail-to-launch-clickonce-apps-after-updated/</id>
-    <published>2020-09-28T15:00:00.000Z</published>
-    <updated>2020-09-28T15:00:00.000Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;(※ 2018 年 2 月 20 日に Microsoft Japan Visual Studio Support Team Blog に公開した情報のアーカイブです。)&lt;/p&gt;
-&lt;p&gt;こんにちは、Visual Studio サポート</summary>
-        
-      
-    
-    
-    
-    
-    <category term="Deployment" scheme="https://jpdscore.github.io/blog/tags/Deployment/"/>
-    
-    <category term="ClickOnce" scheme="https://jpdscore.github.io/blog/tags/ClickOnce/"/>
     
   </entry>
   

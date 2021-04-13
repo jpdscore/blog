@@ -9,6 +9,14 @@
 
 
     <url>
+        <loc>https://jpdscore.github.io/blog/xamarin/create-xamarinforms-try-xamarinuitest-vs2019/</loc>
+        <lastmod>2021-04-13T00:00:00.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://jpdscore.github.io/blog/debugging/collect-dump-ifeo/</loc>
         <lastmod>2021-04-05T23:41:59.000Z</lastmod>
         <changefreq>weekly</changefreq>
