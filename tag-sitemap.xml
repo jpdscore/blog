@@ -3,6 +3,20 @@
 
 
     <url>
+        <loc>https://jpdscore.github.io/blog/tags/NET-Framework/</loc>
+        <lastmod>2021-04-27T23:04:10.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://jpdscore.github.io/blog/tags/NET/</loc>
+        <lastmod>2021-04-27T23:04:10.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
         <loc>https://jpdscore.github.io/blog/tags/UITest/</loc>
         <lastmod>2021-04-13T00:00:00.000Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -117,20 +131,6 @@
     <url>
         <loc>https://jpdscore.github.io/blog/tags/Azure-Repos/</loc>
         <lastmod>2020-10-29T15:00:00.000Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://jpdscore.github.io/blog/tags/NET-Framework/</loc>
-        <lastmod>2020-09-28T15:00:00.000Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://jpdscore.github.io/blog/tags/NET/</loc>
-        <lastmod>2020-09-28T15:00:00.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
