@@ -4,20 +4,20 @@
   <meta charset="utf-8">
   
   
-  <title>WER を使って Dump を採取する | Japan Developer Support Core Team Blog</title>
+  <title>SelectObject 関数利用時の注意事項 | Japan Developer Support Core Team Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Windows エラー報告 (Windows Error Reporting) を使って Dump を採取するこんにちは、Japan Developer Support Core チーム 平田 a.k.a ぴろとです。以前は、ミニ四駆に精を出していましたが、最近はメダカの飼育にはまってます。マイクロソフトの中の人には、沼にはまった趣味を持つ人が多いので、話を聞くだけでもいろいろな視点をもたらしてく">
+  <meta name="description" content="こんにちは、Japan Developer Support Core チームです。 今回は、アプリケーションで GDI を利用する際に注意していただきたいことをご案内します。2021 年 3 月 以降の更新プログラムを適用すると GDI 関連の処理が厳格化され、以前動作していた特定のコード（例：プリンターに画像を出力する）が失敗するようになりましたので、以下に該当される場合にはアプリケーションの修">
 <meta property="og:type" content="article">
-<meta property="og:title" content="WER を使って Dump を採取する">
-<meta property="og:url" content="https://jpdscore.github.io/blog/debugging/using-WER/index.html">
+<meta property="og:title" content="SelectObject 関数利用時の注意事項">
+<meta property="og:url" content="https://jpdscore.github.io/blog/windowssdk/note-when-use-selectobject-function/index.html">
 <meta property="og:site_name" content="Japan Developer Support Core Team Blog">
-<meta property="og:description" content="Windows エラー報告 (Windows Error Reporting) を使って Dump を採取するこんにちは、Japan Developer Support Core チーム 平田 a.k.a ぴろとです。以前は、ミニ四駆に精を出していましたが、最近はメダカの飼育にはまってます。マイクロソフトの中の人には、沼にはまった趣味を持つ人が多いので、話を聞くだけでもいろいろな視点をもたらしてく">
+<meta property="og:description" content="こんにちは、Japan Developer Support Core チームです。 今回は、アプリケーションで GDI を利用する際に注意していただきたいことをご案内します。2021 年 3 月 以降の更新プログラムを適用すると GDI 関連の処理が厳格化され、以前動作していた特定のコード（例：プリンターに画像を出力する）が失敗するようになりましたので、以下に該当される場合にはアプリケーションの修">
 <meta property="og:locale" content="ja_JP">
-<meta property="article:published_time" content="2020-11-25T01:32:06.000Z">
-<meta property="article:modified_time" content="2020-11-25T01:32:06.000Z">
+<meta property="article:published_time" content="2021-05-25T08:17:43.000Z">
+<meta property="article:modified_time" content="2021-05-25T08:17:43.000Z">
 <meta property="article:author" content="Developer Support Core Japan">
 <meta property="article:tag" content="Windows SDK">
-<meta property="article:tag" content="Debug">
+<meta property="article:tag" content="GDI">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternate" href="../../blog/atom.xml" title="Japan Developer Support Core Team Blog" type="application/atom+xml">
@@ -80,7 +80,7 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-debugging/using-WER" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-windowssdk/note-when-use-selectobject-function" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
     
@@ -89,7 +89,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      WER を使って Dump を採取する
+      SelectObject 関数利用時の注意事項
     </h1>
   
 
@@ -97,36 +97,29 @@
       <div class="article-share">
         Last Update: 
         <a href="" class="article-date-single">
-  <time datetime="2020-11-25T01:32:06.000Z" itemprop="datePublished">2020-11-25</time>
+  <time datetime="2021-05-25T08:17:43.000Z" itemprop="datePublished">2021-05-25</time>
 </a>
         
         
-        <a href="https://github.com/jpdscore/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+019314cf-540f-521e-a7a5-f572f6c70825%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5BWER+%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6+Dump+%E3%82%92%E6%8E%A1%E5%8F%96%E3%81%99%E3%82%8B%5D%28https%3A%2F%2Fjpdscore.github.io%2Fblog%2Fdebugging%2Fusing-WER%2F%29" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
+        <a href="https://github.com/jpdscore/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+452d2e8a-c016-5225-b06e-195269c9f61c%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5BSelectObject+%E9%96%A2%E6%95%B0%E5%88%A9%E7%94%A8%E6%99%82%E3%81%AE%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A0%85%5D%28https%3A%2F%2Fjpdscore.github.io%2Fblog%2Fwindowssdk%2Fnote-when-use-selectobject-function%2F%29" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
         
-        <a data-url="https://jpdscore.github.io/blog/debugging/using-WER/" data-id="ckp3w3fd4000adkog9z3l9xef" class="article-share-link">共有</a>
+        <a data-url="https://jpdscore.github.io/blog/windowssdk/note-when-use-selectobject-function/" data-id="ckp3w3fdk000sdkogghi1c3py" class="article-share-link">共有</a>
       </div>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="Windows-エラー報告-Windows-Error-Reporting-を使って-Dump-を採取する"><a href="#Windows-エラー報告-Windows-Error-Reporting-を使って-Dump-を採取する" class="headerlink" title="Windows エラー報告 (Windows Error Reporting) を使って Dump を採取する"></a>Windows エラー報告 (Windows Error Reporting) を使って Dump を採取する</h2><p>こんにちは、Japan Developer Support Core チーム 平田 a.k.a ぴろとです。<br>以前は、ミニ四駆に精を出していましたが、最近はメダカの飼育にはまってます。マイクロソフトの中の人には、沼にはまった趣味を持つ人が多いので、話を聞くだけでもいろいろな視点をもたらしてくれるよい同僚がいて、刺激を受けてます。  </p>
-<p>話を戻して、前回は、ProcDump を用いてダンプの採取をおこないました。クラッシュ系のダンプを採取する場合には、ProcDump のようにアタッチをしたままで運用することが難しいパターンもあります。この場合は、Windows が提供している Windows Error Reporting を用いてクラッシュ時に自動でダンプを取得するように設定をすることも検討する価値があります。</p>
-<h3 id="Windows-エラー報告-Windows-Error-Reporting"><a href="#Windows-エラー報告-Windows-Error-Reporting" class="headerlink" title="Windows エラー報告 (Windows Error Reporting)"></a>Windows エラー報告 (Windows Error Reporting)</h3><p>Windows エラー報告 (Windows Error Reporting、以下 WER) は、Windows XP 以前では、Dr.Watson の機能に該当していたものですが、Windows Vista 以降では、WER に置き換えられました。これにより、いつ発生するかわからない例外によるクラッシュ時のダンプをとることを可能にすることができます。基本的には、クラッシュ ダンプになるため、1st Chance 例外の場合はダンプが取れない場合があります。この場合には、恐れ入りますが、ProcDump による採取をご検討いただくのが良いかと思います。</p>
-<h3 id="設定方法"><a href="#設定方法" class="headerlink" title="設定方法"></a>設定方法</h3><p><strong>重要このセクション、方法、またはタスクには、レジストリの編集方法が記載されています。レジストリを誤って変更すると、深刻な問題が発生することがあります。レジストリを変更する際には十分に注意してください。万一に備えて、編集の前にレジストリをバックアップしてください。問題が発生した場合でも、レジストリを復元できます。レジストリのバックアップ方法および復元方法の詳細を参照するには、以下のマイクロソフト サポート技術情報番号をクリックしてください。<br><a target="_blank" rel="noopener" href="https://support.microsoft.com/ja-jp/help/322756/how-to-back-up-and-restore-the-registry-in-windows">322756</a> Windows でレジストリをバックアップおよび復元する方法</strong></p>
-<pre><code>1. レジストリ エディタを起動します。
-2. 左ペインより、以下のキーを展開後、右クリックし、[新規] - [キー] を選択します。
-   HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\Windows Error Reporting
-3. 作成された [新しいキー #1] の名前を以下に変更します。
-   LocalDumps
-4. [LocalDumps] を右クリックし、[新規] - [Dword (32 ビット) 値] を選択します。
-5. 作成された [新しい値 #1] の名前を以下に変更します。
-   DumpType
-6. [DumpType] をダブルクリックし、[値のデータ] を 2 に設定します。
-7. [LocalDumps] を右クリックし、[新規] - [展開可能な文字列] を選択します。
-8. 作成された [新しい値 #1] の名前を以下に変更します。
-   DumpFolder
-9. [DumpFolder] をダブルクリックし、[値のデータ] にダンプの出力先として
-   任意のフォルダ名を設定します。</code></pre>
-<p>実施するのは、以上になります。再現したら、ここで指定されたフォルダーにダンプされるため、出力されるのを待ちます。<br>そのあとには、解析を進めていくこととなります。</p>
+        <p>こんにちは、Japan Developer Support Core チームです。</p>
+<p>今回は、アプリケーションで GDI を利用する際に注意していただきたいことをご案内します。<br>2021 年 3 月 以降の更新プログラムを適用すると GDI 関連の処理が厳格化され、以前動作していた特定のコード（例：プリンターに画像を出力する）が失敗するようになりましたので、以下に該当される場合にはアプリケーションの修正をお願いします。</p>
+<h1 id="詳細情報"><a href="#詳細情報" class="headerlink" title="詳細情報"></a>詳細情報</h1><p>SelectObject 関数で デバイス コンテキスト (Device Context、以下 DC) に デバイス依存ビットマップ (Device-Dependent Bitmap、以下 DDB) を設定する場合は、DCと DDB が適切に対応するよう、デバイスに対応する DC から生成したメモリDCに対し、同様にデバイスに対応する DC を指定して CreateCompatibleBitmap 関数等で生成した DDB を設定する必要があります。</p>
+<p>特に、CreateCompatibleDC 関数では、引数に NULL を指定した場合は、アプリケーションの現在のスクリーンに対応する メモリ DC を生成しますので、以下のコード例のように、スクリーンに対応したメモリ DC に対してプリンター DC に基づき生成された DDB を SelectObject 関数で設定しないように注意してください。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">HDC printerDC = myPrintDlg.hDC;     </span><br><span class="line">HDC compatibleDC = CreateCompatibleDC(<span class="literal">NULL</span>);　 <span class="comment">// スクリーン DC を基にメモリDC が生成されます</span></span><br><span class="line">HBITMAP printerBmp = CreateCompatibleBitmap(printerDC, nWidth, nHeight);　 <span class="comment">// プリンター DC を基に DDB が生成されます</span></span><br><span class="line">HGDIOBJ hgdiOld = SelectObject(compatibleDC, printerBmp);</span><br></pre></td></tr></table></figure>
+
+<p>また、2021 年 3 月以降の更新プログラムを適用した OS では GDI 関連の処理が厳格化され、このようなコードでは SelectObject 関数の実行が失敗するようになりました。このため、前述のようなコードを利用されていた場合には、適切な DC から メモリ DC を生成するなど修正をお願いします。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">HDC printerDC = myPrintDlg.hDC;</span><br><span class="line">HDC compatibleDC = CreateCompatibleDC(printerDC);　 <span class="comment">// プリンター DC を基にメモリDCが生成されます</span></span><br><span class="line">HBITMAP printerBmp = CreateCompatibleBitmap(printerDC, nWidth, nHeight);　 <span class="comment">// プリンター DC を基に DDB が生成されます</span></span><br><span class="line">HGDIOBJ hgdiOld = SelectObject(compatibleDC, printerBmp);</span><br></pre></td></tr></table></figure>
+
+<h1 id="参考情報"><a href="#参考情報" class="headerlink" title="参考情報"></a>参考情報</h1><p>CreateCompatibleDC function (wingdi.h)<br><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-createcompatibledc">https://docs.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-createcompatibledc</a></p>
+<p>CreateCompatibleBitmap function (wingdi.h)<br><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-createcompatiblebitmap">https://docs.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-createcompatiblebitmap</a></p>
+<p>SelectObject function (wingdi.h)<br><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-selectobject">https://docs.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-selectobject</a></p>
 
       
       
@@ -140,11 +133,11 @@
     <footer class="article-footer">
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Debug/" rel="tag">Debug</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Windows-SDK/" rel="tag">Windows SDK</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/GDI/" rel="tag">GDI</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Windows-SDK/" rel="tag">Windows SDK</a></li></ul>
 
       <!-- 
       
-        <a href="https://github.com/jpdscore/blog/edit/master/articles/debugging/using-WER.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
+        <a href="https://github.com/jpdscore/blog/edit/master/articles/windowssdk/note-when-use-selectobject-function.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
         
       -->
     </footer>
@@ -153,19 +146,10 @@
     
 <nav id="article-nav">
   
-    <a href="../oom-on-x86apps/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">次の記事</strong>
-      <div class="article-nav-title">
-        
-          32 bit アプリケーションで発生するメモリ不足に関連するエラーについて
-        
-      </div>
-    </a>
   
-  
-    <a href="../collect-dump/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="../../dotnet/ndp452-46-461-eos/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">前の記事</strong>
-      <div class="article-nav-title">Dump ファイルの取得</div>
+      <div class="article-nav-title">.NET Framework 4.5.2、4.6、4.6.1 のサポート終了予定について</div>
     </a>
   
 </nav>
@@ -184,7 +168,7 @@
       <ul>
         
           <li>
-            <a href="../../windowssdk/note-when-use-selectobject-function/">SelectObject 関数利用時の注意事項</a>
+            <a href="">SelectObject 関数利用時の注意事項</a>
           </li>
         
           <li>
@@ -196,7 +180,7 @@
           </li>
         
           <li>
-            <a href="../collect-dump-ifeo/">アプリケーションの起動時に自動的にツールをアタッチさせて例外発生時のダンプ ファイルを採取する</a>
+            <a href="../../debugging/collect-dump-ifeo/">アプリケーションの起動時に自動的にツールをアタッチさせて例外発生時のダンプ ファイルを採取する</a>
           </li>
         
           <li>
@@ -204,11 +188,11 @@
           </li>
         
           <li>
-            <a href="../collect-procmon/">Process Monitor ログの採取手順</a>
+            <a href="../../debugging/collect-procmon/">Process Monitor ログの採取手順</a>
           </li>
         
           <li>
-            <a href="../understanding-symbol-files-and-visual-studios-symbol-settings/">シンボル ファイルと Visual Studio のシンボル設定を理解する</a>
+            <a href="../../debugging/understanding-symbol-files-and-visual-studios-symbol-settings/">シンボル ファイルと Visual Studio のシンボル設定を理解する</a>
           </li>
         
       </ul>
