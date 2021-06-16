@@ -112,14 +112,14 @@
         
         <a href="https://github.com/jpdscore/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+17f4ed9d-28fa-5d62-9380-3deddb024cc7%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5B%E3%82%B7%E3%83%B3%E3%83%9C%E3%83%AB+%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%81%A8+Visual+Studio+%E3%81%AE%E3%82%B7%E3%83%B3%E3%83%9C%E3%83%AB%E8%A8%AD%E5%AE%9A%E3%82%92%E7%90%86%E8%A7%A3%E3%81%99%E3%82%8B%5D%28https%3A%2F%2Fjpdscore.github.io%2Fblog%2Fdebugging%2Funderstanding-symbol-files-and-visual-studios-symbol-settings%2F%29" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
         
-        <a data-url="https://jpdscore.github.io/blog/debugging/understanding-symbol-files-and-visual-studios-symbol-settings/" data-id="ckp3w3feb002udkog25fehami" class="article-share-link">共有</a>
+        <a data-url="https://jpdscore.github.io/blog/debugging/understanding-symbol-files-and-visual-studios-symbol-settings/" data-id="ckpz97hxg002upaoo3d4i3f2e" class="article-share-link">共有</a>
       </div>
     
     <div class="article-entry" itemprop="articleBody">
       
         <p>こんにちは、Japan Developer Support Core チームの松井です。<br>今回は、シンボル ファイルと Visual Studio のシンボル設定についてご案内します。</p>
 <p>シンボル ファイルはアプリケーションをデバッグする上で欠かせないものの一つです。アプリケーションのデバッグは開発時だけでなくリリース後も必要になる可能性があり、またシンボルをロードするにはそのシンボルがモジュールのビルドと同時に生成されたものである必要があるため、リリース用のビルドであってもシンボル ファイルを生成して手元で大切に保管しておかなければなりません。そのため、Visual Studio のコンパイル オプションではシンボル ファイルの生成が既定で有効となっています。</p>
-<p>シンボル ファイルがない場合、ユニファイド サポート等で弊社へアプリケーションのデバッグのご支援をご依頼いただいても効果的なご支援が出来ない場合があります。逆アセンブルによって処理を追跡することが困難で非常に多くの時間を要する作業となること理由の一つですが、たとえ問題のある処理が特定できたとしても対処が必要なソースコードの位置を示すことができない点もご支援が難しくなる大きな理由です。</p>
+<p>シンボル ファイルがない場合、ユニファイド サポート等で弊社へアプリケーションのデバッグのご支援をご依頼いただいても効果的なご支援が出来ない場合があります。逆アセンブルによって処理を追跡することが困難で非常に多くの時間を要する作業となることが理由の一つですが、たとえ問題のある処理が特定できたとしても対処が必要なソースコードの位置を示すことができない点もご支援が難しくなる大きな理由です。</p>
 <p>残念ながらシンボル ファイルの重要性はあまり認知されておらず、弊社へのお問い合わせでもシンボル ファイルが保管されていないため採取できたダンプ ファイルからすぐに調査を進められないことが多くあります。再現が容易な場合はアプリケーションをビルドしなおしてもう一度再現させていただくことで調査が進められますが、一度しか発生しておらず問題が再現出来ない場合はせっかく取得できたダンプが無駄になる可能性があります。</p>
 <p>2015 年 1 月 5 日に Visual Studio Blog で公開された記事 <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/devops/understanding-symbol-files-and-visual-studios-symbol-settings/">Understanding symbol files and Visual Studio’s symbol settings</a> で、シンボルについての説明や Visual Studio での利用方法および設定が英語で紹介されていますので、この記事の内容がシンボルについてご理解いただくためのお役に立てれば幸いです。以降は上記ブログ記事の和訳となります。</p>
 <hr>
