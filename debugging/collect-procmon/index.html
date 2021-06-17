@@ -127,7 +127,7 @@
         
         <a href="https://github.com/jpdscore/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+d612a314-5652-5d5c-9411-3abb9039f32e%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5BProcess+Monitor+%E3%83%AD%E3%82%B0%E3%81%AE%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86%5D%28https%3A%2F%2Fjpdscore.github.io%2Fblog%2Fdebugging%2Fcollect-procmon%2F%29" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
         
-        <a data-url="https://jpdscore.github.io/blog/debugging/collect-procmon/" data-id="ckpz97hw70005paooeqe2anhy" class="article-share-link">共有</a>
+        <a data-url="https://jpdscore.github.io/blog/debugging/collect-procmon/" data-id="ckq0b81ag0005d0osghp20t7m" class="article-share-link">共有</a>
       </div>
     
     <div class="article-entry" itemprop="articleBody">
@@ -142,15 +142,15 @@
 </li>
 <li><p>[Process Monitor Filter] ダイアログが表示された場合は、[Reset] ボタンを押下した後 [OK] ボタンを押下してください。<img src="reset-filter.png"></p>
 </li>
-<li><p>自動的に情報採取が開始されますので、ツールバーから虫眼鏡アイコンをクリックして情報採取を停止し、消しゴムアイコンをクリックしてログを消去してください。<img src="prepare-logging.png"></p>
+<li><p>自動的に情報採取が開始されますので、ツールバーから Capture アイコンをクリックして情報採取を停止し、Clear アイコンをクリックしてログを消去してください。<img src="prepare-logging.png"></p>
 </li>
 <li><p>情報採取を行う直前までアプリケーションの操作を進めます。</p>
 </li>
-<li><p>ツールバーから虫眼鏡アイコンをクリックして情報採取を開始します。<img src="start-logging.png"></p>
+<li><p>ツールバーから Capture アイコンをクリックして情報採取を開始します。<img src="start-logging.png"></p>
 </li>
 <li><p>アプリケーションの操作を進めて問題を再現させます。</p>
 </li>
-<li><p>問題が再現したら、虫眼鏡のアイコンをクリックしてログ採取を停止します。<img src="stop-logging.png"></p>
+<li><p>問題が再現したら、 Capture アイコンをクリックしてログ採取を停止します。<img src="stop-logging.png"></p>
 </li>
 <li><p>メニューから [File] - [Save] を選択します。<img src="choose-save.png"></p>
 </li>
@@ -169,23 +169,23 @@
 </li>
 <li><p>[Reset] ボタンを押下した後、必要なフィルターを追加して [OK] ボタンを押下してください。(下図では、プロセス名が “notepad.exe” のログに一致するものを採取対象とするフィルターを追加しています。)<img src="configure-filter.png"></p>
 </li>
-<li><p>メニューから [Filter] - [Drop Filtered Events] を選択します。<img src="set-drop-filtered-events.png">念のため、同メニューにチェックが入っていることと、ステータス バーの “Showing XXX of YYYYY events” のうち YYYYY の部分だけが増え続ける状態となっていないことを確認してください。<img src="confirm-drop-filtered-events.png"></p>
+<li><p>メニューから [Filter] - [Drop Filtered Events] を選択します。<img src="set-drop-filtered-events.png">念のため、同メニューにチェックが入っていることを確認してください。<img src="confirm-drop-filtered-events.png"></p>
 </li>
-<li><p>ツールバーから虫眼鏡アイコンをクリックして情報採取を停止し、消しゴムアイコンをクリックしてログを消去してください。<img src="prepare-logging.png"></p>
+<li><p>ツールバーから Capture アイコンをクリックして情報採取を停止し、Clear アイコンをクリックしてログを消去してください。<img src="prepare-logging.png"></p>
 </li>
 <li><p>メニューから [File] - [Backing Files] を選択します。<img src="choose-backing-files.png"></p>
 </li>
 <li><p>[Process Monitor Backing Files] ダイアログで、[Use file named:] を選択して保存先ファイル名を指定して [OK] ボタンを押下します。<img src="configure-backing-files.png">次回採取時から変更が反映されることの確認ダイアログが表示されますので [OK] ボタンを押下します。<img src="confirm-backing-files.png"></p>
 </li>
-<li><p>念のためもう一度ツールバーから消しゴム アイコンをクリックしてください。</p>
+<li><p>念のためもう一度ツールバーから Clear アイコンをクリックしてください。</p>
 </li>
 <li><p>情報採取を行う直前までアプリケーションの操作を進めます。</p>
 </li>
-<li><p>ツールバーから虫眼鏡アイコンをクリックして情報採取を開始します。このとき、ステータス バーの右側が “Backed by virtual memory” から “Backe by XXXXX” に変わっていることをご確認ください。 <img src="start-logging-with-backing-files.png"></p>
+<li><p>ツールバーから Capture アイコンをクリックして情報採取を開始します。このとき、ステータス バーの右側が “Backed by virtual memory” から “Backe by XXXXX” に変わっていることをご確認ください。 <img src="start-logging-with-backing-files.png"></p>
 </li>
 <li><p>アプリケーションの操作を進めて問題を再現させます。</p>
 </li>
-<li><p>問題が再現したら、虫眼鏡のアイコンをクリックしてログ採取を停止します。<img src="stop-logging-with-backing-files.png"></p>
+<li><p>問題が再現したら、Capture アイコンをクリックしてログ採取を停止します。<img src="stop-logging-with-backing-files.png"></p>
 </li>
 <li><p>メニューから [File] - [Save] を選択します。<img src="choose-save.png"></p>
 </li>
