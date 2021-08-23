@@ -6,7 +6,7 @@
   <link href="https://jpdscore.github.io/blog/atom.xml" rel="self"/>
   
   <link href="https://jpdscore.github.io/blog/"/>
-  <updated>2021-05-25T08:17:43.000Z</updated>
+  <updated>2021-08-22T15:00:00.000Z</updated>
   <id>https://jpdscore.github.io/blog/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>.NET Framework のプロファイル機能を利用する製品に起因する一般的な問題について</title>
+    <link href="https://jpdscore.github.io/blog/dotnet/common-issues-caused-by-dotnet-profiler/"/>
+    <id>https://jpdscore.github.io/blog/dotnet/common-issues-caused-by-dotnet-profiler/</id>
+    <published>2021-08-22T15:00:00.000Z</published>
+    <updated>2021-08-22T15:00:00.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;こんにちは、Japan Developer Support Core チームの松井です。&lt;br&gt;今回は、.NET Framework のプロファイル機能を利用する製品に起因する一般的な問題についてご案内します。&lt;/p&gt;
+&lt;h1</summary>
+        
+      
+    
+    
+    
+    
+    <category term=".NET" scheme="https://jpdscore.github.io/blog/tags/NET/"/>
+    
+    <category term=".NET Framework" scheme="https://jpdscore.github.io/blog/tags/NET-Framework/"/>
+    
+  </entry>
   
   <entry>
     <title>SelectObject 関数利用時の注意事項</title>
@@ -495,36 +521,6 @@
     <category term="Windows SDK" scheme="https://jpdscore.github.io/blog/tags/Windows-SDK/"/>
     
     <category term="Debug" scheme="https://jpdscore.github.io/blog/tags/Debug/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Azure DevOps から Repos を利用してみよう (Azure Repos/GitHub)！</title>
-    <link href="https://jpdscore.github.io/blog/azuredevops/use-repos-from-azuredevops/"/>
-    <id>https://jpdscore.github.io/blog/azuredevops/use-repos-from-azuredevops/</id>
-    <published>2020-10-29T15:00:00.000Z</published>
-    <updated>2020-10-29T15:00:00.000Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;こんにちは、Japan Developer Support Core チームです。&lt;/p&gt;
-&lt;p&gt;Azure Repos や GitHub など、世の中には様々なリポジトリ サービスが公開されていて、まさに群雄割拠の様相を呈していますね。&lt;br&gt;今日は、これらのリポジトリ</summary>
-        
-      
-    
-    
-    
-    
-    <category term="ALM" scheme="https://jpdscore.github.io/blog/tags/ALM/"/>
-    
-    <category term="Azure Pipelines" scheme="https://jpdscore.github.io/blog/tags/Azure-Pipelines/"/>
-    
-    <category term="Azure Repos" scheme="https://jpdscore.github.io/blog/tags/Azure-Repos/"/>
-    
-    <category term="GitHub" scheme="https://jpdscore.github.io/blog/tags/GitHub/"/>
     
   </entry>
   

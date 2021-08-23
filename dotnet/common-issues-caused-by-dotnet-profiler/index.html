@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>.NET Framework のプロファイル機能を利用する製品に起因する一般的な問題について | Japan Developer Support Core Team Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="こんにちは、Japan Developer Support Core チームの松井です。今回は、.NET Framework のプロファイル機能を利用する製品に起因する一般的な問題についてご案内します。 .NET Framework のプロファイル機能.NET Framework では、.NET Framework 上で動作するアプリケーションの実行を監視するためのプログラム (プロファイラー)">
+<meta property="og:type" content="article">
+<meta property="og:title" content=".NET Framework のプロファイル機能を利用する製品に起因する一般的な問題について">
+<meta property="og:url" content="https://jpdscore.github.io/blog/dotnet/common-issues-caused-by-dotnet-profiler/index.html">
+<meta property="og:site_name" content="Japan Developer Support Core Team Blog">
+<meta property="og:description" content="こんにちは、Japan Developer Support Core チームの松井です。今回は、.NET Framework のプロファイル機能を利用する製品に起因する一般的な問題についてご案内します。 .NET Framework のプロファイル機能.NET Framework では、.NET Framework 上で動作するアプリケーションの実行を監視するためのプログラム (プロファイラー)">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:image" content="https://jpdscore.github.io/blog/dotnet/common-issues-caused-by-dotnet-profiler/corprofiler.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/dotnet/common-issues-caused-by-dotnet-profiler/criticalerror.png">
+<meta property="article:published_time" content="2021-08-22T15:00:00.000Z">
+<meta property="article:modified_time" content="2021-08-22T15:00:00.000Z">
+<meta property="article:author" content="Developer Support Core Japan">
+<meta property="article:tag" content=".NET">
+<meta property="article:tag" content=".NET Framework">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jpdscore.github.io/blog/dotnet/common-issues-caused-by-dotnet-profiler/corprofiler.png">
+  
+    <link rel="alternate" href="../../blog/atom.xml" title="Japan Developer Support Core Team Blog" type="application/atom+xml">
+  
+
+  <link rel="icon" href="../../favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
+  <link rel="manifest" href="../../site.webmanifest">
+  <link rel="mask-icon" href="../../safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="theme-color" content="#ffffff">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="../../css/style.css">
+
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="site-header-logo"></div>
+  <div id="site-header-blog-wrapper"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        <div id="ms-logo"></div>
+        
+          <a class="main-nav-link" href="../../index.html">Home</a>
+        
+          <a class="main-nav-link" href="../../archives">Archives</a>
+        
+        <a class="main-nav-link" target="_blank" rel="noopener" href="https://cssjpn.github.io/">サポート情報</a>
+        <a class="main-nav-link" href="/blog/general/welcome/">About</a>
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="../../blog/atom.xml" title="RSSフィード"></a>
+        
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//www.bing.com/search" method="get" accept-charset="UTF-8" name="bing-search" onsubmit="var f=this;if(f['q'].value){var searchUrl =  'https://www.bing.com/search?q=' +  encodeURIComponent(f['q'].value + ' site:' + f['sitesearch'].value) ;window.open(searchUrl, 'blank') };return false;" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="検索"><button type="submit" id="nav-search-btn" class="search-form-submit"></button><input type="hidden" name="sitesearch" value="https://jpdscore.github.io/blog"></form>
+      </div>
+    </div>
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="../../index.html" id="logo">Japan Developer Support Core Team Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="../../index.html" id="subtitle">日本マイクロソフトの Japan Developer Support Core チームのブログです。</a>
+        </h2>
+      
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-dotnet/common-issues-caused-by-dotnet-profiler" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header-single">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      .NET Framework のプロファイル機能を利用する製品に起因する一般的な問題について
+    </h1>
+  
+
+      </header>
+      <div class="article-share">
+        Last Update: 
+        <a href="" class="article-date-single">
+  <time datetime="2021-08-22T15:00:00.000Z" itemprop="datePublished">2021-08-23</time>
+</a>
+        
+        
+        <a href="https://github.com/jpdscore/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+153b03cc-5f19-5159-89b8-6c0c5ca3ab29%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5B.NET+Framework+%E3%81%AE%E3%83%97%E3%83%AD%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E6%A9%9F%E8%83%BD%E3%82%92%E5%88%A9%E7%94%A8%E3%81%99%E3%82%8B%E8%A3%BD%E5%93%81%E3%81%AB%E8%B5%B7%E5%9B%A0%E3%81%99%E3%82%8B%E4%B8%80%E8%88%AC%E7%9A%84%E3%81%AA%E5%95%8F%E9%A1%8C%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6%5D%28https%3A%2F%2Fjpdscore.github.io%2Fblog%2Fdotnet%2Fcommon-issues-caused-by-dotnet-profiler%2F%29" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
+        
+        <a data-url="https://jpdscore.github.io/blog/dotnet/common-issues-caused-by-dotnet-profiler/" data-id="cksoedpls000ecaov0bf1hpmc" class="article-share-link">共有</a>
+      </div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>こんにちは、Japan Developer Support Core チームの松井です。<br>今回は、.NET Framework のプロファイル機能を利用する製品に起因する一般的な問題についてご案内します。</p>
+<h1 id="NET-Framework-のプロファイル機能"><a href="#NET-Framework-のプロファイル機能" class="headerlink" title=".NET Framework のプロファイル機能"></a>.NET Framework のプロファイル機能</h1><p>.NET Framework では、.NET Framework 上で動作するアプリケーションの実行を監視するためのプログラム (プロファイラー) が利用するための<a target="_blank" rel="noopener" href="https://docs.microsoft.com/ja-jp/dotnet/framework/unmanaged-api/profiling/">プロファイル API</a> が提供されています。プロファイラーの開発者は、この API を利用してデバッグの支援や各種メトリクスの計測などの様々な機能をプロファイラー DLL として実装します。プロファイル機能を有効にしてプロファイラー DLL が登録されると、.NET Framework アプリケーションは共通言語ランタイムの初期化処理の過程でプロセスにプロファイラー DLL をロードします。.NET Framework は、アプリケーションの実行を通じて発生するガベージ コレクションや JIT コンパイルなどの様々なイベントがプロファイラー DLL へ通知し、プロファイラーによってその内容が利用されます。</p>
+<h1 id="プロファイル機能を有効にする方法"><a href="#プロファイル機能を有効にする方法" class="headerlink" title="プロファイル機能を有効にする方法"></a>プロファイル機能を有効にする方法</h1><p>プロファイル機能は通常、COR_ENABLE_PROFILING と COR_PROFILER の 2 つの環境変数によって有効化されます。COR_ENABLE_PROFILING 環境変数を 1 に設定すると、プロファイル機能が有効になります。COR_PROFILER 環境変数には、プロファイラー DLL が実装するプロファイラーを指定します。プロファイル機能が有効化されプロファイラーが正常にロードされると、ソース .NET Runtime、ID 1022 の以下のようなメッセージがアプリケーションの起動時にイベント ログへ記録されます。</p>
+<blockquote>
+<p>.NET Runtime version 4.0.30319.0 - プロファイラーが正常に読み込まれました。  プロファイラーの CLSID: ‘{909B2AD5-42DF-4832-8EA0-7808E80D7741}’。  プロセス ID (10 進数): 12860。  メッセージ ID: [0x2507]。</p>
+</blockquote>
+<h1 id="よくある問題"><a href="#よくある問題" class="headerlink" title="よくある問題"></a>よくある問題</h1><p>プロファイラー DLL はアプリケーションと同じプロセスにロードされる性質のため、アプリケーションの動作に影響を与えないよう注意深く設計する必要があります。例えばプロファイラーの処理の内部でアクセス違反例外が発生した場合、プロファイラーの動作に問題が生じるだけでなくアプリケーション自体が異常終了します。一般的にはプロファイラーはアプリケーションのデバッグやテストの過程で対象のプロセスに限定して有効化することがほとんどですが、システム レベルでプロファイラーを有効にすると .NET Framework を利用するアプリケーションに影響を与える可能性があります。サーバー マネージャーや PowerShell など Windows の機能も .NET Framework 上で動作するため、システム レベルで有効化したプロファイラーの影響で Windows の機能が起動できなくなるといった事象が起こりえます。</p>
+<p>弊社へよくお問い合わせをいただく問題としては以下のようなものが挙げられます。</p>
+<ol>
+<li>イベント ログにソース .NET Runtime、イベント ID 1022 のエラーが頻繁に記録されるようになった。</li>
+<li>アプリケーションの開始時にエラーが発生して起動できなくなった。</li>
+<li>アプリケーションの実行中にエラーが発生して突然終了するようになった。</li>
+</ol>
+<p>プロファイル機能は開発者用ツールやセキュリティ ソフトウェアなどから利用されるケースが多く、このようなアプリケーションの導入や更新などが契機で上記のような事象が発生する場合は、問題の切り分けを実施した上で当該製品の開発元へお問い合わせすることも検討してください。</p>
+<h1 id="プロファイラーによって発生する問題の切り分け"><a href="#プロファイラーによって発生する問題の切り分け" class="headerlink" title="プロファイラーによって発生する問題の切り分け"></a>プロファイラーによって発生する問題の切り分け</h1><p>プロファイラーは下記 2 つの環境変数によって構成されるため、環境変数の設定を変更してプロファイラーを無効化し、問題の再現性に変化があるか確認することで問題の切り分けが可能です。プロファイラーを無効化したときには問題が発生しない場合、プロファイラーの動作が問題の原因の一つとなっていると考えられます。</p>
+<ul>
+<li>COR_ENABLE_PROFILING</li>
+<li>COR_PROFILER</li>
+</ul>
+<h3 id="COR-ENABLE-PROFILING"><a href="#COR-ENABLE-PROFILING" class="headerlink" title="COR_ENABLE_PROFILING"></a>COR_ENABLE_PROFILING</h3><p>COR_ENABLE_PROFILING 環境変数はプロファイラーの機能を利用するかどうかを 0 (無効) または 1 (有効) で設定します。システム レベルでプロファイラーが有効となっている場合、ユーザー環境変数やシステム環境変数で COR_ENABLE_PROFILING が設定されていますので、環境変数の値を 0 に設定して問題が解消するかご確認ください。</p>
+<h3 id="COR-PROFILER"><a href="#COR-PROFILER" class="headerlink" title="COR_PROFILER"></a>COR_PROFILER</h3><p>COR_PROFILER 環境変数の値はプロファイラーの識別子となっており、レジストリで識別子とプロファイラー DLL のパスが関連付けられています。COR_PROFILER 環境変数の値でレジストリを検索することで、問題を引き起こしているプロファイラー DLL を特定できる場合があります。例えば COR_PROFILER={909B2AD5-42DF-4832-8EA0-7808E80D7741} の場合は以下のキーにプロファイラー DLL のパスが設定されています。</p>
+<blockquote>
+<p>\HKEY_CLASSES_ROOT\CLSID\{909B2AD5-42DF-4832-8EA0-7808E80D7741}\InprocServer32<br>\HKEY_CLASSES_ROOT\WOW6432Node\CLSID\{909B2AD5-42DF-4832-8EA0-7808E80D7741}\InprocServer32</p>
+</blockquote>
+<p><img src="./corprofiler.png"></p>
+<p>なお、プロファイラー機能は弊社製品でも Visual Studio プロファイラーやコード カバレッジなど様々な機能で利用されていますが、システム レベルで永続的にプロファイラーを有効化することは通常ありません。</p>
+<h1 id="一般的なエラー内容"><a href="#一般的なエラー内容" class="headerlink" title="一般的なエラー内容"></a>一般的なエラー内容</h1><p>プロファイラーの設定や実装の問題に起因するエラーでよくお問い合わせいただくものとして、代表的なものをいくつか記載します。</p>
+<hr>
+<h3 id="CoCreateInstance-中に、プロファイラーを読み込めませんでした。-HRESULT-0x80040154"><a href="#CoCreateInstance-中に、プロファイラーを読み込めませんでした。-HRESULT-0x80040154" class="headerlink" title="CoCreateInstance 中に、プロファイラーを読み込めませんでした。(HRESULT: 0x80040154)"></a>CoCreateInstance 中に、プロファイラーを読み込めませんでした。(HRESULT: 0x80040154)</h3><blockquote>
+<p>.NET Runtime version 4.0.30319.0 - CoCreateInstance 中に、プロファイラーを読み込めませんでした。  プロファイラーの CLSID: ‘{909B2AD5-42DF-4832-8EA0-7808E80D7741}’。  HRESULT: 0x80040154。  プロセス ID (10 進数): 24504。  メッセージ ID: [0x2504]。</p>
+</blockquote>
+<p>0x80040154 は REGDB_E_CLASSNOTREG のエラー コードです。このコードがイベント ログに記録される場合、COR_ENABLE_PROFILING 環境変数でプロファイル機能が有効になっているにも関わらず、COR_PROFILER 環境変数に設定されている識別子がレジストリに登録されていないことを示しています。この場合、プロファイラー製品のインストールやアンインストール、更新に問題があり不完全な状態となっている可能性があります。</p>
+<h3 id="CoCreateInstance-中に、プロファイラーを読み込めませんでした。-HRESULT-0x8007007e"><a href="#CoCreateInstance-中に、プロファイラーを読み込めませんでした。-HRESULT-0x8007007e" class="headerlink" title="CoCreateInstance 中に、プロファイラーを読み込めませんでした。(HRESULT: 0x8007007e)"></a>CoCreateInstance 中に、プロファイラーを読み込めませんでした。(HRESULT: 0x8007007e)</h3><blockquote>
+<p>.NET Runtime version 4.0.30319.0 - CoCreateInstance 中に、プロファイラーを読み込めませんでした。  プロファイラーの CLSID: ‘{909B2AD5-42DF-4832-8EA0-7808E80D7741}’。  HRESULT: 0x8007007e。  プロセス ID (10 進数): 19528。  メッセージ ID: [0x2504]。</p>
+</blockquote>
+<p>0x8007007e は ERROR_MOD_NOT_FOUND のエラー コードです。このエラーはレジストリに設定されているプロファイラー DLL が見つからなかった場合に発生し、この場合もプロファイラー製品のインストールやアンインストール、更新に問題があり不完全な状態となっている可能性があります。</p>
+<h3 id="COR-ENABLE-PROFILING-は適切に設定されていましたが、COR-PROFILLER-が適切に設定されていませんでした。"><a href="#COR-ENABLE-PROFILING-は適切に設定されていましたが、COR-PROFILLER-が適切に設定されていませんでした。" class="headerlink" title="COR_ENABLE_PROFILING は適切に設定されていましたが、COR_PROFILLER が適切に設定されていませんでした。"></a>COR_ENABLE_PROFILING は適切に設定されていましたが、COR_PROFILLER が適切に設定されていませんでした。</h3><blockquote>
+<p>.NET Runtime version 4.0.30319.0 - プロファイラーを読み込めませんでした。  COR_ENABLE_PROFILING は適切に設定されていましたが、COR_PROFILER が適切に設定されていませんでした。  COR_PROFILER は、読み込むプロファイラーの CLSID に設定する必要があります。  プロセス ID (10 進数): 7852。  メッセージ ID: [0x2500]。</p>
+</blockquote>
+<p>このエラーは、COR_ENABLE_PROFILING 環境変数が設定されプロファイラーが有効化されているにも関わらず、COR_PROFILER が設定されていないためプロファイラー DLL がロードできなかった場合にイベント ログに記録されます。プロファイラーの機能を提供しているアプリケーションのインストールや更新、設定の変更などに伴って、環境変数の設定に不整合が生じている可能性があります。</p>
+<h3 id="CLR-エラー-80040005-プログラムを終了します。"><a href="#CLR-エラー-80040005-プログラムを終了します。" class="headerlink" title="CLR エラー: 80040005. プログラムを終了します。"></a>CLR エラー: 80040005. プログラムを終了します。</h3><blockquote>
+<p>致命的なエラー<br>CLR エラー: 80004005. プログラムを終了します。<br><img src="./criticalerror.png"></p>
+</blockquote>
+<p>このエラーはイベント ログには記録されず、アプリケーション起動時にダイアログが表示されて開始できない状態になります。このエラーは、プロファイラー DLL がロードされた後の初期化処理中に致命的なエラーが発生してアプリケーションの起動が続行できない場合に表示されます。</p>
+<hr>
+<p>なお、プロファイラー DLL がロードされた後にプロファイラーの処理で発生する問題は、イベント ログやダイアログには表示されず突然アプリケーションが強制終了するといった事象で顕在化する可能性があり、プロファイラーの影響か判断することが困難な場合があります。もしくは、.NET Runtime のイベント ログ ID 1023 (.NET ランタイムの内部エラー) として顕在化する場合もあります。</p>
+<p>開発者ツールやセキュリティ ソフトウェアなどの導入が契機となり突然 .NET Framework アプリケーションに問題が生じるようになった場合や、イベント ID 1022 のイベント ログが記録されている場合は、プロファイラーの動作が影響している可能性が考えられます。そのような場合は、プロファイラーを無効化して問題の再現性に変化があるかご確認ください。また、プロファイラーの動作によって問題が生じている場合はプロファイラーの開発元へのお問い合わせをお願いします。</p>
+<h1 id="参考情報"><a href="#参考情報" class="headerlink" title="参考情報"></a>参考情報</h1><p>.NET Framework のプロファイル API については以下のドキュメントで詳細な情報を公開しています。<br><a target="_blank" rel="noopener" href="https://docs.microsoft.com/ja-jp/dotnet/framework/unmanaged-api/profiling/">https://docs.microsoft.com/ja-jp/dotnet/framework/unmanaged-api/profiling/</a></p>
+<p>また、プロファイル API が活用されているツールとして CLR Profiler や PerfView がオープン ソースで公開されています。<br><a target="_blank" rel="noopener" href="https://github.com/microsoftarchive/clrprofiler">https://github.com/microsoftarchive/clrprofiler</a><br><a target="_blank" rel="noopener" href="https://github.com/microsoft/perfview">https://github.com/microsoft/perfview</a></p>
+<p>プロファイラー内部で問題が起きたときの動作を簡単に試せる Visual Studio 2019 でビルド可能なサンプル コードを<a href="./MyNetFxProfiler.zip">こちら</a>に置いていますので、興味のある方はダウンロードして試してみてください。</p>
+
+      
+      
+        <div class="article-disclaimer">
+        
+          <p><hr>本ブログの内容は弊社の公式見解として保証されるものではなく、開発・運用時の参考情報としてご活用いただくことを目的としています。もし公式な見解が必要な場合は、弊社ドキュメント (<a target="_blank" rel="noopener" href="https://docs.microsoft.com/">https://docs.microsoft.com</a> や <a target="_blank" rel="noopener" href="https://support.microsoft.com">https://support.microsoft.com</a>) をご参照いただくか、もしくは私共サポートまでお問い合わせください。</p>
+        
+        </div>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/NET/" rel="tag">.NET</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/NET-Framework/" rel="tag">.NET Framework</a></li></ul>
+
+      <!-- 
+      
+        <a href="https://github.com/jpdscore/blog/edit/master/articles/dotnet/common-issues-caused-by-dotnet-profiler.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
+        
+      -->
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="../../windowssdk/note-when-use-selectobject-function/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前の記事</strong>
+      <div class="article-nav-title">SelectObject 関数利用時の注意事項</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最近の投稿</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="">.NET Framework のプロファイル機能を利用する製品に起因する一般的な問題について</a>
+          </li>
+        
+          <li>
+            <a href="../../windowssdk/note-when-use-selectobject-function/">SelectObject 関数利用時の注意事項</a>
+          </li>
+        
+          <li>
+            <a href="../ndp452-46-461-eos/">.NET Framework 4.5.2、4.6、4.6.1 のサポート終了予定について</a>
+          </li>
+        
+          <li>
+            <a href="../../xamarin/create-xamarinforms-try-xamarinuitest-vs2019/">VS2019 から、Xamarin.UITest で Xamarin.Forms アプリの UI テストをしてみよう！</a>
+          </li>
+        
+          <li>
+            <a href="../../debugging/collect-dump-ifeo/">アプリケーションの起動時に自動的にツールをアタッチさせて例外発生時のダンプ ファイルを採取する</a>
+          </li>
+        
+          <li>
+            <a href="../../deployment/unknown-publisher-on-clickonce-trust-prompt/">ClickOnce 信頼プロンプトで公開元が&#34;不明な公開元です。&#34;として表示される場合の原因と対処方法</a>
+          </li>
+        
+          <li>
+            <a href="../../debugging/collect-procmon/">Process Monitor ログの採取手順</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">タグ</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="../../tags/ALM/">ALM</a><span class="tag-list-count">3</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-Pipelines">Azure Pipelines</a><span class="tag-list-count">3</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-Repos">Azure Repos</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/GitHub">GitHub</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Windows-SDK/">Windows SDK</a><span class="tag-list-count">6</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Debug">Debug</a><span class="tag-list-count">5</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/GDI">GDI</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Leak">Leak</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Debug/">Debug</a><span class="tag-list-count">9</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Leak">Leak</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Memory">Memory</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Windows-SDK">Windows SDK</a><span class="tag-list-count">5</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/">情報採取手順</a><span class="tag-list-count">1</span><ul></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Deployment/">Deployment</a><span class="tag-list-count">2</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Deployment/ClickOnce">ClickOnce</a><span class="tag-list-count">2</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/NET/">.NET</a><span class="tag-list-count">3</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/NET-Framework">.NET Framework</a><span class="tag-list-count">3</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E5%85%A8%E8%88%AC/">全般</a><span class="tag-list-count">1</span><ul></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Visual-Studio/">Visual Studio</a><span class="tag-list-count">4</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/C">C#</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/C">C++</a><span class="tag-list-count">3</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/VB-NET">VB.NET</a><span class="tag-list-count">2</span></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">アーカイブ</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/08/">2021 / 08</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/05/">2021 / 05</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/04/">2021 / 04</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/02/">2021 / 02</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/01/">2021 / 01</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/12/">2020 / 12</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/11/">2020 / 11</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/10/">2020 / 10</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/09/">2020 / 09</a><span class="archive-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">旧ブログ/フォーラム</h3>
+  <div class="widget">
+    <ul>
+      
+        <li>
+          <a href="../../https:/social.msdn.microsoft.com/Forums/ja-jp/home?forum=visualstudiosupportteamja">Visual Studio サポートチーム フォーラム</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/social.msdn.microsoft.com/Forums/ja-jp/home?forum=windowssdksupportteamja&filter=alltypes&sort=lastpostdesc">Windows SDK サポートチーム フォーラム</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/docs.microsoft.com/en-us/archive/blogs/jpvsblog/">Visual Studio サポート チーム blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/docs.microsoft.com/en-us/archive/blogs/japan_platform_sdkwindows_sdk_support_team_blog/">JAPAN Platform SDK（Windows SDK） Support Team Blog</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">関連リンク</h3>
+  <div class="widget">
+    <ul>
+      
+        <li>
+          <a href="../../https:/developercommunity.visualstudio.com/">Developer Community</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/devblogs.microsoft.com/dotnet/">.NET Blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/devblogs.microsoft.com/visualstudio/">Visual Studio Blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/devblogs.microsoft.com/cppblog/">C++ Team Blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/devblogs.microsoft.com/xamarin/">Xamarin Blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/devblogs.microsoft.com/devops/">Azure DevOps Blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/techcommunity.microsoft.com/t5/azure-lab-services/bg-p/AzureLabServicesBlog/">Azure Lab Services Blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/devblogs.microsoft.com/appcenter/">App Center Blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/status.azure.com/status/">Azure Status</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/status.dev.azure.com/">Azure DevOps - Status</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2021 Developer Support Core Japan<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="../../index.html" class="mobile-nav-link">Home</a>
+  
+    <a href="../../archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+<script src="../../js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
