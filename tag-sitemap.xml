@@ -3,14 +3,21 @@
 
 
     <url>
-        <loc>https://jpdscore.github.io/blog/tags/NET-Framework/</loc>
-        <lastmod>2021-08-22T15:00:00.000Z</lastmod>
+        <loc>https://jpdscore.github.io/blog/tags/NET/</loc>
+        <lastmod>2021-08-26T15:00:00.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
-        <loc>https://jpdscore.github.io/blog/tags/NET/</loc>
+        <loc>https://jpdscore.github.io/blog/tags/Debug/</loc>
+        <lastmod>2021-08-26T15:00:00.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://jpdscore.github.io/blog/tags/NET-Framework/</loc>
         <lastmod>2021-08-22T15:00:00.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
@@ -40,13 +47,6 @@
     <url>
         <loc>https://jpdscore.github.io/blog/tags/Xamarin/</loc>
         <lastmod>2021-04-13T00:00:00.000Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://jpdscore.github.io/blog/tags/Debug/</loc>
-        <lastmod>2021-04-05T23:41:59.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>

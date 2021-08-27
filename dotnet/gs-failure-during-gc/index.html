@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>.NET アプリケーションで GC 中に発生する例外コード 0xc0000409 のエラーについて | Japan Developer Support Core Team Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="こんにちは、Japan Developer Support Core チームの松井です。今回は、.NET アプリケーションでガベージ コレクション (GC) の実行中にランタイムが例外コード 0xc0000409 を通知してアプリケーションが異常終了する事象について、一般的な例をもとにエラーの発生経緯や調査方法についてご紹介します。 1. 0xC0000409 のエラー コードについて0xc000">
+<meta property="og:type" content="article">
+<meta property="og:title" content=".NET アプリケーションで GC 中に発生する例外コード 0xc0000409 のエラーについて">
+<meta property="og:url" content="https://jpdscore.github.io/blog/dotnet/gs-failure-during-gc/index.html">
+<meta property="og:site_name" content="Japan Developer Support Core Team Blog">
+<meta property="og:description" content="こんにちは、Japan Developer Support Core チームの松井です。今回は、.NET アプリケーションでガベージ コレクション (GC) の実行中にランタイムが例外コード 0xc0000409 を通知してアプリケーションが異常終了する事象について、一般的な例をもとにエラーの発生経緯や調査方法についてご紹介します。 1. 0xC0000409 のエラー コードについて0xc000">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:image" content="https://jpdscore.github.io/blog/dotnet/gs-failure-during-gc/pinvokestackimbalance.png">
+<meta property="article:published_time" content="2021-08-26T15:00:00.000Z">
+<meta property="article:modified_time" content="2021-08-26T15:00:00.000Z">
+<meta property="article:author" content="Developer Support Core Japan">
+<meta property="article:tag" content="Debug">
+<meta property="article:tag" content=".NET">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jpdscore.github.io/blog/dotnet/gs-failure-during-gc/pinvokestackimbalance.png">
+  
+    <link rel="alternate" href="../../blog/atom.xml" title="Japan Developer Support Core Team Blog" type="application/atom+xml">
+  
+
+  <link rel="icon" href="../../favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
+  <link rel="manifest" href="../../site.webmanifest">
+  <link rel="mask-icon" href="../../safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="theme-color" content="#ffffff">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="../../css/style.css">
+
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="site-header-logo"></div>
+  <div id="site-header-blog-wrapper"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        <div id="ms-logo"></div>
+        
+          <a class="main-nav-link" href="../../index.html">Home</a>
+        
+          <a class="main-nav-link" href="../../archives">Archives</a>
+        
+        <a class="main-nav-link" target="_blank" rel="noopener" href="https://cssjpn.github.io/">サポート情報</a>
+        <a class="main-nav-link" href="/blog/general/welcome/">About</a>
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="../../blog/atom.xml" title="RSSフィード"></a>
+        
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//www.bing.com/search" method="get" accept-charset="UTF-8" name="bing-search" onsubmit="var f=this;if(f['q'].value){var searchUrl =  'https://www.bing.com/search?q=' +  encodeURIComponent(f['q'].value + ' site:' + f['sitesearch'].value) ;window.open(searchUrl, 'blank') };return false;" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="検索"><button type="submit" id="nav-search-btn" class="search-form-submit"></button><input type="hidden" name="sitesearch" value="https://jpdscore.github.io/blog"></form>
+      </div>
+    </div>
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="../../index.html" id="logo">Japan Developer Support Core Team Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="../../index.html" id="subtitle">日本マイクロソフトの Japan Developer Support Core チームのブログです。</a>
+        </h2>
+      
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-dotnet/gs-failure-during-gc" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header-single">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      .NET アプリケーションで GC 中に発生する例外コード 0xc0000409 のエラーについて
+    </h1>
+  
+
+      </header>
+      <div class="article-share">
+        Last Update: 
+        <a href="" class="article-date-single">
+  <time datetime="2021-08-26T15:00:00.000Z" itemprop="datePublished">2021-08-27</time>
+</a>
+        
+        
+        <a href="https://github.com/jpdscore/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+ba5c8f30-cae6-5ea7-9b81-0211ff7eccf8%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5B.NET+%E3%82%A2%E3%83%97%E3%83%AA%E3%82%B1%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E3%81%A7+GC+%E4%B8%AD%E3%81%AB%E7%99%BA%E7%94%9F%E3%81%99%E3%82%8B%E4%BE%8B%E5%A4%96%E3%82%B3%E3%83%BC%E3%83%89+0xc0000409+%E3%81%AE%E3%82%A8%E3%83%A9%E3%83%BC%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6%5D%28https%3A%2F%2Fjpdscore.github.io%2Fblog%2Fdotnet%2Fgs-failure-during-gc%2F%29" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
+        
+        <a data-url="https://jpdscore.github.io/blog/dotnet/gs-failure-during-gc/" data-id="cksuamszm0031fip1eha408va" class="article-share-link">共有</a>
+      </div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>こんにちは、Japan Developer Support Core チームの松井です。今回は、.NET アプリケーションでガベージ コレクション (GC) の実行中にランタイムが例外コード 0xc0000409 を通知してアプリケーションが異常終了する事象について、一般的な例をもとにエラーの発生経緯や調査方法についてご紹介します。</p>
+<h1 id="1-0xC0000409-のエラー-コードについて"><a href="#1-0xC0000409-のエラー-コードについて" class="headerlink" title="1. 0xC0000409 のエラー コードについて"></a>1. 0xC0000409 のエラー コードについて</h1><p>0xc0000409 は STATUS_STACK_BUFFER_OVERRUN のエラー コードで、一般的にはシステムやランタイムがスタック領域におけるバッファー オーバーランを検出した状況を示しています。このエラーが発生すると、イベント ログには Application Error のソースで ID 1000 のログが以下のような内容で記録されます。</p>
+<blockquote>
+<p>障害が発生しているアプリケーション名: ConsoleApp1.exe、バージョン: 1.0.0.0、タイム スタンプ: 0xbba3dadf<br>障害が発生しているモジュール名: clr.dll、バージョン: 4.8.4300.0、タイム スタンプ: 0x5f7e61bb<br>例外コード: 0xc0000409<br>障害オフセット: 0x0060cd78<br>障害が発生しているプロセス ID: 0x130a8<br>障害が発生しているアプリケーションの開始時刻: 0x01d796b92363709c<br>障害が発生しているアプリケーション パス: C:\Users\user1\source\repos\GSFailureDuringGC\Debug\ConsoleApp1.exe<br>障害が発生しているモジュール パス: C:\Windows\Microsoft.NET\Framework\v4.0.30319\clr.dll</p>
+</blockquote>
+<p>このログの内容だけ見ると、.NET Framework のランタイム clr.dll で障害が発生しているとのことなので、一見すると .NET Framework のランタイムに不具合があるように見えます。確かにランタイムの不具合により同様のエラーとなる可能性もありますが、結論から述べると、今回はアプリケーションのコードの問題に起因しています。clr.dll で発生する例外コード 0xc0000409 のすべてがこの状況に該当するとは限りませんが、疑われるポイントの一つとして参考にしていただければと幸いです。</p>
+<h1 id="2-例外発生時のコールスタック"><a href="#2-例外発生時のコールスタック" class="headerlink" title="2. 例外発生時のコールスタック"></a>2. 例外発生時のコールスタック</h1><p>以下は例外発生時のマネージ スタックです。こちらは特に異常は見られません。</p>
+<pre><code>0:000&gt; !ClrStack
+OS Thread Id: 0x7d0c (0)
+Child SP       IP Call Site
+005aeeb0 7493cd78 [HelperMethodFrame: 005aeeb0] 
+005aef3c 028208da ConsoleApp1.Program.Main(System.String[])
+005af0c8 7433f036 [GCFrame: 005af0c8] </code></pre>
+<p>以下は例外発生時のアンマネージ スタックです。frame 11 の clr!JIT_NewArr1 で配列のメモリ割り当てが試みられたものの、マネージ ヒープに十分なサイズがなく frame 0c の clr!WKS::gc_heap::trigger_gc_for_alloc から GC が行われていたことが確認できます。その先で最終的に clr!__report_gsfailure が呼びされているため、GC の処理の中でスタックの問題が検出されたことが確認できます。(GS は Guard Stack の略です。__report_gsfailure 関数については<a target="_blank" rel="noopener" href="https://docs.microsoft.com/ja-jp/archive/msdn-magazine/2017/december/c-visual-c-support-for-stack-based-buffer-protection">こちら</a>で詳しく解説されていますのであわせて参考にしてください。)</p>
+<pre><code>0:000&gt; k
+# ChildEBP RetAddr      
+00 005ae648 74350688     clr!__report_gsfailure+0x17
+01 005ae650 7435065f     clr!CrawlFrame::SetCurGSCookie+0x24
+02 005ae660 74350e75     clr!CrawlFrame::GotoNextFrame+0x47
+03 005ae6a0 74350788     clr!StackFrameIterator::NextRaw+0x4a5
+04 005ae964 7435085a     clr!Thread::StackWalkFramesEx+0xc2
+05 005aec98 74435ed3     clr!Thread::StackWalkFrames+0x9d
+06 005aecbc 74435f6e     clr!standalone::ScanStackRoots+0x43
+07 005aecd8 74438e6b     clr!GCToEEInterface::GcScanRoots+0xdb
+08 005aed30 74438145     clr!WKS::gc_heap::mark_phase+0x170
+09 005aed50 7443847b     clr!WKS::gc_heap::gc1+0xae
+0a 005aed68 74438585     clr!WKS::gc_heap::garbage_collect+0x367
+0b 005aed88 7443868a     clr!WKS::GCHeap::GarbageCollectGeneration+0x1bd
+0c 005aedac 74438703     clr!WKS::gc_heap::trigger_gc_for_alloc+0x1f
+0d 005aede0 744344ff     clr!WKS::gc_heap::try_allocate_more_space+0x152
+0e 005aedfc 743496f3     clr!WKS::GCHeap::Alloc+0x30
+0f 005aee3c 7434f50c     clr!Alloc+0xa5
+10 005aee90 7434f598     clr!FastAllocatePrimitiveArray+0x10c
+11 005aef34 028208da     clr!JIT_NewArr1+0x126
+12 005aef58 7433f036     0x28208da
+13 005aef64 743422da     clr!CallDescrWorkerInternal+0x34
+14 005aefb8 7434859b     clr!CallDescrWorkerWithHandler+0x6b
+15 005af024 744eb11b     clr!MethodDescCallSite::CallTargetWorker+0x16a
+16 005af148 744eb7fa     clr!RunMain+0x1b3
+17 005af3b4 744eb727     clr!Assembly::ExecuteMainMethod+0xf7
+18 005af898 744eb8a8     clr!SystemDomain::ExecuteMainMethod+0x5ef
+19 005af8f0 744eb9ce     clr!ExecuteEXE+0x4c
+1a 005af930 744e7305     clr!_CorExeMainInternal+0xdc
+1b 005af96c 74b3fa84     clr!_CorExeMain+0x4d
+1c 005af9a4 7540e81e     mscoreei!CorExeMain+0x64
+1d 005af9b4 75414338     mscoree!ShellShim__CorExeMain+0x9e
+1e 005af9bc 765cfa29     mscoree!_CorExeMain_Exported+0x8
+1f 005af9cc 77617a7e     kernel32!BaseThreadInitThunk+0x19
+20 005afa28 77617a4e     ntdll!__RtlUserThreadStart+0x2f
+21 005afa38 00000000     ntdll!_RtlUserThreadStart+0x1b</code></pre>
+<p>GS のエラーが報告されるまでの間の frame 07 から frame 02 は何をしている処理なのでしょうか。次はこのエラーが発生したプログラムのソース コードと、.NET の実装を見ていきます。また、上記は .NET Framework で実行した例ですが、ランタイムの実装にも少し触れるために .NET 5 に変更して確認します。</p>
+<h1 id="3-デバッグ"><a href="#3-デバッグ" class="headerlink" title="3. デバッグ"></a>3. デバッグ</h1><p>.NET 5 でビルドしなおして事象を再現させたときのコール スタックは以下のようになります。概ね内容は同じですが、.NET 5 はオープン ソースでプライベート シンボルが公開されているので行番号も確認できます。</p>
+<pre><code>0:000&gt; k
+# ChildEBP RetAddr      
+00 0077e61c 78e1c6bc     coreclr!__report_gsfailure+0x18 [d:\agent\_work\4\s\src\vctools\crt\vcstartup\src\gs\gs_report.c @ 220] 
+01 0077e624 78e1d405     coreclr!CrawlFrame::SetCurGSCookie+0x24 [D:\workspace\_work\1\s\src\coreclr\src\vm\stackwalk.cpp @ 380] 
+02 0077e640 78e1e2aa     coreclr!StackFrameIterator::Init+0xda [D:\workspace\_work\1\s\src\coreclr\src\vm\stackwalk.cpp @ 1184] 
+03 0077e90c 78e1d167     coreclr!Thread::StackWalkFramesEx+0x76 [D:\workspace\_work\1\s\src\coreclr\src\vm\stackwalk.cpp @ 909] 
+04 0077ec44 78e1cfdf     coreclr!Thread::StackWalkFrames+0x8a [D:\workspace\_work\1\s\src\coreclr\src\vm\stackwalk.cpp @ 997] 
+05 0077ec80 78e1ce3b     coreclr!ScanStackRoots+0x4b [D:\workspace\_work\1\s\src\coreclr\src\vm\gcenv.ee.cpp @ 152] 
+06 0077eca0 78e2853c     coreclr!GCToEEInterface::GcScanRoots+0x8e [D:\workspace\_work\1\s\src\coreclr\src\vm\gcenv.ee.cpp @ 234] 
+07 (Inline) --------     coreclr!GCScan::GcScanRoots+0x12 [D:\workspace\_work\1\s\src\coreclr\src\gc\gcscan.cpp @ 154] 
+08 0077ecf0 78e290ed     coreclr!WKS::gc_heap::mark_phase+0x1bf [D:\workspace\_work\1\s\src\coreclr\src\gc\gc.cpp @ 20757] 
+09 0077ed40 78e271a4     coreclr!WKS::gc_heap::gc1+0x7f [D:\workspace\_work\1\s\src\coreclr\src\gc\gc.cpp @ 16694] 
+0a (Inline) --------     coreclr!GCToOSInterface::GetLowPrecisionTimeStamp+0x5 [D:\workspace\_work\1\s\src\coreclr\src\vm\gcenv.os.cpp @ 1033] 
+0b 0077ed60 78e2f94e     coreclr!WKS::gc_heap::garbage_collect+0x3d5 [D:\workspace\_work\1\s\src\coreclr\src\gc\gc.cpp @ 18280] 
+0c 0077ed78 78e2f84d     coreclr!WKS::GCHeap::GarbageCollectGeneration+0xea [D:\workspace\_work\1\s\src\coreclr\src\gc\gc.cpp @ 37751] 
+0d 0077ed9c 78da6243     coreclr!WKS::gc_heap::trigger_gc_for_alloc+0x19 [D:\workspace\_work\1\s\src\coreclr\src\gc\gc.cpp @ 13873] 
+0e 0077edd0 78e8569f     coreclr!WKS::gc_heap::try_allocate_more_space+0x168 [D:\workspace\_work\1\s\src\coreclr\src\gc\gc.cpp @ 13985] 
+0f 0077ede8 78da55b0     coreclr!WKS::gc_heap::allocate_more_space+0x18 [D:\workspace\_work\1\s\src\coreclr\src\gc\gc.cpp @ 14486] 
+10 (Inline) --------     coreclr!WKS::gc_heap::allocate+0x41 [D:\workspace\_work\1\s\src\coreclr\src\gc\gc.cpp @ 14517] 
+11 0077ee08 78da5221     coreclr!WKS::GCHeap::Alloc+0x50 [D:\workspace\_work\1\s\src\coreclr\src\gc\gc.cpp @ 36745] 
+12 (Inline) --------     coreclr!Alloc+0x62 [D:\workspace\_work\1\s\src\coreclr\src\vm\gchelpers.cpp @ 228] 
+13 0077ee68 78da53e7     coreclr!AllocateSzArray+0x161 [D:\workspace\_work\1\s\src\coreclr\src\vm\gchelpers.cpp @ 483] 
+14 0077eeec 07e9541e     coreclr!JIT_NewArr1+0xb7 [D:\workspace\_work\1\s\src\coreclr\src\vm\jithelpers.cpp @ 2723] 
+...</code></pre>
+<p>frame 07 の coreclr!GCScan::GcScanRoots は src\coreclr\src\gc\gcscan.cpp の 154 行目であることが分かるので、ソースコードを参照するため coreclr.dll のファイル情報からコミット ID を確認します。</p>
+<pre><code>0:000&gt; lmvmcoreclr
+Browse full module list
+start    end        module name
+78d90000 7919f000   coreclr    (private pdb symbols)  C:\ProgramData\Dbg\sym\coreclr.pdb\26F3E7BD15B6422EB86A93E754AAA8CA1\coreclr.pdb
+    Loaded symbol image file: coreclr.dll
+    Image path: C:\Program Files (x86)\dotnet\shared\Microsoft.NETCore.App\5.0.9\coreclr.dll
+    Image name: coreclr.dll
+    Browse all global symbols  functions  data
+    Timestamp:        Sat Jul 10 02:57:08 2021 (60E88DF4)
+    CheckSum:         0040BDCB
+    ImageSize:        0040F000
+    File version:     5.0.921.35908
+    Product version:  5.0.921.35908
+    File flags:       0 (Mask 3F)
+    File OS:          4 Unknown Win32
+    File type:        0.0 Unknown
+    File date:        00000000.00000000
+    Translations:     0409.04b0
+    Information from resource tables:
+        CompanyName:      Microsoft Corporation
+        ProductName:      Microsoft® .NET
+        InternalName:     CoreCLR.dll
+        OriginalFilename: CoreCLR.dll
+        ProductVersion:   5,0,921,35908 @Commit: <span style="background-color:DarkMagenta;">208e377a5329ad6eb1db5e5fb9d4590fa50beadd</span>
+        FileVersion:      5,0,921,35908 @Commit: <span style="background-color:DarkMagenta;">208e377a5329ad6eb1db5e5fb9d4590fa50beadd</span>
+        FileDescription:  Microsoft .NET Runtime
+        LegalCopyright:   © Microsoft Corporation. All rights reserved.
+        Comments:         Flavor=Retail</code></pre>
+<p>.NET 5 ランタイムのリポジトリは <a target="_blank" rel="noopener" href="https://github.com/dotnet/runtime">https://github.com/dotnet/runtime</a> ですので、これにコミット ID  <strong>208e377a5329ad6eb1db5e5fb9d4590fa50beadd</strong> を組み合わせると、frame 07 のソースコード D:\workspace_work\1\s\src\coreclr\src\gc\gcscan.cpp の URL は以下のようになります。</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/dotnet/runtime/blob/208e377a5329ad6eb1db5e5fb9d4590fa50beadd/src/coreclr/src/gc/gcscan.cpp#L154">https://github.com/dotnet/runtime/blob/<strong>208e377a5329ad6eb1db5e5fb9d4590fa50beadd</strong>/src/coreclr/src/gc/gcscan.cpp#L154</a></p>
+<figure class="highlight cpp"><figcaption><span>src\coreclr\src\gc\gcscan.cpp#L154</span><a target="_blank" rel="noopener" href="https://github.com/dotnet/runtime/blob/208e377a5329ad6eb1db5e5fb9d4590fa50beadd/src/coreclr/src/gc/gcscan.cpp#L154">link</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">GCScan::GcScanRoots</span><span class="params">(promote_func* fn,  <span class="keyword">int</span> condemned, <span class="keyword">int</span> max_gen,</span></span></span><br><span class="line"><span class="function"><span class="params">                             ScanContext* sc)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    GCToEEInterface::GcScanRoots(fn, condemned, max_gen, sc);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>ここだけ見てもどのような処理か分からないので、同じ要領で次のスタック フレーム 06 のコードを見てみます。</p>
+<figure class="highlight cpp"><figcaption><span>src\coreclr\src\vm\gcenv.ee.cpp#L234</span><a target="_blank" rel="noopener" href="https://github.com/dotnet/runtime/blob/208e377a5329ad6eb1db5e5fb9d4590fa50beadd/src/coreclr/src/vm/gcenv.ee.cpp#L234">link</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">GCToEEInterface::GcScanRoots</span><span class="params">(promote_func* fn, <span class="keyword">int</span> condemned, <span class="keyword">int</span> max_gen, ScanContext* sc)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    STRESS_LOG1(LF_GCROOTS, LL_INFO10, <span class="string">&quot;GCScan: Promotion Phase = %d\n&quot;</span>, sc-&gt;promotion);</span><br><span class="line"></span><br><span class="line">    Thread* pThread = <span class="literal">NULL</span>;</span><br><span class="line">    <span class="keyword">while</span> ((pThread = ThreadStore::GetThreadList(pThread)) != <span class="literal">NULL</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        STRESS_LOG2(LF_GC | LF_GCROOTS, LL_INFO100, <span class="string">&quot;&#123; Starting scan of Thread %p ID = %x\n&quot;</span>, pThread, pThread-&gt;GetThreadId());</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (GCHeapUtilities::GetGCHeap()-&gt;IsThreadUsingAllocationContextHeap(</span><br><span class="line">            pThread-&gt;GetAllocContext(), sc-&gt;thread_number))</span><br><span class="line">        &#123;</span><br><span class="line">            sc-&gt;thread_under_crawl = pThread;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> FEATURE_EVENT_TRACE</span></span><br><span class="line">            sc-&gt;dwEtwRootKind = kEtwGCRootKindStack;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span> <span class="comment">// FEATURE_EVENT_TRACE</span></span></span><br><span class="line">            ScanStackRoots(pThread, fn, sc);</span><br><span class="line">            ScanTailCallArgBufferRoots(pThread, fn, sc);</span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> FEATURE_EVENT_TRACE</span></span><br><span class="line">            sc-&gt;dwEtwRootKind = kEtwGCRootKindOther;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span> <span class="comment">// FEATURE_EVENT_TRACE</span></span></span><br><span class="line">        &#125;</span><br><span class="line">        STRESS_LOG2(LF_GC | LF_GCROOTS, LL_INFO100, <span class="string">&quot;Ending scan of Thread %p ID = 0x%x &#125;\n&quot;</span>, pThread, pThread-&gt;GetThreadId());</span><br><span class="line">    &#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>while 文でマネージ スレッドのリストを辿りながら ScanStackRoots 関数を呼び出していることが確認できます。現在処理をしているスレッドの情報を見てみます。(以下で使用している <a target="_blank" rel="noopener" href="https://docs.microsoft.com/ja-jp/windows-hardware/drivers/debugger/dx--display-visualizer-variables-">dx コマンド</a> は Windows 10 SDK から追加された比較的新しいコマンドですので、Windows デバッガーを利用したことがある方でもあまり馴染みがないかもしれません。色々便利な使い方ができるので、いずれブログ記事で取り上げたいと思います。)</p>
+<pre><code>0:000&gt; dx @$curthread.Stack.Frames[6].LocalVariables.pThread
+@$curthread.Stack.Frames[6].LocalVariables.pThread                 : 0x83ed20 [Type: Thread *]
+    [+0x000] m_stackLocalAllocator : 0x0 [Type: StackingAllocator *]
+    [=0x79156a3c] m_DetachCount    : 0 [Type: long]
+    [=0x79156a38] m_ActiveDetachCount : 0 [Type: long]
+    [+0x004] m_State          [Type: Volatile&lt;enum Thread::ThreadState&gt;]
+    [+0x008] m_fPreemptiveGCDisabled [Type: Volatile&lt;unsigned long&gt;]
+    [+0x00c] m_pFrame         : 0x81cf898 [Type: Frame *]
+    [+0x010] m_pDomain        : 0x825fd0 [Type: AppDomain *]
+    [+0x014] m_ThreadId       : 0x4 [Type: unsigned long]
+...
+    [+0x11c] m_OSThreadId     : 0x5b30 [Type: unsigned long]
+...</code></pre>
+<p>ここで表示されている m_ThreadId はマネージ スレッドの ID になるので、~ コマンドでスレッドを切り替える場合は m_OSThreadId を使用します。0x5b30 のスレッドのコールスタックを見てみます。</p>
+<pre><code>0:000&gt; ~~[0x5b30]e!ClrStack
+OS Thread Id: 0x5b30 (8)
+Child SP       IP Call Site
+081CF898 77c329dc [InlinedCallFrame: 081cf898] 
+<span style="background-color:DarkCyan;">081CF894 07e96246</span> ILStubClass.IL_STUB_PInvoke()
+081CF898 07e961d3 [InlinedCallFrame: 081cf898] ConsoleApp1.Program.Foo()
+081CF8E4 07e961d3 ConsoleApp1.Program.Worker() [C:\Users\user1\source\repos\GSFailureDuringGC\ConsoleApp1\Program.cs @ 16]
+081CF8F4 79611fb0 System.Threading.ThreadHelper.ThreadStart_Context(System.Object) [/_/src/coreclr/src/System.Private.CoreLib/src/System/Threading/Thread.CoreCLR.cs @ 42]
+081CF904 79619785 System.Threading.ExecutionContext.RunInternal(System.Threading.ExecutionContext, System.Threading.ContextCallback, System.Object) [/_/src/libraries/System.Private.CoreLib/src/System/Threading/ExecutionContext.cs @ 186]
+081CF938 79612073 System.Threading.ThreadHelper.ThreadStart() [/_/src/coreclr/src/System.Private.CoreLib/src/System/Threading/Thread.CoreCLR.cs @ 91]
+081CFB80 78e96e6f [DebuggerU2MCatchHandlerFrame: 081cfb80] </code></pre>
+<p>前述のマネージ スタックのうち、どのスタック フレームを処理しようとしていたか確認するために frame 02 の処理を確認すると、m_crawl.pFrame が示すフレームであることを確認できます。</p>
+<figure class="highlight cpp"><figcaption><span>src\coreclr\src\vm\stackwalk.cpp#L1184</span><a target="_blank" rel="noopener" href="https://github.com/dotnet/runtime/blob/208e377a5329ad6eb1db5e5fb9d4590fa50beadd/src/coreclr/src/vm/stackwalk.cpp#L1184">link</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">BOOL <span class="title">StackFrameIterator::Init</span><span class="params">(Thread *    pThread,</span></span></span><br><span class="line"><span class="function"><span class="params">                              PTR_Frame   pFrame,</span></span></span><br><span class="line"><span class="function"><span class="params">                              PREGDISPLAY pRegDisp,</span></span></span><br><span class="line"><span class="function"><span class="params">                              ULONG32     flags)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">...</span><br><span class="line">    <span class="keyword">if</span> (m_crawl.pFrame != FRAME_TOP &amp;&amp; !(m_flags &amp; SKIP_GSCOOKIE_CHECK))</span><br><span class="line">    &#123;</span><br><span class="line">        m_crawl.SetCurGSCookie(Frame::SafeGetGSCookiePtr(m_crawl.pFrame));</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>メンバー変数なので this から辿る必要があることに注意しつつ、デバッガーで表示してみます。</p>
+<pre><code>0:000&gt; dx @$curthread.Stack.Frames[2].LocalVariables.this-&gt;m_crawl-&gt;pFrame
+@$curthread.Stack.Frames[2].LocalVariables.this-&gt;m_crawl-&gt;pFrame  : 0x81cf898 [Type: InlinedCallFrame * (derived from Frame *)]
+    [+0x004] m_Next           : 0x81cfb80 [Type: Frame *]
+    [+0x008] m_Datum          : 0x0 [Type: NDirectMethodDesc *]
+    [+0x00c] <span style="background-color:DarkCyan;">m_pCallSiteSP    : 0x81cf894</span> [Type: void *]
+    [+0x010] <span style="background-color:DarkCyan;">m_pCallerReturnAddress : 0x7e96246</span> [Type: unsigned long]
+    [+0x014] m_pCalleeSavedFP : 0x81cf8dc [Type: unsigned long]
+    [+0x018] m_pThread        : 0x78eb6898 [Type: void *]</code></pre>
+<p>m_pCallSiteSP や m_pCallerReturnAddress の値と 0x5b30 の !ClrStack コマンドの結果を比較すると、プラットフォーム相互運用に関連するフレームであったことが確認できます。(ちなみに今回表示したフレームは InlineCallFrame クラスですが、Frame クラスを基底にした様々なスタック フレームの種類があることが <a target="_blank" rel="noopener" href="https://github.com/dotnet/runtime/blob/main/src/coreclr/vm/frames.h">https://github.com/dotnet/runtime/blob/main/src/coreclr/vm/frames.h</a> で確認できます。)</p>
+<p>プラットフォーム相互運用周辺が怪しいということが分かったところで、今回の確認に使用したプログラムのソース コードを見てみます。</p>
+<figure class="highlight cs"><figcaption><span>"ConsoleApp1.exe の実装 (source.cs) Debug|x86"</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> System;</span><br><span class="line"><span class="keyword">using</span> System.Runtime.InteropServices;</span><br><span class="line"><span class="keyword">using</span> System.Threading;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">ConsoleApp1</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">class</span> <span class="title">Program</span></span><br><span class="line">    &#123;</span><br><span class="line">        [<span class="meta">DllImport(<span class="meta-string">&quot;Dll1.dll&quot;</span>)</span>]</span><br><span class="line">        <span class="function"><span class="keyword">private</span> <span class="keyword">extern</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">Foo</span>(<span class="params"></span>)</span>;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Worker</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>        &#123;</span><br><span class="line">            <span class="keyword">while</span> (<span class="literal">true</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                Foo();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>(<span class="params"><span class="keyword">string</span>[] args</span>)</span></span><br><span class="line"><span class="function"></span>        &#123;</span><br><span class="line">            <span class="keyword">var</span> t = <span class="keyword">new</span> Thread(Worker);</span><br><span class="line">            t.Start();</span><br><span class="line">            <span class="keyword">while</span> (<span class="literal">true</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">var</span> _garbage = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">8000</span>];</span><br><span class="line">            &#125;</span><br><span class="line">            GC.KeepAlive(t);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><figcaption><span>"dll1.dll の実装 (source.cpp) Debug|x86"</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">extern</span> <span class="string">&quot;C&quot;</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> __stdcall <span class="title">Foo</span><span class="params">(<span class="keyword">int</span> arg)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> arg;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>DLL がエクスポートしている Foo 関数は int 型の引数を取りますが、マネージ コードの DllImport の定義には引数がなく、呼出し元と呼び出し先でスタックの扱いに不整合が生じて破損する可能性があります。結局のところ、__report_gsfailure の報告は GC の処理が各スタック フレームからのオブジェクト参照を操作する中でこの問題を検出したものでした。上記のソースコードは問題を極端にシンプル化した例ですが、実際のアプリケーションはより複雑で規模も大きく、コード レビューで問題を見つけることも容易ではありません。</p>
+<p>ちなみに、Foo 関数の呼び出しでスタックの扱いに不整合が生じているなら呼び出したらすぐ問題が起きそうなものですが、このケースの場合、実際には GC が発生するまで問題が顕在化しません。なぜでしょうか？</p>
+<p>スタックの不整合で不正な状態が生じる範囲が軽微な場合、プラットフォーム相互運用の呼び出し先から戻る際に影響を生じないため、破損していても問題が顕在化せずそのまま処理が進むことがあります。ところが破損しているスタック フレームがある状態で GC がトリガーされると、GC がスタック フレームを走査する過程で GS チェックが行われるため問題が検出され強制終了します。実際のアプリケーションでは、問題があるコードが実行されるタイミングと GC のトリガー タイミングが一致した場合にのみ顕在化する再現性がない事象となるため、トラブルシュートが難しい不具合につながります。</p>
+<h1 id="4-Managed-Debugging-Assistants-による再現性の確保"><a href="#4-Managed-Debugging-Assistants-による再現性の確保" class="headerlink" title="4. Managed Debugging Assistants による再現性の確保"></a>4. Managed Debugging Assistants による再現性の確保</h1><p>x86 アプリケーションの場合、Visual Studio でデバッグ実行する際に [デバッグ] &gt; [ウィンドウ] &gt; [例外の設定] で [例外の設定] ダイアログを表示し、[Managed Debugging Assistants] - [PInvokeStackImbalance] にチェックを入れておくと、このようなプラットフォーム相互運用におけるスタックの問題を検出出来る場合があります。</p>
+<p><img src="pinvokestackimbalance.png"></p>
+<p>PInvokeStackImbalance MDA を有効にした場合、.NET Framework のランタイムによってプラットフォーム相互運用の前後でスタックの検証が行われ、問題が検出された場合に直ちに設定されている事後デバッガーを起動します。PInvokeStackImbalance MDA によって事後デバッガーから出力されたダンプ ファイルは以下のようなコールスタックとなり、問題があったメソッドが容易に確認できます。また、検証はプラットフォーム相互運用呼び出しの都度行われるため、GC によって不定なタイミングで発生する再現の困難さも解消することができます。</p>
+<pre><code>0:006&gt; !ClrStack
+OS Thread Id: 0x4b28 (6)
+Child SP       IP Call Site
+053df490 77c32f6c [InlinedCallFrame: 053df490] 
+053df48c 014109ca DomainBoundILStubClass.IL_STUB_PInvoke()
+053df490 01410932 [InlinedCallFrame: 053df490] ConsoleApp1.Program.Foo()
+053df4d8 01410932 ConsoleApp1.Program.Worker() [C:\Users\user1\source\repos\GSFailureDuringGC\ConsoleApp1\Program.cs @ 16]
+053df4e8 73ff2e01 System.Threading.ThreadHelper.ThreadStart_Context(System.Object)
+053df4f4 74018604 System.Threading.ExecutionContext.RunInternal(System.Threading.ExecutionContext, System.Threading.ContextCallback, System.Object, Boolean)
+053df560 74018537 System.Threading.ExecutionContext.Run(System.Threading.ExecutionContext, System.Threading.ContextCallback, System.Object, Boolean)
+053df574 740184f4 System.Threading.ExecutionContext.Run(System.Threading.ExecutionContext, System.Threading.ContextCallback, System.Object)
+053df58c 73ff2d5b System.Threading.ThreadHelper.ThreadStart()
+053df770 7510f066 [GCFrame: 053df770] 
+053df8b4 7510f066 [DebuggerU2MCatchHandlerFrame: 053df8b4] 
+
+0:006&gt; k
+# ChildEBP RetAddr      
+00 053dccec 76b3b143     ntdll!NtWaitForMultipleObjects+0xc
+01 053dce80 7566b76f     KERNELBASE!WaitForMultipleObjectsEx+0x103
+02 053dd200 7566b931     clr!Debugger::LaunchJitDebuggerAndNativeAttach+0x10d
+03 053dd21c 7566b8d6     clr!Debugger::EnsureDebuggerAttached+0x41
+04 053dd254 756722ce     clr!Debugger::JitAttach+0x3d
+05 053dd2ac 754898a4     clr!Debugger::SendMDANotification+0xdb
+06 053dd744 7548944c     clr!MdaXmlMessage::SendDebugEvent+0x1a1
+07 053dd76c 75489bef     clr!MdaXmlMessage::SendEvent+0x54
+08 053ddbb4 75489aaa     clr!MdaXmlMessage::SendMessage+0x111
+09 053dddec 754c3a5a     clr!MdaXmlMessage::SendMessagef+0x65
+0a 053df428 754aa4a8     clr!MdaPInvokeStackImbalance::CheckStack+0x14e
+0b 053df43c 7510f3b7     clr!PInvokeStackImbalanceWorker+0x1d
+0c 053df484 014109ca     clr!PInvokeStackImbalanceHelper+0x3c
+0d 053df4d0 01410932     0x14109ca
+0e 053df4e0 73ff2e01     0x1410932
+0f 053df4ec 74018604     mscorlib_ni!System.Threading.ThreadHelper.ThreadStart_Context(System.Object)$##6003BFF+0xa1
+10 053df550 74018537     mscorlib_ni!System.Threading.ExecutionContext.RunInternal(System.Threading.ExecutionContext, System.Threading.ContextCallback, System.Object, Boolean)$##6003AF0+0xc4
+11 053df564 740184f4     mscorlib_ni!System.Threading.ExecutionContext.Run(System.Threading.ExecutionContext, System.Threading.ContextCallback, System.Object, Boolean)$##6003AEF+0x17
+12 053df580 73ff2d5b     mscorlib_ni!System.Threading.ExecutionContext.Run(System.Threading.ExecutionContext, System.Threading.ContextCallback, System.Object)$##6003AEE+0x44
+13 053df598 7510f066     mscorlib_ni!System.Threading.ThreadHelper.ThreadStart()$##6003C01+0x47
+14 053df5a4 7511230a     clr!CallDescrWorkerInternal+0x34
+15 053df5f8 751185eb     clr!CallDescrWorkerWithHandler+0x6b
+16 053df66c 752296c7     clr!MethodDescCallSite::CallTargetWorker+0x16a
+17 053df7dc 752be356     clr!ThreadNative::KickOffThread_Worker+0x131
+18 053df7f4 752be3e1     clr!ManagedThreadBase_DispatchInner+0x71
+19 053df898 752be2d2     clr!ManagedThreadBase_DispatchMiddle+0x7e
+1a 053df8ec 752be4c1     clr!ManagedThreadBase_DispatchOuter+0x99
+1b 053df910 75229578     clr!ManagedThreadBase_FullTransitionWithAD+0x2f
+1c 053df994 751d4c37     clr!ThreadNative::KickOffThread+0x260
+1d 053dfab8 7747fa29     clr!Thread::intermediateThreadProc+0x58
+1e 053dfac8 77c27a7e     kernel32!BaseThreadInitThunk+0x19
+1f 053dfb24 77c27a4e     ntdll!__RtlUserThreadStart+0x2f
+20 053dfb34 00000000     ntdll!_RtlUserThreadStart+0x1b</code></pre>
+<p>MDA の機能や設定方法の詳細については、以下のドキュメントをご確認ください。<br><a target="_blank" rel="noopener" href="https://docs.microsoft.com/ja-jp/dotnet/framework/debug-trace-profile/diagnosing-errors-with-managed-debugging-assistants">https://docs.microsoft.com/ja-jp/dotnet/framework/debug-trace-profile/diagnosing-errors-with-managed-debugging-assistants</a></p>
+<p>なお、MDA は Visual Studio 固有の機能ではなく .NET Framework 自体の機能ですので、Visual Studio をインストールしなくても利用することが可能です。ただし、PInvokeStackImbalance の MDA は問題の検出をデバッガーへ通知するため、Visual Studio と共に使用しない場合は ProcDump など他のツールやデバッガーを事後デバッガーとして指定しておく必要があります。例えば <a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/sysinternals/downloads/procdump">ProcDump</a> ツールを使う場合は procdump.exe -i -ma を実行することで典型的な構成での事後デバッガーの構成が可能です。事後デバッガーの設定の詳細は以下のドキュメントを参考にしてください。<br><a target="_blank" rel="noopener" href="https://docs.microsoft.com/ja-jp/windows-hardware/drivers/debugger/enabling-postmortem-debugging">https://docs.microsoft.com/ja-jp/windows-hardware/drivers/debugger/enabling-postmortem-debugging</a></p>
+<h1 id="5-まとめ"><a href="#5-まとめ" class="headerlink" title="5. まとめ"></a>5. まとめ</h1><p>clr.dll で例外コード 0xc0000409 が発生する場合、まずダンプ ファイルを採取して例外のスタックを確認してください。スタックに clr!CrawlFrame::* が現れる場合はマネージ スタック フレームのいずれかで破損が検出された状況が推測されます。この場合、GC で処理を行っている対象のスレッドとスタック フレームが特定できれば原因が特定できる可能性があります。スタックの破損に至る要因やその範囲は様々で、この記事で取り上げたケースのように簡単な状況ではないことも多くありますが、アプリケーションのデバッグの参考になれば幸いです。.NET Framework アプリケーションの場合はランタイム内部の構造体フィールドの確認などでプライベート シンボルが必要となりますので、弊社のプレミア サポートやユニファイド サポートのご利用もご検討ください。</p>
+
+      
+      
+        <div class="article-disclaimer">
+        
+          <p><hr>本ブログの内容は弊社の公式見解として保証されるものではなく、開発・運用時の参考情報としてご活用いただくことを目的としています。もし公式な見解が必要な場合は、弊社ドキュメント (<a target="_blank" rel="noopener" href="https://docs.microsoft.com/">https://docs.microsoft.com</a> や <a target="_blank" rel="noopener" href="https://support.microsoft.com">https://support.microsoft.com</a>) をご参照いただくか、もしくは私共サポートまでお問い合わせください。</p>
+        
+        </div>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/NET/" rel="tag">.NET</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Debug/" rel="tag">Debug</a></li></ul>
+
+      <!-- 
+      
+        <a href="https://github.com/jpdscore/blog/edit/master/articles/dotnet/gs-failure-during-gc.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
+        
+      -->
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="../common-issues-caused-by-dotnet-profiler/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前の記事</strong>
+      <div class="article-nav-title">.NET Framework のプロファイル機能を利用する製品に起因する一般的な問題について</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最近の投稿</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="">.NET アプリケーションで GC 中に発生する例外コード 0xc0000409 のエラーについて</a>
+          </li>
+        
+          <li>
+            <a href="../common-issues-caused-by-dotnet-profiler/">.NET Framework のプロファイル機能を利用する製品に起因する一般的な問題について</a>
+          </li>
+        
+          <li>
+            <a href="../../windowssdk/note-when-use-selectobject-function/">SelectObject 関数利用時の注意事項</a>
+          </li>
+        
+          <li>
+            <a href="../ndp452-46-461-eos/">.NET Framework 4.5.2、4.6、4.6.1 のサポート終了予定について</a>
+          </li>
+        
+          <li>
+            <a href="../../xamarin/create-xamarinforms-try-xamarinuitest-vs2019/">VS2019 から、Xamarin.UITest で Xamarin.Forms アプリの UI テストをしてみよう！</a>
+          </li>
+        
+          <li>
+            <a href="../../debugging/collect-dump-ifeo/">アプリケーションの起動時に自動的にツールをアタッチさせて例外発生時のダンプ ファイルを採取する</a>
+          </li>
+        
+          <li>
+            <a href="../../deployment/unknown-publisher-on-clickonce-trust-prompt/">ClickOnce 信頼プロンプトで公開元が&#34;不明な公開元です。&#34;として表示される場合の原因と対処方法</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">タグ</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="../../tags/ALM/">ALM</a><span class="tag-list-count">3</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-Pipelines">Azure Pipelines</a><span class="tag-list-count">3</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-Repos">Azure Repos</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/GitHub">GitHub</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Windows-SDK/">Windows SDK</a><span class="tag-list-count">6</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Debug">Debug</a><span class="tag-list-count">5</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/GDI">GDI</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Leak">Leak</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Debug/">Debug</a><span class="tag-list-count">10</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/NET">.NET</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Leak">Leak</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Memory">Memory</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Windows-SDK">Windows SDK</a><span class="tag-list-count">5</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/">情報採取手順</a><span class="tag-list-count">1</span><ul></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Deployment/">Deployment</a><span class="tag-list-count">2</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Deployment/ClickOnce">ClickOnce</a><span class="tag-list-count">2</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/NET/">.NET</a><span class="tag-list-count">4</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/NET-Framework">.NET Framework</a><span class="tag-list-count">3</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/Debug">Debug</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E5%85%A8%E8%88%AC/">全般</a><span class="tag-list-count">1</span><ul></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Visual-Studio/">Visual Studio</a><span class="tag-list-count">4</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/C">C#</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/C">C++</a><span class="tag-list-count">3</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/VB-NET">VB.NET</a><span class="tag-list-count">2</span></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">アーカイブ</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/08/">2021 / 08</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/05/">2021 / 05</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/04/">2021 / 04</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/02/">2021 / 02</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/01/">2021 / 01</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/12/">2020 / 12</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/11/">2020 / 11</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/10/">2020 / 10</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/09/">2020 / 09</a><span class="archive-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">旧ブログ/フォーラム</h3>
+  <div class="widget">
+    <ul>
+      
+        <li>
+          <a href="../../https:/social.msdn.microsoft.com/Forums/ja-jp/home?forum=visualstudiosupportteamja">Visual Studio サポートチーム フォーラム</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/social.msdn.microsoft.com/Forums/ja-jp/home?forum=windowssdksupportteamja&filter=alltypes&sort=lastpostdesc">Windows SDK サポートチーム フォーラム</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/docs.microsoft.com/en-us/archive/blogs/jpvsblog/">Visual Studio サポート チーム blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/docs.microsoft.com/en-us/archive/blogs/japan_platform_sdkwindows_sdk_support_team_blog/">JAPAN Platform SDK（Windows SDK） Support Team Blog</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">関連リンク</h3>
+  <div class="widget">
+    <ul>
+      
+        <li>
+          <a href="../../https:/developercommunity.visualstudio.com/">Developer Community</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/devblogs.microsoft.com/dotnet/">.NET Blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/devblogs.microsoft.com/visualstudio/">Visual Studio Blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/devblogs.microsoft.com/cppblog/">C++ Team Blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/devblogs.microsoft.com/xamarin/">Xamarin Blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/devblogs.microsoft.com/devops/">Azure DevOps Blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/techcommunity.microsoft.com/t5/azure-lab-services/bg-p/AzureLabServicesBlog/">Azure Lab Services Blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/devblogs.microsoft.com/appcenter/">App Center Blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/status.azure.com/status/">Azure Status</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/status.dev.azure.com/">Azure DevOps - Status</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2021 Developer Support Core Japan<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="../../index.html" class="mobile-nav-link">Home</a>
+  
+    <a href="../../archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+<script src="../../js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
