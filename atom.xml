@@ -6,7 +6,7 @@
   <link href="https://jpdscore.github.io/blog/atom.xml" rel="self"/>
   
   <link href="https://jpdscore.github.io/blog/"/>
-  <updated>2021-08-26T15:00:00.000Z</updated>
+  <updated>2021-12-13T00:00:00.000Z</updated>
   <id>https://jpdscore.github.io/blog/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Devcontainerを利用した自動環境構築</title>
+    <link href="https://jpdscore.github.io/blog/vscode/devcontainer_intro/"/>
+    <id>https://jpdscore.github.io/blog/vscode/devcontainer_intro/</id>
+    <published>2021-12-13T00:00:00.000Z</published>
+    <updated>2021-12-13T00:00:00.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;こんにちは、 Developer Support Core チーム インターン生の陳です。&lt;br&gt;最近 Devcontainer</summary>
+        
+      
+    
+    
+    
+    
+    <category term="ALM" scheme="https://jpdscore.github.io/blog/tags/ALM/"/>
+    
+    <category term="Devcontainer" scheme="https://jpdscore.github.io/blog/tags/Devcontainer/"/>
+    
+    <category term="Visual Studio Code" scheme="https://jpdscore.github.io/blog/tags/Visual-Studio-Code/"/>
+    
+  </entry>
   
   <entry>
     <title>.NET アプリケーションで GC 中に発生する例外コード 0xc0000409 のエラーについて</title>
@@ -495,32 +522,6 @@
     <category term="Windows SDK" scheme="https://jpdscore.github.io/blog/tags/Windows-SDK/"/>
     
     <category term="Debug" scheme="https://jpdscore.github.io/blog/tags/Debug/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>DevOps の Self-hosted エージェントを構築して使ってみよう！</title>
-    <link href="https://jpdscore.github.io/blog/azuredevops/try-self-hosted-agent/"/>
-    <id>https://jpdscore.github.io/blog/azuredevops/try-self-hosted-agent/</id>
-    <published>2020-11-19T15:00:00.000Z</published>
-    <updated>2020-11-19T15:00:00.000Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;こんにちは、Japan Developer Support Core チームです。  &lt;/p&gt;
-&lt;p&gt;Azure DevOps におけるサイレント ヒーロー、縁の下の力持ちである Azure Pipelines</summary>
-        
-      
-    
-    
-    
-    
-    <category term="ALM" scheme="https://jpdscore.github.io/blog/tags/ALM/"/>
-    
-    <category term="Azure Pipelines" scheme="https://jpdscore.github.io/blog/tags/Azure-Pipelines/"/>
     
   </entry>
   
