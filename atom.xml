@@ -6,7 +6,7 @@
   <link href="https://jpdscore.github.io/blog/atom.xml" rel="self"/>
   
   <link href="https://jpdscore.github.io/blog/"/>
-  <updated>2021-12-13T00:00:00.000Z</updated>
+  <updated>2022-01-23T15:00:00.000Z</updated>
   <id>https://jpdscore.github.io/blog/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>マネージド スレッドを TerminateThread した場合に発生する .NET ランタイムの内部エラーについて</title>
+    <link href="https://jpdscore.github.io/blog/dotnet/feee-when-managed-thread-is-terminated/"/>
+    <id>https://jpdscore.github.io/blog/dotnet/feee-when-managed-thread-is-terminated/</id>
+    <published>2022-01-23T15:00:00.000Z</published>
+    <updated>2022-01-23T15:00:00.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;こんにちは、Japan Developer Support Core チームの松井です。今回は、.NET アプリケーションでマネージド スレッドを TerminateThraed したときに発生する .NET</summary>
+        
+      
+    
+    
+    
+    
+    <category term="Debug" scheme="https://jpdscore.github.io/blog/tags/Debug/"/>
+    
+    <category term=".NET" scheme="https://jpdscore.github.io/blog/tags/NET/"/>
+    
+  </entry>
   
   <entry>
     <title>Devcontainerを利用した自動環境構築</title>
@@ -488,31 +513,6 @@
         
         
     <summary type="html">&lt;p&gt;こんにちは、Japan Developer Support Core チーム 平田 a.k.a ぴろとです。本日は ProcDump を使用して、アプリケーションのダンプの採取を行う方法についてご案内をさせていただきます。サポート部門で以前は、adplus</summary>
-        
-      
-    
-    
-    
-    
-    <category term="Windows SDK" scheme="https://jpdscore.github.io/blog/tags/Windows-SDK/"/>
-    
-    <category term="Debug" scheme="https://jpdscore.github.io/blog/tags/Debug/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>WinDbg で Dump ファイルを開く</title>
-    <link href="https://jpdscore.github.io/blog/debugging/open-dump-by-windbg/"/>
-    <id>https://jpdscore.github.io/blog/debugging/open-dump-by-windbg/</id>
-    <published>2020-11-20T04:27:35.000Z</published>
-    <updated>2020-11-20T04:27:35.000Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;こんにちは、Japan Developer Support Core チーム 平田 a.k.a ぴろとです。本日は WinDbg を使用して、ダンプ</summary>
         
       
     
