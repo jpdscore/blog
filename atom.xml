@@ -6,7 +6,7 @@
   <link href="https://jpdscore.github.io/blog/atom.xml" rel="self"/>
   
   <link href="https://jpdscore.github.io/blog/"/>
-  <updated>2022-01-23T15:00:00.000Z</updated>
+  <updated>2022-01-25T15:00:00.000Z</updated>
   <id>https://jpdscore.github.io/blog/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Azure DevOps Services における弱い暗号化標準 (TLS 1.0 および TLS 1.1) の廃止について</title>
+    <link href="https://jpdscore.github.io/blog/azuredevops/deprecating-weak-cryptographic-standards-tls-1-0-and-tls-1-1-in-azure-devops/"/>
+    <id>https://jpdscore.github.io/blog/azuredevops/deprecating-weak-cryptographic-standards-tls-1-0-and-tls-1-1-in-azure-devops/</id>
+    <published>2022-01-25T15:00:00.000Z</published>
+    <updated>2022-01-25T15:00:00.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;こんにちは、Japan Developer Support Core チームの松井です。Azure DevOps Services における弱い暗号化標準 (TLS 1.0 および TLS 1.1)</summary>
+        
+      
+    
+    
+    
+    
+    <category term="ALM" scheme="https://jpdscore.github.io/blog/tags/ALM/"/>
+    
+    <category term="Azure DevOps Services" scheme="https://jpdscore.github.io/blog/tags/Azure-DevOps-Services/"/>
+    
+  </entry>
   
   <entry>
     <title>マネージド スレッドを TerminateThread した場合に発生する .NET ランタイムの内部エラーについて</title>
@@ -488,31 +513,6 @@
         
         
     <summary type="html">&lt;h2 id=&quot;Windows-エラー報告-Windows-Error-Reporting-を使って-Dump-を採取する&quot;&gt;&lt;a href=&quot;#Windows-エラー報告-Windows-Error-Reporting-を使って-Dump-を採取する&quot;</summary>
-        
-      
-    
-    
-    
-    
-    <category term="Windows SDK" scheme="https://jpdscore.github.io/blog/tags/Windows-SDK/"/>
-    
-    <category term="Debug" scheme="https://jpdscore.github.io/blog/tags/Debug/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Dump ファイルの取得</title>
-    <link href="https://jpdscore.github.io/blog/debugging/collect-dump/"/>
-    <id>https://jpdscore.github.io/blog/debugging/collect-dump/</id>
-    <published>2020-11-24T08:33:19.000Z</published>
-    <updated>2020-11-24T08:33:19.000Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;こんにちは、Japan Developer Support Core チーム 平田 a.k.a ぴろとです。本日は ProcDump を使用して、アプリケーションのダンプの採取を行う方法についてご案内をさせていただきます。サポート部門で以前は、adplus</summary>
         
       
     
