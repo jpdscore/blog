@@ -6,7 +6,7 @@
   <link href="https://jpdscore.github.io/blog/atom.xml" rel="self"/>
   
   <link href="https://jpdscore.github.io/blog/"/>
-  <updated>2022-01-25T15:00:00.000Z</updated>
+  <updated>2022-03-01T15:00:00.000Z</updated>
   <id>https://jpdscore.github.io/blog/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>マネージド ヒープの破損により発生する GC 中の .NET ランタイムの内部エラーについて</title>
+    <link href="https://jpdscore.github.io/blog/dotnet/feee-managed-heap-corruption/"/>
+    <id>https://jpdscore.github.io/blog/dotnet/feee-managed-heap-corruption/</id>
+    <published>2022-03-01T15:00:00.000Z</published>
+    <updated>2022-03-01T15:00:00.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;こんにちは、Japan Developer Support Core チームの松井です。今回は、マネージド ヒープが破損している状況下でガベージ コレクション (GC) が実行された場合に発生する .NET</summary>
+        
+      
+    
+    
+    
+    
+    <category term="Debug" scheme="https://jpdscore.github.io/blog/tags/Debug/"/>
+    
+    <category term=".NET" scheme="https://jpdscore.github.io/blog/tags/NET/"/>
+    
+  </entry>
   
   <entry>
     <title>Azure DevOps Services における弱い暗号化標準 (TLS 1.0 および TLS 1.1) の廃止について</title>
@@ -497,31 +522,6 @@
     <category term="Debug" scheme="https://jpdscore.github.io/blog/tags/Debug/"/>
     
     <category term="Memory" scheme="https://jpdscore.github.io/blog/tags/Memory/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>WER を使って Dump を採取する</title>
-    <link href="https://jpdscore.github.io/blog/debugging/using-WER/"/>
-    <id>https://jpdscore.github.io/blog/debugging/using-WER/</id>
-    <published>2020-11-25T01:32:06.000Z</published>
-    <updated>2020-11-25T01:32:06.000Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h2 id=&quot;Windows-エラー報告-Windows-Error-Reporting-を使って-Dump-を採取する&quot;&gt;&lt;a href=&quot;#Windows-エラー報告-Windows-Error-Reporting-を使って-Dump-を採取する&quot;</summary>
-        
-      
-    
-    
-    
-    
-    <category term="Windows SDK" scheme="https://jpdscore.github.io/blog/tags/Windows-SDK/"/>
-    
-    <category term="Debug" scheme="https://jpdscore.github.io/blog/tags/Debug/"/>
     
   </entry>
   
