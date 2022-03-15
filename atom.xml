@@ -6,7 +6,7 @@
   <link href="https://jpdscore.github.io/blog/atom.xml" rel="self"/>
   
   <link href="https://jpdscore.github.io/blog/"/>
-  <updated>2022-03-01T15:00:00.000Z</updated>
+  <updated>2022-03-14T15:00:00.000Z</updated>
   <id>https://jpdscore.github.io/blog/</id>
   
   <author>
@@ -15,6 +15,34 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Azure Pipelines のトラブルシューティング用データ採取について</title>
+    <link href="https://jpdscore.github.io/blog/azuredevops/pipelines-log-collection/"/>
+    <id>https://jpdscore.github.io/blog/azuredevops/pipelines-log-collection/</id>
+    <published>2022-03-14T15:00:00.000Z</published>
+    <updated>2022-03-14T15:00:00.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;こんにちは、Japan Developer Support Core チームです。&lt;/p&gt;
+&lt;p&gt;弊社テクニカル</summary>
+        
+      
+    
+    
+    
+    
+    <category term="ALM" scheme="https://jpdscore.github.io/blog/tags/ALM/"/>
+    
+    <category term="Azure Pipelines" scheme="https://jpdscore.github.io/blog/tags/Azure-Pipelines/"/>
+    
+    <category term="情報採取手順" scheme="https://jpdscore.github.io/blog/tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/"/>
+    
+  </entry>
   
   <entry>
     <title>マネージド ヒープの破損により発生する GC 中の .NET ランタイムの内部エラーについて</title>
@@ -497,31 +525,6 @@
     
     
     <category term="Debug" scheme="https://jpdscore.github.io/blog/tags/Debug/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>32 bit アプリケーションで発生するメモリ不足に関連するエラーについて</title>
-    <link href="https://jpdscore.github.io/blog/debugging/oom-on-x86apps/"/>
-    <id>https://jpdscore.github.io/blog/debugging/oom-on-x86apps/</id>
-    <published>2020-12-08T15:00:00.000Z</published>
-    <updated>2020-12-08T15:00:00.000Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;こんにちは、Japan Developer Support Core チームの松井です。&lt;br&gt;今回は、32 bit</summary>
-        
-      
-    
-    
-    
-    
-    <category term="Debug" scheme="https://jpdscore.github.io/blog/tags/Debug/"/>
-    
-    <category term="Memory" scheme="https://jpdscore.github.io/blog/tags/Memory/"/>
     
   </entry>
   

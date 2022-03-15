@@ -9,6 +9,14 @@
 
 
     <url>
+        <loc>https://jpdscore.github.io/blog/azuredevops/pipelines-log-collection/</loc>
+        <lastmod>2022-03-14T15:00:00.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://jpdscore.github.io/blog/dotnet/feee-managed-heap-corruption/</loc>
         <lastmod>2022-03-01T15:00:00.000Z</lastmod>
         <changefreq>weekly</changefreq>
