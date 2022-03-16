@@ -13,8 +13,8 @@
 <meta property="og:site_name" content="Japan Developer Support Core Team Blog">
 <meta property="og:description" content="こんにちは、Japan Developer Support Core チームの松井です。Azure DevOps Services における弱い暗号化標準 (TLS 1.0 および TLS 1.1) の廃止についてご案内いたします。  Deprecating weak cryptographic standards (TLS 1.0 and TLS 1.1) in Azure DevOps  上記">
 <meta property="og:locale" content="ja_JP">
-<meta property="article:published_time" content="2022-01-25T15:00:00.000Z">
-<meta property="article:modified_time" content="2022-01-25T15:00:00.000Z">
+<meta property="article:published_time" content="2022-03-15T15:00:00.000Z">
+<meta property="article:modified_time" content="2022-03-15T15:00:00.000Z">
 <meta property="article:author" content="Developer Support Core Japan">
 <meta property="article:tag" content="ALM">
 <meta property="article:tag" content="Azure DevOps Services">
@@ -97,13 +97,13 @@
       <div class="article-share">
         Last Update: 
         <a href="" class="article-date-single">
-  <time datetime="2022-01-25T15:00:00.000Z" itemprop="datePublished">2022-01-26</time>
+  <time datetime="2022-03-15T15:00:00.000Z" itemprop="datePublished">2022-03-16</time>
 </a>
         
         
         <a href="https://github.com/jpdscore/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+c8ac30f8-f625-56ef-a484-3f99cf70e5a8%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5BAzure+DevOps+Services+%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8B%E5%BC%B1%E3%81%84%E6%9A%97%E5%8F%B7%E5%8C%96%E6%A8%99%E6%BA%96+%28TLS+1.0+%E3%81%8A%E3%82%88%E3%81%B3+TLS+1.1%29+%E3%81%AE%E5%BB%83%E6%AD%A2%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6%5D%28https%3A%2F%2Fjpdscore.github.io%2Fblog%2Fazuredevops%2Fdeprecating-weak-cryptographic-standards-tls-1-0-and-tls-1-1-in-azure-devops%2F%29" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
         
-        <a data-url="https://jpdscore.github.io/blog/azuredevops/deprecating-weak-cryptographic-standards-tls-1-0-and-tls-1-1-in-azure-devops/" data-id="cl0ryv0pm0001cjonc93fbl34" class="article-share-link">共有</a>
+        <a data-url="https://jpdscore.github.io/blog/azuredevops/deprecating-weak-cryptographic-standards-tls-1-0-and-tls-1-1-in-azure-devops/" data-id="cl0sx96y20001ejon7xqa8l6e" class="article-share-link">共有</a>
       </div>
     
     <div class="article-entry" itemprop="articleBody">
@@ -116,6 +116,9 @@
 <p>上記ブログ記事をご確認の上、影響を受ける可能性がある場合はソフトウェアのアップデートや TLS 1.2 の有効化をお願いいたします。この件につきましてご不明点などがありましたら、私共サポートまでお問い合わせください。</p>
 <h3 id="2022-02-02-追記"><a href="#2022-02-02-追記" class="headerlink" title="2022/02/02 追記"></a>2022/02/02 追記</h3><blockquote>
 <p><strong>2022 年 1 月 31 日 (PST) に実施された上記の変更につきましては、変更に伴う予期しない問題が確認されたためロールバックされました。現時点では Azure DevOps Services は引き続き TLS 1.0/1.1 の接続をサポートしています。現在上記の問題の解消に向けて取り組んでおり、改めて TLS 1.0/1.1 の新しい廃止予定日をアナウンスする予定です。ご不便をおかけいたしましたことをお詫び申し上げます。当ブログも随時更新しますが、最新の情報につきましては <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/devops/deprecating-weak-cryptographic-standards-tls-1-0-and-tls-1-1-in-azure-devops/">Azure DevOps Blog</a> の記事もあわせてご確認ください。</strong></p>
+</blockquote>
+<h3 id="2022-03-16-追記"><a href="#2022-03-16-追記" class="headerlink" title="2022/03/16 追記"></a>2022/03/16 追記</h3><blockquote>
+<p><strong>ロールバックされた上記の変更につきましては、2022 年 3 月 31 日に改めてロールアウトされる予定です。また、恒久的な変更に先立ち、お客様が影響を受けるソフトウェアを事前に識別できるように、下記の日程にて https://orgname.visualstudio.com および https://dev.azure.com/orgname の URL について一時的に TLS 1.0/1.1 を無効にする予定です。<br>- 2022 年 3 月 22 日 09:00-21:00 (UTC) https://orgname.visualstudio.com のみ対象<br>- 2022 年 3 月 24 日 09:00-21:00 (UTC) https://dev.azure.com/orgname のみ対象<br>最新の情報につきましては <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/devops/deprecating-weak-cryptographic-standards-tls-1-0-and-1-1-in-azure-devops-services/">Azure DevOps Blog</a> の記事もあわせてご確認ください。</strong></p>
 </blockquote>
 
       
@@ -143,19 +146,10 @@
     
 <nav id="article-nav">
   
-    <a href="../../dotnet/feee-managed-heap-corruption/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">次の記事</strong>
-      <div class="article-nav-title">
-        
-          マネージド ヒープの破損により発生する GC 中の .NET ランタイムの内部エラーについて
-        
-      </div>
-    </a>
   
-  
-    <a href="../../dotnet/feee-when-managed-thread-is-terminated/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="../pipelines-log-collection/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">前の記事</strong>
-      <div class="article-nav-title">マネージド スレッドを TerminateThread した場合に発生する .NET ランタイムの内部エラーについて</div>
+      <div class="article-nav-title">Azure Pipelines のトラブルシューティング用データ採取について</div>
     </a>
   
 </nav>
@@ -174,15 +168,15 @@
       <ul>
         
           <li>
+            <a href="">Azure DevOps Services における弱い暗号化標準 (TLS 1.0 および TLS 1.1) の廃止について</a>
+          </li>
+        
+          <li>
             <a href="../pipelines-log-collection/">Azure Pipelines のトラブルシューティング用データ採取について</a>
           </li>
         
           <li>
             <a href="../../dotnet/feee-managed-heap-corruption/">マネージド ヒープの破損により発生する GC 中の .NET ランタイムの内部エラーについて</a>
-          </li>
-        
-          <li>
-            <a href="">Azure DevOps Services における弱い暗号化標準 (TLS 1.0 および TLS 1.1) の廃止について</a>
           </li>
         
           <li>
@@ -220,7 +214,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">アーカイブ</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/03/">2022 / 03</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/01/">2022 / 01</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/12/">2021 / 12</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/08/">2021 / 08</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/05/">2021 / 05</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/04/">2021 / 04</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/02/">2021 / 02</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/01/">2021 / 01</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/12/">2020 / 12</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/11/">2020 / 11</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/10/">2020 / 10</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/09/">2020 / 09</a><span class="archive-list-count">4</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/03/">2022 / 03</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/01/">2022 / 01</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/12/">2021 / 12</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/08/">2021 / 08</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/05/">2021 / 05</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/04/">2021 / 04</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/02/">2021 / 02</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/01/">2021 / 01</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/12/">2020 / 12</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/11/">2020 / 11</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/10/">2020 / 10</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/09/">2020 / 09</a><span class="archive-list-count">4</span></li></ul>
     </div>
   </div>
 
