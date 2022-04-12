@@ -6,7 +6,7 @@
   <link href="https://jpdscore.github.io/blog/atom.xml" rel="self"/>
   
   <link href="https://jpdscore.github.io/blog/"/>
-  <updated>2022-03-15T15:00:00.000Z</updated>
+  <updated>2022-04-11T15:00:00.000Z</updated>
   <id>https://jpdscore.github.io/blog/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Azure Pipelines エージェントの IP について</title>
+    <link href="https://jpdscore.github.io/blog/azuredevops/pipelines-agents-ip-settings/"/>
+    <id>https://jpdscore.github.io/blog/azuredevops/pipelines-agents-ip-settings/</id>
+    <published>2022-04-11T15:00:00.000Z</published>
+    <updated>2022-04-11T15:00:00.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;こんにちは、Japan Developer Support Core チームです🐈&lt;/p&gt;
+&lt;p&gt;今日は Azure Pipelines で利用するエージェントの IP</summary>
+        
+      
+    
+    
+    
+    
+    <category term="ALM" scheme="https://jpdscore.github.io/blog/tags/ALM/"/>
+    
+    <category term="Azure Pipelines" scheme="https://jpdscore.github.io/blog/tags/Azure-Pipelines/"/>
+    
+  </entry>
   
   <entry>
     <title>Azure DevOps Services における弱い暗号化標準 (TLS 1.0 および TLS 1.1) の廃止について</title>
@@ -502,29 +528,6 @@
     <category term="Debug" scheme="https://jpdscore.github.io/blog/tags/Debug/"/>
     
     <category term="Leak" scheme="https://jpdscore.github.io/blog/tags/Leak/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>イベント ID 1000 で記録される Application Error のイベント ログについて</title>
-    <link href="https://jpdscore.github.io/blog/debugging/application-error-eventlog/"/>
-    <id>https://jpdscore.github.io/blog/debugging/application-error-eventlog/</id>
-    <published>2020-12-09T15:00:00.000Z</published>
-    <updated>2020-12-09T15:00:00.000Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;こんにちは、Japan Developer Support Core チームの松井です。&lt;br&gt;今回は、イベント ID 1000 で記録される Application Error のイベント</summary>
-        
-      
-    
-    
-    
-    
-    <category term="Debug" scheme="https://jpdscore.github.io/blog/tags/Debug/"/>
     
   </entry>
   

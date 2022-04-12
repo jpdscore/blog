@@ -9,6 +9,14 @@
 
 
     <url>
+        <loc>https://jpdscore.github.io/blog/azuredevops/pipelines-agents-ip-settings/</loc>
+        <lastmod>2022-04-11T15:00:00.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://jpdscore.github.io/blog/azuredevops/deprecating-weak-cryptographic-standards-tls-1-0-and-tls-1-1-in-azure-devops/</loc>
         <lastmod>2022-03-15T15:00:00.000Z</lastmod>
         <changefreq>weekly</changefreq>
