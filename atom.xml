@@ -6,7 +6,7 @@
   <link href="https://jpdscore.github.io/blog/atom.xml" rel="self"/>
   
   <link href="https://jpdscore.github.io/blog/"/>
-  <updated>2022-04-26T15:00:00.000Z</updated>
+  <updated>2022-04-27T15:00:00.000Z</updated>
   <id>https://jpdscore.github.io/blog/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Visual Studio 2013 でサインイン画面が表示されない場合の対処方法について</title>
+    <link href="https://jpdscore.github.io/blog/vs/vs2013-signin-error/"/>
+    <id>https://jpdscore.github.io/blog/vs/vs2013-signin-error/</id>
+    <published>2022-04-27T15:00:00.000Z</published>
+    <updated>2022-04-27T15:00:00.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;こんにちは、Japan Developer Support Core チームの松井です。&lt;br&gt;今回は Visual Studio 2013 でサインイン画面が表示されない場合の対処方法についてご案内します。&lt;/p&gt;
+&lt;h1 id=&quot;現象&quot;&gt;&lt;a href=&quot;#現象&quot;</summary>
+        
+      
+    
+    
+    
+    
+    <category term="Visual Studio" scheme="https://jpdscore.github.io/blog/tags/Visual-Studio/"/>
+    
+  </entry>
   
   <entry>
     <title>Azure DevOps Services トラブルシューティング用のデータ採取について</title>
@@ -499,35 +523,6 @@
     
     
     <category term="Visual Studio" scheme="https://jpdscore.github.io/blog/tags/Visual-Studio/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>浮動小数点を利用する際に知っておきたいこと</title>
-    <link href="https://jpdscore.github.io/blog/vs/what-developers-should-know-about-floating-point/"/>
-    <id>https://jpdscore.github.io/blog/vs/what-developers-should-know-about-floating-point/</id>
-    <published>2021-01-12T15:00:00.000Z</published>
-    <updated>2021-01-12T15:00:00.000Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;(※ 2014 年 10 月 28 日に Microsoft Japan Visual Studio Support Team Blog に公開した情報のアーカイブです。)&lt;br&gt;(※</summary>
-        
-      
-    
-    
-    
-    
-    <category term="Visual Studio" scheme="https://jpdscore.github.io/blog/tags/Visual-Studio/"/>
-    
-    <category term="C++" scheme="https://jpdscore.github.io/blog/tags/C/"/>
-    
-    <category term="C#" scheme="https://jpdscore.github.io/blog/tags/C/"/>
-    
-    <category term="VB.NET" scheme="https://jpdscore.github.io/blog/tags/VB-NET/"/>
     
   </entry>
   
