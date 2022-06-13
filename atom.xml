@@ -6,7 +6,7 @@
   <link href="https://jpdscore.github.io/blog/atom.xml" rel="self"/>
   
   <link href="https://jpdscore.github.io/blog/"/>
-  <updated>2022-04-27T15:00:00.000Z</updated>
+  <updated>2022-06-12T15:00:00.000Z</updated>
   <id>https://jpdscore.github.io/blog/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Azure DevOps Services の料金体系をおさらいしてみよう！</title>
+    <link href="https://jpdscore.github.io/blog/azuredevops/DevOpsPricing/"/>
+    <id>https://jpdscore.github.io/blog/azuredevops/DevOpsPricing/</id>
+    <published>2022-06-12T15:00:00.000Z</published>
+    <updated>2022-06-12T15:00:00.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;こんにちは、Japan Developer Support Core チームです🐶&lt;br&gt;いつも Azure DevOps Services をご利用いただき、ありがとうございます。  &lt;/p&gt;
+&lt;p&gt;Azure DevOps Services</summary>
+        
+      
+    
+    
+    
+    
+    <category term="ALM" scheme="https://jpdscore.github.io/blog/tags/ALM/"/>
+    
+    <category term="Azure DevOps Services" scheme="https://jpdscore.github.io/blog/tags/Azure-DevOps-Services/"/>
+    
+  </entry>
   
   <entry>
     <title>Visual Studio 2013 でサインイン画面が表示されない場合の対処方法について</title>
@@ -499,30 +525,6 @@
     <category term="Visual Studio" scheme="https://jpdscore.github.io/blog/tags/Visual-Studio/"/>
     
     <category term="C++" scheme="https://jpdscore.github.io/blog/tags/C/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Visual Studio 2019 version 16.0 サポート終了のご案内</title>
-    <link href="https://jpdscore.github.io/blog/vs/vs2019-16-0-eos/"/>
-    <id>https://jpdscore.github.io/blog/vs/vs2019-16-0-eos/</id>
-    <published>2021-01-12T15:00:00.000Z</published>
-    <updated>2021-01-12T15:00:00.000Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;こんにちは、Japan Developer Support Core チームの松井です。&lt;br&gt;今回は Visual Studio 2019 version 16.0 のサポート終了についてご案内します。&lt;/p&gt;
-&lt;h1</summary>
-        
-      
-    
-    
-    
-    
-    <category term="Visual Studio" scheme="https://jpdscore.github.io/blog/tags/Visual-Studio/"/>
     
   </entry>
   

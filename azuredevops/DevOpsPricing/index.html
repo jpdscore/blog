@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Azure DevOps Services の料金体系をおさらいしてみよう！ | Japan Developer Support Core Team Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="こんにちは、Japan Developer Support Core チームです🐶いつも Azure DevOps Services をご利用いただき、ありがとうございます。   Azure DevOps Services では、ほぼすべての機能を無料で始めることができますが、逆にどのようなときに課金が発生するのか、課金しなければならないシナリオとはどんなものがあるのか、お問い合わせいただくこと">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Azure DevOps Services の料金体系をおさらいしてみよう！">
+<meta property="og:url" content="https://jpdscore.github.io/blog/azuredevops/DevOpsPricing/index.html">
+<meta property="og:site_name" content="Japan Developer Support Core Team Blog">
+<meta property="og:description" content="こんにちは、Japan Developer Support Core チームです🐶いつも Azure DevOps Services をご利用いただき、ありがとうございます。   Azure DevOps Services では、ほぼすべての機能を無料で始めることができますが、逆にどのようなときに課金が発生するのか、課金しなければならないシナリオとはどんなものがあるのか、お問い合わせいただくこと">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/DevOpsPricing/pic1.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/DevOpsPricing/pic2.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/DevOpsPricing/pic3.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/DevOpsPricing/pic5.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/DevOpsPricing/pic6.png">
+<meta property="article:published_time" content="2022-06-12T15:00:00.000Z">
+<meta property="article:modified_time" content="2022-06-12T15:00:00.000Z">
+<meta property="article:author" content="Developer Support Core Japan">
+<meta property="article:tag" content="ALM">
+<meta property="article:tag" content="Azure DevOps Services">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jpdscore.github.io/blog/azuredevops/DevOpsPricing/pic1.png">
+  
+    <link rel="alternate" href="../../blog/atom.xml" title="Japan Developer Support Core Team Blog" type="application/atom+xml">
+  
+
+  <link rel="icon" href="../../favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
+  <link rel="manifest" href="../../site.webmanifest">
+  <link rel="mask-icon" href="../../safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="theme-color" content="#ffffff">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="../../css/style.css">
+
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="site-header-logo"></div>
+  <div id="site-header-blog-wrapper"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        <div id="ms-logo"></div>
+        
+          <a class="main-nav-link" href="../../index.html">Home</a>
+        
+          <a class="main-nav-link" href="../../archives">Archives</a>
+        
+        <a class="main-nav-link" target="_blank" rel="noopener" href="https://cssjpn.github.io/">サポート情報</a>
+        <a class="main-nav-link" href="/blog/general/welcome/">About</a>
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="../../blog/atom.xml" title="RSSフィード"></a>
+        
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//www.bing.com/search" method="get" accept-charset="UTF-8" name="bing-search" onsubmit="var f=this;if(f['q'].value){var searchUrl =  'https://www.bing.com/search?q=' +  encodeURIComponent(f['q'].value + ' site:' + f['sitesearch'].value) ;window.open(searchUrl, 'blank') };return false;" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="検索"><button type="submit" id="nav-search-btn" class="search-form-submit"></button><input type="hidden" name="sitesearch" value="https://jpdscore.github.io/blog"></form>
+      </div>
+    </div>
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="../../index.html" id="logo">Japan Developer Support Core Team Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="../../index.html" id="subtitle">日本マイクロソフトの Japan Developer Support Core チームのブログです。</a>
+        </h2>
+      
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="devops-azuredevops/DevOpsPricing" class="article article-type-devops" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header-single">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Azure DevOps Services の料金体系をおさらいしてみよう！
+    </h1>
+  
+
+      </header>
+      <div class="article-share">
+        Last Update: 
+        <a href="" class="article-date-single">
+  <time datetime="2022-06-12T15:00:00.000Z" itemprop="datePublished">2022-06-13</time>
+</a>
+        
+        
+        <a href="https://github.com/jpdscore/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+568b4b92-8c30-593b-8af9-c30c62a71b72%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5BAzure+DevOps+Services+%E3%81%AE%E6%96%99%E9%87%91%E4%BD%93%E7%B3%BB%E3%82%92%E3%81%8A%E3%81%95%E3%82%89%E3%81%84%E3%81%97%E3%81%A6%E3%81%BF%E3%82%88%E3%81%86%EF%BC%81%5D%28https%3A%2F%2Fjpdscore.github.io%2Fblog%2Fazuredevops%2FDevOpsPricing%2F%29" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
+        
+        <a data-url="https://jpdscore.github.io/blog/azuredevops/DevOpsPricing/" data-id="cl4cg9as30000kworcn6l6b73" class="article-share-link">共有</a>
+      </div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>こんにちは、Japan Developer Support Core チームです🐶<br>いつも Azure DevOps Services をご利用いただき、ありがとうございます。  </p>
+<p>Azure DevOps Services では、ほぼすべての機能を無料で始めることができますが、逆にどのようなときに課金が発生するのか、課金しなければならないシナリオとはどんなものがあるのか、お問い合わせいただくことがあります。<br>そこで本記事では、Azure DevOps Services の料金体系についてご案内します。  </p>
+<hr>
+<h1 id="Azure-DevOps-Services-の始め方について"><a href="#Azure-DevOps-Services-の始め方について" class="headerlink" title="Azure DevOps Services の始め方について"></a>Azure DevOps Services の始め方について</h1><hr>
+<p>Azure DevOps Services は、無料で開始することができます。<br>開始方法は、<a target="_blank" rel="noopener" href="https://azure.microsoft.com/ja-jp/services/devops/">Azure DevOps Services のサービス ページ</a> から開始した場合と、 <a target="_blank" rel="noopener" href="https://portal.azure.com/">Azure Portal</a> の [DevOps Starter] から開始した場合の二通りあります。<br>自動で作成されるリソース等が異なるので、お好みの方法を選択ください。  </p>
+<ul>
+<li><p><a target="_blank" rel="noopener" href="https://azure.microsoft.com/ja-jp/services/devops/">Azure DevOps Services のサービスページ</a> から開始した場合:  </p>
+<ul>
+<li>Azure DevOps Services のみのリソースを作成する</li>
+<li>Azure の権限が不要 (Azure サブスクリプションにおける管理者権限など)</li>
+</ul>
+<p><img src="pic1.png"></p>
+</li>
+<li><p>DevOps Starter から開始した場合:  </p>
+<ul>
+<li>Azure DevOps Services およびデプロイ先のリソースを作成する (Azure App Services や VM などが一緒に作成される)</li>
+<li>Azure DevOps Services からデプロイ先のリソースに対して CI/CD が設定されている状態で自動的にプロジェクトを作成する</li>
+</ul>
+<p><img src="pic2.png"></p>
+</li>
+</ul>
+<hr>
+<h1 id="Azure-DevOps-Services-の課金シナリオについて"><a href="#Azure-DevOps-Services-の課金シナリオについて" class="headerlink" title="Azure DevOps Services の課金シナリオについて"></a>Azure DevOps Services の課金シナリオについて</h1><hr>
+<p>ここまでは無料で利用する場合のご案内でしたが、無料の枠を超えると従量課金制となり、毎月利用料金を支払うモデルとなります。<br>必要な時に必要な分を継続購入し、常に最新の環境を手に入れるというサービスです。<br>支払い用に Azure サブスクリプションを設定すると、課金が必要なサービスが利用可能となり、この設定をしない場合には勝手に課金されることはありません。  </p>
+<p>Azure サブスクリプションは、Azure DevOps Services の Organization に対して一つ設定 (※) することが可能です。<br>[Organization settings] - [Billing] ページで Azure サブスクリプションを設定することにより、対象の Organization で用いる有償機能の請求先 Azure サブスクリプションとして紐づけされます。  </p>
+<p>※ 以下のドキュメントで、Azure サブスクリプションの設定方法を紹介しています。<br><a target="_blank" rel="noopener" href="https://docs.microsoft.com/ja-jp/azure/devops/organizations/billing/set-up-billing-for-your-organization-vs?view=azure-devops">請求の設定</a></p>
+<p>また課金には、ユーザー ライセンスに対する課金と個別サービスに対する課金の二通りのシナリオがあります。</p>
+<ul>
+<li><strong>ユーザー ライセンス</strong><br>Basic プランまたは Basic + Test プランをユーザーに割り当てる</li>
+<li><strong>個別サービス</strong><br>Azure Pipelines で追加の並列ジョブを購入、または Azure Artifacts で追加の容量を購入する  </li>
+</ul>
+<p>これら二つの課金シナリオについて、以下に詳しくご説明していきます。</p>
+<hr>
+<h2 id="ユーザー-ライセンスに対する課金について"><a href="#ユーザー-ライセンスに対する課金について" class="headerlink" title="ユーザー ライセンスに対する課金について"></a>ユーザー ライセンスに対する課金について</h2><hr>
+<p>Azure DevOps Services でご利用いただけるユーザー ライセンスは 4 通り存在します。<br>各ライセンスでご利用いただける機能は、<strong>Access Level</strong> (※) で許可・制限されます。</p>
+<p><img src="pic3.png"></p>
+<ul>
+<li><p><strong>Basic</strong><br>基本のライセンスであり、Azure DevOps の機能である Azure Pipelines、Azure Boards、Azure Repos、Azure Artifacts が利用可能です。<br>最初の 5 ユーザーまでは無料で使用することができますが、6 人目以降の使用は一人当たり $6(月額) です。</p>
+</li>
+<li><p><strong>Basic + Test Plans</strong><br>上記 Basic に加え、Azure Test Plans を利用するためのライセンスで、一人当たり $52(月額) です。<br>Basic に比較すると高額となるので、Azure Test Plans を利用したい場合は、まずは 30 日間の無料試用期間を利用してお試しいただくといいかもしれません。  </p>
+</li>
+<li><p><strong>Stakeholder (利害関係者)</strong><br>各機能へのアクセスが制限されている無料のライセンスです。<br>作業項目 (バグを含む) を作成および編集できますが、ビルドを実行したり、プルリクエストを表示したりすることはできません。<br>コードや CI/CD 機能にアクセスできないマネージャー アカウントと考えることができます。  </p>
+</li>
+<li><p><strong>Visual Studio Subscriber</strong><br>Visual Studio サブスクリプションを保持しているユーザーに対する無料のライセンスです。<br>Visual Studio のサブスクリプション レベルに応じて、利用できる範囲には制限がありますので、詳細については以下をご参照ください。<br><a target="_blank" rel="noopener" href="https://docs.microsoft.com/ja-jp/visualstudio/subscriptions/vs-azure-devops">Visual Studio サブスクリプションの Azure DevOps</a></p>
+</li>
+</ul>
+<p>※ <strong>Access Level</strong> につきましては、以下弊社のドキュメントもご確認ください。  </p>
+<p><a target="_blank" rel="noopener" href="https://docs.microsoft.com/ja-jp/azure/devops/organizations/security/access-levels?view=azure-devops">アクセス レベルについて</a></p>
+<hr>
+<h3 id="ユーザーが複数の-Organization-にまたがる場合"><a href="#ユーザーが複数の-Organization-にまたがる場合" class="headerlink" title="ユーザーが複数の Organization にまたがる場合"></a>ユーザーが複数の Organization にまたがる場合</h3><hr>
+<p>複数の Organization に同じユーザーが重複して登録される状況を考慮し、Azure DevOps Services には、以下の二種類の支払い方法があります。  </p>
+<ul>
+<li><strong>Single organization (既定はこちら)</strong></li>
+<li><strong>Multi-organization (※)</strong></li>
+</ul>
+<p>Single organization の場合は、1 Organization ごとに 5 名の Basic ユーザーを超えた場合に、ユーザーの課金額が計算されます。<br>この場合、もし複数の Organization にまたがって同一の Basic ユーザーが存在する場合は、同一ユーザーであったとしても Organization ごとに一人分の請求が発生します。<br>Multi-organization の場合は、同じ Azure サブスクリプションに紐づく Organization 全体で、Basic ユーザーの数が 5 名を超えた場合に、ユーザーの課金額が計算されます。  </p>
+<p>※ <strong>Multi-organization</strong> の設定方法につきましては、以下弊社のドキュメントをご確認ください。  </p>
+<p><a target="_blank" rel="noopener" href="https://docs.microsoft.com/ja-jp/azure/devops/organizations/billing/buy-basic-access-add-users?view=azure-devops#pay-for-a-user-once-across-multiple-organizations">複数の組織でユーザーに対して 1 回だけ支払う</a></p>
+<p><strong>例) 同一サブスクリプションにて、Organization を A、B、C と三つ作成し、Organization 毎にユーザーを各 6 名ずつ追加する場合</strong>  </p>
+<ul>
+<li><strong>【Single organization 設定時】(既定はこちら)</strong>  </li>
+</ul>
+<p><img src="pic5.png"><br>有料ユーザー 1 x 3 Organization = 3 ユーザー分の課金となり、$6 x 3 = $18(月額) の課金となります。<br>赤、青のユーザーは各 Organization ごとに異なるメンバーでもよく、Stakeholder、Visual Studio Subscriber は常に無料です。  </p>
+<ul>
+<li><p><strong>【Multi-organization 設定時】</strong>  </p>
+<p><img src="pic6.png"><br>有料ユーザー 1 x 1 サブスクリプション = 1 ユーザー分の課金となり、$6 x 1 = $6(月額) の課金となります。<br>ただし、赤と青のユーザーは全 Organization で共通となり、Stakeholder、Visual Studio Subscriber は常に無料です。  </p>
+</li>
+</ul>
+<p>ほとんどのユーザーが一つの Organization しか利用しない場合は、Single organization が最もコスト効率が高くなります。<br>逆に、多くのユーザーが複数の Organization を利用する場合は、Multi-organization が最適な選択肢であると考えられます。  </p>
+<hr>
+<h2 id="個別サービスに対する課金について"><a href="#個別サービスに対する課金について" class="headerlink" title="個別サービスに対する課金について"></a>個別サービスに対する課金について</h2><hr>
+<p>Azure Pipelines と Azure Artifacts に無料で付属している個別サービスに対して、追加で購入する場合に課金されます。<br>Azure Repos のリポジトリ数およびソースコード等のデータ容量、 Azure Pipelines のビルド成果物などのリソースに対しての課金は発生しません。  </p>
+<ul>
+<li><p><strong>Azure Pipelines</strong><br>Microsoft ホステッド CI/CD(1,800 分／月)、1 個のセルフ ホステッド CI/CD(毎月の分数制限なし) が無料です。<br>最小の CI/CD を実現したいということであれば十分ですが、複数またはより大きなプロジェクトをホストしている場合は、追加で購入できます。  </p>
+<table>
+  <tr>
+    <td>Microsoft ホステッド CI/CD</td>
+    <td>無料並列ジョブ : 1 <br> 毎月の時間制限 : 一か月あたり最大 1,800 分 <br>有料の追加ジョブ : 追加並列ジョブごとに $40(月額)※</td>
+  </tr>
+  <tr>
+    <td>セルフ ホステッド CI/CD</td>
+    <td>無料並列ジョブ : 1 <br> 毎月の時間制限 : なし <br> 有料の追加ジョブ : 追加並列ジョブごとに $15(月額)※</td>
+  </tr>
+</table>
+
+</li>
+</ul>
+<p>※ <strong>並列ジョブ</strong>の購入につきましては、以下弊社のドキュメントもご確認ください。  </p>
+<p><a target="_blank" rel="noopener" href="https://docs.microsoft.com/ja-jp/azure/devops/pipelines/licensing/concurrent-jobs?view=azure-devops&tabs=ms-hosted">並列ジョブの構成と支払い</a></p>
+<ul>
+<li><strong>Azure Artifacts</strong><br>Azure Artifacts では NuGet、npm、Python、Maven、Universal Packages 等様々なパッケージに対応しており、これらのパッケージを 2GiB までは無料で格納できます。<br>(現在使用中のサイズは、Azure DevOps ポータルの [Organization settings] - [Billing] ページ内 <strong>Artifacts</strong> の行の <strong>Used</strong> で確認できます。)<br>もし、無料の 2GiB を超えた場合は、支払用に Azure サブスクリプションを設定していれば自動的に超過分に対して課金が発生します。<br>Azure サブスクリプションを設定していない場合には、そのまま継続して利用できますが、パッケージの新たなアップロードはできません。<br>Azure Artifacts の超過分の料金は、次のとおりです。  </li>
+</ul>
+<table>
+  <tr>
+    <td>10 GiB まで</td>
+    <td>GiB あたり $2(月額)</td>
+  </tr>
+  <tr> 
+    <td>10 GiB から 100 GiB</td>
+    <td>GiB あたり $1(月額)</td>
+  </tr>
+  <tr>
+    <td>100 GiB から 1,000 GiB</td>
+    <td>GiB あたり $0.50(月額)</td>
+  </tr>
+  <tr>
+    <td>1,000 GiB 以降</td>
+    <td>GiB あたり $0.25(月額)</td>
+  </tr>
+</table>
+
+<p>課金が必要なシナリオについては以上となります。<br>下記 <strong>Azure の料金計算ツール</strong>なども利用できますので、使用目的に沿って料金の見積りをお試しください。  </p>
+<p><a target="_blank" rel="noopener" href="https://azure.microsoft.com/ja-jp/pricing/calculator/">Azure の料金計算ツール</a></p>
+<hr>
+<h1 id="為替レートについて"><a href="#為替レートについて" class="headerlink" title="為替レートについて"></a>為替レートについて</h1><hr>
+<p>Azure DevOps Services を含む各種 Azure のサービスは、世界各地で米国ドルで価格が設定されています。<br>そして以下の FAQ のとおり、Azure DevOps Services を含む各種 Azure の請求では、前月最終日の為替レートが利用されます。  </p>
+<p><a target="_blank" rel="noopener" href="https://azure.microsoft.com/ja-jp/pricing/faq/">Azure の価格と請求に関する FAQ<br>/ どの為替レートが使用されますか。また、請求金額の計算はどうなりますか。</a>  </p>
+<blockquote>
+<p>前月末に取得され、翌暦月の 1 日に発効する Thomson Reuters 社のベンチマーク レートを使用しています。このレートは、翌月のすべての取引に適用されます。<br>たとえば、1 月の取引の為替レートは、12 月の最終日に初めて取得されます。このレートは、1 月に行われたすべての Azure の購入と、1 月のすべての Azure の使用量に適用されます。1 月の為替レートと現地通貨での請求額は、2 月初めに発行される 1 月分の請求書に記載されます。  </p>
+</blockquote>
+<hr>
+<h1 id="さいごに"><a href="#さいごに" class="headerlink" title="さいごに"></a>さいごに</h1><hr>
+<p>Azure DevOps Services の課金について、いかがでしたでしょうか。<br>今回の内容を確認しておけば、いきなりとんでもない金額の請求が発生することはないですし、Azure DevOps Services をより安心してご利用いただけると思います。<br>完全に無料でも利用できますので、まずはお試しください！  </p>
+
+      
+      
+        <div class="article-disclaimer">
+        
+          <p><hr>本ブログの内容は弊社の公式見解として保証されるものではなく、開発・運用時の参考情報としてご活用いただくことを目的としています。もし公式な見解が必要な場合は、弊社ドキュメント (<a target="_blank" rel="noopener" href="https://docs.microsoft.com/">https://docs.microsoft.com</a> や <a target="_blank" rel="noopener" href="https://support.microsoft.com">https://support.microsoft.com</a>) をご参照いただくか、もしくは私共サポートまでお問い合わせください。</p>
+        
+        </div>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/ALM/" rel="tag">ALM</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Azure-DevOps-Services/" rel="tag">Azure DevOps Services</a></li></ul>
+
+      <!-- 
+      
+        <a href="https://github.com/jpdscore/blog/edit/master/articles/azuredevops/DevOpsPricing.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
+        
+      -->
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="../../vs/vs2013-signin-error/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前の記事</strong>
+      <div class="article-nav-title">Visual Studio 2013 でサインイン画面が表示されない場合の対処方法について</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最近の投稿</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="">Azure DevOps Services の料金体系をおさらいしてみよう！</a>
+          </li>
+        
+          <li>
+            <a href="../../vs/vs2013-signin-error/">Visual Studio 2013 でサインイン画面が表示されない場合の対処方法について</a>
+          </li>
+        
+          <li>
+            <a href="../devops-log-collection/">Azure DevOps Services トラブルシューティング用のデータ採取について</a>
+          </li>
+        
+          <li>
+            <a href="../pipelines-agents-ip-settings/">Azure Pipelines エージェントの IP について</a>
+          </li>
+        
+          <li>
+            <a href="../deprecating-weak-cryptographic-standards-tls-1-0-and-tls-1-1-in-azure-devops/">Azure DevOps Services における弱い暗号化標準 (TLS 1.0 および TLS 1.1) の廃止について</a>
+          </li>
+        
+          <li>
+            <a href="../pipelines-log-collection/">Azure Pipelines のトラブルシューティング用データ採取について</a>
+          </li>
+        
+          <li>
+            <a href="../../dotnet/feee-managed-heap-corruption/">マネージド ヒープの破損により発生する GC 中の .NET ランタイムの内部エラーについて</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">タグ</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="../../tags/ALM/">ALM</a><span class="tag-list-count">9</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-DevOps-Services">Azure DevOps Services</a><span class="tag-list-count">3</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-Pipelines">Azure Pipelines</a><span class="tag-list-count">5</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-Repos">Azure Repos</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Devcontainer">Devcontainer</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/GitHub">GitHub</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Visual-Studio-Code">Visual Studio Code</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86">情報採取手順</a><span class="tag-list-count">2</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/">情報採取手順</a><span class="tag-list-count">3</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/ALM">ALM</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/Azure-DevOps-Services">Azure DevOps Services</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/Azure-Pipelines">Azure Pipelines</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Windows-SDK/">Windows SDK</a><span class="tag-list-count">6</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Debug">Debug</a><span class="tag-list-count">5</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/GDI">GDI</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Leak">Leak</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Debug/">Debug</a><span class="tag-list-count">12</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/NET">.NET</a><span class="tag-list-count">3</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Leak">Leak</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Memory">Memory</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Windows-SDK">Windows SDK</a><span class="tag-list-count">5</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Deployment/">Deployment</a><span class="tag-list-count">2</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Deployment/ClickOnce">ClickOnce</a><span class="tag-list-count">2</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/NET/">.NET</a><span class="tag-list-count">6</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/NET-Framework">.NET Framework</a><span class="tag-list-count">3</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/Debug">Debug</a><span class="tag-list-count">3</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E5%85%A8%E8%88%AC/">全般</a><span class="tag-list-count">1</span><ul></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Visual-Studio/">Visual Studio</a><span class="tag-list-count">5</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/C">C#</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/C">C++</a><span class="tag-list-count">3</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/VB-NET">VB.NET</a><span class="tag-list-count">2</span></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">アーカイブ</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/06/">2022 / 06</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/04/">2022 / 04</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/03/">2022 / 03</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/01/">2022 / 01</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/12/">2021 / 12</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/08/">2021 / 08</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/05/">2021 / 05</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/04/">2021 / 04</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/02/">2021 / 02</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/01/">2021 / 01</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/12/">2020 / 12</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/11/">2020 / 11</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/10/">2020 / 10</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/09/">2020 / 09</a><span class="archive-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">旧ブログ/フォーラム</h3>
+  <div class="widget">
+    <ul>
+      
+        <li>
+          <a href="../../https:/social.msdn.microsoft.com/Forums/ja-jp/home?forum=visualstudiosupportteamja">Visual Studio サポートチーム フォーラム</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/social.msdn.microsoft.com/Forums/ja-jp/home?forum=windowssdksupportteamja&filter=alltypes&sort=lastpostdesc">Windows SDK サポートチーム フォーラム</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/docs.microsoft.com/en-us/archive/blogs/jpvsblog/">Visual Studio サポート チーム blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/docs.microsoft.com/en-us/archive/blogs/japan_platform_sdkwindows_sdk_support_team_blog/">JAPAN Platform SDK（Windows SDK） Support Team Blog</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">関連リンク</h3>
+  <div class="widget">
+    <ul>
+      
+        <li>
+          <a href="../../https:/developercommunity.visualstudio.com/">Developer Community</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/devblogs.microsoft.com/dotnet/">.NET Blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/devblogs.microsoft.com/visualstudio/">Visual Studio Blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/devblogs.microsoft.com/cppblog/">C++ Team Blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/devblogs.microsoft.com/xamarin/">Xamarin Blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/devblogs.microsoft.com/devops/">Azure DevOps Blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/techcommunity.microsoft.com/t5/azure-lab-services/bg-p/AzureLabServicesBlog/">Azure Lab Services Blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/devblogs.microsoft.com/appcenter/">App Center Blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/status.azure.com/status/">Azure Status</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/status.dev.azure.com/">Azure DevOps - Status</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 Developer Support Core Japan<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="../../index.html" class="mobile-nav-link">Home</a>
+  
+    <a href="../../archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+<script src="../../js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
