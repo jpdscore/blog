@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>.NET Framework 4.x のアップグレード及びダウングレード | Japan Developer Support Core Team Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="こんにちは、Japan Developer Support Core チームの近澤です。.NET Framework 4 以降のバージョンでは、以前 .NET Framework の各バージョン同士の関係 でもご説明しております通り、インプレース更新されます。このインプレース更新によるシステムやアプリケーションへの影響や、万が一問題が発生した際のダウングレード方法について、複数のお客様よりよくお問">
+<meta property="og:type" content="article">
+<meta property="og:title" content=".NET Framework 4.x のアップグレード及びダウングレード">
+<meta property="og:url" content="https://jpdscore.github.io/blog/dotnet/ndp-upgrade-and-downgrade/index.html">
+<meta property="og:site_name" content="Japan Developer Support Core Team Blog">
+<meta property="og:description" content="こんにちは、Japan Developer Support Core チームの近澤です。.NET Framework 4 以降のバージョンでは、以前 .NET Framework の各バージョン同士の関係 でもご説明しております通り、インプレース更新されます。このインプレース更新によるシステムやアプリケーションへの影響や、万が一問題が発生した際のダウングレード方法について、複数のお客様よりよくお問">
+<meta property="og:locale" content="ja_JP">
+<meta property="article:published_time" content="2022-11-02T09:00:00.000Z">
+<meta property="article:modified_time" content="2022-11-02T09:00:00.000Z">
+<meta property="article:author" content="Developer Support Core Japan">
+<meta property="article:tag" content=".NET">
+<meta property="article:tag" content=".NET Framework">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="../../blog/atom.xml" title="Japan Developer Support Core Team Blog" type="application/atom+xml">
+  
+
+  <link rel="icon" href="../../favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
+  <link rel="manifest" href="../../site.webmanifest">
+  <link rel="mask-icon" href="../../safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="theme-color" content="#ffffff">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="../../css/style.css">
+
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="site-header-logo"></div>
+  <div id="site-header-blog-wrapper"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        <div id="ms-logo"></div>
+        
+          <a class="main-nav-link" href="../../index.html">Home</a>
+        
+          <a class="main-nav-link" href="../../archives">Archives</a>
+        
+        <a class="main-nav-link" target="_blank" rel="noopener" href="https://cssjpn.github.io/">サポート情報</a>
+        <a class="main-nav-link" href="/blog/general/welcome/">About</a>
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="../../blog/atom.xml" title="RSSフィード"></a>
+        
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//www.bing.com/search" method="get" accept-charset="UTF-8" name="bing-search" onsubmit="var f=this;if(f['q'].value){var searchUrl =  'https://www.bing.com/search?q=' +  encodeURIComponent(f['q'].value + ' site:' + f['sitesearch'].value) ;window.open(searchUrl, 'blank') };return false;" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="検索"><button type="submit" id="nav-search-btn" class="search-form-submit"></button><input type="hidden" name="sitesearch" value="https://jpdscore.github.io/blog"></form>
+      </div>
+    </div>
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="../../index.html" id="logo">Japan Developer Support Core Team Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="../../index.html" id="subtitle">日本マイクロソフトの Japan Developer Support Core チームのブログです。</a>
+        </h2>
+      
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-dotnet/ndp-upgrade-and-downgrade" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header-single">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      .NET Framework 4.x のアップグレード及びダウングレード
+    </h1>
+  
+
+      </header>
+      <div class="article-share">
+        Last Update: 
+        <a href="" class="article-date-single">
+  <time datetime="2022-11-02T09:00:00.000Z" itemprop="datePublished">2022-11-02</time>
+</a>
+        
+        
+        <a href="https://github.com/jpdscore/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+d72be5f3-797d-5679-874a-2c9a37b59409%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5B.NET+Framework+4.x+%E3%81%AE%E3%82%A2%E3%83%83%E3%83%97%E3%82%B0%E3%83%AC%E3%83%BC%E3%83%89%E5%8F%8A%E3%81%B3%E3%83%80%E3%82%A6%E3%83%B3%E3%82%B0%E3%83%AC%E3%83%BC%E3%83%89%5D%28https%3A%2F%2Fjpdscore.github.io%2Fblog%2Fdotnet%2Fndp-upgrade-and-downgrade%2F%29" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
+        
+        <a data-url="https://jpdscore.github.io/blog/dotnet/ndp-upgrade-and-downgrade/" data-id="cl9zo5f15001alnop84k40lbl" class="article-share-link">共有</a>
+      </div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>こんにちは、Japan Developer Support Core チームの近澤です。<br>.NET Framework 4 以降のバージョンでは、以前 <a href="https://jpdscore.github.io/blog/dotnet/relationship-between-ndp-versions/#4-%E3%81%8A%E3%82%88%E3%81%B34-5-x-%E3%81%AE%E3%82%A4%E3%83%B3%E3%83%97%E3%83%AC%E3%83%BC%E3%82%B9%E6%9B%B4%E6%96%B0%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6">.NET Framework の各バージョン同士の関係</a> でもご説明しております通り、インプレース更新されます。<br>このインプレース更新によるシステムやアプリケーションへの影響や、万が一問題が発生した際のダウングレード方法について、複数のお客様よりよくお問い合わせいただく内容について下記にお纏めいたします。</p>
+<h1 id="インプレース更新とその影響について"><a href="#インプレース更新とその影響について" class="headerlink" title="インプレース更新とその影響について"></a>インプレース更新とその影響について</h1><p>.NET Framework 4.x は、インプレース更新され、以前のバージョンが新しいバージョンで置き換えられる形となります。<br>その際、以前のバージョンをアンインストールするなどの対応は不要です。<br>また、複数の .NET Framework 4.x (4.6.2 と 4.8 など) の共存についてご質問いただくことがございますが、これらを共存する形でインストールすることはできません。<br>ただし、.NET Framework 4.x では高い後方互換がサポートされております。<br>そのため、例えば.NET Framework 4.8 をインストールした環境であっても、以前のバージョン (4.6.2 など) の機能も動作いたします。</p>
+<p>.NET Framework の互換性については下記のドキュメントにて詳細をご説明しております。</p>
+<p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/dotnet/framework/migration-guide/version-compatibility#backward-compatibility">.NET Framework のバージョンの互換性 - .NET Framework | Microsoft Learn</a></p>
+<p>また、更新による影響については、前述の通り、高い後方互換性により最小限に抑えられますが、もしご利用されているアプリケーションが特定の .NET Framework のバージョンのみに含まれる機能 (現在は非推奨であったり、既に削除されたもの) を使用している場合、互換性の問題が発生する可能性がございます。<br>通常、このような問題が発生することはございませんが、もしご心配されるようでしたら、下記のサイトから特定のバージョンへ移行した場合に発生する互換性の問題についてアプリケーション開発元へご確認いただければと存じます。</p>
+<p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/dotnet/framework/migration-guide/application-compatibility">ランタイムの変更と再ターゲットの変更 - .NET Framework | Microsoft Learn</a></p>
+<h1 id="ダウングレードについて"><a href="#ダウングレードについて" class="headerlink" title="ダウングレードについて"></a>ダウングレードについて</h1><p>.NET Framework 4.x は OS に既定でインストールされているバージョンより前に戻すことはできませんが、新しくインストールした .NET Framework 4.x はダウングレードすることが可能です。</p>
+<p>.NET Framework 4 以降の新しいバージョンは、Windows 8.1 / Windows Server 2012 以降の場合、コントロール パネルの [プログラム] - [インストールされた更新プログラムを表示] からご確認いただける更新プログラム (KBxxxxxxx) の形でインストールされます。<br>この画面から更新プログラムをアンインストールすることで更新前のバージョンへダウングレードすることが可能です。<br>また、Windows 7 SP1, Windows Server 2008 R2 SP1 の場合、コントロール パネルの [プログラム] - [プログラムと機能] にインストール済み製品として表示されます。例えば .NET Framework 4.6.2 をインストールした場合、”Microsoft .NET Framework 4.6.2” のように一覧に表示されます。言語パックについては “Microsoft .NET Framework 4.6.2 (日本語)” のように表示されます。<br>この画面からインストールした新しいバージョンの .NET Framework をアンインストールすることで、更新前のバージョンへダウングレードすることが可能です。</p>
+<p>この更新プログラムの番号は .NET Framework 、OS のバージョンごとに異なるため、それぞれ個別に確認する必要がございます。<br>下記表にまとめましたので、ご参考ください。</p>
+<p>※ 対象の .NET Framework リリース時点でサポートが終了している OS は除外しています。<br>※ 表内のリンクは更新プログラムと関連する KB を参照しておりますが、KB がないものについては関連するドキュメントやページを参照しております。</p>
+<table>
+<thead>
+<tr>
+<th>.NET Framework Version</th>
+<th>OS Version</th>
+<th>KB Number (本体)</th>
+<th>KB Number (言語パック-日本語)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>.NET Framework 4.8.1</td>
+<td>Windows 10 2004, 20H2, 21H1, 21H2,<br> Windows 11 21H2</td>
+<td><a target="_blank" rel="noopener" href="https://dotnet.microsoft.com/ja-jp/download/dotnet-framework/net481">KB5011048</a></td>
+<td><a target="_blank" rel="noopener" href="https://dotnet.microsoft.com/ja-jp/download/dotnet-framework/net481">KB5011062</a></td>
+</tr>
+<tr>
+<td>.NET Framework 4.8</td>
+<td>Windows 7 SP1, Windows Server 2008 R2 SP1</td>
+<td><a target="_blank" rel="noopener" href="https://support.microsoft.com/kb/4503548">KB4503548</a></td>
+<td><a target="_blank" rel="noopener" href="https://support.microsoft.com/kb/4497410">KB4497410</a></td>
+</tr>
+<tr>
+<td></td>
+<td>Windows Server 2012</td>
+<td><a target="_blank" rel="noopener" href="https://support.microsoft.com/kb/4486081">KB4486081</a></td>
+<td><a target="_blank" rel="noopener" href="https://support.microsoft.com/ja-jp/topic/8652f080-dc2f-bc9c-f8f5-fab7821c9f8c">KB4486095</a></td>
+</tr>
+<tr>
+<td></td>
+<td>Windows 8.1, Windows Server 2012 R2</td>
+<td><a target="_blank" rel="noopener" href="https://support.microsoft.com/kb/4486105">KB4486105</a></td>
+<td><a target="_blank" rel="noopener" href="https://support.microsoft.com/ja-jp/topic/b99666f8-f2ef-a6c7-9242-a1fa1ceb7aaa">KB4486119</a></td>
+</tr>
+<tr>
+<td></td>
+<td>Windows 10 1607, 1703, Windows Server 2016</td>
+<td><a target="_blank" rel="noopener" href="https://support.microsoft.com/kb/4486129">KB4486129</a></td>
+<td><a target="_blank" rel="noopener" href="https://support.microsoft.com/ja-jp/topic/b2182966-83fd-ad20-9f8a-ebb38d46dfaa">KB4486143</a></td>
+</tr>
+<tr>
+<td></td>
+<td>Windows 10 1709, 1803, 1809, Windows Server 2019</td>
+<td><a target="_blank" rel="noopener" href="https://support.microsoft.com/kb/4486153">KB4486153</a></td>
+<td><a target="_blank" rel="noopener" href="https://support.microsoft.com/ja-jp/topic/f49ac427-c992-c0c5-0f6f-1307cc59fc55">KB4486167</a></td>
+</tr>
+<tr>
+<td>.NET Framework 4.7.2</td>
+<td>Windows 7 SP1, Windows Server 2008 R2 SP1</td>
+<td><a target="_blank" rel="noopener" href="https://support.microsoft.com/kb/4054530">KB4054530</a></td>
+<td><a target="_blank" rel="noopener" href="https://support.microsoft.com/kb/4054529">KB4054529</a></td>
+</tr>
+<tr>
+<td></td>
+<td>Windows Server 2012</td>
+<td><a target="_blank" rel="noopener" href="https://support.microsoft.com/kb/4054542">KB4054542</a></td>
+<td><a target="_blank" rel="noopener" href="https://support.microsoft.com/ja-jp/topic/c2d39fff-7822-1659-67bd-44db168c6b70">KB4054556</a></td>
+</tr>
+<tr>
+<td></td>
+<td>Windows 8.1, Windows Server 2012 R2</td>
+<td><a target="_blank" rel="noopener" href="https://support.microsoft.com/kb/4054566">KB4054566</a></td>
+<td><a target="_blank" rel="noopener" href="https://support.microsoft.com/ja-jp/topic/7e20f624-d35b-5f67-e9b7-75d67ea65d3c">KB4054580</a></td>
+</tr>
+<tr>
+<td></td>
+<td>Windows 10 1607, 1703, Windows Server 2016</td>
+<td><a target="_blank" rel="noopener" href="https://support.microsoft.com/kb/4054590">KB4054590</a></td>
+<td><a target="_blank" rel="noopener" href="https://support.microsoft.com/ja-jp/topic/414c66b8-e95f-2b0d-f702-33586d8262ac">KB4054604</a></td>
+</tr>
+<tr>
+<td></td>
+<td>Windows 10 1709</td>
+<td><a target="_blank" rel="noopener" href="https://support.microsoft.com/kb/4073120">KB4073120</a></td>
+<td><a target="_blank" rel="noopener" href="https://support.microsoft.com/ja-jp/topic/aea980d7-8e38-4604-03fd-dbc399868bc4">KB4073134</a></td>
+</tr>
+<tr>
+<td>.NET Framework 4.7.1</td>
+<td>Windows 7 SP1, Windows Server 2008 R2 SP1</td>
+<td><a target="_blank" rel="noopener" href="https://support.microsoft.com/kb/4033342">KB4033342</a></td>
+<td><a target="_blank" rel="noopener" href="https://support.microsoft.com/kb/4033339">KB4033339</a></td>
+</tr>
+<tr>
+<td></td>
+<td>Windows Server 2012</td>
+<td><a target="_blank" rel="noopener" href="https://support.microsoft.com/kb/4033345">KB4033345</a></td>
+<td><a target="_blank" rel="noopener" href="https://support.microsoft.com/ja-jp/topic/4ef59d38-4c5f-62ca-3be6-f79ea0ba125e">KB4033359</a></td>
+</tr>
+<tr>
+<td></td>
+<td>Windows 8.1, Windows Server 2012 R2</td>
+<td><a target="_blank" rel="noopener" href="https://support.microsoft.com/kb/4033369">KB4033369</a></td>
+<td><a target="_blank" rel="noopener" href="https://support.microsoft.com/ja-jp/topic/38ba6606-e59c-2d3e-fd95-c844a31e3c18">KB4033383</a></td>
+</tr>
+<tr>
+<td></td>
+<td>Windows 10 1607, 1703, Windows Server 2016</td>
+<td><a target="_blank" rel="noopener" href="https://support.microsoft.com/kb/4033393">KB4033393</a></td>
+<td><a target="_blank" rel="noopener" href="https://support.microsoft.com/ja-jp/topic/1ea7b015-2846-e0a7-8a2e-1654f0eee428">KB4033407</a></td>
+</tr>
+<tr>
+<td>.NET Framework 4.7</td>
+<td>Windows 7 SP1, Windows Server 2008 R2 SP1</td>
+<td><a target="_blank" rel="noopener" href="https://support.microsoft.com/kb/3186497">KB3186497</a></td>
+<td><a target="_blank" rel="noopener" href="https://support.microsoft.com/kb/3186499">KB3186499</a></td>
+</tr>
+<tr>
+<td></td>
+<td>Windows Server 2012</td>
+<td><a target="_blank" rel="noopener" href="https://support.microsoft.com/kb/3186505">KB3186505</a></td>
+<td><a target="_blank" rel="noopener" href="https://support.microsoft.com/ja-jp/topic/606bee7f-f8cf-61cf-b9ec-2f61364039e2">KB3186526</a></td>
+</tr>
+<tr>
+<td></td>
+<td>Windows 8.1, Windows Server 2012 R2</td>
+<td><a target="_blank" rel="noopener" href="https://support.microsoft.com/kb/3186539">KB3186539</a></td>
+<td><a target="_blank" rel="noopener" href="https://support.microsoft.com/ja-jp/topic/a5b3e77f-bf20-9a50-98dc-1b94d4e93cbc">KB3186555</a></td>
+</tr>
+<tr>
+<td></td>
+<td>Windows 10 1607, Windows Server 2016</td>
+<td><a target="_blank" rel="noopener" href="https://support.microsoft.com/kb/3186568">KB3186568</a></td>
+<td><a target="_blank" rel="noopener" href="https://support.microsoft.com/ja-jp/topic/c703cd5a-fb37-ea4c-f96f-bdfe52028604">KB3186589</a></td>
+</tr>
+<tr>
+<td>.NET Framework 4.6.2</td>
+<td>Windows 7 SP1, Windows Server 2008 R2 SP1</td>
+<td><a target="_blank" rel="noopener" href="https://support.microsoft.com/kb/3151800">KB3151800</a></td>
+<td><a target="_blank" rel="noopener" href="https://support.microsoft.com/ja-jp/topic/e096d185-92ff-172f-ca12-8a5d2c7c591b">N/A</a></td>
+</tr>
+<tr>
+<td></td>
+<td>Windows Server 2012</td>
+<td><a target="_blank" rel="noopener" href="https://support.microsoft.com/ja-jp/topic/9dce3874-a9e5-9b11-289d-5594824aafe0">KB3151804</a></td>
+<td><a target="_blank" rel="noopener" href="https://support.microsoft.com/ja-jp/topic/e096d185-92ff-172f-ca12-8a5d2c7c591b">KB3151820</a></td>
+</tr>
+<tr>
+<td></td>
+<td>Windows 8.1, Windows Server 2012 R2</td>
+<td><a target="_blank" rel="noopener" href="https://support.microsoft.com/ja-jp/topic/9dce3874-a9e5-9b11-289d-5594824aafe0">KB3151864</a></td>
+<td><a target="_blank" rel="noopener" href="https://support.microsoft.com/ja-jp/topic/e096d185-92ff-172f-ca12-8a5d2c7c591b">KB3151887</a></td>
+</tr>
+<tr>
+<td></td>
+<td>Windows 10 1507, 1511</td>
+<td><a target="_blank" rel="noopener" href="https://support.microsoft.com/ja-jp/topic/9dce3874-a9e5-9b11-289d-5594824aafe0">KB3151900</a></td>
+<td><a target="_blank" rel="noopener" href="https://support.microsoft.com/ja-jp/topic/e096d185-92ff-172f-ca12-8a5d2c7c591b">KB3151915</a></td>
+</tr>
+</tbody></table>
+<!-- | .NET Framework 4.6.1 | Windows 7 SP1, Windows Server 2008 R2 SP1        | [プログラムと機能] にインストールされている製品として表示 |
+|                      | Windows 8, Windows Server 2012                   | KB3102439 |
+|                      | Windows 8.1, Windows Server 2012 R2              | KB3102467 |
+|                      | Windows 10                                       | KB3102495 |
+| .NET Framework 4.6   | Windows 7 SP1, Windows Server 2008 R2 SP1        | [プログラムと機能] にインストールされている製品として表示 |
+|                      | Windows 8, Windows Server 2012                   | KB3045562 |
+|                      | Windows 8.1, Windows Server 2012 R2              | KB3045563 | -->
+
+
+<p>なお、OS に既定でインストールされている .NET Framework のバージョンは下記ドキュメントからご確認いただけます。</p>
+<p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/dotnet/framework/migration-guide/versions-and-dependencies#net-framework-48">.NET Framework および Windows OS バージョン - .NET Framework | Microsoft Learn</a></p>
+<!--
+# 関連文書
+- [Windows 用の Microsoft .NET Framework 4.8 オフライン インストーラー](https://support.microsoft.com/ja-jp/topic/windows-%E7%94%A8%E3%81%AE-microsoft-net-framework-4-8-%E3%82%AA%E3%83%95%E3%83%A9%E3%82%A4%E3%83%B3-%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%A9%E3%83%BC-9d23f658-3b97-68ab-d013-aa3c3e7495e0)
+
+- [Windows 用の Microsoft .NET Framework 4.7.2 オフライン インストーラー](https://support.microsoft.com/ja-jp/topic/microsoft-net-framework-4-7-2-%E3%82%AA%E3%83%95%E3%83%A9%E3%82%A4%E3%83%B3-%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%A9%E3%83%BC%E3%82%92windows-05a72734-2127-a15d-50cf-daf56d5faec2)
+
+- [Windows 用の .NET Framework 4.7.1 オフライン インストーラー](https://support.microsoft.com/ja-jp/topic/windows-%E7%94%A8%E3%81%AE-net-framework-4-7-1-%E3%82%AA%E3%83%95%E3%83%A9%E3%82%A4%E3%83%B3-%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%A9%E3%83%BC-2a7d0d5e-92f2-b12d-aed4-4f5d14c8ef0c)
+
+- [Windows 用の.NET Framework の 4.7 オフライン インストーラー](https://support.microsoft.com/ja-jp/topic/windows-%E7%94%A8%E3%81%AE-net-framework-%E3%81%AE-4-7-%E3%82%AA%E3%83%95%E3%83%A9%E3%82%A4%E3%83%B3-%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%A9%E3%83%BC-f32bcb33-5f94-57ce-6120-62c9526a91f2)
+
+- [.NET Framework 4.6.2 オフライン インストーラー](https://support.microsoft.com/ja-jp/topic/-net-framework-4-6-2-%E3%82%AA%E3%83%95%E3%83%A9%E3%82%A4%E3%83%B3-%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%A9%E3%83%BC-windows-9dce3874-a9e5-9b11-289d-5594824aafe0)
+-->
+
+<!-- [Windows 用の .NET Framework 4.6.1 オフライン インストーラー](https://support.microsoft.com/ja-jp/topic/windows-%E7%94%A8%E3%81%AE-net-framework-4-6-1-%E3%82%AA%E3%83%95%E3%83%A9%E3%82%A4%E3%83%B3-%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%A9%E3%83%BC-842e545a-bad5-c538-e491-578d017e677c)
+
+[Windows 用の Microsoft.NET Framework 4.6 (オフラインのインストーラー)](https://support.microsoft.com/ja-jp/topic/windows-%E7%94%A8%E3%81%AE-microsoft-net-framework-4-6-%E3%82%AA%E3%83%95%E3%83%A9%E3%82%A4%E3%83%B3%E3%81%AE%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%A9%E3%83%BC-99b5ead3-b1e2-cdba-ceac-a498653e49c8)
+
+[Windows Server 2012 R2、Windows 8.1、Windows Server 2012、Windows 8、Windows Server 2008 R2 SP1、Windows 7 SP1、Windows Server 2008 SP2、および Windows Vista SP2 の Microsoft.NET Framework 4.5.2 (オフラインのインストーラー)](https://support.microsoft.com/ja-jp/topic/windows-server-2012-r2-windows-8-1-windows-server-2012-windows-8-windows-server-2008-r2-sp1-windows-7-sp1-windows-server-2008-sp2-%E3%81%8A%E3%82%88%E3%81%B3-windows-vista-sp2-%E3%81%AE-microsoft-net-framework-4-5-2-%E3%82%AA%E3%83%95%E3%83%A9%E3%82%A4%E3%83%B3%E3%81%AE%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%A9%E3%83%BC-ecf69200-e11c-1047-22da-1637cb69b27e) -->
+
+<!--
+- [Microsoft.NET Framework 4.8 言語パックは、Windows Server 2012 に](https://support.microsoft.com/ja-jp/topic/microsoft-net-framework-4-8-%E8%A8%80%E8%AA%9E%E3%83%91%E3%83%83%E3%82%AF%E3%81%AF-windows-server-2012-%E3%81%AB-8652f080-dc2f-bc9c-f8f5-fab7821c9f8c)
+
+- [Windows RT 8.1、Windows 8.1 では、Windows Server 2012 R2 の Microsoft.NET Framework の 4.8 の言語パック](https://support.microsoft.com/ja-jp/topic/windows-rt-8-1-windows-8-1-%E3%81%A7%E3%81%AF-windows-server-2012-r2-%E3%81%AE-microsoft-net-framework-%E3%81%AE-4-8-%E3%81%AE%E8%A8%80%E8%AA%9E%E3%83%91%E3%83%83%E3%82%AF-b99666f8-f2ef-a6c7-9242-a1fa1ceb7aaa)
+
+- [10 1609 のバージョンの Windows で、Microsoft.NET Framework 4.8 言語パック、10 1703 のバージョンの Windows および Windows Server 2016](https://support.microsoft.com/ja-jp/topic/10-1609-%E3%81%AE%E3%83%90%E3%83%BC%E3%82%B8%E3%83%A7%E3%83%B3%E3%81%AE-windows-%E3%81%A7-microsoft-net-framework-4-8-%E8%A8%80%E8%AA%9E%E3%83%91%E3%83%83%E3%82%AF-10-1703-%E3%81%AE%E3%83%90%E3%83%BC%E3%82%B8%E3%83%A7%E3%83%B3%E3%81%AE-windows-%E3%81%8A%E3%82%88%E3%81%B3-windows-server-2016-b2182966-83fd-ad20-9f8a-ebb38d46dfaa)
+
+- [Windows 10 バージョン 1809、Windows 10 バージョン 1803、Windows 10 バージョン 1709 および Windows Server 2019 上の Microsoft .NET Framework 4.8 言語パック](https://support.microsoft.com/ja-jp/topic/windows-10-%E3%83%90%E3%83%BC%E3%82%B8%E3%83%A7%E3%83%B3-1809-windows-10-%E3%83%90%E3%83%BC%E3%82%B8%E3%83%A7%E3%83%B3-1803-windows-10-%E3%83%90%E3%83%BC%E3%82%B8%E3%83%A7%E3%83%B3-1709-%E3%81%8A%E3%82%88%E3%81%B3-windows-server-2019-%E4%B8%8A%E3%81%AE-microsoft-net-framework-4-8-%E8%A8%80%E8%AA%9E%E3%83%91%E3%83%83%E3%82%AF-f49ac427-c992-c0c5-0f6f-1307cc59fc55)
+
+- [Microsoft .NET Framework 4.7.2 Language Pack on Windows Server 2012](https://support.microsoft.com/ja-jp/topic/microsoft-net-framework-4-7-2-language-pack-on-windows-server-2012-c2d39fff-7822-1659-67bd-44db168c6b70)
+
+- [Windows RT 8.1、Windows 8.1 では、Windows Server 2012 R2 の Microsoft.NET Framework 4.7.2 の言語パック](https://support.microsoft.com/ja-jp/topic/windows-rt-8-1-windows-8-1-%E3%81%A7%E3%81%AF-windows-server-2012-r2-%E3%81%AE-microsoft-net-framework-4-7-2-%E3%81%AE%E8%A8%80%E8%AA%9E%E3%83%91%E3%83%83%E3%82%AF-7e20f624-d35b-5f67-e9b7-75d67ea65d3c)
+
+- [Windows 10 記念日の更新、Windows 10 作成者の更新、および Windows Server 2016 4.7.2 言語パックを Microsoft.NET Framework](https://support.microsoft.com/ja-jp/topic/windows-10-%E8%A8%98%E5%BF%B5%E6%97%A5%E3%81%AE%E6%9B%B4%E6%96%B0-windows-10-%E4%BD%9C%E6%88%90%E8%80%85%E3%81%AE%E6%9B%B4%E6%96%B0-%E3%81%8A%E3%82%88%E3%81%B3-windows-server-2016-4-7-2-%E8%A8%80%E8%AA%9E%E3%83%91%E3%83%83%E3%82%AF%E3%82%92-microsoft-net-framework-414c66b8-e95f-2b0d-f702-33586d8262ac)
+
+- [Windows 10、1709 のバージョンと Windows サーバーで、1709 のバージョンの Microsoft.NET Framework 4.7.2 言語パック](https://support.microsoft.com/ja-jp/topic/windows-10-1709-%E3%81%AE%E3%83%90%E3%83%BC%E3%82%B8%E3%83%A7%E3%83%B3%E3%81%A8-windows-%E3%82%B5%E3%83%BC%E3%83%90%E3%83%BC%E3%81%A7-1709-%E3%81%AE%E3%83%90%E3%83%BC%E3%82%B8%E3%83%A7%E3%83%B3%E3%81%AE-microsoft-net-framework-4-7-2-%E8%A8%80%E8%AA%9E%E3%83%91%E3%83%83%E3%82%AF-aea980d7-8e38-4604-03fd-dbc399868bc4)
+
+- [Windows Server 2012 の Microsoft.NET Framework 4.7.1 言語パック](https://support.microsoft.com/ja-jp/topic/windows-server-2012-%E3%81%AE-microsoft-net-framework-4-7-1-%E8%A8%80%E8%AA%9E%E3%83%91%E3%83%83%E3%82%AF-4ef59d38-4c5f-62ca-3be6-f79ea0ba125e)
+
+- [Microsoft .NET Framework 8.1、Windows RT、および R2 用の 4.7.1 Windows 8.1 言語Windows Server 2012パック](https://support.microsoft.com/ja-jp/topic/microsoft-net-framework-8-1-windows-rt-%E3%81%8A%E3%82%88%E3%81%B3-r2-%E7%94%A8%E3%81%AE-4-7-1-windows-8-1-%E8%A8%80%E8%AA%9Ewindows-server-2012%E3%83%91%E3%83%83%E3%82%AF-38ba6606-e59c-2d3e-fd95-c844a31e3c18)
+
+- [1607 のバージョンの Windows 10、10 の Windows バージョン 1703 および Windows Server 2016 の Microsoft.NET Framework 4.7.1 言語パック](https://support.microsoft.com/ja-jp/topic/1607-%E3%81%AE%E3%83%90%E3%83%BC%E3%82%B8%E3%83%A7%E3%83%B3%E3%81%AE-windows-10-10-%E3%81%AE-windows-%E3%83%90%E3%83%BC%E3%82%B8%E3%83%A7%E3%83%B3-1703-%E3%81%8A%E3%82%88%E3%81%B3-windows-server-2016-%E3%81%AE-microsoft-net-framework-4-7-1-%E8%A8%80%E8%AA%9E%E3%83%91%E3%83%83%E3%82%AF-1ea7b015-2846-e0a7-8a2e-1654f0eee428)
+
+- [The Microsoft .NET Framework 4.7 Language Pack for Windows Server 2012](https://support.microsoft.com/ja-jp/topic/the-microsoft-net-framework-4-7-language-pack-for-windows-server-2012-606bee7f-f8cf-61cf-b9ec-2f61364039e2)
+
+- [R2 .NET Framework および R2 用の Microsoft .NET Framework 4.7 言語Windows 8.1 Windows Server 2012パック](https://support.microsoft.com/ja-jp/topic/r2-net-framework-%E3%81%8A%E3%82%88%E3%81%B3-r2-%E7%94%A8%E3%81%AE-microsoft-net-framework-4-7-%E8%A8%80%E8%AA%9Ewindows-8-1-windows-server-2012%E3%83%91%E3%83%83%E3%82%AF-a5b3e77f-bf20-9a50-98dc-1b94d4e93cbc)
+
+- [1607 の 10 の Windows のバージョンおよび Windows Server 2016 の Microsoft.NET Framework 4.7 言語パック](https://support.microsoft.com/ja-jp/topic/1607-%E3%81%AE-10-%E3%81%AE-windows-%E3%81%AE%E3%83%90%E3%83%BC%E3%82%B8%E3%83%A7%E3%83%B3%E3%81%8A%E3%82%88%E3%81%B3-windows-server-2016-%E3%81%AE-microsoft-net-framework-4-7-%E8%A8%80%E8%AA%9E%E3%83%91%E3%83%83%E3%82%AF-c703cd5a-fb37-ea4c-f96f-bdfe52028604)
+-->
+
+<!-- - [Microsoft .NET Framework 4.6.2 Language Pack for Windows RT 8.1](https://support.microsoft.com/ja-jp/topic/microsoft-net-framework-4-6-2-language-pack-for-windows-rt-8-1-a74518f7-de04-45bd-5ccb-5738d2d2e4db) -->
+      
+      
+        <div class="article-disclaimer">
+        
+          <p><hr>本ブログの内容は弊社の公式見解として保証されるものではなく、開発・運用時の参考情報としてご活用いただくことを目的としています。もし公式な見解が必要な場合は、弊社ドキュメント (<a target="_blank" rel="noopener" href="https://docs.microsoft.com/">https://docs.microsoft.com</a> や <a target="_blank" rel="noopener" href="https://support.microsoft.com">https://support.microsoft.com</a>) をご参照いただくか、もしくは私共サポートまでお問い合わせください。</p>
+        
+        </div>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/NET/" rel="tag">.NET</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/NET-Framework/" rel="tag">.NET Framework</a></li></ul>
+
+      <!-- 
+      
+        <a href="https://github.com/jpdscore/blog/edit/master/articles/dotnet/ndp-upgrade-and-downgrade.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
+        
+      -->
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="../../playfab/grantitemstouser-timeout/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前の記事</strong>
+      <div class="article-nav-title">Grant Items To User のタイムアウトについて</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最近の投稿</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="">.NET Framework 4.x のアップグレード及びダウングレード</a>
+          </li>
+        
+          <li>
+            <a href="../../playfab/grantitemstouser-timeout/">Grant Items To User のタイムアウトについて</a>
+          </li>
+        
+          <li>
+            <a href="../../azuredevops/DevOpsPricing/">Azure DevOps Services の料金体系をおさらいしてみよう！</a>
+          </li>
+        
+          <li>
+            <a href="../../vs/vs2013-signin-error/">Visual Studio 2013 でサインイン画面が表示されない場合の対処方法について</a>
+          </li>
+        
+          <li>
+            <a href="../../azuredevops/devops-log-collection/">Azure DevOps Services トラブルシューティング用のデータ採取について</a>
+          </li>
+        
+          <li>
+            <a href="../../azuredevops/pipelines-agents-ip-settings/">Azure Pipelines エージェントの IP について</a>
+          </li>
+        
+          <li>
+            <a href="../../azuredevops/deprecating-weak-cryptographic-standards-tls-1-0-and-tls-1-1-in-azure-devops/">Azure DevOps Services における弱い暗号化標準 (TLS 1.0 および TLS 1.1) の廃止について</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">タグ</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="../../tags/ALM/">ALM</a><span class="tag-list-count">9</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-DevOps-Services">Azure DevOps Services</a><span class="tag-list-count">3</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-Pipelines">Azure Pipelines</a><span class="tag-list-count">5</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-Repos">Azure Repos</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Devcontainer">Devcontainer</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/GitHub">GitHub</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Visual-Studio-Code">Visual Studio Code</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86">情報採取手順</a><span class="tag-list-count">2</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/">情報採取手順</a><span class="tag-list-count">3</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/ALM">ALM</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/Azure-DevOps-Services">Azure DevOps Services</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/Azure-Pipelines">Azure Pipelines</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Windows-SDK/">Windows SDK</a><span class="tag-list-count">6</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Debug">Debug</a><span class="tag-list-count">5</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/GDI">GDI</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Leak">Leak</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Debug/">Debug</a><span class="tag-list-count">12</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/NET">.NET</a><span class="tag-list-count">3</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Leak">Leak</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Memory">Memory</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Windows-SDK">Windows SDK</a><span class="tag-list-count">5</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Deployment/">Deployment</a><span class="tag-list-count">2</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Deployment/ClickOnce">ClickOnce</a><span class="tag-list-count">2</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/NET/">.NET</a><span class="tag-list-count">7</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/NET-Framework">.NET Framework</a><span class="tag-list-count">4</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/Debug">Debug</a><span class="tag-list-count">3</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E5%85%A8%E8%88%AC/">全般</a><span class="tag-list-count">1</span><ul></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Azure-PlayFab/">Azure PlayFab</a><span class="tag-list-count">1</span><ul></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Visual-Studio/">Visual Studio</a><span class="tag-list-count">5</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/C">C#</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/C">C++</a><span class="tag-list-count">3</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/VB-NET">VB.NET</a><span class="tag-list-count">2</span></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">アーカイブ</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/11/">2022 / 11</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/07/">2022 / 07</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/06/">2022 / 06</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/04/">2022 / 04</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/03/">2022 / 03</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/01/">2022 / 01</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/12/">2021 / 12</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/08/">2021 / 08</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/05/">2021 / 05</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/04/">2021 / 04</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/02/">2021 / 02</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/01/">2021 / 01</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/12/">2020 / 12</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/11/">2020 / 11</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/10/">2020 / 10</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/09/">2020 / 09</a><span class="archive-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">旧ブログ/フォーラム</h3>
+  <div class="widget">
+    <ul>
+      
+        <li>
+          <a href="../../https:/social.msdn.microsoft.com/Forums/ja-jp/home?forum=visualstudiosupportteamja">Visual Studio サポートチーム フォーラム</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/social.msdn.microsoft.com/Forums/ja-jp/home?forum=windowssdksupportteamja&filter=alltypes&sort=lastpostdesc">Windows SDK サポートチーム フォーラム</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/docs.microsoft.com/en-us/archive/blogs/jpvsblog/">Visual Studio サポート チーム blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/docs.microsoft.com/en-us/archive/blogs/japan_platform_sdkwindows_sdk_support_team_blog/">JAPAN Platform SDK（Windows SDK） Support Team Blog</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">関連リンク</h3>
+  <div class="widget">
+    <ul>
+      
+        <li>
+          <a href="../../https:/developercommunity.visualstudio.com/">Developer Community</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/devblogs.microsoft.com/dotnet/">.NET Blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/devblogs.microsoft.com/visualstudio/">Visual Studio Blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/devblogs.microsoft.com/cppblog/">C++ Team Blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/devblogs.microsoft.com/xamarin/">Xamarin Blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/devblogs.microsoft.com/devops/">Azure DevOps Blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/techcommunity.microsoft.com/t5/azure-lab-services/bg-p/AzureLabServicesBlog/">Azure Lab Services Blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/devblogs.microsoft.com/appcenter/">App Center Blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/status.azure.com/status/">Azure Status</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/status.dev.azure.com/">Azure DevOps - Status</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 Developer Support Core Japan<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="../../index.html" class="mobile-nav-link">Home</a>
+  
+    <a href="../../archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+<script src="../../js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

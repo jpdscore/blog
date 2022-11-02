@@ -6,7 +6,7 @@
   <link href="https://jpdscore.github.io/blog/atom.xml" rel="self"/>
   
   <link href="https://jpdscore.github.io/blog/"/>
-  <updated>2022-07-13T16:21:30.000Z</updated>
+  <updated>2022-11-02T09:00:00.000Z</updated>
   <id>https://jpdscore.github.io/blog/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>.NET Framework 4.x のアップグレード及びダウングレード</title>
+    <link href="https://jpdscore.github.io/blog/dotnet/ndp-upgrade-and-downgrade/"/>
+    <id>https://jpdscore.github.io/blog/dotnet/ndp-upgrade-and-downgrade/</id>
+    <published>2022-11-02T09:00:00.000Z</published>
+    <updated>2022-11-02T09:00:00.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;こんにちは、Japan Developer Support Core チームの近澤です。&lt;br&gt;.NET Framework 4 以降のバージョンでは、以前 &lt;a</summary>
+        
+      
+    
+    
+    
+    
+    <category term=".NET" scheme="https://jpdscore.github.io/blog/tags/NET/"/>
+    
+    <category term=".NET Framework" scheme="https://jpdscore.github.io/blog/tags/NET-Framework/"/>
+    
+  </entry>
   
   <entry>
     <title>Grant Items To User のタイムアウトについて</title>
@@ -494,35 +519,6 @@
     
     
     <category term="Debug" scheme="https://jpdscore.github.io/blog/tags/Debug/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>同一ソースコードから生成されるビルド成果物のバイナリ同一性について</title>
-    <link href="https://jpdscore.github.io/blog/vs/identity-of-build-artifacts-from-identical-source/"/>
-    <id>https://jpdscore.github.io/blog/vs/identity-of-build-artifacts-from-identical-source/</id>
-    <published>2021-01-20T15:00:00.000Z</published>
-    <updated>2021-01-20T15:00:00.000Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;こんにちは、Japan Developer Support Core チームの松井です。&lt;br&gt;今回は、Visual Studio に含まれる C++, C#, Visual Basic.NET</summary>
-        
-      
-    
-    
-    
-    
-    <category term="Visual Studio" scheme="https://jpdscore.github.io/blog/tags/Visual-Studio/"/>
-    
-    <category term="C++" scheme="https://jpdscore.github.io/blog/tags/C/"/>
-    
-    <category term="C#" scheme="https://jpdscore.github.io/blog/tags/C/"/>
-    
-    <category term="VB.NET" scheme="https://jpdscore.github.io/blog/tags/VB-NET/"/>
     
   </entry>
   
