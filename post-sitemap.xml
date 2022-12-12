@@ -9,6 +9,14 @@
 
 
     <url>
+        <loc>https://jpdscore.github.io/blog/azuredevops/migrate-sp-to-mi/</loc>
+        <lastmod>2022-12-11T15:00:00.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://jpdscore.github.io/blog/dotnet/ndp-upgrade-and-downgrade/</loc>
         <lastmod>2022-11-02T09:00:00.000Z</lastmod>
         <changefreq>weekly</changefreq>

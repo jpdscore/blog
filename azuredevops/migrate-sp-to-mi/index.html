@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Service connection で利用中の Service principal を Managed identity に移行する手順 | Japan Developer Support Core Team Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="本記事は Microsoft Azure Tech | Advent Calendar 2022 の 12 日目の記事です。  こんにちは、Japan Developer Support Core チームです🐈 今日は Azure Pipelines で利用する Service connection (Azure service connection) の Service principal">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Service connection で利用中の Service principal を Managed identity に移行する手順">
+<meta property="og:url" content="https://jpdscore.github.io/blog/azuredevops/migrate-sp-to-mi/index.html">
+<meta property="og:site_name" content="Japan Developer Support Core Team Blog">
+<meta property="og:description" content="本記事は Microsoft Azure Tech | Advent Calendar 2022 の 12 日目の記事です。  こんにちは、Japan Developer Support Core チームです🐈 今日は Azure Pipelines で利用する Service connection (Azure service connection) の Service principal">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/migrate-sp-to-mi/azdo1.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/migrate-sp-to-mi/azdo2.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/migrate-sp-to-mi/azdo3.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/migrate-sp-to-mi/azdo4.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/migrate-sp-to-mi/azdo4a.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/migrate-sp-to-mi/portal1.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/migrate-sp-to-mi/portal2.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/migrate-sp-to-mi/portal3.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/migrate-sp-to-mi/qa2.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/migrate-sp-to-mi/qa2a.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/migrate-sp-to-mi/qa3.png">
+<meta property="article:published_time" content="2022-12-11T15:00:00.000Z">
+<meta property="article:modified_time" content="2022-12-11T15:00:00.000Z">
+<meta property="article:author" content="Developer Support Core Japan">
+<meta property="article:tag" content="ALM">
+<meta property="article:tag" content="Azure DevOps Services">
+<meta property="article:tag" content="Azure Pipelines">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jpdscore.github.io/blog/azuredevops/migrate-sp-to-mi/azdo1.png">
+  
+    <link rel="alternate" href="../../blog/atom.xml" title="Japan Developer Support Core Team Blog" type="application/atom+xml">
+  
+
+  <link rel="icon" href="../../favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
+  <link rel="manifest" href="../../site.webmanifest">
+  <link rel="mask-icon" href="../../safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="theme-color" content="#ffffff">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="../../css/style.css">
+
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="site-header-logo"></div>
+  <div id="site-header-blog-wrapper"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        <div id="ms-logo"></div>
+        
+          <a class="main-nav-link" href="../../index.html">Home</a>
+        
+          <a class="main-nav-link" href="../../archives">Archives</a>
+        
+        <a class="main-nav-link" target="_blank" rel="noopener" href="https://cssjpn.github.io/">サポート情報</a>
+        <a class="main-nav-link" href="/blog/general/welcome/">About</a>
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="../../blog/atom.xml" title="RSSフィード"></a>
+        
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//www.bing.com/search" method="get" accept-charset="UTF-8" name="bing-search" onsubmit="var f=this;if(f['q'].value){var searchUrl =  'https://www.bing.com/search?q=' +  encodeURIComponent(f['q'].value + ' site:' + f['sitesearch'].value) ;window.open(searchUrl, 'blank') };return false;" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="検索"><button type="submit" id="nav-search-btn" class="search-form-submit"></button><input type="hidden" name="sitesearch" value="https://jpdscore.github.io/blog"></form>
+      </div>
+    </div>
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="../../index.html" id="logo">Japan Developer Support Core Team Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="../../index.html" id="subtitle">日本マイクロソフトの Japan Developer Support Core チームのブログです。</a>
+        </h2>
+      
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="service-azuredevops/migrate-sp-to-mi" class="article article-type-service" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header-single">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Service connection で利用中の Service principal を Managed identity に移行する手順
+    </h1>
+  
+
+      </header>
+      <div class="article-share">
+        Last Update: 
+        <a href="" class="article-date-single">
+  <time datetime="2022-12-11T15:00:00.000Z" itemprop="datePublished">2022-12-12</time>
+</a>
+        
+        
+        <a href="https://github.com/jpdscore/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+fc8b7c48-21be-5fa6-af99-161be81e07cf%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5BService+connection+%E3%81%A7%E5%88%A9%E7%94%A8%E4%B8%AD%E3%81%AE+Service+principal+%E3%82%92+Managed+identity+%E3%81%AB%E7%A7%BB%E8%A1%8C%E3%81%99%E3%82%8B%E6%89%8B%E9%A0%86%5D%28https%3A%2F%2Fjpdscore.github.io%2Fblog%2Fazuredevops%2Fmigrate-sp-to-mi%2F%29" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
+        
+        <a data-url="https://jpdscore.github.io/blog/azuredevops/migrate-sp-to-mi/" data-id="clbk1jrgu0005q9ov6u7s06r1" class="article-share-link">共有</a>
+      </div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>本記事は <a target="_blank" rel="noopener" href="https://qiita.com/advent-calendar/2022/microsoft-azure-tech">Microsoft Azure Tech | Advent Calendar 2022</a> の 12 日目の記事です。</p>
+</blockquote>
+<p>こんにちは、Japan Developer Support Core チームです🐈</p>
+<p>今日は Azure Pipelines で利用する Service connection (Azure service connection) の Service principal を Managed identity に移行する手順をご紹介します。</p>
+<p>Managed identity にはいくつかのメリットがありますが、 Azure Pipelines の観点における最大のメリットは有効期限の延長が不要であることではないでしょうか。<br>Service principal はセキュリティの都合から最大 2 年間の有効期限があるため定期的なキーローテーションが必要となっており、有効期限が切れてしまうとパイプライン実行時に突然認証エラーになったといった現象が発生します。事前に有効期限の延長を保守・運用作業として準備しておけば問題は軽微にすることできますが、セキュリティの都合上から Service principal を開発環境や本番環境といった環境ごとに用意した場合に、例として開発環境では問題なかったが本番環境で突然エラーになってしまい Azure リソースへのデプロイができない大事件に繋がる可能性もあります。</p>
+<p>一方で Managed identity はどんな場合でも必ず利用できるわけではなく、一番大きな問題としては Microsoft-hosted エージェントで利用できないことです。<br>Managed identity は Azure リソースで利用できるものなので Self-hosted エージェントを Azure VM に構築し、Azure VM の設定で Managed identity を有効化する必要があります。 Microsoft-hosted エージェントでは Managed identity を有効化できないため、パイプラインの実行に Microsoft-hosted エージェントを利用しなければならないシナリオでは Managed identity による Service connection は利用できません。</p>
+<p>ご参考: <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/devops/demystifying-service-principals-managed-identities/">Demystifying Service Principals - Managed Identities - Azure DevOps Blog</a> ※英語のブログ記事です。</p>
+<h2 id="Managed-identity-への移行手順"><a href="#Managed-identity-への移行手順" class="headerlink" title="Managed identity への移行手順"></a>Managed identity への移行手順</h2><p>それでは早速手順を見ていきましょう。 Azure DevOps と Azure Portal のそれぞれの作業で分けてあります。<br>今回は移行ですので、事前準備として Azure VM に Self-hosted エージェントを作成済みの状態で進めていきます。もし Self-hosted エージェントの作成手順がわからない場合は <a href="https://jpdscore.github.io/blog/azuredevops/try-self-hosted-agent/">DevOps の Self-hosted エージェントを構築して使ってみよう！ | Japan Developer Support Core Team Blog</a> が参考になりますので、ぜひご覧ください。</p>
+<h3 id="Azure-DevOps-の手順"><a href="#Azure-DevOps-の手順" class="headerlink" title="Azure DevOps の手順"></a>Azure DevOps の手順</h3><ol>
+<li><p>Service connections を開いて、新しい Service connection を Managed identity タイプで作成する。</p>
+<p> <img src="azdo1.png"></p>
+</li>
+<li><p>既存の Service connection を開いて Service principal の情報を取得する。</p>
+<p> [Manage service connection roles] を選択するとサブスクリプションまたはリソースグループの IAM ページが開くので、このページから Service principal に付与されている権限やロールを確認できます。<br> [Manage Service Principal] を選択すると Service connection に紐づいている Service principal の情報を確認できます。<br> <img src="azdo2.png"></p>
+</li>
+<li><p>既存の Service connection を開いて [Usage history] を確認する。</p>
+<p> このページでは Service connection を利用したパイプラインの一覧情報が取得できます。次の作業ではパイプラインの Service connection を更新する必要があるため、ここで変更対象のパイプラインの一覧情報を取得しておきます。<br> <img src="azdo3.png"></p>
+</li>
+<li><p>パイプラインで利用している既存の Service connection を、新しく作成した Managed identity タイプの Service connection に更新する。</p>
+<p> YAML パイプライン定義の場合は定義ファイルの Service connection 名を変更することで更新可能です。<br> <img src="azdo4.png"></p>
+<p> クラシック / リリース パイプラインの場合はパラメーターやタスクで利用している Service connection をコンボボックスから変更することで更新可能です。<br> <img src="azdo4a.png"></p>
+</li>
+</ol>
+<h3 id="Azure-Portal-の手順"><a href="#Azure-Portal-の手順" class="headerlink" title="Azure Portal の手順"></a>Azure Portal の手順</h3><ol>
+<li><p>Self-hosted エージェントが構成済みの Azure VM を開いて、Managed identity を有効化する。</p>
+<p> Self-hosted エージェントを構成した VM リソースを開いて ID メニューから Managed identity を有効化できます。今回の例では <a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/azure/active-directory/managed-identities-azure-resources/overview#managed-identity-types">システム割り当てマネージド ID</a> を利用しています。<br> <img src="portal1.png"></p>
+</li>
+<li><p>既存の Service principal に付与されている権限（ロール）を確認する。</p>
+<p> IAM メニューから [アクセスの確認] を開いて Azure DevOps の手順で確認した Service principal を検索することで付与されている権限を確認できます。<br> <img src="portal2.png"></p>
+</li>
+<li><p>Azure VM で利用する Managed identity に必要な権限（ロール）を付与する。</p>
+<p> Self-hosted エージェントを構成した VM リソースを開いて ID メニューから [Azure ロールの割り当て] にて権限を付与できます。<br> ※前の手順で確認した権限を付与することでパイプラインは確実に動作しますが “共同作成者” などといった大きな権限を持っている可能性があるので、この機会に適切な権限のみを付与したほうがより安全です。<br> <img src="portal3.png"></p>
+</li>
+</ol>
+<h2 id="その他-QA"><a href="#その他-QA" class="headerlink" title="その他 QA"></a>その他 QA</h2><p>移行にあたってのいくつかの QA にも答えておきます。</p>
+<h3 id="Azure-DevOps-および-Azure-Portal-で必要な権限を教えてください"><a href="#Azure-DevOps-および-Azure-Portal-で必要な権限を教えてください" class="headerlink" title="Azure DevOps および Azure Portal で必要な権限を教えてください"></a>Azure DevOps および Azure Portal で必要な権限を教えてください</h3><p>Azure DevOps にて Service Connection を操作するにあたり、以下の <a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/azure/devops/pipelines/library/service-endpoints?view=azure-devops&tabs=yaml#user-permissions">権限</a> が必要です。</p>
+<ul>
+<li>Service Connections を作成する場合: Creator 権限</li>
+<li>Service Connections を管理（削除・更新）する場合: Administrator 権限</li>
+</ul>
+<p>Creator 権限は Project Contributor が既定でもっており、 Administrator 権限は Project Administrator がもっています。また、自分で作成した Service Connection は自分が Administrator 権限をもつことになるので、例えば Project Contributor であっても、自分が作成した Service Connection は削除・更新ができます。</p>
+<p>Azure Portal では Azure VM で Self-hosted エージェントを構築した場合は Managed identity を有効化するために Microsoft.Compute/virtualMachines/write 権限が必要です。この権限は Virtual Machine Contributor などの組み込みロールに含まれています。 <a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/azure/active-directory/managed-identities-azure-resources/managed-identities-faq#which-azure-rbac-permissions-are-required-to-use-a-managed-identity-on-a-resource">リソースのマネージド ID を使用するために必要な Azure RBAC アクセス許可は何ですか?</a> にも詳しい情報が載っています。<br>また Azure VM で有効化した Managed identity に対して、各 Azure リソースの権限を割り当てる必要があるため、 <a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/azure/role-based-access-control/role-assignments-portal-managed-identity#prerequisites">Azure ロールを割り当てるには、Microsoft.Authorization/roleAssignments/write が必要です。</a> この権限は組み込みロールの <a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/azure/role-based-access-control/built-in-roles#user-access-administrator">ユーザー アクセス管理者</a> や <a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/azure/role-based-access-control/built-in-roles#owner">所有者</a> にも含まれています。</p>
+<p>最後に Service principal を手動で削除する場合の権限ですが、自分で作成した Service principal の場合は特に追加の権限は不要です。もし他ユーザーが作成した Service principal を削除する場合は Azure AD 組み込みロールの <a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/azure/active-directory/roles/permissions-reference#application-administrator">アプリケーション管理者</a> または <a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/azure/active-directory/roles/permissions-reference#cloud-application-administrator">クラウド アプリケーション管理者</a> が必要です。</p>
+<h3 id="不要になった-Service-principal-を削除する方法を教えてください"><a href="#不要になった-Service-principal-を削除する方法を教えてください" class="headerlink" title="不要になった Service principal を削除する方法を教えてください"></a>不要になった Service principal を削除する方法を教えてください</h3><p>Service principal (auto) タイプで作成した場合は Service connection を削除したタイミングで Service principal も一緒に削除されます。<br>基本的には Service connection を作成したユーザーが実行することで Service principal も一緒に削除に削除されますが、 Azure AD の権限がなくなってしまったなどによって Service principal を削除するための権限が不足した場合には Service principal を削除できないため、再度権限を付与いただくか、後述する Service principal (manual) タイプの対応が必要となります。</p>
+<blockquote>
+<p>Service principal を削除できない場合は警告メッセージが表示されます。ここで [Delete] を選択すると Service connection のみ削除されます。 <img src="qa2.png"></p>
+</blockquote>
+<p>Service principal (manual) タイプで作成した場合は Service connection を削除しても Service principal は一緒に削除されません。<br>Service principal を削除するためには Azure Portal 画面から利用いただいている Service principal (アプリの登録画面) を開いていただき、 [概要] メニューから [削除] を選択することで Service principal の削除が完了します。</p>
+<p><img src="qa2a.png"></p>
+<h3 id="Service-connection-に紐づいている-Service-principal-の有効期限を確認する方法を教えてください"><a href="#Service-connection-に紐づいている-Service-principal-の有効期限を確認する方法を教えてください" class="headerlink" title="Service connection に紐づいている Service principal の有効期限を確認する方法を教えてください"></a>Service connection に紐づいている Service principal の有効期限を確認する方法を教えてください</h3><p>Azure DevOps の手順にもあるように Service connection を開いて Service principal の情報を取得することで確認が可能です。 [証明書とシークレット] メニューから [クライアント シークレット] を選択することで有効期限が確認できます。</p>
+<p><img src="qa3.png"></p>
+<h3 id="Managed-identity-はシステム割り当てとユーザー割り当てのどちらが利用できますか"><a href="#Managed-identity-はシステム割り当てとユーザー割り当てのどちらが利用できますか" class="headerlink" title="Managed identity はシステム割り当てとユーザー割り当てのどちらが利用できますか"></a>Managed identity はシステム割り当てとユーザー割り当てのどちらが利用できますか</h3><p>どちらも利用可能です。 <a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/azure/active-directory/managed-identities-azure-resources/overview#managed-identity-types">マネージド ID の種類</a> にあるようにそれぞれの特徴があるため、要件にマッチしたものをご利用ください。<br>一点ほど重要なことがあって、一つの Azure VM に複数のマネージド ID (システム割り当てとユーザー割り当ての組み合わせや、複数のユーザー割り当てなど) を割り当てる場合です。 Service connection を利用するパイプラインの Azure CLI タスクなどでは、タスクの最初に <a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/cli/azure/authenticate-azure-cli#sign-in-with-a-managed-identity">マネージド ID を使用したサインイン</a> を実行します。この時のコマンドは <code>az login --identity</code> となっており、タスクからは <code>--username</code> パラメーターを渡すことができません。そのため、特定のマネージド ID を選択して利用するといったことができないことに注意ください。</p>
+<h2 id="まとめ"><a href="#まとめ" class="headerlink" title="まとめ"></a>まとめ</h2><p>実際に移行する際はまずは開発環境で利用している Service connection から移行してみて検証するといった方法が安全です。また移行手順では Service connection を新しく作成するので、もし何かしらの問題が発生したらロールバックを行うなど柔軟な対応も可能です。（※既存の Service connection を編集して Service principal タイプから Managed identity タイプに変更できない事情もあります。）<br>必ずしも Managed identity に移行する必要はありませんので Service principal の有効期限が近くなってきたら、今後の保守・運用をどうしていくか考えて、どちらのタイプが適しているかを考えるきっかけとしてお役立てください。<br>Service principal (auto) タイプの Service connection を作成いただいている場合は、 <a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/azure/devops/pipelines/release/azure-rm-endpoint?view=azure-devops#service-principals-token-expired">サービス プリンシパルのトークンの有効期限が切れた</a> ときには Azure DevOps の Service connection 画面から [Save] いただくことで簡単に期限の延長ができますので、期限をどこかにメモしておき、チーム内で共有しておくだけでも十分の場合もあることでしょう。</p>
+<p>今後も Azure DevOps のご利用にお役立ていただける情報をどんどんご紹介していきますので、どうぞよろしくお願いします！</p>
+
+      
+      
+        <div class="article-disclaimer">
+        
+          <p><hr>本ブログの内容は弊社の公式見解として保証されるものではなく、開発・運用時の参考情報としてご活用いただくことを目的としています。もし公式な見解が必要な場合は、弊社ドキュメント (<a target="_blank" rel="noopener" href="https://docs.microsoft.com/">https://docs.microsoft.com</a> や <a target="_blank" rel="noopener" href="https://support.microsoft.com">https://support.microsoft.com</a>) をご参照いただくか、もしくは私共サポートまでお問い合わせください。</p>
+        
+        </div>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/ALM/" rel="tag">ALM</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Azure-DevOps-Services/" rel="tag">Azure DevOps Services</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Azure-Pipelines/" rel="tag">Azure Pipelines</a></li></ul>
+
+      <!-- 
+      
+        <a href="https://github.com/jpdscore/blog/edit/master/articles/azuredevops/migrate-sp-to-mi.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
+        
+      -->
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="../../dotnet/ndp-upgrade-and-downgrade/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前の記事</strong>
+      <div class="article-nav-title">.NET Framework 4.x のアップグレード及びダウングレード</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最近の投稿</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="">Service connection で利用中の Service principal を Managed identity に移行する手順</a>
+          </li>
+        
+          <li>
+            <a href="../../dotnet/ndp-upgrade-and-downgrade/">.NET Framework 4.x のアップグレード及びダウングレード</a>
+          </li>
+        
+          <li>
+            <a href="../../playfab/grantitemstouser-timeout/">Grant Items To User のタイムアウトについて</a>
+          </li>
+        
+          <li>
+            <a href="../DevOpsPricing/">Azure DevOps Services の料金体系をおさらいしてみよう！</a>
+          </li>
+        
+          <li>
+            <a href="../../vs/vs2013-signin-error/">Visual Studio 2013 でサインイン画面が表示されない場合の対処方法について</a>
+          </li>
+        
+          <li>
+            <a href="../devops-log-collection/">Azure DevOps Services トラブルシューティング用のデータ採取について</a>
+          </li>
+        
+          <li>
+            <a href="../pipelines-agents-ip-settings/">Azure Pipelines エージェントの IP について</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">タグ</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="../../tags/ALM/">ALM</a><span class="tag-list-count">10</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-DevOps-Services">Azure DevOps Services</a><span class="tag-list-count">4</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-Pipelines">Azure Pipelines</a><span class="tag-list-count">6</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-Repos">Azure Repos</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Devcontainer">Devcontainer</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/GitHub">GitHub</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Visual-Studio-Code">Visual Studio Code</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86">情報採取手順</a><span class="tag-list-count">2</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/">情報採取手順</a><span class="tag-list-count">3</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/ALM">ALM</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/Azure-DevOps-Services">Azure DevOps Services</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/Azure-Pipelines">Azure Pipelines</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Windows-SDK/">Windows SDK</a><span class="tag-list-count">6</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Debug">Debug</a><span class="tag-list-count">5</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/GDI">GDI</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Leak">Leak</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Debug/">Debug</a><span class="tag-list-count">12</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/NET">.NET</a><span class="tag-list-count">3</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Leak">Leak</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Memory">Memory</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Windows-SDK">Windows SDK</a><span class="tag-list-count">5</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Deployment/">Deployment</a><span class="tag-list-count">2</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Deployment/ClickOnce">ClickOnce</a><span class="tag-list-count">2</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/NET/">.NET</a><span class="tag-list-count">7</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/NET-Framework">.NET Framework</a><span class="tag-list-count">4</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/Debug">Debug</a><span class="tag-list-count">3</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E5%85%A8%E8%88%AC/">全般</a><span class="tag-list-count">1</span><ul></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Azure-PlayFab/">Azure PlayFab</a><span class="tag-list-count">1</span><ul></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Visual-Studio/">Visual Studio</a><span class="tag-list-count">5</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/C">C#</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/C">C++</a><span class="tag-list-count">3</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/VB-NET">VB.NET</a><span class="tag-list-count">2</span></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">アーカイブ</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/12/">2022 / 12</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/11/">2022 / 11</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/07/">2022 / 07</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/06/">2022 / 06</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/04/">2022 / 04</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/03/">2022 / 03</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/01/">2022 / 01</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/12/">2021 / 12</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/08/">2021 / 08</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/05/">2021 / 05</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/04/">2021 / 04</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/02/">2021 / 02</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/01/">2021 / 01</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/12/">2020 / 12</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/11/">2020 / 11</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/10/">2020 / 10</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/09/">2020 / 09</a><span class="archive-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">旧ブログ/フォーラム</h3>
+  <div class="widget">
+    <ul>
+      
+        <li>
+          <a href="../../https:/social.msdn.microsoft.com/Forums/ja-jp/home?forum=visualstudiosupportteamja">Visual Studio サポートチーム フォーラム</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/social.msdn.microsoft.com/Forums/ja-jp/home?forum=windowssdksupportteamja&filter=alltypes&sort=lastpostdesc">Windows SDK サポートチーム フォーラム</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/docs.microsoft.com/en-us/archive/blogs/jpvsblog/">Visual Studio サポート チーム blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/docs.microsoft.com/en-us/archive/blogs/japan_platform_sdkwindows_sdk_support_team_blog/">JAPAN Platform SDK（Windows SDK） Support Team Blog</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">関連リンク</h3>
+  <div class="widget">
+    <ul>
+      
+        <li>
+          <a href="../../https:/developercommunity.visualstudio.com/">Developer Community</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/devblogs.microsoft.com/dotnet/">.NET Blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/devblogs.microsoft.com/visualstudio/">Visual Studio Blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/devblogs.microsoft.com/cppblog/">C++ Team Blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/devblogs.microsoft.com/xamarin/">Xamarin Blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/devblogs.microsoft.com/devops/">Azure DevOps Blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/techcommunity.microsoft.com/t5/azure-lab-services/bg-p/AzureLabServicesBlog/">Azure Lab Services Blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/devblogs.microsoft.com/appcenter/">App Center Blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/status.azure.com/status/">Azure Status</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/status.dev.azure.com/">Azure DevOps - Status</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 Developer Support Core Japan<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="../../index.html" class="mobile-nav-link">Home</a>
+  
+    <a href="../../archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+<script src="../../js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

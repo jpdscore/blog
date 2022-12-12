@@ -6,7 +6,7 @@
   <link href="https://jpdscore.github.io/blog/atom.xml" rel="self"/>
   
   <link href="https://jpdscore.github.io/blog/"/>
-  <updated>2022-11-02T09:00:00.000Z</updated>
+  <updated>2022-12-11T15:00:00.000Z</updated>
   <id>https://jpdscore.github.io/blog/</id>
   
   <author>
@@ -15,6 +15,34 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Service connection で利用中の Service principal を Managed identity に移行する手順</title>
+    <link href="https://jpdscore.github.io/blog/azuredevops/migrate-sp-to-mi/"/>
+    <id>https://jpdscore.github.io/blog/azuredevops/migrate-sp-to-mi/</id>
+    <published>2022-12-11T15:00:00.000Z</published>
+    <updated>2022-12-11T15:00:00.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;blockquote&gt;
+&lt;p&gt;本記事は &lt;a href=&quot;https://qiita.com/advent-calendar/2022/microsoft-azure-tech&quot;&gt;Microsoft Azure Tech | Advent Calendar 2022&lt;/a&gt;</summary>
+        
+      
+    
+    
+    
+    
+    <category term="ALM" scheme="https://jpdscore.github.io/blog/tags/ALM/"/>
+    
+    <category term="Azure DevOps Services" scheme="https://jpdscore.github.io/blog/tags/Azure-DevOps-Services/"/>
+    
+    <category term="Azure Pipelines" scheme="https://jpdscore.github.io/blog/tags/Azure-Pipelines/"/>
+    
+  </entry>
   
   <entry>
     <title>.NET Framework 4.x のアップグレード及びダウングレード</title>
@@ -495,30 +523,6 @@
     
     
     <category term="情報採取手順" scheme="https://jpdscore.github.io/blog/tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>シンボル ファイルと Visual Studio のシンボル設定を理解する</title>
-    <link href="https://jpdscore.github.io/blog/debugging/understanding-symbol-files-and-visual-studios-symbol-settings/"/>
-    <id>https://jpdscore.github.io/blog/debugging/understanding-symbol-files-and-visual-studios-symbol-settings/</id>
-    <published>2021-02-11T15:00:00.000Z</published>
-    <updated>2021-02-11T15:00:00.000Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;こんにちは、Japan Developer Support Core チームの松井です。&lt;br&gt;今回は、シンボル ファイルと Visual Studio のシンボル設定についてご案内します。&lt;/p&gt;
-&lt;p&gt;シンボル</summary>
-        
-      
-    
-    
-    
-    
-    <category term="Debug" scheme="https://jpdscore.github.io/blog/tags/Debug/"/>
     
   </entry>
   
