@@ -4,19 +4,19 @@
   <meta charset="utf-8">
   
   
-  <title>Developer Support Core チームのブログへようこそ | Japan Developer Support Core Team Blog</title>
+  <title>GetLeaderboard 系 API で取得したランキング位置の順番について | Japan Developer Support Core Team Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="こんにちは、Developer Support Core チームです。 私たちのサポート チームでは下記の製品のサポートを行っています。  Visual Studio .NET (.NET Framework &#x2F; .NET Core) Windows SDK Data Client (ODBC &#x2F; ADO.NET &#x2F; Entity Framework) アプリケーションの展開 (Windows I">
+  <meta name="description" content="こんにちは、Japan Developer Support Core チームの近澤です。PlayFab では Leaderboard (ランキング) を取得する API を用途に応じて複数ご用意しております。これらの動作について、弊社へよくお問い合わせいただく内容について、ご説明いたします。 Leaderboard を取得する API の種類現在以下の API をご用意しております。    API">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Developer Support Core チームのブログへようこそ">
-<meta property="og:url" content="https://jpdscore.github.io/blog/general/welcome/index.html">
+<meta property="og:title" content="GetLeaderboard 系 API で取得したランキング位置の順番について">
+<meta property="og:url" content="https://jpdscore.github.io/blog/playfab/order-of-leaderboard-positions/index.html">
 <meta property="og:site_name" content="Japan Developer Support Core Team Blog">
-<meta property="og:description" content="こんにちは、Developer Support Core チームです。 私たちのサポート チームでは下記の製品のサポートを行っています。  Visual Studio .NET (.NET Framework &#x2F; .NET Core) Windows SDK Data Client (ODBC &#x2F; ADO.NET &#x2F; Entity Framework) アプリケーションの展開 (Windows I">
+<meta property="og:description" content="こんにちは、Japan Developer Support Core チームの近澤です。PlayFab では Leaderboard (ランキング) を取得する API を用途に応じて複数ご用意しております。これらの動作について、弊社へよくお問い合わせいただく内容について、ご説明いたします。 Leaderboard を取得する API の種類現在以下の API をご用意しております。    API">
 <meta property="og:locale" content="ja_JP">
-<meta property="article:published_time" content="2020-09-27T15:00:00.000Z">
-<meta property="article:modified_time" content="2020-09-27T15:00:00.000Z">
+<meta property="article:published_time" content="2023-02-06T17:28:00.000Z">
+<meta property="article:modified_time" content="2023-02-06T17:28:00.000Z">
 <meta property="article:author" content="Developer Support Core Japan">
-<meta property="article:tag" content="全般">
+<meta property="article:tag" content="Azure PlayFab">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternate" href="../../blog/atom.xml" title="Japan Developer Support Core Team Blog" type="application/atom+xml">
@@ -79,7 +79,7 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-general/welcome" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-playfab/order-of-leaderboard-positions" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
     
@@ -88,7 +88,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Developer Support Core チームのブログへようこそ
+      GetLeaderboard 系 API で取得したランキング位置の順番について
     </h1>
   
 
@@ -96,36 +96,135 @@
       <div class="article-share">
         Last Update: 
         <a href="" class="article-date-single">
-  <time datetime="2020-09-27T15:00:00.000Z" itemprop="datePublished">2020-09-28</time>
+  <time datetime="2023-02-06T17:28:00.000Z" itemprop="datePublished">2023-02-07</time>
 </a>
         
         
-        <a href="https://github.com/jpdscore/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+2e1cffdf-33d7-58ee-9267-6de488b6ada1%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5BDeveloper+Support+Core+%E3%83%81%E3%83%BC%E3%83%A0%E3%81%AE%E3%83%96%E3%83%AD%E3%82%B0%E3%81%B8%E3%82%88%E3%81%86%E3%81%93%E3%81%9D%5D%28https%3A%2F%2Fjpdscore.github.io%2Fblog%2Fgeneral%2Fwelcome%2F%29" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
+        <a href="https://github.com/jpdscore/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+75b6098c-9e61-5756-9c56-d9723033f62c%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5BGetLeaderboard+%E7%B3%BB+API+%E3%81%A7%E5%8F%96%E5%BE%97%E3%81%97%E3%81%9F%E3%83%A9%E3%83%B3%E3%82%AD%E3%83%B3%E3%82%B0%E4%BD%8D%E7%BD%AE%E3%81%AE%E9%A0%86%E7%95%AA%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6%5D%28https%3A%2F%2Fjpdscore.github.io%2Fblog%2Fplayfab%2Forder-of-leaderboard-positions%2F%29" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
         
-        <a data-url="https://jpdscore.github.io/blog/general/welcome/" data-id="cle50pd8i001jlqnb6lue7di7" class="article-share-link">共有</a>
+        <a data-url="https://jpdscore.github.io/blog/playfab/order-of-leaderboard-positions/" data-id="cle50pd8k001nlqnb0vkl47nm" class="article-share-link">共有</a>
       </div>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>こんにちは、Developer Support Core チームです。</p>
-<p>私たちのサポート チームでは下記の製品のサポートを行っています。</p>
+        <p>こんにちは、Japan Developer Support Core チームの近澤です。<br>PlayFab では Leaderboard (ランキング) を取得する API を用途に応じて複数ご用意しております。<br>これらの動作について、弊社へよくお問い合わせいただく内容について、ご説明いたします。</p>
+<h1 id="Leaderboard-を取得する-API-の種類"><a href="#Leaderboard-を取得する-API-の種類" class="headerlink" title="Leaderboard を取得する API の種類"></a>Leaderboard を取得する API の種類</h1><p>現在以下の API をご用意しております。</p>
+<table>
+<thead>
+<tr>
+<th>API</th>
+<th>URL</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>GetLeaderboard</td>
+<td><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/rest/api/playfab/client/player-data-management/get-leaderboard?view=playfab-rest">Client</a> / <a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/rest/api/playfab/server/player-data-management/get-leaderboard?view=playfab-rest">Server</a></td>
+</tr>
+<tr>
+<td>GetLeaderboardAroundPlayer</td>
+<td><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/rest/api/playfab/client/player-data-management/get-leaderboard-around-player?view=playfab-rest">Client</a> / <a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/rest/api/playfab/server/player-data-management/get-leaderboard-around-user?view=playfab-rest">Server</a> ※</td>
+</tr>
+<tr>
+<td>GetFriendLeaderboard</td>
+<td><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/rest/api/playfab/client/player-data-management/get-friend-leaderboard?view=playfab-rest">Client</a> / <a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/rest/api/playfab/server/player-data-management/get-friend-leaderboard?view=playfab-rest">Server</a></td>
+</tr>
+<tr>
+<td>GetFriendLeaderboardAroundPlayer</td>
+<td><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/rest/api/playfab/client/player-data-management/get-friend-leaderboard-around-player?view=playfab-rest">Client</a></td>
+</tr>
+<tr>
+<td>GetCharacterLeaderboard</td>
+<td><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/rest/api/playfab/client/characters/get-character-leaderboard?view=playfab-rest">Client</a> / <a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/rest/api/playfab/server/characters/get-character-leaderboard?view=playfab-rest">Server</a></td>
+</tr>
+<tr>
+<td>GetLeaderboardAroundCharacter</td>
+<td><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/rest/api/playfab/client/characters/get-leaderboard-around-character?view=playfab-rest">Client</a> / <a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/rest/api/playfab/server/characters/get-leaderboard-around-character?view=playfab-rest">Server</a></td>
+</tr>
+<tr>
+<td>GetLeaderboardForUserCharacters</td>
+<td><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/rest/api/playfab/client/characters/get-leaderboard-for-user-characters?view=playfab-rest">Client</a> / <a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/rest/api/playfab/server/characters/get-leaderboard-for-user-characters?view=playfab-rest">Server</a></td>
+</tr>
+</tbody></table>
+<p>※ GetLeaderboardAroundPlayer は Server API では GetLeaderboardAroundUser という名称ですが、これらは同じ機能です。</p>
+<h1 id="API-使用時の注意点"><a href="#API-使用時の注意点" class="headerlink" title="API 使用時の注意点"></a>API 使用時の注意点</h1><p>ランキング機能が必要なシチュエーションは、主に以下の2通りです。</p>
 <ul>
-<li>Visual Studio</li>
-<li>.NET (.NET Framework / .NET Core)</li>
-<li>Windows SDK</li>
-<li>Data Client (ODBC / ADO.NET / Entity Framework)</li>
-<li>アプリケーションの展開 (Windows Installer / ClickOnce / MSIX)</li>
-<li>スクリプト開発 (VBScript / PowerShell)</li>
-<li>HoloLens</li>
-<li>Azure DevOps Services / Azure DevOps Server</li>
-<li>Azure Dev Spaces</li>
-<li>Azure DevTest Labs / Azure Lab Services</li>
-<li>Azure Kinnect DK</li>
-<li>Azure PlayFab</li>
-<li>Azure Spatial Anchors</li>
+<li>ランキング上位のプレイヤーを表示するとき</li>
+<li>特定のプレイヤーのランキングを表示するとき</li>
 </ul>
-<p>このブログでは今後、弊社製品をより効果的に活用していただき、お客様とお客様の製品のご利用者様がより多くのことを達成できるよう、それぞれの製品に関する情報を発信していきます。</p>
-<p>本ブログの情報が皆様のお役に立てば幸いです。</p>
+<p>前者は、GetLeaderboard 系 API で取得できます。<br>後者は GetLeaderboardAroundPlayer 系 API で取得できます。<br>GetLeaderboardAroundPlayer 系 API は対象のプレイヤーやキャラクターの周辺 100 件 (上位 50 件、下位 50 件) まで取得することができます。  </p>
+<p>しかしながら、これらの機能で厳密なランキングを取得されたいという場合には、以下の事項が問題になることがあります。  </p>
+<ul>
+<li><a href="#1,000-%E4%BD%8D%E4%BB%A5%E9%99%8D%E3%81%AB%E6%8E%A8%E5%AE%9A%E5%80%A4%E3%81%8C%E4%BD%BF%E7%94%A8%E3%81%95%E3%82%8C%E3%82%8B%E5%8B%95%E4%BD%9C%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6">1,000 位以降に推定値が使用される動作</a></li>
+<li><a href="#%E3%83%A9%E3%83%B3%E3%82%AD%E3%83%B3%E3%82%B0%E5%90%8C%E7%8E%87%E3%82%B9%E3%82%B3%E3%82%A2%E6%99%82%E3%81%AE%E9%A0%86%E4%BD%8D%E4%BB%98%E3%81%91%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6">ランキング同率スコアの順位付け</a></li>
+</ul>
+<h1 id="1-000-位以降に推定値が使用される動作について"><a href="#1-000-位以降に推定値が使用される動作について" class="headerlink" title="1,000 位以降に推定値が使用される動作について"></a>1,000 位以降に推定値が使用される動作について</h1><p>GetLeaderboard 系 API ならびに GetLeaderboardAroundPlayer 系 API ではプレイヤー数のスケーラビリティとパフォーマンスを維持する目的で、1,000 位以降の順位については特定のアルゴリズムに基づく推定値を返します。<br>厳密に正確な順位を返すものではありません。  </p>
+<p>この設計は、計算コストとのトレードオフの結果、1,000 位以上で厳密な順位が必要になるケースが多くないことを想定したものですが、もし全てのランキングで正確な値が必要な場合は、残念ながら回避策はありません。</p>
+<p>この動作は、現在 Private Preview である Leaderboard v2 では改善される予定ですので、どうしても PlayFab で厳密な順位を取得したいということであれば、個別に弊社へご相談いただき、Private Preview 機能を有効にすることも可能です。</p>
+<p>推定値の詳細は以下の通りです。</p>
+<ul>
+<li><p>推定値は、通常のランキングと同じく、対象のプレイヤーのスコアが変化した場合、即座に順位に反映されます。</p>
+</li>
+<li><p>推定値の計算方法は、一定数のプレイヤーをサンプリングし、それらのスコアと比較した相対的な順位を計算する仕組みとなります。</p>
+</li>
+<li><p>このサンプルセットは、Leaderboard に新しいプレイヤーが追加されたときに変化することがありますが、それ以外は同じサンプルセットが使用されます。</p>
+</li>
+<li><p>このサンプルセット内の相対的な順位に影響を与えない程度の微々たるスコア変化の場合、プレイヤーのランク推定値は変化しない場合があります。</p>
+</li>
+<li><p>アルゴリズム上、特にスコアの差が僅差の場合に実際の順位と乖離が生じやすくなっており、例えば、スコアが 1 〜 5,000 の範囲に分布している場合と 1 〜 5,000,000 の範囲に分布している場合とでは、前者の方が実際の順位との乖離が生じやすくなります。  </p>
+</li>
+<li><p>このずれにより、推定値が 1,000 位未満の値になる可能性もあります。  </p>
+</li>
+<li><p>この推定値はランキングを取得する PlayFab ID ごとに結果が異なります。  </p>
+</li>
+<li><p>同じ API、同じ PlayFab ID を使用した場合は、常に同じ結果を返す動作となります。  </p>
+</li>
+</ul>
+<h1 id="ランキング同率スコア時の順位付けについて"><a href="#ランキング同率スコア時の順位付けについて" class="headerlink" title="ランキング同率スコア時の順位付けについて"></a>ランキング同率スコア時の順位付けについて</h1><p>GetLeaderboardAroundPlayer 系 API では、クエリに指定したプレイヤーが同率スコアのトップの Position として返す動作となります。<br>そのため、特定のプレイヤーに自身のランキングを開示する場合には、特に問題等無く API の結果をそのままご利用いただけるかと存じます。</p>
+<p>しかしながら、GetLeaderboard 系 API や GetLeaderboardAroundPlayer 系 API のクエリに指定されていない同率スコアのプレイヤーの Position は、スコアに変化が無かったとしても一意に定まることは保証されません。<br>厳密には、常に変化する可能性があるものとお考えいただく必要があります。<br>なお、この動作も、現在 Private Preview である Leaderboard v2 では改善される予定です。</p>
+<p>そのため、一貫した Position を決定されたい場合、この動作は問題となります。<br>その際の回避策として、下記の二つが考えられます。</p>
+<h2 id="回避策-1"><a href="#回避策-1" class="headerlink" title="回避策 1"></a>回避策 1</h2><p>前述の通り、厳密には同率スコアのプレイヤーの並びは変化する可能性がありますので、これを回避するには同率のスコアのプレイヤーが生じないように制御する必要があります。<br>これを実現するため、32 bit 値であるスコアの上位ビットをスコアの値として利用し、下位ビットをタイムスタンプのような一意の値として、ユーザー間の重複が生じないように制御します。  </p>
+<pre><code>例) 16 bit ずつに分け、(1) スコアが 0x1234 (4660)、(2) 同率回避用の値が 0xABCD (43981) の場合
+
+0x12 0x34 0xAB 0xCD 
+└──┘ └──┘ └──┘ └──┘
+   (1)       (2)</code></pre>
+<p>本来のスコアとして利用可能な値のレンジが少なくなることと、同率回避用の一意の値をどのように生成するかといった点はご留意いただく必要があります。</p>
+<h2 id="回避策-2"><a href="#回避策-2" class="headerlink" title="回避策 2"></a>回避策 2</h2><p>GetLeaderboard 系の API で取得される Position は厳密には確定的ではありませんが、短い期間の間に同一のエンドポイントから API が実行される限りにおいては、結果にばらつきが生じる可能性は低いものと考えられます。  </p>
+<pre><code>例1) GetLeaderboard 系で Player を指定しない場合の結果
+Position Player    Score
+    0        J      14
+    1        I      13
+    2        H      12
+    3        G      11
+    4        F      11
+    5        E      10
+    6        D      10
+    7        C      10
+    8        B      10
+    9        A       9
+
+例2) GetLeaderboardAroundPlayer 系で Player C を指定した場合の結果
+C が同率の中でトップの Position となります
+Position Player    Score
+    0        J    　14
+    1        I    　13
+    2        H    　12
+    3        G    　11
+    4        F    　11
+    5        C    　10
+    6        E    　10
+    7        D    　10
+    8        B    　10
+    9        A    　 9</code></pre>
+<p>例 2) の情報をもとに、C 以下の順位のPlayer を確認するため Position 6 以降の情報を確認しようとしても、例1) のとおり、C が Position 7 として現れる結果となります。</p>
+<p>これを避けるには、以下のような順で処理を実行します。</p>
+<ol>
+<li>GetLeaderboardAroundPlayer 系 API で C の Position を確認します。(5 が取得されます)</li>
+<li>GetLeaderboard API を C の Position -1 (= 4) を指定して実行します。この結果に含まれる C の Position (= 7 となるはずです) を C の本来の Position とみなして、以降の処理を行います。</li>
+<li>GetLeaderboard API で Position 8 を指定して実行すれば、C を含まない B 以降の Position の Player の順位が取得されます。</li>
+</ol>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/gaming/playfab/features/social/leaderboardsv2/">Introduction to Leaderboards v2 - PlayFab | Microsoft Learn</a></p>
+<p><a target="_blank" rel="noopener" href="https://community.playfab.com/questions/19063/leaderboard-positions-wrong-duplicated-when-viewin.html">Leaderboard positions wrong / duplicated when viewing multiple leaderboards - Playfab Community</a></p>
 
       
       
@@ -139,11 +238,11 @@
     <footer class="article-footer">
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/%E5%85%A8%E8%88%AC/" rel="tag">全般</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Azure-PlayFab/" rel="tag">Azure PlayFab</a></li></ul>
 
       <!-- 
       
-        <a href="https://github.com/jpdscore/blog/edit/master/articles/general/welcome.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
+        <a href="https://github.com/jpdscore/blog/edit/master/articles/playfab/order-of-leaderboard-positions.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
         
       -->
     </footer>
@@ -152,15 +251,11 @@
     
 <nav id="article-nav">
   
-    <a href="../../dotnet/relationship-between-ndp-versions/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">次の記事</strong>
-      <div class="article-nav-title">
-        
-          .NET Framework の各バージョン同士の関係
-        
-      </div>
-    </a>
   
+    <a href="../../azuredevops/migrate-sp-to-mi/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前の記事</strong>
+      <div class="article-nav-title">Service connection で利用中の Service principal を Managed identity に移行する手順</div>
+    </a>
   
 </nav>
 
@@ -178,7 +273,7 @@
       <ul>
         
           <li>
-            <a href="../../playfab/order-of-leaderboard-positions/">GetLeaderboard 系 API で取得したランキング位置の順番について</a>
+            <a href="">GetLeaderboard 系 API で取得したランキング位置の順番について</a>
           </li>
         
           <li>
@@ -190,7 +285,7 @@
           </li>
         
           <li>
-            <a href="../../playfab/grantitemstouser-timeout/">Grant Items To User のタイムアウトについて</a>
+            <a href="../grantitemstouser-timeout/">Grant Items To User のタイムアウトについて</a>
           </li>
         
           <li>

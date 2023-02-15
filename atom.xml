@@ -6,7 +6,7 @@
   <link href="https://jpdscore.github.io/blog/atom.xml" rel="self"/>
   
   <link href="https://jpdscore.github.io/blog/"/>
-  <updated>2022-12-11T15:00:00.000Z</updated>
+  <updated>2023-02-06T17:28:00.000Z</updated>
   <id>https://jpdscore.github.io/blog/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>GetLeaderboard 系 API で取得したランキング位置の順番について</title>
+    <link href="https://jpdscore.github.io/blog/playfab/order-of-leaderboard-positions/"/>
+    <id>https://jpdscore.github.io/blog/playfab/order-of-leaderboard-positions/</id>
+    <published>2023-02-06T17:28:00.000Z</published>
+    <updated>2023-02-06T17:28:00.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;こんにちは、Japan Developer Support Core チームの近澤です。&lt;br&gt;PlayFab では Leaderboard (ランキング) を取得する API</summary>
+        
+      
+    
+    
+    
+    
+    <category term="Azure PlayFab" scheme="https://jpdscore.github.io/blog/tags/Azure-PlayFab/"/>
+    
+  </entry>
   
   <entry>
     <title>Service connection で利用中の Service principal を Managed identity に移行する手順</title>
@@ -500,29 +523,6 @@
     <category term="Deployment" scheme="https://jpdscore.github.io/blog/tags/Deployment/"/>
     
     <category term="ClickOnce" scheme="https://jpdscore.github.io/blog/tags/ClickOnce/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Process Monitor ログの採取手順</title>
-    <link href="https://jpdscore.github.io/blog/debugging/collect-procmon/"/>
-    <id>https://jpdscore.github.io/blog/debugging/collect-procmon/</id>
-    <published>2021-02-18T15:00:00.000Z</published>
-    <updated>2021-02-18T15:00:00.000Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;こんにちは、Japan Developer Support Core チームの松井です。今回は、Process Monitor の概要とログの採取手順をご案内します。&lt;br&gt;Process Monitor は弊社が無償で公開している Sysinternals</summary>
-        
-      
-    
-    
-    
-    
-    <category term="情報採取手順" scheme="https://jpdscore.github.io/blog/tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/"/>
     
   </entry>
   
