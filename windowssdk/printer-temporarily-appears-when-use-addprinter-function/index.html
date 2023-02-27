@@ -4,20 +4,20 @@
   <meta charset="utf-8">
   
   
-  <title>.NET Framework 4.5.2、4.6、4.6.1 のサポート終了予定について | Japan Developer Support Core Team Blog</title>
+  <title>AddPrinter関数によりプリンタを追加したときに、アクセス権の無いユーザーに対してプリンタが一時的に表示される可能性について | Japan Developer Support Core Team Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="こんにちは、Japan Developer Support Core チームです。2022 年 4 月 26 日をもって .NET Framework 4.5.2、4.6、4.6.1 のサポートが終了することとなり、これ以降は、これらのバージョンの .NET Framework に対して、セキュリティ更新を含む修正や、技術サポートは提供されなくなります。これらのバージョンの .NET Framew">
+  <meta name="description" content="こんにちは、Japan Developer Support Core チームです。 今回は AddPrinter 関数によりプリンタを追加したときに、アクセス権の無いユーザーに対してプリンタが一時的に表示される可能性についてご案内いたします。AddPrinter関数は、パラメータの1つである PRINTER_INFO2構造体のpSecurityDescripterメンバ変数に、プリンタを利用するユ">
 <meta property="og:type" content="article">
-<meta property="og:title" content=".NET Framework 4.5.2、4.6、4.6.1 のサポート終了予定について">
-<meta property="og:url" content="https://jpdscore.github.io/blog/dotnet/ndp452-46-461-eos/index.html">
+<meta property="og:title" content="AddPrinter関数によりプリンタを追加したときに、アクセス権の無いユーザーに対してプリンタが一時的に表示される可能性について">
+<meta property="og:url" content="https://jpdscore.github.io/blog/windowssdk/printer-temporarily-appears-when-use-addprinter-function/index.html">
 <meta property="og:site_name" content="Japan Developer Support Core Team Blog">
-<meta property="og:description" content="こんにちは、Japan Developer Support Core チームです。2022 年 4 月 26 日をもって .NET Framework 4.5.2、4.6、4.6.1 のサポートが終了することとなり、これ以降は、これらのバージョンの .NET Framework に対して、セキュリティ更新を含む修正や、技術サポートは提供されなくなります。これらのバージョンの .NET Framew">
+<meta property="og:description" content="こんにちは、Japan Developer Support Core チームです。 今回は AddPrinter 関数によりプリンタを追加したときに、アクセス権の無いユーザーに対してプリンタが一時的に表示される可能性についてご案内いたします。AddPrinter関数は、パラメータの1つである PRINTER_INFO2構造体のpSecurityDescripterメンバ変数に、プリンタを利用するユ">
 <meta property="og:locale" content="ja_JP">
-<meta property="article:published_time" content="2021-04-27T23:04:10.000Z">
-<meta property="article:modified_time" content="2021-04-27T23:04:10.000Z">
+<meta property="article:published_time" content="2023-02-26T15:00:00.000Z">
+<meta property="article:modified_time" content="2023-02-26T15:00:00.000Z">
 <meta property="article:author" content="Developer Support Core Japan">
-<meta property="article:tag" content=".NET">
-<meta property="article:tag" content=".NET Framework">
+<meta property="article:tag" content="Windows SDK">
+<meta property="article:tag" content="Documents and Printing">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternate" href="../../blog/atom.xml" title="Japan Developer Support Core Team Blog" type="application/atom+xml">
@@ -80,7 +80,7 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-dotnet/ndp452-46-461-eos" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-windowssdk/printer-temporarily-appears-when-use-addprinter-function" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
     
@@ -89,7 +89,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      .NET Framework 4.5.2、4.6、4.6.1 のサポート終了予定について
+      AddPrinter関数によりプリンタを追加したときに、アクセス権の無いユーザーに対してプリンタが一時的に表示される可能性について
     </h1>
   
 
@@ -97,44 +97,22 @@
       <div class="article-share">
         Last Update: 
         <a href="" class="article-date-single">
-  <time datetime="2021-04-27T23:04:10.000Z" itemprop="datePublished">2021-04-28</time>
+  <time datetime="2023-02-26T15:00:00.000Z" itemprop="datePublished">2023-02-27</time>
 </a>
         
         
-        <a href="https://github.com/jpdscore/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+186fe13e-66e9-5eb3-bb90-3a16b91628be%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5B.NET+Framework+4.5.2%E3%80%814.6%E3%80%814.6.1+%E3%81%AE%E3%82%B5%E3%83%9D%E3%83%BC%E3%83%88%E7%B5%82%E4%BA%86%E4%BA%88%E5%AE%9A%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6%5D%28https%3A%2F%2Fjpdscore.github.io%2Fblog%2Fdotnet%2Fndp452-46-461-eos%2F%29" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
+        <a href="https://github.com/jpdscore/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+b1fb4838-dd10-5800-90f0-2510b52fbefb%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5BAddPrinter%E9%96%A2%E6%95%B0%E3%81%AB%E3%82%88%E3%82%8A%E3%83%97%E3%83%AA%E3%83%B3%E3%82%BF%E3%82%92%E8%BF%BD%E5%8A%A0%E3%81%97%E3%81%9F%E3%81%A8%E3%81%8D%E3%81%AB%E3%80%81%E3%82%A2%E3%82%AF%E3%82%BB%E3%82%B9%E6%A8%A9%E3%81%AE%E7%84%A1%E3%81%84%E3%83%A6%E3%83%BC%E3%82%B6%E3%83%BC%E3%81%AB%E5%AF%BE%E3%81%97%E3%81%A6%E3%83%97%E3%83%AA%E3%83%B3%E3%82%BF%E3%81%8C%E4%B8%80%E6%99%82%E7%9A%84%E3%81%AB%E8%A1%A8%E7%A4%BA%E3%81%95%E3%82%8C%E3%82%8B%E5%8F%AF%E8%83%BD%E6%80%A7%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6%5D%28https%3A%2F%2Fjpdscore.github.io%2Fblog%2Fwindowssdk%2Fprinter-temporarily-appears-when-use-addprinter-function%2F%29" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
         
-        <a data-url="https://jpdscore.github.io/blog/dotnet/ndp452-46-461-eos/" data-id="clemyax9m001emsp1gpz18xno" class="article-share-link">共有</a>
+        <a data-url="https://jpdscore.github.io/blog/windowssdk/printer-temporarily-appears-when-use-addprinter-function/" data-id="clemyax9z0023msp1gk3f7ag9" class="article-share-link">共有</a>
       </div>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>こんにちは、Japan Developer Support Core チームです。<br>2022 年 4 月 26 日をもって .NET Framework 4.5.2、4.6、4.6.1 のサポートが終了することとなり、これ以降は、これらのバージョンの .NET Framework に対して、セキュリティ更新を含む修正や、技術サポートは提供されなくなります。<br>これらのバージョンの .NET Framework をご利用のお客様は、お早めに、サポートされた新しいバージョンへの移行をご検討くださいますようお願いいたします。</p>
-<h2 id="対象"><a href="#対象" class="headerlink" title="対象"></a>対象</h2><ul>
-<li>.NET Framework 4.5.2  </li>
-<li>.NET Framework 4.6  </li>
-<li>.NET Framework 4.6.1  </li>
-</ul>
-<p>※ ただし、Windows 10 Enterprise LTSC 2015 上でご利用の .NET Framework 4.6 については、OS のサポート ライフルに従って 2025 年 10 月までサポートされます。</p>
-<h2 id="留意事項"><a href="#留意事項" class="headerlink" title="留意事項"></a>留意事項</h2><ul>
-<li>Windows 10 1607、および Windows Server 2016 以降の OS では、既定で .NET Framework 4.6.2 以降がインストールされていますので、今回の発表の影響を受けることはありません。</li>
-<li>.NET Framework 4.5.2、4.6、4.6.1 をターゲット フレームワークとしているアプリケーションは、.NET Framework 4.6.2 以降のランタイム上での動作が引き続きサポートされます。今回の発表に伴い既存のアプリケーションのターゲット フレームワークを変更してリビルドする必要はありません。</li>
-<li>今回の発表は .NET Framework 3.5 SP1 のご利用には影響しません。</li>
-</ul>
-<h2 id="インストールされている-NET-Framework-のバージョンの確認方法"><a href="#インストールされている-NET-Framework-のバージョンの確認方法" class="headerlink" title="インストールされている .NET Framework のバージョンの確認方法"></a>インストールされている .NET Framework のバージョンの確認方法</h2><p>対象の環境にインストールされている .NET Framework のバージョンを確認する方法は、以下のドキュメントにまとめられていますので、こちらをご参照ください。  </p>
-<p><a target="_blank" rel="noopener" href="https://docs.microsoft.com/ja-jp/dotnet/framework/migration-guide/how-to-determine-which-versions-are-installed">方法: インストールされている .NET Framework バージョンを確認する</a></p>
-<p>また、上記ドキュメントからの抜粋となりますが、対象の環境で以下の PowerShell コマンドを実行した場合に True が返れば、対象の環境には .NET Framework 4.6.2 以上がインストールされていると判断できます。  </p>
-<figure class="highlight ps"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(<span class="built_in">Get-ItemProperty</span> <span class="string">&quot;HKLM:\SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full&quot;</span>).Release <span class="operator">-ge</span> <span class="number">394802</span></span><br></pre></td></tr></table></figure>
-<p>実行例</p>
-<figure class="highlight ps"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">PS</span> C:\Users\user1&gt; (<span class="built_in">Get-ItemProperty</span> <span class="string">&quot;HKLM:\SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full&quot;</span>).Release <span class="operator">-ge</span> <span class="number">394802</span></span><br><span class="line">True</span><br></pre></td></tr></table></figure>
-
-<h2 id="インストーラーの入手場所"><a href="#インストーラーの入手場所" class="headerlink" title="インストーラーの入手場所"></a>インストーラーの入手場所</h2><p>新しいバージョンの .NET Framework のインストーラーは以下のページから入手してご利用いただけます。  </p>
-<p><a target="_blank" rel="noopener" href="https://dotnet.microsoft.com/download/dotnet-framework">.NET Framework</a></p>
-<p>例えば、<a target="_blank" rel="noopener" href="https://dotnet.microsoft.com/download/dotnet-framework/net48">.NET Framework 4.8</a> の場合は、Web インストーラーについては <strong>Download .NET Framework 4.8 Runtime</strong> または、Advanced downloads の <strong>Web installer</strong> の行にある <strong>Runtime</strong> のリンクからダウンロードしてご利用いただけます。<br>オフライン インストーラーが必要な場合は、同ページの Advanced downloads の <strong>Offline installer</strong> の行にある <strong>Runtime</strong> のリンクからダウンロードしていただけます。<br>なお、Web インストーラーをご利用の場合は言語パックも自動でインストールされますが、オフライン インストーラーの場合は言語パックは個別にインストールしていただく必要があります。オフライン インストーラーをご利用の場合は、同ページから言語パックもダウンロードしてご利用ください。</p>
-<h2 id="NET-Framework-の互換性について"><a href="#NET-Framework-の互換性について" class="headerlink" title=".NET Framework の互換性について"></a>.NET Framework の互換性について</h2><p>.NET Framework 4.x は後方互換性を有しており、例えば、.NET Framework 4.6.1 をターゲットにビルドされたアプリケーションは、.NET Framework 4.6.2 のランタイム上で、通常、問題なくそのまま動作し、.NET Framework 4.6.2 のランタイムとしてサポートされます。<br>ただし、お客様が開発されたアプリケーションの動作をマイクロソフトが保障することはいたしかねますので、移行後のバージョンにおいても、必ず、十分なテストを行ってくださいますようお願いいたします。</p>
-<p>互換性に関する詳細については以下のドキュメントをご参照ください。</p>
-<p><a target="_blank" rel="noopener" href="https://docs.microsoft.com/ja-jp/dotnet/framework/migration-guide/application-compatibility?redirectedfrom=MSDN">.NET Framework のアプリケーションの互換性</a><br><a target="_blank" rel="noopener" href="https://docs.microsoft.com/ja-jp/dotnet/framework/migration-guide/runtime/4.6.1-4.6.2">.NET Framework 4.6.1 と 4.6.1 の間の、互換性に影響するランタイムの変更点を表示した例</a><br>※ ページ上部の [バージョン下限] と [バージョン上限] を変更することで、指定したバージョン間の変更点をご確認いただけます。  </p>
-<h2 id="関連文書"><a href="#関連文書" class="headerlink" title="関連文書"></a>関連文書</h2><p><a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/dotnet/net-framework-4-5-2-4-6-4-6-1-will-reach-end-of-support-on-april-26-2022/">.NET Framework 4.5.2, 4.6, 4.6.1 will reach End of Support on April 26, 2022</a><br><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/lifecycle/faq/dotnet-framework">Lifecycle FAQ - .NET Framework</a><br><a target="_blank" rel="noopener" href="https://docs.microsoft.com/ja-jp/dotnet/framework/migration-guide/">.NET Framework 4.8、4.7、4.6、4.5 への移行</a></p>
-<p>製品のサポート終了に伴い、ご利用のお客様にはお手数をおかけすることとなり大変恐れ入りますが、.NET Framework 4.5.2、4.6、4.6.1 をご利用の場合は、お早めにバージョンアップをご検討くださますようお願いいたします。</p>
+        <p>こんにちは、Japan Developer Support Core チームです。</p>
+<p>今回は AddPrinter 関数によりプリンタを追加したときに、アクセス権の無いユーザーに対してプリンタが一時的に表示される可能性についてご案内いたします。<br>AddPrinter関数は、パラメータの1つである PRINTER_INFO2構造体のpSecurityDescripterメンバ変数に、プリンタを利用するユーザーのアクセス権を指定することができます。<br>通常、アクセス権の無いユーザーがログインしてもプリンタが表示されることはありませんが、以下の手順においてプリンタが表示されることがあります。</p>
+<p>-　再現手順<br>　1. ユーザーA、ユーザーBで、同一のリモートデスクトップサーバーにリモートデスクトップ接続します。<br>　2. ユーザーAでメモ帳などのアプリを起動し、印刷ダイアログを表示します。<br>　3. ユーザーBで AddPrinter関数によりプリンタを追加します。<br>このとき、pSecurityDescripter メンバ変数に設定するセキュリティ情報には、ユーザーAを含めず、ユーザーAがプリンタを利用できないように設定します。</p>
+<p>上記手順を実行すると、ユーザーAの印刷ダイアログに、手順3で作成されたプリンタが表示されます。<br>条件としては、手順2で事前に印刷ダイアログが表示されている必要がありますので、ユーザーAの操作と、AddPrinter関数の実行タイミングによって発生することとなります。<br>なお、プリンタが表示される現象は一時的なもので、印刷ダイアログで F5キーにより更新を行った場合や、印刷ダイアログを一度閉じた後は、プリンタは表示されなくなります。<br>また、該当のプリンタに印刷を行ったとしても、アクセスは拒否されますので印刷はされません。</p>
+<p>-　参考情報<br>AddPrinter function<br><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/windows/win32/printdocs/addprinter">https://learn.microsoft.com/en-us/windows/win32/printdocs/addprinter</a><br>SECURITY_DESCRIPTOR structure (winnt.h)<br><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/windows/win32/api/winnt/ns-winnt-security_descriptor">https://learn.microsoft.com/en-us/windows/win32/api/winnt/ns-winnt-security_descriptor</a><br/></p>
 
       
       
@@ -148,11 +126,11 @@
     <footer class="article-footer">
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/NET/" rel="tag">.NET</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/NET-Framework/" rel="tag">.NET Framework</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Documents-and-Printing/" rel="tag">Documents and Printing</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Windows-SDK/" rel="tag">Windows SDK</a></li></ul>
 
       <!-- 
       
-        <a href="https://github.com/jpdscore/blog/edit/master/articles/dotnet/ndp452-46-461-eos.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
+        <a href="https://github.com/jpdscore/blog/edit/master/articles/windowssdk/printer-temporarily-appears-when-use-addprinter-function.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
         
       -->
     </footer>
@@ -161,19 +139,10 @@
     
 <nav id="article-nav">
   
-    <a href="../../windowssdk/note-when-use-selectobject-function/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">次の記事</strong>
-      <div class="article-nav-title">
-        
-          SelectObject 関数利用時の注意事項
-        
-      </div>
-    </a>
   
-  
-    <a href="../../xamarin/create-xamarinforms-try-xamarinuitest-vs2019/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="../../playfab/order-of-leaderboard-positions/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">前の記事</strong>
-      <div class="article-nav-title">VS2019 から、Xamarin.UITest で Xamarin.Forms アプリの UI テストをしてみよう！</div>
+      <div class="article-nav-title">GetLeaderboard 系 API で取得したランキング位置の順番について</div>
     </a>
   
 </nav>
@@ -192,7 +161,7 @@
       <ul>
         
           <li>
-            <a href="../../windowssdk/printer-temporarily-appears-when-use-addprinter-function/">AddPrinter関数によりプリンタを追加したときに、アクセス権の無いユーザーに対してプリンタが一時的に表示される可能性について</a>
+            <a href="">AddPrinter関数によりプリンタを追加したときに、アクセス権の無いユーザーに対してプリンタが一時的に表示される可能性について</a>
           </li>
         
           <li>
@@ -204,7 +173,7 @@
           </li>
         
           <li>
-            <a href="../ndp-upgrade-and-downgrade/">.NET Framework 4.x のアップグレード及びダウングレード</a>
+            <a href="../../dotnet/ndp-upgrade-and-downgrade/">.NET Framework 4.x のアップグレード及びダウングレード</a>
           </li>
         
           <li>
