@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Team Foundation Server / Azure DevOps Server のトラブルシューティング用データ採取について | Japan Developer Support Core Team Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="こんにちは、Japan Developer Support Core チームです🗻いつも Team Foundation Server &#x2F; Azure DevOps Server をご利用いただき、ありがとうございます。   突然ですが、Azure DevOps にはオンプレミス版とクラウド版の 2 種類の製品があることをご存じでしょうか？・Azure DevOps Services (クラウド">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Team Foundation Server &#x2F; Azure DevOps Server のトラブルシューティング用データ採取について">
+<meta property="og:url" content="https://jpdscore.github.io/blog/azuredevops/tfs-basic-log-collection/index.html">
+<meta property="og:site_name" content="Japan Developer Support Core Team Blog">
+<meta property="og:description" content="こんにちは、Japan Developer Support Core チームです🗻いつも Team Foundation Server &#x2F; Azure DevOps Server をご利用いただき、ありがとうございます。   突然ですが、Azure DevOps にはオンプレミス版とクラウド版の 2 種類の製品があることをご存じでしょうか？・Azure DevOps Services (クラウド">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/tfs-basic-log-collection/architecture.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/tfs-basic-log-collection/architecture2.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/tfs-basic-log-collection/architecture3.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/tfs-basic-log-collection/msinfo32_1.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/tfs-basic-log-collection/msinfo32_2.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/tfs-basic-log-collection/TFS2012.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/tfs-basic-log-collection/TFS2013.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/tfs-basic-log-collection/TFS2015.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/tfs-basic-log-collection/TFS2017.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/tfs-basic-log-collection/TFS2018.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/tfs-basic-log-collection/AzureDevOpsServer2019.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/tfs-basic-log-collection/AzureDevOpsServer2020.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/tfs-basic-log-collection/CheckSQLServerVersion1.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/tfs-basic-log-collection/CheckSQLServerVersion2.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/tfs-basic-log-collection/CheckSQLServerVersion3.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/tfs-basic-log-collection/CheckSQLServerVersion4.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/tfs-basic-log-collection/eventvwr.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/tfs-basic-log-collection/EventLogApplication.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/tfs-basic-log-collection/EventLogSystem.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/tfs-basic-log-collection/EventLogTFSDebug.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/tfs-basic-log-collection/EventLogTFSExtended.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/tfs-basic-log-collection/SQLServerErrorLog1.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/tfs-basic-log-collection/SQLServerErrorLog2.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/tfs-basic-log-collection/SQLServerErrorLog3.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/tfs-basic-log-collection/architecture.png">
+<meta property="article:published_time" content="2023-03-23T15:00:00.000Z">
+<meta property="article:modified_time" content="2023-03-23T15:00:00.000Z">
+<meta property="article:author" content="Developer Support Core Japan">
+<meta property="article:tag" content="ALM">
+<meta property="article:tag" content="情報採取手順">
+<meta property="article:tag" content="TFS">
+<meta property="article:tag" content="Azure DevOps Server">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jpdscore.github.io/blog/azuredevops/tfs-basic-log-collection/architecture.png">
+  
+    <link rel="alternate" href="../../blog/atom.xml" title="Japan Developer Support Core Team Blog" type="application/atom+xml">
+  
+
+  <link rel="icon" href="../../favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
+  <link rel="manifest" href="../../site.webmanifest">
+  <link rel="mask-icon" href="../../safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="theme-color" content="#ffffff">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="../../css/style.css">
+
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="site-header-logo"></div>
+  <div id="site-header-blog-wrapper"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        <div id="ms-logo"></div>
+        
+          <a class="main-nav-link" href="../../index.html">Home</a>
+        
+          <a class="main-nav-link" href="../../archives">Archives</a>
+        
+        <a class="main-nav-link" target="_blank" rel="noopener" href="https://cssjpn.github.io/">サポート情報</a>
+        <a class="main-nav-link" href="/blog/general/welcome/">About</a>
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="../../blog/atom.xml" title="RSSフィード"></a>
+        
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//www.bing.com/search" method="get" accept-charset="UTF-8" name="bing-search" onsubmit="var f=this;if(f['q'].value){var searchUrl =  'https://www.bing.com/search?q=' +  encodeURIComponent(f['q'].value + ' site:' + f['sitesearch'].value) ;window.open(searchUrl, 'blank') };return false;" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="検索"><button type="submit" id="nav-search-btn" class="search-form-submit"></button><input type="hidden" name="sitesearch" value="https://jpdscore.github.io/blog"></form>
+      </div>
+    </div>
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="../../index.html" id="logo">Japan Developer Support Core Team Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="../../index.html" id="subtitle">日本マイクロソフトの Japan Developer Support Core チームのブログです。</a>
+        </h2>
+      
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-azuredevops/tfs-basic-log-collection" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header-single">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Team Foundation Server / Azure DevOps Server のトラブルシューティング用データ採取について
+    </h1>
+  
+
+      </header>
+      <div class="article-share">
+        Last Update: 
+        <a href="" class="article-date-single">
+  <time datetime="2023-03-23T15:00:00.000Z" itemprop="datePublished">2023-03-24</time>
+</a>
+        
+        
+        <a href="https://github.com/jpdscore/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+a17b4350-31c1-5bbc-afac-1b5848e1a7c1%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5BTeam+Foundation+Server+%2F+Azure+DevOps+Server+%E3%81%AE%E3%83%88%E3%83%A9%E3%83%96%E3%83%AB%E3%82%B7%E3%83%A5%E3%83%BC%E3%83%86%E3%82%A3%E3%83%B3%E3%82%B0%E7%94%A8%E3%83%87%E3%83%BC%E3%82%BF%E6%8E%A1%E5%8F%96%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6%5D%28https%3A%2F%2Fjpdscore.github.io%2Fblog%2Fazuredevops%2Ftfs-basic-log-collection%2F%29" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
+        
+        <a data-url="https://jpdscore.github.io/blog/azuredevops/tfs-basic-log-collection/" data-id="clflvw34j000amonf0zhre48r" class="article-share-link">共有</a>
+      </div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>こんにちは、Japan Developer Support Core チームです🗻<br>いつも Team Foundation Server / Azure DevOps Server をご利用いただき、ありがとうございます。  </p>
+<p>突然ですが、Azure DevOps にはオンプレミス版とクラウド版の 2 種類の製品があることをご存じでしょうか？<br>・Azure DevOps Services (クラウド版)<br>・Azure DevOps Server または Team Foundation Server (オンプレミス版)</p>
+<p>今回の記事ではオンプレミス版である<span style="background-color:yellow"> Team Foundation Server / Azure DevOps Server 全般で生じた問題</span>におけるトラブルシューティング用のデータ採取方法についてご紹介していきます。</p>
+<p>もし現在クラウド版をご利用の方は、別途トラブルシューティング用の記事がございますので、以下の記事をご参照ください↓<br><a href="https://jpdscore.github.io/blog/azuredevops/devops-log-collection/">Azure DevOps Services トラブルシューティング用のデータ採取について | Japan Developer Support Core Team Blog</a><br><a href="https://jpdscore.github.io/blog/azuredevops/pipelines-log-collection/">Azure Pipelines のトラブルシューティング用データ採取について | Japan Developer Support Core Team Blog</a></p>
+<p>ここで、少しだけオンプレミス版の製品の歴史についてご紹介します。</p>
+<p>最初に登場した製品は 2006 年 6 月 17 日にリリースされた「Team Foundation Server 2005」で、Visaul Studio 2005 Team System (VSTS) と連携するサーバー機能としてリリースしたこともあり、正式名称は “Visual Studio Team Foundation Server 2005” でした。<br>頭の “Visual Studio” が無くなったのは、次のリリースである Team Foundation Server 2008 からです。<br>そして、Team Foundation Server の後継製品として 2019 年に「Azure DevOps Server」という名称でリブランドされました。</p>
+<p>現在 (2022 年 06 月 時点) までにリリースされている Team Foundation Server および Azure DevOps Server のバージョンとサポート終了日は以下のとおりです。</p>
+<table>
+<thead>
+<tr>
+<th>製品バージョン</th>
+<th>サポート終了日</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Team Foundation Server 2005</td>
+<td>2016 年 07 月 12 日にサポート終了</td>
+</tr>
+<tr>
+<td>Team Foundation Server 2008</td>
+<td>2018 年 04 月 10 日にサポート終了</td>
+</tr>
+<tr>
+<td>Team Foundation Server 2010</td>
+<td>2020 年 07 月 14 日にサポート終了</td>
+</tr>
+<tr>
+<td>Team Foundation Server 2012</td>
+<td>2023 年 01 月 10 日にサポート終了</td>
+</tr>
+<tr>
+<td>Team Foundation Server 2013</td>
+<td>2024 年 04 月 09 日にサポート終了</td>
+</tr>
+<tr>
+<td>Team Foundation Server 2015</td>
+<td>2025 年 10 月 14 日にサポート終了</td>
+</tr>
+<tr>
+<td>Team Foundation Server 2018</td>
+<td>2028 年 01 月 11 日にサポート終了</td>
+</tr>
+<tr>
+<td>Azure DevOps Server 2019</td>
+<td>2029 年 04 月 10 日にサポート終了</td>
+</tr>
+<tr>
+<td>Azure DevOps Server 2020</td>
+<td>2030 年 10 月 08 日にサポート終了</td>
+</tr>
+</tbody></table>
+<p>なお、Team Foundation Server / Azure DevOps Server ではオンプレミス製品ということもあり、下図のとおり様々なテクノロジーが使用されております。<br><img src="architecture.png"><br><img src="architecture2.png"><br><img src="architecture3.png"></p>
+<p>※参考<br><a target="_blank" rel="noopener" href="https://docs.microsoft.com/ja-jp/previous-versions/ms252473%28v=vs.120%29?redirectedfrom=MSDN#%E3%83%AD%E3%83%BC%E3%82%AB%E3%83%AB%E9%85%8D%E7%BD%AE%E7%94%A8%E3%81%AE-web-%E3%82%B5%E3%83%BC%E3%83%93%E3%82%B9%E3%81%A8%E3%83%87%E3%83%BC%E3%82%BF%E3%83%99%E3%83%BC%E3%82%B9">Team Foundation Server のアーキテクチャ | Microsoft Docs</a><br><a target="_blank" rel="noopener" href="https://docs.microsoft.com/ja-jp/azure/devops/server/architecture/architecture?view=azure-devops-2020#web-services-and-databases-for-local-deployments">アーキテクチャ - Azure DevOps | Microsoft Docs</a></p>
+<p>様々なテクノロジーが使用されているということは、もし何か問題に遭遇した場合は、どのテクノロジー部分で問題が生じているか正確に問題を切り分けることが問題の解決に向けて非常に重要な作業となります。</p>
+<p>正確な状況把握と共に、弊社サポート サービスとお客様との間で認識合わせを行うためにも必要な各種情報の採取手順について、以下に具体的にご説明します。</p>
+<p>また、本記事でご紹介する情報採取につきましては、必ずしもすべての情報が必要ではございません。<br>採取する情報量も多く、情報採取自体が難しいご状況もあるかと思いますので、まずはお客様がわかる範囲で情報採取いただき、あとは必要に応じてエンジニアがヒアリングいたします。</p>
+<h2 id="各種情報"><a href="#各種情報" class="headerlink" title="各種情報"></a>各種情報</h2><p><strong><a href="#1-%E7%92%B0%E5%A2%83%E6%83%85%E5%A0%B1%E3%82%92%E6%8E%A1%E5%8F%96%E3%81%99%E3%82%8B">1. 環境情報を採取する</a></strong><br><strong><a href="#2-%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%83%AD%E3%82%B0%E3%82%92%E6%8E%A1%E5%8F%96%E3%81%99%E3%82%8B">2. イベントログを採取する</a></strong><br><strong><a href="#3-SQL-Server-%E3%82%A8%E3%83%A9%E3%83%BC%E3%83%AD%E3%82%B0%E3%82%92%E6%8E%A1%E5%8F%96%E3%81%99%E3%82%8B">3. SQL Server エラーログを採取する</a></strong><br><strong><a href="#4-%E6%A7%8B%E6%88%90%E3%83%AD%E3%82%B0%E3%82%92%E6%8E%A1%E5%8F%96%E3%81%99%E3%82%8B">4. 構成ログを採取する</a></strong><br><strong><a href="#5-IIS-%E3%83%AD%E3%82%B0%E3%82%92%E6%8E%A1%E5%8F%96%E3%81%99%E3%82%8B">5. IIS ログを採取する</a></strong>  </p>
+<hr>
+<h2 id="1-環境情報を採取する"><a href="#1-環境情報を採取する" class="headerlink" title="1. 環境情報を採取する"></a>1. 環境情報を採取する</h2><hr>
+<h3 id="1-1-Team-Foundation-Server-Azure-DevOps-Server-を構成しているサーバー間の関係性やネットワークが分かる構成図をご提供ください"><a href="#1-1-Team-Foundation-Server-Azure-DevOps-Server-を構成しているサーバー間の関係性やネットワークが分かる構成図をご提供ください" class="headerlink" title="1-1. Team Foundation Server / Azure DevOps Server を構成しているサーバー間の関係性やネットワークが分かる構成図をご提供ください"></a>1-1. Team Foundation Server / Azure DevOps Server を構成しているサーバー間の関係性やネットワークが分かる構成図をご提供ください</h3><p>前提として Team Foundation Server / Azure DevOps Server は主に以下の 3 つの層で構成されております。<br>・アプリケーション層<br>・データ層<br>・クライアント層</p>
+<p>これらを 1 台のサーバー上に構成することもできますが、各層ごとにサーバーを分けて構成することが可能です。</p>
+<p>Team Foundation Server / Azure DevOps Server ではデータ層として Microsoft SQL Server を利用しておりますが、たとえばこのデータ層は必ずしもアプリケーション層と同じサーバーに構成する必要はなく、別のサーバーをデータ層として構成するシナリオが多くあります。</p>
+<p>※参考<br><a target="_blank" rel="noopener" href="https://docs.microsoft.com/ja-jp/azure/devops/server/install/dual-server?view=tfs-2018">デュアル サーバー構成を設定する - Azure DevOps | Microsoft Docs</a></p>
+<p>また、利用者が数千～数万に増えた場合を考慮して、多数のサーバーにアプリケーション層をインストールすることで、AlwaysOn 可用性グループにて高可用性を確保することも可能です。</p>
+<p>※参考<br><a target="_blank" rel="noopener" href="https://docs.microsoft.com/ja-jp/azure/devops/server/install/multiple-server?view=tfs-2018">複数のサーバーに&amp;構成をインストールする - Azure DevOps | Microsoft Docs</a></p>
+<p>そして、これらの層をホストするマシンは、物理サーバーであるか、仮想サーバーであるか、などの情報も、調査に必要となる場合があります。</p>
+<p>また、ビルドサーバーが別のサーバーに構成されている場合も考えられますので、このようなサーバー間の構成が分かる図などをご提供いただけますと調査の助けとなります。</p>
+<h3 id="1-2-各サーバーのシステム情報をご提供ください"><a href="#1-2-各サーバーのシステム情報をご提供ください" class="headerlink" title="1-2. 各サーバーのシステム情報をご提供ください"></a>1-2. 各サーバーのシステム情報をご提供ください</h3><p>コマンド プロンプトから以下のコマンドを実行し、Team Foundation Server / Azure DevOps Server が構成された各サーバーのシステム情報をご提供ください。<br>複数のサーバーにて構成されている場合は、どのサーバーによるシステム情報であるか分かる形でファイル名をリネームください。</p>
+<ol>
+<li><p>コマンド プロンプトから以下のコマンドを実行します</p>
+<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">msinfo32 /nfo <span class="variable">%UserProfile%</span>\desktop\msinfo32.nfo</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>コマンド実行時は、下図のようなポップアップ画面が表示されるので完了するまで待ちます<br><img src="msinfo32_1.png"></p>
+</li>
+<li><p>完了後、現在ログインしているユーザーのデスクトップ配下に “msinfo32.nfo” という名称のファイルが保存されますので、こちらのファイルをご提供ください<br><img src="msinfo32_2.png"></p>
+</li>
+</ol>
+<h3 id="1-3-ドメインの構成についての情報をご提供ください"><a href="#1-3-ドメインの構成についての情報をご提供ください" class="headerlink" title="1-3. ドメインの構成についての情報をご提供ください"></a>1-3. ドメインの構成についての情報をご提供ください</h3><p>WORKGROUP 環境に構成された場合はこちらの情報は不要です。</p>
+<p>ドメイン環境を構成されている場合、ドメインの信頼関係に問題が生じた際の問題として、ユーザーを認識できない、認証できないなどといった問題が生じる場合がございます。</p>
+<p>これらの関係性を正確に把握するためにも、ドメイン間の構成について分かるような構成図をご提供いただけますと調査の助けとなります。</p>
+<p>※参考<br><a target="_blank" rel="noopener" href="https://docs.microsoft.com/ja-jp/previous-versions/ms253081%28v=vs.110%29">Team Foundation Server の信頼とフォレストに関する考慮事項 | Microsoft Docs</a></p>
+<h3 id="1-4-管理コンソールのスクリーン-ショットをご提供ください"><a href="#1-4-管理コンソールのスクリーン-ショットをご提供ください" class="headerlink" title="1-4. 管理コンソールのスクリーン ショットをご提供ください"></a>1-4. 管理コンソールのスクリーン ショットをご提供ください</h3><p>スタートメニューより Team Foundation Server / Azure DevOps Server の管理コンソールを起動し、[アプリケーション層] を選択した際の画面のスクリーン ショットをご提供ください。<br>”アプリケーション層” は一画面に入りきらないため、お手数ですがスクロールいただき数枚に分けてスクリーン ショットを採取いただきますようお願い申し上げます。</p>
+<p>もし他の機能 (たとえばレポートやプロキシ サーバー) についても構成されているようであれば、管理コンソールから確認できる以下の項目についても画面のスクリーン ショットをご提供ください。<br>バージョンごとにご利用できる機能等が変わることによって、管理コンソールに表示されるメニューも変化いたしますため、違いが分かるようバージョンごとの管理コンソール画面のスクリーン ショットについて以下に述べます。</p>
+<p>&lt;Team Foundation Server 2012&gt;<br><img src="TFS2012.png"></p>
+<p>&lt;Team Foundation Server 2013&gt;<br><img src="TFS2013.png"></p>
+<p>&lt;Team Foundation Server 2015&gt;<br><img src="TFS2015.png"></p>
+<p>&lt;Team Foundation Server 2017&gt;<br><img src="TFS2017.png"></p>
+<p>&lt;Team Foundation Server 2018&gt;<br><img src="TFS2018.png"></p>
+<p>&lt;Azure DevOps Server 2019&gt;<br><img src="AzureDevOpsServer2019.png"></p>
+<p>&lt;Azure DevOps Server 2020&gt;<br><img src="AzureDevOpsServer2020.png"></p>
+<p><b>1-4. SQL Server のバージョン情報をご提供ください</b></p>
+<ol>
+<li><p>スタート メニュー -&gt; [Microsoft SQL Server <version>] -&gt; [SQL Server <version> インストール センター] を起動します<br><img src="CheckSQLServerVersion1.png"></p>
+</li>
+<li><p>SQL Server インストールセンター画面の [ツール] -&gt; [インストール済み SQL Server 機能の検出レポート] を選択します<br><img src="CheckSQLServerVersion2.png"></p>
+</li>
+<li><p>各サービスのバージョン情報の詳細情報がブラウザに表示されます<br><img src="CheckSQLServerVersion3.png"></p>
+</li>
+<li><p>Ctrl キー + S キーを同時押し -&gt; Web ページを「Web アーカイブ、単一のファイル (*.mhtml)」形式で保存し、ご提供ください<br><img src="CheckSQLServerVersion4.png"></p>
+</li>
+</ol>
+<hr>
+<h2 id="2-イベントログを採取する"><a href="#2-イベントログを採取する" class="headerlink" title="2. イベントログを採取する"></a>2. イベントログを採取する</h2><hr>
+<p>以下の手順に沿って、サーバー上のイベントログを採取およびご提供ください。</p>
+<ol>
+<li><p>Windows キー + R キーを同時押しします</p>
+</li>
+<li><p>“eventvwr” と入力しイベント ビューアを起動します<br><img src="eventvwr.png"></p>
+</li>
+<li><p>保存対象のイベントログ (4 種類) を右クリックし、”イベントに名前を付けて保存” を選択し、 テキスト(タブ区切り)(*.txt) 形式で任意のファイル名を指定し保存します</p>
+</li>
+</ol>
+<p>アプリケーション : [Windows ログ] -&gt; [Application]<br><img src="EventLogApplication.png"></p>
+<p>システム : [Windows ログ] -&gt; [システム]<br><img src="EventLogSystem.png"></p>
+<p>TFS - Debug : [アプリケーションとサービス ログ] -&gt; [Microsoft-Team Foundation Server] -&gt; [Debug]<br><img src="EventLogTFSDebug.png"></p>
+<p>TFS - Extended : [アプリケーションとサービス ログ] -&gt; [Microsoft-Team Foundation Server] -&gt; [Extended]<br><img src="EventLogTFSExtended.png"></p>
+<ol start="4">
+<li>上記の手順で採取したイベントログをご提供ください</li>
+</ol>
+<hr>
+<h2 id="3-SQL-Server-エラーログを採取する"><a href="#3-SQL-Server-エラーログを採取する" class="headerlink" title="3. SQL Server エラーログを採取する"></a>3. SQL Server エラーログを採取する</h2><hr>
+<p>以下の手順に沿って、データ層である SQL Server の Log フォルダを採取およびご提供ください。</p>
+<ol>
+<li><p>スタート メニュー -&gt;  [SQL Server <version> 構成マネージャー] を選択します<br><img src="SQLServerErrorLog1.png"></p>
+</li>
+<li><p>[SQL Server のサービス” -&gt; [SQL Server(&lt;該当のインスタンス名&gt;)] -&gt; 右クリック -&gt; [プロパティ] を選択します<br><img src="SQLServerErrorLog2.png"></p>
+</li>
+<li><p>“起動時のパラメータ” タブ - “-e” から始まるパラメータの文字列を確認します<br><img src="SQLServerErrorLog3.png"></p>
+</li>
+</ol>
+<p>　[例]<br>　<code>; -eC:\Program Files\Microsoft SQL Server\MSSQL13.MSSQLSERVER\MSSQL\Log\ERRORLOG</code></p>
+<ol start="4">
+<li>手順 3 で確認したディレクトリ パスへ移動し、”Log” フォルダ直下全てのファイルを採取し、ご提供ください</li>
+</ol>
+<h3 id="補足"><a href="#補足" class="headerlink" title="補足"></a>補足</h3><p>SQL Server エラーログとイベントログの採取方法につきましては、以下のブログでも図入りで紹介しております。<br>より詳細な内容は以下のブログでご紹介しておりますので、こちらも併せてご覧いただけますと幸いです。</p>
+<p>※参考<br>[SQL Troubleshooting] 第1回 : Tips - SQL Server エラーログとイベント ログを採取する (SQL 2000 ～ 2014) Ver 2.0<br><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/archive/blogs/jpsql/sql-troubleshooting-1-tips-sql-server-s">https://docs.microsoft.com/en-us/archive/blogs/jpsql/sql-troubleshooting-1-tips-sql-server-s</a></p>
+<hr>
+<h2 id="4-構成ログを採取する"><a href="#4-構成ログを採取する" class="headerlink" title="4. 構成ログを採取する"></a>4. 構成ログを採取する</h2><hr>
+<p>以下のディレクトリにアクセスし Team Foundation Server / Azure DevOps Server 構成時のログをご提供ください。</p>
+<h3 id="Team-Foundatin-Server-の場合"><a href="#Team-Foundatin-Server-の場合" class="headerlink" title="Team Foundatin Server の場合"></a>Team Foundatin Server の場合</h3><p>　<code>%ProgramData%\Microsoft\Team Foundation\Server Configuration\Logs</code></p>
+<h3 id="Azure-DevOps-Server-の場合"><a href="#Azure-DevOps-Server-の場合" class="headerlink" title="Azure DevOps Server の場合"></a>Azure DevOps Server の場合</h3><p>　<code>%ProgramData%\Microsoft\Azure DevOps\Server Configuration\Logs</code></p>
+<hr>
+<h2 id="5-IIS-ログを採取する"><a href="#5-IIS-ログを採取する" class="headerlink" title="5. IIS ログを採取する"></a>5. IIS ログを採取する</h2><hr>
+<p>以下のアーキテクチャ図でも分かるとおり Team Foundation Server / Azure DevOps Server は インターネット インフォメーション サービス (以下 IIS) 上に管理ツールや Web サービスが配置されております。<br><img src="architecture.png"></p>
+<p>Web ポータルから何かの操作を行った際は、HTTP(S) リクエストが実行されることとなり、これらのログが IIS 上に残されることとなります。<br>そのため、Web ポータルにサインインしようとしたが、通信に失敗する、認証に失敗する、といったエラーが生じている場合は、IIS に残されたログが調査に役立つこととなります。</p>
+<h3 id="5-1-基本的なログ採取"><a href="#5-1-基本的なログ採取" class="headerlink" title="5-1. 基本的なログ採取"></a>5-1. 基本的なログ採取</h3><p>IIS 側で必要な基本的なログにつきましては、以下のブログにてご案内がございますのでこちらをご参照ください。</p>
+<p><a target="_blank" rel="noopener" href="https://jpdsi.github.io/blog/web-apps/LogCollection1/">IIS の調査に必要な基本的なログ情報について | Japan Developer Support Internet Team Blog</a><br>上記のブログをご確認いただき、以下のログを採取およびご提供ください。<br>・Windows の System／Application／Security イベント ログ (.evtx の形式でご提供ください)<br>・IIS ログ (原則、フォルダに存在するログ全てをご提供ください)<br>・IIS の構成ファイル<br>・HTTPERR ログ</p>
+<h3 id="5-2-通信に関するログ採取"><a href="#5-2-通信に関するログ採取" class="headerlink" title="5-2. 通信に関するログ採取"></a>5-2. 通信に関するログ採取</h3><p>IIS の通信に関して、たとえばクライアントとサーバー間の通信が疑わしいような場合、以下のブログにてご案内しておりますログを採取およびご提供ください。</p>
+<p><a target="_blank" rel="noopener" href="https://jpdsi.github.io/blog/web-apps/LogCollection2/">IIS の調査に必要な通信系のログ情報について | Japan Developer Support Internet Team Blog</a></p>
+<hr>
+<h2 id="最後に"><a href="#最後に" class="headerlink" title="最後に"></a>最後に</h2><hr>
+<p>今回は、Team Foundation Server / Azure DevOps Server で発生したトラブルをスムーズに解決するために、必要な各種情報の採取手順についてご紹介しました。<br>今後も Team Foundation Server / Azure DevOps Server のご利用にお役立ていただける情報を、どんどんご紹介していきたいと思いますので、どうぞよろしくお願いします！</p>
+
+      
+      
+        <div class="article-disclaimer">
+        
+          <p><hr>本ブログの内容は弊社の公式見解として保証されるものではなく、開発・運用時の参考情報としてご活用いただくことを目的としています。もし公式な見解が必要な場合は、弊社ドキュメント (<a target="_blank" rel="noopener" href="https://docs.microsoft.com/">https://docs.microsoft.com</a> や <a target="_blank" rel="noopener" href="https://support.microsoft.com">https://support.microsoft.com</a>) をご参照いただくか、もしくは私共サポートまでお問い合わせください。</p>
+        
+        </div>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/ALM/" rel="tag">ALM</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Azure-DevOps-Server/" rel="tag">Azure DevOps Server</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/TFS/" rel="tag">TFS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/" rel="tag">情報採取手順</a></li></ul>
+
+      <!-- 
+      
+        <a href="https://github.com/jpdscore/blog/edit/master/articles/azuredevops/tfs-basic-log-collection.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
+        
+      -->
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="../../windowssdk/printer-temporarily-appears-when-use-addprinter-function/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前の記事</strong>
+      <div class="article-nav-title">AddPrinter関数によりプリンタを追加したときに、アクセス権の無いユーザーに対してプリンタが一時的に表示される可能性について</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最近の投稿</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="">Team Foundation Server / Azure DevOps Server のトラブルシューティング用データ採取について</a>
+          </li>
+        
+          <li>
+            <a href="../../windowssdk/printer-temporarily-appears-when-use-addprinter-function/">AddPrinter関数によりプリンタを追加したときに、アクセス権の無いユーザーに対してプリンタが一時的に表示される可能性について</a>
+          </li>
+        
+          <li>
+            <a href="../../playfab/order-of-leaderboard-positions/">GetLeaderboard 系 API で取得したランキング位置の順番について</a>
+          </li>
+        
+          <li>
+            <a href="../migrate-sp-to-mi/">Service connection で利用中の Service principal を Managed identity に移行する手順</a>
+          </li>
+        
+          <li>
+            <a href="../../dotnet/ndp-upgrade-and-downgrade/">.NET Framework 4.x のアップグレード及びダウングレード</a>
+          </li>
+        
+          <li>
+            <a href="../../playfab/grantitemstouser-timeout/">Grant Items To User のタイムアウトについて</a>
+          </li>
+        
+          <li>
+            <a href="../DevOpsPricing/">Azure DevOps Services の料金体系をおさらいしてみよう！</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">タグ</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="../../tags/ALM/">ALM</a><span class="tag-list-count">11</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-DevOps-Server">Azure DevOps Server</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-DevOps-Services">Azure DevOps Services</a><span class="tag-list-count">4</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-Pipelines">Azure Pipelines</a><span class="tag-list-count">6</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-Repos">Azure Repos</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Devcontainer">Devcontainer</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/GitHub">GitHub</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/TFS">TFS</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Visual-Studio-Code">Visual Studio Code</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86">情報採取手順</a><span class="tag-list-count">3</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/">情報採取手順</a><span class="tag-list-count">4</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/ALM">ALM</a><span class="tag-list-count">3</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/Azure-DevOps-Server">Azure DevOps Server</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/Azure-DevOps-Services">Azure DevOps Services</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/Azure-Pipelines">Azure Pipelines</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/TFS">TFS</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Windows-SDK/">Windows SDK</a><span class="tag-list-count">7</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Debug">Debug</a><span class="tag-list-count">5</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Documents-and-Printing">Documents and Printing</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/GDI">GDI</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Leak">Leak</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Debug/">Debug</a><span class="tag-list-count">12</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/NET">.NET</a><span class="tag-list-count">3</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Leak">Leak</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Memory">Memory</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Windows-SDK">Windows SDK</a><span class="tag-list-count">5</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Deployment/">Deployment</a><span class="tag-list-count">2</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Deployment/ClickOnce">ClickOnce</a><span class="tag-list-count">2</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/NET/">.NET</a><span class="tag-list-count">7</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/NET-Framework">.NET Framework</a><span class="tag-list-count">4</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/Debug">Debug</a><span class="tag-list-count">3</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E5%85%A8%E8%88%AC/">全般</a><span class="tag-list-count">1</span><ul></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Azure-PlayFab/">Azure PlayFab</a><span class="tag-list-count">2</span><ul></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Visual-Studio/">Visual Studio</a><span class="tag-list-count">5</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/C">C#</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/C">C++</a><span class="tag-list-count">3</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/VB-NET">VB.NET</a><span class="tag-list-count">2</span></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">アーカイブ</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/03/">2023 / 03</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/02/">2023 / 02</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/12/">2022 / 12</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/11/">2022 / 11</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/07/">2022 / 07</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/06/">2022 / 06</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/04/">2022 / 04</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/03/">2022 / 03</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/01/">2022 / 01</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/12/">2021 / 12</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/08/">2021 / 08</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/05/">2021 / 05</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/04/">2021 / 04</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/02/">2021 / 02</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/01/">2021 / 01</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/12/">2020 / 12</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/11/">2020 / 11</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/10/">2020 / 10</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/09/">2020 / 09</a><span class="archive-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">旧ブログ/フォーラム</h3>
+  <div class="widget">
+    <ul>
+      
+        <li>
+          <a href="../../https:/social.msdn.microsoft.com/Forums/ja-jp/home?forum=visualstudiosupportteamja">Visual Studio サポートチーム フォーラム</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/social.msdn.microsoft.com/Forums/ja-jp/home?forum=windowssdksupportteamja&filter=alltypes&sort=lastpostdesc">Windows SDK サポートチーム フォーラム</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/docs.microsoft.com/en-us/archive/blogs/jpvsblog/">Visual Studio サポート チーム blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/docs.microsoft.com/en-us/archive/blogs/japan_platform_sdkwindows_sdk_support_team_blog/">JAPAN Platform SDK（Windows SDK） Support Team Blog</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">関連リンク</h3>
+  <div class="widget">
+    <ul>
+      
+        <li>
+          <a href="../../https:/developercommunity.visualstudio.com/">Developer Community</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/devblogs.microsoft.com/dotnet/">.NET Blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/devblogs.microsoft.com/visualstudio/">Visual Studio Blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/devblogs.microsoft.com/cppblog/">C++ Team Blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/devblogs.microsoft.com/xamarin/">Xamarin Blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/devblogs.microsoft.com/devops/">Azure DevOps Blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/techcommunity.microsoft.com/t5/azure-lab-services/bg-p/AzureLabServicesBlog/">Azure Lab Services Blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/devblogs.microsoft.com/appcenter/">App Center Blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/status.azure.com/status/">Azure Status</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/status.dev.azure.com/">Azure DevOps - Status</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2023 Developer Support Core Japan<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="../../index.html" class="mobile-nav-link">Home</a>
+  
+    <a href="../../archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+<script src="../../js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

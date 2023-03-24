@@ -3,6 +3,34 @@
 
 
     <url>
+        <loc>https://jpdscore.github.io/blog/tags/Azure-DevOps-Server/</loc>
+        <lastmod>2023-03-23T15:00:00.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://jpdscore.github.io/blog/tags/TFS/</loc>
+        <lastmod>2023-03-23T15:00:00.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://jpdscore.github.io/blog/tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/</loc>
+        <lastmod>2023-03-23T15:00:00.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://jpdscore.github.io/blog/tags/ALM/</loc>
+        <lastmod>2023-03-23T15:00:00.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
         <loc>https://jpdscore.github.io/blog/tags/Documents-and-Printing/</loc>
         <lastmod>2023-02-26T15:00:00.000Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -38,13 +66,6 @@
     </url>
 
     <url>
-        <loc>https://jpdscore.github.io/blog/tags/ALM/</loc>
-        <lastmod>2022-12-11T15:00:00.000Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>https://jpdscore.github.io/blog/tags/NET-Framework/</loc>
         <lastmod>2022-11-02T09:00:00.000Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -61,13 +82,6 @@
     <url>
         <loc>https://jpdscore.github.io/blog/tags/Visual-Studio/</loc>
         <lastmod>2022-04-27T15:00:00.000Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://jpdscore.github.io/blog/tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/</loc>
-        <lastmod>2022-04-26T15:00:00.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
