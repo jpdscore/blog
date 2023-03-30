@@ -47,6 +47,32 @@
   </entry>
   
   <entry>
+    <title>Azure DevOps Services へサインインしたときに発生する 401 / 403 エラーのトラブルシューティング ガイド</title>
+    <link href="https://jpdscore.github.io/blog/azuredevops/signin-401-403-tsg/"/>
+    <id>https://jpdscore.github.io/blog/azuredevops/signin-401-403-tsg/</id>
+    <published>2023-03-21T15:00:00.000Z</published>
+    <updated>2023-03-21T15:00:00.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;こんにちは、Japan Developer Support Core チームです🐈&lt;/p&gt;
+&lt;p&gt;今回は Azure DevOps でよくお問い合わせいただくサインインのトラブルシューティング</summary>
+        
+      
+    
+    
+    
+    
+    <category term="ALM" scheme="https://jpdscore.github.io/blog/tags/ALM/"/>
+    
+    <category term="情報採取手順" scheme="https://jpdscore.github.io/blog/tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/"/>
+    
+  </entry>
+  
+  <entry>
     <title>AddPrinter関数によりプリンタを追加したときに、アクセス権の無いユーザーに対してプリンタが一時的に表示される可能性について</title>
     <link href="https://jpdscore.github.io/blog/windowssdk/printer-temporarily-appears-when-use-addprinter-function/"/>
     <id>https://jpdscore.github.io/blog/windowssdk/printer-temporarily-appears-when-use-addprinter-function/</id>
@@ -504,32 +530,6 @@
     <category term=".NET" scheme="https://jpdscore.github.io/blog/tags/NET/"/>
     
     <category term=".NET Framework" scheme="https://jpdscore.github.io/blog/tags/NET-Framework/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>VS2019 から、Xamarin.UITest で Xamarin.Forms アプリの UI テストをしてみよう！</title>
-    <link href="https://jpdscore.github.io/blog/xamarin/create-xamarinforms-try-xamarinuitest-vs2019/"/>
-    <id>https://jpdscore.github.io/blog/xamarin/create-xamarinforms-try-xamarinuitest-vs2019/</id>
-    <published>2021-04-13T00:00:00.000Z</published>
-    <updated>2021-04-13T00:00:00.000Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;こんにちは、Japan Developer Support Core チームです。  &lt;/p&gt;
-&lt;p&gt;Xamarin.Forms アプリの User Interface (UI) テストを可能にするフレームワーク、Xamairn.UITest を皆様ご存じでしょうか？ </summary>
-        
-      
-    
-    
-    
-    
-    <category term="Xamarin" scheme="https://jpdscore.github.io/blog/tags/Xamarin/"/>
-    
-    <category term="UITest" scheme="https://jpdscore.github.io/blog/tags/UITest/"/>
     
   </entry>
   
