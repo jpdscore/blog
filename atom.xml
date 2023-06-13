@@ -6,7 +6,7 @@
   <link href="https://jpdscore.github.io/blog/atom.xml" rel="self"/>
   
   <link href="https://jpdscore.github.io/blog/"/>
-  <updated>2023-03-23T15:00:00.000Z</updated>
+  <updated>2023-06-06T05:07:09.000Z</updated>
   <id>https://jpdscore.github.io/blog/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>自動シャットダウンを設定する際に必要な最小権限について</title>
+    <link href="https://jpdscore.github.io/blog/devtestlabs/auto-shutdown-permission/"/>
+    <id>https://jpdscore.github.io/blog/devtestlabs/auto-shutdown-permission/</id>
+    <published>2023-06-06T05:07:09.000Z</published>
+    <updated>2023-06-06T05:07:09.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;こんにちは、Japan Developer Support Core チームです🗻&lt;br&gt;サポートにはよく「Azure VM の自動シャットダウンを設定する際に必要な最小権限」についてお問合せがあります。&lt;br&gt;最初に結論を書きますが、残念ながら&lt;span</summary>
+        
+      
+    
+    
+    
+    
+    <category term="Azure DevTest Labs" scheme="https://jpdscore.github.io/blog/tags/Azure-DevTest-Labs/"/>
+    
+  </entry>
   
   <entry>
     <title>Team Foundation Server / Azure DevOps Server のトラブルシューティング用データ採取について</title>
@@ -505,31 +528,6 @@
     <category term="Windows SDK" scheme="https://jpdscore.github.io/blog/tags/Windows-SDK/"/>
     
     <category term="GDI" scheme="https://jpdscore.github.io/blog/tags/GDI/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>.NET Framework 4.5.2、4.6、4.6.1 のサポート終了予定について</title>
-    <link href="https://jpdscore.github.io/blog/dotnet/ndp452-46-461-eos/"/>
-    <id>https://jpdscore.github.io/blog/dotnet/ndp452-46-461-eos/</id>
-    <published>2021-04-27T23:04:10.000Z</published>
-    <updated>2021-04-27T23:04:10.000Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;こんにちは、Japan Developer Support Core チームです。&lt;br&gt;2022 年 4 月 26 日をもって .NET Framework 4.5.2、4.6、4.6.1 のサポートが終了することとなり、これ以降は、これらのバージョンの .NET</summary>
-        
-      
-    
-    
-    
-    
-    <category term=".NET" scheme="https://jpdscore.github.io/blog/tags/NET/"/>
-    
-    <category term=".NET Framework" scheme="https://jpdscore.github.io/blog/tags/NET-Framework/"/>
     
   </entry>
   

@@ -9,6 +9,14 @@
 
 
     <url>
+        <loc>https://jpdscore.github.io/blog/devtestlabs/auto-shutdown-permission/</loc>
+        <lastmod>2023-06-06T05:07:09.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://jpdscore.github.io/blog/azuredevops/tfs-basic-log-collection/</loc>
         <lastmod>2023-03-23T15:00:00.000Z</lastmod>
         <changefreq>weekly</changefreq>
