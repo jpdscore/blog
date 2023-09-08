@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>WUA API で WSUS から取得した更新プログラムを任意のタイミングで適用する | Japan Developer Support Core Team Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="こんにちは、Japan Developer Support Core チームの近澤です。 WSUS から Windows Update を配信する構成は、Windows Update Agent (WUA) API を使用してスクリプトから実行することが可能です。これにより、配信する更新プログラムの検索、選定、ダウンロード、インストールを自動化することができます。 Windows Update エ">
+<meta property="og:type" content="article">
+<meta property="og:title" content="WUA API で WSUS から取得した更新プログラムを任意のタイミングで適用する">
+<meta property="og:url" content="https://jpdscore.github.io/blog/windowssdk/wuaapi-install-later/index.html">
+<meta property="og:site_name" content="Japan Developer Support Core Team Blog">
+<meta property="og:description" content="こんにちは、Japan Developer Support Core チームの近澤です。 WSUS から Windows Update を配信する構成は、Windows Update Agent (WUA) API を使用してスクリプトから実行することが可能です。これにより、配信する更新プログラムの検索、選定、ダウンロード、インストールを自動化することができます。 Windows Update エ">
+<meta property="og:locale" content="ja_JP">
+<meta property="article:published_time" content="2023-09-07T15:00:00.000Z">
+<meta property="article:modified_time" content="2023-09-07T15:00:00.000Z">
+<meta property="article:author" content="Developer Support Core Japan">
+<meta property="article:tag" content="Windows SDK">
+<meta property="article:tag" content="Windows Update Agent API">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="../../blog/atom.xml" title="Japan Developer Support Core Team Blog" type="application/atom+xml">
+  
+
+  <link rel="icon" href="../../favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
+  <link rel="manifest" href="../../site.webmanifest">
+  <link rel="mask-icon" href="../../safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="theme-color" content="#ffffff">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="../../css/style.css">
+
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="site-header-logo"></div>
+  <div id="site-header-blog-wrapper"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        <div id="ms-logo"></div>
+        
+          <a class="main-nav-link" href="../../index.html">Home</a>
+        
+          <a class="main-nav-link" href="../../archives">Archives</a>
+        
+        <a class="main-nav-link" target="_blank" rel="noopener" href="https://cssjpn.github.io/">サポート情報</a>
+        <a class="main-nav-link" href="/blog/general/welcome/">About</a>
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="../../blog/atom.xml" title="RSSフィード"></a>
+        
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//www.bing.com/search" method="get" accept-charset="UTF-8" name="bing-search" onsubmit="var f=this;if(f['q'].value){var searchUrl =  'https://www.bing.com/search?q=' +  encodeURIComponent(f['q'].value + ' site:' + f['sitesearch'].value) ;window.open(searchUrl, 'blank') };return false;" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="検索"><button type="submit" id="nav-search-btn" class="search-form-submit"></button><input type="hidden" name="sitesearch" value="https://jpdscore.github.io/blog"></form>
+      </div>
+    </div>
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="../../index.html" id="logo">Japan Developer Support Core Team Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="../../index.html" id="subtitle">日本マイクロソフトの Japan Developer Support Core チームのブログです。</a>
+        </h2>
+      
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-windowssdk/wuaapi-install-later" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header-single">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      WUA API で WSUS から取得した更新プログラムを任意のタイミングで適用する
+    </h1>
+  
+
+      </header>
+      <div class="article-share">
+        Last Update: 
+        <a href="" class="article-date-single">
+  <time datetime="2023-09-07T15:00:00.000Z" itemprop="datePublished">2023-09-08</time>
+</a>
+        
+        
+        <a href="https://github.com/jpdscore/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+87037ed4-3f8b-5ae2-b4cb-46d7877c100f%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5BWUA+API+%E3%81%A7+WSUS+%E3%81%8B%E3%82%89%E5%8F%96%E5%BE%97%E3%81%97%E3%81%9F%E6%9B%B4%E6%96%B0%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0%E3%82%92%E4%BB%BB%E6%84%8F%E3%81%AE%E3%82%BF%E3%82%A4%E3%83%9F%E3%83%B3%E3%82%B0%E3%81%A7%E9%81%A9%E7%94%A8%E3%81%99%E3%82%8B%5D%28https%3A%2F%2Fjpdscore.github.io%2Fblog%2Fwindowssdk%2Fwuaapi-install-later%2F%29" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
+        
+        <a data-url="https://jpdscore.github.io/blog/windowssdk/wuaapi-install-later/" data-id="clmagn3g1002fnnot845kdue3" class="article-share-link">共有</a>
+      </div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>こんにちは、Japan Developer Support Core チームの近澤です。</p>
+<p>WSUS から Windows Update を配信する構成は、Windows Update Agent (WUA) API を使用してスクリプトから実行することが可能です。<br>これにより、配信する更新プログラムの検索、選定、ダウンロード、インストールを自動化することができます。</p>
+<p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/windows/win32/wua_sdk/portal-client">Windows Update エージェント API - Win32 apps | Microsoft Learn</a></p>
+<p>さて、組織で更新プログラムを管理する際、検証環境と本番環境を分け、十分に検証を実施した後に、本番環境に同じ更新プログラムを当てたい、という要望がよくあります。<br>WUA API の使用例は、下記ドキュメントなどにありますが、この例では、スクリプトの中で検索、ダウンロード、インストールをひとまとめにして実施しています。<br>そのため、例えば、検証環境にインストールした更新プログラムと全く同じものを、その1か月後に本番環境にインストールしたい場合、このスクリプトでは1か月後に新しくリリースされた更新プログラムも含まれてしまい、検証環境と同じ更新プログラムを当てることができません。</p>
+<p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/windows/win32/wua_sdk/searching--downloading--and-installing-updates">更新の検索、ダウンロード、インストール - Win32 apps | Microsoft Learn</a></p>
+<p>そのような状況に対処するための方法をご紹介します。</p>
+<h1 id="UpdateID-をファイルに保持する対処方法について"><a href="#UpdateID-をファイルに保持する対処方法について" class="headerlink" title="UpdateID をファイルに保持する対処方法について"></a>UpdateID をファイルに保持する対処方法について</h1><p>更新プログラムには UpdateID という一意の識別子が用意されています。<br>検証環境に更新プログラムをインストールする際に、あらかじめ Update ID を保持しておき、本番環境への適用時にその ID の更新プログラムのみを検索し、ダウンロード・インストールするという方法があります。<br>下記のサンプルのスクリプトをご参考ください。<br>なお、下記では、C:\WU\PATCH_LIST.txt というテキストファイルに書き出しています。</p>
+<h2 id="lt-更新を検索し、テキストファイルへ書き出すスクリプト-gt"><a href="#lt-更新を検索し、テキストファイルへ書き出すスクリプト-gt" class="headerlink" title="&lt;更新を検索し、テキストファイルへ書き出すスクリプト&gt;"></a>&lt;更新を検索し、テキストファイルへ書き出すスクリプト&gt;</h2><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">###################################</span></span><br><span class="line"><span class="comment"># Check Updates and Write to file</span></span><br><span class="line"><span class="comment">###################################</span></span><br><span class="line"><span class="comment"># Load the Windows Update Agent (WUA) COM object</span></span><br><span class="line"><span class="variable">$updateSession</span> = <span class="built_in">New-Object</span> <span class="literal">-COM</span> <span class="string">&quot;Microsoft.Update.Session&quot;</span></span><br><span class="line"><span class="comment"># Create an update searcher</span></span><br><span class="line"><span class="variable">$updateSearcher</span> = <span class="variable">$updateSession</span>.CreateUpdateSearcher()</span><br><span class="line"><span class="comment"># Search for available updates</span></span><br><span class="line"><span class="variable">$searchResult</span> = <span class="variable">$updateSearcher</span>.Search(<span class="string">&quot;IsInstalled=0&quot;</span>)</span><br><span class="line"><span class="comment"># Check updates</span></span><br><span class="line"><span class="variable">$updatesExcludingFU</span> = <span class="built_in">New-Object</span> <span class="literal">-COM</span> <span class="string">&quot;Microsoft.Update.UpdateColl&quot;</span></span><br><span class="line"><span class="keyword">foreach</span> (<span class="variable">$update</span> <span class="keyword">in</span> <span class="variable">$searchResult</span>.Updates) &#123;</span><br><span class="line">    <span class="variable">$updatesExcludingFU</span>.Add(<span class="variable">$update</span>) | <span class="built_in">Out-Null</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment"># Write to file</span></span><br><span class="line"> <span class="variable">$updatesExcludingFU</span> | <span class="built_in">ForEach-Object</span> &#123;<span class="variable">$_</span>.Identity.UpdateID&#125; &gt;&gt; C:\WU\PATCH_LIST.txt</span><br></pre></td></tr></table></figure>
+
+<h2 id="＜テキストファイルを読み込み、ダウンロード・インストールするスクリプト＞"><a href="#＜テキストファイルを読み込み、ダウンロード・インストールするスクリプト＞" class="headerlink" title="＜テキストファイルを読み込み、ダウンロード・インストールするスクリプト＞"></a>＜テキストファイルを読み込み、ダウンロード・インストールするスクリプト＞</h2><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">########################################</span></span><br><span class="line"><span class="comment"># Download &amp; Install Update from file </span></span><br><span class="line"><span class="comment">########################################</span></span><br><span class="line"><span class="comment"># Read file</span></span><br><span class="line"><span class="variable">$updateIds</span> = <span class="built_in">Get-Content</span> <span class="literal">-Path</span> C:\WU\PATCH_LIST.txt</span><br><span class="line"><span class="comment"># Load the Windows Update Agent (WUA) COM object</span></span><br><span class="line"><span class="variable">$updateSession</span> = <span class="built_in">New-Object</span> <span class="literal">-COM</span> <span class="string">&quot;Microsoft.Update.Session&quot;</span></span><br><span class="line"><span class="comment"># Create an update searcher</span></span><br><span class="line"><span class="variable">$updateSearcher</span> = <span class="variable">$updateSession</span>.CreateUpdateSearcher()</span><br><span class="line"><span class="comment"># Search for available updates</span></span><br><span class="line"><span class="variable">$searchResult</span> = <span class="variable">$updateSearcher</span>.Search(<span class="string">&quot;IsInstalled=0&quot;</span>)</span><br><span class="line"><span class="comment"># Get target updates</span></span><br><span class="line"><span class="variable">$updatesToDownload</span> = <span class="built_in">New-Object</span> <span class="literal">-COM</span> <span class="string">&quot;Microsoft.Update.UpdateColl&quot;</span></span><br><span class="line"><span class="variable">$updatesToInstall</span> = <span class="built_in">New-Object</span> <span class="literal">-COM</span> <span class="string">&quot;Microsoft.Update.UpdateColl&quot;</span></span><br><span class="line"><span class="keyword">foreach</span> (<span class="variable">$update</span> <span class="keyword">in</span> <span class="variable">$searchResult</span>.Updates) &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="variable">$update</span>.Identity.UpdateID <span class="operator">-in</span> <span class="variable">$updateIds</span>) &#123;</span><br><span class="line">        <span class="comment"># for download</span></span><br><span class="line">        <span class="keyword">if</span> (<span class="variable">$update</span>.IsDownloaded <span class="operator">-eq</span> <span class="variable">$false</span>) &#123;</span><br><span class="line">            <span class="variable">$updatesToDownload</span>.Add(<span class="variable">$update</span>) | <span class="built_in">Out-Null</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment"># for install</span></span><br><span class="line">        <span class="variable">$updatesToInstall</span>.Add(<span class="variable">$update</span>) | <span class="built_in">Out-Null</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">Echo</span> <span class="string">&quot;Updates to download&quot;</span></span><br><span class="line"><span class="variable">$updatesToDownload</span> | <span class="built_in">Sort-Object</span> <span class="literal">-Property</span> title | <span class="built_in">Format-Table</span> Title</span><br><span class="line"><span class="built_in">Echo</span> <span class="string">&quot;Updates to install&quot;</span></span><br><span class="line"><span class="variable">$updatesToInstall</span> | <span class="built_in">Sort-Object</span> <span class="literal">-Property</span> title | <span class="built_in">Format-Table</span> Title</span><br><span class="line"><span class="comment"># Download</span></span><br><span class="line"><span class="keyword">if</span> (<span class="variable">$updatesToDownload</span>.Count <span class="operator">-gt</span> <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="variable">$downloader</span> = <span class="variable">$updateSession</span>.CreateUpdateDownloader()</span><br><span class="line">    <span class="variable">$downloader</span>.Updates = <span class="variable">$updatesToDownload</span></span><br><span class="line">    <span class="variable">$downloadResult</span> = <span class="variable">$downloader</span>.Download()</span><br><span class="line">    <span class="variable">$downloadResult</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment"># Install the loaded updates</span></span><br><span class="line"><span class="keyword">if</span> (<span class="variable">$updatesToInstall</span>.Count <span class="operator">-gt</span> <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="variable">$installer</span> = <span class="variable">$updateSession</span>.CreateUpdateInstaller()</span><br><span class="line">    <span class="variable">$installer</span>.Updates = <span class="variable">$updatesToInstall</span></span><br><span class="line">    <span class="variable">$installationResult</span> = <span class="variable">$installer</span>.Install()</span><br><span class="line">    <span class="variable">$installationResult</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+      
+        <div class="article-disclaimer">
+        
+          <p><hr>本ブログの内容は弊社の公式見解として保証されるものではなく、開発・運用時の参考情報としてご活用いただくことを目的としています。もし公式な見解が必要な場合は、弊社ドキュメント (<a target="_blank" rel="noopener" href="https://docs.microsoft.com/">https://docs.microsoft.com</a> や <a target="_blank" rel="noopener" href="https://support.microsoft.com">https://support.microsoft.com</a>) をご参照いただくか、もしくは私共サポートまでお問い合わせください。</p>
+        
+        </div>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Windows-SDK/" rel="tag">Windows SDK</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Windows-Update-Agent-API/" rel="tag">Windows Update Agent API</a></li></ul>
+
+      <!-- 
+      
+        <a href="https://github.com/jpdscore/blog/edit/master/articles/windowssdk/wuaapi-install-later.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
+        
+      -->
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="../../devtestlabs/auto-shutdown-permission/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前の記事</strong>
+      <div class="article-nav-title">自動シャットダウンを設定する際に必要な最小権限について</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最近の投稿</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="">WUA API で WSUS から取得した更新プログラムを任意のタイミングで適用する</a>
+          </li>
+        
+          <li>
+            <a href="../../devtestlabs/auto-shutdown-permission/">自動シャットダウンを設定する際に必要な最小権限について</a>
+          </li>
+        
+          <li>
+            <a href="../../azuredevops/tfs-basic-log-collection/">Team Foundation Server / Azure DevOps Server のトラブルシューティング用データ採取について</a>
+          </li>
+        
+          <li>
+            <a href="../../azuredevops/signin-401-403-tsg/">Azure DevOps Services へサインインしたときに発生する 401 / 403 エラーのトラブルシューティング ガイド</a>
+          </li>
+        
+          <li>
+            <a href="../printer-temporarily-appears-when-use-addprinter-function/">AddPrinter関数によりプリンタを追加したときに、アクセス権の無いユーザーに対してプリンタが一時的に表示される可能性について</a>
+          </li>
+        
+          <li>
+            <a href="../../playfab/order-of-leaderboard-positions/">GetLeaderboard 系 API で取得したランキング位置の順番について</a>
+          </li>
+        
+          <li>
+            <a href="../../azuredevops/migrate-sp-to-mi/">Service connection で利用中の Service principal を Managed identity に移行する手順</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">タグ</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="../../tags/ALM/">ALM</a><span class="tag-list-count">12</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-DevOps-Server">Azure DevOps Server</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-DevOps-Services">Azure DevOps Services</a><span class="tag-list-count">4</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-Pipelines">Azure Pipelines</a><span class="tag-list-count">6</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-Repos">Azure Repos</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Devcontainer">Devcontainer</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/GitHub">GitHub</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/TFS">TFS</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Visual-Studio-Code">Visual Studio Code</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86">情報採取手順</a><span class="tag-list-count">4</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/">情報採取手順</a><span class="tag-list-count">5</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/ALM">ALM</a><span class="tag-list-count">4</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/Azure-DevOps-Server">Azure DevOps Server</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/Azure-DevOps-Services">Azure DevOps Services</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/Azure-Pipelines">Azure Pipelines</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/TFS">TFS</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Windows-SDK/">Windows SDK</a><span class="tag-list-count">8</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Debug">Debug</a><span class="tag-list-count">5</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Documents-and-Printing">Documents and Printing</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/GDI">GDI</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Leak">Leak</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Windows-Update-Agent-API">Windows Update Agent API</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Debug/">Debug</a><span class="tag-list-count">12</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/NET">.NET</a><span class="tag-list-count">3</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Leak">Leak</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Memory">Memory</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Windows-SDK">Windows SDK</a><span class="tag-list-count">5</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Deployment/">Deployment</a><span class="tag-list-count">2</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Deployment/ClickOnce">ClickOnce</a><span class="tag-list-count">2</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/NET/">.NET</a><span class="tag-list-count">7</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/NET-Framework">.NET Framework</a><span class="tag-list-count">4</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/Debug">Debug</a><span class="tag-list-count">3</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E5%85%A8%E8%88%AC/">全般</a><span class="tag-list-count">1</span><ul></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Azure-PlayFab/">Azure PlayFab</a><span class="tag-list-count">2</span><ul></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Visual-Studio/">Visual Studio</a><span class="tag-list-count">5</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/C">C#</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/C">C++</a><span class="tag-list-count">3</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/VB-NET">VB.NET</a><span class="tag-list-count">2</span></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">アーカイブ</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/09/">2023 / 09</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/06/">2023 / 06</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/03/">2023 / 03</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/02/">2023 / 02</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/12/">2022 / 12</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/11/">2022 / 11</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/07/">2022 / 07</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/06/">2022 / 06</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/04/">2022 / 04</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/03/">2022 / 03</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/01/">2022 / 01</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/12/">2021 / 12</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/08/">2021 / 08</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/05/">2021 / 05</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/04/">2021 / 04</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/02/">2021 / 02</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/01/">2021 / 01</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/12/">2020 / 12</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/11/">2020 / 11</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/10/">2020 / 10</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/09/">2020 / 09</a><span class="archive-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">旧ブログ/フォーラム</h3>
+  <div class="widget">
+    <ul>
+      
+        <li>
+          <a href="../../https:/social.msdn.microsoft.com/Forums/ja-jp/home?forum=visualstudiosupportteamja">Visual Studio サポートチーム フォーラム</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/social.msdn.microsoft.com/Forums/ja-jp/home?forum=windowssdksupportteamja&filter=alltypes&sort=lastpostdesc">Windows SDK サポートチーム フォーラム</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/docs.microsoft.com/en-us/archive/blogs/jpvsblog/">Visual Studio サポート チーム blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/docs.microsoft.com/en-us/archive/blogs/japan_platform_sdkwindows_sdk_support_team_blog/">JAPAN Platform SDK（Windows SDK） Support Team Blog</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">関連リンク</h3>
+  <div class="widget">
+    <ul>
+      
+        <li>
+          <a href="../../https:/developercommunity.visualstudio.com/">Developer Community</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/devblogs.microsoft.com/dotnet/">.NET Blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/devblogs.microsoft.com/visualstudio/">Visual Studio Blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/devblogs.microsoft.com/cppblog/">C++ Team Blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/devblogs.microsoft.com/xamarin/">Xamarin Blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/devblogs.microsoft.com/devops/">Azure DevOps Blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/techcommunity.microsoft.com/t5/azure-lab-services/bg-p/AzureLabServicesBlog/">Azure Lab Services Blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/devblogs.microsoft.com/appcenter/">App Center Blog</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/status.azure.com/status/">Azure Status</a>
+        </li>
+      
+        <li>
+          <a href="../../https:/status.dev.azure.com/">Azure DevOps - Status</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2023 Developer Support Core Japan<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="../../index.html" class="mobile-nav-link">Home</a>
+  
+    <a href="../../archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+<script src="../../js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

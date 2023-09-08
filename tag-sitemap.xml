@@ -3,6 +3,20 @@
 
 
     <url>
+        <loc>https://jpdscore.github.io/blog/tags/Windows-Update-Agent-API/</loc>
+        <lastmod>2023-09-07T15:00:00.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://jpdscore.github.io/blog/tags/Windows-SDK/</loc>
+        <lastmod>2023-09-07T15:00:00.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
         <loc>https://jpdscore.github.io/blog/tags/Azure-DevTest-Labs/</loc>
         <lastmod>2023-06-06T05:07:09.000Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -39,13 +53,6 @@
 
     <url>
         <loc>https://jpdscore.github.io/blog/tags/Documents-and-Printing/</loc>
-        <lastmod>2023-02-26T15:00:00.000Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://jpdscore.github.io/blog/tags/Windows-SDK/</loc>
         <lastmod>2023-02-26T15:00:00.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
