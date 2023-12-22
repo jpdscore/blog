@@ -108,7 +108,7 @@
         
         <a href="https://github.com/jpdscore/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+e5031c94-0900-5f4c-aa66-8ae2eeeba705%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5BAzure+Pipelines+%E3%82%A8%E3%83%BC%E3%82%B8%E3%82%A7%E3%83%B3%E3%83%88%E3%81%AE+IP+%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6%5D%28https%3A%2F%2Fjpdscore.github.io%2Fblog%2Fazuredevops%2Fpipelines-agents-ip-settings%2F%29" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
         
-        <a data-url="https://jpdscore.github.io/blog/azuredevops/pipelines-agents-ip-settings/" data-id="clmagn3eq0007nnota22qfvwq" class="article-share-link">共有</a>
+        <a data-url="https://jpdscore.github.io/blog/azuredevops/pipelines-agents-ip-settings/" data-id="clqg0g0de0007mxoy6vi80jdz" class="article-share-link">共有</a>
       </div>
     
     <div class="article-entry" itemprop="articleBody">
@@ -124,7 +124,7 @@
 </ul>
 <p><a target="_blank" rel="noopener" href="https://docs.microsoft.com/ja-jp/azure/devops/pipelines/agents/agents?view=azure-devops&tabs=browser">Azure Pipelines エージェント - Azure Pipelines | Microsoft Docs</a></p>
 <p>それぞれ詳しく見ていきましょう！</p>
-<h3 id="Microsoft-hosted-エージェント"><a href="#Microsoft-hosted-エージェント" class="headerlink" title="Microsoft-hosted エージェント"></a>Microsoft-hosted エージェント</h3><p>Microsoft-hosted エージェントは、Azure DevOps Services の組織 (organization) と同じ Azure 地域の IP 範囲を利用します。例えば、Azure DevOps Services の組織を東南アジア地域で作成した場合は、 Microsoft-hosted エージェントも東南アジア リージョン <code>AzureCloud.southeastasia</code> の IP 範囲を利用します。<br>利用される IP 範囲は、<a target="_blank" rel="noopener" href="https://www.microsoft.com/en-us/download/details.aspx?id=56519">週単位の json ファイル</a> によって公開されています。</p>
+<h3 id="Microsoft-hosted-エージェント"><a href="#Microsoft-hosted-エージェント" class="headerlink" title="Microsoft-hosted エージェント"></a>Microsoft-hosted エージェント</h3><p>Microsoft-hosted エージェントは、Azure DevOps Services の組織 (organization) と同じ Azure 地域の IP 範囲を利用します。例えば、Azure DevOps Services の組織を東南アジア地域で作成した場合は、 Microsoft-hosted エージェントも東南アジア リージョン <code>AzureCloud.southeastasia</code> の IP 範囲、そして同じアジア太平洋に属する東アジア リージョン <code>AzureCloud.eastasia</code> の IP 範囲を利用します。<br>利用される IP 範囲は、<a target="_blank" rel="noopener" href="https://www.microsoft.com/en-us/download/details.aspx?id=56519">週単位の json ファイル</a> によって公開されています。</p>
 <p><a target="_blank" rel="noopener" href="https://docs.microsoft.com/ja-jp/azure/devops/pipelines/agents/hosted?view=azure-devops&tabs=yaml#networking">Microsoft がホストする Azure Pipelines - Azure Pipelines | Microsoft Docs</a></p>
 <p>※上記ドキュメントサイトに、南ブラジルおよび西ヨーロッパ リージョンをご利用いただく場合の注意点、ならびに Mac IP 範囲の注意点を記載しています。もしもこれらのリージョンや Mac IP 範囲を利用する場合は、ご確認いただくことをお勧めします。</p>
 <h3 id="Self-hosted-エージェント"><a href="#Self-hosted-エージェント" class="headerlink" title="Self-hosted エージェント"></a>Self-hosted エージェント</h3><p>Self-hosted エージェントが利用する IP アドレスは、エージェント機能をインストールしたマシンの IP アドレスです。<br>よくある Self-hosted エージェントの構成パターンとしては、以下の 2 種類があります。</p>
