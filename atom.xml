@@ -6,7 +6,7 @@
   <link href="https://jpdscore.github.io/blog/atom.xml" rel="self"/>
   
   <link href="https://jpdscore.github.io/blog/"/>
-  <updated>2023-09-07T15:00:00.000Z</updated>
+  <updated>2024-03-03T15:00:00.000Z</updated>
   <id>https://jpdscore.github.io/blog/</id>
   
   <author>
@@ -15,6 +15,36 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Team Foundation Server / Azure DevOps Server のトラブルシューティング用データ採取について</title>
+    <link href="https://jpdscore.github.io/blog/azuredevops/tfs-basic-log-collection/"/>
+    <id>https://jpdscore.github.io/blog/azuredevops/tfs-basic-log-collection/</id>
+    <published>2024-03-03T15:00:00.000Z</published>
+    <updated>2024-03-03T15:00:00.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;こんにちは、Japan Developer Support Core チームです🗻&lt;br&gt;いつも Team Foundation Server / Azure DevOps Server をご利用いただき、ありがとうございます。  &lt;/p&gt;
+&lt;p&gt;突然ですが、Azure</summary>
+        
+      
+    
+    
+    
+    
+    <category term="ALM" scheme="https://jpdscore.github.io/blog/tags/ALM/"/>
+    
+    <category term="情報採取手順" scheme="https://jpdscore.github.io/blog/tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/"/>
+    
+    <category term="TFS" scheme="https://jpdscore.github.io/blog/tags/TFS/"/>
+    
+    <category term="Azure DevOps Server" scheme="https://jpdscore.github.io/blog/tags/Azure-DevOps-Server/"/>
+    
+  </entry>
   
   <entry>
     <title>WUA API で WSUS から取得した更新プログラムを任意のタイミングで適用する</title>
@@ -62,36 +92,6 @@
     
     
     <category term="Azure DevTest Labs" scheme="https://jpdscore.github.io/blog/tags/Azure-DevTest-Labs/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Team Foundation Server / Azure DevOps Server のトラブルシューティング用データ採取について</title>
-    <link href="https://jpdscore.github.io/blog/azuredevops/tfs-basic-log-collection/"/>
-    <id>https://jpdscore.github.io/blog/azuredevops/tfs-basic-log-collection/</id>
-    <published>2023-03-23T15:00:00.000Z</published>
-    <updated>2023-03-23T15:00:00.000Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;こんにちは、Japan Developer Support Core チームです🗻&lt;br&gt;いつも Team Foundation Server / Azure DevOps Server をご利用いただき、ありがとうございます。  &lt;/p&gt;
-&lt;p&gt;突然ですが、Azure</summary>
-        
-      
-    
-    
-    
-    
-    <category term="ALM" scheme="https://jpdscore.github.io/blog/tags/ALM/"/>
-    
-    <category term="情報採取手順" scheme="https://jpdscore.github.io/blog/tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/"/>
-    
-    <category term="TFS" scheme="https://jpdscore.github.io/blog/tags/TFS/"/>
-    
-    <category term="Azure DevOps Server" scheme="https://jpdscore.github.io/blog/tags/Azure-DevOps-Server/"/>
     
   </entry>
   
