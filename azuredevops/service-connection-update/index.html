@@ -4,22 +4,25 @@
   <meta charset="utf-8">
   
   
-  <title>[メモリリーク #1] [HOWTO] UMDH を用いたメモリリーク調査技法 | Japan Developer Support Core Team Blog</title>
+  <title>Azure DevOps Service Connection の更新について | Japan Developer Support Core Team Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="(※ 2013 年 8 月 18 日に JAPAN Platform SDK（Windows SDK） Support Team Blog に公開した情報の再編集・再掲です。)   こんにちは、Japan Developer Support Core チーム 平田 a.k.a ぴろとです。本日は、メモリ リークに焦点を当てて調査を行う方法についてご紹介いたします。 概要説明多くの場合、アプリケーシ">
+  <meta name="description" content="こんにちは、Japan Developer Support Core チームです🐶今回は、Azure DevOps Service Connection についてのお話です。 Azure DevOps での CI&#x2F;CD パイプラインは、外部サービスとの連携が不可欠です。Service Connection は、これらの外部サービスへのアクセスポイントとして中心的な役割を果たしており、その期限切れ">
 <meta property="og:type" content="article">
-<meta property="og:title" content="[メモリリーク #1] [HOWTO] UMDH を用いたメモリリーク調査技法">
-<meta property="og:url" content="https://jpdscore.github.io/blog/debugging/UMDH/index.html">
+<meta property="og:title" content="Azure DevOps Service Connection の更新について">
+<meta property="og:url" content="https://jpdscore.github.io/blog/azuredevops/service-connection-update/index.html">
 <meta property="og:site_name" content="Japan Developer Support Core Team Blog">
-<meta property="og:description" content="(※ 2013 年 8 月 18 日に JAPAN Platform SDK（Windows SDK） Support Team Blog に公開した情報の再編集・再掲です。)   こんにちは、Japan Developer Support Core チーム 平田 a.k.a ぴろとです。本日は、メモリ リークに焦点を当てて調査を行う方法についてご紹介いたします。 概要説明多くの場合、アプリケーシ">
+<meta property="og:description" content="こんにちは、Japan Developer Support Core チームです🐶今回は、Azure DevOps Service Connection についてのお話です。 Azure DevOps での CI&#x2F;CD パイプラインは、外部サービスとの連携が不可欠です。Service Connection は、これらの外部サービスへのアクセスポイントとして中心的な役割を果たしており、その期限切れ">
 <meta property="og:locale" content="ja_JP">
-<meta property="article:published_time" content="2020-12-28T07:15:07.000Z">
-<meta property="article:modified_time" content="2020-12-28T07:15:07.000Z">
+<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/service-connection-update/updatesc0.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/service-connection-update/updatesc1.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/service-connection-update/updatesc2.png">
+<meta property="article:published_time" content="2024-06-04T05:25:32.000Z">
+<meta property="article:modified_time" content="2024-06-04T05:25:32.000Z">
 <meta property="article:author" content="Developer Support Core Japan">
-<meta property="article:tag" content="Windows SDK">
-<meta property="article:tag" content="Debug">
-<meta property="article:tag" content="Leak">
+<meta property="article:tag" content="ALM">
+<meta property="article:tag" content="Azure DevOps Services">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jpdscore.github.io/blog/azuredevops/service-connection-update/updatesc0.png">
   
     <link rel="alternate" href="../../blog/atom.xml" title="Japan Developer Support Core Team Blog" type="application/atom+xml">
   
@@ -81,7 +84,7 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-debugging/UMDH" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="devops-azuredevops/service-connection-update" class="article article-type-devops" itemscope itemprop="blogPost">
   <div class="article-inner">
     
     
@@ -90,7 +93,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      [メモリリーク #1] [HOWTO] UMDH を用いたメモリリーク調査技法
+      Azure DevOps Service Connection の更新について
     </h1>
   
 
@@ -98,63 +101,70 @@
       <div class="article-share">
         Last Update: 
         <a href="" class="article-date-single">
-  <time datetime="2020-12-28T07:15:07.000Z" itemprop="datePublished">2020-12-28</time>
+  <time datetime="2024-06-04T05:25:32.000Z" itemprop="datePublished">2024-06-04</time>
 </a>
         
         
-        <a href="https://github.com/jpdscore/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+d3d8967d-4be5-5ba7-b36f-12020f74900f%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5B%5B%E3%83%A1%E3%83%A2%E3%83%AA%E3%83%AA%E3%83%BC%E3%82%AF+%231%5D+%5BHOWTO%5D+UMDH+%E3%82%92%E7%94%A8%E3%81%84%E3%81%9F%E3%83%A1%E3%83%A2%E3%83%AA%E3%83%AA%E3%83%BC%E3%82%AF%E8%AA%BF%E6%9F%BB%E6%8A%80%E6%B3%95%5D%28https%3A%2F%2Fjpdscore.github.io%2Fblog%2Fdebugging%2FUMDH%2F%29" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
+        <a href="https://github.com/jpdscore/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+d27af5d0-cca8-567c-9368-f590d8c91cce%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5BAzure+DevOps+Service+Connection+%E3%81%AE%E6%9B%B4%E6%96%B0%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6%5D%28https%3A%2F%2Fjpdscore.github.io%2Fblog%2Fazuredevops%2Fservice-connection-update%2F%29" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
         
-        <a data-url="https://jpdscore.github.io/blog/debugging/UMDH/" data-id="clxa4gkhw000qbxq8h1uiehnf" class="article-share-link">共有</a>
+        <a data-url="https://jpdscore.github.io/blog/azuredevops/service-connection-update/" data-id="clxa4gkho000dbxq85nce78kf" class="article-share-link">共有</a>
       </div>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>(※ 2013 年 8 月 18 日に JAPAN Platform SDK（Windows SDK） Support Team Blog に公開した情報の再編集・再掲です。)  </p>
-<p>こんにちは、Japan Developer Support Core チーム 平田 a.k.a ぴろとです。<br>本日は、メモリ リークに焦点を当てて調査を行う方法についてご紹介いたします。</p>
-<h1 id="概要説明"><a href="#概要説明" class="headerlink" title="概要説明"></a>概要説明</h1><p>多くの場合、アプリケーションのメモリ リーク箇所の特定は非常に難しいトラブルシューティングとなります。しかしながら、本日ご紹介させていただく User-Mode Dump Heap (以下、UMDH) というツールを用いることで、メモリ リークの発生箇所や、リークの大きさを特定することができます。私たちもお客様からのお問い合わせを調査する際に利用しているツールですので、ひょっとしたらメモリ リークしてるかも？という場合にぜひともご利用いただきたいツールです。</p>
-<p>UMDH ツールは、Windows SDK に含まれる Debugging Tools for Windows の一部として提供されており、簡単に利用できるのですが、VirtualAlloc() や VirtualAllocEx() で確保されたメモリのメモリ リークは残念ながら検出することができません。その点だけお気を付けいただければ便利に使えるツールです。</p>
-<p>自分のプログラムにメモリ リークが疑われたら、まず、パフォーマンス モニターでメモリに関する情報を採取してみましょう。これには、パフォーマンス モニターの Process カテゴリの情報を採取し、 Private Bytes の値を監視します。この値が右肩上がりの傾向であれば、メモリ リークが発生している可能性あるため、より詳しく調査をするために UMDH の出番となります。</p>
-<h2 id="ツールのインストール"><a href="#ツールのインストール" class="headerlink" title="ツールのインストール"></a>ツールのインストール</h2><ol>
-<li>UMDH のインストール方法<br>以下の SDK をダウンロードしてインストールします。この時、[Debugging Tools for Windows] をインストールするようにチェックボックスにチェックを入れます。<br><a target="_blank" rel="noopener" href="https://developer.microsoft.com/ja-jp/windows/downloads/windows-10-sdk/">Windows 10 SDK</a><br><a target="_blank" rel="noopener" href="https://developer.microsoft.com/ja-jp/windows/downloads/windows-10-sdk/">https://developer.microsoft.com/ja-jp/windows/downloads/windows-10-sdk/</a></li>
-<li>インストールが成功すると、以下のフォルダーに Debugger Tools for Windows がインストールされます。<br>C:\Program Files (x86)\Windows Kits\10\Debuggers\x64<br>C:\Program Files (x86)\Windows Kits\10\Debuggers\x86</li>
-</ol>
-<h1 id="使ってみよう"><a href="#使ってみよう" class="headerlink" title="使ってみよう"></a>使ってみよう</h1><h2 id="サンプル作成"><a href="#サンプル作成" class="headerlink" title="サンプル作成"></a>サンプル作成</h2><p>今回は、以下のようなサンプル アプリケーションを使って UMDH の使い方を簡単にご説明します。まずはメモリリークするサンプルプログラムを作成します。<br>このサンプルコードを  LeakSample.cpp として保存します。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">#include &quot;stdafx.h&quot;</span><br><span class="line">#include &quot;Leak.h&quot;</span><br><span class="line">#include &lt;conio.h&gt;</span><br><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line"></span><br><span class="line">void heapleak()</span><br><span class="line">&#123;</span><br><span class="line">    CLeak *p;</span><br><span class="line">    p &#x3D; new CLeak();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int _tmain(int argc, _TCHAR* argv[])</span><br><span class="line">&#123;</span><br><span class="line">    _getch();</span><br><span class="line">    for(int i&#x3D;0;i&lt;100;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        heapleak();</span><br><span class="line">    &#125;</span><br><span class="line">    _getch();</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        <p>こんにちは、Japan Developer Support Core チームです🐶<br>今回は、Azure DevOps Service Connection についてのお話です。</p>
+<p>Azure DevOps での CI/CD パイプラインは、外部サービスとの連携が不可欠です。Service Connection は、これらの外部サービスへのアクセスポイントとして中心的な役割を果たしており、その期限切れはパイプラインの実行に大きな支障をきたす可能性があります。<br>本記事では、Azure Resource Manager タイプの Service Connection (以降 Service Connection) の期限切れに迅速かつ正確に対処するためのベスト プラクティスをご紹介します。</p>
+<hr>
+<h2 id="Service-Connection-の重要性と期限切れのリスク"><a href="#Service-Connection-の重要性と期限切れのリスク" class="headerlink" title="Service Connection の重要性と期限切れのリスク"></a>Service Connection の重要性と期限切れのリスク</h2><hr>
+<p>Azure DevOps のパイプラインは、Microsoft Entra ID の機能であるアプリの登録を通じて作成される Service Principal や Managed Identity、Workload Identity Federation を利用して Azure リソースへのアクセスを実現しています。<br>Service Principal を利用した Service Connection の作成方法には、automatic と manual の二つの方法がありますが、いずれの方法を用いた場合でも、有効期限が切れた際には以下のようなエラー メッセージが表示されることがあります。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AADSTS7000222: The provided client secret keys for app ‘***’ are expired</span><br></pre></td></tr></table></figure>
 
-<p>また、以下のヘッダファイルを Leak.h として保存してプロジェクトに入れてください。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">#pragma once</span><br><span class="line">class CLeak</span><br><span class="line">&#123;</span><br><span class="line">public:</span><br><span class="line">    int a;</span><br><span class="line">    int b;</span><br><span class="line">    int c;</span><br><span class="line">    int d;</span><br><span class="line">    CLeak() &#123;&#125;;</span><br><span class="line">    ~CLeak() &#123;&#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>LeakSample.exeとしてコンパイルしましょう。コンパイル時に生成されたシンボルファイル (拡張子が .pdb のファイル) を、C:\symbols.cache_pubにコピーしてください。</p>
-<h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><ol>
-<li><p>環境変数の設定<br>UMDH による調査では、最低 2 回 UMDH を実行して、実行した時点で確保されているメモリの差分よりメモリ リークを調査します。UMDH が実行されて、次に実行される間に確保、解放されたメモリは適切に解放されたメモリですので  UMDH では検出することができません。<br>また、UMDH は管理者権限で実行する必要があります。そのため、以下の手順はすべて管理者権限をもつユーザーとして実行してください。<br>コマンドプロンプトを起動して、環境変数 _NT_SYMBOL_PATH にシンボル ファイルの参照元を設定します。<br> <code>&gt;set _NT_SYMBOL_PATH=srv*C:\symbols.cache_pub*http://msdl.microsoft.com/download/symbols</code></p>
-</li>
-<li><p>flags コマンドを使い、スタックトレースの取得を有効にします。<br>「Leaksample.exe」がメモリ リークの調査対象なので、以下のように gflags コマンドを実行します。<br> <code>&gt; gflags -i Leaksample.exe +ust</code></p>
-</li>
-<li><p>メモリ リークの調査対象となるアプリケーションを実行します。</p>
-</li>
-<li><p>タスクマネージャーや tlist コマンドなどを使い、調査対象アプリケーションのプロセス ID を特定します。<br>tlist コマンドを使って Leaksample.exe のプロセス PID を確認した例がこちらになります。この場合、プロセス ID は 6248 であることがわかります。</p>
-<pre><code> &gt;tlist
- 0 System Process
- 4 System
- &lt;... 省略 ...&gt;
- 6248 LeakSample.exe    LeakSample.exe
- 2704 conhost.exe</code></pre>
-</li>
-<li><p>UMDH による 1 回目の情報採取をします。<br>プロセス ID 6248 のアプリケーションに対する情報を C:\TEMP\log1.log として保存するために次のコマンドを実行します。<br> <code>C:\Program Files (x86)\Windows Kits\10\Debuggers\x86&gt;umdh -p:6248 -f:C:\TEMP\log1.log</code></p>
-</li>
-<li><p>アプリケーションをしばらく実行し続けて、メモリ リークの現象を発生させます。  </p>
-</li>
-<li><p>2 回目の情報採取をします。<br> <code>C:\Program Files (x86)\Windows Kits\10\Debuggers\x86&gt;umdh -p:6248 -f:C:\TEMP\log2.log</code></p>
-</li>
-</ol>
-<h2 id="解析してみよう"><a href="#解析してみよう" class="headerlink" title="解析してみよう"></a>解析してみよう</h2><p>1 回目と 2 回目での間にて確保されたメモリの差分がリークしたメモリになります。この差分の検出するときも UMDH を使います。  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Secret has expired. Convert your service connections to workload identity federation for improved security and simplified maintenance.</span><br></pre></td></tr></table></figure>
+
+<p>これらのエラーメッセージは、Service Connection に紐づく Service Principal のクライアント シークレットの更新が必要であることを示しています。</p>
+<hr>
+<h2 id="Service-Connection-の更新手順"><a href="#Service-Connection-の更新手順" class="headerlink" title="Service Connection の更新手順"></a>Service Connection の更新手順</h2><hr>
+<p>automatic と manual で更新手順が異なります。<br>まず、”Service principal (automatic)” の場合は以下の手順です。</p>
 <ol>
-<li>UMDH で情報採取結果を取得するために、以下のコマンドにて結果を取得します<br> <code>C:\Program Files (x86)\Windows Kits\10\Debuggers\x86&gt;umdh C:\TEMP\log1.log C:\TEMP\log2.log &gt; C:\TEMP\diff12.txt</code></li>
-<li>diff12.txt をテキストエディタで開きます</li>
+<li>Azure DevOps にログインし、対象のプロジェクトを選択します。</li>
+<li>プロジェクト設定に移動し、Service Connections を選択します。</li>
+<li>期限切れの Service Connection を見つけ、[Edit] をクリックします。<br>Service Connection が “Service principal (automatic)” で作成されたものかどうかは、Service Connection の編集画面を開いた際、下図の黄色くマーカーされた箇所に表示されます。<br><img src="updatesc0.png"></li>
+<li>[Save] ボタンを押下するのみでシークレットが更新され、Service Connection の有効期限が自動的に 3 カ月延長されます。</li>
+<li>Azure DevOps に戻り、Service Connection を検証します。</li>
 </ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;                                                                         </span><br><span class="line">&#x2F;&#x2F; Each log entry has the following syntax:                                </span><br><span class="line">&#x2F;&#x2F;                                                                         </span><br><span class="line">&#x2F;&#x2F; + BYTES_DELTA (NEW_BYTES - OLD_BYTES) NEW_COUNT allocs BackTrace TRACEID</span><br><span class="line">        &#x2F;&#x2F; + COUNT_DELTA (NEW_COUNT - OLD_COUNT) BackTrace TRACEID allocations     </span><br><span class="line">        &#x2F;&#x2F;     ... stack trace ...                                                 </span><br><span class="line">        &#x2F;&#x2F;                                                                         </span><br><span class="line">        &#x2F;&#x2F; where:                                                                   </span><br><span class="line">        &#x2F;&#x2F;                                                                         </span><br><span class="line">        &#x2F;&#x2F;     BYTES_DELTA - increase in bytes between before and after log        </span><br><span class="line">        &#x2F;&#x2F;     NEW_BYTES - bytes in after log                                       </span><br><span class="line">        &#x2F;&#x2F;     OLD_BYTES - bytes in before log                                     </span><br><span class="line">        &#x2F;&#x2F;     COUNT_DELTA - increase in allocations between before and after log  </span><br><span class="line">        &#x2F;&#x2F;     NEW_COUNT - number of allocations in after log                      </span><br><span class="line">        &#x2F;&#x2F;     OLD_COUNT - number of allocations in before log                     </span><br><span class="line">        &#x2F;&#x2F;     TRACEID - decimal index of the stack trace in the trace database    </span><br><span class="line">        &#x2F;&#x2F;         (can be used to search for allocation instances in the original </span><br><span class="line">        &#x2F;&#x2F;         UMDH logs).                                                      </span><br><span class="line">        &#x2F;&#x2F;                                                                         </span><br><span class="line">        \+    1450 (  1450 -     0)     64 allocs        BackTraceA51584  </span><br><span class="line">        \+      64 (    64 -     0)        BackTraceA51584     allocations  </span><br><span class="line">              ntdll!RtlAllocateHeap+1CC  </span><br><span class="line">              MSVCR110D!_heap_alloc_base+51  </span><br><span class="line">              MSVCR110D!_free_dbg_nolock+6FF  </span><br><span class="line">              MSVCR110D!_nh_malloc_dbg+7D  </span><br><span class="line">              MSVCR110D!_nh_malloc_dbg+2A  </span><br><span class="line">              MSVCR110D!malloc+19  </span><br><span class="line">              MSVCR110D!operator new+F  </span><br><span class="line">              LeakSample!heapleak+44 (C:\leaksample.cpp, 13)  </span><br><span class="line">              LeakSample!wmain+4A (c:\leaksample.cpp, 22)  </span><br><span class="line">              LeakSample!__tmainCRTStartup+199  </span><br><span class="line">              LeakSample!wmainCRTStartup+D  </span><br><span class="line">              KERNEL32!BaseThreadInitThunk+E  </span><br><span class="line">              ntdll!__RtlUserThreadStart+72  </span><br><span class="line">              ntdll!_RtlUserThreadStart+1B  </span><br><span class="line">        Total increase &#x3D;&#x3D;   1450 requested +    af0 overhead &#x3D;   1f40  </span><br></pre></td></tr></table></figure>
-<ol start="3">
-<li>上記ログから、<strong>LeakSample!heapleak+44 (c:\leaksample.cpp, 13)</strong> にてリークしていることがわかります。実際にリークするサンプルコードを確認してみると、<code>p = new CLeak();</code> となっておりますが、該当ポインタに対して、delete がありません。これにより、メモリリークのコード箇所を確認することができました！</li>
+<p>次に、”Service principal (manual)” の場合は以下のとおりです。</p>
+<ol>
+<li>Azure DevOps にログインし、対象のプロジェクトを選択します。</li>
+<li>プロジェクト設定に移動し、Service Connections を選択します。</li>
+<li>期限切れの Service Connection を見つけ、[Manage Service Principal] をクリックします。Azure ポータル画面が表示されます。<br><img src="updatesc1.png"></li>
+<li>Service Connection が利用している Service Principal のページにて、左側のメニューより [証明書とシークレット] を選択します。</li>
+<li>新しいクライアント シークレットを作成します。クライアント シークレットの作成手順は、<a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/entra/identity-platform/quickstart-register-app#add-a-client-secret%E5%86%85">ドキュメント</a> 内 “クライアント シークレットの追加” セクションを参照ください。</li>
+<li>追加したクライアント シークレット行の “値” 欄右横の “クリップ ボードにコピー” マークをクリックします。※この内容は、この画面でしか表示されませんので、必要に応じてテキスト エディタなどを利用して保存を行ってください。</li>
+<li>手順 3 の Azure DevOps の Service Connection の画面に戻ります。</li>
+<li>Service Connection ページにて、右上の [Edit] をクリックします。</li>
+<li>[Edit service connection] ダイアログにて [Service principal key] 欄に、手順 6 にて取得したクライアント シークレットの値を貼り付けます。 ※ 証明書の更新時間があるため、このまま 1 分ほど待機します。</li>
+<li>[Verify and save] ボタンを押下し設定を保存します。<br><img src="updatesc2.png"></li>
 </ol>
+<p>なお、期限切れ前に更新する場合も同様の手順です。<br>補足として Docker Registry タイプの Service Connection において [Registry type: Azure Container Registry] を選択している場合には “Service principal (manual)” の更新手順と同様に [Save] ボタンを押下するのみでシークレットが更新されます。</p>
+<hr>
+<h2 id="Service-Connection-の更新に必要な権限"><a href="#Service-Connection-の更新に必要な権限" class="headerlink" title="Service Connection の更新に必要な権限"></a>Service Connection の更新に必要な権限</h2><hr>
+<p>Service Connection を更新する際には、特定の権限が必要です。以下の権限を確認し、必要に応じて付与してください。</p>
+<ul>
+<li><strong>Azure DevOps:</strong> 対象の Service Connection における “Administrator” ロールが必要です。Service Connection の作成者は自動でこのロールが付与されます。</li>
+<li><strong>Microsoft Entra ID:</strong> Service Principal を更新する権限として、Service Principal の所有者、もしくは “アプリケーション管理者” ロールが必要です。Service Connection を作成したユーザーは Service Principal の所有者となるため、特に制限がなければ既定で更新可能です。</li>
+<li><strong>Azure サブスクリプション:</strong> ロールを付与する権限が必要です。具体的には Microsoft.Authorization/roleAssignments/write 権限が必要となり、”所有者” または “ユーザー アクセス管理者” ロールが必要です。もし、対象の Service Connection が、リソース グループを対象としている場合は、リソース グループに対する権限で操作可能です。</li>
+</ul>
+<hr>
+<h2 id="新たな-Service-Connection-の作成"><a href="#新たな-Service-Connection-の作成" class="headerlink" title="新たな Service Connection の作成"></a>新たな Service Connection の作成</h2><hr>
+<p>クライアント シークレットの有効期限を管理する必要をなくすために、以下の方法で新たな Service Connection を作成することをご検討ください。</p>
+<ul>
+<li><strong>方法 1:</strong> マネージド ID を使用して認証可能な Service Connection を作成します。</li>
+<li><strong>方法 2:</strong> Workload Identity Federation を使用して認証可能な Service Connection を作成します。</li>
+</ul>
+<p>これらの方法により、セキュリティを強化し、メンテナンスを簡素化することができます。<br>詳細については別途ご案内予定です。</p>
+<hr>
+<h2 id="まとめ"><a href="#まとめ" class="headerlink" title="まとめ"></a>まとめ</h2><hr>
+<p>Service Connection の管理は、Azure DevOps の運用において非常に重要です。期限切れによる中断を避けるためにも、定期的な監視と更新が必要となります。このガイドが、Service Connection のスムーズな管理に役立つことを願っています。<br>定期的な更新だけでなく、Workload Identity Federation やマネージド ID を利用した新しい Service Connection の作成を検討することで、より安全で効率的な DevOps 環境を実現できますので、あわせてご検討ください。</p>
 
       
       
@@ -168,11 +178,11 @@
     <footer class="article-footer">
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Debug/" rel="tag">Debug</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Leak/" rel="tag">Leak</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Windows-SDK/" rel="tag">Windows SDK</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/ALM/" rel="tag">ALM</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Azure-DevOps-Services/" rel="tag">Azure DevOps Services</a></li></ul>
 
       <!-- 
       
-        <a href="https://github.com/jpdscore/blog/edit/master/articles/debugging/UMDH.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
+        <a href="https://github.com/jpdscore/blog/edit/master/articles/azuredevops/service-connection-update.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
         
       -->
     </footer>
@@ -181,19 +191,10 @@
     
 <nav id="article-nav">
   
-    <a href="../../vs/what-developers-should-know-about-floating-point/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">次の記事</strong>
-      <div class="article-nav-title">
-        
-          浮動小数点を利用する際に知っておきたいこと
-        
-      </div>
-    </a>
   
-  
-    <a href="../application-error-eventlog/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="../pipelines-agent-update/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">前の記事</strong>
-      <div class="article-nav-title">イベント ID 1000 で記録される Application Error のイベント ログについて</div>
+      <div class="article-nav-title">Azure Pipelines エージェントの更新について</div>
     </a>
   
 </nav>
@@ -212,15 +213,15 @@
       <ul>
         
           <li>
-            <a href="../../azuredevops/service-connection-update/">Azure DevOps Service Connection の更新について</a>
+            <a href="">Azure DevOps Service Connection の更新について</a>
           </li>
         
           <li>
-            <a href="../../azuredevops/pipelines-agent-update/">Azure Pipelines エージェントの更新について</a>
+            <a href="../pipelines-agent-update/">Azure Pipelines エージェントの更新について</a>
           </li>
         
           <li>
-            <a href="../../azuredevops/tfs-basic-log-collection/">Team Foundation Server / Azure DevOps Server のトラブルシューティング用データ採取について</a>
+            <a href="../tfs-basic-log-collection/">Team Foundation Server / Azure DevOps Server のトラブルシューティング用データ採取について</a>
           </li>
         
           <li>
@@ -232,7 +233,7 @@
           </li>
         
           <li>
-            <a href="../../azuredevops/signin-401-403-tsg/">Azure DevOps Services へサインインしたときに発生する 401 / 403 エラーのトラブルシューティング ガイド</a>
+            <a href="../signin-401-403-tsg/">Azure DevOps Services へサインインしたときに発生する 401 / 403 エラーのトラブルシューティング ガイド</a>
           </li>
         
           <li>

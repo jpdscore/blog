@@ -6,7 +6,7 @@
   <link href="https://jpdscore.github.io/blog/atom.xml" rel="self"/>
   
   <link href="https://jpdscore.github.io/blog/"/>
-  <updated>2024-04-01T00:59:40.000Z</updated>
+  <updated>2024-06-04T05:25:32.000Z</updated>
   <id>https://jpdscore.github.io/blog/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Azure DevOps Service Connection の更新について</title>
+    <link href="https://jpdscore.github.io/blog/azuredevops/service-connection-update/"/>
+    <id>https://jpdscore.github.io/blog/azuredevops/service-connection-update/</id>
+    <published>2024-06-04T05:25:32.000Z</published>
+    <updated>2024-06-04T05:25:32.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;こんにちは、Japan Developer Support Core チームです🐶&lt;br&gt;今回は、Azure DevOps Service Connection についてのお話です。&lt;/p&gt;
+&lt;p&gt;Azure DevOps での CI/CD</summary>
+        
+      
+    
+    
+    
+    
+    <category term="ALM" scheme="https://jpdscore.github.io/blog/tags/ALM/"/>
+    
+    <category term="Azure DevOps Services" scheme="https://jpdscore.github.io/blog/tags/Azure-DevOps-Services/"/>
+    
+  </entry>
   
   <entry>
     <title>Azure Pipelines エージェントの更新について</title>
@@ -504,31 +530,6 @@
     <category term="Devcontainer" scheme="https://jpdscore.github.io/blog/tags/Devcontainer/"/>
     
     <category term="Visual Studio Code" scheme="https://jpdscore.github.io/blog/tags/Visual-Studio-Code/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>.NET アプリケーションで GC 中に発生する例外コード 0xc0000409 のエラーについて</title>
-    <link href="https://jpdscore.github.io/blog/dotnet/gs-failure-during-gc/"/>
-    <id>https://jpdscore.github.io/blog/dotnet/gs-failure-during-gc/</id>
-    <published>2021-08-26T15:00:00.000Z</published>
-    <updated>2021-08-26T15:00:00.000Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;こんにちは、Japan Developer Support Core チームの松井です。今回は、.NET アプリケーションでガベージ コレクション (GC) の実行中にランタイムが例外コード 0xc0000409</summary>
-        
-      
-    
-    
-    
-    
-    <category term="Debug" scheme="https://jpdscore.github.io/blog/tags/Debug/"/>
-    
-    <category term=".NET" scheme="https://jpdscore.github.io/blog/tags/NET/"/>
     
   </entry>
   
