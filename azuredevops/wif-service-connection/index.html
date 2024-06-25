@@ -4,25 +4,26 @@
   <meta charset="utf-8">
   
   
-  <title>自動シャットダウンを設定する際に必要な最小権限について | Japan Developer Support Core Team Blog</title>
+  <title>Azure DevOps Service Connection と Workload Identity Federation について | Japan Developer Support Core Team Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="こんにちは、Japan Developer Support Core チームです🗻サポートにはよく「Azure VM の自動シャットダウンを設定する際に必要な最小権限」についてお問合せがあります。最初に結論を書きますが、残念ながら自動シャットダウンのみを設定するための権限は用意されていません。自動シャットダウンの設定を行う際は、以下の 2 種類の権限が必要です。 　1. 自動シャットダウンの設定">
+  <meta name="description" content="こんにちは、Japan Developer Support Core チームです🐶 Azure DevOps では、Service Principal の有効期限を気にすることなく、Service Connection を管理できる新機能が追加されました。今回は、この便利な機能、Workload Identity Federation を使用した Service Connection についてご">
 <meta property="og:type" content="article">
-<meta property="og:title" content="自動シャットダウンを設定する際に必要な最小権限について">
-<meta property="og:url" content="https://jpdscore.github.io/blog/devtestlabs/auto-shutdown-permission/index.html">
+<meta property="og:title" content="Azure DevOps Service Connection と Workload Identity Federation について">
+<meta property="og:url" content="https://jpdscore.github.io/blog/azuredevops/wif-service-connection/index.html">
 <meta property="og:site_name" content="Japan Developer Support Core Team Blog">
-<meta property="og:description" content="こんにちは、Japan Developer Support Core チームです🗻サポートにはよく「Azure VM の自動シャットダウンを設定する際に必要な最小権限」についてお問合せがあります。最初に結論を書きますが、残念ながら自動シャットダウンのみを設定するための権限は用意されていません。自動シャットダウンの設定を行う際は、以下の 2 種類の権限が必要です。 　1. 自動シャットダウンの設定">
+<meta property="og:description" content="こんにちは、Japan Developer Support Core チームです🐶 Azure DevOps では、Service Principal の有効期限を気にすることなく、Service Connection を管理できる新機能が追加されました。今回は、この便利な機能、Workload Identity Federation を使用した Service Connection についてご">
 <meta property="og:locale" content="ja_JP">
-<meta property="og:image" content="https://jpdscore.github.io/blog/devtestlabs/auto-shutdown-permission/AutoShutdown1.png">
-<meta property="og:image" content="https://jpdscore.github.io/blog/devtestlabs/auto-shutdown-permission/AutoShutdown2.png">
-<meta property="og:image" content="https://jpdscore.github.io/blog/devtestlabs/auto-shutdown-permission/AutoShutdown3.png">
-<meta property="og:image" content="https://jpdscore.github.io/blog/devtestlabs/auto-shutdown-permission/AutoShutdown4.png">
-<meta property="article:published_time" content="2023-06-06T05:07:09.000Z">
-<meta property="article:modified_time" content="2023-06-06T05:07:09.000Z">
+<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/wif-service-connection/pic0.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/wif-service-connection/pic1.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/wif-service-connection/pic2.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/wif-service-connection/pic3.png">
+<meta property="article:published_time" content="2024-06-22T14:47:30.000Z">
+<meta property="article:modified_time" content="2024-06-22T14:47:30.000Z">
 <meta property="article:author" content="Developer Support Core Japan">
-<meta property="article:tag" content="Azure DevTest Labs">
+<meta property="article:tag" content="ALM">
+<meta property="article:tag" content="Azure DevOps Services">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://jpdscore.github.io/blog/devtestlabs/auto-shutdown-permission/AutoShutdown1.png">
+<meta name="twitter:image" content="https://jpdscore.github.io/blog/azuredevops/wif-service-connection/pic0.png">
   
     <link rel="alternate" href="../../blog/atom.xml" title="Japan Developer Support Core Team Blog" type="application/atom+xml">
   
@@ -84,7 +85,7 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-devtestlabs/auto-shutdown-permission" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="devops-azuredevops/wif-service-connection" class="article article-type-devops" itemscope itemprop="blogPost">
   <div class="article-inner">
     
     
@@ -93,7 +94,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      自動シャットダウンを設定する際に必要な最小権限について
+      Azure DevOps Service Connection と Workload Identity Federation について
     </h1>
   
 
@@ -101,58 +102,64 @@
       <div class="article-share">
         Last Update: 
         <a href="" class="article-date-single">
-  <time datetime="2023-06-06T05:07:09.000Z" itemprop="datePublished">2023-06-06</time>
+  <time datetime="2024-06-22T14:47:30.000Z" itemprop="datePublished">2024-06-22</time>
 </a>
         
         
-        <a href="https://github.com/jpdscore/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+2d81e33d-5951-54f5-824d-a61c7645afa9%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5B%E8%87%AA%E5%8B%95%E3%82%B7%E3%83%A3%E3%83%83%E3%83%88%E3%83%80%E3%82%A6%E3%83%B3%E3%82%92%E8%A8%AD%E5%AE%9A%E3%81%99%E3%82%8B%E9%9A%9B%E3%81%AB%E5%BF%85%E8%A6%81%E3%81%AA%E6%9C%80%E5%B0%8F%E6%A8%A9%E9%99%90%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6%5D%28https%3A%2F%2Fjpdscore.github.io%2Fblog%2Fdevtestlabs%2Fauto-shutdown-permission%2F%29" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
+        <a href="https://github.com/jpdscore/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+dda46fd3-0d26-5012-82a4-c3755ccb76b1%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5BAzure+DevOps+Service+Connection+%E3%81%A8+Workload+Identity+Federation+%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6%5D%28https%3A%2F%2Fjpdscore.github.io%2Fblog%2Fazuredevops%2Fwif-service-connection%2F%29" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
         
-        <a data-url="https://jpdscore.github.io/blog/devtestlabs/auto-shutdown-permission/" data-id="clxu4fjli001mh8q4hdm423ve" class="article-share-link">共有</a>
+        <a data-url="https://jpdscore.github.io/blog/azuredevops/wif-service-connection/" data-id="clxu4fjl3000qh8q409vd27ll" class="article-share-link">共有</a>
       </div>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>こんにちは、Japan Developer Support Core チームです🗻<br>サポートにはよく「Azure VM の自動シャットダウンを設定する際に必要な最小権限」についてお問合せがあります。<br>最初に結論を書きますが、残念ながら<span style="background-color:yellow">自動シャットダウンのみを設定するための権限は用意されていません。</span><br>自動シャットダウンの設定を行う際は、以下の 2 種類の権限が必要です。</p>
-<p>　<strong><a href="#1-%E8%87%AA%E5%8B%95%E3%82%B7%E3%83%A3%E3%83%83%E3%83%88%E3%83%80%E3%82%A6%E3%83%B3%E3%81%AE%E8%A8%AD%E5%AE%9A%E3%83%AA%E3%82%BD%E3%83%BC%E3%82%B9%E3%81%AB%E5%AF%BE%E3%81%99%E3%82%8B%E6%A8%A9%E9%99%90">1. 自動シャットダウンの設定リソースに対する権限</a></strong><br>　<strong><a href="#2-Azure-VM-%E3%81%AB%E5%AF%BE%E3%81%99%E3%82%8B%E6%A8%A9%E9%99%90">2. Azure VM に対する権限</a></strong>  </p>
+        <p>こんにちは、Japan Developer Support Core チームです🐶</p>
+<p>Azure DevOps では、Service Principal の有効期限を気にすることなく、Service Connection を管理できる新機能が追加されました。今回は、この便利な機能、Workload Identity Federation を使用した Service Connection についてご紹介します。</p>
 <hr>
-<h2 id="1-自動シャットダウンの設定リソースに対する権限"><a href="#1-自動シャットダウンの設定リソースに対する権限" class="headerlink" title="1. 自動シャットダウンの設定リソースに対する権限"></a>1. 自動シャットダウンの設定リソースに対する権限</h2><hr>
-<p>Azure VM の自動シャットダウン機能は、内部的に Azure DevTest Labs と呼ばれるサービスの Schedule 機能を利用しています。<br>そのため、自動シャットダウンの設定を行う際は、<span style="background-color:yellow">Microsoft.DevTestLab/schedules/*</span> に対する権限が必要です。</p>
+<h2 id="Workload-Identity-Federation-とは"><a href="#Workload-Identity-Federation-とは" class="headerlink" title="Workload Identity Federation とは"></a>Workload Identity Federation とは</h2><hr>
+<p>Azure DevOps における Service Connection の認証方法に革命をもたらす Workload Identity Federation が、Azure Resource Manager タイプの Service Connection で利用可能になりました。これは、Azure Pipelines と Azure リソース間の認証プロセスを効率化し、セキュリティを強化する画期的なステップです。</p>
+<p>従来の Service Connection では、Service Principal のクライアント シークレットの管理がセキュリティ上の大きな課題となっていました。これに対する唯一の代替手段は、マネージド ID を用いて Self-hosted agent を運用することでした。しかし、Workload Identity Federation の登場により、このような制約から解放されることになります。</p>
+<p>OpenID Connect (OIDC) を駆使した Workload Identity Federation は、有効期間が短いトークンを使用し、Azure への認証を行うことで、セキュリティリスクを軽減します。これにより、シークレットの共有や管理の必要がなくなり、DevOps の運用がより安全かつスムーズになります。</p>
+<p>Workload Identity federation の詳細については、<a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/entra/workload-id/workload-identity-federation">Workload Identity Federation</a> や <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/devops/public-preview-of-workload-identity-federation-for-azure-pipelines/">Public preview of Workload identity federation for Azure Pipelines</a> で紹介しています。<br>また、マネージド ID を使用した Service Connection については、<a href="https://jpdscore.github.io/blog/azuredevops/migrate-sp-to-mi/">Service connection で利用中の Service principal を Managed identity に移行する手順</a> をご確認ください。</p>
+<hr>
+<h2 id="従来の-Service-Connection-からの移行"><a href="#従来の-Service-Connection-からの移行" class="headerlink" title="従来の Service Connection からの移行"></a>従来の Service Connection からの移行</h2><hr>
+<p>従来のクライアント シークレットを使用した Service Connection から、Workload Identity Federation を利用した Service Connection への移行は、以下の手順で簡単に行えます。</p>
+<ol>
+<li>Azure DevOps にサインインし、プロジェクトの [Project settings] &gt; [Service connections] に移動します。</li>
+<li>変換したい Service Connection を開き、[Overview] タブを確認します。</li>
+<li>“Convert” ボタンを押下し、Workload Identity Federation を利用した Service Connection へ変換します。<br><img src="pic0.png"></li>
+</ol>
+<p>変換後は、7 日以内であれば、Overview タブに表示される “Revert conversion to the original scheme” ボタンから元の Service Connection に戻すことが可能です。万が一問題が生じた場合でも、安心して変換を試すことができます。<br><img src="pic1.png"></p>
+<hr>
+<h2 id="Service-Connection-の作成方法"><a href="#Service-Connection-の作成方法" class="headerlink" title="Service Connection の作成方法"></a>Service Connection の作成方法</h2><hr>
+<p>Workload Identity Federation を使用する Service Connection の作成には、自動（automatic）と手動（manual）の 2 つの方法があります。</p>
 <ul>
-<li>Delete: Delete schedules (削除 : Delete schedules)</li>
-<li>Read: Read schedules (読み取り : Read schedules)</li>
-<li>Write: Add or modify schedules (書き込み : Add or modify schedules)</li>
-<li>Other: Execute schedules (その他 : Execute schedules)</li>
-<li>Other: Retarget schedules (その他 : Retarget schedules)</li>
+<li><strong>自動での作成方法:</strong></li>
 </ul>
-<p>&lt;参考&gt;<br><img src="AutoShutdown1.png"></p>
-<p>また、自動シャットダウンの設定リソース (Microsoft.DevTestLab/schedules) は、Azure VM と同じリソース グループ配下に管理されています。<br>Azure Portal 上からは本リソースは既定で非表示になっているので、本リソースを表示されたい場合には、リソース一覧画面より「非表示の型の表示」にチェックすることで閲覧できるようになります。<br><img src="AutoShutdown2.png"><br>※自動シャットダウンの設定リソース名は既定で shutdown-computevm-<span style="background-color:yellow">$VMName</span> となり、<span style="background-color:yellow">$VMName</span> には Azure VM の名前が設定されます。</p>
-<hr>
-<h2 id="2-Azure-VM-に対する権限"><a href="#2-Azure-VM-に対する権限" class="headerlink" title="2. Azure VM に対する権限"></a>2. Azure VM に対する権限</h2><hr>
-<p>自動シャットダウンの設定を行うには、自動シャットダウンの設定リソースに対する権限に加えて、Azure VM (Microsoft.Compute/virtualMachines) に対する以下の変更権限も必要です。</p>
+<ol>
+<li>[Project settings] &gt; [Service connections] に移動し、[New service connection] を選択します。</li>
+<li>[Azure Resource Manager] を選び、[Workload Identity federation (automatic)] を選択します。<br><img src="pic2.png"></li>
+<li>対象 Subscription を選択します。スコープを Resource Group に絞りたい場合は Resource Group を選択します。<br><img src="pic3.png"></li>
+<li>その他必要な情報を入力し、[Save] をクリックしてサービス接続を作成します。</li>
+</ol>
 <ul>
-<li>Read: Get Virtual Machine (読み取り : 仮想マシンの取得)</li>
-<li>Write: Create or Update Virtual Machine (書き込み : 仮想マシンの作成または更新)</li>
-<li>Other: Start Virtual Machine (その他 : 仮想マシンの起動)</li>
-<li>Other: Power Off Virtual Machine (その他 : 仮想マシンを電源オフ)</li>
-<li>Other: Redeploy Virtual Machine (その他 : 仮想マシンを再デプロイする)</li>
-<li>Other: Restart Virtual Machine (その他 : 仮想マシンの再起動)</li>
-<li>Other: Deallocate Virtual Machine (その他 : 仮想マシンの割り当て解除)</li>
+<li><strong>手動での作成方法:</strong><br>Service Connection を作成する際には、後述の権限が必要ですが、すべての権限を一人の作業ユーザーに付与することは、時に困難です。この場合、Workload Identity federation (manual) を選択することで、Azure Portal と Azure DevOps portal それぞれの作業に必要な権限を分けて付与し、Service Connection を作成できます。<br>また、ご自身で用意した Service Principal に加え、マネージド ID を使用することもできます。これにより、よりセキュアで管理しやすい環境を構築可能です。<br>詳細な手動での作成手順は <a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/azure/devops/pipelines/release/configure-workload-identity?view=azure-devops">Azure Resource Manager Workload Identity サービス接続を手動で設定</a> を参照ください。</li>
 </ul>
-<p>&lt;参考&gt;<br><img src="AutoShutdown3.png"></p>
-<p>ただし、Azure VM に対する変更権限を付与するので、自動シャットダウンの設定以外にも、Azure VM の設定に対して操作可能な多くの権限を与えてしまうことに注意してください。</p>
+<p>automatic はすべて自動で作成されるため手順が簡単ですが、Service Principal が自動的に命名されてしまうため運用上の管理が難しく、作業ユーザーに強い権限が必要となるデメリットがあります。その場合は、manual での作成もご検討ください。</p>
 <hr>
-<h2 id="3-カスタム-ロールでの対応について"><a href="#3-カスタム-ロールでの対応について" class="headerlink" title="3. カスタム ロールでの対応について"></a>3. カスタム ロールでの対応について</h2><hr>
-<p>もし Azure VM への変更権限の付与が許容できて、自動シャットダウンの設定を行うために必要最小限を付与するためのカスタム ロールをご作成されたい場合は、上述で挙げた 2 種類の権限を参考にカスタム ロールをご作成ください。</p>
+<h2 id="Workload-Identity-federation-の-Service-Connection作成に必要な権限"><a href="#Workload-Identity-federation-の-Service-Connection作成に必要な権限" class="headerlink" title="Workload Identity federation の Service Connection作成に必要な権限"></a>Workload Identity federation の Service Connection作成に必要な権限</h2><hr>
+<p>Service Connection を作成する際には、特定の権限が必要です。以下の権限を確認し、必要に応じて付与してください。</p>
 <ul>
-<li>Microsoft.DevTestLab/schedules/*</li>
-<li>Microsoft.Compute/virtualMachines への各権限</li>
+<li><strong>Azure DevOps:</strong> Organization/Project における Service Connection の <a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/azure/devops/pipelines/library/service-endpoints?view=azure-devops&tabs=yaml#user-permissions">Creator または Administrator ロール</a>。</li>
+<li><strong>Microsoft Entra ID:</strong> Service Principal を Azure テナント上に作成するための権限。詳細は <a target="_blank" rel="noopener" href="https://jpazureid.github.io/blog/azure-active-directory/users-can-register-applications/">ユーザーはアプリケーションを登録できる」の設定について</a> を参照ください。</li>
+<li><strong>Azure サブスクリプション:</strong> ロールを付与する権限が必要です。具体的には Microsoft.Authorization/roleAssignments/write 権限が必要となり、”所有者” または “ユーザー アクセス管理者” ロールが必要です。もし、対象の Service Connection が、リソース グループを対象としている場合は、リソース グループに対する権限で操作可能です。</li>
 </ul>
-<p>Azure カスタム ロールの作成手順につきましては、以下の弊社ドキュメントをご参照ください。<br><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/azure/role-based-access-control/custom-roles">Azure カスタム ロール - Azure RBAC | Microsoft Learn</a></p>
 <hr>
-<h2 id="4-自動シャットダウンの設定に必要なリソース-プロバイダーについて"><a href="#4-自動シャットダウンの設定に必要なリソース-プロバイダーについて" class="headerlink" title="4. 自動シャットダウンの設定に必要なリソース プロバイダーについて"></a>4. 自動シャットダウンの設定に必要なリソース プロバイダーについて</h2><hr>
-<p>自動シャットダウンの設定を行うためには、事前に Microsoft.DevTestLab リソース プロバイダーが登録済み (Registered) である必要があります。<br>もし自動シャットダウンの設定に必要な上述の各権限を持っているにも関わらず、自動シャットダウンの設定が保存できないような場合には、Azure Portal より、Azure VM が属するサブスクリプションの管理画面に遷移し、[設定\リソース プロバイダー]より Microsoft.DevTestLab リソース プロバイダーが登録済みであることをご確認ください。<br><img src="AutoShutdown4.png"></p>
-<h2 id="最後に"><a href="#最後に" class="headerlink" title="最後に"></a>最後に</h2><hr>
-<p>今回は、Azure VM の自動シャットダウンについて、よくいただくご質問である最小権限についての情報をご紹介しました。<br>今後も自動シャットダウンのご利用にお役立ていただける情報を、どんどんご紹介していきたいと思いますので、どうぞよろしくお願いします！</p>
+<h2 id="Workload-Identity-Federation-に対応しているパイプラインタスク"><a href="#Workload-Identity-Federation-に対応しているパイプラインタスク" class="headerlink" title="Workload Identity Federation に対応しているパイプラインタスク"></a>Workload Identity Federation に対応しているパイプラインタスク</h2><hr>
+<p>2024 年 6 月時点では、すべてのパイプライン タスクが Workload Identity Federation をサポートしているわけではありませんので、ご注意ください。<br>詳しくは <a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/azure/devops/pipelines/release/troubleshoot-workload-identity?view=azure-devops#review-pipeline-tasks">こちら</a> に記載がありますが、複数のタスクにて対応、対応予定があります。<br>なお、Marketplace からインストールされたタスクのサポートについては、拡張機能の発行元に問い合わせる必要があります。</p>
+<hr>
+<h2 id="まとめ"><a href="#まとめ" class="headerlink" title="まとめ"></a>まとめ</h2><hr>
+<p>Azure DevOps の Service Connection を選択する際には、セキュリティ、運用の容易さ、および環境の柔軟性を考慮することが重要です。マネージド ID、Service Principal、Workload Identity Federation のそれぞれには、特定のシナリオや要件に適したメリットとデメリットがあります。適切な選択を行い、DevOps の実践をより効果的かつ安全に進めるために、上記が役立つことを願っています。</p>
 
       
       
@@ -166,11 +173,11 @@
     <footer class="article-footer">
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Azure-DevTest-Labs/" rel="tag">Azure DevTest Labs</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/ALM/" rel="tag">ALM</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Azure-DevOps-Services/" rel="tag">Azure DevOps Services</a></li></ul>
 
       <!-- 
       
-        <a href="https://github.com/jpdscore/blog/edit/master/articles/devtestlabs/auto-shutdown-permission.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
+        <a href="https://github.com/jpdscore/blog/edit/master/articles/azuredevops/wif-service-connection.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
         
       -->
     </footer>
@@ -179,19 +186,10 @@
     
 <nav id="article-nav">
   
-    <a href="../../windowssdk/wuaapi-install-later/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">次の記事</strong>
-      <div class="article-nav-title">
-        
-          WUA API で WSUS から取得した更新プログラムを任意のタイミングで適用する
-        
-      </div>
-    </a>
   
-  
-    <a href="../../azuredevops/signin-401-403-tsg/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="../service-connection-update/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">前の記事</strong>
-      <div class="article-nav-title">Azure DevOps Services へサインインしたときに発生する 401 / 403 エラーのトラブルシューティング ガイド</div>
+      <div class="article-nav-title">Azure DevOps Service Connection の更新について</div>
     </a>
   
 </nav>
@@ -210,19 +208,19 @@
       <ul>
         
           <li>
-            <a href="../../azuredevops/wif-service-connection/">Azure DevOps Service Connection と Workload Identity Federation について</a>
+            <a href="">Azure DevOps Service Connection と Workload Identity Federation について</a>
           </li>
         
           <li>
-            <a href="../../azuredevops/service-connection-update/">Azure DevOps Service Connection の更新について</a>
+            <a href="../service-connection-update/">Azure DevOps Service Connection の更新について</a>
           </li>
         
           <li>
-            <a href="../../azuredevops/pipelines-agent-update/">Azure Pipelines エージェントの更新について</a>
+            <a href="../pipelines-agent-update/">Azure Pipelines エージェントの更新について</a>
           </li>
         
           <li>
-            <a href="../../azuredevops/tfs-basic-log-collection/">Team Foundation Server / Azure DevOps Server のトラブルシューティング用データ採取について</a>
+            <a href="../tfs-basic-log-collection/">Team Foundation Server / Azure DevOps Server のトラブルシューティング用データ採取について</a>
           </li>
         
           <li>
@@ -230,11 +228,11 @@
           </li>
         
           <li>
-            <a href="">自動シャットダウンを設定する際に必要な最小権限について</a>
+            <a href="../../devtestlabs/auto-shutdown-permission/">自動シャットダウンを設定する際に必要な最小権限について</a>
           </li>
         
           <li>
-            <a href="../../azuredevops/signin-401-403-tsg/">Azure DevOps Services へサインインしたときに発生する 401 / 403 エラーのトラブルシューティング ガイド</a>
+            <a href="../signin-401-403-tsg/">Azure DevOps Services へサインインしたときに発生する 401 / 403 エラーのトラブルシューティング ガイド</a>
           </li>
         
       </ul>
