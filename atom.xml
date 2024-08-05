@@ -6,7 +6,7 @@
   <link href="https://jpdscore.github.io/blog/atom.xml" rel="self"/>
   
   <link href="https://jpdscore.github.io/blog/"/>
-  <updated>2024-06-22T14:47:30.000Z</updated>
+  <updated>2024-08-02T08:03:08.000Z</updated>
   <id>https://jpdscore.github.io/blog/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Windows Forms の MDI アプリケーションで ActiveX コントロールを使用すると、マウス クリックで子ウィンドウの切り替えができなくなる</title>
+    <link href="https://jpdscore.github.io/blog/windowssdk/mouse-ops-on-windows-forms-with-activex/"/>
+    <id>https://jpdscore.github.io/blog/windowssdk/mouse-ops-on-windows-forms-with-activex/</id>
+    <published>2024-08-02T08:03:08.000Z</published>
+    <updated>2024-08-02T08:03:08.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;(※ 2019 年 4 月 11 日に JAPAN Platform SDK (Windows SDK) Support Team Blog/Forum に公開した情報の再編集・再掲です。)&lt;/p&gt;
+&lt;p&gt;こんにちは、Platform SDK (Windows SDK)</summary>
+        
+      
+    
+    
+    
+    
+    <category term=".NET" scheme="https://jpdscore.github.io/blog/tags/NET/"/>
+    
+    <category term=".NET Framework" scheme="https://jpdscore.github.io/blog/tags/NET-Framework/"/>
+    
+  </entry>
   
   <entry>
     <title>Azure DevOps Service Connection と Workload Identity Federation について</title>
@@ -495,31 +521,6 @@
         
         
     <summary type="html">&lt;p&gt;こんにちは、Japan Developer Support Core チームの松井です。今回は、マネージド ヒープが破損している状況下でガベージ コレクション (GC) が実行された場合に発生する .NET</summary>
-        
-      
-    
-    
-    
-    
-    <category term="Debug" scheme="https://jpdscore.github.io/blog/tags/Debug/"/>
-    
-    <category term=".NET" scheme="https://jpdscore.github.io/blog/tags/NET/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>マネージド スレッドを TerminateThread した場合に発生する .NET ランタイムの内部エラーについて</title>
-    <link href="https://jpdscore.github.io/blog/dotnet/feee-when-managed-thread-is-terminated/"/>
-    <id>https://jpdscore.github.io/blog/dotnet/feee-when-managed-thread-is-terminated/</id>
-    <published>2022-01-23T15:00:00.000Z</published>
-    <updated>2022-01-23T15:00:00.000Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;こんにちは、Japan Developer Support Core チームの松井です。今回は、.NET アプリケーションでマネージド スレッドを TerminateThraed したときに発生する .NET</summary>
         
       
     
