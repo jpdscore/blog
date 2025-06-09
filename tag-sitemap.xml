@@ -3,211 +3,211 @@
 
 
     <url>
-        <loc>https://jpdscore.github.io/blog/tags/NET-Framework/</loc>
-        <lastmod>2024-08-02T08:03:08.000Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://jpdscore.github.io/blog/tags/NET/</loc>
-        <lastmod>2024-08-02T08:03:08.000Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://jpdscore.github.io/blog/tags/Azure-DevOps-Services/</loc>
-        <lastmod>2024-06-22T14:47:30.000Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://jpdscore.github.io/blog/tags/ALM/</loc>
-        <lastmod>2024-06-22T14:47:30.000Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://jpdscore.github.io/blog/tags/Azure-DevOps-Server/</loc>
-        <lastmod>2024-03-03T15:00:00.000Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://jpdscore.github.io/blog/tags/TFS/</loc>
-        <lastmod>2024-03-03T15:00:00.000Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://jpdscore.github.io/blog/tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/</loc>
-        <lastmod>2024-03-03T15:00:00.000Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://jpdscore.github.io/blog/tags/Windows-Update-Agent-API/</loc>
-        <lastmod>2023-09-07T15:00:00.000Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://jpdscore.github.io/blog/tags/Windows-SDK/</loc>
-        <lastmod>2023-09-07T15:00:00.000Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://jpdscore.github.io/blog/tags/Azure-DevTest-Labs/</loc>
-        <lastmod>2023-06-06T05:07:09.000Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://jpdscore.github.io/blog/tags/Documents-and-Printing/</loc>
-        <lastmod>2023-02-26T15:00:00.000Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://jpdscore.github.io/blog/tags/Azure-PlayFab/</loc>
-        <lastmod>2023-02-06T17:28:00.000Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://jpdscore.github.io/blog/tags/Azure-Pipelines/</loc>
-        <lastmod>2022-12-11T15:00:00.000Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://jpdscore.github.io/blog/tags/Visual-Studio/</loc>
-        <lastmod>2022-04-27T15:00:00.000Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://jpdscore.github.io/blog/tags/Debug/</loc>
-        <lastmod>2022-03-01T15:00:00.000Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://jpdscore.github.io/blog/tags/Visual-Studio-Code/</loc>
-        <lastmod>2021-12-13T00:00:00.000Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://jpdscore.github.io/blog/tags/Devcontainer/</loc>
-        <lastmod>2021-12-13T00:00:00.000Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://jpdscore.github.io/blog/tags/GDI/</loc>
-        <lastmod>2021-05-25T08:17:43.000Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>https://jpdscore.github.io/blog/tags/UITest/</loc>
-        <lastmod>2021-04-13T00:00:00.000Z</lastmod>
+        <lastmod>2025-06-09T06:00:23.979Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>https://jpdscore.github.io/blog/tags/Xamarin/</loc>
-        <lastmod>2021-04-13T00:00:00.000Z</lastmod>
+        <lastmod>2025-06-09T06:00:23.979Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
-        <loc>https://jpdscore.github.io/blog/tags/ClickOnce/</loc>
-        <lastmod>2021-04-01T15:00:00.000Z</lastmod>
+        <loc>https://jpdscore.github.io/blog/tags/Windows-Update-Agent-API/</loc>
+        <lastmod>2025-06-09T06:00:23.979Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
-        <loc>https://jpdscore.github.io/blog/tags/Deployment/</loc>
-        <lastmod>2021-04-01T15:00:00.000Z</lastmod>
+        <loc>https://jpdscore.github.io/blog/tags/Documents-and-Printing/</loc>
+        <lastmod>2025-06-09T06:00:23.979Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://jpdscore.github.io/blog/tags/GDI/</loc>
+        <lastmod>2025-06-09T06:00:23.979Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://jpdscore.github.io/blog/tags/Windows-SDK/</loc>
+        <lastmod>2025-06-09T06:00:23.979Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://jpdscore.github.io/blog/tags/NET-Framework/</loc>
+        <lastmod>2025-06-09T06:00:23.978Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://jpdscore.github.io/blog/tags/NET/</loc>
+        <lastmod>2025-06-09T06:00:23.978Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://jpdscore.github.io/blog/tags/Visual-Studio-Code/</loc>
+        <lastmod>2025-06-09T06:00:23.976Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://jpdscore.github.io/blog/tags/Devcontainer/</loc>
+        <lastmod>2025-06-09T06:00:23.976Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>https://jpdscore.github.io/blog/tags/VB-NET/</loc>
-        <lastmod>2021-01-20T15:00:00.000Z</lastmod>
+        <lastmod>2025-06-09T06:00:23.976Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>https://jpdscore.github.io/blog/tags/C/</loc>
-        <lastmod>2021-01-20T15:00:00.000Z</lastmod>
+        <lastmod>2025-06-09T06:00:23.976Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>https://jpdscore.github.io/blog/tags/C/</loc>
-        <lastmod>2021-01-20T15:00:00.000Z</lastmod>
+        <lastmod>2025-06-09T06:00:23.976Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
-        <loc>https://jpdscore.github.io/blog/tags/Leak/</loc>
-        <lastmod>2020-12-28T07:15:07.000Z</lastmod>
+        <loc>https://jpdscore.github.io/blog/tags/Visual-Studio/</loc>
+        <lastmod>2025-06-09T06:00:23.976Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
-        <loc>https://jpdscore.github.io/blog/tags/Memory/</loc>
-        <lastmod>2020-12-08T15:00:00.000Z</lastmod>
+        <loc>https://jpdscore.github.io/blog/tags/ALM/</loc>
+        <lastmod>2025-06-09T06:00:23.976Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
-        <loc>https://jpdscore.github.io/blog/tags/GitHub/</loc>
-        <lastmod>2020-10-29T15:00:00.000Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://jpdscore.github.io/blog/tags/Azure-Repos/</loc>
-        <lastmod>2020-10-29T15:00:00.000Z</lastmod>
+        <loc>https://jpdscore.github.io/blog/tags/Azure-PlayFab/</loc>
+        <lastmod>2025-06-09T06:00:23.975Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>https://jpdscore.github.io/blog/tags/%E5%85%A8%E8%88%AC/</loc>
-        <lastmod>2020-09-27T15:00:00.000Z</lastmod>
+        <lastmod>2025-06-09T06:00:23.975Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://jpdscore.github.io/blog/tags/Debug/</loc>
+        <lastmod>2025-06-09T06:00:23.974Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://jpdscore.github.io/blog/tags/Azure-DevTest-Labs/</loc>
+        <lastmod>2025-06-09T06:00:23.968Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://jpdscore.github.io/blog/tags/ClickOnce/</loc>
+        <lastmod>2025-06-09T06:00:23.967Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://jpdscore.github.io/blog/tags/Deployment/</loc>
+        <lastmod>2025-06-09T06:00:23.967Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://jpdscore.github.io/blog/tags/Memory/</loc>
+        <lastmod>2025-06-09T06:00:23.963Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://jpdscore.github.io/blog/tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/</loc>
+        <lastmod>2025-06-09T06:00:23.959Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://jpdscore.github.io/blog/tags/Leak/</loc>
+        <lastmod>2025-06-09T06:00:23.955Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://jpdscore.github.io/blog/tags/Azure-DevOps-Services/</loc>
+        <lastmod>2025-06-09T06:00:23.954Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://jpdscore.github.io/blog/tags/GitHub/</loc>
+        <lastmod>2025-06-09T06:00:23.951Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://jpdscore.github.io/blog/tags/Azure-Repos/</loc>
+        <lastmod>2025-06-09T06:00:23.951Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://jpdscore.github.io/blog/tags/Azure-Pipelines/</loc>
+        <lastmod>2025-06-09T06:00:23.951Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://jpdscore.github.io/blog/tags/Azure-DevOps-Server/</loc>
+        <lastmod>2025-06-09T06:00:23.937Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://jpdscore.github.io/blog/tags/TFS/</loc>
+        <lastmod>2025-06-09T06:00:23.937Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>

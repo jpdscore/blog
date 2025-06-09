@@ -15,7 +15,7 @@
 <meta property="og:locale" content="ja_JP">
 <meta property="og:image" content="https://jpdscore.github.io/blog/dotnet/gs-failure-during-gc/pinvokestackimbalance.png">
 <meta property="article:published_time" content="2021-08-26T15:00:00.000Z">
-<meta property="article:modified_time" content="2021-08-26T15:00:00.000Z">
+<meta property="article:modified_time" content="2025-06-09T06:00:23.974Z">
 <meta property="article:author" content="Developer Support Core Japan">
 <meta property="article:tag" content="Debug">
 <meta property="article:tag" content=".NET">
@@ -39,7 +39,7 @@
   
 <link rel="stylesheet" href="../../css/style.css">
 
-<meta name="generator" content="Hexo 5.1.1"></head>
+<meta name="generator" content="Hexo 7.3.0"></head>
 
 <body>
   <div id="container">
@@ -105,7 +105,7 @@
         
         <a href="https://github.com/jpdscore/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+ba5c8f30-cae6-5ea7-9b81-0211ff7eccf8%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5B.NET+%E3%82%A2%E3%83%97%E3%83%AA%E3%82%B1%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E3%81%A7+GC+%E4%B8%AD%E3%81%AB%E7%99%BA%E7%94%9F%E3%81%99%E3%82%8B%E4%BE%8B%E5%A4%96%E3%82%B3%E3%83%BC%E3%83%89+0xc0000409+%E3%81%AE%E3%82%A8%E3%83%A9%E3%83%BC%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6%5D%28https%3A%2F%2Fjpdscore.github.io%2Fblog%2Fdotnet%2Fgs-failure-during-gc%2F%29" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
         
-        <a data-url="https://jpdscore.github.io/blog/dotnet/gs-failure-during-gc/" data-id="clzgj0cjm001w9qqf1h6a8wdq" class="article-share-link">共有</a>
+        <a data-url="https://jpdscore.github.io/blog/dotnet/gs-failure-during-gc/" data-id="cmboony53001wjz7o3we06m35" class="article-share-link">共有</a>
       </div>
     
     <div class="article-entry" itemprop="articleBody">
@@ -122,7 +122,8 @@ OS Thread Id: 0x7d0c (0)
 Child SP       IP Call Site
 005aeeb0 7493cd78 [HelperMethodFrame: 005aeeb0] 
 005aef3c 028208da ConsoleApp1.Program.Main(System.String[])
-005af0c8 7433f036 [GCFrame: 005af0c8] </code></pre>
+005af0c8 7433f036 [GCFrame: 005af0c8] 
+</code></pre>
 <p>以下は例外発生時のアンマネージ スタックです。frame 11 の clr!JIT_NewArr1 で配列のメモリ割り当てが試みられたものの、マネージ ヒープに十分なサイズがなく frame 0c の clr!WKS::gc_heap::trigger_gc_for_alloc から GC が行われていたことが確認できます。その先で最終的に clr!__report_gsfailure が呼びされているため、GC の処理の中でスタックの問題が検出されたことが確認できます。(GS は Guard Stack の略です。__report_gsfailure 関数については<a target="_blank" rel="noopener" href="https://docs.microsoft.com/ja-jp/archive/msdn-magazine/2017/december/c-visual-c-support-for-stack-based-buffer-protection">こちら</a>で詳しく解説されていますのであわせて参考にしてください。)</p>
 <pre><code>0:000&gt; k
 # ChildEBP RetAddr      
@@ -159,7 +160,8 @@ Child SP       IP Call Site
 1e 005af9bc 765cfa29     mscoree!_CorExeMain_Exported+0x8
 1f 005af9cc 77617a7e     kernel32!BaseThreadInitThunk+0x19
 20 005afa28 77617a4e     ntdll!__RtlUserThreadStart+0x2f
-21 005afa38 00000000     ntdll!_RtlUserThreadStart+0x1b</code></pre>
+21 005afa38 00000000     ntdll!_RtlUserThreadStart+0x1b
+</code></pre>
 <p>GS のエラーが報告されるまでの間の frame 07 から frame 02 は何をしている処理なのでしょうか。次はこのエラーが発生したプログラムのソース コードと、.NET の実装を見ていきます。また、上記は .NET Framework で実行した例ですが、ランタイムの実装にも少し触れるために .NET 5 に変更して確認します。</p>
 <h1 id="3-デバッグ"><a href="#3-デバッグ" class="headerlink" title="3. デバッグ"></a>3. デバッグ</h1><p>.NET 5 でビルドしなおして事象を再現させたときのコール スタックは以下のようになります。概ね内容は同じですが、.NET 5 はオープン ソースでプライベート シンボルが公開されているので行番号も確認できます。</p>
 <pre><code>0:000&gt; k
@@ -185,7 +187,8 @@ Child SP       IP Call Site
 12 (Inline) --------     coreclr!Alloc+0x62 [D:\workspace\_work\1\s\src\coreclr\src\vm\gchelpers.cpp @ 228] 
 13 0077ee68 78da53e7     coreclr!AllocateSzArray+0x161 [D:\workspace\_work\1\s\src\coreclr\src\vm\gchelpers.cpp @ 483] 
 14 0077eeec 07e9541e     coreclr!JIT_NewArr1+0xb7 [D:\workspace\_work\1\s\src\coreclr\src\vm\jithelpers.cpp @ 2723] 
-...</code></pre>
+...
+</code></pre>
 <p>frame 07 の coreclr!GCScan::GcScanRoots は src\coreclr\src\gc\gcscan.cpp の 154 行目であることが分かるので、ソースコードを参照するため coreclr.dll のファイル情報からコミット ID を確認します。</p>
 <pre><code>0:000&gt; lmvmcoreclr
 Browse full module list
@@ -214,13 +217,14 @@ start    end        module name
         FileVersion:      5,0,921,35908 @Commit: <span style="background-color:DarkMagenta;">208e377a5329ad6eb1db5e5fb9d4590fa50beadd</span>
         FileDescription:  Microsoft .NET Runtime
         LegalCopyright:   © Microsoft Corporation. All rights reserved.
-        Comments:         Flavor=Retail</code></pre>
+        Comments:         Flavor=Retail
+</code></pre>
 <p>.NET 5 ランタイムのリポジトリは <a target="_blank" rel="noopener" href="https://github.com/dotnet/runtime">https://github.com/dotnet/runtime</a> ですので、これにコミット ID  <strong>208e377a5329ad6eb1db5e5fb9d4590fa50beadd</strong> を組み合わせると、frame 07 のソースコード D:\workspace_work\1\s\src\coreclr\src\gc\gcscan.cpp の URL は以下のようになります。</p>
 <p><a target="_blank" rel="noopener" href="https://github.com/dotnet/runtime/blob/208e377a5329ad6eb1db5e5fb9d4590fa50beadd/src/coreclr/src/gc/gcscan.cpp#L154">https://github.com/dotnet/runtime/blob/<strong>208e377a5329ad6eb1db5e5fb9d4590fa50beadd</strong>/src/coreclr/src/gc/gcscan.cpp#L154</a></p>
-<figure class="highlight cpp"><figcaption><span>src\coreclr\src\gc\gcscan.cpp#L154</span><a target="_blank" rel="noopener" href="https://github.com/dotnet/runtime/blob/208e377a5329ad6eb1db5e5fb9d4590fa50beadd/src/coreclr/src/gc/gcscan.cpp#L154">link</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">GCScan::GcScanRoots</span><span class="params">(promote_func* fn,  <span class="keyword">int</span> condemned, <span class="keyword">int</span> max_gen,</span></span></span><br><span class="line"><span class="function"><span class="params">                             ScanContext* sc)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    GCToEEInterface::<span class="built_in">GcScanRoots</span>(fn, condemned, max_gen, sc);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><figcaption><span>src\coreclr\src\gc\gcscan.cpp#L154</span><a target="_blank" rel="noopener" href="https://github.com/dotnet/runtime/blob/208e377a5329ad6eb1db5e5fb9d4590fa50beadd/src/coreclr/src/gc/gcscan.cpp#L154">link</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">GCScan::GcScanRoots</span><span class="params">(promote_func* fn,  <span class="type">int</span> condemned, <span class="type">int</span> max_gen,</span></span></span><br><span class="line"><span class="params"><span class="function">                             ScanContext* sc)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    GCToEEInterface::<span class="built_in">GcScanRoots</span>(fn, condemned, max_gen, sc);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>ここだけ見てもどのような処理か分からないので、同じ要領で次のスタック フレーム 06 のコードを見てみます。</p>
-<figure class="highlight cpp"><figcaption><span>src\coreclr\src\vm\gcenv.ee.cpp#L234</span><a target="_blank" rel="noopener" href="https://github.com/dotnet/runtime/blob/208e377a5329ad6eb1db5e5fb9d4590fa50beadd/src/coreclr/src/vm/gcenv.ee.cpp#L234">link</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">GCToEEInterface::GcScanRoots</span><span class="params">(promote_func* fn, <span class="keyword">int</span> condemned, <span class="keyword">int</span> max_gen, ScanContext* sc)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">STRESS_LOG1</span>(LF_GCROOTS, LL_INFO10, <span class="string">&quot;GCScan: Promotion Phase = %d\n&quot;</span>, sc-&gt;promotion);</span><br><span class="line"></span><br><span class="line">    Thread* pThread = <span class="literal">NULL</span>;</span><br><span class="line">    <span class="keyword">while</span> ((pThread = ThreadStore::<span class="built_in">GetThreadList</span>(pThread)) != <span class="literal">NULL</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">STRESS_LOG2</span>(LF_GC | LF_GCROOTS, LL_INFO100, <span class="string">&quot;&#123; Starting scan of Thread %p ID = %x\n&quot;</span>, pThread, pThread-&gt;<span class="built_in">GetThreadId</span>());</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (GCHeapUtilities::<span class="built_in">GetGCHeap</span>()-&gt;<span class="built_in">IsThreadUsingAllocationContextHeap</span>(</span><br><span class="line">            pThread-&gt;<span class="built_in">GetAllocContext</span>(), sc-&gt;thread_number))</span><br><span class="line">        &#123;</span><br><span class="line">            sc-&gt;thread_under_crawl = pThread;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> FEATURE_EVENT_TRACE</span></span><br><span class="line">            sc-&gt;dwEtwRootKind = kEtwGCRootKindStack;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span> <span class="comment">// FEATURE_EVENT_TRACE</span></span></span><br><span class="line">            <span class="built_in">ScanStackRoots</span>(pThread, fn, sc);</span><br><span class="line">            <span class="built_in">ScanTailCallArgBufferRoots</span>(pThread, fn, sc);</span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> FEATURE_EVENT_TRACE</span></span><br><span class="line">            sc-&gt;dwEtwRootKind = kEtwGCRootKindOther;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span> <span class="comment">// FEATURE_EVENT_TRACE</span></span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">STRESS_LOG2</span>(LF_GC | LF_GCROOTS, LL_INFO100, <span class="string">&quot;Ending scan of Thread %p ID = 0x%x &#125;\n&quot;</span>, pThread, pThread-&gt;<span class="built_in">GetThreadId</span>());</span><br><span class="line">    &#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><figcaption><span>src\coreclr\src\vm\gcenv.ee.cpp#L234</span><a target="_blank" rel="noopener" href="https://github.com/dotnet/runtime/blob/208e377a5329ad6eb1db5e5fb9d4590fa50beadd/src/coreclr/src/vm/gcenv.ee.cpp#L234">link</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">GCToEEInterface::GcScanRoots</span><span class="params">(promote_func* fn, <span class="type">int</span> condemned, <span class="type">int</span> max_gen, ScanContext* sc)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">STRESS_LOG1</span>(LF_GCROOTS, LL_INFO10, <span class="string">&quot;GCScan: Promotion Phase = %d\n&quot;</span>, sc-&gt;promotion);</span><br><span class="line"></span><br><span class="line">    Thread* pThread = <span class="literal">NULL</span>;</span><br><span class="line">    <span class="keyword">while</span> ((pThread = ThreadStore::<span class="built_in">GetThreadList</span>(pThread)) != <span class="literal">NULL</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">STRESS_LOG2</span>(LF_GC | LF_GCROOTS, LL_INFO100, <span class="string">&quot;&#123; Starting scan of Thread %p ID = %x\n&quot;</span>, pThread, pThread-&gt;<span class="built_in">GetThreadId</span>());</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (GCHeapUtilities::<span class="built_in">GetGCHeap</span>()-&gt;<span class="built_in">IsThreadUsingAllocationContextHeap</span>(</span><br><span class="line">            pThread-&gt;<span class="built_in">GetAllocContext</span>(), sc-&gt;thread_number))</span><br><span class="line">        &#123;</span><br><span class="line">            sc-&gt;thread_under_crawl = pThread;</span><br><span class="line"><span class="meta">#<span class="keyword">ifdef</span> FEATURE_EVENT_TRACE</span></span><br><span class="line">            sc-&gt;dwEtwRootKind = kEtwGCRootKindStack;</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span> <span class="comment">// FEATURE_EVENT_TRACE</span></span></span><br><span class="line">            <span class="built_in">ScanStackRoots</span>(pThread, fn, sc);</span><br><span class="line">            <span class="built_in">ScanTailCallArgBufferRoots</span>(pThread, fn, sc);</span><br><span class="line"><span class="meta">#<span class="keyword">ifdef</span> FEATURE_EVENT_TRACE</span></span><br><span class="line">            sc-&gt;dwEtwRootKind = kEtwGCRootKindOther;</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span> <span class="comment">// FEATURE_EVENT_TRACE</span></span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">STRESS_LOG2</span>(LF_GC | LF_GCROOTS, LL_INFO100, <span class="string">&quot;Ending scan of Thread %p ID = 0x%x &#125;\n&quot;</span>, pThread, pThread-&gt;<span class="built_in">GetThreadId</span>());</span><br><span class="line">    &#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
 
 <p>while 文でマネージ スレッドのリストを辿りながら ScanStackRoots 関数を呼び出していることが確認できます。現在処理をしているスレッドの情報を見てみます。(以下で使用している <a target="_blank" rel="noopener" href="https://docs.microsoft.com/ja-jp/windows-hardware/drivers/debugger/dx--display-visualizer-variables-">dx コマンド</a> は Windows 10 SDK から追加された比較的新しいコマンドですので、Windows デバッガーを利用したことがある方でもあまり馴染みがないかもしれません。色々便利な使い方ができるので、いずれブログ記事で取り上げたいと思います。)</p>
 <pre><code>0:000&gt; dx @$curthread.Stack.Frames[6].LocalVariables.pThread
@@ -235,7 +239,8 @@ start    end        module name
     [+0x014] m_ThreadId       : 0x4 [Type: unsigned long]
 ...
     [+0x11c] m_OSThreadId     : 0x5b30 [Type: unsigned long]
-...</code></pre>
+...
+</code></pre>
 <p>ここで表示されている m_ThreadId はマネージ スレッドの ID になるので、~ コマンドでスレッドを切り替える場合は m_OSThreadId を使用します。0x5b30 のスレッドのコールスタックを見てみます。</p>
 <pre><code>0:000&gt; ~~[0x5b30]e!ClrStack
 OS Thread Id: 0x5b30 (8)
@@ -247,9 +252,10 @@ Child SP       IP Call Site
 081CF8F4 79611fb0 System.Threading.ThreadHelper.ThreadStart_Context(System.Object) [/_/src/coreclr/src/System.Private.CoreLib/src/System/Threading/Thread.CoreCLR.cs @ 42]
 081CF904 79619785 System.Threading.ExecutionContext.RunInternal(System.Threading.ExecutionContext, System.Threading.ContextCallback, System.Object) [/_/src/libraries/System.Private.CoreLib/src/System/Threading/ExecutionContext.cs @ 186]
 081CF938 79612073 System.Threading.ThreadHelper.ThreadStart() [/_/src/coreclr/src/System.Private.CoreLib/src/System/Threading/Thread.CoreCLR.cs @ 91]
-081CFB80 78e96e6f [DebuggerU2MCatchHandlerFrame: 081cfb80] </code></pre>
+081CFB80 78e96e6f [DebuggerU2MCatchHandlerFrame: 081cfb80] 
+</code></pre>
 <p>前述のマネージ スタックのうち、どのスタック フレームを処理しようとしていたか確認するために frame 02 の処理を確認すると、m_crawl.pFrame が示すフレームであることを確認できます。</p>
-<figure class="highlight cpp"><figcaption><span>src\coreclr\src\vm\stackwalk.cpp#L1184</span><a target="_blank" rel="noopener" href="https://github.com/dotnet/runtime/blob/208e377a5329ad6eb1db5e5fb9d4590fa50beadd/src/coreclr/src/vm/stackwalk.cpp#L1184">link</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">BOOL <span class="title">StackFrameIterator::Init</span><span class="params">(Thread *    pThread,</span></span></span><br><span class="line"><span class="function"><span class="params">                              PTR_Frame   pFrame,</span></span></span><br><span class="line"><span class="function"><span class="params">                              PREGDISPLAY pRegDisp,</span></span></span><br><span class="line"><span class="function"><span class="params">                              ULONG32     flags)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">...</span><br><span class="line">    <span class="keyword">if</span> (m_crawl.pFrame != FRAME_TOP &amp;&amp; !(m_flags &amp; SKIP_GSCOOKIE_CHECK))</span><br><span class="line">    &#123;</span><br><span class="line">        m_crawl.<span class="built_in">SetCurGSCookie</span>(Frame::<span class="built_in">SafeGetGSCookiePtr</span>(m_crawl.pFrame));</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><figcaption><span>src\coreclr\src\vm\stackwalk.cpp#L1184</span><a target="_blank" rel="noopener" href="https://github.com/dotnet/runtime/blob/208e377a5329ad6eb1db5e5fb9d4590fa50beadd/src/coreclr/src/vm/stackwalk.cpp#L1184">link</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">BOOL <span class="title">StackFrameIterator::Init</span><span class="params">(Thread *    pThread,</span></span></span><br><span class="line"><span class="params"><span class="function">                              PTR_Frame   pFrame,</span></span></span><br><span class="line"><span class="params"><span class="function">                              PREGDISPLAY pRegDisp,</span></span></span><br><span class="line"><span class="params"><span class="function">                              ULONG32     flags)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">...</span><br><span class="line">    <span class="keyword">if</span> (m_crawl.pFrame != FRAME_TOP &amp;&amp; !(m_flags &amp; SKIP_GSCOOKIE_CHECK))</span><br><span class="line">    &#123;</span><br><span class="line">        m_crawl.<span class="built_in">SetCurGSCookie</span>(Frame::<span class="built_in">SafeGetGSCookiePtr</span>(m_crawl.pFrame));</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 
 <p>メンバー変数なので this から辿る必要があることに注意しつつ、デバッガーで表示してみます。</p>
 <pre><code>0:000&gt; dx @$curthread.Stack.Frames[2].LocalVariables.this-&gt;m_crawl-&gt;pFrame
@@ -259,12 +265,13 @@ Child SP       IP Call Site
     [+0x00c] <span style="background-color:DarkCyan;">m_pCallSiteSP    : 0x81cf894</span> [Type: void *]
     [+0x010] <span style="background-color:DarkCyan;">m_pCallerReturnAddress : 0x7e96246</span> [Type: unsigned long]
     [+0x014] m_pCalleeSavedFP : 0x81cf8dc [Type: unsigned long]
-    [+0x018] m_pThread        : 0x78eb6898 [Type: void *]</code></pre>
+    [+0x018] m_pThread        : 0x78eb6898 [Type: void *]
+</code></pre>
 <p>m_pCallSiteSP や m_pCallerReturnAddress の値と 0x5b30 の !ClrStack コマンドの結果を比較すると、プラットフォーム相互運用に関連するフレームであったことが確認できます。(ちなみに今回表示したフレームは InlineCallFrame クラスですが、Frame クラスを基底にした様々なスタック フレームの種類があることが <a target="_blank" rel="noopener" href="https://github.com/dotnet/runtime/blob/main/src/coreclr/vm/frames.h">https://github.com/dotnet/runtime/blob/main/src/coreclr/vm/frames.h</a> で確認できます。)</p>
 <p>プラットフォーム相互運用周辺が怪しいということが分かったところで、今回の確認に使用したプログラムのソース コードを見てみます。</p>
-<figure class="highlight cs"><figcaption><span>"ConsoleApp1.exe の実装 (source.cs) Debug|x86"</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> System;</span><br><span class="line"><span class="keyword">using</span> System.Runtime.InteropServices;</span><br><span class="line"><span class="keyword">using</span> System.Threading;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">ConsoleApp1</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">class</span> <span class="title">Program</span></span><br><span class="line">    &#123;</span><br><span class="line">        [<span class="meta">DllImport(<span class="meta-string">&quot;Dll1.dll&quot;</span>)</span>]</span><br><span class="line">        <span class="function"><span class="keyword">private</span> <span class="keyword">extern</span> <span class="keyword">static</span> <span class="built_in">int</span> <span class="title">Foo</span>(<span class="params"></span>)</span>;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Worker</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>        &#123;</span><br><span class="line">            <span class="keyword">while</span> (<span class="literal">true</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                Foo();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>(<span class="params"><span class="built_in">string</span>[] args</span>)</span></span><br><span class="line"><span class="function"></span>        &#123;</span><br><span class="line">            <span class="keyword">var</span> t = <span class="keyword">new</span> Thread(Worker);</span><br><span class="line">            t.Start();</span><br><span class="line">            <span class="keyword">while</span> (<span class="literal">true</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">var</span> _garbage = <span class="keyword">new</span> <span class="built_in">int</span>[<span class="number">8000</span>];</span><br><span class="line">            &#125;</span><br><span class="line">            GC.KeepAlive(t);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cs"><figcaption><span>"ConsoleApp1.exe の実装 (source.cs) Debug|x86"</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> System;</span><br><span class="line"><span class="keyword">using</span> System.Runtime.InteropServices;</span><br><span class="line"><span class="keyword">using</span> System.Threading;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">ConsoleApp1</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">class</span> <span class="title">Program</span></span><br><span class="line">    &#123;</span><br><span class="line">        [<span class="meta">DllImport(<span class="string">&quot;Dll1.dll&quot;</span>)</span>]</span><br><span class="line">        <span class="function"><span class="keyword">private</span> <span class="keyword">extern</span> <span class="keyword">static</span> <span class="built_in">int</span> <span class="title">Foo</span>()</span>;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Worker</span>()</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">while</span> (<span class="literal">true</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                Foo();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>(<span class="params"><span class="built_in">string</span>[] <span class="keyword">args</span></span>)</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">var</span> t = <span class="keyword">new</span> Thread(Worker);</span><br><span class="line">            t.Start();</span><br><span class="line">            <span class="keyword">while</span> (<span class="literal">true</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">var</span> _garbage = <span class="keyword">new</span> <span class="built_in">int</span>[<span class="number">8000</span>];</span><br><span class="line">            &#125;</span><br><span class="line">            GC.KeepAlive(t);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<figure class="highlight cpp"><figcaption><span>"dll1.dll の実装 (source.cpp) Debug|x86"</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">extern</span> <span class="string">&quot;C&quot;</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> __stdcall <span class="title">Foo</span><span class="params">(<span class="keyword">int</span> arg)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> arg;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><figcaption><span>"dll1.dll の実装 (source.cpp) Debug|x86"</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">extern</span> <span class="string">&quot;C&quot;</span></span><br><span class="line"><span class="function"><span class="type">int</span> __stdcall <span class="title">Foo</span><span class="params">(<span class="type">int</span> arg)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> arg;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>DLL がエクスポートしている Foo 関数は int 型の引数を取りますが、マネージ コードの DllImport の定義には引数がなく、呼出し元と呼び出し先でスタックの扱いに不整合が生じて破損する可能性があります。結局のところ、__report_gsfailure の報告は GC の処理が各スタック フレームからのオブジェクト参照を操作する中でこの問題を検出したものでした。上記のソースコードは問題を極端にシンプル化した例ですが、実際のアプリケーションはより複雑で規模も大きく、コード レビューで問題を見つけることも容易ではありません。</p>
 <p>ちなみに、Foo 関数の呼び出しでスタックの扱いに不整合が生じているなら呼び出したらすぐ問題が起きそうなものですが、このケースの場合、実際には GC が発生するまで問題が顕在化しません。なぜでしょうか？</p>
@@ -321,7 +328,8 @@ Child SP       IP Call Site
 1d 053dfab8 7747fa29     clr!Thread::intermediateThreadProc+0x58
 1e 053dfac8 77c27a7e     kernel32!BaseThreadInitThunk+0x19
 1f 053dfb24 77c27a4e     ntdll!__RtlUserThreadStart+0x2f
-20 053dfb34 00000000     ntdll!_RtlUserThreadStart+0x1b</code></pre>
+20 053dfb34 00000000     ntdll!_RtlUserThreadStart+0x1b
+</code></pre>
 <p>MDA の機能や設定方法の詳細については、以下のドキュメントをご確認ください。<br><a target="_blank" rel="noopener" href="https://docs.microsoft.com/ja-jp/dotnet/framework/debug-trace-profile/diagnosing-errors-with-managed-debugging-assistants">https://docs.microsoft.com/ja-jp/dotnet/framework/debug-trace-profile/diagnosing-errors-with-managed-debugging-assistants</a></p>
 <p>なお、MDA は Visual Studio 固有の機能ではなく .NET Framework 自体の機能ですので、Visual Studio をインストールしなくても利用することが可能です。ただし、PInvokeStackImbalance の MDA は問題の検出をデバッガーへ通知するため、Visual Studio と共に使用しない場合は ProcDump など他のツールやデバッガーを事後デバッガーとして指定しておく必要があります。例えば <a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/sysinternals/downloads/procdump">ProcDump</a> ツールを使う場合は procdump.exe -i -ma を実行することで典型的な構成での事後デバッガーの構成が可能です。事後デバッガーの設定の詳細は以下のドキュメントを参考にしてください。<br><a target="_blank" rel="noopener" href="https://docs.microsoft.com/ja-jp/windows-hardware/drivers/debugger/enabling-postmortem-debugging">https://docs.microsoft.com/ja-jp/windows-hardware/drivers/debugger/enabling-postmortem-debugging</a></p>
 <h1 id="5-まとめ"><a href="#5-まとめ" class="headerlink" title="5. まとめ"></a>5. まとめ</h1><p>clr.dll で例外コード 0xc0000409 が発生する場合、まずダンプ ファイルを採取して例外のスタックを確認してください。スタックに clr!CrawlFrame::* が現れる場合はマネージ スタック フレームのいずれかで破損が検出された状況が推測されます。この場合、GC で処理を行っている対象のスレッドとスタック フレームが特定できれば原因が特定できる可能性があります。スタックの破損に至る要因やその範囲は様々で、この記事で取り上げたケースのように簡単な状況ではないことも多くありますが、アプリケーションのデバッグの参考になれば幸いです。.NET Framework アプリケーションの場合はランタイム内部の構造体フィールドの確認などでプライベート シンボルが必要となりますので、弊社のプレミア サポートやユニファイド サポートのご利用もご検討ください。</p>
@@ -440,19 +448,19 @@ Child SP       IP Call Site
     <ul>
       
         <li>
-          <a href="../../https:/social.msdn.microsoft.com/Forums/ja-jp/home?forum=visualstudiosupportteamja">Visual Studio サポートチーム フォーラム</a>
+          <a target="_blank" rel="noopener" href="https://social.msdn.microsoft.com/Forums/ja-jp/home?forum=visualstudiosupportteamja">Visual Studio サポートチーム フォーラム</a>
         </li>
       
         <li>
-          <a href="../../https:/social.msdn.microsoft.com/Forums/ja-jp/home?forum=windowssdksupportteamja&filter=alltypes&sort=lastpostdesc">Windows SDK サポートチーム フォーラム</a>
+          <a target="_blank" rel="noopener" href="https://social.msdn.microsoft.com/Forums/ja-jp/home?forum=windowssdksupportteamja&filter=alltypes&sort=lastpostdesc">Windows SDK サポートチーム フォーラム</a>
         </li>
       
         <li>
-          <a href="../../https:/docs.microsoft.com/en-us/archive/blogs/jpvsblog/">Visual Studio サポート チーム blog</a>
+          <a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/archive/blogs/jpvsblog/">Visual Studio サポート チーム blog</a>
         </li>
       
         <li>
-          <a href="../../https:/docs.microsoft.com/en-us/archive/blogs/japan_platform_sdkwindows_sdk_support_team_blog/">JAPAN Platform SDK（Windows SDK） Support Team Blog</a>
+          <a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/archive/blogs/japan_platform_sdkwindows_sdk_support_team_blog/">JAPAN Platform SDK（Windows SDK） Support Team Blog</a>
         </li>
       
     </ul>
@@ -466,43 +474,43 @@ Child SP       IP Call Site
     <ul>
       
         <li>
-          <a href="../../https:/developercommunity.visualstudio.com/">Developer Community</a>
+          <a target="_blank" rel="noopener" href="https://developercommunity.visualstudio.com/">Developer Community</a>
         </li>
       
         <li>
-          <a href="../../https:/devblogs.microsoft.com/dotnet/">.NET Blog</a>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/dotnet/">.NET Blog</a>
         </li>
       
         <li>
-          <a href="../../https:/devblogs.microsoft.com/visualstudio/">Visual Studio Blog</a>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/visualstudio/">Visual Studio Blog</a>
         </li>
       
         <li>
-          <a href="../../https:/devblogs.microsoft.com/cppblog/">C++ Team Blog</a>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/cppblog/">C++ Team Blog</a>
         </li>
       
         <li>
-          <a href="../../https:/devblogs.microsoft.com/xamarin/">Xamarin Blog</a>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/xamarin/">Xamarin Blog</a>
         </li>
       
         <li>
-          <a href="../../https:/devblogs.microsoft.com/devops/">Azure DevOps Blog</a>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/devops/">Azure DevOps Blog</a>
         </li>
       
         <li>
-          <a href="../../https:/techcommunity.microsoft.com/t5/azure-lab-services/bg-p/AzureLabServicesBlog/">Azure Lab Services Blog</a>
+          <a target="_blank" rel="noopener" href="https://techcommunity.microsoft.com/t5/azure-lab-services/bg-p/AzureLabServicesBlog/">Azure Lab Services Blog</a>
         </li>
       
         <li>
-          <a href="../../https:/devblogs.microsoft.com/appcenter/">App Center Blog</a>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/appcenter/">App Center Blog</a>
         </li>
       
         <li>
-          <a href="../../https:/status.azure.com/status/">Azure Status</a>
+          <a target="_blank" rel="noopener" href="https://status.azure.com/status/">Azure Status</a>
         </li>
       
         <li>
-          <a href="../../https:/status.dev.azure.com/">Azure DevOps - Status</a>
+          <a target="_blank" rel="noopener" href="https://status.dev.azure.com/">Azure DevOps - Status</a>
         </li>
       
     </ul>
@@ -517,7 +525,7 @@ Child SP       IP Call Site
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2024 Developer Support Core Japan<br>
+      &copy; 2025 Developer Support Core Japan<br>
       Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>

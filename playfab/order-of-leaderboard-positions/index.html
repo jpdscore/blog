@@ -14,7 +14,7 @@
 <meta property="og:description" content="こんにちは、Japan Developer Support Core チームの近澤です。PlayFab では Leaderboard (ランキング) を取得する API を用途に応じて複数ご用意しております。これらの動作について、弊社へよくお問い合わせいただく内容について、ご説明いたします。 Leaderboard を取得する API の種類現在以下の API をご用意しております。    API">
 <meta property="og:locale" content="ja_JP">
 <meta property="article:published_time" content="2023-02-06T17:28:00.000Z">
-<meta property="article:modified_time" content="2023-02-06T17:28:00.000Z">
+<meta property="article:modified_time" content="2025-06-09T06:00:23.975Z">
 <meta property="article:author" content="Developer Support Core Japan">
 <meta property="article:tag" content="Azure PlayFab">
 <meta name="twitter:card" content="summary">
@@ -36,7 +36,7 @@
   
 <link rel="stylesheet" href="../../css/style.css">
 
-<meta name="generator" content="Hexo 5.1.1"></head>
+<meta name="generator" content="Hexo 7.3.0"></head>
 
 <body>
   <div id="container">
@@ -102,7 +102,7 @@
         
         <a href="https://github.com/jpdscore/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+75b6098c-9e61-5756-9c56-d9723033f62c%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5BGetLeaderboard+%E7%B3%BB+API+%E3%81%A7%E5%8F%96%E5%BE%97%E3%81%97%E3%81%9F%E3%83%A9%E3%83%B3%E3%82%AD%E3%83%B3%E3%82%B0%E4%BD%8D%E7%BD%AE%E3%81%AE%E9%A0%86%E7%95%AA%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6%5D%28https%3A%2F%2Fjpdscore.github.io%2Fblog%2Fplayfab%2Forder-of-leaderboard-positions%2F%29" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
         
-        <a data-url="https://jpdscore.github.io/blog/playfab/order-of-leaderboard-positions/" data-id="clzgj0cjt00299qqfhbzsa6sj" class="article-share-link">共有</a>
+        <a data-url="https://jpdscore.github.io/blog/playfab/order-of-leaderboard-positions/" data-id="cmboony560029jz7ofzlr5hod" class="article-share-link">共有</a>
       </div>
     
     <div class="article-entry" itemprop="articleBody">
@@ -148,8 +148,8 @@
 <p>※ GetLeaderboardAroundPlayer は Server API では GetLeaderboardAroundUser という名称ですが、これらは同じ機能です。</p>
 <h1 id="API-使用時の注意点"><a href="#API-使用時の注意点" class="headerlink" title="API 使用時の注意点"></a>API 使用時の注意点</h1><p>ランキング機能が必要なシチュエーションは、主に以下の2通りです。</p>
 <ul>
-<li>ランキング上位のプレイヤーを表示するとき</li>
-<li>特定のプレイヤーのランキングを表示するとき</li>
+<li> ランキング上位のプレイヤーを表示するとき</li>
+<li> 特定のプレイヤーのランキングを表示するとき</li>
 </ul>
 <p>前者は、GetLeaderboard 系 API で取得できます。<br>後者は GetLeaderboardAroundPlayer 系 API で取得できます。<br>GetLeaderboardAroundPlayer 系 API は対象のプレイヤーやキャラクターの周辺 100 件 (上位 50 件、下位 50 件) まで取得することができます。  </p>
 <p>しかしながら、これらの機能で厳密なランキングを取得されたいという場合には、以下の事項が問題になることがあります。  </p>
@@ -184,10 +184,11 @@
 <p>そのため、一貫した Position を決定されたい場合、この動作は問題となります。<br>その際の回避策として、下記の二つが考えられます。</p>
 <h2 id="回避策-1"><a href="#回避策-1" class="headerlink" title="回避策 1"></a>回避策 1</h2><p>前述の通り、厳密には同率スコアのプレイヤーの並びは変化する可能性がありますので、これを回避するには同率のスコアのプレイヤーが生じないように制御する必要があります。<br>これを実現するため、32 bit 値であるスコアの上位ビットをスコアの値として利用し、下位ビットをタイムスタンプのような一意の値として、ユーザー間の重複が生じないように制御します。  </p>
 <pre><code>例) 16 bit ずつに分け、(1) スコアが 0x1234 (4660)、(2) 同率回避用の値が 0xABCD (43981) の場合
-
+ 
 0x12 0x34 0xAB 0xCD 
 └──┘ └──┘ └──┘ └──┘
-   (1)       (2)</code></pre>
+   (1)       (2)
+</code></pre>
 <p>本来のスコアとして利用可能な値のレンジが少なくなることと、同率回避用の一意の値をどのように生成するかといった点はご留意いただく必要があります。</p>
 <h2 id="回避策-2"><a href="#回避策-2" class="headerlink" title="回避策 2"></a>回避策 2</h2><p>GetLeaderboard 系の API で取得される Position は厳密には確定的ではありませんが、短い期間の間に同一のエンドポイントから API が実行される限りにおいては、結果にばらつきが生じる可能性は低いものと考えられます。  </p>
 <pre><code>例1) GetLeaderboard 系で Player を指定しない場合の結果
@@ -202,7 +203,7 @@ Position Player    Score
     7        C      10
     8        B      10
     9        A       9
-
+ 
 例2) GetLeaderboardAroundPlayer 系で Player C を指定した場合の結果
 C が同率の中でトップの Position となります
 Position Player    Score
@@ -215,7 +216,8 @@ Position Player    Score
     6        E    　10
     7        D    　10
     8        B    　10
-    9        A    　 9</code></pre>
+    9        A    　 9
+</code></pre>
 <p>例 2) の情報をもとに、C 以下の順位のPlayer を確認するため Position 6 以降の情報を確認しようとしても、例1) のとおり、C が Position 7 として現れる結果となります。</p>
 <p>これを避けるには、以下のような順で処理を実行します。</p>
 <ol>
@@ -340,19 +342,19 @@ Position Player    Score
     <ul>
       
         <li>
-          <a href="../../https:/social.msdn.microsoft.com/Forums/ja-jp/home?forum=visualstudiosupportteamja">Visual Studio サポートチーム フォーラム</a>
+          <a target="_blank" rel="noopener" href="https://social.msdn.microsoft.com/Forums/ja-jp/home?forum=visualstudiosupportteamja">Visual Studio サポートチーム フォーラム</a>
         </li>
       
         <li>
-          <a href="../../https:/social.msdn.microsoft.com/Forums/ja-jp/home?forum=windowssdksupportteamja&filter=alltypes&sort=lastpostdesc">Windows SDK サポートチーム フォーラム</a>
+          <a target="_blank" rel="noopener" href="https://social.msdn.microsoft.com/Forums/ja-jp/home?forum=windowssdksupportteamja&filter=alltypes&sort=lastpostdesc">Windows SDK サポートチーム フォーラム</a>
         </li>
       
         <li>
-          <a href="../../https:/docs.microsoft.com/en-us/archive/blogs/jpvsblog/">Visual Studio サポート チーム blog</a>
+          <a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/archive/blogs/jpvsblog/">Visual Studio サポート チーム blog</a>
         </li>
       
         <li>
-          <a href="../../https:/docs.microsoft.com/en-us/archive/blogs/japan_platform_sdkwindows_sdk_support_team_blog/">JAPAN Platform SDK（Windows SDK） Support Team Blog</a>
+          <a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/archive/blogs/japan_platform_sdkwindows_sdk_support_team_blog/">JAPAN Platform SDK（Windows SDK） Support Team Blog</a>
         </li>
       
     </ul>
@@ -366,43 +368,43 @@ Position Player    Score
     <ul>
       
         <li>
-          <a href="../../https:/developercommunity.visualstudio.com/">Developer Community</a>
+          <a target="_blank" rel="noopener" href="https://developercommunity.visualstudio.com/">Developer Community</a>
         </li>
       
         <li>
-          <a href="../../https:/devblogs.microsoft.com/dotnet/">.NET Blog</a>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/dotnet/">.NET Blog</a>
         </li>
       
         <li>
-          <a href="../../https:/devblogs.microsoft.com/visualstudio/">Visual Studio Blog</a>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/visualstudio/">Visual Studio Blog</a>
         </li>
       
         <li>
-          <a href="../../https:/devblogs.microsoft.com/cppblog/">C++ Team Blog</a>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/cppblog/">C++ Team Blog</a>
         </li>
       
         <li>
-          <a href="../../https:/devblogs.microsoft.com/xamarin/">Xamarin Blog</a>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/xamarin/">Xamarin Blog</a>
         </li>
       
         <li>
-          <a href="../../https:/devblogs.microsoft.com/devops/">Azure DevOps Blog</a>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/devops/">Azure DevOps Blog</a>
         </li>
       
         <li>
-          <a href="../../https:/techcommunity.microsoft.com/t5/azure-lab-services/bg-p/AzureLabServicesBlog/">Azure Lab Services Blog</a>
+          <a target="_blank" rel="noopener" href="https://techcommunity.microsoft.com/t5/azure-lab-services/bg-p/AzureLabServicesBlog/">Azure Lab Services Blog</a>
         </li>
       
         <li>
-          <a href="../../https:/devblogs.microsoft.com/appcenter/">App Center Blog</a>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/appcenter/">App Center Blog</a>
         </li>
       
         <li>
-          <a href="../../https:/status.azure.com/status/">Azure Status</a>
+          <a target="_blank" rel="noopener" href="https://status.azure.com/status/">Azure Status</a>
         </li>
       
         <li>
-          <a href="../../https:/status.dev.azure.com/">Azure DevOps - Status</a>
+          <a target="_blank" rel="noopener" href="https://status.dev.azure.com/">Azure DevOps - Status</a>
         </li>
       
     </ul>
@@ -417,7 +419,7 @@ Position Player    Score
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2024 Developer Support Core Japan<br>
+      &copy; 2025 Developer Support Core Japan<br>
       Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>

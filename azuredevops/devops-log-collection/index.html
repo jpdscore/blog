@@ -40,7 +40,7 @@
 <meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/devops-log-collection/tcpdump4.png">
 <meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/devops-log-collection/tcpdump5.png">
 <meta property="article:published_time" content="2022-04-26T15:00:00.000Z">
-<meta property="article:modified_time" content="2022-04-26T15:00:00.000Z">
+<meta property="article:modified_time" content="2025-06-09T06:00:23.915Z">
 <meta property="article:author" content="Developer Support Core Japan">
 <meta property="article:tag" content="ALM">
 <meta property="article:tag" content="Azure DevOps Services">
@@ -65,7 +65,7 @@
   
 <link rel="stylesheet" href="../../css/style.css">
 
-<meta name="generator" content="Hexo 5.1.1"></head>
+<meta name="generator" content="Hexo 7.3.0"></head>
 
 <body>
   <div id="container">
@@ -131,7 +131,7 @@
         
         <a href="https://github.com/jpdscore/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+2e9f14d8-067f-509f-adfe-aacc536106cb%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5BAzure+DevOps+Services+%E3%83%88%E3%83%A9%E3%83%96%E3%83%AB%E3%82%B7%E3%83%A5%E3%83%BC%E3%83%86%E3%82%A3%E3%83%B3%E3%82%B0%E7%94%A8%E3%81%AE%E3%83%87%E3%83%BC%E3%82%BF%E6%8E%A1%E5%8F%96%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6%5D%28https%3A%2F%2Fjpdscore.github.io%2Fblog%2Fazuredevops%2Fdevops-log-collection%2F%29" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
         
-        <a data-url="https://jpdscore.github.io/blog/azuredevops/devops-log-collection/" data-id="clzgj0cit00049qqf7f9zevyq" class="article-share-link">共有</a>
+        <a data-url="https://jpdscore.github.io/blog/azuredevops/devops-log-collection/" data-id="cmboony4i0004jz7o2srwfdxe" class="article-share-link">共有</a>
       </div>
     
     <div class="article-entry" itemprop="articleBody">
@@ -142,14 +142,18 @@
 <p>さて、今回の記事では、<span style="background-color:yellow">Azure DevOps Services 全般で生じた問題</span>におけるトラブルシューティング用のデータ採取方法についてご紹介していきます。</p>
 <p>迅速な問題解決のためには…</p>
 <ul>
-<li>どのような操作を行ったのか</li>
-<li>どのようなエラー メッセージが表示されたのか</li>
-<li>どのようなネットワークの通信が発生したのか</li>
-<li>どのようなプロセスが動作していたのか</li>
-</ul>
+<li><p>どのような操作を行ったのか</p>
+</li>
+<li><p>どのようなエラー メッセージが表示されたのか</p>
+</li>
+<li><p>どのようなネットワークの通信が発生したのか</p>
+</li>
+<li><p>どのようなプロセスが動作していたのか</p>
 <p>…等々、事象発生時の正確な状況を把握する必要があります。  </p>
 <p>正確な状況把握と共に、弊社サポート サービスとお客様との間で認識合わせを行うためにも必要なこれらの情報の採取手順について、以下に具体的にご説明します！</p>
-<h2 id="各種情報"><a href="#各種情報" class="headerlink" title="各種情報"></a>各種情報</h2><p><strong><a href="#1-%E3%83%A6%E3%83%BC%E3%82%B6%E3%83%BC%E6%93%8D%E4%BD%9C%E3%82%92%E8%A8%98%E9%8C%B2%E3%81%99%E3%82%8B">1. ユーザー操作を記録する</a></strong><br><strong><a href="#2-%E3%83%96%E3%83%A9%E3%82%A6%E3%82%B6%E3%83%BC-%E3%83%88%E3%83%AC%E3%83%BC%E3%82%B9%E3%82%92%E6%8E%A1%E5%8F%96%E3%81%99%E3%82%8B">2. ブラウザー トレースを採取する</a></strong><br><strong><a href="#3-Fiddler-%E3%83%88%E3%83%AC%E3%83%BC%E3%82%B9%E3%82%92%E5%8F%8E%E9%9B%86%E3%81%99%E3%82%8B">3. Fiddler トレースを採取する</a></strong><br><strong><a href="#4-Tcpdump-%E3%83%AD%E3%82%B0%E3%82%92%E6%8E%A1%E5%8F%96%E3%81%99%E3%82%8B">4. Tcpdump ログを採取する</a></strong><br><strong><a href="#5-Process-Monitor-%E3%83%AD%E3%82%B0%E3%82%92%E6%8E%A1%E5%8F%96%E3%81%99%E3%82%8B">5. Process Monitor ログを採取する</a></strong>  </p>
+<h2 id="各種情報"><a href="#各種情報" class="headerlink" title="各種情報"></a>各種情報</h2></li>
+</ul>
+<p><strong><a href="#1-%E3%83%A6%E3%83%BC%E3%82%B6%E3%83%BC%E6%93%8D%E4%BD%9C%E3%82%92%E8%A8%98%E9%8C%B2%E3%81%99%E3%82%8B">1. ユーザー操作を記録する</a></strong><br><strong><a href="#2-%E3%83%96%E3%83%A9%E3%82%A6%E3%82%B6%E3%83%BC-%E3%83%88%E3%83%AC%E3%83%BC%E3%82%B9%E3%82%92%E6%8E%A1%E5%8F%96%E3%81%99%E3%82%8B">2. ブラウザー トレースを採取する</a></strong><br><strong><a href="#3-Fiddler-%E3%83%88%E3%83%AC%E3%83%BC%E3%82%B9%E3%82%92%E5%8F%8E%E9%9B%86%E3%81%99%E3%82%8B">3. Fiddler トレースを採取する</a></strong><br><strong><a href="#4-Tcpdump-%E3%83%AD%E3%82%B0%E3%82%92%E6%8E%A1%E5%8F%96%E3%81%99%E3%82%8B">4. Tcpdump ログを採取する</a></strong><br><strong><a href="#5-Process-Monitor-%E3%83%AD%E3%82%B0%E3%82%92%E6%8E%A1%E5%8F%96%E3%81%99%E3%82%8B">5. Process Monitor ログを採取する</a></strong>  </p>
 <hr>
 <h2 id="1-ユーザー操作を記録する"><a href="#1-ユーザー操作を記録する" class="headerlink" title="1. ユーザー操作を記録する"></a>1. ユーザー操作を記録する</h2><hr>
 <p>問題が発生するまでの一連の流れについて、画面のスクリーン ショット (PSR ログ) を採取する手順です。</p>
@@ -166,10 +170,8 @@
 <li><p>[保存(V)] を選択します<br><img src="StepsRecorder4.png"></p>
 </li>
 <li><p>任意のファイル名で保存した ZIP 形式のファイルを、弊社へご提供ください</p>
-</li>
-</ol>
 <p>上記の操作はコマンド ラインからも採取できます。<br>どちらの方法でも構いませんので、お好みの方法で情報採取ください。</p>
-<ol>
+</li>
 <li><p>コマンドプロンプトを起動し、以下の通り PSR ログの取得を開始してください</p>
 <p><code>psr /start /output &lt;出力先パス&gt;\psr1.zip /maxsc 99 /gui 0</code><br>例: psr /start /output c:\work\psr1.zip /maxsc 99 /gui 0  </p>
 </li>
@@ -188,13 +190,16 @@
 <p><a target="_blank" rel="noopener" href="https://docs.microsoft.com/ja-jp/azure/azure-portal/capture-browser-trace">トラブルシューティングのためにブラウザー トレースをキャプチャする - Azure portal | Microsoft Docs</a></p>
 <p>上記ドキュメントにも記載されておりますが、ブラウザー トレースも含めて以下の 3 つのログをご提供いただけると、お客様が実施した全ての手順を正確に把握することができますので、是非ご検討ください。</p>
 <ul>
-<li>ブラウザー トレース (HAR ファイル)</li>
-<li>ブラウザーのコンソールに出力されたログ</li>
-<li>操作画面を記録したログ (<code># 1. ユーザー操作を記録する</code> でご紹介した PSR ログ)</li>
-</ul>
+<li><p>ブラウザー トレース (HAR ファイル)</p>
+</li>
+<li><p>ブラウザーのコンソールに出力されたログ</p>
+</li>
+<li><p>操作画面を記録したログ (<code># 1. ユーザー操作を記録する</code> でご紹介した PSR ログ)</p>
 <p>なお、Azure DevOps Services のポータルサイトをご利用の際に、クライアント環境においてサポートしているブラウザーの種類およびバージョンにつきましては、以下の弊社ドキュメントでご紹介しております。  </p>
 <p><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/azure/devops/server/compatibility?view=azure-devops#web-portal-supported-browsers">Client version compatibility - Azure DevOps | Microsoft Docs</a></p>
 <p>もし「ポータルサイトでの表示結果がおかしい」「ポータルサイトでのみ問題が発生する」といった事象が発生していましたら、サポートされているブラウザーおよびバージョンをご利用かどうかも念のためにご確認ください。</p>
+</li>
+</ul>
 <hr>
 <h2 id="3-Fiddler-トレースを収集する"><a href="#3-Fiddler-トレースを収集する" class="headerlink" title="3. Fiddler トレースを収集する"></a>3. Fiddler トレースを収集する</h2><hr>
 <p>Fiddler ツールを環境にインストールいただき、ネットワーク トレースを採取する方法です。<br>こちらの手順で紹介する Fiddler Classic は Windows のみ対応しております。<br>macOS または Linux をご利用の場合は、後述する <strong><a href="#4-Tcpdump-%E3%83%AD%E3%82%B0%E3%82%92%E6%8E%A1%E5%8F%96%E3%81%99%E3%82%8B">4. Tcpdump ログを採取する</a></strong> の手順をご参照ください。</p>
@@ -212,10 +217,8 @@
 <li><p>ダウンロードした “FiddlerSetup.exe” を実行します  </p>
 </li>
 <li><p>インストーラーの指示に沿ってインストールを実施します  </p>
-</li>
-</ol>
 <p>以上で Fiddler のインストールは完了です。<br>続いて、Fiddler を用いてネットワーク トレースを採取する方法をご紹介します。  </p>
-<h3 id="Fiddler-でのトレース採取手順"><a href="#Fiddler-でのトレース採取手順" class="headerlink" title="Fiddler でのトレース採取手順"></a>Fiddler でのトレース採取手順</h3><ol>
+<h3 id="Fiddler-でのトレース採取手順"><a href="#Fiddler-でのトレース採取手順" class="headerlink" title="Fiddler でのトレース採取手順"></a>Fiddler でのトレース採取手順</h3></li>
 <li><p>スタート メニュー -&gt; [Fiddler Classic] を選択し、Fiddler を起動します<br><img src="Fiddler1.png"></p>
 </li>
 <li><p>[File] -&gt; [Capture Traffic] のチェックを外し、ログの採取を停止状態にします<br><img src="Fiddler2.png"></p>
@@ -251,10 +254,10 @@
 <li><p>ファイルの保存ダイアログが表示されますので、任意の場所に保存します  </p>
 </li>
 <li><p>保存したファイル (拡張子 .saz) を弊社までご提供ください<br><img src="Fiddler15.png"></p>
-</li>
-</ol>
 <p>手順 6-9 でインストールした証明書につきましては、[Tools] -&gt; [Options…] -&gt; [HTTP] タブ -&gt; [Actions] -&gt; [Reset All Certificates] を選択することでアンインストールが可能です。<br>Fiddler ツールを使用する際にのみ使用される証明書であり、インストールされていることでお客様のネットワークに影響を与えるものではございませんが、もしご心配な場合は情報採取後にアンインストールしてください。<br><img src="Fiddler16.png"></p>
 <p>※参考<br><a target="_blank" rel="noopener" href="https://docs.microsoft.com/ja-jp/azure/azure-web-pubsub/howto-troubleshoot-network-trace#collect-a-network-trace-with-fiddler">ネットワーク トレースの収集方法 | Microsoft Docs</a></p>
+</li>
+</ol>
 <hr>
 <h2 id="4-Tcpdump-ログを採取する"><a href="#4-Tcpdump-ログを採取する" class="headerlink" title="4. Tcpdump ログを採取する"></a>4. Tcpdump ログを採取する</h2><hr>
 <p>tcpdump は、macOS や Linux をご利用の際に、環境に対してツールのインストールが制限されている場合等に、ネットワーク トレースを採取する方法として有効です。</p>
@@ -270,9 +273,9 @@
 <li><p>パケットキャプチャを停止します<br><code>Ctrl + C キー</code> を同時に押して、停止してください<br><img src="tcpdump5.png"></p>
 </li>
 <li><p>Tera Term の SSH SCP または SCP コマンド等を使って、採取した Tcpdump ログのファイルをローカル環境にダウンロードし、弊社へご提供ください。</p>
+<p>※参考<br><a target="_blank" rel="noopener" href="https://docs.microsoft.com/ja-jp/azure/azure-web-pubsub/howto-troubleshoot-network-trace#collect-a-network-trace-with-tcpdump-macos-and-linux-only">ネットワーク トレースの収集方法 | Microsoft Docs</a></p>
 </li>
 </ol>
-<p>※参考<br><a target="_blank" rel="noopener" href="https://docs.microsoft.com/ja-jp/azure/azure-web-pubsub/howto-troubleshoot-network-trace#collect-a-network-trace-with-tcpdump-macos-and-linux-only">ネットワーク トレースの収集方法 | Microsoft Docs</a></p>
 <hr>
 <h2 id="5-Process-Monitor-ログを採取する"><a href="#5-Process-Monitor-ログを採取する" class="headerlink" title="5. Process Monitor ログを採取する"></a>5. Process Monitor ログを採取する</h2><hr>
 <p>Process Monitor は、システム上で動作している各プロセスの動作状況、各プロセスのリソース (ファイル、レジストリ) へのアクセス状況を監視し、情報を採取するツールです。<br>Self-hosted Agent をご利用の場合は、Agent マシン上のプロセスの変遷が確認できますので、特定の環境で発生している問題の解析等に有効なログとなります。</p>
@@ -280,7 +283,8 @@
 <p><a href="https://jpdscore.github.io/blog/debugging/collect-procmon/">Process Monitor ログの採取手順 | Japan Developer Support Core Team Blog</a></p>
 <hr>
 <h2 id="最後に"><a href="#最後に" class="headerlink" title="最後に"></a>最後に</h2><hr>
-<p>今回は、Azure DevOps Services でのトラブルをスムーズに解決するために、必要な情報の採取方法をご紹介しました。<br>今後も Azure DevOps Services のご利用にお役立ていただける情報を、どんどんご紹介していきたいと思いますので、どうぞよろしくお願いします！</p>
+<p>今回は、Azure DevOps Services でのトラブルをスムーズに解決するために、必要な情報の採取方法をご紹介しました。<br>今後も Azure DevOps Services のご利用にお役立ていただける情報を、どんどんご紹介していきたいと思いますので、どうぞよろしくお願いします！
+  </p>
 
       
       
@@ -396,19 +400,19 @@
     <ul>
       
         <li>
-          <a href="../../https:/social.msdn.microsoft.com/Forums/ja-jp/home?forum=visualstudiosupportteamja">Visual Studio サポートチーム フォーラム</a>
+          <a target="_blank" rel="noopener" href="https://social.msdn.microsoft.com/Forums/ja-jp/home?forum=visualstudiosupportteamja">Visual Studio サポートチーム フォーラム</a>
         </li>
       
         <li>
-          <a href="../../https:/social.msdn.microsoft.com/Forums/ja-jp/home?forum=windowssdksupportteamja&filter=alltypes&sort=lastpostdesc">Windows SDK サポートチーム フォーラム</a>
+          <a target="_blank" rel="noopener" href="https://social.msdn.microsoft.com/Forums/ja-jp/home?forum=windowssdksupportteamja&filter=alltypes&sort=lastpostdesc">Windows SDK サポートチーム フォーラム</a>
         </li>
       
         <li>
-          <a href="../../https:/docs.microsoft.com/en-us/archive/blogs/jpvsblog/">Visual Studio サポート チーム blog</a>
+          <a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/archive/blogs/jpvsblog/">Visual Studio サポート チーム blog</a>
         </li>
       
         <li>
-          <a href="../../https:/docs.microsoft.com/en-us/archive/blogs/japan_platform_sdkwindows_sdk_support_team_blog/">JAPAN Platform SDK（Windows SDK） Support Team Blog</a>
+          <a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/archive/blogs/japan_platform_sdkwindows_sdk_support_team_blog/">JAPAN Platform SDK（Windows SDK） Support Team Blog</a>
         </li>
       
     </ul>
@@ -422,43 +426,43 @@
     <ul>
       
         <li>
-          <a href="../../https:/developercommunity.visualstudio.com/">Developer Community</a>
+          <a target="_blank" rel="noopener" href="https://developercommunity.visualstudio.com/">Developer Community</a>
         </li>
       
         <li>
-          <a href="../../https:/devblogs.microsoft.com/dotnet/">.NET Blog</a>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/dotnet/">.NET Blog</a>
         </li>
       
         <li>
-          <a href="../../https:/devblogs.microsoft.com/visualstudio/">Visual Studio Blog</a>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/visualstudio/">Visual Studio Blog</a>
         </li>
       
         <li>
-          <a href="../../https:/devblogs.microsoft.com/cppblog/">C++ Team Blog</a>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/cppblog/">C++ Team Blog</a>
         </li>
       
         <li>
-          <a href="../../https:/devblogs.microsoft.com/xamarin/">Xamarin Blog</a>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/xamarin/">Xamarin Blog</a>
         </li>
       
         <li>
-          <a href="../../https:/devblogs.microsoft.com/devops/">Azure DevOps Blog</a>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/devops/">Azure DevOps Blog</a>
         </li>
       
         <li>
-          <a href="../../https:/techcommunity.microsoft.com/t5/azure-lab-services/bg-p/AzureLabServicesBlog/">Azure Lab Services Blog</a>
+          <a target="_blank" rel="noopener" href="https://techcommunity.microsoft.com/t5/azure-lab-services/bg-p/AzureLabServicesBlog/">Azure Lab Services Blog</a>
         </li>
       
         <li>
-          <a href="../../https:/devblogs.microsoft.com/appcenter/">App Center Blog</a>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/appcenter/">App Center Blog</a>
         </li>
       
         <li>
-          <a href="../../https:/status.azure.com/status/">Azure Status</a>
+          <a target="_blank" rel="noopener" href="https://status.azure.com/status/">Azure Status</a>
         </li>
       
         <li>
-          <a href="../../https:/status.dev.azure.com/">Azure DevOps - Status</a>
+          <a target="_blank" rel="noopener" href="https://status.dev.azure.com/">Azure DevOps - Status</a>
         </li>
       
     </ul>
@@ -473,7 +477,7 @@
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2024 Developer Support Core Japan<br>
+      &copy; 2025 Developer Support Core Japan<br>
       Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>

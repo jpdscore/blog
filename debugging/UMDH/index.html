@@ -14,7 +14,7 @@
 <meta property="og:description" content="(※ 2013 年 8 月 18 日に JAPAN Platform SDK（Windows SDK） Support Team Blog に公開した情報の再編集・再掲です。)   こんにちは、Japan Developer Support Core チーム 平田 a.k.a ぴろとです。本日は、メモリ リークに焦点を当てて調査を行う方法についてご紹介いたします。 概要説明多くの場合、アプリケーシ">
 <meta property="og:locale" content="ja_JP">
 <meta property="article:published_time" content="2020-12-28T07:15:07.000Z">
-<meta property="article:modified_time" content="2020-12-28T07:15:07.000Z">
+<meta property="article:modified_time" content="2025-06-09T06:00:23.955Z">
 <meta property="article:author" content="Developer Support Core Japan">
 <meta property="article:tag" content="Windows SDK">
 <meta property="article:tag" content="Debug">
@@ -38,7 +38,7 @@
   
 <link rel="stylesheet" href="../../css/style.css">
 
-<meta name="generator" content="Hexo 5.1.1"></head>
+<meta name="generator" content="Hexo 7.3.0"></head>
 
 <body>
   <div id="container">
@@ -104,7 +104,7 @@
         
         <a href="https://github.com/jpdscore/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+d3d8967d-4be5-5ba7-b36f-12020f74900f%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5B%5B%E3%83%A1%E3%83%A2%E3%83%AA%E3%83%AA%E3%83%BC%E3%82%AF+%231%5D+%5BHOWTO%5D+UMDH+%E3%82%92%E7%94%A8%E3%81%84%E3%81%9F%E3%83%A1%E3%83%A2%E3%83%AA%E3%83%AA%E3%83%BC%E3%82%AF%E8%AA%BF%E6%9F%BB%E6%8A%80%E6%B3%95%5D%28https%3A%2F%2Fjpdscore.github.io%2Fblog%2Fdebugging%2FUMDH%2F%29" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
         
-        <a data-url="https://jpdscore.github.io/blog/debugging/UMDH/" data-id="clzgj0cj5000s9qqfaha4btxx" class="article-share-link">共有</a>
+        <a data-url="https://jpdscore.github.io/blog/debugging/UMDH/" data-id="cmboony4s000sjz7o63j87wob" class="article-share-link">共有</a>
       </div>
     
     <div class="article-entry" itemprop="articleBody">
@@ -119,10 +119,10 @@
 <li>インストールが成功すると、以下のフォルダーに Debugger Tools for Windows がインストールされます。<br>C:\Program Files (x86)\Windows Kits\10\Debuggers\x64<br>C:\Program Files (x86)\Windows Kits\10\Debuggers\x86</li>
 </ol>
 <h1 id="使ってみよう"><a href="#使ってみよう" class="headerlink" title="使ってみよう"></a>使ってみよう</h1><h2 id="サンプル作成"><a href="#サンプル作成" class="headerlink" title="サンプル作成"></a>サンプル作成</h2><p>今回は、以下のようなサンプル アプリケーションを使って UMDH の使い方を簡単にご説明します。まずはメモリリークするサンプルプログラムを作成します。<br>このサンプルコードを  LeakSample.cpp として保存します。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">#include &quot;stdafx.h&quot;</span><br><span class="line">#include &quot;Leak.h&quot;</span><br><span class="line">#include &lt;conio.h&gt;</span><br><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line"></span><br><span class="line">void heapleak()</span><br><span class="line">&#123;</span><br><span class="line">    CLeak *p;</span><br><span class="line">    p &#x3D; new CLeak();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int _tmain(int argc, _TCHAR* argv[])</span><br><span class="line">&#123;</span><br><span class="line">    _getch();</span><br><span class="line">    for(int i&#x3D;0;i&lt;100;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        heapleak();</span><br><span class="line">    &#125;</span><br><span class="line">    _getch();</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">#include &quot;stdafx.h&quot;</span><br><span class="line">#include &quot;Leak.h&quot;</span><br><span class="line">#include &lt;conio.h&gt;</span><br><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line"></span><br><span class="line">void heapleak()</span><br><span class="line">&#123;</span><br><span class="line">    CLeak *p;</span><br><span class="line">    p = new CLeak();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int _tmain(int argc, _TCHAR* argv[])</span><br><span class="line">&#123;</span><br><span class="line">    _getch();</span><br><span class="line">    for(int i=0;i&lt;100;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        heapleak();</span><br><span class="line">    &#125;</span><br><span class="line">    _getch();</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>また、以下のヘッダファイルを Leak.h として保存してプロジェクトに入れてください。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">#pragma once</span><br><span class="line">class CLeak</span><br><span class="line">&#123;</span><br><span class="line">public:</span><br><span class="line">    int a;</span><br><span class="line">    int b;</span><br><span class="line">    int c;</span><br><span class="line">    int d;</span><br><span class="line">    CLeak() &#123;&#125;;</span><br><span class="line">    ~CLeak() &#123;&#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">#pragma once</span><br><span class="line">class CLeak</span><br><span class="line">&#123;</span><br><span class="line">public:</span><br><span class="line">    int a;</span><br><span class="line">    int b;</span><br><span class="line">    int c;</span><br><span class="line">    int d;</span><br><span class="line">    CLeak() &#123;&#125;;</span><br><span class="line">    ~CLeak() &#123;&#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 <p>LeakSample.exeとしてコンパイルしましょう。コンパイル時に生成されたシンボルファイル (拡張子が .pdb のファイル) を、C:\symbols.cache_pubにコピーしてください。</p>
 <h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><ol>
 <li><p>環境変数の設定<br>UMDH による調査では、最低 2 回 UMDH を実行して、実行した時点で確保されているメモリの差分よりメモリ リークを調査します。UMDH が実行されて、次に実行される間に確保、解放されたメモリは適切に解放されたメモリですので  UMDH では検出することができません。<br>また、UMDH は管理者権限で実行する必要があります。そのため、以下の手順はすべて管理者権限をもつユーザーとして実行してください。<br>コマンドプロンプトを起動して、環境変数 _NT_SYMBOL_PATH にシンボル ファイルの参照元を設定します。<br> <code>&gt;set _NT_SYMBOL_PATH=srv*C:\symbols.cache_pub*http://msdl.microsoft.com/download/symbols</code></p>
@@ -137,7 +137,8 @@
  4 System
  &lt;... 省略 ...&gt;
  6248 LeakSample.exe    LeakSample.exe
- 2704 conhost.exe</code></pre>
+ 2704 conhost.exe
+</code></pre>
 </li>
 <li><p>UMDH による 1 回目の情報採取をします。<br>プロセス ID 6248 のアプリケーションに対する情報を C:\TEMP\log1.log として保存するために次のコマンドを実行します。<br> <code>C:\Program Files (x86)\Windows Kits\10\Debuggers\x86&gt;umdh -p:6248 -f:C:\TEMP\log1.log</code></p>
 </li>
@@ -151,7 +152,7 @@
 <li>UMDH で情報採取結果を取得するために、以下のコマンドにて結果を取得します<br> <code>C:\Program Files (x86)\Windows Kits\10\Debuggers\x86&gt;umdh C:\TEMP\log1.log C:\TEMP\log2.log &gt; C:\TEMP\diff12.txt</code></li>
 <li>diff12.txt をテキストエディタで開きます</li>
 </ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;                                                                         </span><br><span class="line">&#x2F;&#x2F; Each log entry has the following syntax:                                </span><br><span class="line">&#x2F;&#x2F;                                                                         </span><br><span class="line">&#x2F;&#x2F; + BYTES_DELTA (NEW_BYTES - OLD_BYTES) NEW_COUNT allocs BackTrace TRACEID</span><br><span class="line">        &#x2F;&#x2F; + COUNT_DELTA (NEW_COUNT - OLD_COUNT) BackTrace TRACEID allocations     </span><br><span class="line">        &#x2F;&#x2F;     ... stack trace ...                                                 </span><br><span class="line">        &#x2F;&#x2F;                                                                         </span><br><span class="line">        &#x2F;&#x2F; where:                                                                   </span><br><span class="line">        &#x2F;&#x2F;                                                                         </span><br><span class="line">        &#x2F;&#x2F;     BYTES_DELTA - increase in bytes between before and after log        </span><br><span class="line">        &#x2F;&#x2F;     NEW_BYTES - bytes in after log                                       </span><br><span class="line">        &#x2F;&#x2F;     OLD_BYTES - bytes in before log                                     </span><br><span class="line">        &#x2F;&#x2F;     COUNT_DELTA - increase in allocations between before and after log  </span><br><span class="line">        &#x2F;&#x2F;     NEW_COUNT - number of allocations in after log                      </span><br><span class="line">        &#x2F;&#x2F;     OLD_COUNT - number of allocations in before log                     </span><br><span class="line">        &#x2F;&#x2F;     TRACEID - decimal index of the stack trace in the trace database    </span><br><span class="line">        &#x2F;&#x2F;         (can be used to search for allocation instances in the original </span><br><span class="line">        &#x2F;&#x2F;         UMDH logs).                                                      </span><br><span class="line">        &#x2F;&#x2F;                                                                         </span><br><span class="line">        \+    1450 (  1450 -     0)     64 allocs        BackTraceA51584  </span><br><span class="line">        \+      64 (    64 -     0)        BackTraceA51584     allocations  </span><br><span class="line">              ntdll!RtlAllocateHeap+1CC  </span><br><span class="line">              MSVCR110D!_heap_alloc_base+51  </span><br><span class="line">              MSVCR110D!_free_dbg_nolock+6FF  </span><br><span class="line">              MSVCR110D!_nh_malloc_dbg+7D  </span><br><span class="line">              MSVCR110D!_nh_malloc_dbg+2A  </span><br><span class="line">              MSVCR110D!malloc+19  </span><br><span class="line">              MSVCR110D!operator new+F  </span><br><span class="line">              LeakSample!heapleak+44 (C:\leaksample.cpp, 13)  </span><br><span class="line">              LeakSample!wmain+4A (c:\leaksample.cpp, 22)  </span><br><span class="line">              LeakSample!__tmainCRTStartup+199  </span><br><span class="line">              LeakSample!wmainCRTStartup+D  </span><br><span class="line">              KERNEL32!BaseThreadInitThunk+E  </span><br><span class="line">              ntdll!__RtlUserThreadStart+72  </span><br><span class="line">              ntdll!_RtlUserThreadStart+1B  </span><br><span class="line">        Total increase &#x3D;&#x3D;   1450 requested +    af0 overhead &#x3D;   1f40  </span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">//                                                                         </span><br><span class="line">// Each log entry has the following syntax:                                </span><br><span class="line">//                                                                         </span><br><span class="line">// + BYTES_DELTA (NEW_BYTES - OLD_BYTES) NEW_COUNT allocs BackTrace TRACEID</span><br><span class="line">        // + COUNT_DELTA (NEW_COUNT - OLD_COUNT) BackTrace TRACEID allocations     </span><br><span class="line">        //     ... stack trace ...                                                 </span><br><span class="line">        //                                                                         </span><br><span class="line">        // where:                                                                   </span><br><span class="line">        //                                                                         </span><br><span class="line">        //     BYTES_DELTA - increase in bytes between before and after log        </span><br><span class="line">        //     NEW_BYTES - bytes in after log                                       </span><br><span class="line">        //     OLD_BYTES - bytes in before log                                     </span><br><span class="line">        //     COUNT_DELTA - increase in allocations between before and after log  </span><br><span class="line">        //     NEW_COUNT - number of allocations in after log                      </span><br><span class="line">        //     OLD_COUNT - number of allocations in before log                     </span><br><span class="line">        //     TRACEID - decimal index of the stack trace in the trace database    </span><br><span class="line">        //         (can be used to search for allocation instances in the original </span><br><span class="line">        //         UMDH logs).                                                      </span><br><span class="line">        //                                                                         </span><br><span class="line">        \+    1450 (  1450 -     0)     64 allocs        BackTraceA51584  </span><br><span class="line">        \+      64 (    64 -     0)        BackTraceA51584     allocations  </span><br><span class="line">              ntdll!RtlAllocateHeap+1CC  </span><br><span class="line">              MSVCR110D!_heap_alloc_base+51  </span><br><span class="line">              MSVCR110D!_free_dbg_nolock+6FF  </span><br><span class="line">              MSVCR110D!_nh_malloc_dbg+7D  </span><br><span class="line">              MSVCR110D!_nh_malloc_dbg+2A  </span><br><span class="line">              MSVCR110D!malloc+19  </span><br><span class="line">              MSVCR110D!operator new+F  </span><br><span class="line">              LeakSample!heapleak+44 (C:\leaksample.cpp, 13)  </span><br><span class="line">              LeakSample!wmain+4A (c:\leaksample.cpp, 22)  </span><br><span class="line">              LeakSample!__tmainCRTStartup+199  </span><br><span class="line">              LeakSample!wmainCRTStartup+D  </span><br><span class="line">              KERNEL32!BaseThreadInitThunk+E  </span><br><span class="line">              ntdll!__RtlUserThreadStart+72  </span><br><span class="line">              ntdll!_RtlUserThreadStart+1B  </span><br><span class="line">        Total increase ==   1450 requested +    af0 overhead =   1f40  </span><br></pre></td></tr></table></figure>
 <ol start="3">
 <li>上記ログから、<strong>LeakSample!heapleak+44 (c:\leaksample.cpp, 13)</strong> にてリークしていることがわかります。実際にリークするサンプルコードを確認してみると、<code>p = new CLeak();</code> となっておりますが、該当ポインタに対して、delete がありません。これにより、メモリリークのコード箇所を確認することができました！</li>
 </ol>
@@ -270,19 +271,19 @@
     <ul>
       
         <li>
-          <a href="../../https:/social.msdn.microsoft.com/Forums/ja-jp/home?forum=visualstudiosupportteamja">Visual Studio サポートチーム フォーラム</a>
+          <a target="_blank" rel="noopener" href="https://social.msdn.microsoft.com/Forums/ja-jp/home?forum=visualstudiosupportteamja">Visual Studio サポートチーム フォーラム</a>
         </li>
       
         <li>
-          <a href="../../https:/social.msdn.microsoft.com/Forums/ja-jp/home?forum=windowssdksupportteamja&filter=alltypes&sort=lastpostdesc">Windows SDK サポートチーム フォーラム</a>
+          <a target="_blank" rel="noopener" href="https://social.msdn.microsoft.com/Forums/ja-jp/home?forum=windowssdksupportteamja&filter=alltypes&sort=lastpostdesc">Windows SDK サポートチーム フォーラム</a>
         </li>
       
         <li>
-          <a href="../../https:/docs.microsoft.com/en-us/archive/blogs/jpvsblog/">Visual Studio サポート チーム blog</a>
+          <a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/archive/blogs/jpvsblog/">Visual Studio サポート チーム blog</a>
         </li>
       
         <li>
-          <a href="../../https:/docs.microsoft.com/en-us/archive/blogs/japan_platform_sdkwindows_sdk_support_team_blog/">JAPAN Platform SDK（Windows SDK） Support Team Blog</a>
+          <a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/archive/blogs/japan_platform_sdkwindows_sdk_support_team_blog/">JAPAN Platform SDK（Windows SDK） Support Team Blog</a>
         </li>
       
     </ul>
@@ -296,43 +297,43 @@
     <ul>
       
         <li>
-          <a href="../../https:/developercommunity.visualstudio.com/">Developer Community</a>
+          <a target="_blank" rel="noopener" href="https://developercommunity.visualstudio.com/">Developer Community</a>
         </li>
       
         <li>
-          <a href="../../https:/devblogs.microsoft.com/dotnet/">.NET Blog</a>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/dotnet/">.NET Blog</a>
         </li>
       
         <li>
-          <a href="../../https:/devblogs.microsoft.com/visualstudio/">Visual Studio Blog</a>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/visualstudio/">Visual Studio Blog</a>
         </li>
       
         <li>
-          <a href="../../https:/devblogs.microsoft.com/cppblog/">C++ Team Blog</a>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/cppblog/">C++ Team Blog</a>
         </li>
       
         <li>
-          <a href="../../https:/devblogs.microsoft.com/xamarin/">Xamarin Blog</a>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/xamarin/">Xamarin Blog</a>
         </li>
       
         <li>
-          <a href="../../https:/devblogs.microsoft.com/devops/">Azure DevOps Blog</a>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/devops/">Azure DevOps Blog</a>
         </li>
       
         <li>
-          <a href="../../https:/techcommunity.microsoft.com/t5/azure-lab-services/bg-p/AzureLabServicesBlog/">Azure Lab Services Blog</a>
+          <a target="_blank" rel="noopener" href="https://techcommunity.microsoft.com/t5/azure-lab-services/bg-p/AzureLabServicesBlog/">Azure Lab Services Blog</a>
         </li>
       
         <li>
-          <a href="../../https:/devblogs.microsoft.com/appcenter/">App Center Blog</a>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/appcenter/">App Center Blog</a>
         </li>
       
         <li>
-          <a href="../../https:/status.azure.com/status/">Azure Status</a>
+          <a target="_blank" rel="noopener" href="https://status.azure.com/status/">Azure Status</a>
         </li>
       
         <li>
-          <a href="../../https:/status.dev.azure.com/">Azure DevOps - Status</a>
+          <a target="_blank" rel="noopener" href="https://status.dev.azure.com/">Azure DevOps - Status</a>
         </li>
       
     </ul>
@@ -347,7 +348,7 @@
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2024 Developer Support Core Japan<br>
+      &copy; 2025 Developer Support Core Japan<br>
       Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>

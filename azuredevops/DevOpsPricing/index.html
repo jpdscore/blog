@@ -19,7 +19,7 @@
 <meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/DevOpsPricing/pic5.png">
 <meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/DevOpsPricing/pic6.png">
 <meta property="article:published_time" content="2022-06-12T15:00:00.000Z">
-<meta property="article:modified_time" content="2022-06-12T15:00:00.000Z">
+<meta property="article:modified_time" content="2025-06-09T06:00:23.908Z">
 <meta property="article:author" content="Developer Support Core Japan">
 <meta property="article:tag" content="ALM">
 <meta property="article:tag" content="Azure DevOps Services">
@@ -43,7 +43,7 @@
   
 <link rel="stylesheet" href="../../css/style.css">
 
-<meta name="generator" content="Hexo 5.1.1"></head>
+<meta name="generator" content="Hexo 7.3.0"></head>
 
 <body>
   <div id="container">
@@ -109,7 +109,7 @@
         
         <a href="https://github.com/jpdscore/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+568b4b92-8c30-593b-8af9-c30c62a71b72%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5BAzure+DevOps+Services+%E3%81%AE%E6%96%99%E9%87%91%E4%BD%93%E7%B3%BB%E3%82%92%E3%81%8A%E3%81%95%E3%82%89%E3%81%84%E3%81%97%E3%81%A6%E3%81%BF%E3%82%88%E3%81%86%EF%BC%81%5D%28https%3A%2F%2Fjpdscore.github.io%2Fblog%2Fazuredevops%2FDevOpsPricing%2F%29" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
         
-        <a data-url="https://jpdscore.github.io/blog/azuredevops/DevOpsPricing/" data-id="clzgj0cif00009qqf5usoddki" class="article-share-link">共有</a>
+        <a data-url="https://jpdscore.github.io/blog/azuredevops/DevOpsPricing/" data-id="cmboony4b0000jz7o7kyj2eo4" class="article-share-link">共有</a>
       </div>
     
     <div class="article-entry" itemprop="articleBody">
@@ -122,17 +122,21 @@
 <ul>
 <li><p><a target="_blank" rel="noopener" href="https://azure.microsoft.com/ja-jp/services/devops/">Azure DevOps Services のサービスページ</a> から開始した場合:  </p>
 <ul>
-<li>Azure DevOps Services のみのリソースを作成する</li>
-<li>Azure の権限が不要 (Azure サブスクリプションにおける管理者権限など)</li>
-</ul>
+<li><p>Azure DevOps Services のみのリソースを作成する</p>
+</li>
+<li><p>Azure の権限が不要 (Azure サブスクリプションにおける管理者権限など)</p>
 <p><img src="pic1.png"></p>
+</li>
+</ul>
 </li>
 <li><p>DevOps Starter から開始した場合:  </p>
 <ul>
-<li>Azure DevOps Services およびデプロイ先のリソースを作成する (Azure App Services や VM などが一緒に作成される)</li>
-<li>Azure DevOps Services からデプロイ先のリソースに対して CI/CD が設定されている状態で自動的にプロジェクトを作成する</li>
-</ul>
+<li><p>Azure DevOps Services およびデプロイ先のリソースを作成する (Azure App Services や VM などが一緒に作成される)</p>
+</li>
+<li><p>Azure DevOps Services からデプロイ先のリソースに対して CI/CD が設定されている状態で自動的にプロジェクトを作成する</p>
 <p><img src="pic2.png"></p>
+</li>
+</ul>
 </li>
 </ul>
 <hr>
@@ -142,10 +146,12 @@
 <p>※ 以下のドキュメントで、Azure サブスクリプションの設定方法を紹介しています。<br><a target="_blank" rel="noopener" href="https://docs.microsoft.com/ja-jp/azure/devops/organizations/billing/set-up-billing-for-your-organization-vs?view=azure-devops">請求の設定</a></p>
 <p>また課金には、ユーザー ライセンスに対する課金と個別サービスに対する課金の二通りのシナリオがあります。</p>
 <ul>
-<li><strong>ユーザー ライセンス</strong><br>Basic プランまたは Basic + Test プランをユーザーに割り当てる</li>
-<li><strong>個別サービス</strong><br>Azure Pipelines で追加の並列ジョブを購入、または Azure Artifacts で追加の容量を購入する  </li>
-</ul>
+<li><p><strong>ユーザー ライセンス</strong><br>Basic プランまたは Basic + Test プランをユーザーに割り当てる</p>
+</li>
+<li><p><strong>個別サービス</strong><br>Azure Pipelines で追加の並列ジョブを購入、または Azure Artifacts で追加の容量を購入する  </p>
 <p>これら二つの課金シナリオについて、以下に詳しくご説明していきます。</p>
+</li>
+</ul>
 <hr>
 <h2 id="ユーザー-ライセンスに対する課金について"><a href="#ユーザー-ライセンスに対する課金について" class="headerlink" title="ユーザー ライセンスに対する課金について"></a>ユーザー ライセンスに対する課金について</h2><hr>
 <p>Azure DevOps Services でご利用いただけるユーザー ライセンスは 4 通り存在します。<br>各ライセンスでご利用いただける機能は、<strong>Access Level</strong> (※) で許可・制限されます。</p>
@@ -158,31 +164,32 @@
 <li><p><strong>Stakeholder (利害関係者)</strong><br>各機能へのアクセスが制限されている無料のライセンスです。<br>作業項目 (バグを含む) を作成および編集できますが、ビルドを実行したり、プルリクエストを表示したりすることはできません。<br>コードや CI/CD 機能にアクセスできないマネージャー アカウントと考えることができます。  </p>
 </li>
 <li><p><strong>Visual Studio Subscriber</strong><br>Visual Studio サブスクリプションを保持しているユーザーに対する無料のライセンスです。<br>Visual Studio のサブスクリプション レベルに応じて、利用できる範囲には制限がありますので、詳細については以下をご参照ください。<br><a target="_blank" rel="noopener" href="https://docs.microsoft.com/ja-jp/visualstudio/subscriptions/vs-azure-devops">Visual Studio サブスクリプションの Azure DevOps</a></p>
-</li>
-</ul>
 <p>※ <strong>Access Level</strong> につきましては、以下弊社のドキュメントもご確認ください。  </p>
 <p><a target="_blank" rel="noopener" href="https://docs.microsoft.com/ja-jp/azure/devops/organizations/security/access-levels?view=azure-devops">アクセス レベルについて</a></p>
+</li>
+</ul>
 <hr>
 <h3 id="ユーザーが複数の-Organization-にまたがる場合"><a href="#ユーザーが複数の-Organization-にまたがる場合" class="headerlink" title="ユーザーが複数の Organization にまたがる場合"></a>ユーザーが複数の Organization にまたがる場合</h3><hr>
 <p>複数の Organization に同じユーザーが重複して登録される状況を考慮し、Azure DevOps Services には、以下の二種類の支払い方法があります。  </p>
 <ul>
-<li><strong>Single organization (既定はこちら)</strong></li>
-<li><strong>Multi-organization (※)</strong></li>
-</ul>
+<li><p><strong>Single organization (既定はこちら)</strong></p>
+</li>
+<li><p><strong>Multi-organization (※)</strong></p>
 <p>Single organization の場合は、1 Organization ごとに 5 名の Basic ユーザーを超えた場合に、ユーザーの課金額が計算されます。<br>この場合、もし複数の Organization にまたがって同一の Basic ユーザーが存在する場合は、同一ユーザーであったとしても Organization ごとに一人分の請求が発生します。<br>Multi-organization の場合は、同じ Azure サブスクリプションに紐づく Organization 全体で、Basic ユーザーの数が 5 名を超えた場合に、ユーザーの課金額が計算されます。  </p>
 <p>※ <strong>Multi-organization</strong> の設定方法につきましては、以下弊社のドキュメントをご確認ください。  </p>
 <p><a target="_blank" rel="noopener" href="https://docs.microsoft.com/ja-jp/azure/devops/organizations/billing/buy-basic-access-add-users?view=azure-devops#pay-for-a-user-once-across-multiple-organizations">複数の組織でユーザーに対して 1 回だけ支払う</a></p>
-<p><strong>例) 同一サブスクリプションにて、Organization を A、B、C と三つ作成し、Organization 毎にユーザーを各 6 名ずつ追加する場合</strong>  </p>
-<ul>
-<li><strong>【Single organization 設定時】(既定はこちら)</strong>  </li>
-</ul>
-<p><img src="pic5.png"><br>有料ユーザー 1 x 3 Organization = 3 ユーザー分の課金となり、$6 x 3 = $18(月額) の課金となります。<br>赤、青のユーザーは各 Organization ごとに異なるメンバーでもよく、Stakeholder、Visual Studio Subscriber は常に無料です。  </p>
-<ul>
-<li><p><strong>【Multi-organization 設定時】</strong>  </p>
-<p><img src="pic6.png"><br>有料ユーザー 1 x 1 サブスクリプション = 1 ユーザー分の課金となり、$6 x 1 = $6(月額) の課金となります。<br>ただし、赤と青のユーザーは全 Organization で共通となり、Stakeholder、Visual Studio Subscriber は常に無料です。  </p>
 </li>
 </ul>
+<p><strong>例) 同一サブスクリプションにて、Organization を A、B、C と三つ作成し、Organization 毎にユーザーを各 6 名ずつ追加する場合</strong>  </p>
+<ul>
+<li><p><strong>【Single organization 設定時】(既定はこちら)</strong>  </p>
+<p><img src="pic5.png"><br>有料ユーザー 1 x 3 Organization = 3 ユーザー分の課金となり、$6 x 3 = $18(月額) の課金となります。<br>赤、青のユーザーは各 Organization ごとに異なるメンバーでもよく、Stakeholder、Visual Studio Subscriber は常に無料です。  </p>
+</li>
+<li><p><strong>【Multi-organization 設定時】</strong>  </p>
+<p><img src="pic6.png"><br>有料ユーザー 1 x 1 サブスクリプション = 1 ユーザー分の課金となり、$6 x 1 = $6(月額) の課金となります。<br>ただし、赤と青のユーザーは全 Organization で共通となり、Stakeholder、Visual Studio Subscriber は常に無料です。  </p>
 <p>ほとんどのユーザーが一つの Organization しか利用しない場合は、Single organization が最もコスト効率が高くなります。<br>逆に、多くのユーザーが複数の Organization を利用する場合は、Multi-organization が最適な選択肢であると考えられます。  </p>
+</li>
+</ul>
 <hr>
 <h2 id="個別サービスに対する課金について"><a href="#個別サービスに対する課金について" class="headerlink" title="個別サービスに対する課金について"></a>個別サービスに対する課金について</h2><hr>
 <p>Azure Pipelines と Azure Artifacts に無料で付属している個別サービスに対して、追加で購入する場合に課金されます。<br>Azure Repos のリポジトリ数およびソースコード等のデータ容量、 Azure Pipelines のビルド成果物などのリソースに対しての課金は発生しません。  </p>
@@ -224,19 +231,29 @@
     <td>GiB あたり $0.25(月額)</td>
   </tr>
 </table>
-
-<p>課金が必要なシナリオについては以上となります。<br>下記 <strong>Azure の料金計算ツール</strong>なども利用できますので、使用目的に沿って料金の見積りをお試しください。  </p>
-<p><a target="_blank" rel="noopener" href="https://azure.microsoft.com/ja-jp/pricing/calculator/">Azure の料金計算ツール</a></p>
-<hr>
-<h1 id="為替レートについて"><a href="#為替レートについて" class="headerlink" title="為替レートについて"></a>為替レートについて</h1><hr>
-<p>Azure DevOps Services を含む各種 Azure のサービスは、世界各地で米国ドルで価格が設定されています。<br>そして以下の FAQ のとおり、Azure DevOps Services を含む各種 Azure の請求では、前月最終日の為替レートが利用されます。  </p>
-<p><a target="_blank" rel="noopener" href="https://azure.microsoft.com/ja-jp/pricing/faq/">Azure の価格と請求に関する FAQ<br>/ どの為替レートが使用されますか。また、請求金額の計算はどうなりますか。</a>  </p>
-<blockquote>
-<p>前月末に取得され、翌暦月の 1 日に発効する Thomson Reuters 社のベンチマーク レートを使用しています。このレートは、翌月のすべての取引に適用されます。<br>たとえば、1 月の取引の為替レートは、12 月の最終日に初めて取得されます。このレートは、1 月に行われたすべての Azure の購入と、1 月のすべての Azure の使用量に適用されます。1 月の為替レートと現地通貨での請求額は、2 月初めに発行される 1 月分の請求書に記載されます。  </p>
-</blockquote>
-<hr>
-<h1 id="さいごに"><a href="#さいごに" class="headerlink" title="さいごに"></a>さいごに</h1><hr>
-<p>Azure DevOps Services の課金について、いかがでしたでしょうか。<br>今回の内容を確認しておけば、いきなりとんでもない金額の請求が発生することはないですし、Azure DevOps Services をより安心してご利用いただけると思います。<br>完全に無料でも利用できますので、まずはお試しください！  </p>
+  
+課金が必要なシナリオについては以上となります。  
+下記 **Azure の料金計算ツール**なども利用できますので、使用目的に沿って料金の見積りをお試しください。  
+  
+[Azure の料金計算ツール](https://azure.microsoft.com/ja-jp/pricing/calculator/)
+  
+---
+# 為替レートについて
+---
+Azure DevOps Services を含む各種 Azure のサービスは、世界各地で米国ドルで価格が設定されています。  
+そして以下の FAQ のとおり、Azure DevOps Services を含む各種 Azure の請求では、前月最終日の為替レートが利用されます。  
+  
+[Azure の価格と請求に関する FAQ
+/ どの為替レートが使用されますか。また、請求金額の計算はどうなりますか。](https://azure.microsoft.com/ja-jp/pricing/faq/)  
+>前月末に取得され、翌暦月の 1 日に発効する Thomson Reuters 社のベンチマーク レートを使用しています。このレートは、翌月のすべての取引に適用されます。  
+たとえば、1 月の取引の為替レートは、12 月の最終日に初めて取得されます。このレートは、1 月に行われたすべての Azure の購入と、1 月のすべての Azure の使用量に適用されます。1 月の為替レートと現地通貨での請求額は、2 月初めに発行される 1 月分の請求書に記載されます。  
+  
+---
+# さいごに
+---
+Azure DevOps Services の課金について、いかがでしたでしょうか。  
+今回の内容を確認しておけば、いきなりとんでもない金額の請求が発生することはないですし、Azure DevOps Services をより安心してご利用いただけると思います。  
+完全に無料でも利用できますので、まずはお試しください！  
 
       
       
@@ -352,19 +369,19 @@
     <ul>
       
         <li>
-          <a href="../../https:/social.msdn.microsoft.com/Forums/ja-jp/home?forum=visualstudiosupportteamja">Visual Studio サポートチーム フォーラム</a>
+          <a target="_blank" rel="noopener" href="https://social.msdn.microsoft.com/Forums/ja-jp/home?forum=visualstudiosupportteamja">Visual Studio サポートチーム フォーラム</a>
         </li>
       
         <li>
-          <a href="../../https:/social.msdn.microsoft.com/Forums/ja-jp/home?forum=windowssdksupportteamja&filter=alltypes&sort=lastpostdesc">Windows SDK サポートチーム フォーラム</a>
+          <a target="_blank" rel="noopener" href="https://social.msdn.microsoft.com/Forums/ja-jp/home?forum=windowssdksupportteamja&filter=alltypes&sort=lastpostdesc">Windows SDK サポートチーム フォーラム</a>
         </li>
       
         <li>
-          <a href="../../https:/docs.microsoft.com/en-us/archive/blogs/jpvsblog/">Visual Studio サポート チーム blog</a>
+          <a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/archive/blogs/jpvsblog/">Visual Studio サポート チーム blog</a>
         </li>
       
         <li>
-          <a href="../../https:/docs.microsoft.com/en-us/archive/blogs/japan_platform_sdkwindows_sdk_support_team_blog/">JAPAN Platform SDK（Windows SDK） Support Team Blog</a>
+          <a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/archive/blogs/japan_platform_sdkwindows_sdk_support_team_blog/">JAPAN Platform SDK（Windows SDK） Support Team Blog</a>
         </li>
       
     </ul>
@@ -378,43 +395,43 @@
     <ul>
       
         <li>
-          <a href="../../https:/developercommunity.visualstudio.com/">Developer Community</a>
+          <a target="_blank" rel="noopener" href="https://developercommunity.visualstudio.com/">Developer Community</a>
         </li>
       
         <li>
-          <a href="../../https:/devblogs.microsoft.com/dotnet/">.NET Blog</a>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/dotnet/">.NET Blog</a>
         </li>
       
         <li>
-          <a href="../../https:/devblogs.microsoft.com/visualstudio/">Visual Studio Blog</a>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/visualstudio/">Visual Studio Blog</a>
         </li>
       
         <li>
-          <a href="../../https:/devblogs.microsoft.com/cppblog/">C++ Team Blog</a>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/cppblog/">C++ Team Blog</a>
         </li>
       
         <li>
-          <a href="../../https:/devblogs.microsoft.com/xamarin/">Xamarin Blog</a>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/xamarin/">Xamarin Blog</a>
         </li>
       
         <li>
-          <a href="../../https:/devblogs.microsoft.com/devops/">Azure DevOps Blog</a>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/devops/">Azure DevOps Blog</a>
         </li>
       
         <li>
-          <a href="../../https:/techcommunity.microsoft.com/t5/azure-lab-services/bg-p/AzureLabServicesBlog/">Azure Lab Services Blog</a>
+          <a target="_blank" rel="noopener" href="https://techcommunity.microsoft.com/t5/azure-lab-services/bg-p/AzureLabServicesBlog/">Azure Lab Services Blog</a>
         </li>
       
         <li>
-          <a href="../../https:/devblogs.microsoft.com/appcenter/">App Center Blog</a>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/appcenter/">App Center Blog</a>
         </li>
       
         <li>
-          <a href="../../https:/status.azure.com/status/">Azure Status</a>
+          <a target="_blank" rel="noopener" href="https://status.azure.com/status/">Azure Status</a>
         </li>
       
         <li>
-          <a href="../../https:/status.dev.azure.com/">Azure DevOps - Status</a>
+          <a target="_blank" rel="noopener" href="https://status.dev.azure.com/">Azure DevOps - Status</a>
         </li>
       
     </ul>
@@ -429,7 +446,7 @@
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2024 Developer Support Core Japan<br>
+      &copy; 2025 Developer Support Core Japan<br>
       Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>

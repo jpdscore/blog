@@ -26,7 +26,7 @@
 <meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/pipelines-log-collection/open-log-classic-release.png">
 <meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/pipelines-log-collection/download-all-logs-classic-release.png">
 <meta property="article:published_time" content="2022-03-14T15:00:00.000Z">
-<meta property="article:modified_time" content="2022-03-14T15:00:00.000Z">
+<meta property="article:modified_time" content="2025-06-09T06:00:23.926Z">
 <meta property="article:author" content="Developer Support Core Japan">
 <meta property="article:tag" content="ALM">
 <meta property="article:tag" content="Azure Pipelines">
@@ -51,7 +51,7 @@
   
 <link rel="stylesheet" href="../../css/style.css">
 
-<meta name="generator" content="Hexo 5.1.1"></head>
+<meta name="generator" content="Hexo 7.3.0"></head>
 
 <body>
   <div id="container">
@@ -117,7 +117,7 @@
         
         <a href="https://github.com/jpdscore/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+ba7022bf-18d7-5271-8cf6-15ddd6b247d2%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5BAzure+Pipelines+%E3%81%AE%E3%83%88%E3%83%A9%E3%83%96%E3%83%AB%E3%82%B7%E3%83%A5%E3%83%BC%E3%83%86%E3%82%A3%E3%83%B3%E3%82%B0%E7%94%A8%E3%83%87%E3%83%BC%E3%82%BF%E6%8E%A1%E5%8F%96%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6%5D%28https%3A%2F%2Fjpdscore.github.io%2Fblog%2Fazuredevops%2Fpipelines-log-collection%2F%29" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
         
-        <a data-url="https://jpdscore.github.io/blog/azuredevops/pipelines-log-collection/" data-id="clzgj0cix000b9qqfblr59b0d" class="article-share-link">共有</a>
+        <a data-url="https://jpdscore.github.io/blog/azuredevops/pipelines-log-collection/" data-id="cmboony4m000bjz7o4hkx91tv" class="article-share-link">共有</a>
       </div>
     
     <div class="article-entry" itemprop="articleBody">
@@ -126,55 +126,66 @@
 <p>弊社テクニカル サポートへお問い合わせいただくお客様に、迅速に解決をさせていただくためにお役に立てるのではないかと思い、今回の記事の執筆に至っています。</p>
 <p>Azure DevOps Services には Azure Pipelines という機能があります。<br>Azure Pipelines を用いて、プロジェクトを自動的にビルド (CI : 継続的インテグレーション) したり、ビルドによって生成されたパッケージをデプロイ先へ自動的にリリース (CD : 継続的デプロイメント) するといった、CI/CD を実現することが可能です。</p>
 <ul>
-<li><a target="_blank" rel="noopener" href="https://azure.microsoft.com/ja-jp/services/devops/pipelines/" title="Azure Pipelines">Azure Pipelines</a></li>
-</ul>
+<li><p><a target="_blank" rel="noopener" href="https://azure.microsoft.com/ja-jp/services/devops/pipelines/" title="Azure Pipelines">Azure Pipelines</a></p>
 <p>Azure Pipelines をご利用のお客様からは、この「Pipeline の実行が失敗する、エラーが発生する」といったお問い合わせをよくいただきます。<br>こうした Azure Pipelines 上でのトラブルシューティングをスムーズにするために、お客様には複数のデータ採取をお願いしています。</p>
 <p>実際に採取するべき情報は、Pipeline の実行が失敗した原因や、発生したエラーの状況によってケースバイケースであることが多々あります。<br>そこで今回の記事では、ほとんどの事象に対するトラブルシューティングに有効な、基本的なデータの採取方法をご紹介したいと思います！</p>
-<h2 id="調査に必要なデータ"><a href="#調査に必要なデータ" class="headerlink" title="調査に必要なデータ"></a>調査に必要なデータ</h2><p><strong><a href="#1-Pipeline-%E3%81%AE%E5%AE%9A%E7%BE%A9">1. Pipeline の定義</a></strong><br><strong><a href="#2-Pipeline-%E5%AE%9F%E8%A1%8C%E6%99%82%E3%81%AE%E8%A9%B3%E7%B4%B0%E3%83%AD%E3%82%B0-%E3%83%91%E3%82%A4%E3%83%97%E3%83%A9%E3%82%A4%E3%83%B3%E3%83%AD%E3%82%B0">2. Pipeline 実行時の詳細ログ (パイプラインログ)</a></strong></p>
+<h2 id="調査に必要なデータ"><a href="#調査に必要なデータ" class="headerlink" title="調査に必要なデータ"></a>調査に必要なデータ</h2></li>
+<li><p>*<a href="#1-Pipeline-%E3%81%AE%E5%AE%9A%E7%BE%A9">1. Pipeline の定義</a>**</p>
+</li>
+<li><p>*<a href="#2-Pipeline-%E5%AE%9F%E8%A1%8C%E6%99%82%E3%81%AE%E8%A9%B3%E7%B4%B0%E3%83%AD%E3%82%B0-%E3%83%91%E3%82%A4%E3%83%97%E3%83%A9%E3%82%A4%E3%83%B3%E3%83%AD%E3%82%B0">2. Pipeline 実行時の詳細ログ (パイプラインログ)</a>**</p>
 <p>※ 上記のデータとあわせて以下の情報もお知らせいただけると、弊社 Azure DevOps Services 基盤側で発生した障害の影響でないかを迅速に確認させていただくことが可能です。お手数になってしまい恐縮ですが、弊社テクニカル サポートまでお問い合わせの際には是非ご協力ください。</p>
-<h2 id="調査に有用な情報"><a href="#調査に有用な情報" class="headerlink" title="調査に有用な情報"></a>調査に有用な情報</h2><ul>
-<li>事象が発生した開始日時 (yyyy/mm/dd/hh/mm/ss 形式) (UTC や JST の区別)</li>
-<li>Pipeline は初回実行時から失敗していたのか、ある時を境に突然失敗するようになったのか</li>
-<li>Azure DevOps のポータルサイトから、失敗した Pipeline の実行 (run) を開いた時に、WEB ブラウザーのアドレスバー上に表示される URL</li>
-<li>Microsoft-hosted agent をご利用なのか、Self-hosted agent をご利用なのか (Self-hosted agent をご利用の場合は、agent が構成されている端末のネットワーク構成)</li>
-<li>リリースの失敗であれば、デプロイ先の情報 (Azure リソースであれば Azure リソース ID)</li>
+<h2 id="調査に有用な情報"><a href="#調査に有用な情報" class="headerlink" title="調査に有用な情報"></a>調査に有用な情報</h2></li>
 </ul>
+<ul>
+<li><p>事象が発生した開始日時 (yyyy/mm/dd/hh/mm/ss 形式) (UTC や JST の区別)</p>
+</li>
+<li><p>Pipeline は初回実行時から失敗していたのか、ある時を境に突然失敗するようになったのか</p>
+</li>
+<li><p>Azure DevOps のポータルサイトから、失敗した Pipeline の実行 (run) を開いた時に、WEB ブラウザーのアドレスバー上に表示される URL</p>
+</li>
+<li><p>Microsoft-hosted agent をご利用なのか、Self-hosted agent をご利用なのか (Self-hosted agent をご利用の場合は、agent が構成されている端末のネットワーク構成)</p>
+</li>
+<li><p>リリースの失敗であれば、デプロイ先の情報 (Azure リソースであれば Azure リソース ID)</p>
 <p>前置きが長くなってしまいましたが、ここから実際に、調査に必要なデータについて順番にご説明していきたいと思います！</p>
+</li>
+</ul>
 <hr>
 <h1 id="1-Pipeline-の定義"><a href="#1-Pipeline-の定義" class="headerlink" title="1. Pipeline の定義"></a>1. Pipeline の定義</h1><hr>
 <p>Azure Pipelines には、大きく分けて「Build Pipeline」と「Release Pipeline」の 2 種類があります。<br>また、Build Pipeline については YAML 形式と Classic 形式の 2 種類があります。</p>
 <ul>
-<li>Build Pipeline (YAML 形式、Classic 形式)</li>
-<li>Release Pipeline (Classic 形式のみ)</li>
-</ul>
+<li><p>Build Pipeline (YAML 形式、Classic 形式)</p>
+</li>
+<li><p>Release Pipeline (Classic 形式のみ)</p>
 <p>そして Pipeline 定義の採取方法は、Pipeline の形式に応じて異なります。<br>以下に、Pipeline の形式ごとに、それぞれ採取手順をご紹介します！</p>
+</li>
+</ul>
 <hr>
 <h2 id="Build-Pipeline-YAML-形式"><a href="#Build-Pipeline-YAML-形式" class="headerlink" title="Build Pipeline (YAML 形式)"></a>Build Pipeline (YAML 形式)</h2><hr>
 <ol>
 <li><p>Azure DevOps Services の対象 Organization にサインイン -&gt; 対象の Project を選択 -&gt; Project のブレードから [Pipelines\Pipelines] を展開 -&gt; [All] タブから対象の Pipeline を選択してください。</p>
 </li>
 <li><p>画面右上の [Edit] -&gt; 画面右上の詳細メニュー (…) から [Download full YAML] を選択して、ダウンロードした YAML ファイルをご提供ください。</p>
+<p><img src="download-full-yaml.png"></p>
 </li>
 </ol>
-<p><img src="download-full-yaml.png"></p>
 <hr>
 <h2 id="Build-Pipeline-Classic-形式"><a href="#Build-Pipeline-Classic-形式" class="headerlink" title="Build Pipeline (Classic 形式)"></a>Build Pipeline (Classic 形式)</h2><hr>
 <ol>
 <li><p>Azure DevOps Services の対象 Organization にサインイン -&gt; 対象の Project を選択 -&gt; Project のブレードから [Pipelines\Pipelines] を展開 -&gt; [All] タブから対象のパイプラインを選択してください。</p>
 </li>
 <li><p>画面右上の詳細メニュー (…) から [Export to JSON] または [Export to YAML] を選択して、ダウンロードしたファイルをご提供ください。</p>
+<p><img src="export-json-yaml.png"></p>
 </li>
 </ol>
-<p><img src="export-json-yaml.png"></p>
 <hr>
 <h2 id="Release-Pipeline"><a href="#Release-Pipeline" class="headerlink" title="Release Pipeline"></a>Release Pipeline</h2><hr>
 <ol>
 <li><p>Azure DevOps Services の対象 Organization にサインイン -&gt; 対象の Project を選択 -&gt; Project のブレードから [Pipelines\Releases] を展開 -&gt; 対象の Release Pipeline を選択してください。</p>
 </li>
 <li><p>画面右上の詳細メニュー (…) から [Export] を選択して、ダウンロードしたファイルをご提供ください。下図は「New release pipeline」という名前の Release Pipeline を選択して、ダウンロードする例です。</p>
+<p><img src="select-release-pipeline-and-export.png"></p>
 </li>
 </ol>
-<p><img src="select-release-pipeline-and-export.png"></p>
 <hr>
 <h1 id="2-Pipeline-実行時の詳細ログ-パイプラインログ"><a href="#2-Pipeline-実行時の詳細ログ-パイプラインログ" class="headerlink" title="2. Pipeline 実行時の詳細ログ (パイプラインログ)"></a>2. Pipeline 実行時の詳細ログ (パイプラインログ)</h1><hr>
 <p>Pipeline 実行時の詳細ログは、「成功時」と「失敗時」の 2 パターンを採取していただけると、エラーが発生する前後で生じている差異を確認しやすくなります。<br>お客様にはお手数をおかけいたしますが、是非ご協力いただければと思います！</p>
@@ -186,8 +197,7 @@
 </ol>
 <p><strong><font color="red">※ Pipeline を再実行しても発生したエラーを再現できない場合 (エラーの再現性がない場合) は、ここでステップ 5. へ進んでください。</font></strong></p>
 <ol start="2">
-<li>Project のブレードから [Pipelines\Pipelines] を展開 -&gt; [All] タブから対象の Pipeline を選択 -&gt; 画面右上の [Edit] をクリック -&gt; YAML の編集画面右上の [Variables] をクリック -&gt; [New variable] をクリック -&gt; 下記の変数を入力 -&gt; [OK] をクリックしてください。</li>
-</ol>
+<li><p>Project のブレードから [Pipelines\Pipelines] を展開 -&gt; [All] タブから対象の Pipeline を選択 -&gt; 画面右上の [Edit] をクリック -&gt; YAML の編集画面右上の [Variables] をクリック -&gt; [New variable] をクリック -&gt; 下記の変数を入力 -&gt; [OK] をクリックしてください。</p>
 <table>
 <thead>
 <tr>
@@ -199,21 +209,27 @@
 <td align="left">System.Debug</td>
 <td align="left">true</td>
 </tr>
+<tr>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><img src="system-debug-yaml.png"></td>
+<td align="left"></td>
+</tr>
 </tbody></table>
-<p><img src="system-debug-yaml.png"></p>
-<ol start="3">
-<li>下図のように System.Debug 変数が「= true」に設定されたら [Save] をクリックして保存してください。以降、この Pipeline においては常にデバッグ情報が有効になり、Pipeline 実行時の詳細ログを採取できるようになります。</li>
-</ol>
+</li>
+<li><p>下図のように System.Debug 変数が「= true」に設定されたら [Save] をクリックして保存してください。以降、この Pipeline においては常にデバッグ情報が有効になり、Pipeline 実行時の詳細ログを採取できるようになります。</p>
 <p><img src="system-debug-save-yaml.png"></p>
-<ol start="4">
+</li>
 <li><p>Build Pipeline を再度実行してください。</p>
 </li>
 <li><p>Project のブレードから [Pipelines\Pipelines] を展開 -&gt; [All] タブから対象の Pipeline を選択 -&gt; 該当する Pipeline の実行結果 (run) を選択してください。</p>
 </li>
 <li><p>画面右上の詳細メニュー (…) から [Download logs] を選択してダウンロードした ZIP ファイルをご提供ください。下図は「myWebAppNDPCore31Cs」という名前の Pipeline の実行結果「#20220308.2 Set up CI with Azure Pipelines」を選択して、ダウンロードする例です。</p>
+<p><img src="download-logs-yaml.png"></p>
 </li>
 </ol>
-<p><img src="download-logs-yaml.png"></p>
 <hr>
 <h2 id="Build-Pipeline-Classic-形式-1"><a href="#Build-Pipeline-Classic-形式-1" class="headerlink" title="Build Pipeline (Classic 形式)"></a>Build Pipeline (Classic 形式)</h2><hr>
 <ol>
@@ -224,8 +240,6 @@
 <li><p>Project のブレードから [Pipelines\Pipelines] を展開 -&gt; [All] タブから対象の Pipeline を選択 -&gt; 画面右上の [Edit] をクリック -&gt; Pipeline 編集画面の [Variables] タブを選択 -&gt; ブレードから [Pipeline variables] を選択してください。</p>
 </li>
 <li><p>Name 欄に [System.Debug] 変数が既に存在する場合は、Value を “true” に変更してください。[System.Debug] 変数が存在しない場合は [+ Add] をクリックして、下記のとおり [System.Debug] 変数を追加してください。</p>
-</li>
-</ol>
 <table>
 <thead>
 <tr>
@@ -237,26 +251,34 @@
 <td align="left">System.Debug</td>
 <td align="left">true</td>
 </tr>
+<tr>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><img src="system-debug-classic-build.png"></td>
+<td align="left"></td>
+</tr>
 </tbody></table>
-<p><img src="system-debug-classic-build.png"></p>
-<ol start="4">
+</li>
 <li><p>Build Pipeline を再度実行してください。</p>
 </li>
 <li><p>Project のブレードから [Pipelines\Pipelines] を展開 -&gt; [All] タブから対象の Pipeline を選択 -&gt; 該当する Pipeline の実行結果 (run) を選択してください。</p>
 </li>
 <li><p>画面右上の詳細メニュー (…) から [Download logs] を選択してダウンロードした ZIP ファイルをご提供ください。下図は「myProject-ASP.NET Core (.NET Framework)-CI」という名前の Pipeline の実行結果「#20220308.1 Set up CI with Azure Pipelines」を選択して、ダウンロードする例です。</p>
+<p><img src="download-logs-classic-build.png"></p>
 </li>
 </ol>
-<p><img src="download-logs-classic-build.png"></p>
 <hr>
 <h2 id="Build-Pipeline-の-Enable-system-diagnostics-オプション-YAML／Classic-形式共通"><a href="#Build-Pipeline-の-Enable-system-diagnostics-オプション-YAML／Classic-形式共通" class="headerlink" title="Build Pipeline の [Enable system diagnostics] オプション (YAML／Classic 形式共通)"></a>Build Pipeline の [Enable system diagnostics] オプション (YAML／Classic 形式共通)</h2><hr>
 <p>上述の通り、YAML 形式も Classic 形式も、デバッグ情報を含む詳細ログを取得するためには、System.Debug 変数の編集・追加が必要です。<br>「少し面倒だなあ」「Pipeline の設定は変更したくないなあ」「エラー自体は再現性はあるし、クイックに詳細ログをゲットしたいなあ」という時にお役立ちなのが、この [Enable system diagnostics] オプションです！</p>
 <ul>
-<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/azure/devops/pipelines/troubleshooting/review-logs?view=azure-devops#configure-verbose-logs" title="Review logs to diagnose pipeline issues / Configure verbose logs">Review logs to diagnose pipeline issues / Configure verbose logs</a></li>
-</ul>
+<li><p><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/azure/devops/pipelines/troubleshooting/review-logs?view=azure-devops#configure-verbose-logs" title="Review logs to diagnose pipeline issues / Configure verbose logs">Review logs to diagnose pipeline issues / Configure verbose logs</a></p>
 <p>本オプションは、Pipeline を手動 (Manual) で実行する際に表示される [Run Pipeline] パネルの下部に、[Enable system diagnostics] チェックボックスの形で用意されています。<br>この [Enable system diagnostics] を ON にして Pipeline を実行すると、その時の実行 (Run) だけに System.Debug 変数が true に設定されますので、Pipeline に対して上述した System.Debug 変数の編集・追加を行う必要がありません。</p>
 <p><img src="enable-system-diagnostics.png"></p>
 <p>恒久的に詳細ログを採取する計画がある場合は、お手数ですが System.Debug 変数を追加・編集していただき、一時的にワンショットで詳細ログを採取する場合は [Enable system diagnostics] オプションをご利用いただくなど、必要に応じて使い分けていただけたらと思います！</p>
+</li>
+</ul>
 <hr>
 <h2 id="Release-Pipeline-1"><a href="#Release-Pipeline-1" class="headerlink" title="Release Pipeline"></a>Release Pipeline</h2><hr>
 <ol>
@@ -267,8 +289,6 @@
 <li><p>Project のブレードから [Pipelines\Releases] を展開 -&gt; 対象の Release Pipeline を選択 -&gt; 画面右上の [Edit] をクリック -&gt; Release Pipeline 編集画面の [Variables] タブを選択 -&gt; ブレードから [Pipeline variables] を選択してください。</p>
 </li>
 <li><p>Name 欄に [System.Debug] 変数が既に存在する場合は、Value を “true” に変更してください。[System.Debug] 変数が存在しない場合は [+ Add] をクリックして、下記のとおり [System.Debug] 変数を追加してください。</p>
-</li>
-</ol>
 <table>
 <thead>
 <tr>
@@ -282,18 +302,17 @@
 </tr>
 </tbody></table>
 <p><img src="system-debug-classic-release.png"></p>
-<ol start="4">
+</li>
 <li><p>Release Pipeline を再度実行してください。</p>
 </li>
 <li><p>Project のブレードから [Pipelines\Releases] を展開 -&gt; [All] タブから対象の Release Pipeline を選択 -&gt; 該当する Release を選択 -&gt; 対象の Stage の上にマウスをホバーして [Logs] をクリックしてください。</p>
-</li>
-</ol>
 <p><img src="open-log-classic-release.png"></p>
-<ol start="6">
-<li>画面右上の [Download all logs] をクリックしてダウンロードしたファイルをご提供ください。下図は「New release pipeline」という名前の Release Pipeline の Release「Release-2」における、Stage「Stage 1」を選択して、ダウンロードする例です。</li>
-</ol>
+</li>
+<li><p>画面右上の [Download all logs] をクリックしてダウンロードしたファイルをご提供ください。下図は「New release pipeline」という名前の Release Pipeline の Release「Release-2」における、Stage「Stage 1」を選択して、ダウンロードする例です。</p>
 <p><img src="download-all-logs-classic-release.png"></p>
 <p>今回は、Azure Pipelines 上でのトラブルシューティングをスムーズにするために有効なデータの採取方法をご紹介しました。<br>今後も Azure DevOps Services のご利用にお役立ていただける情報を、どんどんご紹介していきたいと思いますので、どうぞよろしくお願いします！</p>
+</li>
+</ol>
 
       
       
@@ -409,19 +428,19 @@
     <ul>
       
         <li>
-          <a href="../../https:/social.msdn.microsoft.com/Forums/ja-jp/home?forum=visualstudiosupportteamja">Visual Studio サポートチーム フォーラム</a>
+          <a target="_blank" rel="noopener" href="https://social.msdn.microsoft.com/Forums/ja-jp/home?forum=visualstudiosupportteamja">Visual Studio サポートチーム フォーラム</a>
         </li>
       
         <li>
-          <a href="../../https:/social.msdn.microsoft.com/Forums/ja-jp/home?forum=windowssdksupportteamja&filter=alltypes&sort=lastpostdesc">Windows SDK サポートチーム フォーラム</a>
+          <a target="_blank" rel="noopener" href="https://social.msdn.microsoft.com/Forums/ja-jp/home?forum=windowssdksupportteamja&filter=alltypes&sort=lastpostdesc">Windows SDK サポートチーム フォーラム</a>
         </li>
       
         <li>
-          <a href="../../https:/docs.microsoft.com/en-us/archive/blogs/jpvsblog/">Visual Studio サポート チーム blog</a>
+          <a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/archive/blogs/jpvsblog/">Visual Studio サポート チーム blog</a>
         </li>
       
         <li>
-          <a href="../../https:/docs.microsoft.com/en-us/archive/blogs/japan_platform_sdkwindows_sdk_support_team_blog/">JAPAN Platform SDK（Windows SDK） Support Team Blog</a>
+          <a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/archive/blogs/japan_platform_sdkwindows_sdk_support_team_blog/">JAPAN Platform SDK（Windows SDK） Support Team Blog</a>
         </li>
       
     </ul>
@@ -435,43 +454,43 @@
     <ul>
       
         <li>
-          <a href="../../https:/developercommunity.visualstudio.com/">Developer Community</a>
+          <a target="_blank" rel="noopener" href="https://developercommunity.visualstudio.com/">Developer Community</a>
         </li>
       
         <li>
-          <a href="../../https:/devblogs.microsoft.com/dotnet/">.NET Blog</a>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/dotnet/">.NET Blog</a>
         </li>
       
         <li>
-          <a href="../../https:/devblogs.microsoft.com/visualstudio/">Visual Studio Blog</a>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/visualstudio/">Visual Studio Blog</a>
         </li>
       
         <li>
-          <a href="../../https:/devblogs.microsoft.com/cppblog/">C++ Team Blog</a>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/cppblog/">C++ Team Blog</a>
         </li>
       
         <li>
-          <a href="../../https:/devblogs.microsoft.com/xamarin/">Xamarin Blog</a>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/xamarin/">Xamarin Blog</a>
         </li>
       
         <li>
-          <a href="../../https:/devblogs.microsoft.com/devops/">Azure DevOps Blog</a>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/devops/">Azure DevOps Blog</a>
         </li>
       
         <li>
-          <a href="../../https:/techcommunity.microsoft.com/t5/azure-lab-services/bg-p/AzureLabServicesBlog/">Azure Lab Services Blog</a>
+          <a target="_blank" rel="noopener" href="https://techcommunity.microsoft.com/t5/azure-lab-services/bg-p/AzureLabServicesBlog/">Azure Lab Services Blog</a>
         </li>
       
         <li>
-          <a href="../../https:/devblogs.microsoft.com/appcenter/">App Center Blog</a>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/appcenter/">App Center Blog</a>
         </li>
       
         <li>
-          <a href="../../https:/status.azure.com/status/">Azure Status</a>
+          <a target="_blank" rel="noopener" href="https://status.azure.com/status/">Azure Status</a>
         </li>
       
         <li>
-          <a href="../../https:/status.dev.azure.com/">Azure DevOps - Status</a>
+          <a target="_blank" rel="noopener" href="https://status.dev.azure.com/">Azure DevOps - Status</a>
         </li>
       
     </ul>
@@ -486,7 +505,7 @@
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2024 Developer Support Core Japan<br>
+      &copy; 2025 Developer Support Core Japan<br>
       Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
