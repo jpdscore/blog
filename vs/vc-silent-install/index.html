@@ -4,24 +4,21 @@
   <meta charset="utf-8">
   
   
-  <title>Visual Studio 2013 でサインイン画面が表示されない場合の対処方法について | Japan Developer Support Core Team Blog</title>
+  <title>コマンドからの Visual C++ 再頒布パッケージのインストール方法 | Japan Developer Support Core Team Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="こんにちは、Japan Developer Support Core チームの松井です。今回は Visual Studio 2013 でサインイン画面が表示されない場合の対処方法についてご案内します。 現象Visual Studio 2013 でサインイン画面の表示を試みた場合に、”問題が発生しました”、”オンライン サービスは使用できません。後でやり直してください。” のエラーが表示される。">
+  <meta name="description" content="こんにちは、Japan Developer Support Core チームの上原です。今回は、Visual C++ 再頒布パッケージ(Redistributable) をコマンドでインストールする方法、サイレント インストールについてご案内します。 はじめにVisual C++ ランタイムは多くのアプリケーションで利用されていますが、Windows OS には標準で含まれていません。そのため、ア">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Visual Studio 2013 でサインイン画面が表示されない場合の対処方法について">
-<meta property="og:url" content="https://jpdscore.github.io/blog/vs/vs2013-signin-error/index.html">
+<meta property="og:title" content="コマンドからの Visual C++ 再頒布パッケージのインストール方法">
+<meta property="og:url" content="https://jpdscore.github.io/blog/vs/vc-silent-install/index.html">
 <meta property="og:site_name" content="Japan Developer Support Core Team Blog">
-<meta property="og:description" content="こんにちは、Japan Developer Support Core チームの松井です。今回は Visual Studio 2013 でサインイン画面が表示されない場合の対処方法についてご案内します。 現象Visual Studio 2013 でサインイン画面の表示を試みた場合に、”問題が発生しました”、”オンライン サービスは使用できません。後でやり直してください。” のエラーが表示される。">
+<meta property="og:description" content="こんにちは、Japan Developer Support Core チームの上原です。今回は、Visual C++ 再頒布パッケージ(Redistributable) をコマンドでインストールする方法、サイレント インストールについてご案内します。 はじめにVisual C++ ランタイムは多くのアプリケーションで利用されていますが、Windows OS には標準で含まれていません。そのため、ア">
 <meta property="og:locale" content="ja_JP">
-<meta property="og:image" content="https://jpdscore.github.io/blog/vs/vs2013-signin-error/vs2013-signin-error.png">
-<meta property="og:image" content="https://jpdscore.github.io/blog/vs/vs2013-signin-error/schusestrongcrypto-x86os.png">
-<meta property="og:image" content="https://jpdscore.github.io/blog/vs/vs2013-signin-error/schusestrongcrypto-x64os.png">
-<meta property="article:published_time" content="2022-04-27T15:00:00.000Z">
+<meta property="article:published_time" content="2025-07-01T15:00:00.000Z">
 <meta property="article:modified_time" content="2025-07-03T05:00:28.721Z">
 <meta property="article:author" content="Developer Support Core Japan">
 <meta property="article:tag" content="Visual Studio">
+<meta property="article:tag" content="C++">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://jpdscore.github.io/blog/vs/vs2013-signin-error/vs2013-signin-error.png">
   
     <link rel="alternate" href="../../blog/atom.xml" title="Japan Developer Support Core Team Blog" type="application/atom+xml">
   
@@ -83,7 +80,7 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-vs/vs2013-signin-error" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-vs/vc-silent-install" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
     
@@ -92,7 +89,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Visual Studio 2013 でサインイン画面が表示されない場合の対処方法について
+      コマンドからの Visual C++ 再頒布パッケージのインストール方法
     </h1>
   
 
@@ -100,48 +97,41 @@
       <div class="article-share">
         Last Update: 
         <a href="" class="article-date-single">
-  <time datetime="2022-04-27T15:00:00.000Z" itemprop="datePublished">2022-04-28</time>
+  <time datetime="2025-07-01T15:00:00.000Z" itemprop="datePublished">2025-07-02</time>
 </a>
         
         
-        <a href="https://github.com/jpdscore/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+f251e1c2-fb4d-52bf-a25d-353362c56696%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5BVisual+Studio+2013+%E3%81%A7%E3%82%B5%E3%82%A4%E3%83%B3%E3%82%A4%E3%83%B3%E7%94%BB%E9%9D%A2%E3%81%8C%E8%A1%A8%E7%A4%BA%E3%81%95%E3%82%8C%E3%81%AA%E3%81%84%E5%A0%B4%E5%90%88%E3%81%AE%E5%AF%BE%E5%87%A6%E6%96%B9%E6%B3%95%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6%5D%28https%3A%2F%2Fjpdscore.github.io%2Fblog%2Fvs%2Fvs2013-signin-error%2F%29" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
+        <a href="https://github.com/jpdscore/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+ab723519-7355-5ba8-bd52-fdbba891a83a%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5B%E3%82%B3%E3%83%9E%E3%83%B3%E3%83%89%E3%81%8B%E3%82%89%E3%81%AE+Visual+C%2B%2B+%E5%86%8D%E9%A0%92%E5%B8%83%E3%83%91%E3%83%83%E3%82%B1%E3%83%BC%E3%82%B8%E3%81%AE%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB%E6%96%B9%E6%B3%95%5D%28https%3A%2F%2Fjpdscore.github.io%2Fblog%2Fvs%2Fvc-silent-install%2F%29" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
         
-        <a data-url="https://jpdscore.github.io/blog/vs/vs2013-signin-error/" data-id="cmcmx3cnq0033j4aw8fgz60rc" class="article-share-link">共有</a>
+        <a data-url="https://jpdscore.github.io/blog/vs/vc-silent-install/" data-id="cmcmx3cnp0031j4awfg354s76" class="article-share-link">共有</a>
       </div>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>こんにちは、Japan Developer Support Core チームの松井です。<br>今回は Visual Studio 2013 でサインイン画面が表示されない場合の対処方法についてご案内します。</p>
-<h1 id="現象"><a href="#現象" class="headerlink" title="現象"></a>現象</h1><p>Visual Studio 2013 でサインイン画面の表示を試みた場合に、”問題が発生しました”、”オンライン サービスは使用できません。後でやり直してください。” のエラーが表示される。</p>
-<p><img src="vs2013-signin-error.png"></p>
-<h1 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h1><p>Visual Studio のサインイン画面をはじめとする弊社の各 Web サイトやサービスでは、古い暗号化プロトコルである TLS 1.0 および TLS 1.1 の廃止が順次進められています。一方で Visual Studio 2013 は .NET Framework 4 の既定の暗号化プロトコルを使用しており、既定のシステム構成では TLS 1.0 が使用されます。そのため、Visual Studio 2013 からサインイン画面のサイトへ接続を試みた際に接続が拒否され、ダイアログにエラーが表示されます。</p>
-<h1 id="対処方法"><a href="#対処方法" class="headerlink" title="対処方法"></a>対処方法</h1><p>PowerShell を起動して以下のコマンドレットを実行し、コンピューターに .NET Framework 4.6 以降のバージョンがインストールされているか確認してください。</p>
-<figure class="highlight ps"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(<span class="built_in">Get-ItemProperty</span> <span class="string">&quot;HKLM:\SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full&quot;</span>).Release <span class="operator">-ge</span> <span class="number">393295</span></span><br></pre></td></tr></table></figure>
+        <p>こんにちは、Japan Developer Support Core チームの上原です。<br>今回は、Visual C++ 再頒布パッケージ(Redistributable) をコマンドでインストールする方法、サイレント インストールについてご案内します。</p>
+<h2 id="はじめに"><a href="#はじめに" class="headerlink" title="はじめに"></a>はじめに</h2><p>Visual C++ ランタイムは多くのアプリケーションで利用されていますが、Windows OS には標準で含まれていません。そのため、アプリケーション利用時に「Visual C++ 再頒布パッケージ」を別途インストールする必要が生じる場合があります。<br>Visual C++ 再頒布可能パッケージは、<a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/cpp/windows/latest-supported-vc-redist">ダウンロードサイト</a> から入手が可能ですので、エクスプローラーなどから GUI 上でインストールする方法と、コマンドプロンプトなどからコマンドを実行する形でインストールする方法があります。</p>
+<p>本記事では、コマンドからのサイレント インストール方法と注意点を解説します。<br>※本記事は Visual C++ 2015-2022 を前提としています。Visual C++ 2013 以前は既にサポートが終了していますが、基本的には同様です。</p>
+<h2 id="サイレント-インストール方法"><a href="#サイレント-インストール方法" class="headerlink" title="サイレント インストール方法"></a>サイレント インストール方法</h2><p>Visual C++ 再頒布パッケージは、x86/x64/ARM64 など複数のアーキテクチャ向けに提供されています。<br>ここでは x86 版（vcredist_x86.exe）を例に説明しますが、他のアーキテクチャも同様です。</p>
+<p>サイレントインストールは、コマンドに <code>/quiet</code>（または <code>/q</code>）を付けて実行します。<br>さらに <code>/norestart</code> を付けると、インストールを完了するためにシステムの再起動が必要な場合であっても、インストール後に自動で再起動されることはありません。</p>
+<p>例:</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vcredist_x86.exe /q /norestart</span><br></pre></td></tr></table></figure>
 
-<p>True が出力される場合は .NET Framework 4.6 がインストールされていますので、以下のレジストリ設定を追加します。</p>
-<p><img src="schusestrongcrypto-x86os.png"></p>
-<blockquote>
-<p>   [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft.NETFramework\v4.0.30319]<br>   “SchUseStrongCrypto”=dword:00000001</p>
-</blockquote>
-<p>64 bit OS の場合は以下のレジストリも必要となります。</p>
-<p><img src="schusestrongcrypto-x64os.png"></p>
-<blockquote>
-<p>   [HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft.NETFramework\v4.0.30319]<br>   “SchUseStrongCrypto”=dword:00000001</p>
-</blockquote>
-<p>変更後に Visual Studio 2013 を再起動し、事象が解消されているか確認してください。コンピューターの再起動は不要です。</p>
-<p>前述のコマンドレットで False やエラーが出力される場合は .NET Framework 4.6 より古いバージョンとなっているため、以下のブログ記事の手順に沿って対応してください。</p>
-<blockquote>
-<p><a target="_blank" rel="noopener" href="https://jpdsi.github.io/blog/internet-explorer-microsoft-edge/dotnet-framework-tls12/#6-NET-Framework-4-5-2-%E3%81%A7-TLS-1-1-%E3%81%8A%E3%82%88%E3%81%B3-1-2-%E3%82%92%E6%97%A2%E5%AE%9A%E5%80%A4%E3%81%AB%E3%81%99%E3%82%8B%E3%81%9F%E3%82%81%E3%81%AE%E6%96%B9%E6%B3%95">6. .NET Framework 4.5.2 で TLS 1.1 および 1.2 を既定値にするための方法</a></p>
-</blockquote>
-<h1 id="参考情報"><a href="#参考情報" class="headerlink" title="参考情報"></a>参考情報</h1><p>TLS 1.0 / TLS 1.1 の廃止、およびこの変更により Visual Studio の機能が影響を受ける可能性があることについては Visual Studio 開発チームの下記のブログ記事にてご案内しています。</p>
-<p><a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/visualstudio/azure-devops-requires-tls-1-2-on-all-connections-including-visual-studio/">Azure DevOps requires TLS 1.2 on all connections including Visual Studio</a></p>
-<blockquote>
-<p><strong>原文抜粋</strong><br>Visual Studio 2022, Visual Studio 2019, and the latest release of Visual Studio 2017 (version 15.9 and beyond) already use TLS 1.2 and are not impacted by the upcoming change. Earlier versions of Visual Studio that are running on devices not configured to use TLS 1.2, may begin to see errors when connecting to Azure DevOps services. Features such as signing into Visual Studio, unlocking the IDE, and remote Git operations could be affected.</p>
-</blockquote>
-<blockquote>
-<p><strong>日本語訳</strong><br>Visual Studio 2022、Visual Studio 2019、および最新の Visual Studio 2017 (version 15.9 以降) は既に TLS 1.2 を利用しており、今後の変更の影響は受けません。TLS 1.2 を使用するように構成されていないデバイスで実行されている以前のバージョンの Visual Studio は、Azure DevOps Services に接続するときにエラーが発生する可能性があります。<strong>Visual Studio へのサインインや IDE のロック解除、リモート Git 操作などの機能が影響を受ける可能性があります。</strong></p>
-</blockquote>
-<p>この変更に関する背景の詳細については下記のブログ記事やそのリンク先もあわせてご確認ください。</p>
+<h2 id="インストール時のシステム再起動"><a href="#インストール時のシステム再起動" class="headerlink" title="インストール時のシステム再起動"></a>インストール時のシステム再起動</h2><p>Visual C++ 再頒布パッケージのインストール時、すでに古いバージョンがインストールされており、更新対象のファイルが使用中で直ちに更新できない、といった場合には、インストールを完了するためにシステム再起動が必要になることがあります。</p>
+<p>サイレントインストール時に <code>/norestart</code> オプションを付けると、再起動は自動で行われず、インストーラーは終了コード 3010 を返します。<code>/norestart</code> を付けない場合は、自動的にシステムの再起動を試み、他のアプリケーションにブロックされる等の状況でなければ実際に再起動が行われます。</p>
+<p>このように再起動が必要かどうかは、インストール時のシステムの状態によって決まるため、事前に確実に判定することはできません。しかしながら、サイレント インストールを利用する多くのシナリオでは、意図せぬ再起動を避けるため、<code>/quiet /norestart</code> の併用が推奨されます。</p>
+<p>なお、エラーコード 3010 が返る場合を含め、インストールの完了にシステムの再起動が必要な場合は、あくまでもインストール処理が完全に終わっていない一時的な状態となっておりますので、可能な限り速やかにシステムを再起動してください。<br>このような背景から、Visual C++ 再頒布パッケージのインストールを計画される際には、実際に再起動が必要となるかは事前に判断が難しいものの、再起動が必要となる前提で作業計画を立てていただくことを推奨しております。</p>
+<h2 id="エラー処理"><a href="#エラー処理" class="headerlink" title="エラー処理"></a>エラー処理</h2><p>サイレント インストールでは UI が表示されないため、インストーラー プロセスの終了コードで結果を判断します。<br>主な終了コードは以下の通りです。</p>
+<ul>
+<li>0（ERROR_SUCCESS）：インストール成功</li>
+<li>1638（ERROR_PRODUCT_VERSION）：別バージョンが既にインストール済み</li>
+<li>3010（ERROR_SUCCESS_REBOOT_REQUIRED）：再起動が必要</li>
+</ul>
+<p>これ以外のコードが返された場合は、何らかの理由でインストールが失敗したと判断できます。</p>
+<h2 id="その他の実行方法"><a href="#その他の実行方法" class="headerlink" title="その他の実行方法"></a>その他の実行方法</h2><p>インストール時のログを取得したい場合は、<code>/log</code>（または <code>/l</code>）オプションで出力先を指定できます。</p>
+<p>例:</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vcredist_x86.exe /q /norestart /log C:\logs\vcredist.log</span><br></pre></td></tr></table></figure>
+
+<p>また、コマンドから修復（/repair）やアンインストール（/uninstall）も可能ですので、詳細は <a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/archive/blogs/astebner/mailbag-how-to-perform-a-silent-install-of-the-visual-c-2010-redistributable-packages">過去のアーカイブ記事</a> をご参照ください。</p>
 
       
       
@@ -155,11 +145,11 @@
     <footer class="article-footer">
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Visual-Studio/" rel="tag">Visual Studio</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/C/" rel="tag">C++</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Visual-Studio/" rel="tag">Visual Studio</a></li></ul>
 
       <!-- 
       
-        <a href="https://github.com/jpdscore/blog/edit/master/articles/vs/vs2013-signin-error.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
+        <a href="https://github.com/jpdscore/blog/edit/master/articles/vs/vc-silent-install.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
         
       -->
     </footer>
@@ -168,19 +158,10 @@
     
 <nav id="article-nav">
   
-    <a href="../../azuredevops/DevOpsPricing/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">次の記事</strong>
-      <div class="article-nav-title">
-        
-          Azure DevOps Services の料金体系をおさらいしてみよう！
-        
-      </div>
-    </a>
   
-  
-    <a href="../../azuredevops/devops-log-collection/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="../../dotnet/netfx-how-to-repair/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">前の記事</strong>
-      <div class="article-nav-title">Azure DevOps Services トラブルシューティング用のデータ採取について</div>
+      <div class="article-nav-title">.NET Framework の修復方法について</div>
     </a>
   
 </nav>
@@ -199,7 +180,7 @@
       <ul>
         
           <li>
-            <a href="../vc-silent-install/">コマンドからの Visual C++ 再頒布パッケージのインストール方法</a>
+            <a href="">コマンドからの Visual C++ 再頒布パッケージのインストール方法</a>
           </li>
         
           <li>
