@@ -4,20 +4,20 @@
   <meta charset="utf-8">
   
   
-  <title>Azure DevOps Services における弱い暗号化標準 (TLS 1.0 および TLS 1.1) の廃止について | Japan Developer Support Core Team Blog</title>
+  <title>STAスレッドを使用したアプリのメモリリークについて | Japan Developer Support Core Team Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="こんにちは、Japan Developer Support Core チームの松井です。Azure DevOps Services における弱い暗号化標準 (TLS 1.0 および TLS 1.1) の廃止についてご案内いたします。  Deprecating weak cryptographic standards (TLS 1.0 and TLS 1.1) in Azure DevOps  上記">
+  <meta name="description" content="こんにちは、Japan Developer Support Core チームの近澤です。.NET アプリケーションでメモリリークが発生した際に、STA スレッドが関係している場合があります。今回は、STAスレッドの仕組みと、よくあるメモリリークの原因、その対処方法についてご紹介します。 STA スレッドとはSTA（Single Threaded Apartment）スレッドは、COM コンポーネン">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Azure DevOps Services における弱い暗号化標準 (TLS 1.0 および TLS 1.1) の廃止について">
-<meta property="og:url" content="https://jpdscore.github.io/blog/azuredevops/deprecating-weak-cryptographic-standards-tls-1-0-and-tls-1-1-in-azure-devops/index.html">
+<meta property="og:title" content="STAスレッドを使用したアプリのメモリリークについて">
+<meta property="og:url" content="https://jpdscore.github.io/blog/dotnet/memoryleak-using-sta-thread/index.html">
 <meta property="og:site_name" content="Japan Developer Support Core Team Blog">
-<meta property="og:description" content="こんにちは、Japan Developer Support Core チームの松井です。Azure DevOps Services における弱い暗号化標準 (TLS 1.0 および TLS 1.1) の廃止についてご案内いたします。  Deprecating weak cryptographic standards (TLS 1.0 and TLS 1.1) in Azure DevOps  上記">
+<meta property="og:description" content="こんにちは、Japan Developer Support Core チームの近澤です。.NET アプリケーションでメモリリークが発生した際に、STA スレッドが関係している場合があります。今回は、STAスレッドの仕組みと、よくあるメモリリークの原因、その対処方法についてご紹介します。 STA スレッドとはSTA（Single Threaded Apartment）スレッドは、COM コンポーネン">
 <meta property="og:locale" content="ja_JP">
-<meta property="article:published_time" content="2022-03-15T15:00:00.000Z">
-<meta property="article:modified_time" content="2025-07-04T10:53:30.049Z">
+<meta property="article:published_time" content="2025-07-03T15:00:00.000Z">
+<meta property="article:modified_time" content="2025-07-04T10:53:30.103Z">
 <meta property="article:author" content="Developer Support Core Japan">
-<meta property="article:tag" content="ALM">
-<meta property="article:tag" content="Azure DevOps Services">
+<meta property="article:tag" content=".NET">
+<meta property="article:tag" content=".NET Framework">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternate" href="../../blog/atom.xml" title="Japan Developer Support Core Team Blog" type="application/atom+xml">
@@ -80,7 +80,7 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-azuredevops/deprecating-weak-cryptographic-standards-tls-1-0-and-tls-1-1-in-azure-devops" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-dotnet/memoryleak-using-sta-thread" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
     
@@ -89,7 +89,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Azure DevOps Services における弱い暗号化標準 (TLS 1.0 および TLS 1.1) の廃止について
+      STAスレッドを使用したアプリのメモリリークについて
     </h1>
   
 
@@ -97,29 +97,63 @@
       <div class="article-share">
         Last Update: 
         <a href="" class="article-date-single">
-  <time datetime="2022-03-15T15:00:00.000Z" itemprop="datePublished">2022-03-16</time>
+  <time datetime="2025-07-03T15:00:00.000Z" itemprop="datePublished">2025-07-04</time>
 </a>
         
         
-        <a href="https://github.com/jpdscore/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+c8ac30f8-f625-56ef-a484-3f99cf70e5a8%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5BAzure+DevOps+Services+%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8B%E5%BC%B1%E3%81%84%E6%9A%97%E5%8F%B7%E5%8C%96%E6%A8%99%E6%BA%96+%28TLS+1.0+%E3%81%8A%E3%82%88%E3%81%B3+TLS+1.1%29+%E3%81%AE%E5%BB%83%E6%AD%A2%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6%5D%28https%3A%2F%2Fjpdscore.github.io%2Fblog%2Fazuredevops%2Fdeprecating-weak-cryptographic-standards-tls-1-0-and-tls-1-1-in-azure-devops%2F%29" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
+        <a href="https://github.com/jpdscore/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+93f95bbf-024d-506a-b157-aa893200c77a%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5BSTA%E3%82%B9%E3%83%AC%E3%83%83%E3%83%89%E3%82%92%E4%BD%BF%E7%94%A8%E3%81%97%E3%81%9F%E3%82%A2%E3%83%97%E3%83%AA%E3%81%AE%E3%83%A1%E3%83%A2%E3%83%AA%E3%83%AA%E3%83%BC%E3%82%AF%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6%5D%28https%3A%2F%2Fjpdscore.github.io%2Fblog%2Fdotnet%2Fmemoryleak-using-sta-thread%2F%29" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
         
-        <a data-url="https://jpdscore.github.io/blog/azuredevops/deprecating-weak-cryptographic-standards-tls-1-0-and-tls-1-1-in-azure-devops/" data-id="cmcop53z60003j3aw3q07h2p6" class="article-share-link">共有</a>
+        <a data-url="https://jpdscore.github.io/blog/dotnet/memoryleak-using-sta-thread/" data-id="cmcop53zs001vj3aw4yvh2wrg" class="article-share-link">共有</a>
       </div>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>こんにちは、Japan Developer Support Core チームの松井です。Azure DevOps Services における弱い暗号化標準 (TLS 1.0 および TLS 1.1) の廃止についてご案内いたします。</p>
-<blockquote>
-<p><a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/devops/deprecating-weak-cryptographic-standards-tls-1-0-and-tls-1-1-in-azure-devops/">Deprecating weak cryptographic standards (TLS 1.0 and TLS 1.1) in Azure DevOps</a></p>
-</blockquote>
-<p>上記のブログ記事でアナウンスされているとおり、2022 年 1 月 31 日に Azure DevOps Services において TLS 1.0 および TLS 1.1 の廃止が予定されています。これに伴い Azure DevOps Services は TLS 1.0 および TLS 1.1 の接続を受け付けなくなるため、クライアントは TLS 1.2 以上のバージョンを使用する必要があります。既に Azure DevOps Services への接続の約 99.5% は TLS 1.2 が利用されている状況のため、TLS 1.0 および TLS 1.1 の廃止に伴う影響は限定的と予想されますが、TLS 1.2 に対応していない古いバージョンの OS や .NET Framework、Visual Studio や Git などでは Azure DevOps Services に接続できなくなる可能性がありますのでご注意ください。</p>
-<p>上記ブログ記事をご確認の上、影響を受ける可能性がある場合はソフトウェアのアップデートや TLS 1.2 の有効化をお願いいたします。この件につきましてご不明点などがありましたら、私共サポートまでお問い合わせください。</p>
-<h3 id="2022-02-02-追記"><a href="#2022-02-02-追記" class="headerlink" title="2022/02/02 追記"></a>2022/02/02 追記</h3><blockquote>
-<p><strong>2022 年 1 月 31 日 (PST) に実施された上記の変更につきましては、変更に伴う予期しない問題が確認されたためロールバックされました。現時点では Azure DevOps Services は引き続き TLS 1.0/1.1 の接続をサポートしています。現在上記の問題の解消に向けて取り組んでおり、改めて TLS 1.0/1.1 の新しい廃止予定日をアナウンスする予定です。ご不便をおかけいたしましたことをお詫び申し上げます。当ブログも随時更新しますが、最新の情報につきましては <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/devops/deprecating-weak-cryptographic-standards-tls-1-0-and-tls-1-1-in-azure-devops/">Azure DevOps Blog</a> の記事もあわせてご確認ください。</strong></p>
-</blockquote>
-<h3 id="2022-03-16-追記"><a href="#2022-03-16-追記" class="headerlink" title="2022/03/16 追記"></a>2022/03/16 追記</h3><blockquote>
-<p><strong>ロールバックされた上記の変更につきましては、2022 年 3 月 31 日に改めてロールアウトされる予定です。また、恒久的な変更に先立ち、お客様が影響を受けるソフトウェアを事前に識別できるように、下記の日程にて https://orgname.visualstudio.com および https://dev.azure.com/orgname の URL について一時的に TLS 1.0/1.1 を無効にする予定です。<br>- 2022 年 3 月 22 日 09:00-21:00 (UTC) https://orgname.visualstudio.com のみ対象<br>- 2022 年 3 月 24 日 09:00-21:00 (UTC) https://dev.azure.com/orgname のみ対象<br>最新の情報につきましては <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/devops/deprecating-weak-cryptographic-standards-tls-1-0-and-1-1-in-azure-devops-services/">Azure DevOps Blog</a> の記事もあわせてご確認ください。</strong></p>
-</blockquote>
+        <p>こんにちは、Japan Developer Support Core チームの近澤です。.NET アプリケーションでメモリリークが発生した際に、STA スレッドが関係している場合があります。今回は、STAスレッドの仕組みと、よくあるメモリリークの原因、その対処方法についてご紹介します。</p>
+<h2 id="STA-スレッドとは"><a href="#STA-スレッドとは" class="headerlink" title="STA スレッドとは"></a>STA スレッドとは</h2><p>STA（Single Threaded Apartment）スレッドは、COM コンポーネントでスレッドセーフを明示しない実装でも安全に使えるようにするための仕組みです。</p>
+<h3 id="STA-スレッドが必要な理由"><a href="#STA-スレッドが必要な理由" class="headerlink" title="STA スレッドが必要な理由"></a>STA スレッドが必要な理由</h3><p>STA スレッドは、Windows Forms アプリケーションなど UI アプリケーションでよく使用されています。<br>Windows Forms コントロールの多くは、パフォーマンスや内部で依存しているネイティブ コントロールの互換性の関係から、それ自身はスレッドセーフではありません。また、例えば Windows Forms のクリップボードや Dialog 表示など、内部で COM オブジェクトを利用しているコンポーネントは、マルチスレッドからのアクセスを避けるため、STA スレッドからの利用のみを許可しています。</p>
+<p>なお、これらのプロジェクトは、Visual Studio のプロジェクトテンプレートから作成された時点で既定で STA スレッドとしてマークされています。</p>
+<h3 id="STA-スレッドの設定方法"><a href="#STA-スレッドの設定方法" class="headerlink" title="STA スレッドの設定方法"></a>STA スレッドの設定方法</h3><p><strong>A. メインスレッドに STAThread 属性を付与</strong></p>
+<p>Windows Forms プロジェクトでは、<code>Program.cs</code> に以下のように <code>[STAThread]</code> 属性が記載されています：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[<span class="meta">STAThread</span>]</span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>()</span></span><br><span class="line">&#123;</span><br><span class="line">    Application.EnableVisualStyles();</span><br><span class="line">    Application.SetCompatibleTextRenderingDefault(<span class="literal">false</span>);</span><br><span class="line">    Application.Run(<span class="keyword">new</span> Form1());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>B. 新しいスレッドを STA として起動</strong></p>
+<p>プログラムの途中でスレッドを起動する際は、下記のようにアパートメントを指定します：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ThreadStart threadStart = <span class="keyword">new</span> ThreadStart(MyThreadMethod);</span><br><span class="line">Thread thread = <span class="keyword">new</span> Thread(threadStart);</span><br><span class="line">thread.SetApartmentState(ApartmentState.STA);</span><br><span class="line">thread.Start();</span><br></pre></td></tr></table></figure>
+
+<h2 id="問題の概要：メモリリークの原因"><a href="#問題の概要：メモリリークの原因" class="headerlink" title="問題の概要：メモリリークの原因"></a>問題の概要：メモリリークの原因</h2><p>STA スレッドを使用した場合、前提として、 後述する「<strong>メッセージポンプ</strong>」が実装されている必要があります。メッセージポンプとは、STA に属する COM コンポーネントを使用する際に、COMのガイドラインに則って、対象の STA スレッドで定期的にウィンドウメッセージを処理する仕組みです。</p>
+<h3 id="メッセージポンプが無い場合の問題"><a href="#メッセージポンプが無い場合の問題" class="headerlink" title="メッセージポンプが無い場合の問題"></a>メッセージポンプが無い場合の問題</h3><p>STA の外部から STA のオブジェクトへアクセスするためには、ウィンドウメッセージを介する必要があります。メッセージポンプが実装されていない場合、以下の問題が発生します：</p>
+<ul>
+<li><p> <strong>外部スレッドからのアクセス不可</strong>: STA スレッドがウィンドウメッセージを処理できないため、外部のスレッドから STA スレッドにアクセスできず、外部スレッドがハングアップします。</p>
+</li>
+<li><p> <strong>ガベージコレクション時の問題</strong>: 開発者が明示的にアクセスしない場合でも、ガベージコレクション（GC）でファイナライザが COM コンポーネントのオブジェクトを破棄する際に同様の問題が発生します。</p>
+</li>
+</ul>
+<h2 id="メモリリーク発生のメカニズム"><a href="#メモリリーク発生のメカニズム" class="headerlink" title="メモリリーク発生のメカニズム"></a>メモリリーク発生のメカニズム</h2><p>具体的には、以下のような流れでメモリリークが発生します：</p>
+<ol>
+<li><p><strong>STA スレッドでの COM オブジェクト生成</strong><br>メインスレッドに STA 属性が設定され、何らかの COM オブジェクトが生成・利用されます。この COM オブジェクトは STA に属し、外部のアパートメント (スレッド) からは直接操作することはできず、外部から操作するにはウィンドウ メッセージを使用した通信により、STA スレッドに処理を依頼する必要があります。</p>
+</li>
+<li><p><strong>ガベージコレクションの実行</strong><br>アプリケーションが動作し続け、ヒープ上の空き領域が不足すると、ガベージコレクション（GC）が自動実行されます。</p>
+</li>
+<li><p><strong>ファイナライザスレッドの動作</strong><br>GC の処理の一環として、ファイナライザスレッドが解放可能なオブジェクトのファイナライズメソッドを呼び出します。</p>
+</li>
+<li><p><strong>COM オブジェクトのファイナライズ試行</strong><br>COM オブジェクト（厳密には RCW オブジェクト）のファイナライズ処理を実行しようとしますが、このオブジェクトは STA オブジェクトのため、ファイナライザスレッドからは直接操作できず、STA スレッドに処理を依頼します。</p>
+</li>
+<li><p><strong>メッセージポンプ不備による応答不可</strong><br>STA スレッドがメッセージポンプを実行していないため、ファイナライザスレッドからの処理要求に応答できません。</p>
+</li>
+<li><p><strong>メモリリークの発生</strong><br>ファイナライザスレッドは STA スレッドからの応答を待ち続け、ファイナライズが必要なオブジェクトの処理を進められず、オブジェクトが解放されずに蓄積されてメモリリークを引き起こします。</p>
+</li>
+</ol>
+<h2 id="対処方法"><a href="#対処方法" class="headerlink" title="対処方法"></a>対処方法</h2><h3 id="A-メッセージポンプの実装"><a href="#A-メッセージポンプの実装" class="headerlink" title="A. メッセージポンプの実装"></a>A. メッセージポンプの実装</h3><p>STA スレッド内で以下の処理を定期的に呼び出すことで、メッセージポンプを実装できます：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">System.Threading.Thread.CurrentThread.Join(<span class="number">0</span>);</span><br></pre></td></tr></table></figure>
+
+<p><code>Join</code> メソッドの第一引数で待ち時間（ミリ秒）を指定できます。この処理により、ファイナライザスレッドから STA スレッドへのウィンドウメッセージによる処理要求に応答できるようになります。</p>
+<h3 id="B-MTA-スレッドの使用検討"><a href="#B-MTA-スレッドの使用検討" class="headerlink" title="B. MTA スレッドの使用検討"></a>B. MTA スレッドの使用検討</h3><p>MTA（Multi Threaded Apartment）スレッドであればメッセージポンプを実装する責務はありません。MTA でも動作可能な COM オブジェクトを使用する場合は、MTA スレッドの使用も検討できます。</p>
+<h2 id="参考資料"><a href="#参考資料" class="headerlink" title="参考資料"></a>参考資料</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/previous-versions/dotnet/netframework-4.0/5s8ee185(v=vs.100)">マネージ スレッドとアンマネージ スレッド | Microsoft Docs</a></li>
+<li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/dotnet/api/system.stathreadattribute?view=net-9.0">STAThreadAttribute クラス (System) | Microsoft Learn</a></li>
+<li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/dotnet/api/system.threading.thread.join?view=net-9.0">Thread.Join メソッド (System.Threading) | Microsoft Learn</a></li>
+</ul>
+<h2 id="まとめ"><a href="#まとめ" class="headerlink" title="まとめ"></a>まとめ</h2><p>STA スレッドを使用する場合は、適切なメッセージポンプの実装が不可欠です。メッセージポンプが無いと、ガベージコレクション時にファイナライザスレッドがハングアップし、メモリリークが発生する可能性があります。STA スレッドの責務を理解し、適切な実装を行うことで、このような問題を回避できます。</p>
 
       
       
@@ -133,11 +167,11 @@
     <footer class="article-footer">
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/ALM/" rel="tag">ALM</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Azure-DevOps-Services/" rel="tag">Azure DevOps Services</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/NET/" rel="tag">.NET</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/NET-Framework/" rel="tag">.NET Framework</a></li></ul>
 
       <!-- 
       
-        <a href="https://github.com/jpdscore/blog/edit/master/articles/azuredevops/deprecating-weak-cryptographic-standards-tls-1-0-and-tls-1-1-in-azure-devops.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
+        <a href="https://github.com/jpdscore/blog/edit/master/articles/dotnet/memoryleak-using-sta-thread.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
         
       -->
     </footer>
@@ -146,19 +180,10 @@
     
 <nav id="article-nav">
   
-    <a href="../pipelines-agents-ip-settings/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">次の記事</strong>
-      <div class="article-nav-title">
-        
-          Azure Pipelines エージェントの IP について
-        
-      </div>
-    </a>
   
-  
-    <a href="../pipelines-log-collection/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="../../vs/troubleshooting-application-error-with-ghcopilot/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">前の記事</strong>
-      <div class="article-nav-title">Azure Pipelines のトラブルシューティング用データ採取について</div>
+      <div class="article-nav-title">アプリケーションエラーを Visual Studio + GitHub Copilot で調査する</div>
     </a>
   
 </nav>
@@ -177,7 +202,7 @@
       <ul>
         
           <li>
-            <a href="../../dotnet/memoryleak-using-sta-thread/">STAスレッドを使用したアプリのメモリリークについて</a>
+            <a href="">STAスレッドを使用したアプリのメモリリークについて</a>
           </li>
         
           <li>
@@ -189,7 +214,7 @@
           </li>
         
           <li>
-            <a href="../../dotnet/netfx-how-to-repair/">.NET Framework の修復方法について</a>
+            <a href="../netfx-how-to-repair/">.NET Framework の修復方法について</a>
           </li>
         
           <li>
@@ -197,11 +222,11 @@
           </li>
         
           <li>
-            <a href="../wif-service-connection/">Azure DevOps Service Connection と Workload Identity Federation について</a>
+            <a href="../../azuredevops/wif-service-connection/">Azure DevOps Service Connection と Workload Identity Federation について</a>
           </li>
         
           <li>
-            <a href="../service-connection-update/">Azure DevOps Service Connection の更新について</a>
+            <a href="../../azuredevops/service-connection-update/">Azure DevOps Service Connection の更新について</a>
           </li>
         
       </ul>
