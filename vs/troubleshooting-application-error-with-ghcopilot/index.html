@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>アプリケーションエラーを Visual Studio + GitHub Copilot で調査する | Japan Developer Support Core Team Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="こんにちは、Japan Developer Support Core チームの松井です。今回は、Visual Studio 2022 と GitHub Copilot を使用したアプリケーション エラーの調査事例を紹介します。 前提条件本記事の手順を試すには以下の準備が必要です。  Visual Studio 2022 version 17.14 以降のインストール GitHub Copilot">
+<meta property="og:type" content="article">
+<meta property="og:title" content="アプリケーションエラーを Visual Studio + GitHub Copilot で調査する">
+<meta property="og:url" content="https://jpdscore.github.io/blog/vs/troubleshooting-application-error-with-ghcopilot/index.html">
+<meta property="og:site_name" content="Japan Developer Support Core Team Blog">
+<meta property="og:description" content="こんにちは、Japan Developer Support Core チームの松井です。今回は、Visual Studio 2022 と GitHub Copilot を使用したアプリケーション エラーの調査事例を紹介します。 前提条件本記事の手順を試すには以下の準備が必要です。  Visual Studio 2022 version 17.14 以降のインストール GitHub Copilot">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:image" content="https://jpdscore.github.io/blog/vs/troubleshooting-application-error-with-ghcopilot/application-error.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/vs/troubleshooting-application-error-with-ghcopilot/wer.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/vs/troubleshooting-application-error-with-ghcopilot/dump-file.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/vs/troubleshooting-application-error-with-ghcopilot/start-debugging.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/vs/troubleshooting-application-error-with-ghcopilot/display-sourcecode.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/vs/troubleshooting-application-error-with-ghcopilot/open-copilot-chat.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/vs/troubleshooting-application-error-with-ghcopilot/change-to-agent-mode.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/vs/troubleshooting-application-error-with-ghcopilot/prompt-analysis.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/vs/troubleshooting-application-error-with-ghcopilot/analyzing-dump.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/vs/troubleshooting-application-error-with-ghcopilot/review-changes.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/vs/troubleshooting-application-error-with-ghcopilot/keep-changes.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/vs/troubleshooting-application-error-with-ghcopilot/ask-recurrence-prevention.png">
+<meta property="article:published_time" content="2025-07-03T15:00:00.000Z">
+<meta property="article:modified_time" content="2025-07-04T08:50:36.008Z">
+<meta property="article:author" content="Developer Support Core Japan">
+<meta property="article:tag" content="Debug">
+<meta property="article:tag" content="Visual Studio">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jpdscore.github.io/blog/vs/troubleshooting-application-error-with-ghcopilot/application-error.png">
+  
+    <link rel="alternate" href="../../blog/atom.xml" title="Japan Developer Support Core Team Blog" type="application/atom+xml">
+  
+
+  <link rel="icon" href="../../favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
+  <link rel="manifest" href="../../site.webmanifest">
+  <link rel="mask-icon" href="../../safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="theme-color" content="#ffffff">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="../../css/style.css">
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="site-header-logo"></div>
+  <div id="site-header-blog-wrapper"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        <div id="ms-logo"></div>
+        
+          <a class="main-nav-link" href="../../index.html">Home</a>
+        
+          <a class="main-nav-link" href="../../archives">Archives</a>
+        
+        <a class="main-nav-link" target="_blank" rel="noopener" href="https://cssjpn.github.io/">サポート情報</a>
+        <a class="main-nav-link" href="/blog/general/welcome/">About</a>
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="../../blog/atom.xml" title="RSSフィード"></a>
+        
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//www.bing.com/search" method="get" accept-charset="UTF-8" name="bing-search" onsubmit="var f=this;if(f['q'].value){var searchUrl =  'https://www.bing.com/search?q=' +  encodeURIComponent(f['q'].value + ' site:' + f['sitesearch'].value) ;window.open(searchUrl, 'blank') };return false;" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="検索"><button type="submit" id="nav-search-btn" class="search-form-submit"></button><input type="hidden" name="sitesearch" value="https://jpdscore.github.io/blog"></form>
+      </div>
+    </div>
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="../../index.html" id="logo">Japan Developer Support Core Team Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="../../index.html" id="subtitle">日本マイクロソフトの Japan Developer Support Core チームのブログです。</a>
+        </h2>
+      
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-vs/troubleshooting-application-error-with-ghcopilot" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header-single">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      アプリケーションエラーを Visual Studio + GitHub Copilot で調査する
+    </h1>
+  
+
+      </header>
+      <div class="article-share">
+        Last Update: 
+        <a href="" class="article-date-single">
+  <time datetime="2025-07-03T15:00:00.000Z" itemprop="datePublished">2025-07-04</time>
+</a>
+        
+        
+        <a href="https://github.com/jpdscore/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+0c99f6d5-fa6a-5912-a14d-3cf88a0d6d6e%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5B%E3%82%A2%E3%83%97%E3%83%AA%E3%82%B1%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E3%82%A8%E3%83%A9%E3%83%BC%E3%82%92+Visual+Studio+%2B+GitHub+Copilot+%E3%81%A7%E8%AA%BF%E6%9F%BB%E3%81%99%E3%82%8B%5D%28https%3A%2F%2Fjpdscore.github.io%2Fblog%2Fvs%2Ftroubleshooting-application-error-with-ghcopilot%2F%29" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
+        
+        <a data-url="https://jpdscore.github.io/blog/vs/troubleshooting-application-error-with-ghcopilot/" data-id="cmcokr1sh002ej7aw2sjc665y" class="article-share-link">共有</a>
+      </div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>こんにちは、Japan Developer Support Core チームの松井です。今回は、Visual Studio 2022 と GitHub Copilot を使用したアプリケーション エラーの調査事例を紹介します。</p>
+<h2 id="前提条件"><a href="#前提条件" class="headerlink" title="前提条件"></a>前提条件</h2><p>本記事の手順を試すには以下の準備が必要です。</p>
+<ul>
+<li>Visual Studio 2022 version 17.14 以降のインストール</li>
+<li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/visualstudio/ide/visual-studio-github-copilot-install-and-states">GitHub Copilot のインストール</a></li>
+<li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/visualstudio/ide/copilot-agent-mode">エージェント モード</a>の有効化</li>
+</ul>
+<h2 id="シナリオ"><a href="#シナリオ" class="headerlink" title="シナリオ"></a>シナリオ</h2><p>サンプル プログラムを実行すると、コマンドライン引数を与えたときは正常に処理が行われますが、省略したときはログが出力されずアプリケーションがクラッシュします。Application のイベント ログには、ソース: Application Error、イベント ID 1000 のログが記録されていることが確認できます。障害が発生したモジュールとして ucrtbase.dll が記録されています。</p>
+<p><img src="application-error.png"></p>
+<h3 id="サンプル-プログラム"><a href="#サンプル-プログラム" class="headerlink" title="サンプル プログラム"></a>サンプル プログラム</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;time.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;Windows.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">pragma</span> optimize(<span class="string">&quot;&quot;</span>, off)</span></span><br><span class="line"></span><br><span class="line"><span class="type">const</span> <span class="type">char</span>* LOG_FORMAT = <span class="string">&quot;[%s][%s][%4X] %s\n&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">char</span>* <span class="title">get_current_datetime</span><span class="params">(<span class="type">char</span>* buffer)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">time_t</span> now = <span class="built_in">time</span>(<span class="literal">NULL</span>);</span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">tm</span> local;</span><br><span class="line">    <span class="built_in">localtime_s</span>(&amp;local, &amp;now);</span><br><span class="line">    <span class="built_in">strftime</span>(buffer, <span class="number">20</span>, <span class="string">&quot;%Y/%m/%d %H:%M:%S&quot;</span>, &amp;local);</span><br><span class="line">    <span class="keyword">return</span> buffer;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">log_information</span><span class="params">(<span class="type">const</span> <span class="type">char</span>* message)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">char</span> datetime[<span class="number">20</span>];</span><br><span class="line">    <span class="built_in">printf</span>(LOG_FORMAT, <span class="string">&quot;INFO&quot;</span>, <span class="built_in">get_current_datetime</span>(datetime), <span class="built_in">GetCurrentThreadId</span>(), message);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">log_error</span><span class="params">(<span class="type">const</span> <span class="type">char</span>* message)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">char</span> datetime[<span class="number">20</span>];</span><br><span class="line">    <span class="built_in">printf</span>(LOG_FORMAT, <span class="string">&quot;ERROR&quot;</span>, <span class="built_in">get_current_datetime</span>(datetime), message);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span>* argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (argc &lt; <span class="number">2</span>) &#123;</span><br><span class="line">        <span class="built_in">log_error</span>(<span class="string">&quot;引数が不足しています。&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">	&#125;</span><br><span class="line">    <span class="built_in">log_information</span>(<span class="string">&quot;Hello, World!&quot;</span>);</span><br><span class="line">   </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="クラッシュ-ダンプ-ファイルの採取"><a href="#クラッシュ-ダンプ-ファイルの採取" class="headerlink" title="クラッシュ ダンプ ファイルの採取"></a>クラッシュ ダンプ ファイルの採取</h2><p>このイベント ログが記録されている場合、<a href="https://jpdscore.github.io/blog/debugging/application-error-eventlog/#3-%E5%86%8D%E7%99%BA%E6%99%82%E3%81%AE%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E3%81%AB%E5%90%91%E3%81%91%E3%81%A6%E3%81%AE%E8%A8%AD%E5%AE%9A-Windows-Error-Reporting">以前の記事</a>で紹介した Windows Error Reporting の機能を利用し、事象を再現させてダンプ ファイルを取得することが一般的な調査の第一ステップになります。</p>
+<p>キー名: HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\Windows Error Reporting\LocalDumps</p>
+<table>
+<thead>
+<tr>
+<th>値名</th>
+<th>種類</th>
+<th>設定例</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>DumpType</td>
+<td>REG_DWORD</td>
+<td>2</td>
+<td>出力するダンプの種類。2 はフル ダンプを示します。</td>
+</tr>
+<tr>
+<td>DumpFolder</td>
+<td>REG_EXPAND_SZ</td>
+<td>C:\Logs</td>
+<td>ダンプの出力先フォルダーを指定します。</td>
+</tr>
+<tr>
+<td>DumpCount</td>
+<td>REG_DWORD</td>
+<td>10</td>
+<td>ダンプの出力数を指定します。<br>指定した値を超える場合は古いファイルが上書きされます。</td>
+</tr>
+</tbody></table>
+<p><img src="wer.png"></p>
+<p>レジストリの設定後、アプリケーションがクラッシュする事象を再現させてください。ダンプ ファイルは指定したフォルダーに出力されます。</p>
+<p><img src="dump-file.png"></p>
+<h2 id="GitHub-Copilot-による分析"><a href="#GitHub-Copilot-による分析" class="headerlink" title="GitHub Copilot による分析"></a>GitHub Copilot による分析</h2><p>Visual Studio にはクラッシュ ダンプ ファイルを開いてデバッグするための機能が備わっています。従来の方法では、ダンプ ファイルを開いてスタック トレースを確認し、問題の原因を特定するために手動でコードを調査する必要がありました。GitHub Copilot を使用すると、より効率的に問題の分析が可能になります。</p>
+<p>GitHub Copilot を使用してダンプ ファイルの分析を行う手順は以下の通りです。</p>
+<ol>
+<li><p>Visual Studio 2022 を起動し、対象のソリューションを開いておきます。(プロジェクトを開いておくことは必須ではありませんが、GitHub Copilot により詳細なコンテキストを指定することが可能になります。)</p>
+</li>
+<li><p>Visual Studio のメニューから [ファイル] - [開く] - [ファイル] を選択します。</p>
+</li>
+<li><p>[ファイルを開く] ダイアログが表示されますので、先の手順で出力したダンプ ファイルを開きます。</p>
+</li>
+<li><p>取得したダンプ ファイルの概要ページが表示されますので、[アクション] 欄から [ネイティブのみでデバッグ] をクリックします。<br><img src="start-debugging.png"></p>
+</li>
+<li><p>シンボル ファイルの読み込みでしばらく時間がかかりますのでしばらく待ちます。</p>
+</li>
+<li><p>ダンプ ファイルが読み込まれ、自動的に例外が発生したソースコードの場所が表示されます。もし開かれない場合は、メニューから [デバッグ] - [ウィンドウ] - [モジュール] を選択し、[モジュール] ウィンドウからアプリケーションのシンボル ファイルが読み込まれているか確認してください。<br><img src="display-sourcecode.png"></p>
+</li>
+<li><p>メニューから [表示] - [GitHub Copilot チャット] を選択して GitHub Copilot チャットを開きます。<br><img src="open-copilot-chat.png"></p>
+</li>
+<li><p>[+] ボタンを押下してコンテキストにソリューションを追加し、モードを [Ask] から [Agent] に切り替えます。<br><img src="change-to-agent-mode.png"></p>
+</li>
+<li><p>GitHub Copilot チャットの入力欄に、以下のように入力します。<br><code>#Debugger を使用してダンプを分析してください。</code><br><img src="prompt-analysis.png"></p>
+</li>
+<li><p>少し時間がかかりますが、ダンプの例外とソリューション内のファイルが分析され、原因と修正案が提示されます。ここではビルド エラーが発生していますが、これはシンボル ファイルが開かれているためファイルを書き込めないことが原因ですので無視してかまいません。<img src="analyzing-dump.png"></p>
+</li>
+<li><p>ソースのリンクをクリックして変更箇所をレビューします。ここでは、不足していた引数が正しく追加されていることが確認できます。<img src="review-changes.png"></p>
+</li>
+<li><p>最後に変更内容に問題がないことが確認できたら、チャット ウィンドウで [Keep] をクリックして変更を反映します。<img src="keep-changes.png"></p>
+</li>
+<li><p>ソリューションをビルドして問題が解決されていることを確認します。</p>
+</li>
+</ol>
+<p>手順は以上です。例外の発生は ucrtbase.dll でしたが、GitHub Copilot はソリューション内のファイルを参照して問題の原因がアプリケーションのソースコードにあることを特定し、手作業でソースコードを変更することなく問題を修正することができました。</p>
+<h2 id="GitHub-Copilot-の分析と提案内容"><a href="#GitHub-Copilot-の分析と提案内容" class="headerlink" title="GitHub Copilot の分析と提案内容"></a>GitHub Copilot の分析と提案内容</h2><p>GitHub Copilot が提示した原因と修正方法は以下の通りです。</p>
+<hr>
+<p>ダンプの例外は <code>log_error</code> 関数内の <code>printf(LOG_FORMAT, &quot;ERROR&quot;, get_current_datetime(datetime), message);</code> で発生しています。</p>
+<p><code>LOG_FORMAT</code> は4つの引数（<code>[%s][%s][%4X] %s\n</code>）を必要としますが、<code>log_error</code> では3つしか渡していません。<br><code>log_information</code> では4つ渡しているため、クラッシュしません。</p>
+<p><strong>原因:</strong><br><code>log_error</code> の <code>printf</code> 呼び出しの引数が不足しているため、アクセス違反が発生しています。</p>
+<p><strong>修正方法:</strong><br><code>log_error</code> も <code>log_information</code> と同様に4つの引数を渡す必要があります。<br>例: <code>printf(LOG_FORMAT, &quot;ERROR&quot;, get_current_datetime(datetime), GetCurrentThreadId(), message);</code></p>
+<p>修正を行います。<br><code>log_error</code> の引数不足が原因でクラッシュしていましたが、修正を加えました。<br>ビルドエラーが発生したため、詳細なエラー内容を確認し、必要に応じて追加修正を行います。</p>
+<hr>
+<h2 id="GitHub-Copilot-の利用に関する注意点"><a href="#GitHub-Copilot-の利用に関する注意点" class="headerlink" title="GitHub Copilot の利用に関する注意点"></a>GitHub Copilot の利用に関する注意点</h2><p>今回紹介した例では適切な原因と修正方法が提示されましたが、GitHub Copilot の利用に関する注意点をいくつか挙げておきます。</p>
+<ul>
+<li><p>GitHub Copilot は提案を行う AI であり、必ずしも正しいとは限りません。提案内容は必ず確認し、必要に応じて修正を行ってください。</p>
+</li>
+<li><p>GitHub Copilot は、ソースコードのコンテキストを理解して提案を行いますが、必ずしも正確な情報を提供するわけではありません。提案内容を鵜呑みにせず、必ず自分で確認してください。</p>
+</li>
+<li><p>GitHub Copilot は、ソースコードのコンテキストを理解するために、ソリューション内のファイルを参照します。ソリューション内のファイルが多い場合、提案内容が正確でないことがあります。</p>
+</li>
+</ul>
+<h2 id="まとめ"><a href="#まとめ" class="headerlink" title="まとめ"></a>まとめ</h2><p>このシナリオは実際にあった事例を簡略化したもので、アプリケーションのログ出力内容に項目を追加した際、一部のソースコードで変更漏れがあったために問題が発生していたケースでした。もちろん GitHub Copilot を使用せずに手動で調査することも可能ですが、GitHub Copilot を使用することで、より迅速かつ効率的に問題の分析と修正を行うことができます。GitHub Copilot の提案が正確であるとは限りませんが、提案を参考にすることで開発者はより迅速に問題を解決できる可能性があります。是非、GitHub Copilot を活用して、アプリケーションのデバッグや問題解決を効率化してみてください。</p>
+<p>最後に、再発防止策も聞いてみたので参考として GitHub Copilot の応答を載せておきます。</p>
+<p><img src="ask-recurrence-prevention.png"></p>
+<hr>
+<p>このようなバグ（printf等の書式指定子と引数数の不一致）を未然に防ぐためのポイントは以下です。</p>
+<ol>
+<li><p><strong>書式指定子と引数数の一致を常に確認する</strong>  </p>
+<ul>
+<li>フォーマット文字列の%s, %dなどの数と、渡す引数の数が一致しているか必ず確認します。</li>
+</ul>
+</li>
+<li><p><strong>定数や共通関数を使う場合は引数の意味・数を明確にする</strong>  </p>
+<ul>
+<li>ログ用のマクロや関数を使う場合、引数の順序や数をコメントやドキュメントで明示します。</li>
+</ul>
+</li>
+<li><p><strong>可変長引数関数（printf等）のラップ関数を作る場合は、引数を固定長にする</strong>  </p>
+<ul>
+<li>必要な情報をすべて引数で受け取るようにし、引数不足が起きないようにします。</li>
+</ul>
+</li>
+<li><p><strong>静的解析ツールやコンパイラ警告を活用する</strong>  </p>
+<ul>
+<li><code>-Wall</code>や<code>/W4</code>などの警告レベルを上げ、書式指定子の不一致を検出できるようにします。</li>
+<li>静的解析ツール（Cppcheck, clang-tidyなど）も有効です。</li>
+</ul>
+</li>
+<li><p><strong>ユニットテストやCIで異常系もテストする</strong>  </p>
+<ul>
+<li>引数不足や異常な呼び出しがないかテストケースを用意します。</li>
+</ul>
+</li>
+</ol>
+<p>これらを意識することで、同様のバグを未然に防ぐことができます。</p>
+<hr>
+
+      
+      
+        <div class="article-disclaimer">
+        
+          <p><hr>本ブログの内容は弊社の公式見解として保証されるものではなく、開発・運用時の参考情報としてご活用いただくことを目的としています。もし公式な見解が必要な場合は、弊社ドキュメント (<a target="_blank" rel="noopener" href="https://docs.microsoft.com/">https://docs.microsoft.com</a> や <a target="_blank" rel="noopener" href="https://support.microsoft.com">https://support.microsoft.com</a>) をご参照いただくか、もしくは私共サポートまでお問い合わせください。</p>
+        
+        </div>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Debug/" rel="tag">Debug</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Visual-Studio/" rel="tag">Visual Studio</a></li></ul>
+
+      <!-- 
+      
+        <a href="https://github.com/jpdscore/blog/edit/master/articles/vs/troubleshooting-application-error-with-ghcopilot.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
+        
+      -->
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="../vc-silent-install/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前の記事</strong>
+      <div class="article-nav-title">コマンドからの Visual C++ 再頒布パッケージのインストール方法</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最近の投稿</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="">アプリケーションエラーを Visual Studio + GitHub Copilot で調査する</a>
+          </li>
+        
+          <li>
+            <a href="../vc-silent-install/">コマンドからの Visual C++ 再頒布パッケージのインストール方法</a>
+          </li>
+        
+          <li>
+            <a href="../../dotnet/netfx-how-to-repair/">.NET Framework の修復方法について</a>
+          </li>
+        
+          <li>
+            <a href="../../windowssdk/mouse-ops-on-windows-forms-with-activex/">Windows Forms の MDI アプリケーションで ActiveX コントロールを使用すると、マウス クリックで子ウィンドウの切り替えができなくなる</a>
+          </li>
+        
+          <li>
+            <a href="../../azuredevops/wif-service-connection/">Azure DevOps Service Connection と Workload Identity Federation について</a>
+          </li>
+        
+          <li>
+            <a href="../../azuredevops/service-connection-update/">Azure DevOps Service Connection の更新について</a>
+          </li>
+        
+          <li>
+            <a href="../../azuredevops/pipelines-agent-update/">Azure Pipelines エージェントの更新について</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">タグ</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="../../tags/ALM/">ALM</a><span class="tag-list-count">15</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-DevOps-Server">Azure DevOps Server</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-DevOps-Services">Azure DevOps Services</a><span class="tag-list-count">7</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-Pipelines">Azure Pipelines</a><span class="tag-list-count">6</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-Repos">Azure Repos</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Devcontainer">Devcontainer</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/GitHub">GitHub</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/TFS">TFS</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Visual-Studio-Code">Visual Studio Code</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86">情報採取手順</a><span class="tag-list-count">4</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/">情報採取手順</a><span class="tag-list-count">5</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/ALM">ALM</a><span class="tag-list-count">4</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/Azure-DevOps-Server">Azure DevOps Server</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/Azure-DevOps-Services">Azure DevOps Services</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/Azure-Pipelines">Azure Pipelines</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/TFS">TFS</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Windows-SDK/">Windows SDK</a><span class="tag-list-count">8</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Debug">Debug</a><span class="tag-list-count">5</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Documents-and-Printing">Documents and Printing</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/GDI">GDI</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Leak">Leak</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Windows-Update-Agent-API">Windows Update Agent API</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Debug/">Debug</a><span class="tag-list-count">13</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/NET">.NET</a><span class="tag-list-count">3</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Leak">Leak</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Memory">Memory</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Visual-Studio">Visual Studio</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Windows-SDK">Windows SDK</a><span class="tag-list-count">5</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Deployment/">Deployment</a><span class="tag-list-count">2</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Deployment/ClickOnce">ClickOnce</a><span class="tag-list-count">2</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/NET/">.NET</a><span class="tag-list-count">9</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/NET-Framework">.NET Framework</a><span class="tag-list-count">6</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/Debug">Debug</a><span class="tag-list-count">3</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E5%85%A8%E8%88%AC/">全般</a><span class="tag-list-count">1</span><ul></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Azure-PlayFab/">Azure PlayFab</a><span class="tag-list-count">2</span><ul></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Visual-Studio/">Visual Studio</a><span class="tag-list-count">7</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/C">C#</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/C">C++</a><span class="tag-list-count">4</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/Debug">Debug</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/VB-NET">VB.NET</a><span class="tag-list-count">2</span></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">アーカイブ</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/07/">2025 / 07</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/06/">2025 / 06</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/08/">2024 / 08</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/06/">2024 / 06</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/04/">2024 / 04</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/03/">2024 / 03</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/09/">2023 / 09</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/06/">2023 / 06</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/03/">2023 / 03</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/02/">2023 / 02</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/12/">2022 / 12</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/11/">2022 / 11</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/07/">2022 / 07</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/06/">2022 / 06</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/04/">2022 / 04</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/03/">2022 / 03</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/01/">2022 / 01</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/12/">2021 / 12</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/08/">2021 / 08</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/05/">2021 / 05</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/04/">2021 / 04</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/02/">2021 / 02</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/01/">2021 / 01</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/12/">2020 / 12</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/11/">2020 / 11</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/10/">2020 / 10</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/09/">2020 / 09</a><span class="archive-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">旧ブログ/フォーラム</h3>
+  <div class="widget">
+    <ul>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://social.msdn.microsoft.com/Forums/ja-jp/home?forum=visualstudiosupportteamja">Visual Studio サポートチーム フォーラム</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://social.msdn.microsoft.com/Forums/ja-jp/home?forum=windowssdksupportteamja&filter=alltypes&sort=lastpostdesc">Windows SDK サポートチーム フォーラム</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/archive/blogs/jpvsblog/">Visual Studio サポート チーム blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/archive/blogs/japan_platform_sdkwindows_sdk_support_team_blog/">JAPAN Platform SDK（Windows SDK） Support Team Blog</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">関連リンク</h3>
+  <div class="widget">
+    <ul>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://developercommunity.visualstudio.com/">Developer Community</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/dotnet/">.NET Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/visualstudio/">Visual Studio Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/cppblog/">C++ Team Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/xamarin/">Xamarin Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/devops/">Azure DevOps Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://techcommunity.microsoft.com/t5/azure-lab-services/bg-p/AzureLabServicesBlog/">Azure Lab Services Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/appcenter/">App Center Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://status.azure.com/status/">Azure Status</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://status.dev.azure.com/">Azure DevOps - Status</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2025 Developer Support Core Japan<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="../../index.html" class="mobile-nav-link">Home</a>
+  
+    <a href="../../archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+<script src="../../js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

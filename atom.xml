@@ -6,7 +6,7 @@
   <link href="https://jpdscore.github.io/blog/atom.xml" rel="self"/>
   
   <link href="https://jpdscore.github.io/blog/"/>
-  <updated>2025-07-03T10:44:38.603Z</updated>
+  <updated>2025-07-04T08:50:36.008Z</updated>
   <id>https://jpdscore.github.io/blog/</id>
   
   <author>
@@ -17,11 +17,37 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>アプリケーションエラーを Visual Studio + GitHub Copilot で調査する</title>
+    <link href="https://jpdscore.github.io/blog/vs/troubleshooting-application-error-with-ghcopilot/"/>
+    <id>https://jpdscore.github.io/blog/vs/troubleshooting-application-error-with-ghcopilot/</id>
+    <published>2025-07-03T15:00:00.000Z</published>
+    <updated>2025-07-04T08:50:36.008Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;こんにちは、Japan Developer Support Core チームの松井です。今回は、Visual Studio 2022 と GitHub Copilot を使用したアプリケーション エラーの調査事例を紹介します。&lt;/p&gt;
+&lt;h2 id=&quot;前提条件&quot;&gt;&lt;a</summary>
+        
+      
+    
+    
+    
+    
+    <category term="Debug" scheme="https://jpdscore.github.io/blog/tags/Debug/"/>
+    
+    <category term="Visual Studio" scheme="https://jpdscore.github.io/blog/tags/Visual-Studio/"/>
+    
+  </entry>
+  
+  <entry>
     <title>コマンドからの Visual C++ 再頒布パッケージのインストール方法</title>
     <link href="https://jpdscore.github.io/blog/vs/vc-silent-install/"/>
     <id>https://jpdscore.github.io/blog/vs/vc-silent-install/</id>
     <published>2025-07-01T15:00:00.000Z</published>
-    <updated>2025-07-03T10:44:38.603Z</updated>
+    <updated>2025-07-04T08:50:36.013Z</updated>
     
     
       
@@ -46,7 +72,7 @@
     <link href="https://jpdscore.github.io/blog/dotnet/netfx-how-to-repair/"/>
     <id>https://jpdscore.github.io/blog/dotnet/netfx-how-to-repair/</id>
     <published>2025-06-26T15:00:00.000Z</published>
-    <updated>2025-07-03T10:44:38.601Z</updated>
+    <updated>2025-07-04T08:50:36.005Z</updated>
     
     
       
@@ -72,7 +98,7 @@
     <link href="https://jpdscore.github.io/blog/windowssdk/mouse-ops-on-windows-forms-with-activex/"/>
     <id>https://jpdscore.github.io/blog/windowssdk/mouse-ops-on-windows-forms-with-activex/</id>
     <published>2024-08-02T08:03:08.000Z</published>
-    <updated>2025-07-03T10:44:38.606Z</updated>
+    <updated>2025-07-04T08:50:36.016Z</updated>
     
     
       
@@ -98,7 +124,7 @@
     <link href="https://jpdscore.github.io/blog/azuredevops/wif-service-connection/"/>
     <id>https://jpdscore.github.io/blog/azuredevops/wif-service-connection/</id>
     <published>2024-06-22T14:47:30.000Z</published>
-    <updated>2025-07-03T10:44:38.581Z</updated>
+    <updated>2025-07-04T08:50:35.981Z</updated>
     
     
       
@@ -124,7 +150,7 @@
     <link href="https://jpdscore.github.io/blog/azuredevops/service-connection-update/"/>
     <id>https://jpdscore.github.io/blog/azuredevops/service-connection-update/</id>
     <published>2024-06-04T05:25:32.000Z</published>
-    <updated>2025-07-03T10:44:38.560Z</updated>
+    <updated>2025-07-04T08:50:35.960Z</updated>
     
     
       
@@ -150,7 +176,7 @@
     <link href="https://jpdscore.github.io/blog/azuredevops/pipelines-agent-update/"/>
     <id>https://jpdscore.github.io/blog/azuredevops/pipelines-agent-update/</id>
     <published>2024-04-01T00:59:40.000Z</published>
-    <updated>2025-07-03T10:44:38.555Z</updated>
+    <updated>2025-07-04T08:50:35.954Z</updated>
     
     
       
@@ -177,7 +203,7 @@
     <link href="https://jpdscore.github.io/blog/azuredevops/tfs-basic-log-collection/"/>
     <id>https://jpdscore.github.io/blog/azuredevops/tfs-basic-log-collection/</id>
     <published>2024-03-03T15:00:00.000Z</published>
-    <updated>2025-07-03T10:44:38.566Z</updated>
+    <updated>2025-07-04T08:50:35.965Z</updated>
     
     
       
@@ -207,7 +233,7 @@
     <link href="https://jpdscore.github.io/blog/windowssdk/wuaapi-install-later/"/>
     <id>https://jpdscore.github.io/blog/windowssdk/wuaapi-install-later/</id>
     <published>2023-09-07T15:00:00.000Z</published>
-    <updated>2025-07-03T10:44:38.606Z</updated>
+    <updated>2025-07-04T08:50:36.016Z</updated>
     
     
       
@@ -233,7 +259,7 @@
     <link href="https://jpdscore.github.io/blog/devtestlabs/auto-shutdown-permission/"/>
     <id>https://jpdscore.github.io/blog/devtestlabs/auto-shutdown-permission/</id>
     <published>2023-06-06T05:07:09.000Z</published>
-    <updated>2025-07-03T10:44:38.595Z</updated>
+    <updated>2025-07-04T08:50:35.996Z</updated>
     
     
       
@@ -256,7 +282,7 @@
     <link href="https://jpdscore.github.io/blog/azuredevops/signin-401-403-tsg/"/>
     <id>https://jpdscore.github.io/blog/azuredevops/signin-401-403-tsg/</id>
     <published>2023-03-21T15:00:00.000Z</published>
-    <updated>2025-07-03T10:44:38.566Z</updated>
+    <updated>2025-07-04T08:50:35.965Z</updated>
     
     
       
@@ -282,7 +308,7 @@
     <link href="https://jpdscore.github.io/blog/windowssdk/printer-temporarily-appears-when-use-addprinter-function/"/>
     <id>https://jpdscore.github.io/blog/windowssdk/printer-temporarily-appears-when-use-addprinter-function/</id>
     <published>2023-02-26T15:00:00.000Z</published>
-    <updated>2025-07-03T10:44:38.606Z</updated>
+    <updated>2025-07-04T08:50:36.016Z</updated>
     
     
       
@@ -308,7 +334,7 @@
     <link href="https://jpdscore.github.io/blog/playfab/order-of-leaderboard-positions/"/>
     <id>https://jpdscore.github.io/blog/playfab/order-of-leaderboard-positions/</id>
     <published>2023-02-06T17:28:00.000Z</published>
-    <updated>2025-07-03T10:44:38.603Z</updated>
+    <updated>2025-07-04T08:50:36.007Z</updated>
     
     
       
@@ -331,7 +357,7 @@
     <link href="https://jpdscore.github.io/blog/azuredevops/migrate-sp-to-mi/"/>
     <id>https://jpdscore.github.io/blog/azuredevops/migrate-sp-to-mi/</id>
     <published>2022-12-11T15:00:00.000Z</published>
-    <updated>2025-07-03T10:44:38.550Z</updated>
+    <updated>2025-07-04T08:50:35.948Z</updated>
     
     
       
@@ -359,7 +385,7 @@
     <link href="https://jpdscore.github.io/blog/dotnet/ndp-upgrade-and-downgrade/"/>
     <id>https://jpdscore.github.io/blog/dotnet/ndp-upgrade-and-downgrade/</id>
     <published>2022-11-02T09:00:00.000Z</published>
-    <updated>2025-07-03T10:44:38.601Z</updated>
+    <updated>2025-07-04T08:50:36.005Z</updated>
     
     
       
@@ -384,7 +410,7 @@
     <link href="https://jpdscore.github.io/blog/playfab/grantitemstouser-timeout/"/>
     <id>https://jpdscore.github.io/blog/playfab/grantitemstouser-timeout/</id>
     <published>2022-07-13T16:21:30.000Z</published>
-    <updated>2025-07-03T10:44:38.602Z</updated>
+    <updated>2025-07-04T08:50:36.006Z</updated>
     
     
       
@@ -407,7 +433,7 @@
     <link href="https://jpdscore.github.io/blog/azuredevops/DevOpsPricing/"/>
     <id>https://jpdscore.github.io/blog/azuredevops/DevOpsPricing/</id>
     <published>2022-06-12T15:00:00.000Z</published>
-    <updated>2025-07-03T10:44:38.541Z</updated>
+    <updated>2025-07-04T08:50:35.938Z</updated>
     
     
       
@@ -433,7 +459,7 @@
     <link href="https://jpdscore.github.io/blog/vs/vs2013-signin-error/"/>
     <id>https://jpdscore.github.io/blog/vs/vs2013-signin-error/</id>
     <published>2022-04-27T15:00:00.000Z</published>
-    <updated>2025-07-03T10:44:38.603Z</updated>
+    <updated>2025-07-04T08:50:36.013Z</updated>
     
     
       
@@ -457,7 +483,7 @@
     <link href="https://jpdscore.github.io/blog/azuredevops/devops-log-collection/"/>
     <id>https://jpdscore.github.io/blog/azuredevops/devops-log-collection/</id>
     <published>2022-04-26T15:00:00.000Z</published>
-    <updated>2025-07-03T10:44:38.547Z</updated>
+    <updated>2025-07-04T08:50:35.944Z</updated>
     
     
       
@@ -485,7 +511,7 @@
     <link href="https://jpdscore.github.io/blog/azuredevops/pipelines-agents-ip-settings/"/>
     <id>https://jpdscore.github.io/blog/azuredevops/pipelines-agents-ip-settings/</id>
     <published>2022-04-11T15:00:00.000Z</published>
-    <updated>2025-07-03T10:44:38.556Z</updated>
+    <updated>2025-07-04T08:50:35.955Z</updated>
     
     
       
@@ -503,31 +529,6 @@
     <category term="ALM" scheme="https://jpdscore.github.io/blog/tags/ALM/"/>
     
     <category term="Azure Pipelines" scheme="https://jpdscore.github.io/blog/tags/Azure-Pipelines/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Azure DevOps Services における弱い暗号化標準 (TLS 1.0 および TLS 1.1) の廃止について</title>
-    <link href="https://jpdscore.github.io/blog/azuredevops/deprecating-weak-cryptographic-standards-tls-1-0-and-tls-1-1-in-azure-devops/"/>
-    <id>https://jpdscore.github.io/blog/azuredevops/deprecating-weak-cryptographic-standards-tls-1-0-and-tls-1-1-in-azure-devops/</id>
-    <published>2022-03-15T15:00:00.000Z</published>
-    <updated>2025-07-03T10:44:38.547Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;こんにちは、Japan Developer Support Core チームの松井です。Azure DevOps Services における弱い暗号化標準 (TLS 1.0 および TLS 1.1)</summary>
-        
-      
-    
-    
-    
-    
-    <category term="ALM" scheme="https://jpdscore.github.io/blog/tags/ALM/"/>
-    
-    <category term="Azure DevOps Services" scheme="https://jpdscore.github.io/blog/tags/Azure-DevOps-Services/"/>
     
   </entry>
   
