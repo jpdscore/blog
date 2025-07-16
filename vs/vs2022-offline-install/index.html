@@ -4,25 +4,20 @@
   <meta charset="utf-8">
   
   
-  <title>自動シャットダウンを設定する際に必要な最小権限について | Japan Developer Support Core Team Blog</title>
+  <title>Visual Studio 2022 の オフライン インストール | Japan Developer Support Core Team Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="こんにちは、Japan Developer Support Core チームです🗻サポートにはよく「Azure VM の自動シャットダウンを設定する際に必要な最小権限」についてお問合せがあります。最初に結論を書きますが、残念ながら自動シャットダウンのみを設定するための権限は用意されていません。自動シャットダウンの設定を行う際は、以下の 2 種類の権限が必要です。 　1. 自動シャットダウンの設定">
+  <meta name="description" content="こんにちは。Developer Support Core チームの上原です。今回は Visual Studio 2022 をオフライン環境でインストールする方法、オフラインインストールについてご紹介します。 はじめにVisual Studio 2017 以降でのインストーラーは、インストール時に Web から必要なコンポーネントを取得する ブートストラップ(Bootstrap) として提供されてい">
 <meta property="og:type" content="article">
-<meta property="og:title" content="自動シャットダウンを設定する際に必要な最小権限について">
-<meta property="og:url" content="https://jpdscore.github.io/blog/devtestlabs/auto-shutdown-permission/index.html">
+<meta property="og:title" content="Visual Studio 2022 の オフライン インストール">
+<meta property="og:url" content="https://jpdscore.github.io/blog/vs/vs2022-offline-install/index.html">
 <meta property="og:site_name" content="Japan Developer Support Core Team Blog">
-<meta property="og:description" content="こんにちは、Japan Developer Support Core チームです🗻サポートにはよく「Azure VM の自動シャットダウンを設定する際に必要な最小権限」についてお問合せがあります。最初に結論を書きますが、残念ながら自動シャットダウンのみを設定するための権限は用意されていません。自動シャットダウンの設定を行う際は、以下の 2 種類の権限が必要です。 　1. 自動シャットダウンの設定">
+<meta property="og:description" content="こんにちは。Developer Support Core チームの上原です。今回は Visual Studio 2022 をオフライン環境でインストールする方法、オフラインインストールについてご紹介します。 はじめにVisual Studio 2017 以降でのインストーラーは、インストール時に Web から必要なコンポーネントを取得する ブートストラップ(Bootstrap) として提供されてい">
 <meta property="og:locale" content="ja_JP">
-<meta property="og:image" content="https://jpdscore.github.io/blog/devtestlabs/auto-shutdown-permission/AutoShutdown1.png">
-<meta property="og:image" content="https://jpdscore.github.io/blog/devtestlabs/auto-shutdown-permission/AutoShutdown2.png">
-<meta property="og:image" content="https://jpdscore.github.io/blog/devtestlabs/auto-shutdown-permission/AutoShutdown3.png">
-<meta property="og:image" content="https://jpdscore.github.io/blog/devtestlabs/auto-shutdown-permission/AutoShutdown4.png">
-<meta property="article:published_time" content="2023-06-06T05:07:09.000Z">
-<meta property="article:modified_time" content="2025-07-16T09:43:41.668Z">
+<meta property="article:published_time" content="2025-07-15T15:00:00.000Z">
+<meta property="article:modified_time" content="2025-07-16T09:43:41.684Z">
 <meta property="article:author" content="Developer Support Core Japan">
-<meta property="article:tag" content="Azure DevTest Labs">
+<meta property="article:tag" content="Visual Studio">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://jpdscore.github.io/blog/devtestlabs/auto-shutdown-permission/AutoShutdown1.png">
   
     <link rel="alternate" href="../../blog/atom.xml" title="Japan Developer Support Core Team Blog" type="application/atom+xml">
   
@@ -84,7 +79,7 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-devtestlabs/auto-shutdown-permission" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-vs/vs2022-offline-install" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
     
@@ -93,7 +88,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      自動シャットダウンを設定する際に必要な最小権限について
+      Visual Studio 2022 の オフライン インストール
     </h1>
   
 
@@ -101,59 +96,47 @@
       <div class="article-share">
         Last Update: 
         <a href="" class="article-date-single">
-  <time datetime="2023-06-06T05:07:09.000Z" itemprop="datePublished">2023-06-06</time>
+  <time datetime="2025-07-15T15:00:00.000Z" itemprop="datePublished">2025-07-16</time>
 </a>
         
         
-        <a href="https://github.com/jpdscore/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+2d81e33d-5951-54f5-824d-a61c7645afa9%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5B%E8%87%AA%E5%8B%95%E3%82%B7%E3%83%A3%E3%83%83%E3%83%88%E3%83%80%E3%82%A6%E3%83%B3%E3%82%92%E8%A8%AD%E5%AE%9A%E3%81%99%E3%82%8B%E9%9A%9B%E3%81%AB%E5%BF%85%E8%A6%81%E3%81%AA%E6%9C%80%E5%B0%8F%E6%A8%A9%E9%99%90%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6%5D%28https%3A%2F%2Fjpdscore.github.io%2Fblog%2Fdevtestlabs%2Fauto-shutdown-permission%2F%29" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
+        <a href="https://github.com/jpdscore/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+9c120563-d381-5b71-816a-cd64ec589157%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5BVisual+Studio+2022+%E3%81%AE+%E3%82%AA%E3%83%95%E3%83%A9%E3%82%A4%E3%83%B3+%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB%5D%28https%3A%2F%2Fjpdscore.github.io%2Fblog%2Fvs%2Fvs2022-offline-install%2F%29" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
         
-        <a data-url="https://jpdscore.github.io/blog/devtestlabs/auto-shutdown-permission/" data-id="cmd5rxjqd001mj99bfzkbd2x7" class="article-share-link">共有</a>
+        <a data-url="https://jpdscore.github.io/blog/vs/vs2022-offline-install/" data-id="cmd5rxjqp002xj99b7q6dh02f" class="article-share-link">共有</a>
       </div>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>こんにちは、Japan Developer Support Core チームです🗻<br>サポートにはよく「Azure VM の自動シャットダウンを設定する際に必要な最小権限」についてお問合せがあります。<br>最初に結論を書きますが、残念ながら<span style="background-color:yellow">自動シャットダウンのみを設定するための権限は用意されていません。</span><br>自動シャットダウンの設定を行う際は、以下の 2 種類の権限が必要です。</p>
-<p>　<strong><a href="#1-%E8%87%AA%E5%8B%95%E3%82%B7%E3%83%A3%E3%83%83%E3%83%88%E3%83%80%E3%82%A6%E3%83%B3%E3%81%AE%E8%A8%AD%E5%AE%9A%E3%83%AA%E3%82%BD%E3%83%BC%E3%82%B9%E3%81%AB%E5%AF%BE%E3%81%99%E3%82%8B%E6%A8%A9%E9%99%90">1. 自動シャットダウンの設定リソースに対する権限</a></strong><br>　<strong><a href="#2-Azure-VM-%E3%81%AB%E5%AF%BE%E3%81%99%E3%82%8B%E6%A8%A9%E9%99%90">2. Azure VM に対する権限</a></strong>  </p>
-<hr>
-<h2 id="1-自動シャットダウンの設定リソースに対する権限"><a href="#1-自動シャットダウンの設定リソースに対する権限" class="headerlink" title="1. 自動シャットダウンの設定リソースに対する権限"></a>1. 自動シャットダウンの設定リソースに対する権限</h2><hr>
-<p>Azure VM の自動シャットダウン機能は、内部的に Azure DevTest Labs と呼ばれるサービスの Schedule 機能を利用しています。<br>そのため、自動シャットダウンの設定を行う際は、<span style="background-color:yellow">Microsoft.DevTestLab/schedules/*</span> に対する権限が必要です。</p>
-<ul>
-<li>Delete: Delete schedules (削除 : Delete schedules)</li>
-<li>Read: Read schedules (読み取り : Read schedules)</li>
-<li>Write: Add or modify schedules (書き込み : Add or modify schedules)</li>
-<li>Other: Execute schedules (その他 : Execute schedules)</li>
-<li>Other: Retarget schedules (その他 : Retarget schedules)</li>
+        <p>こんにちは。Developer Support Core チームの上原です。今回は Visual Studio 2022 をオフライン環境でインストールする方法、オフラインインストールについてご紹介します。</p>
+<h2 id="はじめに"><a href="#はじめに" class="headerlink" title="はじめに"></a>はじめに</h2><p>Visual Studio 2017 以降でのインストーラーは、インストール時に Web から必要なコンポーネントを取得する ブートストラップ(Bootstrap) として提供されています。<br>以前はディスク イメージ(ISO ファイル) が提供されており、ネットワークに接続されていないオフライン環境でご利用いただけましたが、現在は提供されておらず、オフライン用のインストーラー(インストール パッケージ) をご自身で作成いただく必要があります。</p>
+<p>オフライン環境で Visual Studio をインストールする手順は、ネットワークに接続されている環境で事前に <strong>インストール パッケージの作成</strong> を行い、作成したレイアウトをインストール対象の環境にコピーし <strong>インストール</strong> するといったステップで行います。<br>なお、本記事では原則として Visual Studio 2022 を前提に説明させていただきますが、記載する手順やコマンドの多くは Visual Studio　2017 や 2019 でも同様です。</p>
+<h2 id="事前準備"><a href="#事前準備" class="headerlink" title="事前準備"></a>事前準備</h2><p>はじめに、事前準備として Visual Studio のインストーラー(Bootstrap) を入手する必要があります。<br>Bootstrap は <strong>バージョン</strong> および <strong>エディション(Professional など)</strong> ごとに提供されていますので、お持ちの契約に応じた入手経路、あるいは、<a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/visualstudio/releases/2022/release-history#evergreen-bootstrappers">弊社ドキュメント</a> から入手ください。</p>
+<p>なお、Visual Studio のコンポーネントは多岐に渡り、ファイルサイズも膨大となるため、全てのコンポーネントを含むインストール パッケージの作成は推奨しておりません。<br>そのため、事前にインストーラ パッケージに含める必要最小限のコンポーネントやワークロードを検討ください。<br>各エディションに含まれるコンポーネントは <a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/visualstudio/install/workload-and-component-ids?view=vs-2022">ドキュメント</a> から確認でき、例えば Professional エディションであれば、<a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/visualstudio/install/workload-component-id-vs-professional?view=vs-2022&preserve-view=true">こちらのドキュメント</a> から確認が可能です。</p>
+<p>また、必要に応じて、Visual Studio における <a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/visualstudio/productinfo/vs-servicing">サポートライフサイクル</a> や、<a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/visualstudio/releases/2022/system-requirements">システム要件</a> なども、事前にご確認ください。</p>
+<h2 id="Step-1-インストール-パッケージの作成"><a href="#Step-1-インストール-パッケージの作成" class="headerlink" title="Step 1 インストール パッケージの作成"></a>Step 1 インストール パッケージの作成</h2><p>ネットワークに接続された環境にて、管理者コマンドプロンプトからブートストラップを実行することで、オフライン環境で利用可能なインストール パッケージを作成することができます。<br>詳細は後述のドキュメントに説明されていますが、よく使う引数として、インストール パッケージの出力先フォルダを指定する <strong>–layout</strong> 、含めるコンポーネントやワークロードを ID で指定する <strong>–add</strong>、言語リソースを指定する <strong>–lang</strong>、指定したワークロードで推奨される全てのコンポーネントを含める <strong>–includeRecommended</strong> などがあります。</p>
+<p>(コマンド例)</p>
+<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vs_enterprise.exe --layout C:\VSLayout --add Microsoft.VisualStudio.Workload.ManagedDesktop --add Microsoft.VisualStudio.Component.Git --lang ja-JP --includeRecommended</span><br></pre></td></tr></table></figure>
+
+<h3 id="参考情報"><a href="#参考情報" class="headerlink" title="(参考情報)"></a>(参考情報)</h3><ul>
+<li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/visualstudio/install/create-an-offline-installation-of-visual-studio?view=vs-2022#use-the-command-line-to-create-a-local-layout">ローカル レイアウトを作成する</a> </li>
+<li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/visualstudio/install/create-a-network-installation-of-visual-studio?view=vs-2022#configure-the-contents-of-a-layout">レイアウトの内容を構成する</a></li>
+<li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/visualstudio/install/command-line-parameter-examples?view=vs-2022#using---layout-to-create-a-network-layout-or-a-local-cache">–layout を使用してネットワーク レイアウトまたはローカル キャッシュを作成する</a></li>
+<li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/visualstudio/install/install-and-use-visual-studio-behind-a-firewall-or-proxy-server?view=vs-2022">ファイアウォールまたはプロキシ サーバーの内側に Visual Studio および Azure サービスをインストールして使用する</a></li>
 </ul>
-<p>&lt;参考&gt;<br><img src="AutoShutdown1.png"></p>
-<p>また、自動シャットダウンの設定リソース (Microsoft.DevTestLab/schedules) は、Azure VM と同じリソース グループ配下に管理されています。<br>Azure Portal 上からは本リソースは既定で非表示になっているので、本リソースを表示されたい場合には、リソース一覧画面より「非表示の型の表示」にチェックすることで閲覧できるようになります。<br><img src="AutoShutdown2.png"><br>※自動シャットダウンの設定リソース名は既定で shutdown-computevm-<span style="background-color:yellow">$VMName</span> となり、<span style="background-color:yellow">$VMName</span> には Azure VM の名前が設定されます。</p>
-<hr>
-<h2 id="2-Azure-VM-に対する権限"><a href="#2-Azure-VM-に対する権限" class="headerlink" title="2. Azure VM に対する権限"></a>2. Azure VM に対する権限</h2><hr>
-<p>自動シャットダウンの設定を行うには、自動シャットダウンの設定リソースに対する権限に加えて、Azure VM (Microsoft.Compute/virtualMachines) に対する以下の変更権限も必要です。</p>
-<ul>
-<li>Read: Get Virtual Machine (読み取り : 仮想マシンの取得)</li>
-<li>Write: Create or Update Virtual Machine (書き込み : 仮想マシンの作成または更新)</li>
-<li>Other: Start Virtual Machine (その他 : 仮想マシンの起動)</li>
-<li>Other: Power Off Virtual Machine (その他 : 仮想マシンを電源オフ)</li>
-<li>Other: Redeploy Virtual Machine (その他 : 仮想マシンを再デプロイする)</li>
-<li>Other: Restart Virtual Machine (その他 : 仮想マシンの再起動)</li>
-<li>Other: Deallocate Virtual Machine (その他 : 仮想マシンの割り当て解除)</li>
+<h2 id="Step-2-インストール"><a href="#Step-2-インストール" class="headerlink" title="Step 2 インストール"></a>Step 2 インストール</h2><p>Step 1 で作成したインストール パッケージを、インストール対象の環境にコピーします。</p>
+<h3 id="a-GUI-からのインストール"><a href="#a-GUI-からのインストール" class="headerlink" title="(a) GUI からのインストール"></a>(a) GUI からのインストール</h3><p>GUI からインストールする場合には、インストール パッケージに含まれているブートストラップを起動します。例えば、パッケージが <strong>C:\localVSlayout</strong> フォルダーに配置されている場合には、<strong>C:\localVSlayout\vs_enterprise.exe</strong> のパスに配置されているブートストラップをエクスプローラーなどから起動します。<br>ブートストラップを起動すると、Visual Studio Installer の画面が表示されますので、インストール対象のコンポーネントやワークロードを選択し、インストールを実施します。</p>
+<h3 id="b-コマンドラインからのインストール"><a href="#b-コマンドラインからのインストール" class="headerlink" title="(b) コマンドラインからのインストール"></a>(b) コマンドラインからのインストール</h3><p>コマンドラインからインストールする場合には、管理者コマンドからインストール パッケージに含まれているブートストラップを実行します。<br>インストール時に指定する引数については、インストール パッケージ作成と一部重複しますが、コンポーネントやワークロードを ID で指定する <strong>–add</strong>、言語リソースを指定する <strong>–lang</strong>、指定したワークロードで推奨される全てのコンポーネントを含める <strong>–includeRecommended</strong> などがあります。</p>
+<p>(コマンド例)</p>
+<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vs_enterprise.exe --add Microsoft.VisualStudio.Workload.ManagedDesktop --add Microsoft.VisualStudio.Component.Git --lang ja-JP --includeRecommended</span><br></pre></td></tr></table></figure>
+
+<p>ただし、Step 1 でパッケージに含めていないコンポーネントやワークロードなどのインストールを試みた場合には、パッケージに含まれていないことを自動で判別し、インターネットからの取得を試み、エラーが発生する可能性があります。そのため、オフライン環境でネットワークに接続できない場合には、パッケージに含めたコンポーネントのみをインストールしてください。</p>
+<h3 id="参考情報-1"><a href="#参考情報-1" class="headerlink" title="(参考情報)"></a>(参考情報)</h3><ul>
+<li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/visualstudio/install/create-an-offline-installation-of-visual-studio?view=vs-2022#step-3---install-visual-studio-from-the-local-layout"> ローカル レイアウトから Visual Studio をインストールする</a></li>
+<li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/visualstudio/install/use-command-line-parameters-to-install-visual-studio?view=vs-2022#install-update-modify-repair-uninstall-and-export-commands-and-command-line-parameters">インストール、更新、変更、修復、アンインストール、エクスポートの各コマンドとコマンド ライン パラメーター</a></li>
+<li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/visualstudio/install/command-line-parameter-examples?view=vs-2022#install-using---installpath-and---add-alongside-the-bootstrapper">Visual Studio インストールのコマンド ライン パラメーターの例</a></li>
 </ul>
-<p>&lt;参考&gt;<br><img src="AutoShutdown3.png"></p>
-<p>ただし、Azure VM に対する変更権限を付与するので、自動シャットダウンの設定以外にも、Azure VM の設定に対して操作可能な多くの権限を与えてしまうことに注意してください。</p>
-<hr>
-<h2 id="3-カスタム-ロールでの対応について"><a href="#3-カスタム-ロールでの対応について" class="headerlink" title="3. カスタム ロールでの対応について"></a>3. カスタム ロールでの対応について</h2><hr>
-<p>もし Azure VM への変更権限の付与が許容できて、自動シャットダウンの設定を行うために必要最小限を付与するためのカスタム ロールをご作成されたい場合は、上述で挙げた 2 種類の権限を参考にカスタム ロールをご作成ください。</p>
-<ul>
-<li>Microsoft.DevTestLab/schedules/*</li>
-<li>Microsoft.Compute/virtualMachines への各権限</li>
-</ul>
-<p>Azure カスタム ロールの作成手順につきましては、以下の弊社ドキュメントをご参照ください。<br><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/azure/role-based-access-control/custom-roles">Azure カスタム ロール - Azure RBAC | Microsoft Learn</a></p>
-<hr>
-<h2 id="4-自動シャットダウンの設定に必要なリソース-プロバイダーについて"><a href="#4-自動シャットダウンの設定に必要なリソース-プロバイダーについて" class="headerlink" title="4. 自動シャットダウンの設定に必要なリソース プロバイダーについて"></a>4. 自動シャットダウンの設定に必要なリソース プロバイダーについて</h2><hr>
-<p>自動シャットダウンの設定を行うためには、事前に Microsoft.DevTestLab リソース プロバイダーが登録済み (Registered) である必要があります。<br>もし自動シャットダウンの設定に必要な上述の各権限を持っているにも関わらず、自動シャットダウンの設定が保存できないような場合には、Azure Portal より、Azure VM が属するサブスクリプションの管理画面に遷移し、[設定\リソース プロバイダー]より Microsoft.DevTestLab リソース プロバイダーが登録済みであることをご確認ください。<br><img src="AutoShutdown4.png"></p>
-<h2 id="最後に"><a href="#最後に" class="headerlink" title="最後に"></a>最後に</h2><hr>
-<p>今回は、Azure VM の自動シャットダウンについて、よくいただくご質問である最小権限についての情報をご紹介しました。<br>今後も自動シャットダウンのご利用にお役立ていただける情報を、どんどんご紹介していきたいと思いますので、どうぞよろしくお願いします！
-  </p>
+<h2 id="ライセンス認証"><a href="#ライセンス認証" class="headerlink" title="ライセンス認証"></a>ライセンス認証</h2><p>Professional エディションなどの Visual Studio では、インストール後にライセンス認証が必要になります。<br>オフライン環境では、ネットワークに接続してライセンスを認証することができませんので、その場合には <a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/visualstudio/ide/how-to-unlock-visual-studio?view=vs-2022#enter-a-product-key">プロダクトキーを入力</a> して認証する必要があります。</p>
+<p>あるいは、ネットワーク接続が可能な場合には Microsoft アカウントなどを用いて Visual Studio にサインインすることで認証することも可能です。<br>プロキシ サーバーを介して通信するといったシナリオで問題発生する場合には、<a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/troubleshoot/developer/visualstudio/installation/troubleshoot-network-related-errors?toc=/visualstudio/toc.json&view=vs-2022#configure-proxy-server">プロキシ サーバーの設定</a> もお試しください。</p>
 
       
       
@@ -167,11 +150,11 @@
     <footer class="article-footer">
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Azure-DevTest-Labs/" rel="tag">Azure DevTest Labs</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Visual-Studio/" rel="tag">Visual Studio</a></li></ul>
 
       <!-- 
       
-        <a href="https://github.com/jpdscore/blog/edit/master/articles/devtestlabs/auto-shutdown-permission.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
+        <a href="https://github.com/jpdscore/blog/edit/master/articles/vs/vs2022-offline-install.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
         
       -->
     </footer>
@@ -180,19 +163,10 @@
     
 <nav id="article-nav">
   
-    <a href="../../windowssdk/wuaapi-install-later/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">次の記事</strong>
-      <div class="article-nav-title">
-        
-          WUA API で WSUS から取得した更新プログラムを任意のタイミングで適用する
-        
-      </div>
-    </a>
   
-  
-    <a href="../../azuredevops/signin-401-403-tsg/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="../create-a-simple-app-with-ghcopilot/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">前の記事</strong>
-      <div class="article-nav-title">Azure DevOps Services へサインインしたときに発生する 401 / 403 エラーのトラブルシューティング ガイド</div>
+      <div class="article-nav-title">Visual Studio + GitHub Copilot でアプリケーションを作成する</div>
     </a>
   
 </nav>
@@ -211,11 +185,11 @@
       <ul>
         
           <li>
-            <a href="../../vs/vs2022-offline-install/">Visual Studio 2022 の オフライン インストール</a>
+            <a href="">Visual Studio 2022 の オフライン インストール</a>
           </li>
         
           <li>
-            <a href="../../vs/create-a-simple-app-with-ghcopilot/">Visual Studio + GitHub Copilot でアプリケーションを作成する</a>
+            <a href="../create-a-simple-app-with-ghcopilot/">Visual Studio + GitHub Copilot でアプリケーションを作成する</a>
           </li>
         
           <li>
@@ -223,11 +197,11 @@
           </li>
         
           <li>
-            <a href="../../vs/troubleshooting-application-error-with-ghcopilot/">アプリケーションエラーを Visual Studio + GitHub Copilot で調査する</a>
+            <a href="../troubleshooting-application-error-with-ghcopilot/">アプリケーションエラーを Visual Studio + GitHub Copilot で調査する</a>
           </li>
         
           <li>
-            <a href="../../vs/vc-silent-install/">コマンドからの Visual C++ 再頒布パッケージのインストール方法</a>
+            <a href="../vc-silent-install/">コマンドからの Visual C++ 再頒布パッケージのインストール方法</a>
           </li>
         
           <li>
