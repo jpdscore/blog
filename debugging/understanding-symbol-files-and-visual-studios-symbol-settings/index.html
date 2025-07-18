@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   
   
-  <title>シンボル ファイルと Visual Studio のシンボル設定を理解する | Japan Developer Support Core Team Blog</title>
+  <title>シンボル ファイルと Visual Studio のシンボル設定を理解する | JPDSC Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="こんにちは、Japan Developer Support Core チームの松井です。今回は、シンボル ファイルと Visual Studio のシンボル設定についてご案内します。 シンボル ファイルはアプリケーションをデバッグする上で欠かせないものの一つです。アプリケーションのデバッグは開発時だけでなくリリース後も必要になる可能性があり、またシンボルをロードするにはそのシンボルがモジュールのビ">
 <meta property="og:type" content="article">
@@ -23,7 +23,7 @@
 <meta property="og:image" content="https://jpdscore.github.io/blog/debugging/understanding-symbol-files-and-visual-studios-symbol-settings/manual-load-symbols-from-callstack-window.png">
 <meta property="og:image" content="https://jpdscore.github.io/blog/debugging/understanding-symbol-files-and-visual-studios-symbol-settings/manual-load-symbols-from-modules-window.png">
 <meta property="article:published_time" content="2021-02-11T15:00:00.000Z">
-<meta property="article:modified_time" content="2025-07-16T09:43:41.664Z">
+<meta property="article:modified_time" content="2025-07-18T08:40:16.580Z">
 <meta property="article:author" content="Developer Support Core Japan">
 <meta property="article:tag" content="Debug">
 <meta name="twitter:card" content="summary">
@@ -33,11 +33,6 @@
   
 
   <link rel="icon" href="../../favicon.ico">
-  <link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
-  <link rel="manifest" href="../../site.webmanifest">
-  <link rel="mask-icon" href="../../safari-pinned-tab.svg" color="#5bbad5">
   <meta name="msapplication-TileColor" content="#ffffff">
   <meta name="theme-color" content="#ffffff">
   
@@ -77,13 +72,13 @@
       </div>
     </div>
     <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
+      <div id="logo-wrap">
         <a href="../../index.html" id="logo">Japan Developer Support Core Team Blog</a>
-      </h1>
+      </div>
       
-        <h2 id="subtitle-wrap">
+        <div id="subtitle-wrap">
           <a href="../../index.html" id="subtitle">日本マイクロソフトの Japan Developer Support Core チームのブログです。</a>
-        </h2>
+        </div>
       
     </div>
   </div>
@@ -112,7 +107,7 @@
         
         <a href="https://github.com/jpdscore/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+17f4ed9d-28fa-5d62-9380-3deddb024cc7%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5B%E3%82%B7%E3%83%B3%E3%83%9C%E3%83%AB+%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%81%A8+Visual+Studio+%E3%81%AE%E3%82%B7%E3%83%B3%E3%83%9C%E3%83%AB%E8%A8%AD%E5%AE%9A%E3%82%92%E7%90%86%E8%A7%A3%E3%81%99%E3%82%8B%5D%28https%3A%2F%2Fjpdscore.github.io%2Fblog%2Fdebugging%2Funderstanding-symbol-files-and-visual-studios-symbol-settings%2F%29" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
         
-        <a data-url="https://jpdscore.github.io/blog/debugging/understanding-symbol-files-and-visual-studios-symbol-settings/" data-id="cmd5rxjqb001cj99b3kii59ts" class="article-share-link">共有</a>
+        <a data-url="https://jpdscore.github.io/blog/debugging/understanding-symbol-files-and-visual-studios-symbol-settings/" data-id="cmd8kjqv1001clk9beyju4z9q" class="article-share-link">共有</a>
       </div>
     
     <div class="article-entry" itemprop="articleBody">
@@ -235,7 +230,7 @@
       
         <div class="article-disclaimer">
         
-          <p><hr>本ブログの内容は弊社の公式見解として保証されるものではなく、開発・運用時の参考情報としてご活用いただくことを目的としています。もし公式な見解が必要な場合は、弊社ドキュメント (<a target="_blank" rel="noopener" href="https://docs.microsoft.com/">https://docs.microsoft.com</a> や <a target="_blank" rel="noopener" href="https://support.microsoft.com">https://support.microsoft.com</a>) をご参照いただくか、もしくは私共サポートまでお問い合わせください。</p>
+          <p><hr>本ブログの内容は弊社の公式見解として保証されるものではなく、開発・運用時の参考情報としてご活用いただくことを目的としています。もし公式な見解が必要な場合は、弊社ドキュメント (<a target="_blank" rel="noopener" href="https://learn.microsoft.com/">https://learn.microsoft.com</a> や <a target="_blank" rel="noopener" href="https://support.microsoft.com">https://support.microsoft.com</a>) をご参照いただくか、もしくは私共サポートまでお問い合わせください。</p>
         
         </div>
       

@@ -4,20 +4,20 @@
   <meta charset="utf-8">
   
   
-  <title>イベント ID 1000 で記録される Application Error のイベント ログについて | Japan Developer Support Core Team Blog</title>
+  <title>イベント ID 1000 で記録される Application Error のイベント ログについて | JPDSC Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="こんにちは、Japan Developer Support Core チームの松井です。今回は、イベント ID 1000 で記録される Application Error のイベント ログについて、ログに記録されている内容の意味や、調査を進める上で一般的に必要となる情報について紹介します。 Application Error が発生する原因は様々で、原因を特定するために必要な調査手法も一様ではなく">
+  <meta name="description" content="イベント ID 1000 で記録される Application Error のイベント ログについて、ログに記録されている内容の意味や、調査を進める上で一般的に必要となる情報について紹介します。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="イベント ID 1000 で記録される Application Error のイベント ログについて">
 <meta property="og:url" content="https://jpdscore.github.io/blog/debugging/application-error-eventlog/index.html">
 <meta property="og:site_name" content="Japan Developer Support Core Team Blog">
-<meta property="og:description" content="こんにちは、Japan Developer Support Core チームの松井です。今回は、イベント ID 1000 で記録される Application Error のイベント ログについて、ログに記録されている内容の意味や、調査を進める上で一般的に必要となる情報について紹介します。 Application Error が発生する原因は様々で、原因を特定するために必要な調査手法も一様ではなく">
+<meta property="og:description" content="イベント ID 1000 で記録される Application Error のイベント ログについて、ログに記録されている内容の意味や、調査を進める上で一般的に必要となる情報について紹介します。">
 <meta property="og:locale" content="ja_JP">
 <meta property="og:image" content="https://jpdscore.github.io/blog/debugging/application-error-eventlog/applicationerror1000.png">
 <meta property="og:image" content="https://jpdscore.github.io/blog/debugging/application-error-eventlog/wer1.png">
 <meta property="og:image" content="https://jpdscore.github.io/blog/debugging/application-error-eventlog/wer2.png">
 <meta property="article:published_time" content="2020-12-09T15:00:00.000Z">
-<meta property="article:modified_time" content="2025-07-16T09:43:41.654Z">
+<meta property="article:modified_time" content="2025-07-18T08:40:16.570Z">
 <meta property="article:author" content="Developer Support Core Japan">
 <meta property="article:tag" content="Debug">
 <meta name="twitter:card" content="summary">
@@ -27,11 +27,6 @@
   
 
   <link rel="icon" href="../../favicon.ico">
-  <link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
-  <link rel="manifest" href="../../site.webmanifest">
-  <link rel="mask-icon" href="../../safari-pinned-tab.svg" color="#5bbad5">
   <meta name="msapplication-TileColor" content="#ffffff">
   <meta name="theme-color" content="#ffffff">
   
@@ -71,13 +66,13 @@
       </div>
     </div>
     <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
+      <div id="logo-wrap">
         <a href="../../index.html" id="logo">Japan Developer Support Core Team Blog</a>
-      </h1>
+      </div>
       
-        <h2 id="subtitle-wrap">
+        <div id="subtitle-wrap">
           <a href="../../index.html" id="subtitle">日本マイクロソフトの Japan Developer Support Core チームのブログです。</a>
-        </h2>
+        </div>
       
     </div>
   </div>
@@ -106,7 +101,7 @@
         
         <a href="https://github.com/jpdscore/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+35dbd1c5-d44d-5fa7-b52a-784004b94d81%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5B%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88+ID+1000+%E3%81%A7%E8%A8%98%E9%8C%B2%E3%81%95%E3%82%8C%E3%82%8B+Application+Error+%E3%81%AE%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88+%E3%83%AD%E3%82%B0%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6%5D%28https%3A%2F%2Fjpdscore.github.io%2Fblog%2Fdebugging%2Fapplication-error-eventlog%2F%29" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
         
-        <a data-url="https://jpdscore.github.io/blog/debugging/application-error-eventlog/" data-id="cmd5rxjq80010j99bdz5u1l80" class="article-share-link">共有</a>
+        <a data-url="https://jpdscore.github.io/blog/debugging/application-error-eventlog/" data-id="cmd8kjquv000vlk9bb4z9bv9a" class="article-share-link">共有</a>
       </div>
     
     <div class="article-entry" itemprop="articleBody">
@@ -114,7 +109,7 @@
         <p>こんにちは、Japan Developer Support Core チームの松井です。<br>今回は、イベント ID 1000 で記録される Application Error のイベント ログについて、ログに記録されている内容の意味や、調査を進める上で一般的に必要となる情報について紹介します。</p>
 <p>Application Error が発生する原因は様々で、原因を特定するために必要な調査手法も一様ではなく、調査には困難を伴うことが多くあります。この記事では Application Error に関して概要をお伝えしますが、お客様が開発したアプリケーションで発生しているエラーのデバッグや調査を弊社のサポート サービスで承っていますので、お困りのことがあればサポート サービスのご利用もご検討いただければ幸いです。</p>
 <h2 id="1-イベント-ログに記録される-Application-Error-の内容について"><a href="#1-イベント-ログに記録される-Application-Error-の内容について" class="headerlink" title="1. イベント ログに記録される Application Error の内容について"></a>1. イベント ログに記録される Application Error の内容について</h2><p>アプリケーションの実行中に何らかのエラーにより異常終了した場合、以下のようにイベント ログに ID 1000 のログが記録されることがあります。</p>
-<p><img src="applicationerror1000.png"></p>
+<p><img src="applicationerror1000.png" alt="Application Error のイベント ログ"></p>
 <blockquote>
 <p>障害が発生しているアプリケーション名: ConsoleApplication7.exe、バージョン: 0.0.0.0、タイム スタンプ: 0x5f9f901d<br>障害が発生しているモジュール名: MSVCR120.dll、バージョン: 12.0.21005.1、タイム スタンプ: 0x524f83ff<br>例外コード: 0xc0000409<br>障害オフセット: 0x000000000006dd27<br>障害が発生しているプロセス ID: 0x5f8<br>障害が発生しているアプリケーションの開始時刻: 0x01d6b0d3e99e5ff4<br>障害が発生しているアプリケーション パス: C:\Users\kemats\Desktop\ConsoleApplication7.exe<br>障害が発生しているモジュール パス: C:\Windows\SYSTEM32\MSVCR120.dll</p>
 </blockquote>
@@ -170,14 +165,14 @@
 <td>ダンプの出力数を指定します。<br>指定した値を超える場合は古いファイルが上書きされます。</td>
 </tr>
 </tbody></table>
-<p><img src="wer1.png"></p>
+<p><img src="wer1.png" alt="Windows Error Reporting のダンプ出力設定 (すべてのアプリケーション)"></p>
 <blockquote>
 <p>Windows Registry Editor Version 5.00</p>
 <p>[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\Windows Error Reporting\LocalDumps]<br>“DumpType”=dword:00000002<br>“DumpFolder”=hex(2):43,00,3a,00,5c,00,4c,00,6f,00,67,00,73,00,00,00<br>“DumpCount”=dword:0000000a</p>
 </blockquote>
 <h4 id="■-特定のアプリケーションを対象とする場合-例-MyApplication-exe"><a href="#■-特定のアプリケーションを対象とする場合-例-MyApplication-exe" class="headerlink" title="■ 特定のアプリケーションを対象とする場合 (例: MyApplication.exe)"></a>■ 特定のアプリケーションを対象とする場合 (例: MyApplication.exe)</h4><p>キー名: HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\Windows Error Reporting\LocalDumps\MyApplication.exe</p>
 <p>※ レジストリ値の設定は全てのアプリケーションを対象とする場合と同様のため割愛します。</p>
-<p><img src="wer2.png"></p>
+<p><img src="wer2.png" alt="Windows Error Reporting のダンプ出力設定 (特定のアプリケーション)"></p>
 <blockquote>
 <p>Windows Registry Editor Version 5.00</p>
 <p>[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\Windows Error Reporting\LocalDumps\MyApplication.exe]<br>“DumpFolder”=hex(2):43,00,3a,00,5c,00,4c,00,6f,00,67,00,73,00,00,00<br>“DumpCount”=dword:0000000a<br>“DumpType”=dword:00000002</p>
@@ -269,7 +264,7 @@
       
         <div class="article-disclaimer">
         
-          <p><hr>本ブログの内容は弊社の公式見解として保証されるものではなく、開発・運用時の参考情報としてご活用いただくことを目的としています。もし公式な見解が必要な場合は、弊社ドキュメント (<a target="_blank" rel="noopener" href="https://docs.microsoft.com/">https://docs.microsoft.com</a> や <a target="_blank" rel="noopener" href="https://support.microsoft.com">https://support.microsoft.com</a>) をご参照いただくか、もしくは私共サポートまでお問い合わせください。</p>
+          <p><hr>本ブログの内容は弊社の公式見解として保証されるものではなく、開発・運用時の参考情報としてご活用いただくことを目的としています。もし公式な見解が必要な場合は、弊社ドキュメント (<a target="_blank" rel="noopener" href="https://learn.microsoft.com/">https://learn.microsoft.com</a> や <a target="_blank" rel="noopener" href="https://support.microsoft.com">https://support.microsoft.com</a>) をご参照いただくか、もしくは私共サポートまでお問い合わせください。</p>
         
         </div>
       

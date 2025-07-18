@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   
   
-  <title>Service connection で利用中の Service principal を Managed identity に移行する手順 | Japan Developer Support Core Team Blog</title>
+  <title>Service connection で利用中の Service principal を Managed identity に移行する手順 | JPDSC Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="本記事は Microsoft Azure Tech | Advent Calendar 2022 の 12 日目の記事です。  こんにちは、Japan Developer Support Core チームです🐈 今日は Azure Pipelines で利用する Service connection (Azure service connection) の Service principal">
 <meta property="og:type" content="article">
@@ -25,7 +25,7 @@
 <meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/migrate-sp-to-mi/qa2a.png">
 <meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/migrate-sp-to-mi/qa3.png">
 <meta property="article:published_time" content="2022-12-11T15:00:00.000Z">
-<meta property="article:modified_time" content="2025-07-16T09:43:41.622Z">
+<meta property="article:modified_time" content="2025-07-18T08:40:16.537Z">
 <meta property="article:author" content="Developer Support Core Japan">
 <meta property="article:tag" content="ALM">
 <meta property="article:tag" content="Azure DevOps Services">
@@ -37,11 +37,6 @@
   
 
   <link rel="icon" href="../../favicon.ico">
-  <link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
-  <link rel="manifest" href="../../site.webmanifest">
-  <link rel="mask-icon" href="../../safari-pinned-tab.svg" color="#5bbad5">
   <meta name="msapplication-TileColor" content="#ffffff">
   <meta name="theme-color" content="#ffffff">
   
@@ -81,13 +76,13 @@
       </div>
     </div>
     <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
+      <div id="logo-wrap">
         <a href="../../index.html" id="logo">Japan Developer Support Core Team Blog</a>
-      </h1>
+      </div>
       
-        <h2 id="subtitle-wrap">
+        <div id="subtitle-wrap">
           <a href="../../index.html" id="subtitle">日本マイクロソフトの Japan Developer Support Core チームのブログです。</a>
-        </h2>
+        </div>
       
     </div>
   </div>
@@ -116,7 +111,7 @@
         
         <a href="https://github.com/jpdscore/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+fc8b7c48-21be-5fa6-af99-161be81e07cf%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5BService+connection+%E3%81%A7%E5%88%A9%E7%94%A8%E4%B8%AD%E3%81%AE+Service+principal+%E3%82%92+Managed+identity+%E3%81%AB%E7%A7%BB%E8%A1%8C%E3%81%99%E3%82%8B%E6%89%8B%E9%A0%86%5D%28https%3A%2F%2Fjpdscore.github.io%2Fblog%2Fazuredevops%2Fmigrate-sp-to-mi%2F%29" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
         
-        <a data-url="https://jpdscore.github.io/blog/azuredevops/migrate-sp-to-mi/" data-id="cmd5rxjpu0005j99b7ekb35fn" class="article-share-link">共有</a>
+        <a data-url="https://jpdscore.github.io/blog/azuredevops/migrate-sp-to-mi/" data-id="cmd8kjqul0005lk9b8lz61mxl" class="article-share-link">共有</a>
       </div>
     
     <div class="article-entry" itemprop="articleBody">
@@ -181,7 +176,7 @@
       
         <div class="article-disclaimer">
         
-          <p><hr>本ブログの内容は弊社の公式見解として保証されるものではなく、開発・運用時の参考情報としてご活用いただくことを目的としています。もし公式な見解が必要な場合は、弊社ドキュメント (<a target="_blank" rel="noopener" href="https://docs.microsoft.com/">https://docs.microsoft.com</a> や <a target="_blank" rel="noopener" href="https://support.microsoft.com">https://support.microsoft.com</a>) をご参照いただくか、もしくは私共サポートまでお問い合わせください。</p>
+          <p><hr>本ブログの内容は弊社の公式見解として保証されるものではなく、開発・運用時の参考情報としてご活用いただくことを目的としています。もし公式な見解が必要な場合は、弊社ドキュメント (<a target="_blank" rel="noopener" href="https://learn.microsoft.com/">https://learn.microsoft.com</a> や <a target="_blank" rel="noopener" href="https://support.microsoft.com">https://support.microsoft.com</a>) をご参照いただくか、もしくは私共サポートまでお問い合わせください。</p>
         
         </div>
       

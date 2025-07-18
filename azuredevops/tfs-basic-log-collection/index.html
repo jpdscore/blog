@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   
   
-  <title>Team Foundation Server / Azure DevOps Server のトラブルシューティング用データ採取について | Japan Developer Support Core Team Blog</title>
+  <title>Team Foundation Server / Azure DevOps Server のトラブルシューティング用データ採取について | JPDSC Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="こんにちは、Japan Developer Support Core チームです🗻いつも Team Foundation Server &#x2F; Azure DevOps Server をご利用いただき、ありがとうございます。   突然ですが、Azure DevOps にはオンプレミス版とクラウド版の 2 種類の製品があることをご存じでしょうか？・Azure DevOps Services (クラウド">
 <meta property="og:type" content="article">
@@ -39,7 +39,7 @@
 <meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/tfs-basic-log-collection/SQLServerErrorLog3.png">
 <meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/tfs-basic-log-collection/architecture.png">
 <meta property="article:published_time" content="2024-03-03T15:00:00.000Z">
-<meta property="article:modified_time" content="2025-07-16T09:43:41.637Z">
+<meta property="article:modified_time" content="2025-07-18T08:40:16.553Z">
 <meta property="article:author" content="Developer Support Core Japan">
 <meta property="article:tag" content="ALM">
 <meta property="article:tag" content="情報採取手順">
@@ -52,11 +52,6 @@
   
 
   <link rel="icon" href="../../favicon.ico">
-  <link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
-  <link rel="manifest" href="../../site.webmanifest">
-  <link rel="mask-icon" href="../../safari-pinned-tab.svg" color="#5bbad5">
   <meta name="msapplication-TileColor" content="#ffffff">
   <meta name="theme-color" content="#ffffff">
   
@@ -96,13 +91,13 @@
       </div>
     </div>
     <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
+      <div id="logo-wrap">
         <a href="../../index.html" id="logo">Japan Developer Support Core Team Blog</a>
-      </h1>
+      </div>
       
-        <h2 id="subtitle-wrap">
+        <div id="subtitle-wrap">
           <a href="../../index.html" id="subtitle">日本マイクロソフトの Japan Developer Support Core チームのブログです。</a>
-        </h2>
+        </div>
       
     </div>
   </div>
@@ -131,7 +126,7 @@
         
         <a href="https://github.com/jpdscore/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+a17b4350-31c1-5bbc-afac-1b5848e1a7c1%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5BTeam+Foundation+Server+%2F+Azure+DevOps+Server+%E3%81%AE%E3%83%88%E3%83%A9%E3%83%96%E3%83%AB%E3%82%B7%E3%83%A5%E3%83%BC%E3%83%86%E3%82%A3%E3%83%B3%E3%82%B0%E7%94%A8%E3%83%87%E3%83%BC%E3%82%BF%E6%8E%A1%E5%8F%96%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6%5D%28https%3A%2F%2Fjpdscore.github.io%2Fblog%2Fazuredevops%2Ftfs-basic-log-collection%2F%29" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
         
-        <a data-url="https://jpdscore.github.io/blog/azuredevops/tfs-basic-log-collection/" data-id="cmd5rxjq0000ij99b8uch1otm" class="article-share-link">共有</a>
+        <a data-url="https://jpdscore.github.io/blog/azuredevops/tfs-basic-log-collection/" data-id="cmd8kjqus000ilk9beyji95v4" class="article-share-link">共有</a>
       </div>
     
     <div class="article-entry" itemprop="articleBody">
@@ -298,7 +293,7 @@
       
         <div class="article-disclaimer">
         
-          <p><hr>本ブログの内容は弊社の公式見解として保証されるものではなく、開発・運用時の参考情報としてご活用いただくことを目的としています。もし公式な見解が必要な場合は、弊社ドキュメント (<a target="_blank" rel="noopener" href="https://docs.microsoft.com/">https://docs.microsoft.com</a> や <a target="_blank" rel="noopener" href="https://support.microsoft.com">https://support.microsoft.com</a>) をご参照いただくか、もしくは私共サポートまでお問い合わせください。</p>
+          <p><hr>本ブログの内容は弊社の公式見解として保証されるものではなく、開発・運用時の参考情報としてご活用いただくことを目的としています。もし公式な見解が必要な場合は、弊社ドキュメント (<a target="_blank" rel="noopener" href="https://learn.microsoft.com/">https://learn.microsoft.com</a> や <a target="_blank" rel="noopener" href="https://support.microsoft.com">https://support.microsoft.com</a>) をご参照いただくか、もしくは私共サポートまでお問い合わせください。</p>
         
         </div>
       
