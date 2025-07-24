@@ -4,24 +4,20 @@
   <meta charset="utf-8">
   
   
-  <title>Visual Studio 2013 でサインイン画面が表示されない場合の対処方法について | JPDSC Blog</title>
+  <title>DAU Limit Exceeded について | JPDSC Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="こんにちは、Japan Developer Support Core チームの松井です。今回は Visual Studio 2013 でサインイン画面が表示されない場合の対処方法についてご案内します。 現象Visual Studio 2013 でサインイン画面の表示を試みた場合に、”問題が発生しました”、”オンライン サービスは使用できません。後でやり直してください。” のエラーが表示される。">
+  <meta name="description" content="こんにちは、Japan Developer Support Core チームの近澤です。PlayFab を利用しているタイトルにおいて、API 呼び出し時に以下のようなエラーが発生することがあります。 12345678&#123;  &quot;code&quot;: 400,  &quot;status&quot;: &quot;BadRequest&quot;,  &quot;error&amp;qu">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Visual Studio 2013 でサインイン画面が表示されない場合の対処方法について">
-<meta property="og:url" content="https://jpdscore.github.io/blog/vs/vs2013-signin-error/index.html">
+<meta property="og:title" content="DAU Limit Exceeded について">
+<meta property="og:url" content="https://jpdscore.github.io/blog/playfab/dau-limit-exceeded/index.html">
 <meta property="og:site_name" content="Japan Developer Support Core Team Blog">
-<meta property="og:description" content="こんにちは、Japan Developer Support Core チームの松井です。今回は Visual Studio 2013 でサインイン画面が表示されない場合の対処方法についてご案内します。 現象Visual Studio 2013 でサインイン画面の表示を試みた場合に、”問題が発生しました”、”オンライン サービスは使用できません。後でやり直してください。” のエラーが表示される。">
+<meta property="og:description" content="こんにちは、Japan Developer Support Core チームの近澤です。PlayFab を利用しているタイトルにおいて、API 呼び出し時に以下のようなエラーが発生することがあります。 12345678&#123;  &quot;code&quot;: 400,  &quot;status&quot;: &quot;BadRequest&quot;,  &quot;error&amp;qu">
 <meta property="og:locale" content="ja_JP">
-<meta property="og:image" content="https://jpdscore.github.io/blog/vs/vs2013-signin-error/vs2013-signin-error.png">
-<meta property="og:image" content="https://jpdscore.github.io/blog/vs/vs2013-signin-error/schusestrongcrypto-x86os.png">
-<meta property="og:image" content="https://jpdscore.github.io/blog/vs/vs2013-signin-error/schusestrongcrypto-x64os.png">
-<meta property="article:published_time" content="2022-04-27T15:00:00.000Z">
-<meta property="article:modified_time" content="2025-07-24T02:34:12.394Z">
+<meta property="article:published_time" content="2025-07-23T15:00:00.000Z">
+<meta property="article:modified_time" content="2025-07-24T02:34:12.385Z">
 <meta property="article:author" content="Developer Support Core Japan">
-<meta property="article:tag" content="Visual Studio">
+<meta property="article:tag" content="Azure PlayFab">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://jpdscore.github.io/blog/vs/vs2013-signin-error/vs2013-signin-error.png">
   
     <link rel="alternate" href="../../blog/atom.xml" title="Japan Developer Support Core Team Blog" type="application/atom+xml">
   
@@ -78,7 +74,7 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-vs/vs2013-signin-error" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-playfab/dau-limit-exceeded" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
     
@@ -87,7 +83,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Visual Studio 2013 でサインイン画面が表示されない場合の対処方法について
+      DAU Limit Exceeded について
     </h1>
   
 
@@ -95,48 +91,31 @@
       <div class="article-share">
         Last Update: 
         <a href="" class="article-date-single">
-  <time datetime="2022-04-27T15:00:00.000Z" itemprop="datePublished">2022-04-28</time>
+  <time datetime="2025-07-23T15:00:00.000Z" itemprop="datePublished">2025-07-24</time>
 </a>
         
         
-        <a href="https://github.com/jpdscore/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+f251e1c2-fb4d-52bf-a25d-353362c56696%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5BVisual+Studio+2013+%E3%81%A7%E3%82%B5%E3%82%A4%E3%83%B3%E3%82%A4%E3%83%B3%E7%94%BB%E9%9D%A2%E3%81%8C%E8%A1%A8%E7%A4%BA%E3%81%95%E3%82%8C%E3%81%AA%E3%81%84%E5%A0%B4%E5%90%88%E3%81%AE%E5%AF%BE%E5%87%A6%E6%96%B9%E6%B3%95%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6%5D%28https%3A%2F%2Fjpdscore.github.io%2Fblog%2Fvs%2Fvs2013-signin-error%2F%29" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
+        <a href="https://github.com/jpdscore/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+86fb057a-24bd-5333-a983-82383e22123a%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5BDAU+Limit+Exceeded+%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6%5D%28https%3A%2F%2Fjpdscore.github.io%2Fblog%2Fplayfab%2Fdau-limit-exceeded%2F%29" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
         
-        <a data-url="https://jpdscore.github.io/blog/vs/vs2013-signin-error/" data-id="cmdgs43yo002tj69lh7o7adf8" class="article-share-link">共有</a>
+        <a data-url="https://jpdscore.github.io/blog/playfab/dau-limit-exceeded/" data-id="cmdgs43yk002aj69lc578cua0" class="article-share-link">共有</a>
       </div>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>こんにちは、Japan Developer Support Core チームの松井です。<br>今回は Visual Studio 2013 でサインイン画面が表示されない場合の対処方法についてご案内します。</p>
-<h1 id="現象"><a href="#現象" class="headerlink" title="現象"></a>現象</h1><p>Visual Studio 2013 でサインイン画面の表示を試みた場合に、”問題が発生しました”、”オンライン サービスは使用できません。後でやり直してください。” のエラーが表示される。</p>
-<p><img src="vs2013-signin-error.png"></p>
-<h1 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h1><p>Visual Studio のサインイン画面をはじめとする弊社の各 Web サイトやサービスでは、古い暗号化プロトコルである TLS 1.0 および TLS 1.1 の廃止が順次進められています。一方で Visual Studio 2013 は .NET Framework 4 の既定の暗号化プロトコルを使用しており、既定のシステム構成では TLS 1.0 が使用されます。そのため、Visual Studio 2013 からサインイン画面のサイトへ接続を試みた際に接続が拒否され、ダイアログにエラーが表示されます。</p>
-<h1 id="対処方法"><a href="#対処方法" class="headerlink" title="対処方法"></a>対処方法</h1><p>PowerShell を起動して以下のコマンドレットを実行し、コンピューターに .NET Framework 4.6 以降のバージョンがインストールされているか確認してください。</p>
-<figure class="highlight ps"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(<span class="built_in">Get-ItemProperty</span> <span class="string">&quot;HKLM:\SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full&quot;</span>).Release <span class="operator">-ge</span> <span class="number">393295</span></span><br></pre></td></tr></table></figure>
+        <p>こんにちは、Japan Developer Support Core チームの近澤です。<br>PlayFab を利用しているタイトルにおいて、API 呼び出し時に以下のようなエラーが発生することがあります。</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;code&quot;</span><span class="punctuation">:</span> <span class="number">400</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;status&quot;</span><span class="punctuation">:</span> <span class="string">&quot;BadRequest&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;error&quot;</span><span class="punctuation">:</span> <span class="string">&quot;DAULimitExceeded&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;errorCode&quot;</span><span class="punctuation">:</span> <span class="number">1129</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;errorMessage&quot;</span><span class="punctuation">:</span> <span class="string">&quot;This request is not allowed due to API usage limits for the title.&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<p>True が出力される場合は .NET Framework 4.6 がインストールされていますので、以下のレジストリ設定を追加します。</p>
-<p><img src="schusestrongcrypto-x86os.png"></p>
-<blockquote>
-<p>   [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft.NETFramework\v4.0.30319]<br>   “SchUseStrongCrypto”=dword:00000001</p>
-</blockquote>
-<p>64 bit OS の場合は以下のレジストリも必要となります。</p>
-<p><img src="schusestrongcrypto-x64os.png"></p>
-<blockquote>
-<p>   [HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft.NETFramework\v4.0.30319]<br>   “SchUseStrongCrypto”=dword:00000001</p>
-</blockquote>
-<p>変更後に Visual Studio 2013 を再起動し、事象が解消されているか確認してください。コンピューターの再起動は不要です。</p>
-<p>前述のコマンドレットで False やエラーが出力される場合は .NET Framework 4.6 より古いバージョンとなっているため、以下のブログ記事の手順に沿って対応してください。</p>
-<blockquote>
-<p><a target="_blank" rel="noopener" href="https://jpdsi.github.io/blog/internet-explorer-microsoft-edge/dotnet-framework-tls12/#6-NET-Framework-4-5-2-%E3%81%A7-TLS-1-1-%E3%81%8A%E3%82%88%E3%81%B3-1-2-%E3%82%92%E6%97%A2%E5%AE%9A%E5%80%A4%E3%81%AB%E3%81%99%E3%82%8B%E3%81%9F%E3%82%81%E3%81%AE%E6%96%B9%E6%B3%95">6. .NET Framework 4.5.2 で TLS 1.1 および 1.2 を既定値にするための方法</a></p>
-</blockquote>
-<h1 id="参考情報"><a href="#参考情報" class="headerlink" title="参考情報"></a>参考情報</h1><p>TLS 1.0 / TLS 1.1 の廃止、およびこの変更により Visual Studio の機能が影響を受ける可能性があることについては Visual Studio 開発チームの下記のブログ記事にてご案内しています。</p>
-<p><a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/visualstudio/azure-devops-requires-tls-1-2-on-all-connections-including-visual-studio/">Azure DevOps requires TLS 1.2 on all connections including Visual Studio</a></p>
-<blockquote>
-<p><strong>原文抜粋</strong><br>Visual Studio 2022, Visual Studio 2019, and the latest release of Visual Studio 2017 (version 15.9 and beyond) already use TLS 1.2 and are not impacted by the upcoming change. Earlier versions of Visual Studio that are running on devices not configured to use TLS 1.2, may begin to see errors when connecting to Azure DevOps services. Features such as signing into Visual Studio, unlocking the IDE, and remote Git operations could be affected.</p>
-</blockquote>
-<blockquote>
-<p><strong>日本語訳</strong><br>Visual Studio 2022、Visual Studio 2019、および最新の Visual Studio 2017 (version 15.9 以降) は既に TLS 1.2 を利用しており、今後の変更の影響は受けません。TLS 1.2 を使用するように構成されていないデバイスで実行されている以前のバージョンの Visual Studio は、Azure DevOps Services に接続するときにエラーが発生する可能性があります。<strong>Visual Studio へのサインインや IDE のロック解除、リモート Git 操作などの機能が影響を受ける可能性があります。</strong></p>
-</blockquote>
-<p>この変更に関する背景の詳細については下記のブログ記事やそのリンク先もあわせてご確認ください。</p>
+
+<p>このエラーそのものは、DAU（Daily Active Users）制限を超過したことを意味します。<br>しかし、実際にはユーザーが過剰に増加したといった状態ではない場合でも本エラーが突然発生する場合があります。</p>
+<h2 id="エラーの原因と対処方法"><a href="#エラーの原因と対処方法" class="headerlink" title="エラーの原因と対処方法"></a>エラーの原因と対処方法</h2><p>最も一般的な原因は、 <strong>支払いの未処理や失敗によるアカウントの一時停止</strong>です。</p>
+<p>PlayFab は、支払いがしばらく滞った場合に API 利用を制限することがあります。<br>例えば、クレジットカードの期限切れなどで支払いが停止した場合に発生します。<br>このエラーが発生するようになると、全てのユーザーが PlayFab へログインできない状態となります。<br>本番環境を運用いただいている場合は、非常にインパクトの大きい障害となってしまいますため、費用の支払い状況については十分ご注意ください。</p>
+<p>適切に支払いが完了していない場合は、事前に請求先のメールアドレスに <a href="mailto:&#x61;&#114;&#64;&#112;&#x6c;&#x61;&#121;&#x66;&#x61;&#98;&#x2e;&#x63;&#x6f;&#x6d;">&#x61;&#114;&#64;&#112;&#x6c;&#x61;&#121;&#x66;&#x61;&#98;&#x2e;&#x63;&#x6f;&#x6d;</a> / <a href="mailto:&#x70;&#x6c;&#x66;&#119;&#x61;&#99;&#99;&#x72;&#64;&#109;&#105;&#x63;&#x72;&#x6f;&#115;&#111;&#x66;&#116;&#x2e;&#x63;&#x6f;&#109;">&#x70;&#x6c;&#x66;&#119;&#x61;&#99;&#99;&#x72;&#64;&#109;&#105;&#x63;&#x72;&#x6f;&#115;&#111;&#x66;&#116;&#x2e;&#x63;&#x6f;&#109;</a> からメールが送られます。<br>このメールが登録のメールアドレスに届いているか確認いただければ、支払いが滞っているかどうか判断できます。</p>
+<p>支払い設定を正しく変更した後は、タイトルの復旧手続きをしていただく必要があります。<br>通知元のメールアドレスへご返信いただき、タイトルの有効化を依頼ください。</p>
+<h2 id="相談先について"><a href="#相談先について" class="headerlink" title="相談先について"></a>相談先について</h2><p>何か支払いや課金に関して相談されたいことがあれば、下記の窓口を用意しています。<br>有効化手続きなどの際は下記よりご連絡ください。</p>
+<ul>
+<li>メールでのお問合せ： <a href="mailto:&#112;&#x6c;&#x66;&#119;&#x61;&#99;&#99;&#x72;&#x40;&#109;&#x69;&#x63;&#114;&#111;&#115;&#x6f;&#x66;&#116;&#x2e;&#99;&#x6f;&#109;">&#112;&#x6c;&#x66;&#119;&#x61;&#99;&#99;&#x72;&#x40;&#109;&#x69;&#x63;&#114;&#111;&#115;&#x6f;&#x66;&#116;&#x2e;&#99;&#x6f;&#109;</a> </li>
+<li>フォームからの起票： <a target="_blank" rel="noopener" href="https://playfab.com/contact">https://playfab.com/contact</a></li>
+</ul>
 
       
       
@@ -150,11 +129,11 @@
     <footer class="article-footer">
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Visual-Studio/" rel="tag">Visual Studio</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Azure-PlayFab/" rel="tag">Azure PlayFab</a></li></ul>
 
       <!-- 
       
-        <a href="https://github.com/jpdscore/blog/edit/master/articles/vs/vs2013-signin-error.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
+        <a href="https://github.com/jpdscore/blog/edit/master/articles/playfab/dau-limit-exceeded.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
         
       -->
     </footer>
@@ -163,19 +142,10 @@
     
 <nav id="article-nav">
   
-    <a href="../../azuredevops/DevOpsPricing/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">次の記事</strong>
-      <div class="article-nav-title">
-        
-          Azure DevOps Services の料金体系をおさらいしてみよう！
-        
-      </div>
-    </a>
   
-  
-    <a href="../../azuredevops/devops-log-collection/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="../../vs/vs2022-offline-install/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">前の記事</strong>
-      <div class="article-nav-title">Azure DevOps Services トラブルシューティング用のデータ採取について</div>
+      <div class="article-nav-title">Visual Studio 2022 の オフライン インストール</div>
     </a>
   
 </nav>
@@ -194,15 +164,15 @@
       <ul>
         
           <li>
-            <a href="../../playfab/dau-limit-exceeded/">DAU Limit Exceeded について</a>
+            <a href="">DAU Limit Exceeded について</a>
           </li>
         
           <li>
-            <a href="../vs2022-offline-install/">Visual Studio 2022 の オフライン インストール</a>
+            <a href="../../vs/vs2022-offline-install/">Visual Studio 2022 の オフライン インストール</a>
           </li>
         
           <li>
-            <a href="../create-a-simple-app-with-ghcopilot/">Visual Studio + GitHub Copilot でアプリケーションを作成する</a>
+            <a href="../../vs/create-a-simple-app-with-ghcopilot/">Visual Studio + GitHub Copilot でアプリケーションを作成する</a>
           </li>
         
           <li>
@@ -210,11 +180,11 @@
           </li>
         
           <li>
-            <a href="../troubleshooting-application-error-with-ghcopilot/">アプリケーションエラーを Visual Studio + GitHub Copilot で調査する</a>
+            <a href="../../vs/troubleshooting-application-error-with-ghcopilot/">アプリケーションエラーを Visual Studio + GitHub Copilot で調査する</a>
           </li>
         
           <li>
-            <a href="../vc-silent-install/">コマンドからの Visual C++ 再頒布パッケージのインストール方法</a>
+            <a href="../../vs/vc-silent-install/">コマンドからの Visual C++ 再頒布パッケージのインストール方法</a>
           </li>
         
           <li>
