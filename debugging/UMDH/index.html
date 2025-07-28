@@ -6,15 +6,15 @@
   
   <title>[メモリリーク #1] [HOWTO] UMDH を用いたメモリリーク調査技法 | JPDSC Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="(※ 2013 年 8 月 18 日に JAPAN Platform SDK（Windows SDK） Support Team Blog に公開した情報の再編集・再掲です。)   こんにちは、Japan Developer Support Core チーム 平田 a.k.a ぴろとです。本日は、メモリ リークに焦点を当てて調査を行う方法についてご紹介いたします。 概要説明多くの場合、アプリケーシ">
+  <meta name="description" content="(※ 2013 年 8 月 18 日に JAPAN Platform SDK（Windows SDK） Support Team Blog に公開した情報の再編集・再掲です。)   こんにちは、Japan Developer Support Core チーム 平田 a.k.a ぴろとです。本日は、メ">
 <meta property="og:type" content="article">
 <meta property="og:title" content="[メモリリーク #1] [HOWTO] UMDH を用いたメモリリーク調査技法">
 <meta property="og:url" content="https://jpdscore.github.io/blog/debugging/UMDH/index.html">
 <meta property="og:site_name" content="Japan Developer Support Core Team Blog">
-<meta property="og:description" content="(※ 2013 年 8 月 18 日に JAPAN Platform SDK（Windows SDK） Support Team Blog に公開した情報の再編集・再掲です。)   こんにちは、Japan Developer Support Core チーム 平田 a.k.a ぴろとです。本日は、メモリ リークに焦点を当てて調査を行う方法についてご紹介いたします。 概要説明多くの場合、アプリケーシ">
+<meta property="og:description" content="(※ 2013 年 8 月 18 日に JAPAN Platform SDK（Windows SDK） Support Team Blog に公開した情報の再編集・再掲です。)   こんにちは、Japan Developer Support Core チーム 平田 a.k.a ぴろとです。本日は、メ">
 <meta property="og:locale" content="ja_JP">
 <meta property="article:published_time" content="2020-12-28T07:15:07.000Z">
-<meta property="article:modified_time" content="2025-07-24T02:34:12.366Z">
+<meta property="article:modified_time" content="2025-07-28T08:40:39.448Z">
 <meta property="article:author" content="Developer Support Core Japan">
 <meta property="article:tag" content="Windows SDK">
 <meta property="article:tag" content="Debug">
@@ -99,7 +99,7 @@
         
         <a href="https://github.com/jpdscore/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+d3d8967d-4be5-5ba7-b36f-12020f74900f%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5B%5B%E3%83%A1%E3%83%A2%E3%83%AA%E3%83%AA%E3%83%BC%E3%82%AF+%231%5D+%5BHOWTO%5D+UMDH+%E3%82%92%E7%94%A8%E3%81%84%E3%81%9F%E3%83%A1%E3%83%A2%E3%83%AA%E3%83%AA%E3%83%BC%E3%82%AF%E8%AA%BF%E6%9F%BB%E6%8A%80%E6%B3%95%5D%28https%3A%2F%2Fjpdscore.github.io%2Fblog%2Fdebugging%2FUMDH%2F%29" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
         
-        <a data-url="https://jpdscore.github.io/blog/debugging/UMDH/" data-id="cmdgs43y5000sj69l1ic3esli" class="article-share-link">共有</a>
+        <a data-url="https://jpdscore.github.io/blog/debugging/UMDH/" data-id="cmdmuyp7b000sje9l2yi6a1xl" class="article-share-link">共有</a>
       </div>
     
     <div class="article-entry" itemprop="articleBody">

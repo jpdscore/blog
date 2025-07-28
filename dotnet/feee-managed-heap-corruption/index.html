@@ -6,16 +6,16 @@
   
   <title>マネージド ヒープの破損により発生する GC 中の .NET ランタイムの内部エラーについて | JPDSC Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="こんにちは、Japan Developer Support Core チームの松井です。今回は、マネージド ヒープが破損している状況下でガベージ コレクション (GC) が実行された場合に発生する .NET ランタイムの内部エラーについてご案内します。 マネージド ヒープは .NET ランタイムがオブジェクトの割り当てに使用するための仮想メモリ上のセグメントとそのデータ構造ですが、アプリケーション">
+  <meta name="description" content="こんにちは、Japan Developer Support Core チームの松井です。今回は、マネージド ヒープが破損している状況下でガベージ コレクション (GC) が実行された場合に発生する .NET ランタイムの内部エラーについてご案内します。 マネージド ヒープは .NET ランタイムがオ">
 <meta property="og:type" content="article">
 <meta property="og:title" content="マネージド ヒープの破損により発生する GC 中の .NET ランタイムの内部エラーについて">
 <meta property="og:url" content="https://jpdscore.github.io/blog/dotnet/feee-managed-heap-corruption/index.html">
 <meta property="og:site_name" content="Japan Developer Support Core Team Blog">
-<meta property="og:description" content="こんにちは、Japan Developer Support Core チームの松井です。今回は、マネージド ヒープが破損している状況下でガベージ コレクション (GC) が実行された場合に発生する .NET ランタイムの内部エラーについてご案内します。 マネージド ヒープは .NET ランタイムがオブジェクトの割り当てに使用するための仮想メモリ上のセグメントとそのデータ構造ですが、アプリケーション">
+<meta property="og:description" content="こんにちは、Japan Developer Support Core チームの松井です。今回は、マネージド ヒープが破損している状況下でガベージ コレクション (GC) が実行された場合に発生する .NET ランタイムの内部エラーについてご案内します。 マネージド ヒープは .NET ランタイムがオ">
 <meta property="og:locale" content="ja_JP">
 <meta property="og:image" content="https://jpdscore.github.io/blog/dotnet/feee-managed-heap-corruption/result.jpg">
 <meta property="article:published_time" content="2022-03-01T15:00:00.000Z">
-<meta property="article:modified_time" content="2025-07-24T02:34:12.383Z">
+<meta property="article:modified_time" content="2025-07-28T08:40:39.465Z">
 <meta property="article:author" content="Developer Support Core Japan">
 <meta property="article:tag" content="Debug">
 <meta property="article:tag" content=".NET">
@@ -100,7 +100,7 @@
         
         <a href="https://github.com/jpdscore/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+9e9e4e22-58a8-5a95-a550-344a67776d7f%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5B%E3%83%9E%E3%83%8D%E3%83%BC%E3%82%B8%E3%83%89+%E3%83%92%E3%83%BC%E3%83%97%E3%81%AE%E7%A0%B4%E6%90%8D%E3%81%AB%E3%82%88%E3%82%8A%E7%99%BA%E7%94%9F%E3%81%99%E3%82%8B+GC+%E4%B8%AD%E3%81%AE+.NET+%E3%83%A9%E3%83%B3%E3%82%BF%E3%82%A4%E3%83%A0%E3%81%AE%E5%86%85%E9%83%A8%E3%82%A8%E3%83%A9%E3%83%BC%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6%5D%28https%3A%2F%2Fjpdscore.github.io%2Fblog%2Fdotnet%2Ffeee-managed-heap-corruption%2F%29" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
         
-        <a data-url="https://jpdscore.github.io/blog/dotnet/feee-managed-heap-corruption/" data-id="cmdgs43yf001rj69l0zbdhz6l" class="article-share-link">共有</a>
+        <a data-url="https://jpdscore.github.io/blog/dotnet/feee-managed-heap-corruption/" data-id="cmdmuyp7m001uje9l4lli3qzz" class="article-share-link">共有</a>
       </div>
     
     <div class="article-entry" itemprop="articleBody">
