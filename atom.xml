@@ -6,7 +6,7 @@
   <link href="https://jpdscore.github.io/blog/atom.xml" rel="self"/>
   
   <link href="https://jpdscore.github.io/blog/"/>
-  <updated>2025-07-29T02:11:14.975Z</updated>
+  <updated>2025-08-07T05:57:13.069Z</updated>
   <id>https://jpdscore.github.io/blog/</id>
   
   <author>
@@ -17,11 +17,36 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>.NET Framework 4.x の互換性について</title>
+    <link href="https://jpdscore.github.io/blog/dotnet/netfx-4-compatibility/"/>
+    <id>https://jpdscore.github.io/blog/dotnet/netfx-4-compatibility/</id>
+    <published>2025-08-06T15:00:00.000Z</published>
+    <updated>2025-08-07T05:57:13.069Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;こんにちは、Japan Developer Support Core チームの上原です。&lt;br&gt;.NET Framework 4.x (.NET Framework 4 以降のバージョン) に関する互換性について解説させていただきます。&lt;br&gt;なお、.NET</summary>
+        
+      
+    
+    
+    
+    
+    <category term=".NET" scheme="https://jpdscore.github.io/blog/tags/NET/"/>
+    
+    <category term=".NET Framework" scheme="https://jpdscore.github.io/blog/tags/NET-Framework/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Visual Studio オフライン インストール時の署名検証エラーについて</title>
     <link href="https://jpdscore.github.io/blog/vs/vs-offline-install-certificate-error/"/>
     <id>https://jpdscore.github.io/blog/vs/vs-offline-install-certificate-error/</id>
     <published>2025-07-28T15:00:00.000Z</published>
-    <updated>2025-07-29T02:11:14.975Z</updated>
+    <updated>2025-08-07T05:57:13.080Z</updated>
     
     
       
@@ -44,7 +69,7 @@
     <link href="https://jpdscore.github.io/blog/playfab/dau-limit-exceeded/"/>
     <id>https://jpdscore.github.io/blog/playfab/dau-limit-exceeded/</id>
     <published>2025-07-23T15:00:00.000Z</published>
-    <updated>2025-07-29T02:11:14.968Z</updated>
+    <updated>2025-08-07T05:57:13.070Z</updated>
     
     
       
@@ -68,7 +93,7 @@
     <link href="https://jpdscore.github.io/blog/vs/vs2022-offline-install/"/>
     <id>https://jpdscore.github.io/blog/vs/vs2022-offline-install/</id>
     <published>2025-07-15T15:00:00.000Z</published>
-    <updated>2025-07-29T02:11:14.976Z</updated>
+    <updated>2025-08-07T05:57:13.080Z</updated>
     
     
       
@@ -92,7 +117,7 @@
     <link href="https://jpdscore.github.io/blog/vs/create-a-simple-app-with-ghcopilot/"/>
     <id>https://jpdscore.github.io/blog/vs/create-a-simple-app-with-ghcopilot/</id>
     <published>2025-07-13T15:00:00.000Z</published>
-    <updated>2025-07-29T02:11:14.968Z</updated>
+    <updated>2025-08-07T05:57:13.071Z</updated>
     
     
       
@@ -117,7 +142,7 @@
     <link href="https://jpdscore.github.io/blog/dotnet/memoryleak-using-sta-thread/"/>
     <id>https://jpdscore.github.io/blog/dotnet/memoryleak-using-sta-thread/</id>
     <published>2025-07-03T15:00:00.000Z</published>
-    <updated>2025-07-29T02:11:14.966Z</updated>
+    <updated>2025-08-07T05:57:13.069Z</updated>
     
     
       
@@ -142,7 +167,7 @@
     <link href="https://jpdscore.github.io/blog/vs/troubleshooting-application-error-with-ghcopilot/"/>
     <id>https://jpdscore.github.io/blog/vs/troubleshooting-application-error-with-ghcopilot/</id>
     <published>2025-07-03T15:00:00.000Z</published>
-    <updated>2025-07-29T02:11:14.972Z</updated>
+    <updated>2025-08-07T05:57:13.076Z</updated>
     
     
       
@@ -170,7 +195,7 @@
     <link href="https://jpdscore.github.io/blog/vs/vc-silent-install/"/>
     <id>https://jpdscore.github.io/blog/vs/vc-silent-install/</id>
     <published>2025-07-01T15:00:00.000Z</published>
-    <updated>2025-07-29T02:11:14.975Z</updated>
+    <updated>2025-08-07T05:57:13.080Z</updated>
     
     
       
@@ -195,7 +220,7 @@
     <link href="https://jpdscore.github.io/blog/dotnet/netfx-how-to-repair/"/>
     <id>https://jpdscore.github.io/blog/dotnet/netfx-how-to-repair/</id>
     <published>2025-06-26T15:00:00.000Z</published>
-    <updated>2025-07-29T02:11:14.966Z</updated>
+    <updated>2025-08-07T05:57:13.069Z</updated>
     
     
       
@@ -221,7 +246,7 @@
     <link href="https://jpdscore.github.io/blog/windowssdk/mouse-ops-on-windows-forms-with-activex/"/>
     <id>https://jpdscore.github.io/blog/windowssdk/mouse-ops-on-windows-forms-with-activex/</id>
     <published>2024-08-02T08:03:08.000Z</published>
-    <updated>2025-07-29T02:11:14.978Z</updated>
+    <updated>2025-08-07T05:57:13.082Z</updated>
     
     
       
@@ -247,7 +272,7 @@
     <link href="https://jpdscore.github.io/blog/azuredevops/wif-service-connection/"/>
     <id>https://jpdscore.github.io/blog/azuredevops/wif-service-connection/</id>
     <published>2024-06-22T14:47:30.000Z</published>
-    <updated>2025-07-29T02:11:14.945Z</updated>
+    <updated>2025-08-07T05:57:13.049Z</updated>
     
     
       
@@ -273,7 +298,7 @@
     <link href="https://jpdscore.github.io/blog/azuredevops/service-connection-update/"/>
     <id>https://jpdscore.github.io/blog/azuredevops/service-connection-update/</id>
     <published>2024-06-04T05:25:32.000Z</published>
-    <updated>2025-07-29T02:11:14.924Z</updated>
+    <updated>2025-08-07T05:57:13.029Z</updated>
     
     
       
@@ -299,7 +324,7 @@
     <link href="https://jpdscore.github.io/blog/azuredevops/pipelines-agent-update/"/>
     <id>https://jpdscore.github.io/blog/azuredevops/pipelines-agent-update/</id>
     <published>2024-04-01T00:59:40.000Z</published>
-    <updated>2025-07-29T02:11:14.919Z</updated>
+    <updated>2025-08-07T05:57:13.023Z</updated>
     
     
       
@@ -326,7 +351,7 @@
     <link href="https://jpdscore.github.io/blog/azuredevops/tfs-basic-log-collection/"/>
     <id>https://jpdscore.github.io/blog/azuredevops/tfs-basic-log-collection/</id>
     <published>2024-03-03T15:00:00.000Z</published>
-    <updated>2025-07-29T02:11:14.930Z</updated>
+    <updated>2025-08-07T05:57:13.034Z</updated>
     
     
       
@@ -356,7 +381,7 @@
     <link href="https://jpdscore.github.io/blog/windowssdk/wuaapi-install-later/"/>
     <id>https://jpdscore.github.io/blog/windowssdk/wuaapi-install-later/</id>
     <published>2023-09-07T15:00:00.000Z</published>
-    <updated>2025-07-29T02:11:14.979Z</updated>
+    <updated>2025-08-07T05:57:13.083Z</updated>
     
     
       
@@ -382,7 +407,7 @@
     <link href="https://jpdscore.github.io/blog/devtestlabs/auto-shutdown-permission/"/>
     <id>https://jpdscore.github.io/blog/devtestlabs/auto-shutdown-permission/</id>
     <published>2023-06-06T05:07:09.000Z</published>
-    <updated>2025-07-29T02:11:14.960Z</updated>
+    <updated>2025-08-07T05:57:13.063Z</updated>
     
     
       
@@ -405,7 +430,7 @@
     <link href="https://jpdscore.github.io/blog/azuredevops/signin-401-403-tsg/"/>
     <id>https://jpdscore.github.io/blog/azuredevops/signin-401-403-tsg/</id>
     <published>2023-03-21T15:00:00.000Z</published>
-    <updated>2025-07-29T02:11:14.930Z</updated>
+    <updated>2025-08-07T05:57:13.033Z</updated>
     
     
       
@@ -431,7 +456,7 @@
     <link href="https://jpdscore.github.io/blog/windowssdk/printer-temporarily-appears-when-use-addprinter-function/"/>
     <id>https://jpdscore.github.io/blog/windowssdk/printer-temporarily-appears-when-use-addprinter-function/</id>
     <published>2023-02-26T15:00:00.000Z</published>
-    <updated>2025-07-29T02:11:14.979Z</updated>
+    <updated>2025-08-07T05:57:13.083Z</updated>
     
     
       
@@ -457,7 +482,7 @@
     <link href="https://jpdscore.github.io/blog/playfab/order-of-leaderboard-positions/"/>
     <id>https://jpdscore.github.io/blog/playfab/order-of-leaderboard-positions/</id>
     <published>2023-02-06T17:28:00.000Z</published>
-    <updated>2025-07-29T02:11:14.968Z</updated>
+    <updated>2025-08-07T05:57:13.071Z</updated>
     
     
       
@@ -480,7 +505,7 @@
     <link href="https://jpdscore.github.io/blog/azuredevops/migrate-sp-to-mi/"/>
     <id>https://jpdscore.github.io/blog/azuredevops/migrate-sp-to-mi/</id>
     <published>2022-12-11T15:00:00.000Z</published>
-    <updated>2025-07-29T02:11:14.915Z</updated>
+    <updated>2025-08-07T05:57:13.019Z</updated>
     
     
       
@@ -500,31 +525,6 @@
     <category term="Azure DevOps Services" scheme="https://jpdscore.github.io/blog/tags/Azure-DevOps-Services/"/>
     
     <category term="Azure Pipelines" scheme="https://jpdscore.github.io/blog/tags/Azure-Pipelines/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>.NET Framework 4.x のアップグレード及びダウングレード</title>
-    <link href="https://jpdscore.github.io/blog/dotnet/ndp-upgrade-and-downgrade/"/>
-    <id>https://jpdscore.github.io/blog/dotnet/ndp-upgrade-and-downgrade/</id>
-    <published>2022-11-02T09:00:00.000Z</published>
-    <updated>2025-07-29T02:11:14.966Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;こんにちは、Japan Developer Support Core チームの近澤です。&lt;br&gt;.NET Framework 4 以降のバージョンでは、以前 &lt;a</summary>
-        
-      
-    
-    
-    
-    
-    <category term=".NET" scheme="https://jpdscore.github.io/blog/tags/NET/"/>
-    
-    <category term=".NET Framework" scheme="https://jpdscore.github.io/blog/tags/NET-Framework/"/>
     
   </entry>
   
