@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>C# でダンプ ファイル解析を行う MCP サーバーを作成する | JPDSC Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="こんにちは、Japan Developer Support Core チームの松井です。今回は、C# を使用して MCP (Model Context Protocol) サーバーを作成する方法について紹介します。公式ドキュメントにもチュートリアルがあるものの、最小限の内容ですので実用性が分かりづら">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C# でダンプ ファイル解析を行う MCP サーバーを作成する">
+<meta property="og:url" content="https://jpdscore.github.io/blog/debugging/mcp-server-for-dbgeng/index.html">
+<meta property="og:site_name" content="Japan Developer Support Core Team Blog">
+<meta property="og:description" content="こんにちは、Japan Developer Support Core チームの松井です。今回は、C# を使用して MCP (Model Context Protocol) サーバーを作成する方法について紹介します。公式ドキュメントにもチュートリアルがあるものの、最小限の内容ですので実用性が分かりづら">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:image" content="https://jpdscore.github.io/blog/debugging/mcp-server-for-dbgeng/project-configuration.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/debugging/mcp-server-for-dbgeng/add-nuget-packages1.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/debugging/mcp-server-for-dbgeng/add-nuget-packages2.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/debugging/mcp-server-for-dbgeng/checkpoint1.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/debugging/mcp-server-for-dbgeng/test-in-vs1.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/debugging/mcp-server-for-dbgeng/test-in-vs2.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/debugging/mcp-server-for-dbgeng/test-in-vs3.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/debugging/mcp-server-for-dbgeng/test-in-vs4.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/debugging/mcp-server-for-dbgeng/test-in-vscode1.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/debugging/mcp-server-for-dbgeng/test-in-vscode2.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/debugging/mcp-server-for-dbgeng/test-in-vscode3.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/debugging/mcp-server-for-dbgeng/test-in-vscode4.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/debugging/mcp-server-for-dbgeng/debug-mcp-server1.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/debugging/mcp-server-for-dbgeng/debug-mcp-server2.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/debugging/mcp-server-for-dbgeng/debug-mcp-server3.png">
+<meta property="article:published_time" content="2025-08-17T15:00:00.000Z">
+<meta property="article:modified_time" content="2025-08-18T08:53:48.460Z">
+<meta property="article:author" content="Developer Support Core Japan">
+<meta property="article:tag" content="Debug">
+<meta property="article:tag" content="AI">
+<meta property="article:tag" content=".NET">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jpdscore.github.io/blog/debugging/mcp-server-for-dbgeng/project-configuration.png">
+  
+    <link rel="alternate" href="../../blog/atom.xml" title="Japan Developer Support Core Team Blog" type="application/atom+xml">
+  
+
+  <link rel="icon" href="../../favicon.ico">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="theme-color" content="#ffffff">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="../../css/style.css">
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="site-header-logo"></div>
+  <div id="site-header-blog-wrapper"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        <div id="ms-logo"></div>
+        
+          <a class="main-nav-link" href="../../index.html">Home</a>
+        
+          <a class="main-nav-link" href="../../archives">Archives</a>
+        
+        <a class="main-nav-link" target="_blank" rel="noopener" href="https://cssjpn.github.io/">サポート情報</a>
+        <a class="main-nav-link" href="/blog/general/welcome/">About</a>
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="../../blog/atom.xml" title="RSSフィード"></a>
+        
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//www.bing.com/search" method="get" accept-charset="UTF-8" name="bing-search" onsubmit="var f=this;if(f['q'].value){var searchUrl =  'https://www.bing.com/search?q=' +  encodeURIComponent(f['q'].value + ' site:' + f['sitesearch'].value) ;window.open(searchUrl, 'blank') };return false;" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="検索"><button type="submit" id="nav-search-btn" class="search-form-submit"></button><input type="hidden" name="sitesearch" value="https://jpdscore.github.io/blog"></form>
+      </div>
+    </div>
+    <div id="header-title" class="inner">
+      <div id="logo-wrap">
+        <a href="../../index.html" id="logo">Japan Developer Support Core Team Blog</a>
+      </div>
+      
+        <div id="subtitle-wrap">
+          <a href="../../index.html" id="subtitle">日本マイクロソフトの Japan Developer Support Core チームのブログです。</a>
+        </div>
+      
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-debugging/mcp-server-for-dbgeng" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header-single">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      C# でダンプ ファイル解析を行う MCP サーバーを作成する
+    </h1>
+  
+
+      </header>
+      <div class="article-share">
+        Last Update: 
+        <a href="" class="article-date-single">
+  <time datetime="2025-08-17T15:00:00.000Z" itemprop="datePublished">2025-08-18</time>
+</a>
+        
+        
+        <a href="https://github.com/jpdscore/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+2946aab9-0281-5cf2-acc4-166580992688%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5BC%23+%E3%81%A7%E3%83%80%E3%83%B3%E3%83%97+%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E8%A7%A3%E6%9E%90%E3%82%92%E8%A1%8C%E3%81%86+MCP+%E3%82%B5%E3%83%BC%E3%83%90%E3%83%BC%E3%82%92%E4%BD%9C%E6%88%90%E3%81%99%E3%82%8B%5D%28https%3A%2F%2Fjpdscore.github.io%2Fblog%2Fdebugging%2Fmcp-server-for-dbgeng%2F%29" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
+        
+        <a data-url="https://jpdscore.github.io/blog/debugging/mcp-server-for-dbgeng/" data-id="cmegvoj25001kjt89dplcfvbw" class="article-share-link">共有</a>
+      </div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>こんにちは、Japan Developer Support Core チームの松井です。今回は、C# を使用して MCP (Model Context Protocol) サーバーを作成する方法について紹介します。公式ドキュメントにもチュートリアルがあるものの、最小限の内容ですので実用性が分かりづらいかもしれません。本記事では、WinDbg などが使用するデバッガー エンジンを扱う MCP サーバーを Visual Studio 2022 + C# で作成し、AI エージェントにクラッシュ ダンプ ファイルを解析させるまでの流れを紹介します。</p>
+<p>なお、Visual Studio 2022 の MCP サーバー関連の機能は本記事執筆時点ではプレビュー機能となっていますので、将来のバージョンで変更される可能性があります。</p>
+<h2 id="MCP-サーバーとは"><a href="#MCP-サーバーとは" class="headerlink" title="MCP サーバーとは"></a>MCP サーバーとは</h2><p>MCP サーバーは、Model Context Protocol (MCP) に準拠した AI エージェント用のサーバーで、AI が外部のツールやデータソースなどのリソースと安全かつ柔軟に連携できるようにするための仕組みです。AI は自然言語で質問に答えることは得意ですが、実際にファイルを操作したり、API を呼び出したり、システムにアクセスしたりすることはできません。そこで MCP サーバーが AI の手足となり、AI が現実の操作を実行するためのインターフェイスを提供します。アーキテクチャの詳細は以下のページをあわせてご覧ください。</p>
+<p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/dotnet/ai/get-started-mcp">MCP 用 C# SDK</a></p>
+<h2 id="MCP-サーバーの実装方法"><a href="#MCP-サーバーの実装方法" class="headerlink" title="MCP サーバーの実装方法"></a>MCP サーバーの実装方法</h2><p>MCP は JSON-RPC 2.0 をベースにしたプロトコルです。一から MCP サーバーを実装するのは大変ですが、様々な言語向けにライブラリが提供されていますので、それらを利用することで比較的簡単に MCP サーバーを構築できます。プレビュー版となりますが、C# 向けには <a target="_blank" rel="noopener" href="https://github.com/modelcontextprotocol/csharp-sdk">Model Context Protocol C# SDK</a> が提供されており、これを使用することで MCP サーバーを簡単に作成できます。また、Model Context Protocol C# SDK を使用するためのチュートリアルは以下のページにあります。</p>
+<p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/dotnet/ai/quickstarts/build-mcp-server">C# を使用して最小限の MCP サーバーを作成し、NuGet に発行する</a></p>
+<h2 id="MCP-サーバーの実装例"><a href="#MCP-サーバーの実装例" class="headerlink" title="MCP サーバーの実装例"></a>MCP サーバーの実装例</h2><h3 id="前提条件"><a href="#前提条件" class="headerlink" title="前提条件"></a>前提条件</h3><ul>
+<li>.NET 8</li>
+<li>Visual Studio 2022 version 17.14.12 以降</li>
+<li>Visual Studio Code version 1.103.1 以降 (任意)</li>
+<li>GitHub Copilot Chat</li>
+</ul>
+<h3 id="1-プロジェクトの作成と設定"><a href="#1-プロジェクトの作成と設定" class="headerlink" title="1. プロジェクトの作成と設定"></a>1. プロジェクトの作成と設定</h3><p>まずは MCP サーバーのプロジェクトを作成します。今回 MCP サーバーはコンソール アプリケーションとして実装しますが、WPF アプリケーションや ASP.NET Core アプリケーションなど、他のアプリケーション タイプでも MCP サーバーを実装できます。以下の手順ではコンソール アプリケーションを作成します。</p>
+<ol>
+<li><p>Visual Studio 2022 を起動します。</p>
+</li>
+<li><p>[ファイル] - [新規作成] - [プロジェクト] を選択します。</p>
+</li>
+<li><p>プロジェクトの種類で C# の [コンソール アプリ] を選択します。[コンソール アプリ (.NET Framework)] は違う種類ですので注意してください。名前は任意で構いませんが、本記事では “McpServerForDbgEng” とします。フレームワークのバージョンは [.NET 8] またはそれ以降のバージョンを指定します。</p>
+</li>
+<li><p>プロジェクトを作成したら、ソリューション エクスプローラーでプロジェクトを右クリックし、[プロパティ] を選択し、[ターゲット OS] を [Windows]、[サポートされている OS バージョン] を [10.0.17763.0] またはそれ以降のバージョンに変更します。この設定は MCP サーバーを実装するだけであれば不要ですが、デバッガー エンジンのライブラリを参照するために必要になります。</p>
+<p><img src="project-configuration.png" alt="プロジェクトの設定"></p>
+</li>
+<li><p>ソリューション エクスプローラーでプロジェクトをダブルクリックし、エディターでプロジェクト ファイルを開いて <code>&lt;UseWindowsForms&gt;true&lt;/UseWindowsForms&gt;</code> を追加します。これは MCP サーバーの実装に必要な設定ではありませんが、今回はデバッガー エンジンの利用を簡潔に済ませるために利用します。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">Project</span> <span class="attr">Sdk</span>=<span class="string">&quot;Microsoft.NET.Sdk&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">PropertyGroup</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">OutputType</span>&gt;</span>Exe<span class="tag">&lt;/<span class="name">OutputType</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">TargetFramework</span>&gt;</span>net8.0-windows10.0.17763.0<span class="tag">&lt;/<span class="name">TargetFramework</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">ImplicitUsings</span>&gt;</span>enable<span class="tag">&lt;/<span class="name">ImplicitUsings</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">Nullable</span>&gt;</span>enable<span class="tag">&lt;/<span class="name">Nullable</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">UseWindowsForms</span>&gt;</span>true<span class="tag">&lt;/<span class="name">UseWindowsForms</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">PropertyGroup</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">Project</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h3 id="2-NuGet-パッケージの追加"><a href="#2-NuGet-パッケージの追加" class="headerlink" title="2. NuGet パッケージの追加"></a>2. NuGet パッケージの追加</h3><p>NuGet パッケージ マネージャーを使用して、MCP サーバーの実装に必要なパッケージを追加します。</p>
+<ol>
+<li><p>[ソリューション エクスプローラー] でプロジェクトを右クリックし、[NuGet パッケージの管理] を選択します。</p>
+</li>
+<li><p>[参照] タブで [ModelContextProtocol] を検索し、[ModelContextProtocol] パッケージをインストールします。検索で表示されない場合は、[NuGet.org] ソースが選択されていること、および[プレリリースを含める] のオプションが有効になっていることを確認してください。</p>
+<p><img src="add-nuget-packages1.png" alt="ModelContextProtocol パッケージの追加"></p>
+</li>
+<li><p>同様に、[Microsoft.Debugging.Platform.DbgX] を検索し、[Microsoft.Debugging.Platform.DbgX] パッケージをインストールします。今回はバージョン [20250225.2.0] を選択します。(20250415.1.0 や 20250612.2.0 は、本記事執筆事前では依存関係のパッケージが公開されていないため、プロジェクトがビルドできない可能性があります。)</p>
+<p><img src="add-nuget-packages2.png" alt="Microsoft.Debugging.Platform.DbgX パッケージの追加"></p>
+</li>
+<li><p>最後に、[Microsoft.Extensions.Hosting] を検索して [Microsoft.Extensions.Hosting] パッケージをインストールします。こちらのバージョンは最新の安定版で構いません。</p>
+</li>
+</ol>
+<p>ここまで完了したら、プロジェクトは下図のようになっているはずです。<br><img src="checkpoint1.png" alt="プロジェクトの状態"></p>
+<h3 id="3-コーディング"><a href="#3-コーディング" class="headerlink" title="3. コーディング"></a>3. コーディング</h3><p>次に、MCP サーバーの実装を行います。以下のコードを <code>Program.cs</code> ファイルに追加します。Microsoft.Debugging.Platform.DbgX パッケージの詳細については詳しく言及しませんが、端的に言えば WinDbg などが使用するデバッガー エンジンを C# から利用するためのライブラリです。本記事ではダンプ ファイルを開いてデバッガー コマンドを実行するために使用していますが、実行中のプロセスにアタッチすることも可能です。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> DbgX;</span><br><span class="line"><span class="keyword">using</span> DbgX.Interfaces.Services;</span><br><span class="line"><span class="keyword">using</span> DbgX.Interfaces.Services.Internal;</span><br><span class="line"><span class="keyword">using</span> DbgX.Requests;</span><br><span class="line"><span class="keyword">using</span> DbgX.Requests.Initialization;</span><br><span class="line"><span class="keyword">using</span> Microsoft.Extensions.DependencyInjection;</span><br><span class="line"><span class="keyword">using</span> Microsoft.Extensions.Hosting;</span><br><span class="line"><span class="keyword">using</span> Microsoft.Extensions.Logging;</span><br><span class="line"><span class="keyword">using</span> ModelContextProtocol.Server;</span><br><span class="line"><span class="keyword">using</span> System.Collections.Concurrent;</span><br><span class="line"><span class="keyword">using</span> System.ComponentModel;</span><br><span class="line"><span class="keyword">using</span> System.Diagnostics;</span><br><span class="line"><span class="keyword">using</span> System.Text;</span><br><span class="line"></span><br><span class="line"><span class="comment">// MCP server tools in this example return results in the form of a record.</span></span><br><span class="line"><span class="comment">// Explicitly specify IncludeFields = true so that the fields of the tuple are serialized.</span></span><br><span class="line"><span class="keyword">var</span> options = <span class="keyword">new</span> System.Text.Json.JsonSerializerOptions &#123; IncludeFields = <span class="literal">true</span> &#125;;</span><br><span class="line">options.MakeReadOnly(<span class="literal">true</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> builder = Host.CreateApplicationBuilder(<span class="keyword">args</span>);</span><br><span class="line">builder.Logging.AddConsole(o =&gt; o.LogToStandardErrorThreshold = LogLevel.Trace);</span><br><span class="line">builder.Services</span><br><span class="line">    .AddLogging()</span><br><span class="line">    .AddMcpServer()</span><br><span class="line">    .WithStdioServerTransport()</span><br><span class="line">    .WithTools&lt;DbgEngTools&gt;(options);</span><br><span class="line">_ = builder.Build().RunAsync().ContinueWith(t =&gt; DbgEngTools.Shutdown());</span><br><span class="line"></span><br><span class="line">Application.Run(DbgEngTools.CreateContext());</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title">DbgEngTools</span>(<span class="title">ILogger</span>&lt;<span class="title">DbgEngTools</span>&gt; _<span class="title">logger</span>)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// Invoker control to run debugger engine in the main thread.</span></span><br><span class="line">    <span class="comment">// This is necessary because MCP server tools methods run in thread pool threads.</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">readonly</span> Control _invoker = <span class="keyword">new</span>();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ApplicationContext <span class="title">CreateContext</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        _invoker.CreateControl();</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ApplicationContext();              </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Shutdown</span>()</span> =&gt; _invoker.Invoke(() =&gt; Application.Exit());</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Dictionary to hold active debug sessions</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">readonly</span> ConcurrentDictionary&lt;<span class="built_in">string</span>, (DebugEngine engine, StringBuilder buffer)&gt; _sessions = <span class="keyword">new</span>();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">record</span> <span class="title">StartDebugSessionResponse</span>(<span class="params"><span class="built_in">string</span> Result, <span class="built_in">string</span> CommandOutput = <span class="string">&quot;&quot;</span>, <span class="built_in">string</span> SessionId = <span class="string">&quot;&quot;</span></span>)</span>;</span><br><span class="line"></span><br><span class="line">    [<span class="meta">McpServerTool</span>]</span><br><span class="line">    [<span class="meta">Description(<span class="string">&quot;Start debug session from a specified dump file.&quot;</span>)</span>]</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">async</span> Task&lt;StartDebugSessionResponse&gt; <span class="title">StartDebugSessionFromDumpFile</span>(<span class="params"></span></span></span><br><span class="line"><span class="params"><span class="function">        [Description(<span class="string">&quot;Full path to a dump file.&quot;</span></span>)] <span class="built_in">string</span> dumpFilePath</span></span><br><span class="line"><span class="function">    )</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">await</span> _invoker.Invoke(<span class="keyword">async</span> () =&gt;</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">try</span></span><br><span class="line">            &#123;</span><br><span class="line">                DebugEngine engine = <span class="keyword">new</span>();</span><br><span class="line">                StringBuilder buffer = <span class="keyword">new</span>();</span><br><span class="line">                engine.DmlOutput += (sender, e) =&gt; buffer.AppendLine(e.Output);</span><br><span class="line"></span><br><span class="line">                <span class="keyword">await</span> engine.SendRequestAsync(<span class="keyword">new</span> OpenDumpFileRequest(dumpFilePath, <span class="keyword">new</span> EngineOptions()));</span><br><span class="line">                <span class="keyword">await</span> engine.SendRequestAsync(<span class="keyword">new</span> ExecuteRequest(<span class="string">&quot;.prefer_dml 1&quot;</span>));</span><br><span class="line">                <span class="keyword">var</span> sessionId = Guid.NewGuid().ToString();</span><br><span class="line">                _sessions[sessionId] = (engine, buffer);</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> StartDebugSessionResponse(<span class="string">$&quot;Debug session has been started from &#x27;<span class="subst">&#123;dumpFilePath&#125;</span>&#x27;.&quot;</span>, buffer.ToString(), sessionId);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">catch</span> (Exception ex)</span><br><span class="line">            &#123;</span><br><span class="line">                _logger.LogError(<span class="string">&quot;&#123;Message&#125;&quot;</span>, ex);</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> StartDebugSessionResponse(<span class="string">$&quot;Failed to open &#x27;<span class="subst">&#123;dumpFilePath&#125;</span>&#x27;: <span class="subst">&#123;ex.Message&#125;</span>&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">record</span> <span class="title">ExecuteCommandResponse</span>(<span class="params"><span class="built_in">string</span> Result, <span class="built_in">string</span> CommandOutput = <span class="string">&quot;&quot;</span></span>)</span>;</span><br><span class="line"></span><br><span class="line">    [<span class="meta">McpServerTool</span>]</span><br><span class="line">    [<span class="meta">Description(<span class="string">&quot;Execute a debugger command in the specified session and return the output of the executed command.&quot;</span>)</span>]</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">async</span> Task&lt;ExecuteCommandResponse&gt; <span class="title">ExecuteCommand</span>(<span class="params"></span></span></span><br><span class="line"><span class="params"><span class="function">        [Description(<span class="string">&quot;Debug session ID&quot;</span></span>)] <span class="built_in">string</span> sessionId,</span></span><br><span class="line"><span class="function">        [<span class="title">Description</span>(<span class="params"><span class="string">&quot;Debugger command to execute&quot;</span></span>)] <span class="built_in">string</span> commandInput</span></span><br><span class="line"><span class="function">    )</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">await</span> _invoker.Invoke(<span class="keyword">async</span> () =&gt;</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">try</span></span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">var</span> (engine, buffer) = _sessions[sessionId];</span><br><span class="line">                buffer.Clear();</span><br><span class="line">                <span class="keyword">await</span> engine.SendRequestAsync(<span class="keyword">new</span> ExecuteRequest(commandInput));</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> ExecuteCommandResponse(<span class="string">$&quot;Command &#x27;<span class="subst">&#123;commandInput&#125;</span>&#x27; has been executed.&quot;</span>, buffer.ToString());</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">catch</span> (Exception ex)</span><br><span class="line">            &#123;</span><br><span class="line">                _logger.LogError(<span class="string">&quot;&#123;Message&#125;&quot;</span>, ex);</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> ExecuteCommandResponse(<span class="string">$&quot;Failed to execute command &#x27;<span class="subst">&#123;commandInput&#125;</span>&#x27;: <span class="subst">&#123;ex.Message&#125;</span>&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    [<span class="meta">McpServerTool</span>]</span><br><span class="line">    [<span class="meta">Description(<span class="string">&quot;End the specified session.&quot;</span>)</span>]</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">async</span> Task&lt;<span class="built_in">string</span>&gt; <span class="title">ExitDebugSession</span>(<span class="params"></span></span></span><br><span class="line"><span class="params"><span class="function">        [Description(<span class="string">&quot;Debug session ID&quot;</span></span>)] <span class="built_in">string</span> sessionId</span></span><br><span class="line"><span class="function">    )</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">await</span> _invoker.Invoke(<span class="keyword">async</span> () =&gt;</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">try</span></span><br><span class="line">            &#123;</span><br><span class="line">                _sessions.TryRemove(sessionId, <span class="keyword">out</span> <span class="keyword">var</span> session);</span><br><span class="line">                <span class="keyword">if</span> (session.engine <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">null</span>)</span><br><span class="line">                    <span class="keyword">await</span> session.engine.ShutdownAsync();</span><br><span class="line">                <span class="keyword">return</span> <span class="string">&quot;Debug session has been ended.&quot;</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">catch</span> (Exception ex)</span><br><span class="line">            &#123;</span><br><span class="line">                _logger.LogError(<span class="string">&quot;&#123;Message&#125;&quot;</span>, ex);</span><br><span class="line">                <span class="keyword">return</span> <span class="string">$&quot;Failed to end debug session: <span class="subst">&#123;ex.Message&#125;</span>&quot;</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>ソースコードは 100 行以上になりますが、概ね以下のような構成になっています。</p>
+<ul>
+<li>20-27L: MCP サーバーの構成と起動処理</li>
+<li>29L: デバッガー エンジンの同期のためのメッセージループの開始</li>
+<li>48-76L: MCP サーバーのツールの実装 (デバッグ セッションの開始)</li>
+<li>78-102L: MCP サーバーのツールの実装 (デバッグ コマンドの実行)</li>
+<li>104-126L: MCP サーバーのツールの実装 (デバッグ セッションの終了)</li>
+</ul>
+<p>なお、今回はサンプルとして細かなエラー処理やログ出力などを省略していますが、実際の実装では適切なエラー処理やログ出力を行うことをお勧めします。また、セキュリティの観点から入力の検証やサニタイズも行う必要があります。例えば、デバッガー エンジンは外部プログラムの実行や拡張機能の読み込みなど非常に多くのタスクを実行することができるため、利用できるコマンドを制限するなどの十分なセキュリティ対策が必要です。</p>
+<h3 id="4-テスト"><a href="#4-テスト" class="headerlink" title="4. テスト"></a>4. テスト</h3><h4 id="事前準備"><a href="#事前準備" class="headerlink" title="事前準備"></a><u>事前準備</u></h4><p>ビルドしたら、MCP サーバーを実行してみましょう。MCP サーバーの動作を確認する方法は様々ありますが、本記事では Visual Studio と Visual Studio Code の GitHub Copilot Chat から MCP サーバーに接続して動作確認してみます。Visual Studio や Visual Studio Code は、いくつかのファイル パスに MCP サーバーの構成ファイルを探しに行きます。今回は、プロジェクト ファイルと同じ階層に “.vscode” フォルダーを作成し、その配下に 以下のような内容の <code>mcp.json</code> ファイルを作成します。”command” プロパティはビルドした実行可能ファイルの完全パスに置き換えてください。定義済みの変数を使用することもできますが、使用するツールによって解釈が異なりますのでここでは完全パスを指定しています。今回 “inputs” プロパティは使用しませんが、”inputs” プロパティを省略した場合 Visual Studio 2022 のバージョンによっては MCP サーバーを検出できなくなるため注意してください。</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;inputs&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;servers&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;DbgEng&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;stdio&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;command&quot;</span><span class="punctuation">:</span> <span class="string">&quot;C:\\source\\repos\\McpServerForDbgEng\\McpServerForDbgEng\\bin\\Debug\\net8.0-windows10.0.17763.0\\McpServerForDbgEng.exe&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>次に、テストに使用するダンプ ファイルを生成するための設定を行います。今回は Windows Error Reporting (WER) を使用してクラッシュ ダンプ ファイルを取得します。以下のテキストをコピーして localdumps.reg のファイル名で保存し、インポートしてください。これにより、クラッシュ ダンプ ファイルが C:\Logs フォルダーに保存されるようになります。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Windows Registry Editor Version 5.00</span><br><span class="line"></span><br><span class="line">[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\Windows Error Reporting\LocalDumps]</span><br><span class="line">“DumpType”=dword:00000002</span><br><span class="line">“DumpFolder”=hex(2):43,00,3a,00,5c,00,4c,00,6f,00,67,00,73,00,00,00</span><br><span class="line">“DumpCount”=dword:0000000a</span><br></pre></td></tr></table></figure>
+
+<p>最後に以下のような C++ コードをコンパイルして実行し、クラッシュ ダンプ ファイルを生成します。このコードは意図的にヒープのバッファ オーバーフローを引き起こすものです。今回は x64|Debug の構成でビルドします。このとき、exe ファイルと一緒に出力されるシンボル ファイル (*.pdb ファイル) はデバッグで必要となりますので、削除しないでください。シンボル ファイルがないと、ダンプ ファイルの解析時にソース コードの行番号などの情報が得られません。(参考情報: <a href="/debugging/understanding-symbol-files-and-visual-studios-symbol-settings/">シンボル ファイルと Visual Studio のシンボル設定を理解する</a>)</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> _CRT_SECURE_NO_WARNINGS</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"></span><br><span class="line">__declspec(noinline)</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">foo</span><span class="params">(<span class="type">char</span>* buffer)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">strcpy</span>(buffer, <span class="string">&quot;This is a long long long long long long long long long long long text.&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">char</span>* buffer = <span class="keyword">new</span> <span class="type">char</span>[<span class="number">8</span>];</span><br><span class="line">    <span class="built_in">foo</span>(buffer);</span><br><span class="line">    <span class="keyword">delete</span>[] buffer;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>実行したらアプリケーションがクラッシュし、C:\Logs フォルダーにクラッシュ ダンプ ファイルが生成されているはずです。</p>
+<h4 id="Visual-Studio-を使用して-MCP-サーバーに接続する"><a href="#Visual-Studio-を使用して-MCP-サーバーに接続する" class="headerlink" title="Visual Studio を使用して MCP サーバーに接続する"></a><u>Visual Studio を使用して MCP サーバーに接続する</u></h4><ol>
+<li><p>Visual Studio 2022 を起動して、MCP サーバーのプロジェクトを開きます。</p>
+</li>
+<li><p>GitHub Copilot Chat を開きます。</p>
+</li>
+<li><p>チャット モードで [エージェント] を選択し、ツールに DbgEng が含まれていることを確認してチェックを入れます。</p>
+<p><img src="test-in-vs1.png" alt="Visual Studio での MCP サーバーの選択"></p>
+<p>もしツールが見つからない場合は、MCP サーバーのプロジェクト ファイルと同じ階層にある “.vscode” フォルダーに <code>mcp.json</code> ファイルが正しく配置されているか確認してください。また、[出力] ウィンドウで出力元を [GitHub Copilot] に変更し、MCP サーバーの読み込みに失敗していないか確認してください。</p>
+<p><img src="test-in-vs2.png" alt="Visual Studio での MCP サーバー読み込みの確認"></p>
+</li>
+<li><p>チャット欄に以下のように入力して、MCP サーバーに接続します。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">C:\logs\xxxxxxxx.dmp を開いて解析し、原因と対処方法について教えてください。</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>AI からの応答を確認してみてください。AI の判断によっては MCP サーバーを使用しない可能性があるため、”DbgEng の MCP サーバーを使用して” など具体的に指示してみてください。MCP サーバーの実行を試行する場合は実行してよいか確認が求められれますので、正しいツールとコマンドを実行しようとしていることを確認してから許可してください。</p>
+<p><img src="test-in-vs3.png" alt="Visual Studio での MCP サーバーの応答"></p>
+</li>
+</ol>
+<p>私の手元で実行した結果は以下のようになりました。</p>
+<p><img src="test-in-vs4.png" alt="Visual Studio での解析結果"></p>
+<figure class="highlight md"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">ダンプファイルの解析結果をまとめます。</span><br><span class="line"></span><br><span class="line"><span class="section">### 解析内容</span></span><br><span class="line"><span class="bullet">-</span> ダンプファイル：<span class="code">`C:\logs\ConsoleApplication1.exe.8052.dmp`</span></span><br><span class="line"><span class="bullet">-</span> 例外コード：<span class="code">`c0000374`</span>（STATUS<span class="emphasis">_HEAP_</span>CORRUPTION、ヒープ破損）</span><br><span class="line"><span class="bullet">-</span> スタックトレースの最上位は <span class="code">`ntdll!RtlpMuiRegCreateRegistryInfo`</span> で、ヒープ操作（<span class="code">`RtlAllocateHeap`</span> など）や <span class="code">`operator delete`</span>、<span class="code">`operator delete[]`</span> が見られます。</span><br><span class="line"><span class="bullet">-</span> アプリケーションの <span class="code">`main`</span> 関数付近でクラッシュしています。</span><br><span class="line"></span><br><span class="line"><span class="section">### 原因</span></span><br><span class="line"><span class="bullet">-</span> ヒープ破損（メモリ破壊）が発生しています。  </span><br><span class="line">  これは二重解放、バッファオーバーフロー、解放済みメモリへのアクセスなどが原因で発生します。</span><br><span class="line"></span><br><span class="line"><span class="section">### 対処方法</span></span><br><span class="line"><span class="bullet">1.</span> <span class="strong">**メモリ操作の見直し**</span>  </span><br><span class="line"><span class="bullet">   -</span> <span class="code">`delete`</span> や <span class="code">`delete[]`</span> の重複呼び出しがないか確認してください。</span><br><span class="line"><span class="bullet">   -</span> 解放済みメモリへのアクセスや、バッファサイズを超えた書き込みがないか確認してください。</span><br><span class="line"><span class="bullet">2.</span> <span class="strong">**デバッグビルドで実行**</span>  </span><br><span class="line"><span class="bullet">   -</span> Visual Studio等でデバッグビルドし、ヒープチェック機能（CRTのデバッグヒープなど）を有効にして再現させると、問題箇所が特定しやすくなります。</span><br><span class="line"><span class="bullet">3.</span> <span class="strong">**静的解析ツールの利用**</span>  </span><br><span class="line"><span class="bullet">   -</span> C++の場合、AddressSanitizerやVisual Studioの静的解析を利用してください。</span><br><span class="line"></span><br><span class="line"><span class="section">### 備考</span></span><br><span class="line"><span class="bullet">-</span> <span class="code">`!analyze -v`</span> コマンドは利用できませんでした（拡張DLLがロードされていないため）。</span><br><span class="line"><span class="bullet">-</span> 詳細な原因特定には、ソースコードの該当箇所（<span class="code">`main`</span>やメモリ操作部分）の確認が有効です。</span><br><span class="line"></span><br><span class="line">ご不明点や追加で実行したいコマンドがあればご指示ください。</span><br></pre></td></tr></table></figure>
+
+<p>今回、<code>!analyze -v</code> コマンドが利用できなかったことが記載されていますが、これは Microsoft.Debugging.Platform.DbgX パッケージに !analyze 拡張機能を実装した exts.dll などが含まれていないことに起因しています。Debugging Tools for Windows がインストールされている場合は、<code>C:\Program Files (x86)\Windows Kits\10\Debuggers\x64</code> 配下のファイルをビルド出力先の amd64 フォルダーに、<code>C:\source\repos\McpServerForDbgEng\McpServerForDbgEng\bin\Debug\net8.0-windows10.0.17763.0\x86</code> 配下のファイルをビルド出力先の x86 フォルダーにそれぞれコピーすることで、!analyze コマンドを使用できるようになります。拡張機能の利用は必須ではありませんが解析する手段の選択肢が多くなりますので、興味がある方は<a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/windows-hardware/drivers/debugger/debugger-download-tools">公式ドキュメント</a>をご確認いただき入手してください。</p>
+<h4 id="Visual-Studio-Code-を使用して-MCP-サーバーに接続する"><a href="#Visual-Studio-Code-を使用して-MCP-サーバーに接続する" class="headerlink" title="Visual Studio Code を使用して MCP サーバーに接続する"></a><u>Visual Studio Code を使用して MCP サーバーに接続する</u></h4><ol>
+<li><p>Visual Studio Code を起動します。</p>
+</li>
+<li><p>メニューから [ファイル] - [フォルダーを開く] を選択して MCP サーバーのプロジェクト ファイルがあるフォルダーを開きます。</p>
+<p><img src="test-in-vscode1.png" alt="フォルダーを開く"></p>
+</li>
+<li><p>“.vscode\mcp.json” を開くと MCP サーバーの操作のラベルが表示されますので、[起動] をクリックします。[その他] - [出力の表示] を選択すると MCP サーバーの出力が表示されますので、あわせて確認しておくとよいでしょう。</p>
+<p><img src="test-in-vscode2.png" alt="MCP サーバーの起動"></p>
+</li>
+<li><p>GitHub Copilot Chat を開き、チャット モードで [エージェント] を選択してツールに DbgEng が含まれていることを確認します。</p>
+<p><img src="test-in-vscode3.png" alt="ツールの確認"></p>
+</li>
+</ol>
+<ol>
+<li><p>チャット欄に以下のように入力して、MCP サーバーに接続します。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#DbgEng C:\logs\xxxxxxxx.dmp を開いて解析し、原因と対処方法について教えてください。</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>AI からの応答を確認してみてください。MCP サーバーの実行を試行する場合は実行してよいか確認が求められれますので、正しいツールとコマンドを実行しようとしていることを確認してから許可してください。</p>
+<p><img src="test-in-vscode4.png" alt="Visual Studio Code での MCP サーバーの応答"></p>
+</li>
+</ol>
+<p>私の手元で実行した結果は以下のようになりました。なお、選択している AI モデルにも依存する点や、処理の都度 AI が異なる応答を返す可能性がある点に注意してください。期待した応答が得られない場合は、追加のコンテキストや指示を与えることで良い結果が得られる可能性があります。また、Visual Studio Code の場合は入力や出力も確認することができますので、実際にどのようなデバッガー コマンドが実行されたのかを確認することもできます。</p>
+<figure class="highlight md"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line">kemats: #DbgEng C:\logs\ConsoleApplication1.exe.8052.dmp を開いて解析し、原因と対処方法について教えてください。</span><br><span class="line"></span><br><span class="line">GitHub Copilot: ダンプファイルを解析して問題の原因を特定しましょう。まず、指定されたダンプファイルでデバッグセッションを開始します。 ダンプファイルが正常に読み込まれました。例外コード <span class="code">`c0000374`</span> が発生していることがわかります。これは一般的にヒープ破損（Heap Corruption）を示すエラーです。詳細な解析を実行してみましょう。 解析結果から、ヒープ破損（HEAP<span class="emphasis">_CORRUPTION）が発生していることが確認できました。次に、スタックトレースと例外コンテキストをより詳しく確認してみましょう。 優れたスタックトレースが取得できました！問題の根本原因が特定できます。</span></span><br><span class="line"><span class="emphasis"></span></span><br><span class="line"><span class="emphasis">フレーム42（0x2a）で、`ConsoleApplication1!main+0x59` からの `delete[]` 操作でヒープ破損が発生しています。ソースコードの詳細を確認してみましょう。 main関数のアドレスを直接確認してみましょう。 問題の発生地点が特定できました。フレーム42でmain+0x59、つまり `00007ff6\u00609ab31979` で `delete[]` が呼ばれています。ソースコードの行番号も確認できています（15行目）。</span></span><br><span class="line"><span class="emphasis"></span></span><br><span class="line"><span class="emphasis">ヒープ検証を有効にして、さらに詳細な情報を取得してみましょう。 バッファの詳細を確認してみましょう。 プログラムのメモリマップとソースコードに関する追加情報を取得してみましょう。 ここでデバッグセッションを終了して、解析結果をまとめます。 ## ダンプファイル解析結果</span></span><br><span class="line"><span class="emphasis"></span></span><br><span class="line"><span class="emphasis">### 🔍 <span class="strong">**問題の原因**</span></span></span><br><span class="line"><span class="emphasis"></span></span><br><span class="line"><span class="emphasis">ダンプファイルの解析により、<span class="strong">**ヒープ破損（Heap Corruption）**</span>が発生していることが判明しました。</span></span><br><span class="line"><span class="emphasis"></span></span><br><span class="line"><span class="emphasis"><span class="strong">**具体的な詳細：**</span></span></span><br><span class="line"><span class="emphasis">- <span class="strong">**例外コード**</span>: `c0000374` (STATUS_</span>HEAP<span class="emphasis">_CORRUPTION)</span></span><br><span class="line"><span class="emphasis">- <span class="strong">**発生場所**</span>: `ConsoleApplication1.cpp` の15行目</span></span><br><span class="line"><span class="emphasis">- <span class="strong">**実行コンテキスト**</span>: `main()` 関数内で `delete[]` 操作実行中</span></span><br><span class="line"><span class="emphasis">- <span class="strong">**バッファ内容**</span>: `&quot;This is a long long long long long long long long long long long text.&quot;`</span></span><br><span class="line"><span class="emphasis"></span></span><br><span class="line"><span class="emphasis">### 📍 <span class="strong">**ソースコードレベルでの問題特定**</span></span></span><br><span class="line"><span class="emphasis"></span></span><br><span class="line"><span class="emphasis">スタックトレースから、以下の呼び出しシーケンスでエラーが発生：</span></span><br><span class="line"><span class="emphasis"></span></span><br><span class="line"><span class="emphasis">main() (15行目)</span></span><br><span class="line"><span class="emphasis">  ↓</span></span><br><span class="line"><span class="emphasis">operator delete[]</span></span><br><span class="line"><span class="emphasis">  ↓  </span></span><br><span class="line"><span class="emphasis">ucrtbased!free_</span>dbg</span><br><span class="line">  ↓</span><br><span class="line">ntdll!RtlAllocateHeap (ヒープ破損検出)</span><br><span class="line">  ↓</span><br><span class="line">ntdll!RtlReportFatalFailure (致命的エラー報告)</span><br><span class="line"></span><br><span class="line"><span class="section">### 🔧 <span class="strong">**推定される根本原因**</span></span></span><br><span class="line"></span><br><span class="line"><span class="bullet">1.</span> <span class="strong">**バッファオーバーラン**</span>: 配列の境界を超えた書き込み</span><br><span class="line"><span class="bullet">2.</span> <span class="strong">**二重解放**</span>: 同じメモリブロックを複数回 <span class="code">`delete[]`</span> で解放</span><br><span class="line"><span class="bullet">3.</span> <span class="strong">**メモリ破損**</span>: 無効なポインタに対するメモリ操作</span><br><span class="line"><span class="bullet">4.</span> <span class="strong">**不適切なメモリ管理**</span>: <span class="code">`new[]`</span> で確保したメモリを <span class="code">`delete`</span> で解放（<span class="code">`delete[]`</span> ではなく）</span><br><span class="line"></span><br><span class="line"><span class="section">### 💡 <span class="strong">**対処方法**</span></span></span><br><span class="line"></span><br><span class="line"><span class="section">#### <span class="strong">**即座の対策:**</span></span></span><br><span class="line"><span class="bullet">1.</span> <span class="strong">**コードレビュー**</span>: <span class="code">`ConsoleApplication1.cpp`</span> の15行目周辺のメモリ管理を確認</span><br><span class="line"><span class="bullet">2.</span> <span class="strong">**デバッグビルド**</span>: Application Verifierやページヒープを有効にして詳細な診断を実行</span><br><span class="line"><span class="bullet">3.</span> <span class="strong">**静的解析**</span>: コードに対してPREfast/Code Analysisを実行</span><br><span class="line"></span><br><span class="line"><span class="section">#### <span class="strong">**ソースコードでの修正ポイント:**</span></span></span><br><span class="line"></span><br><span class="line">// 問題のあるパターン例:</span><br><span class="line">char* buffer = new char[size];</span><br><span class="line">// ... バッファ操作 ...</span><br><span class="line">delete buffer;  // ❌ 間違い: delete[] を使うべき</span><br><span class="line"></span><br><span class="line">// 正しい修正:</span><br><span class="line">char* buffer = new char[size];</span><br><span class="line">// ... バッファ操作 ...</span><br><span class="line">delete[] buffer;  // ✅ 正しい</span><br><span class="line"></span><br><span class="line">// さらに安全な方法:</span><br><span class="line">std::vector<span class="language-xml"><span class="tag">&lt;<span class="name">char</span>&gt;</span></span> buffer(size);  // 自動的に適切に管理される</span><br><span class="line">// または</span><br><span class="line">std::string buffer;  // 文字列の場合</span><br><span class="line"></span><br><span class="line"><span class="section">#### <span class="strong">**長期的な対策:**</span></span></span><br><span class="line"><span class="bullet">1.</span> <span class="strong">**RAII原則の適用**</span>: <span class="code">`std::vector`</span>, <span class="code">`std::string`</span>, スマートポインタの使用</span><br><span class="line"><span class="bullet">2.</span> <span class="strong">**メモリリーク/破損検査ツール**</span>: </span><br><span class="line"><span class="bullet">   -</span> Visual StudioのDiagnostic Tools</span><br><span class="line"><span class="bullet">   -</span> Application Verifier</span><br><span class="line"><span class="bullet">   -</span> CRT Debug Heap</span><br><span class="line"><span class="bullet">3.</span> <span class="strong">**単体テスト**</span>: メモリ管理を含む十分なテストケース作成</span><br><span class="line"></span><br><span class="line"><span class="section">### 🚨 <span class="strong">**緊急度**</span></span></span><br><span class="line"></span><br><span class="line">このエラーは<span class="strong">**高優先度**</span>で対処が必要です。ヒープ破損はアプリケーションクラッシュだけでなく、セキュリティ脆弱性の原因となる可能性があります。</span><br><span class="line"></span><br><span class="line">15行目のメモリ管理コードを直ちに確認し、適切な <span class="code">`new[]`</span>/<span class="code">`delete[]`</span> のペアリングと境界チェックを実装してください。</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="5-デバッグ"><a href="#5-デバッグ" class="headerlink" title="5. デバッグ"></a>5. デバッグ</h3><p>MCP サーバーを直接実行してデバッグしてもよいのですが、AI エージェントから呼び出されたときの振る舞いを確認したい場合もあると思います。MCP サーバーの方式によってデバッグ方法は異なりますが、ローカル実行の場合に使用されることが多い stdio の場合、Visual Stuio や Visual Studio Code からサーバー プロセスが起動された後は実行中のまま標準入力を待ち受ける状態になっています。そのため、実行中のサーバー プロセスにアタッチすることでデバッグすることが可能です。ここでは、Visual Studio Code から起動された MCP サーバーにアタッチしてデバッグする手順を紹介します。</p>
+<ol>
+<li><p>Visual Studio Code から MCP サーバーを起動します。</p>
+</li>
+<li><p>Visual Studio 2022 を起動し、MCP サーバーのプロジェクトを開きます。</p>
+</li>
+<li><p>メニューから [デバッグ] - [プロセスにアタッチ] を選択します。</p>
+</li>
+<li><p>プロセスの一覧から、mcp.json で指定した MCP サーバーのプロセスを選択して [アタッチ] ボタンを押下します。今回は “McpServerForDbgEng.exe” という名前になっているはずですが、dotnet.exe など別のホスト プロセスが起動している場合は、ホスト プロセスを選択する必要がありますので注意してください。</p>
+<p><img src="debug-mcp-server1.png" alt="MCP サーバー プロセスにアタッチする"></p>
+</li>
+<li><p>McpServerTool 属性を指定してツールとして公開しているメソッドにブレークポイントを設定します。今回は StartDebugSessionFromDumpFile メソッドにブレークポイントを設定します。</p>
+<p><img src="debug-mcp-server2.png" alt="ブレークポイントの設定"></p>
+</li>
+<li><p>Visual Studio Code から GitHub Copilot Chat を使用してツールを呼び出します。今回は以下のように指示してみます。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#DbgEng C:\Logs\xxxxxxxx.dmp を開いてください。</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Visual Studio 2022 でブレークポイントがヒットすることを確認します。この後は、呼び出し履歴や変数を確認したり、ステップ実行するなどの通常のデバッグ操作を行うことができます。</p>
+<p><img src="debug-mcp-server3.png" alt="ブレークポイントのヒット"></p>
+</li>
+</ol>
+<h2 id="まとめ"><a href="#まとめ" class="headerlink" title="まとめ"></a>まとめ</h2><p>今回は、C# を使用して MCP サーバーを作成し、AI エージェントにクラッシュ ダンプ ファイルを解析させる方法について紹介しました。MCP サーバーは AI エージェントが外部のリソースと連携するための重要な仕組みであり、C# での実装も比較的簡単に行うことができます。アプリケーションが MCP サーバーを提供することで、AI エージェントがアプリケーションの機能やリソースにアクセスしてタスクを実行できるようになります。本記事が開発者の皆様の MCP サーバーの利用や実装の参考になれば幸いです。</p>
+
+      
+      
+        <div class="article-disclaimer">
+        
+          <p><hr>本ブログの内容は弊社の公式見解として保証されるものではなく、開発・運用時の参考情報としてご活用いただくことを目的としています。もし公式な見解が必要な場合は、弊社ドキュメント (<a target="_blank" rel="noopener" href="https://learn.microsoft.com/">https://learn.microsoft.com</a> や <a target="_blank" rel="noopener" href="https://support.microsoft.com">https://support.microsoft.com</a>) をご参照いただくか、もしくは私共サポートまでお問い合わせください。</p>
+        
+        </div>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/NET/" rel="tag">.NET</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/AI/" rel="tag">AI</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Debug/" rel="tag">Debug</a></li></ul>
+
+      <!-- 
+      
+        <a href="https://github.com/jpdscore/blog/edit/master/articles/debugging/mcp-server-for-dbgeng.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
+        
+      -->
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="../../dotnet/netfx-4-compatibility/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前の記事</strong>
+      <div class="article-nav-title">.NET Framework 4.x の互換性について</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最近の投稿</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="">C# でダンプ ファイル解析を行う MCP サーバーを作成する</a>
+          </li>
+        
+          <li>
+            <a href="../../dotnet/netfx-4-compatibility/">.NET Framework 4.x の互換性について</a>
+          </li>
+        
+          <li>
+            <a href="../../vs/vs-offline-install-certificate-error/">Visual Studio オフライン インストール時の署名検証エラーについて</a>
+          </li>
+        
+          <li>
+            <a href="../../playfab/dau-limit-exceeded/">DAU Limit Exceeded について</a>
+          </li>
+        
+          <li>
+            <a href="../../vs/vs2022-offline-install/">Visual Studio 2022 の オフライン インストール</a>
+          </li>
+        
+          <li>
+            <a href="../../vs/create-a-simple-app-with-ghcopilot/">Visual Studio + GitHub Copilot でアプリケーションを作成する</a>
+          </li>
+        
+          <li>
+            <a href="../../dotnet/memoryleak-using-sta-thread/">STAスレッドを使用したアプリのメモリリークについて</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">タグ</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="../../tags/ALM/">ALM</a><span class="tag-list-count">15</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-DevOps-Server">Azure DevOps Server</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-DevOps-Services">Azure DevOps Services</a><span class="tag-list-count">7</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-Pipelines">Azure Pipelines</a><span class="tag-list-count">6</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-Repos">Azure Repos</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Devcontainer">Devcontainer</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/GitHub">GitHub</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/TFS">TFS</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Visual-Studio-Code">Visual Studio Code</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86">情報採取手順</a><span class="tag-list-count">4</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/">情報採取手順</a><span class="tag-list-count">5</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/ALM">ALM</a><span class="tag-list-count">4</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/Azure-DevOps-Server">Azure DevOps Server</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/Azure-DevOps-Services">Azure DevOps Services</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/Azure-Pipelines">Azure Pipelines</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/TFS">TFS</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Windows-SDK/">Windows SDK</a><span class="tag-list-count">8</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Debug">Debug</a><span class="tag-list-count">5</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Documents-and-Printing">Documents and Printing</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/GDI">GDI</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Leak">Leak</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Windows-Update-Agent-API">Windows Update Agent API</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Debug/">Debug</a><span class="tag-list-count">14</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/NET">.NET</a><span class="tag-list-count">4</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/AI">AI</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Leak">Leak</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Memory">Memory</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Visual-Studio">Visual Studio</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Windows-SDK">Windows SDK</a><span class="tag-list-count">5</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Deployment/">Deployment</a><span class="tag-list-count">2</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Deployment/ClickOnce">ClickOnce</a><span class="tag-list-count">2</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/AI/">AI</a><span class="tag-list-count">3</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/AI/NET">.NET</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/AI/Debug">Debug</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/AI/Visual-Studio">Visual Studio</a><span class="tag-list-count">2</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/NET/">.NET</a><span class="tag-list-count">12</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/NET-Framework">.NET Framework</a><span class="tag-list-count">8</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/AI">AI</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/Debug">Debug</a><span class="tag-list-count">4</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E5%85%A8%E8%88%AC/">全般</a><span class="tag-list-count">1</span><ul></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Azure-PlayFab/">Azure PlayFab</a><span class="tag-list-count">3</span><ul></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Visual-Studio/">Visual Studio</a><span class="tag-list-count">10</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/AI">AI</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/C">C#</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/C">C++</a><span class="tag-list-count">4</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/Debug">Debug</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/VB-NET">VB.NET</a><span class="tag-list-count">2</span></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">アーカイブ</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/08/">2025 / 08</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/07/">2025 / 07</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/06/">2025 / 06</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/08/">2024 / 08</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/06/">2024 / 06</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/04/">2024 / 04</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/03/">2024 / 03</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/09/">2023 / 09</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/06/">2023 / 06</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/03/">2023 / 03</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/02/">2023 / 02</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/12/">2022 / 12</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/11/">2022 / 11</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/07/">2022 / 07</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/06/">2022 / 06</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/04/">2022 / 04</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/03/">2022 / 03</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/01/">2022 / 01</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/12/">2021 / 12</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/08/">2021 / 08</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/05/">2021 / 05</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/04/">2021 / 04</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/02/">2021 / 02</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/01/">2021 / 01</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/12/">2020 / 12</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/11/">2020 / 11</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/10/">2020 / 10</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/09/">2020 / 09</a><span class="archive-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">旧ブログ/フォーラム</h3>
+  <div class="widget">
+    <ul>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://social.msdn.microsoft.com/Forums/ja-jp/home?forum=visualstudiosupportteamja">Visual Studio サポートチーム フォーラム</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://social.msdn.microsoft.com/Forums/ja-jp/home?forum=windowssdksupportteamja&filter=alltypes&sort=lastpostdesc">Windows SDK サポートチーム フォーラム</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/archive/blogs/jpvsblog/">Visual Studio サポート チーム blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/archive/blogs/japan_platform_sdkwindows_sdk_support_team_blog/">JAPAN Platform SDK（Windows SDK） Support Team Blog</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">関連リンク</h3>
+  <div class="widget">
+    <ul>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://developercommunity.visualstudio.com/">Developer Community</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/dotnet/">.NET Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/visualstudio/">Visual Studio Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/cppblog/">C++ Team Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/xamarin/">Xamarin Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/devops/">Azure DevOps Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://techcommunity.microsoft.com/t5/azure-lab-services/bg-p/AzureLabServicesBlog/">Azure Lab Services Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/appcenter/">App Center Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://status.azure.com/status/">Azure Status</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://status.dev.azure.com/">Azure DevOps - Status</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2025 Developer Support Core Japan<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="../../index.html" class="mobile-nav-link">Home</a>
+  
+    <a href="../../archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+<script src="../../js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
