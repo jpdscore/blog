@@ -4,23 +4,20 @@
   <meta charset="utf-8">
   
   
-  <title>Dump ファイルの取得 | JPDSC Blog</title>
+  <title>Visual Studio 2015 のサポート終了について | JPDSC Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="こんにちは、Japan Developer Support Core チーム 平田 a.k.a ぴろとです。本日は ProcDump を使用して、アプリケーションのダンプの採取を行う方法についてご案内をさせていただきます。サポート部門で以前は、adplus というツールを利用することが多かったのです">
+  <meta name="description" content="こんにちは。Developer Support Core チームの上原です。今回は 2025年 10月にせまった Visual Studio 2015 のサポート終了についてご紹介します。なお、本ブログ記事は、こちらの Visual Studio Blog 記事 を翻訳の上、一部加筆した内容となりま">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Dump ファイルの取得">
-<meta property="og:url" content="https://jpdscore.github.io/blog/debugging/collect-dump/index.html">
+<meta property="og:title" content="Visual Studio 2015 のサポート終了について">
+<meta property="og:url" content="https://jpdscore.github.io/blog/vs/vs2015-support-retirement/index.html">
 <meta property="og:site_name" content="Japan Developer Support Core Team Blog">
-<meta property="og:description" content="こんにちは、Japan Developer Support Core チーム 平田 a.k.a ぴろとです。本日は ProcDump を使用して、アプリケーションのダンプの採取を行う方法についてご案内をさせていただきます。サポート部門で以前は、adplus というツールを利用することが多かったのです">
+<meta property="og:description" content="こんにちは。Developer Support Core チームの上原です。今回は 2025年 10月にせまった Visual Studio 2015 のサポート終了についてご紹介します。なお、本ブログ記事は、こちらの Visual Studio Blog 記事 を翻訳の上、一部加筆した内容となりま">
 <meta property="og:locale" content="ja_JP">
-<meta property="og:image" content="https://jpdscore.github.io/blog/debugging/collect-dump/1.png">
-<meta property="article:published_time" content="2020-11-24T08:33:19.000Z">
-<meta property="article:modified_time" content="2025-08-20T09:13:12.689Z">
+<meta property="article:published_time" content="2025-08-19T15:00:00.000Z">
+<meta property="article:modified_time" content="2025-08-20T09:13:12.719Z">
 <meta property="article:author" content="Developer Support Core Japan">
-<meta property="article:tag" content="Windows SDK">
-<meta property="article:tag" content="Debug">
+<meta property="article:tag" content="Visual Studio">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://jpdscore.github.io/blog/debugging/collect-dump/1.png">
   
     <link rel="alternate" href="../../blog/atom.xml" title="Japan Developer Support Core Team Blog" type="application/atom+xml">
   
@@ -77,7 +74,7 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="Dump ファイルの取得-debugging/collect-dump" class="article article-type-Dump ファイルの取得" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-vs/vs2015-support-retirement" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
     
@@ -86,7 +83,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Dump ファイルの取得
+      Visual Studio 2015 のサポート終了について
     </h1>
   
 
@@ -94,44 +91,39 @@
       <div class="article-share">
         Last Update: 
         <a href="" class="article-date-single">
-  <time datetime="2020-11-24T08:33:19.000Z" itemprop="datePublished">2020-11-24</time>
+  <time datetime="2025-08-19T15:00:00.000Z" itemprop="datePublished">2025-08-20</time>
 </a>
         
         
-        <a href="https://github.com/jpdscore/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+ba9a7400-e7d7-552f-860d-74794bcf3c2a%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5BDump+%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%81%AE%E5%8F%96%E5%BE%97%5D%28https%3A%2F%2Fjpdscore.github.io%2Fblog%2Fdebugging%2Fcollect-dump%2F%29" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
+        <a href="https://github.com/jpdscore/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+c0db64ca-4cd3-5223-b623-6f0cd2b8ed4e%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5BVisual+Studio+2015+%E3%81%AE%E3%82%B5%E3%83%9D%E3%83%BC%E3%83%88%E7%B5%82%E4%BA%86%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6%5D%28https%3A%2F%2Fjpdscore.github.io%2Fblog%2Fvs%2Fvs2015-support-retirement%2F%29" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
         
-        <a data-url="https://jpdscore.github.io/blog/debugging/collect-dump/" data-id="cmejr95jk0010jo89bq1a9592" class="article-share-link">共有</a>
+        <a data-url="https://jpdscore.github.io/blog/vs/vs2015-support-retirement/" data-id="cmejr95k7002yjo89fihd300n" class="article-share-link">共有</a>
       </div>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>こんにちは、Japan Developer Support Core チーム 平田 a.k.a ぴろとです。本日は ProcDump を使用して、アプリケーションのダンプの採取を行う方法についてご案内をさせていただきます。サポート部門で以前は、adplus というツールを利用することが多かったのですが、最近は、ProcDump をご案内することが多くなってきました。adplus は、Debugging Tools for Windows に同梱されるツールになっています。そのため、あらかじめ Windows SDK を別途インストールをしていただいた環境から、WinDbg のインストールをするための再頒布パッケージを採取環境にインストールが必要になってしまうため、情報採取までの手順が長いためとなります。</p>
-<h2 id="ProdDump-の入手方法について"><a href="#ProdDump-の入手方法について" class="headerlink" title="ProdDump の入手方法について"></a>ProdDump の入手方法について</h2><p>ProcDump は、<a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/sysinternals/downloads/sysinternals-suite">Sysinternal Suites</a> のツールになります。全部一括でダウンロードをする場合は、Sysinternal Suites のハイパー リンクをクリックし、ダウンロードをください。便利なツールが沢山あります。<br>個別にダウンロードをすることも可能です。<a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/sysinternals/downloads/procdump">ProcDump v10.0</a> こちらからダウンロードを行い、Zip ファイルを展開したものを任意のフォルダーに保存します。</p>
-<h3 id="ハング-ダンプの採取について"><a href="#ハング-ダンプの採取について" class="headerlink" title="ハング ダンプの採取について"></a>ハング ダンプの採取について</h3><p>ハングダンプは、アプリケーションがハング状態や無応答になった場合に採取を行うものとなります。ハング状態となるパターンはいくつかあります。考えられるシナリオについては、デッドロックといったパターンです。これは、ロック A と ロック B をあるスレッドは、A -&gt; B の順番にとって、他方のスレッドは、 B -&gt; A の順番にロックをとるシナリオです。  </p>
-<p>この場合、スレッド1 は、ロック A を取得後、ロック B の取得を行いに行きます。しかしながら、スレッド 2 では、ロック B をすでにとっている状況で、ロック A の開放待ちになっているといったことが発生し得ます。</p>
-<p><img src="1.png"></p>
-<p>アプリケーション自体はクラッシュはしませんので、とるタイミングは事象が発生している最中にとる必要があります。<br>管理者として、起動したコマンドプロンプトにて、ダウンロードをした ProcDump を使って以下のコマンドを実施します。基本的には、EXE の名前だけで入力が可能ですが、同一のプロセス名のプロセスがある場合には、プロセス ID で設定します。</p>
-<blockquote>
-<p>procdump -ma &lt;プロセスの EXE 名&gt;<br>procdump -ma &lt;プロセス ID&gt;</p>
-</blockquote>
-<p>コマンド例 (notepad.exe (PID:1234) だった場合)</p>
-<blockquote>
-<p>procdump -ma notepad.exe<br>procdump -ma 1234</p>
-</blockquote>
-<p>デッドロックの場合は、ユーザーモードの時間が割り当たらないことがほとんどです。解析を進めてデッドロックではない場合には、インターバルを設けて何度か取得をして複数のダンプを採取します。解析をする際には、<a target="_blank" rel="noopener" href="https://docs.microsoft.com/ja-jp/windows-hardware/drivers/debugger/-runaway">!runaway</a> コマンドで CPU 時間を確認します。もし狙ったスレッドが動いている場合には、無限ループ等も考慮します。</p>
-<h3 id="クラッシュ-ダンプの採取について"><a href="#クラッシュ-ダンプの採取について" class="headerlink" title="クラッシュ ダンプの採取について"></a>クラッシュ ダンプの採取について</h3><p>こちらは、アプリケーションがクラッシュした場合に採取をするものになります。そのため、クラッシュするオペレーションがわかっている場合には、再現をする前に、ProcDump をアタッチしておく必要があります。アタッチしている状況にて、アプリケーションで例外が発生すると、ダンプを取得し、アプリケーション自体は終了します。-e オプションは、ハンドルされない例外が発生した場合に出力をするという設定です。なお、例外ハンドラーにてハンドリングされてしまうタイプの例外を検出したい場合には、-e 1 といった形で、1st change 例外を出力するようにします。</p>
-<pre><code>-e      Write a dump when the process encounters an unhandled exception.
-        Include the 1 to create dump on first chance exceptions.
-</code></pre>
-<blockquote>
-<p>procdump -e -ma &lt;プロセスの EXE 名&gt;<br>procdump -e -ma &lt;プロセス ID&gt;</p>
-</blockquote>
-<p>コマンド例 (notepad.exe (PID:1234) だった場合)</p>
-<blockquote>
-<p>procdump -e -ma notepad.exe<br>procdump -e -ma 1234</p>
-</blockquote>
-<p>1st chance / 2nd chance という用語がでてきています。1st chance 例外は、エラーハンドリングをされることで回復を期待される例外になります。それに比べ、2nd chance 例外は、エラーハンドリングがされていない例外または、回復処理で回復できないため、再度例外を発生した場合になります。</p>
-<p>今回はここまでとなります。</p>
+        <p>こんにちは。Developer Support Core チームの上原です。今回は 2025年 10月にせまった Visual Studio 2015 のサポート終了についてご紹介します。<br>なお、本ブログ記事は、<a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/visualstudio/visual-studio-2015-retirement-support-reminder-for-older-versions-of-visual-studio/">こちらの Visual Studio Blog 記事</a> を翻訳の上、一部加筆した内容となります。</p>
+<h2 id="はじめに"><a href="#はじめに" class="headerlink" title="はじめに"></a>はじめに</h2><p><strong>Visual Studio 2015 のサポートは 2025年 10月 14日に終了します。</strong><br>もし、Visual Studio 2015 を使用している場合は、Visual Studio を使用する際の生産性と安全性を維持し、また、開発ワークフローに Copilot といったより先進的な機能をもたらす、Visual Studio 2022 へアップグレードすることを強くお勧めします。<br>また、現時点で最新バージョンである Visual Studio 2022エディターの生産性の向上、Git バージョン管理の組み込みサポート、GitHub との豊富な統合、AI を活用したコード補完、.NET 8 と 9、および .NET MAUI 用のツールも含まれています。</p>
+<p>なお、Visual Studio 2015 のサポートが終了しますと、いかなる不具合や脆弱性も修正されず、動作も保証されません。<br>そのため、現在 Visual Studio 2015 をご利用されている場合には、速やかにより新しいバージョンへの移行を検討し、サポート終了日までに移行が完了するようご検討ください。</p>
+<h2 id="各-Visual-Studio-バージョンにおけるサポートライフサイクル"><a href="#各-Visual-Studio-バージョンにおけるサポートライフサイクル" class="headerlink" title="各 Visual Studio バージョンにおけるサポートライフサイクル"></a>各 Visual Studio バージョンにおけるサポートライフサイクル</h2><p>以下に、各 Visual Studio バージョンにおけるサポート ライフサイクルの日付をリマインダーいたします。<br>古いバージョンの Visual Studio をまだ使用している場合は、サポートされているより新しいバージョンへの移行をご検討ください。</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/lifecycle/products/visual-studio-2015"><strong>Visual Studio 2015</strong> の延長サポート</a>は、 <strong>2025年 10月 14日</strong> に終了します。</li>
+<li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/lifecycle/products/visual-studio-2017"><strong>Visual Studio 2017</strong> のバージョン 15.9</a> は、<strong>2027年 4月 13日</strong> まで延長サポートです。延長サポート中は、セキュリティ上の問題に対してのみ修正が提供されます。セキュリティ更新プログラムとサポートを受け取るには、バージョン 15.9 を使用している必要があります。</li>
+<li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/lifecycle/products/visual-studio-2019"><strong>Visual Studio 2019</strong> バージョン 16.11</a> は、<strong>2029年 4月 10日</strong> まで延長サポートです。延長サポート中は、セキュリティ上の問題に対してのみ修正が提供されます。セキュリティ更新プログラムとサポートを受けるには、バージョン 16.11 を使用している必要があります。</li>
+<li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/lifecycle/products/visual-studio-2022"><strong>Visual Studio 2022</strong></a> バージョン 17.14 は、<strong>2027年 1月 12日</strong> までメインストリーム サポートであり、その後、<strong>2032年 1月 13日</strong> までの延長サポートに移行します。さらに、バージョン 17.10 LTSC は 2026年 1月 13日までサポートされ、バージョン 17.12 は 2026年 7月 14日までサポートされます。アップデートとサポートを受けるには、これらのバージョンのいずれかを使用している必要があります。</li>
+</ul>
+<p>Visual Studio は固定ライフサイクル ポリシーで提供されており、現在最新バージョンである Visual Studio 2022 では、各マイナーバージョンごとにライフサイクルが定義されております。<br>将来バージョンではポリシーや提供形態などが変更される可能性もございますので、必要に応じて最新の状況をご確認ください。</p>
+<p>-<a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/visualstudio/productinfo/vs-servicing">Visual Studio の製品ライフサイクルとサービス</a><br>-<a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/lifecycle/policies/fixed">固定ライフサイクル ポリシー</a></p>
+<h2 id="Visual-Studio-2015-の廃止"><a href="#Visual-Studio-2015-の廃止" class="headerlink" title="Visual Studio 2015 の廃止"></a>Visual Studio 2015 の廃止</h2><p>2025年 10月 14日に、すべての Visual Studio 2015 エディション、関連製品、ランタイム、コンポーネントのサポートが終了し、セキュリティやその他の更新プログラムは受けられなくなります。これらには次のものが含まれます。</p>
+<ul>
+<li>Visual Studio 2015 Enterprise、Professional、Community、ビルド ツール、チーム エクスプローラー、Test Professional エディション、Visual Studio 2015 シェル (Isolated を含む)。</li>
+<li>Visual Studio SDK、リモート ツール、エージェント、Visual Studio Team Foundation Server 2015 用フィードバック クライアント、デプロイ エージェント、リリース管理、Azure ツール。</li>
+<li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/lifecycle/faq/visual-c-faq">MSVC ツール v140</a> – Visual Studio 2015。Visual Studio 2017 以降を使用している場合は、MSVC v140 を使用してプロジェクトを更新して、最新の MSVC ツールセットを使用します。</li>
+<li>Visual Studio 2015 用の <a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/lifecycle/faq/visual-c-faq">Visual C++ 再頒布可能パッケージ</a>。<a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/cpp/windows/latest-supported-vc-redist?view=msvc-170">Visual C++ 再頒布可能パッケージの最新リリース</a> を使用するようにアプリケーションを更新します。</li>
+</ul>
+<p>なお、MSVC v140(Visual C++ 2015) で開発した既存のアプリケーションにつきましては、Visual C++ 2015 以降のランタイムは互換性が維持されておりますので、最新の Visual C++ ランタイム をご利用いただくことで、再ビルドなしに引き続きサポートされます。<br>つまり、MSVC に依存したアプリケーションのサポートにつきましては、実際に動作するランタイムのバージョンに依存しますので、実行環境では可能な限り最新の Visual C++ ランタイムの利用をご検討ください。</p>
+<h2 id="Visual-Studio-Hub-を確認する"><a href="#Visual-Studio-Hub-を確認する" class="headerlink" title="Visual Studio Hub を確認する"></a>Visual Studio Hub を確認する</h2><p>Visual Studio Hub では Visual Studio に関するのすべての情報を確認することができます。<a target="_blank" rel="noopener" href="https://visualstudio.microsoft.com/hub/">Visual Studio Hub</a> にアクセスして、最新のリリース ノート、YouTube ビデオ、ソーシャル更新プログラム、コミュニティ ディスカッションを確認してください。</p>
+<h2 id="フィードバックに感謝します"><a href="#フィードバックに感謝します" class="headerlink" title="フィードバックに感謝します"></a>フィードバックに感謝します</h2><p>皆様からのフィードバックは、Visual Studio の改善に役立ち、開発者にとってさらに強力なツールになります。皆様のご協力に心より感謝申し上げますとともに、今後ともご支援を賜りますようお願い申し上げます。<a target="_blank" rel="noopener" href="https://developercommunity.visualstudio.com/VisualStudio">開発者コミュニティ</a> を通じて、ご意見、アイデア、発生した問題を共有することで、Visual Studio の将来を改善し、形作るのに役立ちます。</p>
 
       
       
@@ -145,11 +137,11 @@
     <footer class="article-footer">
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Debug/" rel="tag">Debug</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Windows-SDK/" rel="tag">Windows SDK</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Visual-Studio/" rel="tag">Visual Studio</a></li></ul>
 
       <!-- 
       
-        <a href="https://github.com/jpdscore/blog/edit/master/articles/debugging/collect-dump.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
+        <a href="https://github.com/jpdscore/blog/edit/master/articles/vs/vs2015-support-retirement.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
         
       -->
     </footer>
@@ -158,19 +150,10 @@
     
 <nav id="article-nav">
   
-    <a href="../using-WER/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">次の記事</strong>
-      <div class="article-nav-title">
-        
-          WER を使って Dump を採取する
-        
-      </div>
-    </a>
   
-  
-    <a href="../open-dump-by-windbg/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="../../debugging/mcp-server-for-dbgeng/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">前の記事</strong>
-      <div class="article-nav-title">WinDbg で Dump ファイルを開く</div>
+      <div class="article-nav-title">C# でダンプ ファイル解析を行う MCP サーバーを作成する</div>
     </a>
   
 </nav>
@@ -189,11 +172,11 @@
       <ul>
         
           <li>
-            <a href="../../vs/vs2015-support-retirement/">Visual Studio 2015 のサポート終了について</a>
+            <a href="">Visual Studio 2015 のサポート終了について</a>
           </li>
         
           <li>
-            <a href="../mcp-server-for-dbgeng/">C# でダンプ ファイル解析を行う MCP サーバーを作成する</a>
+            <a href="../../debugging/mcp-server-for-dbgeng/">C# でダンプ ファイル解析を行う MCP サーバーを作成する</a>
           </li>
         
           <li>
@@ -201,7 +184,7 @@
           </li>
         
           <li>
-            <a href="../../vs/vs-offline-install-certificate-error/">Visual Studio オフライン インストール時の署名検証エラーについて</a>
+            <a href="../vs-offline-install-certificate-error/">Visual Studio オフライン インストール時の署名検証エラーについて</a>
           </li>
         
           <li>
@@ -209,11 +192,11 @@
           </li>
         
           <li>
-            <a href="../../vs/vs2022-offline-install/">Visual Studio 2022 の オフライン インストール</a>
+            <a href="../vs2022-offline-install/">Visual Studio 2022 の オフライン インストール</a>
           </li>
         
           <li>
-            <a href="../../vs/create-a-simple-app-with-ghcopilot/">Visual Studio + GitHub Copilot でアプリケーションを作成する</a>
+            <a href="../create-a-simple-app-with-ghcopilot/">Visual Studio + GitHub Copilot でアプリケーションを作成する</a>
           </li>
         
       </ul>
