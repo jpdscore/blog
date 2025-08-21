@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Windows Update Agent API を使用して更新プログラムを検索、ダウンロード、インストールする | JPDSC Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="こんにちは、Japan Developer Support Core チームの松井です。今回は、Windows Update Agent (WUA) API を使用して更新プログラムの検索とダウンロード、インストールを行う方法を紹介します。 注意事項 「WUA API を使用して更新プログラムをイン">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Windows Update Agent API を使用して更新プログラムを検索、ダウンロード、インストールする">
+<meta property="og:url" content="https://jpdscore.github.io/blog/windowssdk/wuaapi-install-updates/index.html">
+<meta property="og:site_name" content="Japan Developer Support Core Team Blog">
+<meta property="og:description" content="こんにちは、Japan Developer Support Core チームの松井です。今回は、Windows Update Agent (WUA) API を使用して更新プログラムの検索とダウンロード、インストールを行う方法を紹介します。 注意事項 「WUA API を使用して更新プログラムをイン">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:image" content="https://jpdscore.github.io/blog/windowssdk/wuaapi-install-updates/use-copilot-for-lang-translation.png">
+<meta property="article:published_time" content="2025-08-20T15:00:00.000Z">
+<meta property="article:modified_time" content="2025-08-21T12:04:55.034Z">
+<meta property="article:author" content="Developer Support Core Japan">
+<meta property="article:tag" content="Windows SDK">
+<meta property="article:tag" content="Windows Update Agent API">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jpdscore.github.io/blog/windowssdk/wuaapi-install-updates/use-copilot-for-lang-translation.png">
+  
+    <link rel="alternate" href="../../blog/atom.xml" title="Japan Developer Support Core Team Blog" type="application/atom+xml">
+  
+
+  <link rel="icon" href="../../favicon.ico">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="theme-color" content="#ffffff">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="../../css/style.css">
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="site-header-logo"></div>
+  <div id="site-header-blog-wrapper"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        <div id="ms-logo"></div>
+        
+          <a class="main-nav-link" href="../../index.html">Home</a>
+        
+          <a class="main-nav-link" href="../../archives">Archives</a>
+        
+        <a class="main-nav-link" target="_blank" rel="noopener" href="https://cssjpn.github.io/">サポート情報</a>
+        <a class="main-nav-link" href="/blog/general/welcome/">About</a>
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="../../blog/atom.xml" title="RSSフィード"></a>
+        
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//www.bing.com/search" method="get" accept-charset="UTF-8" name="bing-search" onsubmit="var f=this;if(f['q'].value){var searchUrl =  'https://www.bing.com/search?q=' +  encodeURIComponent(f['q'].value + ' site:' + f['sitesearch'].value) ;window.open(searchUrl, 'blank') };return false;" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="検索"><button type="submit" id="nav-search-btn" class="search-form-submit"></button><input type="hidden" name="sitesearch" value="https://jpdscore.github.io/blog"></form>
+      </div>
+    </div>
+    <div id="header-title" class="inner">
+      <div id="logo-wrap">
+        <a href="../../index.html" id="logo">Japan Developer Support Core Team Blog</a>
+      </div>
+      
+        <div id="subtitle-wrap">
+          <a href="../../index.html" id="subtitle">日本マイクロソフトの Japan Developer Support Core チームのブログです。</a>
+        </div>
+      
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-windowssdk/wuaapi-install-updates" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header-single">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Windows Update Agent API を使用して更新プログラムを検索、ダウンロード、インストールする
+    </h1>
+  
+
+      </header>
+      <div class="article-share">
+        Last Update: 
+        <a href="" class="article-date-single">
+  <time datetime="2025-08-20T15:00:00.000Z" itemprop="datePublished">2025-08-21</time>
+</a>
+        
+        
+        <a href="https://github.com/jpdscore/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+6d45ec69-c31e-546e-90ad-61613ddb02e8%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5BWindows+Update+Agent+API+%E3%82%92%E4%BD%BF%E7%94%A8%E3%81%97%E3%81%A6%E6%9B%B4%E6%96%B0%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0%E3%82%92%E6%A4%9C%E7%B4%A2%E3%80%81%E3%83%80%E3%82%A6%E3%83%B3%E3%83%AD%E3%83%BC%E3%83%89%E3%80%81%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB%E3%81%99%E3%82%8B%5D%28https%3A%2F%2Fjpdscore.github.io%2Fblog%2Fwindowssdk%2Fwuaapi-install-updates%2F%29" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
+        
+        <a data-url="https://jpdscore.github.io/blog/windowssdk/wuaapi-install-updates/" data-id="cmelcttos003ijf947phxaygn" class="article-share-link">共有</a>
+      </div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>こんにちは、Japan Developer Support Core チームの松井です。今回は、Windows Update Agent (WUA) API を使用して更新プログラムの検索とダウンロード、インストールを行う方法を紹介します。</p>
+<div class="admonition warning"><p class="admonition-title">注意事項
+</p><p>「WUA API を使用して更新プログラムをインストールしたい」といったご要望を弊社へのお問い合わせで頂戴することがありますが、WUA API は Windows Update の機能を操作するための API であり、正しく使用するために Windows Update の動作に関する詳細な知識が必要となります。また、トラブルシュートのためにエラー処理やログ記録といったプログラムやスクリプトの実装の知識も求められます。IT 管理者の方が組織のデバイス管理のために WUA API の使用を検討されている場合は、プログラムやスクリプトの開発とテスト、保守が将来にわたって必要となることも考慮した上で、Windows Update のグループ ポリシーや Intune など既存の管理機能やソフトウェアでは本当にデバイス管理の要件を満たすことができないのか事前に十分な検討を行ってください。</p>
+</div>
+
+<h2 id="使用する-API-について"><a href="#使用する-API-について" class="headerlink" title="使用する API について"></a>使用する API について</h2><p>Windows Update をアプリケーションやスクリプトから制御する方法として WUA API が提供されています。WUA API は COM ベースの API で、C/C++ や C# といったプログラミング言語の他、PowerShell や VBScript といったスクリプト言語からも利用することができます。</p>
+<p>Windows Update で更新プログラムをインストールするまでの基本的な流れは、1. 検索、2. ダウンロード、3. インストール、4. 再起動（必要な場合）となります。WUA API では以下のインターフェイスを使用してこれらの処理を行います。</p>
+<ul>
+<li>Windows Update の一連の作業のセッション - <a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/windows/win32/wua_sdk/iupdatesession-methods">IUpdateSession</a></li>
+<li>更新プログラムのプロパティへのアクセス - <a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/windows/win32/api/wuapi/nn-wuapi-iupdate">IUpdate</a></li>
+<li>更新プログラムの検索 - <a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/windows/win32/api/wuapi/nn-wuapi-iupdatesearcher">IUpdateSearcher</a></li>
+<li>更新プログラムのダウンロード - <a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/windows/win32/api/wuapi/nn-wuapi-iupdatedownloader">IUpdateDownloader</a></li>
+<li>更新プログラムのインストール - <a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/windows/win32/api/wuapi/nn-wuapi-iupdateinstaller">IUpdateInstaller</a></li>
+</ul>
+<p>また、更新プログラムのインストール後に再起動が必要な場合は、以下のコマンドレットを使用してコンピューターを再起動することができます。</p>
+<ul>
+<li>コンピューターの再起動 - <a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/powershell/module/microsoft.powershell.management/restart-computer">Restart-Computer</a></li>
+</ul>
+<h2 id="サンプル-スクリプト"><a href="#サンプル-スクリプト" class="headerlink" title="サンプル スクリプト"></a>サンプル スクリプト</h2><p>以下の例では、PowerShell から WUA API を使用して更新プログラムの検索、ダウンロード、インストールを行います。インストール後に再起動が求められている場合は再起動もあわせて行います。48 行目の Commit メソッドの呼び出しは機能更新プログラムのインストール時に必要となりますが、それ以外の場合に呼び出しても副作用はありません。</p>
+<p>サンプル スクリプトは WUA API の使用例を紹介する目的となりますので、要件にあわせた実装の変更やエラー処理の追加、動作確認などをご自身で必ず行ってください。特に、タスクスケジューラーなどからスクリプトを非対話的に実行する場合は、処理の経過や失敗した際のエラーコードや例外メッセージが事後に確認できるように、ログの出力やエラー処理を実装してください。</p>
+<p>なお、IUpdateSession::ClientApplicationID プロパティを設定しておくことで C:\Windows\SoftwareDistribution\ReportingEvents.log や C:\Windows\Logs\WindowsUpdate フォルダー配下の WindowsUpdate*.etl のログにアプリケーション名が記録されます。WUA API を利用する Windows の機能や他のソフトウェアの処理と区別するために、スクリプト毎に適切なアプリケーション名を設定しておくことをお勧めします。省略した場合は <code>&lt;&lt;PROCESS&gt;&gt;: powershell.exe</code> のようにログに記録されます。</p>
+<figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Please run with administrator privileges</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Create a WUA session</span></span><br><span class="line"><span class="variable">$updateSession</span> = <span class="built_in">New-Object</span> <span class="literal">-ComObject</span> Microsoft.Update.Session</span><br><span class="line"><span class="variable">$updateSession</span>.ClientApplicationID = <span class="string">&quot;WUA API Sample - Search, Download, Install and Restart if required&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">Write-Host</span> <span class="string">&quot;Searching for updates...&quot;</span></span><br><span class="line"><span class="variable">$updateSearcher</span> = <span class="variable">$updateSession</span>.CreateUpdateSearcher()</span><br><span class="line"><span class="variable">$searchResult</span> = <span class="variable">$updateSearcher</span>.Search(<span class="string">&quot;IsInstalled=0 and Type=&#x27;Software&#x27;&quot;</span>)</span><br><span class="line"><span class="keyword">if</span> (<span class="variable">$searchResult</span>.Updates.Count <span class="operator">-eq</span> <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="built_in">Write-Host</span> <span class="string">&quot;No updates available for installation.&quot;</span></span><br><span class="line">    <span class="keyword">return</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># Collect updates to download</span></span><br><span class="line"><span class="variable">$updatesToDownload</span> = <span class="built_in">New-Object</span> <span class="literal">-ComObject</span> Microsoft.Update.UpdateColl</span><br><span class="line"><span class="keyword">foreach</span> (<span class="variable">$update</span> <span class="keyword">in</span> <span class="variable">$searchResult</span>.Updates) &#123;</span><br><span class="line">    <span class="built_in">Write-Host</span> <span class="string">&quot;To be downloaded: <span class="variable">$</span>(<span class="variable">$update</span>.Title)&quot;</span></span><br><span class="line">    <span class="variable">$updatesToDownload</span>.Add(<span class="variable">$update</span>) | <span class="built_in">Out-Null</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># Download updates</span></span><br><span class="line"><span class="built_in">Write-Host</span> <span class="string">&quot;Downloading updates...&quot;</span></span><br><span class="line"><span class="variable">$downloader</span> = <span class="variable">$updateSession</span>.CreateUpdateDownloader()</span><br><span class="line"><span class="variable">$downloader</span>.Updates = <span class="variable">$updatesToDownload</span></span><br><span class="line"><span class="variable">$downloadResult</span> = <span class="variable">$downloader</span>.Download()</span><br><span class="line"></span><br><span class="line"><span class="comment"># Collect updates to install</span></span><br><span class="line"><span class="variable">$updatesToInstall</span> = <span class="built_in">New-Object</span> <span class="literal">-ComObject</span> Microsoft.Update.UpdateColl</span><br><span class="line"><span class="keyword">foreach</span> (<span class="variable">$update</span> <span class="keyword">in</span> <span class="variable">$searchResult</span>.Updates) &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="variable">$update</span>.IsDownloaded) &#123;</span><br><span class="line">        <span class="built_in">Write-Host</span> <span class="string">&quot;To be installed: <span class="variable">$</span>(<span class="variable">$update</span>.Title)&quot;</span></span><br><span class="line">        <span class="variable">$updatesToInstall</span>.Add(<span class="variable">$update</span>) | <span class="built_in">Out-Null</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># Install updates</span></span><br><span class="line"><span class="keyword">if</span> (<span class="variable">$updatesToInstall</span>.Count <span class="operator">-gt</span> <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="built_in">Write-Host</span> <span class="string">&quot;Installing updates...&quot;</span></span><br><span class="line">    <span class="variable">$installer</span> = <span class="variable">$updateSession</span>.CreateUpdateInstaller()</span><br><span class="line">    <span class="variable">$installer</span>.Updates = <span class="variable">$updatesToInstall</span></span><br><span class="line">    <span class="variable">$installationResult</span> = <span class="variable">$installer</span>.Install()</span><br><span class="line"></span><br><span class="line">    <span class="built_in">Write-Host</span> <span class="string">&quot;Installation result code: <span class="variable">$</span>(<span class="variable">$installationResult</span>.ResultCode)&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># Check if a reboot is required</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="variable">$installationResult</span>.RebootRequired) &#123;</span><br><span class="line">        <span class="variable">$installer</span>.Commit()</span><br><span class="line">        <span class="built_in">Write-Host</span> <span class="string">&quot;A reboot is required. Restarting the system...&quot;</span></span><br><span class="line">        <span class="built_in">Restart-Computer</span> <span class="literal">-Force</span></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="built_in">Write-Host</span> <span class="string">&quot;No reboot is required.&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="built_in">Write-Host</span> <span class="string">&quot;No updates available for installation.&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="WUA-API-でエラーになる場合の切り分けについて"><a href="#WUA-API-でエラーになる場合の切り分けについて" class="headerlink" title="WUA API でエラーになる場合の切り分けについて"></a>WUA API でエラーになる場合の切り分けについて</h2><p>WUA API を使用したプログラムやスクリプトでエラーが発生した場合、まずは Windows の標準の Windows Update から更新プログラムをインストールした場合も発生するかどうか、msu ファイルを手動でインストールしても発生するかどうかを確認してください。もし Windows Update の標準の機能や手動でのインストールでも同様のエラーが発生する場合は、WUA API やスクリプトの問題ではなく、ネットワーク接続など環境に起因する問題や、更新プログラム自体の問題である可能性があります。</p>
+<h2 id="WUA-API-を使用した場合の-Windows-Update-のログについて"><a href="#WUA-API-を使用した場合の-Windows-Update-のログについて" class="headerlink" title="WUA API を使用した場合の Windows Update のログについて"></a>WUA API を使用した場合の Windows Update のログについて</h2><p>WUA API を使用した場合も、Windows の標準の Windows Update と同様にログが記録されます。まずは C:\Windows\SoftwareDistribution\ReportingEvents.log を確認してください。このログには WUA API の処理に関する概要情報が記録されており、エラーの原因を特定する手助けになります。以下は、ReportingEvents.log の一部の例です。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;57430D21-2FC0-4058-A757-016EC30AE4BE&#125;	2025-08-20 14:03:30:904+0900	1	147 [AGENT_DETECTION_FINISHED]	101	&#123;9482F4B4-E343-43B6-B170-9A65BC822C77&#125;	0	0	WUA API Sample - Search, Download, Install and Restart if required	Success	Software Synchronization	Windows Update Client successfully detected 3 updates.	gUGJXBwb0kW34Qrx.1.0.0.3.0</span><br><span class="line">&#123;B6904BFC-2A35-4127-BC9A-756E4BDC6975&#125;	2025-08-20 14:03:32:314+0900	1	147 [AGENT_DETECTION_FINISHED]	101	&#123;8B24B027-1DEE-BABB-9A95-3517DFB9C552&#125;	0	0	WUA API Sample - Search, Download, Install and Restart if required	Success	Software Synchronization	Windows Update Client successfully detected 2 updates.	gUGJXBwb0kW34Qrx.1.1.0.3.0</span><br><span class="line">&#123;C032168B-1457-4CE6-81F3-6E3F3712CC4E&#125;	2025-08-20 14:03:32:798+0900	1	167 [AGENT_DOWNLOAD_STARTED]	101	&#123;EA6E2510-4BE0-4FF2-B24E-42B5F59F6D6B&#125;	1	0	WUA API Sample - Search, Download, Install and Restart if required	Success	Content Download	Download started.	gUGJXBwb0kW34Qrx.2.0.0.2.0</span><br><span class="line">&#123;E17F1616-1DD3-45CB-8069-E218DD420CF3&#125;	2025-08-20 14:03:34:091+0900	1	162 [AGENT_DOWNLOAD_SUCCEEDED]	101	&#123;A32CA1D0-DDD4-486B-B708-D941DB4F1051&#125;	204	0	WUA API Sample - Search, Download, Install and Restart if required	Success	Content Download	Download succeeded.	gUGJXBwb0kW34Qrx.2.1.0.4.0</span><br><span class="line">&#123;B975278D-B3F7-40D0-BB88-DE39CFFB353D&#125;	2025-08-20 14:07:49:274+0900	1	181 [AGENT_INSTALLING_STARTED]	101	&#123;EA6E2510-4BE0-4FF2-B24E-42B5F59F6D6B&#125;	1	0	WUA API Sample - Search, Download, Install and Restart if required	Success	Content Install	Installation Started: Windows has started installing the following update: 2025-07 Cumulative Update for .NET Framework 3.5 and 4.8.1 for Windows 11, version 24H2 for x64 (KB5056579)	gUGJXBwb0kW34Qrx.3.0.0.1.0</span><br><span class="line">&#123;4731711C-843A-4BB5-BDBC-EFD23F0CCAC9&#125;	2025-08-20 14:08:03:116+0900	1	182 [AGENT_INSTALLING_FAILED]	101	&#123;EA6E2510-4BE0-4FF2-B24E-42B5F59F6D6B&#125;	1	80242016	WUA API Sample - Search, Download, Install and Restart if required	Failure	Content Install	Installation Failure: Windows failed to install the following update with error 0x80242016: 2025-07 Cumulative Update for .NET Framework 3.5 and 4.8.1 for Windows 11, version 24H2 for x64 (KB5056579).	gUGJXBwb0kW34Qrx.3.0.0.3.0.0</span><br></pre></td></tr></table></figure>
+
+<p>エラーが発生している更新プログラムについてさらに詳細な情報を確認する場合は、PowerShell から <a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/powershell/module/windowsupdate/get-windowsupdatelog?view=windowsserver2025-ps&viewFallbackFrom=win10-ps&preserve-view=tru"><code>Get-WindowsUpdateLog</code> コマンドレット</a>を実行して C:\Windows\Logs\WindowsUpdate フォルダー配下の WindowsUpdate*.etl ファイルをテキスト形式に変換して内容を確認してください。変換後のログファイルには、WUA API の処理に関する詳細な情報が記録されます。以下は、変換後のログファイルの一部の例です。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">2025/08/20 14:08:48.3466909 10632 4300  ComApi          * START *   Federated Install   ClientId = WUA API Sample - Search, Download, Install and Restart if required (cV: gUGJXBwb0kW34Qrx.3.0)</span><br><span class="line">2025/08/20 14:08:48.3468123 10632 4300  ComApi          XxxJobImpl: _EndXxx invoked (cV = gUGJXBwb0kW34Qrx.3.0)</span><br><span class="line">2025/08/20 14:08:48.3470566 10632 12132 ComApi          * START *   Install ClientId = WUA API Sample - Search, Download, Install and Restart if required, Flags: 0X20 (cV: gUGJXBwb0kW34Qrx.3.0.0)</span><br><span class="line">2025/08/20 14:08:48.3470760 10632 12132 ComApi          Allow source prompts: Yes; Forced: No; Force quiet: No; Attempt close apps if necessary: No</span><br><span class="line">2025/08/20 14:08:48.3470944 10632 12132 ComApi          Updates in request: 2</span><br><span class="line">2025/08/20 14:08:48.3470995 10632 12132 ComApi          ServiceID = &#123;8B24B027-1DEE-BABB-9A95-3517DFB9C552&#125; Third party service</span><br><span class="line">2025/08/20 14:08:48.3484545 9044  9092  Misc            UUS: Session=wu.core.updatedeploy, Module=UpdateDeploy.dll, Version=1308.2408.1052.0, Path=C:\WINDOWS\uus\AMD64\UpdateDeploy.dll</span><br><span class="line">2025/08/20 14:08:48.3498546 9044  9092  Misc            Load undocked module: UusId:wu.core.updatedeploy|hr:0x0|ModuleVer:1308.2408.1052.0|LoadProps:3|Path:C:\WINDOWS\uus\AMD64\UpdateDeploy.dll</span><br><span class="line">2025/08/20 14:08:49.7866851 8216  8096  Deployment      *FAILED* [8024B104] UpdateDeploy.dll, C:\__w\1\s\src\Client\Engine\handler\OSDeployment\Helper\OSDeploymentHelper.cpp @853</span><br><span class="line">2025/08/20 14:08:49.7867025 8216  8096  Handler         *FAILED* [8024B104] Merge failed for update ID: EA6E2510-4BE0-4FF2-B24E-42B5F59F6D6B.1</span><br></pre></td></tr></table></figure>
+
+<p>Windwos Update のログについての詳細な説明は<a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/windows/deployment/update/windows-update-logs">ドキュメント</a>をご確認ください。</p>
+<h2 id="参考情報"><a href="#参考情報" class="headerlink" title="参考情報"></a>参考情報</h2><p>VBScript となりますが、様々なシナリオをカバーしたサンプルスクリプトも<a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/windows/win32/wua_sdk/searching--downloading--and-installing-updates">こちらのページ</a>で公開されていますので、そちらもあわせて参考にしていただければと思います。PowerShell など他の言語から利用したい場合、Copilot を使用していただければ簡単に変換できますので是非ご活用ください。</p>
+<p><img src="use-copilot-for-lang-translation.png" alt="Copilot にスクリプトを変換させる"></p>
+
+      
+      
+        <div class="article-disclaimer">
+        
+          <p><hr>本ブログの内容は弊社の公式見解として保証されるものではなく、開発・運用時の参考情報としてご活用いただくことを目的としています。もし公式な見解が必要な場合は、弊社ドキュメント (<a target="_blank" rel="noopener" href="https://learn.microsoft.com/">https://learn.microsoft.com</a> や <a target="_blank" rel="noopener" href="https://support.microsoft.com">https://support.microsoft.com</a>) をご参照いただくか、もしくは私共サポートまでお問い合わせください。</p>
+        
+        </div>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Windows-SDK/" rel="tag">Windows SDK</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Windows-Update-Agent-API/" rel="tag">Windows Update Agent API</a></li></ul>
+
+      <!-- 
+      
+        <a href="https://github.com/jpdscore/blog/edit/master/articles/windowssdk/wuaapi-install-updates.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
+        
+      -->
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="../../vs/vs2015-support-retirement/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前の記事</strong>
+      <div class="article-nav-title">Visual Studio 2015 のサポート終了について</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最近の投稿</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="">Windows Update Agent API を使用して更新プログラムを検索、ダウンロード、インストールする</a>
+          </li>
+        
+          <li>
+            <a href="../../vs/vs2015-support-retirement/">Visual Studio 2015 のサポート終了について</a>
+          </li>
+        
+          <li>
+            <a href="../../debugging/mcp-server-for-dbgeng/">C# でダンプ ファイル解析を行う MCP サーバーを作成する</a>
+          </li>
+        
+          <li>
+            <a href="../../dotnet/netfx-4-compatibility/">.NET Framework 4.x の互換性について</a>
+          </li>
+        
+          <li>
+            <a href="../../vs/vs-offline-install-certificate-error/">Visual Studio オフライン インストール時の署名検証エラーについて</a>
+          </li>
+        
+          <li>
+            <a href="../../playfab/dau-limit-exceeded/">DAU Limit Exceeded について</a>
+          </li>
+        
+          <li>
+            <a href="../../vs/vs2022-offline-install/">Visual Studio 2022 の オフライン インストール</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">タグ</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Windows-SDK/">Windows SDK</a><span class="tag-list-count">9</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Debug">Debug</a><span class="tag-list-count">5</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Documents-and-Printing">Documents and Printing</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/GDI">GDI</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Leak">Leak</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Windows-Update-Agent-API">Windows Update Agent API</a><span class="tag-list-count">2</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Debug/">Debug</a><span class="tag-list-count">14</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/NET">.NET</a><span class="tag-list-count">4</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/AI">AI</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Leak">Leak</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Memory">Memory</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Visual-Studio">Visual Studio</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Windows-SDK">Windows SDK</a><span class="tag-list-count">5</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/">情報採取手順</a><span class="tag-list-count">5</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/ALM">ALM</a><span class="tag-list-count">4</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/Azure-DevOps-Server">Azure DevOps Server</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/Azure-DevOps-Services">Azure DevOps Services</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/Azure-Pipelines">Azure Pipelines</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/TFS">TFS</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/AI/">AI</a><span class="tag-list-count">3</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/AI/NET">.NET</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/AI/Debug">Debug</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/AI/Visual-Studio">Visual Studio</a><span class="tag-list-count">2</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/NET/">.NET</a><span class="tag-list-count">12</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/NET-Framework">.NET Framework</a><span class="tag-list-count">8</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/AI">AI</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/Debug">Debug</a><span class="tag-list-count">4</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/ALM/">ALM</a><span class="tag-list-count">15</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-DevOps-Server">Azure DevOps Server</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-DevOps-Services">Azure DevOps Services</a><span class="tag-list-count">7</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-Pipelines">Azure Pipelines</a><span class="tag-list-count">6</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-Repos">Azure Repos</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Devcontainer">Devcontainer</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/GitHub">GitHub</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/TFS">TFS</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Visual-Studio-Code">Visual Studio Code</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86">情報採取手順</a><span class="tag-list-count">4</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Deployment/">Deployment</a><span class="tag-list-count">2</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Deployment/ClickOnce">ClickOnce</a><span class="tag-list-count">2</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E5%85%A8%E8%88%AC/">全般</a><span class="tag-list-count">1</span><ul></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Azure-PlayFab/">Azure PlayFab</a><span class="tag-list-count">3</span><ul></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Visual-Studio/">Visual Studio</a><span class="tag-list-count">11</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/AI">AI</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/C">C#</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/C">C++</a><span class="tag-list-count">4</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/Debug">Debug</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/VB-NET">VB.NET</a><span class="tag-list-count">2</span></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">アーカイブ</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/08/">2025 / 08</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/07/">2025 / 07</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/06/">2025 / 06</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/08/">2024 / 08</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/06/">2024 / 06</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/04/">2024 / 04</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/03/">2024 / 03</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/09/">2023 / 09</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/06/">2023 / 06</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/03/">2023 / 03</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/02/">2023 / 02</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/12/">2022 / 12</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/11/">2022 / 11</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/07/">2022 / 07</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/06/">2022 / 06</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/04/">2022 / 04</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/03/">2022 / 03</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/01/">2022 / 01</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/12/">2021 / 12</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/08/">2021 / 08</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/05/">2021 / 05</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/04/">2021 / 04</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/02/">2021 / 02</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/01/">2021 / 01</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/12/">2020 / 12</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/11/">2020 / 11</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/10/">2020 / 10</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/09/">2020 / 09</a><span class="archive-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">旧ブログ/フォーラム</h3>
+  <div class="widget">
+    <ul>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://social.msdn.microsoft.com/Forums/ja-jp/home?forum=visualstudiosupportteamja">Visual Studio サポートチーム フォーラム</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://social.msdn.microsoft.com/Forums/ja-jp/home?forum=windowssdksupportteamja&filter=alltypes&sort=lastpostdesc">Windows SDK サポートチーム フォーラム</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/archive/blogs/jpvsblog/">Visual Studio サポート チーム blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/archive/blogs/japan_platform_sdkwindows_sdk_support_team_blog/">JAPAN Platform SDK（Windows SDK） Support Team Blog</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">関連リンク</h3>
+  <div class="widget">
+    <ul>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://developercommunity.visualstudio.com/">Developer Community</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/dotnet/">.NET Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/visualstudio/">Visual Studio Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/cppblog/">C++ Team Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/xamarin/">Xamarin Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/devops/">Azure DevOps Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://techcommunity.microsoft.com/t5/azure-lab-services/bg-p/AzureLabServicesBlog/">Azure Lab Services Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/appcenter/">App Center Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://status.azure.com/status/">Azure Status</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://status.dev.azure.com/">Azure DevOps - Status</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2025 Developer Support Core Japan<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="../../index.html" class="mobile-nav-link">Home</a>
+  
+    <a href="../../archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+<script src="../../js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
