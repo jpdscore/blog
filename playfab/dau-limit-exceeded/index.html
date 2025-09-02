@@ -14,12 +14,12 @@
 <meta property="og:description" content="こんにちは、Japan Developer Support Core チームの近澤です。PlayFab を利用しているタイトルにおいて、API 呼び出し時に以下のようなエラーが発生することがあります。 12345678&#123;  &quot;code&quot;: 400,  &quot;sta">
 <meta property="og:locale" content="ja_JP">
 <meta property="article:published_time" content="2025-07-23T15:00:00.000Z">
-<meta property="article:modified_time" content="2025-09-02T12:34:00.683Z">
+<meta property="article:modified_time" content="2025-09-02T12:59:00.012Z">
 <meta property="article:author" content="Developer Support Core Japan">
 <meta property="article:tag" content="Azure PlayFab">
 <meta name="twitter:card" content="summary">
   
-    <link rel="alternate" href="../../atom.xml" title="Japan Developer Support Core Team Blog" type="application/atom+xml">
+    <link rel="alternate" href="/blog/atom.xml" title="Japan Developer Support Core Team Blog" type="application/atom+xml">
   
 
   <link rel="icon" href="../../favicon.ico">
@@ -54,7 +54,7 @@
       </nav>
       <nav id="sub-nav">
         
-          <a id="nav-rss-link" class="nav-icon" href="../../atom.xml" title="RSSフィード"></a>
+          <a id="nav-rss-link" class="nav-icon" href="/blog/atom.xml" title="RSSフィード"></a>
         
       </nav>
       <div id="search-form-wrap">
@@ -97,7 +97,7 @@
         
         <a href="https://github.com/jpdscore/blog/issues/new?title=&body=%0A%0A---%0A%0A%23%23%23%23+Document+Details%0A%0A%E2%9A%A0+*Do+not+edit+this+section.%0A%0A*+ID%3A+86fb057a-24bd-5333-a983-82383e22123a%0A*+%E5%AF%BE%E8%B1%A1%E8%A8%98%E4%BA%8B%3A+%5BDAU+Limit+Exceeded+%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6%5D%28https%3A%2F%2Fjpdscore.github.io%2Fblog%2Fplayfab%2Fdau-limit-exceeded%2F%29" class="article-github-issue-link" target="_blank" rel="noopener noreferrer">feedback</a>
         
-        <a data-url="https://jpdscore.github.io/blog/playfab/dau-limit-exceeded/" data-id="cmf2j5ipg002tj68p3dougfug" class="article-share-link">共有</a>
+        <a data-url="https://jpdscore.github.io/blog/playfab/dau-limit-exceeded/" data-id="cmf2k1lwf001uj78p0ljk2bwi" class="article-share-link">共有</a>
       </div>
     
     <div class="article-entry" itemprop="articleBody">
@@ -109,11 +109,11 @@
 <p>このエラーそのものは、DAU（Daily Active Users）制限を超過したことを意味します。<br>しかし、実際にはユーザーが過剰に増加したといった状態ではない場合でも本エラーが突然発生する場合があります。</p>
 <h2 id="エラーの原因と対処方法"><a href="#エラーの原因と対処方法" class="headerlink" title="エラーの原因と対処方法"></a>エラーの原因と対処方法</h2><p>最も一般的な原因は、 <strong>支払いの未処理や失敗によるアカウントの一時停止</strong>です。</p>
 <p>PlayFab は、支払いがしばらく滞った場合に API 利用を制限することがあります。<br>例えば、クレジットカードの期限切れなどで支払いが停止した場合に発生します。<br>このエラーが発生するようになると、全てのユーザーが PlayFab へログインできない状態となります。<br>本番環境を運用いただいている場合は、非常にインパクトの大きい障害となってしまいますため、費用の支払い状況については十分ご注意ください。</p>
-<p>適切に支払いが完了していない場合は、事前に請求先のメールアドレスに <a href="mailto:&#97;&#114;&#x40;&#x70;&#108;&#x61;&#x79;&#102;&#x61;&#98;&#46;&#x63;&#x6f;&#109;">&#97;&#114;&#x40;&#x70;&#108;&#x61;&#x79;&#102;&#x61;&#98;&#46;&#x63;&#x6f;&#109;</a> / <a href="mailto:&#x70;&#x6c;&#x66;&#x77;&#97;&#x63;&#99;&#x72;&#x40;&#x6d;&#105;&#x63;&#x72;&#111;&#x73;&#111;&#102;&#x74;&#x2e;&#99;&#111;&#x6d;">&#x70;&#x6c;&#x66;&#x77;&#97;&#x63;&#99;&#x72;&#x40;&#x6d;&#105;&#x63;&#x72;&#111;&#x73;&#111;&#102;&#x74;&#x2e;&#99;&#111;&#x6d;</a> からメールが送られます。<br>このメールが登録のメールアドレスに届いているか確認いただければ、支払いが滞っているかどうか判断できます。</p>
+<p>適切に支払いが完了していない場合は、事前に請求先のメールアドレスに <a href="mailto:&#x61;&#114;&#64;&#x70;&#108;&#97;&#x79;&#102;&#x61;&#x62;&#46;&#99;&#x6f;&#x6d;">&#x61;&#114;&#64;&#x70;&#108;&#97;&#x79;&#102;&#x61;&#x62;&#46;&#99;&#x6f;&#x6d;</a> / <a href="mailto:&#112;&#x6c;&#102;&#119;&#97;&#99;&#x63;&#114;&#x40;&#x6d;&#x69;&#99;&#x72;&#x6f;&#x73;&#x6f;&#102;&#x74;&#46;&#x63;&#x6f;&#x6d;">&#112;&#x6c;&#102;&#119;&#97;&#99;&#x63;&#114;&#x40;&#x6d;&#x69;&#99;&#x72;&#x6f;&#x73;&#x6f;&#102;&#x74;&#46;&#x63;&#x6f;&#x6d;</a> からメールが送られます。<br>このメールが登録のメールアドレスに届いているか確認いただければ、支払いが滞っているかどうか判断できます。</p>
 <p>支払い設定を正しく変更した後は、タイトルの復旧手続きをしていただく必要があります。<br>通知元のメールアドレスへご返信いただき、タイトルの有効化を依頼ください。</p>
 <h2 id="相談先について"><a href="#相談先について" class="headerlink" title="相談先について"></a>相談先について</h2><p>何か支払いや課金に関して相談されたいことがあれば、下記の窓口を用意しています。<br>有効化手続きなどの際は下記よりご連絡ください。</p>
 <ul>
-<li>メールでのお問合せ： <a href="mailto:&#112;&#x6c;&#x66;&#119;&#x61;&#99;&#99;&#114;&#64;&#109;&#x69;&#x63;&#114;&#111;&#x73;&#111;&#102;&#x74;&#46;&#x63;&#x6f;&#109;">&#112;&#x6c;&#x66;&#119;&#x61;&#99;&#99;&#114;&#64;&#109;&#x69;&#x63;&#114;&#111;&#x73;&#111;&#102;&#x74;&#46;&#x63;&#x6f;&#109;</a> </li>
+<li>メールでのお問合せ： <a href="mailto:&#x70;&#108;&#102;&#x77;&#x61;&#99;&#x63;&#x72;&#64;&#109;&#x69;&#x63;&#114;&#111;&#115;&#111;&#102;&#x74;&#46;&#99;&#111;&#x6d;">&#x70;&#108;&#102;&#x77;&#x61;&#99;&#x63;&#x72;&#64;&#109;&#x69;&#x63;&#114;&#111;&#115;&#111;&#102;&#x74;&#46;&#99;&#111;&#x6d;</a> </li>
 <li>フォームからの起票： <a target="_blank" rel="noopener" href="https://playfab.com/contact">https://playfab.com/contact</a></li>
 </ul>
 
