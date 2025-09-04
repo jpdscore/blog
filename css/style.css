@@ -840,6 +840,11 @@ width: 100% {
   font-family: font-icon;
   padding-right: 8px;
 }
+.article-share-buttons {
+  cursor: pointer;
+  float: right;
+  margin-left: 10px;
+}
 .article-share-link {
   cursor: pointer;
   float: right;
