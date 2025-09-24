@@ -4,34 +4,23 @@
   <meta charset="utf-8">
   
   
-  <title>Service connection で利用中の Service principal を Managed identity に移行する手順 | JPDSC Blog</title>
+  <title>.NET Framework 4.x の更新プログラムの話 | JPDSC Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="本記事は Microsoft Azure Tech | Advent Calendar 2022 の 12 日目の記事です。  こんにちは、Japan Developer Support Core チームです🐈 今日は Azure Pipelines で利用する Service connecti">
+  <meta name="description" content="こんにちは、Japan Developer Support Core チームの上原です。.NET Framework 4.x (.NET Framework 4 以降のバージョン) の更新プログラムについて解説させていただきます。なお、.NET Framework 4.x の前バージョンとして .N">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Service connection で利用中の Service principal を Managed identity に移行する手順">
-<meta property="og:url" content="https://jpdscore.github.io/blog/azuredevops/migrate-sp-to-mi/index.html">
+<meta property="og:title" content=".NET Framework 4.x の更新プログラムの話">
+<meta property="og:url" content="https://jpdscore.github.io/blog/dotnet/netfx-4-rollup/index.html">
 <meta property="og:site_name" content="Japan Developer Support Core Team Blog">
-<meta property="og:description" content="本記事は Microsoft Azure Tech | Advent Calendar 2022 の 12 日目の記事です。  こんにちは、Japan Developer Support Core チームです🐈 今日は Azure Pipelines で利用する Service connecti">
+<meta property="og:description" content="こんにちは、Japan Developer Support Core チームの上原です。.NET Framework 4.x (.NET Framework 4 以降のバージョン) の更新プログラムについて解説させていただきます。なお、.NET Framework 4.x の前バージョンとして .N">
 <meta property="og:locale" content="ja_JP">
-<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/migrate-sp-to-mi/azdo1.png">
-<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/migrate-sp-to-mi/azdo2.png">
-<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/migrate-sp-to-mi/azdo3.png">
-<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/migrate-sp-to-mi/azdo4.png">
-<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/migrate-sp-to-mi/azdo4a.png">
-<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/migrate-sp-to-mi/portal1.png">
-<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/migrate-sp-to-mi/portal2.png">
-<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/migrate-sp-to-mi/portal3.png">
-<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/migrate-sp-to-mi/qa2.png">
-<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/migrate-sp-to-mi/qa2a.png">
-<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/migrate-sp-to-mi/qa3.png">
-<meta property="article:published_time" content="2022-12-11T15:00:00.000Z">
-<meta property="article:modified_time" content="2025-09-24T06:21:12.146Z">
+<meta property="og:image" content="https://jpdscore.github.io/blog/dotnet/netfx-4-rollup/NETUpdatesAcrossWindowsVersions.jpg">
+<meta property="article:published_time" content="2025-09-23T15:00:00.000Z">
+<meta property="article:modified_time" content="2025-09-24T06:21:12.203Z">
 <meta property="article:author" content="Developer Support Core Japan">
-<meta property="article:tag" content="ALM">
-<meta property="article:tag" content="Azure DevOps Services">
-<meta property="article:tag" content="Azure Pipelines">
+<meta property="article:tag" content=".NET">
+<meta property="article:tag" content=".NET Framework">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://jpdscore.github.io/blog/azuredevops/migrate-sp-to-mi/azdo1.png">
+<meta name="twitter:image" content="https://jpdscore.github.io/blog/dotnet/netfx-4-rollup/NETUpdatesAcrossWindowsVersions.jpg">
   
     <link rel="alternate" href="/blog/atom.xml" title="Japan Developer Support Core Team Blog" type="application/atom+xml">
   
@@ -88,7 +77,7 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="service-azuredevops/migrate-sp-to-mi" class="article article-type-service" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-dotnet/netfx-4-rollup" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
     
@@ -97,7 +86,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Service connection で利用中の Service principal を Managed identity に移行する手順
+      .NET Framework 4.x の更新プログラムの話
     </h1>
   
 
@@ -105,7 +94,7 @@
       <div class="article-share">
         Last Update: 
         <a href="" class="article-date-single">
-  <time datetime="2022-12-11T15:00:00.000Z" itemprop="datePublished">2022-12-12</time>
+  <time datetime="2025-09-23T15:00:00.000Z" itemprop="datePublished">2025-09-24</time>
 </a>
         
         <div class="article-share-buttons">
@@ -113,7 +102,7 @@
         </div>
         <div class="article-share-buttons">
           <script src="https://platform.linkedin.com/in.js" type="text/javascript">lang: ja_JP</script>
-          <script type="IN/Share" data-url="https://jpdscore.github.io/blog/azuredevops/migrate-sp-to-mi/"></script>
+          <script type="IN/Share" data-url="https://jpdscore.github.io/blog/dotnet/netfx-4-rollup/"></script>
         </div>
         <div class="article-share-buttons">
           <a target="_blank" rel="noopener" href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
@@ -122,61 +111,44 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <blockquote>
-<p>本記事は <a target="_blank" rel="noopener" href="https://qiita.com/advent-calendar/2022/microsoft-azure-tech">Microsoft Azure Tech | Advent Calendar 2022</a> の 12 日目の記事です。</p>
-</blockquote>
-<p>こんにちは、Japan Developer Support Core チームです🐈</p>
-<p>今日は Azure Pipelines で利用する Service connection (Azure service connection) の Service principal を Managed identity に移行する手順をご紹介します。</p>
-<p>Managed identity にはいくつかのメリットがありますが、 Azure Pipelines の観点における最大のメリットは有効期限の延長が不要であることではないでしょうか。<br>Service principal はセキュリティの都合から最大 2 年間の有効期限があるため定期的なキーローテーションが必要となっており、有効期限が切れてしまうとパイプライン実行時に突然認証エラーになったといった現象が発生します。事前に有効期限の延長を保守・運用作業として準備しておけば問題は軽微にすることできますが、セキュリティの都合上から Service principal を開発環境や本番環境といった環境ごとに用意した場合に、例として開発環境では問題なかったが本番環境で突然エラーになってしまい Azure リソースへのデプロイができない大事件に繋がる可能性もあります。</p>
-<p>一方で Managed identity はどんな場合でも必ず利用できるわけではなく、一番大きな問題としては Microsoft-hosted エージェントで利用できないことです。<br>Managed identity は Azure リソースで利用できるものなので Self-hosted エージェントを Azure VM に構築し、Azure VM の設定で Managed identity を有効化する必要があります。 Microsoft-hosted エージェントでは Managed identity を有効化できないため、パイプラインの実行に Microsoft-hosted エージェントを利用しなければならないシナリオでは Managed identity による Service connection は利用できません。</p>
-<p>ご参考: <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/devops/demystifying-service-principals-managed-identities/">Demystifying Service Principals - Managed Identities - Azure DevOps Blog</a> ※英語のブログ記事です。</p>
-<h2 id="Managed-identity-への移行手順"><a href="#Managed-identity-への移行手順" class="headerlink" title="Managed identity への移行手順"></a>Managed identity への移行手順</h2><p>それでは早速手順を見ていきましょう。 Azure DevOps と Azure Portal のそれぞれの作業で分けてあります。<br>今回は移行ですので、事前準備として Azure VM に Self-hosted エージェントを作成済みの状態で進めていきます。もし Self-hosted エージェントの作成手順がわからない場合は <a href="https://jpdscore.github.io/blog/azuredevops/try-self-hosted-agent/">DevOps の Self-hosted エージェントを構築して使ってみよう！ | Japan Developer Support Core Team Blog</a> が参考になりますので、ぜひご覧ください。</p>
-<h3 id="Azure-DevOps-の手順"><a href="#Azure-DevOps-の手順" class="headerlink" title="Azure DevOps の手順"></a>Azure DevOps の手順</h3><ol>
-<li><p>Service connections を開いて、新しい Service connection を Managed identity タイプで作成する。</p>
-<p> <img src="azdo1.png"></p>
-</li>
-<li><p>既存の Service connection を開いて Service principal の情報を取得する。</p>
-<p> [Manage service connection roles] を選択するとサブスクリプションまたはリソースグループの IAM ページが開くので、このページから Service principal に付与されている権限やロールを確認できます。<br> [Manage Service Principal] を選択すると Service connection に紐づいている Service principal の情報を確認できます。<br> <img src="azdo2.png"></p>
-</li>
-<li><p>既存の Service connection を開いて [Usage history] を確認する。</p>
-<p> このページでは Service connection を利用したパイプラインの一覧情報が取得できます。次の作業ではパイプラインの Service connection を更新する必要があるため、ここで変更対象のパイプラインの一覧情報を取得しておきます。<br> <img src="azdo3.png"></p>
-</li>
-<li><p>パイプラインで利用している既存の Service connection を、新しく作成した Managed identity タイプの Service connection に更新する。</p>
-<p> YAML パイプライン定義の場合は定義ファイルの Service connection 名を変更することで更新可能です。<br> <img src="azdo4.png"></p>
-<p> クラシック / リリース パイプラインの場合はパラメーターやタスクで利用している Service connection をコンボボックスから変更することで更新可能です。<br> <img src="azdo4a.png"></p>
-</li>
-</ol>
-<h3 id="Azure-Portal-の手順"><a href="#Azure-Portal-の手順" class="headerlink" title="Azure Portal の手順"></a>Azure Portal の手順</h3><ol>
-<li><p>Self-hosted エージェントが構成済みの Azure VM を開いて、Managed identity を有効化する。</p>
-<p> Self-hosted エージェントを構成した VM リソースを開いて ID メニューから Managed identity を有効化できます。今回の例では <a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/azure/active-directory/managed-identities-azure-resources/overview#managed-identity-types">システム割り当てマネージド ID</a> を利用しています。<br> <img src="portal1.png"></p>
-</li>
-<li><p>既存の Service principal に付与されている権限（ロール）を確認する。</p>
-<p> IAM メニューから [アクセスの確認] を開いて Azure DevOps の手順で確認した Service principal を検索することで付与されている権限を確認できます。<br> <img src="portal2.png"></p>
-</li>
-<li><p>Azure VM で利用する Managed identity に必要な権限（ロール）を付与する。</p>
-<p> Self-hosted エージェントを構成した VM リソースを開いて ID メニューから [Azure ロールの割り当て] にて権限を付与できます。<br> ※前の手順で確認した権限を付与することでパイプラインは確実に動作しますが “共同作成者” などといった大きな権限を持っている可能性があるので、この機会に適切な権限のみを付与したほうがより安全です。<br> <img src="portal3.png"></p>
-</li>
-</ol>
-<h2 id="その他-QA"><a href="#その他-QA" class="headerlink" title="その他 QA"></a>その他 QA</h2><p>移行にあたってのいくつかの QA にも答えておきます。</p>
-<h3 id="Azure-DevOps-および-Azure-Portal-で必要な権限を教えてください"><a href="#Azure-DevOps-および-Azure-Portal-で必要な権限を教えてください" class="headerlink" title="Azure DevOps および Azure Portal で必要な権限を教えてください"></a>Azure DevOps および Azure Portal で必要な権限を教えてください</h3><p>Azure DevOps にて Service Connection を操作するにあたり、以下の <a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/azure/devops/pipelines/library/service-endpoints?view=azure-devops&tabs=yaml#user-permissions">権限</a> が必要です。</p>
+        <p>こんにちは、Japan Developer Support Core チームの上原です。<br>.NET Framework 4.x (.NET Framework 4 以降のバージョン) の更新プログラムについて解説させていただきます。<br>なお、.NET Framework 4.x の前バージョンとして .NET Framework 3.5 が、後継製品として .NET や .NET Core がありますが、更新プログラムの構成は大きく異なっておりますので、本記事は .NET Framework 4.x を対象にしておりますことご注意ください。</p>
+<h2 id="はじめに"><a href="#はじめに" class="headerlink" title="はじめに"></a>はじめに</h2><p>現在(2025年 9月) サポートされている全ての OS において、初期状態でいずれかのバージョンの .NET Framework 4.x がプレインストールされており、必要に応じて更新プログラムを適用する必要があります。<br>ロールアップと呼ばれる .NET Framework 更新プログラムは、様々な環境や用途を想定し設計されておりますので、本記事ではいくつかの観点から更新プログラムの構成や、適用に関する注意事項について説明させていただきます。</p>
+<h2 id="OS-バージョンと-NET-Framework"><a href="#OS-バージョンと-NET-Framework" class="headerlink" title="OS バージョンと .NET Framework"></a>OS バージョンと .NET Framework</h2><p>.NET Framework 4.x は、OS の一部として、いずれかのバージョンがプレインストールされており、より新しいバージョンにアップデートすることも可能です。<br>より新しいバージョンをインストールした場合にはインプレースアップグレードされ、.NET Framework 4.x ではシステムにインストールされている最も新しいバージョンのみが有効になりますので、複数のバージョンを同時に利用することはできません。</p>
+<p>一方で、OS にプレインストールされているバージョン未満にダウングレードすることはできません。<br>.NET Framework 4.x のアップグレードとダウングレードについて、<a href="https://jpdscore.github.io/blog/dotnet/ndp-upgrade-and-downgrade/">以前のブログ記事</a>で詳細に解説しておりますので、良ければこちらもご覧ください。</p>
+<h2 id="NET-Framework-バージョンの確認方法"><a href="#NET-Framework-バージョンの確認方法" class="headerlink" title=".NET Framework バージョンの確認方法"></a>.NET Framework バージョンの確認方法</h2><p>システムにおける現在の .NET Framework バージョンは、レジストリ値 <em>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full</em> の <em>Release</em> の値から判断することが可能です。<br>Release の値は、.NET Framework バージョンごとに範囲が定められており、例えば 528040 以上、533320 未満の値であれば、.NET Framework 4.8 であると判断できます。</p>
+<p>詳細な確認方法は、<a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/dotnet/framework/install/how-to-determine-which-versions-are-installed#net-framework-45-and-later-versions">こちらのドキュメント</a> に紹介されていますので、こちらもご覧ください。</p>
+<p>(注意) 同レジストリパスに <em>Version</em> も存在しますが、こちらは現在の .NET Framework バージョンを示しておりませんので、バージョンの判別には <em>Relase</em> を参照ください。</p>
+<h2 id="更新プログラムの提供形態"><a href="#更新プログラムの提供形態" class="headerlink" title="更新プログラムの提供形態"></a>更新プログラムの提供形態</h2><p>.NET Framework の更新プログラムは、OS および .NET Framework バージョンごとに提供されております。</p>
+<p>以前の OS バージョンでは個別のセキュリティ更新ごとに更新プログラムが用意されている場合もありましたが、現在サポートされている全ての OS バージョンにおいて、原則として .NET Framework 更新プログラムは累積の形式で提供されております。<br>そのため、ある時期にリリースされた .NET Framework の更新プログラムは、それ以前にリリースされた修正を全て含んでいますので、適用する更新プログラムの抽出や順番を気にする必要はありません。</p>
+<p>次に、更新プログラムの配布形態として、大きく分けて .NET Framework 単体の更新プログラムとして提供されている場合と、OS の更新プログラムに含まれて提供されている場合があります。</p>
+<p>主に、Windows 10 version 1803 以前のクライアント OS および Windows Server 2016 以前のサーバー OS であり、かつ、.NET Framework 4.7.2 以下の場合には、OS の更新プログラムに含まれて提供されています。<br>それ以外の場合、.NET Framework 4.8 以上、あるいは、Windows 10 version 1809 以降のクライアント OS、および Windows Server 2019 以降のサーバー OS では、OS とは別に .NET Framework の更新プログラムとして提供されております。</p>
+<p>少し古い記事ですが、<a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/dotnet/upcoming-updates-for-net-framework-4-8/">.NET Framework 4.8 のリリース記事</a> に、上記を示した表がありますので、参考までにご紹介します。<br>ここでは、Windows 11 などの新しい OS バージョンや、.NET Framework 4.8.1 の記載はありませんが、現在までのところ表の最も新しい 1903 や .NET 4.8(.NET Framework 4.8) と提供形態に変更はありません。</p>
+<p><img src="NETUpdatesAcrossWindowsVersions.jpg"></p>
+<h2 id="セキュリティ修正について"><a href="#セキュリティ修正について" class="headerlink" title="セキュリティ修正について"></a>セキュリティ修正について</h2><p>.NET Framework 更新プログラムでは、大きくわけて脆弱性などのセキュリティに関する修正と、機能改善などのセキュリティ以外の修正に分類されて提供されています。</p>
+<p>例えば、現在 2025年 9月時点の状況を例にご説明しますと、<a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/dotnet/framework/release-notes/2025/09-09-september-cumulative-update">最新の 2025年 9月の更新プログラムのリリースノート</a> の <em>Security improvements</em> には、今回のアップデートにおいて新たにセキュリティに関する修正が含まれていないことが明記されています。<br>この場合、2025年 9月の .NET Framework 更新プログラムの分類(Classification) は <em>更新(Updates)</em> として提供されます。</p>
+<p>次に、リリースノートを遡って確認すると、<a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/dotnet/framework/release-notes/2025/01-14-january-cumulative-update">2025年 1月の更新プログラム</a> の <em>Security improvements</em> に脆弱性への修正が記載されています。<br>そのため、2025年 9月現在、最新のセキュリティ修正としては 2025年 1月の更新プログラムであり、更新プログラムの分類(Classification) は　<em>セキュリティ更新(Security Updates)</em> となっています。</p>
+<p>もしセキュリティに関する修正が入っている場合のみ更新プログラムを適用したい、といった要件がある場合には、上記のリリースノートや更新プログラムの分類を元に、更新プログラムの適用可否をご判断ください。</p>
+<h2 id="親子-KB-の話"><a href="#親子-KB-の話" class="headerlink" title="親子 KB の話"></a>親子 KB の話</h2><p>.NET Framework の更新プログラムは、OS および .NET Framework バージョンごとに提供されており、それぞれに KB 番号が定められていますが、複数の .NET Framework バージョンむけの更新プログラムを、別の KB 番号で表記し、複数バージョンむけの更新プログラムとして提供されている場合があります。<br>なお、本ブログ記事では便宜的に、前者の実際にインストールされる OS および .NET Framework ごとの更新プログラムを 子 KB、後者の複数の更新プログラムを包含した更新プログラムを親 KB と表記することにします。</p>
+<p>今回は、現在最新の <a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/dotnet/framework/release-notes/2025/09-09-september-cumulative-update#summary-tables">2025年 9月リリースの Windows 10 version 22H2 むけの更新プログラム</a> を例に、各更新プログラムの親子 KB の関係について説明します。</p>
 <ul>
-<li>Service Connections を作成する場合: Creator 権限</li>
-<li>Service Connections を管理（削除・更新）する場合: Administrator 権限</li>
+<li>(親 KB) Windows 10 version 22H2 むけ KB5065956</li>
+<li>   (子 KB) .NET Framework 3.5, 4.8    KB5064399</li>
+<li>   (子 KB) .NET Framework 3.5, 4.8.1    KB5064400</li>
 </ul>
-<p>Creator 権限は Project Contributor が既定でもっており、 Administrator 権限は Project Administrator がもっています。また、自分で作成した Service Connection は自分が Administrator 権限をもつことになるので、例えば Project Contributor であっても、自分が作成した Service Connection は削除・更新ができます。</p>
-<p>Azure Portal では Azure VM で Self-hosted エージェントを構築した場合は Managed identity を有効化するために Microsoft.Compute/virtualMachines/write 権限が必要です。この権限は Virtual Machine Contributor などの組み込みロールに含まれています。 <a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/azure/active-directory/managed-identities-azure-resources/managed-identities-faq#which-azure-rbac-permissions-are-required-to-use-a-managed-identity-on-a-resource">リソースのマネージド ID を使用するために必要な Azure RBAC アクセス許可は何ですか?</a> にも詳しい情報が載っています。<br>また Azure VM で有効化した Managed identity に対して、各 Azure リソースの権限を割り当てる必要があるため、 <a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/azure/role-based-access-control/role-assignments-portal-managed-identity#prerequisites">Azure ロールを割り当てるには、Microsoft.Authorization/roleAssignments/write が必要です。</a> この権限は組み込みロールの <a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/azure/role-based-access-control/built-in-roles#user-access-administrator">ユーザー アクセス管理者</a> や <a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/azure/role-based-access-control/built-in-roles#owner">所有者</a> にも含まれています。</p>
-<p>最後に Service principal を手動で削除する場合の権限ですが、自分で作成した Service principal の場合は特に追加の権限は不要です。もし他ユーザーが作成した Service principal を削除する場合は Azure AD 組み込みロールの <a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/azure/active-directory/roles/permissions-reference#application-administrator">アプリケーション管理者</a> または <a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/azure/active-directory/roles/permissions-reference#cloud-application-administrator">クラウド アプリケーション管理者</a> が必要です。</p>
-<h3 id="不要になった-Service-principal-を削除する方法を教えてください"><a href="#不要になった-Service-principal-を削除する方法を教えてください" class="headerlink" title="不要になった Service principal を削除する方法を教えてください"></a>不要になった Service principal を削除する方法を教えてください</h3><p>Service principal (auto) タイプで作成した場合は Service connection を削除したタイミングで Service principal も一緒に削除されます。<br>基本的には Service connection を作成したユーザーが実行することで Service principal も一緒に削除に削除されますが、 Azure AD の権限がなくなってしまったなどによって Service principal を削除するための権限が不足した場合には Service principal を削除できないため、再度権限を付与いただくか、後述する Service principal (manual) タイプの対応が必要となります。</p>
-<blockquote>
-<p>Service principal を削除できない場合は警告メッセージが表示されます。ここで [Delete] を選択すると Service connection のみ削除されます。 <img src="qa2.png"></p>
-</blockquote>
-<p>Service principal (manual) タイプで作成した場合は Service connection を削除しても Service principal は一緒に削除されません。<br>Service principal を削除するためには Azure Portal 画面から利用いただいている Service principal (アプリの登録画面) を開いていただき、 [概要] メニューから [削除] を選択することで Service principal の削除が完了します。</p>
-<p><img src="qa2a.png"></p>
-<h3 id="Service-connection-に紐づいている-Service-principal-の有効期限を確認する方法を教えてください"><a href="#Service-connection-に紐づいている-Service-principal-の有効期限を確認する方法を教えてください" class="headerlink" title="Service connection に紐づいている Service principal の有効期限を確認する方法を教えてください"></a>Service connection に紐づいている Service principal の有効期限を確認する方法を教えてください</h3><p>Azure DevOps の手順にもあるように Service connection を開いて Service principal の情報を取得することで確認が可能です。 [証明書とシークレット] メニューから [クライアント シークレット] を選択することで有効期限が確認できます。</p>
-<p><img src="qa3.png"></p>
-<h3 id="Managed-identity-はシステム割り当てとユーザー割り当てのどちらが利用できますか"><a href="#Managed-identity-はシステム割り当てとユーザー割り当てのどちらが利用できますか" class="headerlink" title="Managed identity はシステム割り当てとユーザー割り当てのどちらが利用できますか"></a>Managed identity はシステム割り当てとユーザー割り当てのどちらが利用できますか</h3><p>どちらも利用可能です。 <a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/azure/active-directory/managed-identities-azure-resources/overview#managed-identity-types">マネージド ID の種類</a> にあるようにそれぞれの特徴があるため、要件にマッチしたものをご利用ください。<br>一点ほど重要なことがあって、一つの Azure VM に複数のマネージド ID (システム割り当てとユーザー割り当ての組み合わせや、複数のユーザー割り当てなど) を割り当てる場合です。 Service connection を利用するパイプラインの Azure CLI タスクなどでは、タスクの最初に <a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/cli/azure/authenticate-azure-cli#sign-in-with-a-managed-identity">マネージド ID を使用したサインイン</a> を実行します。この時のコマンドは <code>az login --identity</code> となっており、タスクからは <code>--username</code> パラメーターを渡すことができません。そのため、特定のマネージド ID を選択して利用するといったことができないことに注意ください。</p>
-<h2 id="まとめ"><a href="#まとめ" class="headerlink" title="まとめ"></a>まとめ</h2><p>実際に移行する際はまずは開発環境で利用している Service connection から移行してみて検証するといった方法が安全です。また移行手順では Service connection を新しく作成するので、もし何かしらの問題が発生したらロールバックを行うなど柔軟な対応も可能です。（※既存の Service connection を編集して Service principal タイプから Managed identity タイプに変更できない事情もあります。）<br>必ずしも Managed identity に移行する必要はありませんので Service principal の有効期限が近くなってきたら、今後の保守・運用をどうしていくか考えて、どちらのタイプが適しているかを考えるきっかけとしてお役立てください。<br>Service principal (auto) タイプの Service connection を作成いただいている場合は、 <a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/azure/devops/pipelines/release/azure-rm-endpoint?view=azure-devops#service-principals-token-expired">サービス プリンシパルのトークンの有効期限が切れた</a> ときには Azure DevOps の Service connection 画面から [Save] いただくことで簡単に期限の延長ができますので、期限をどこかにメモしておき、チーム内で共有しておくだけでも十分の場合もあることでしょう。</p>
-<p>今後も Azure DevOps のご利用にお役立ていただける情報をどんどんご紹介していきますので、どうぞよろしくお願いします！</p>
+<p>2025年 9月リリースの Windows 10 version 22H2 むけ更新プログラムは、.NET Framework 4.8 むけ KB5064399 と、4.8.1 むけ KB5064400 が提供されています。<br>なお、.NET Framework 3.5 は独立してインストールが可能なので、それぞれの更新プログラムに含まれています。</p>
+<p>Windows 10 version 22H2 において更新プログラムを適用する場合には、システムの .NET Framework バージョンに応じて、KB5064399 か KB5064400 のいずれかの子 KB をインストールする必要があります。<br>もし手動でインストールする場合には、システムの .NET Framework バージョンを確認の上、バージョンに合致する子 KB をインストールします。</p>
+<p>一方で、親KB である KB5065956 は、バージョンが異なる 2つの子 KB を内包した更新プログラムとして提供されており、主に WSUS や MECM などから多数の端末に対して配信するといったシナリオで利用することが可能です。<br>親 KB が端末に配信されると、各端末ごとにインストールされている .NET Framework バージョンを判別し、.NET Framework 4.8 むけ KB5064399 か、4.8.1 むけ KB5064400 かの、いずれかの子 KB が実際にインストールされます。</p>
+<p>その場合、インストール時の更新プログラムは親 KB の KB 番号として表示される場合がありますが、各端末でインストールされている更新プログラムとしては子 KB の KB 番号が表示されますので注意が必要です。</p>
+<h2 id="参考情報"><a href="#参考情報" class="headerlink" title="参考情報"></a>参考情報</h2><p>本記事は 2025年 9月の執筆当時の情報を元に記載していますが、最新の情報はブログやリリースノートからご確認ください。</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/dotnet/">.NET Blog</a> や </li>
+<li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/dotnet/framework/release-notes/release-notes">.NET Framework のリリース ノート</a></li>
+</ul>
+<p>また、累積型の .NET Framework ロールアップが導入された経緯や背景については、2016年の当時の情報が参考になりますので、必要に応じてご参照ください。</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://msrc.microsoft.com/blog/2016/08/introducing-the-net-framework-monthly-rollup/">.NET Framework 用の月例のロールアップの導入について</a></li>
+<li><a target="_blank" rel="noopener" href="https://msrc.microsoft.com/blog/2016/10/net-framework-monthly-rollups-explained/">.NET Framework 用の月例のロールアップの詳細</a></li>
+</ul>
 
       
       
@@ -190,11 +162,11 @@
     <footer class="article-footer">
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/ALM/" rel="tag">ALM</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Azure-DevOps-Services/" rel="tag">Azure DevOps Services</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Azure-Pipelines/" rel="tag">Azure Pipelines</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/NET/" rel="tag">.NET</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/NET-Framework/" rel="tag">.NET Framework</a></li></ul>
 
       <!-- 
       
-        <a href="https://github.com/jpdscore/blog/edit/master/articles/azuredevops/migrate-sp-to-mi.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
+        <a href="https://github.com/jpdscore/blog/edit/master/articles/dotnet/netfx-4-rollup.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
         
       -->
     </footer>
@@ -203,19 +175,10 @@
     
 <nav id="article-nav">
   
-    <a href="../../playfab/order-of-leaderboard-positions/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">次の記事</strong>
-      <div class="article-nav-title">
-        
-          GetLeaderboard 系 API で取得したランキング位置の順番について
-        
-      </div>
-    </a>
   
-  
-    <a href="../../dotnet/ndp-upgrade-and-downgrade/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="../../vs/vc2015-compatibility/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">前の記事</strong>
-      <div class="article-nav-title">.NET Framework 4.x のアップグレード及びダウングレード</div>
+      <div class="article-nav-title">Visual C++ の互換性について(Visual C++ 2015 以降)</div>
     </a>
   
 </nav>
@@ -234,7 +197,7 @@
       <ul>
         
           <li>
-            <a href="../../dotnet/netfx-4-rollup/">.NET Framework 4.x の更新プログラムの話</a>
+            <a href="">.NET Framework 4.x の更新プログラムの話</a>
           </li>
         
           <li>
@@ -254,7 +217,7 @@
           </li>
         
           <li>
-            <a href="../../dotnet/netfx-4-compatibility/">.NET Framework 4.x の互換性について</a>
+            <a href="../netfx-4-compatibility/">.NET Framework 4.x の互換性について</a>
           </li>
         
           <li>

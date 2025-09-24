@@ -6,7 +6,7 @@
   <link href="https://jpdscore.github.io/blog/atom.xml" rel="self"/>
   
   <link href="https://jpdscore.github.io/blog/"/>
-  <updated>2025-09-12T13:35:38.554Z</updated>
+  <updated>2025-09-24T06:21:12.203Z</updated>
   <id>https://jpdscore.github.io/blog/</id>
   
   <author>
@@ -17,11 +17,36 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>.NET Framework 4.x の更新プログラムの話</title>
+    <link href="https://jpdscore.github.io/blog/dotnet/netfx-4-rollup/"/>
+    <id>https://jpdscore.github.io/blog/dotnet/netfx-4-rollup/</id>
+    <published>2025-09-23T15:00:00.000Z</published>
+    <updated>2025-09-24T06:21:12.203Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;こんにちは、Japan Developer Support Core チームの上原です。&lt;br&gt;.NET Framework 4.x (.NET Framework 4 以降のバージョン) の更新プログラムについて解説させていただきます。&lt;br&gt;なお、.NET</summary>
+        
+      
+    
+    
+    
+    
+    <category term=".NET" scheme="https://jpdscore.github.io/blog/tags/NET/"/>
+    
+    <category term=".NET Framework" scheme="https://jpdscore.github.io/blog/tags/NET-Framework/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Visual C++ の互換性について(Visual C++ 2015 以降)</title>
     <link href="https://jpdscore.github.io/blog/vs/vc2015-compatibility/"/>
     <id>https://jpdscore.github.io/blog/vs/vc2015-compatibility/</id>
     <published>2025-09-11T15:00:00.000Z</published>
-    <updated>2025-09-12T13:35:38.554Z</updated>
+    <updated>2025-09-24T06:21:12.213Z</updated>
     
     
       
@@ -46,7 +71,7 @@
     <link href="https://jpdscore.github.io/blog/windowssdk/wuaapi-install-updates/"/>
     <id>https://jpdscore.github.io/blog/windowssdk/wuaapi-install-updates/</id>
     <published>2025-08-20T15:00:00.000Z</published>
-    <updated>2025-09-12T13:35:38.559Z</updated>
+    <updated>2025-09-24T06:21:12.216Z</updated>
     
     
       
@@ -72,7 +97,7 @@
     <link href="https://jpdscore.github.io/blog/vs/vs2015-support-retirement/"/>
     <id>https://jpdscore.github.io/blog/vs/vs2015-support-retirement/</id>
     <published>2025-08-19T15:00:00.000Z</published>
-    <updated>2025-09-12T13:35:38.554Z</updated>
+    <updated>2025-09-24T06:21:12.214Z</updated>
     
     
       
@@ -95,7 +120,7 @@
     <link href="https://jpdscore.github.io/blog/debugging/mcp-server-for-dbgeng/"/>
     <id>https://jpdscore.github.io/blog/debugging/mcp-server-for-dbgeng/</id>
     <published>2025-08-17T15:00:00.000Z</published>
-    <updated>2025-09-12T13:35:38.518Z</updated>
+    <updated>2025-09-24T06:21:12.187Z</updated>
     
     
       
@@ -122,7 +147,7 @@
     <link href="https://jpdscore.github.io/blog/dotnet/netfx-4-compatibility/"/>
     <id>https://jpdscore.github.io/blog/dotnet/netfx-4-compatibility/</id>
     <published>2025-08-06T15:00:00.000Z</published>
-    <updated>2025-09-12T13:35:38.540Z</updated>
+    <updated>2025-09-24T06:21:12.203Z</updated>
     
     
       
@@ -147,7 +172,7 @@
     <link href="https://jpdscore.github.io/blog/vs/vs-offline-install-certificate-error/"/>
     <id>https://jpdscore.github.io/blog/vs/vs-offline-install-certificate-error/</id>
     <published>2025-07-28T15:00:00.000Z</published>
-    <updated>2025-09-12T13:35:38.554Z</updated>
+    <updated>2025-09-24T06:21:12.213Z</updated>
     
     
       
@@ -170,7 +195,7 @@
     <link href="https://jpdscore.github.io/blog/playfab/dau-limit-exceeded/"/>
     <id>https://jpdscore.github.io/blog/playfab/dau-limit-exceeded/</id>
     <published>2025-07-23T15:00:00.000Z</published>
-    <updated>2025-09-12T13:35:38.542Z</updated>
+    <updated>2025-09-24T06:21:12.205Z</updated>
     
     
       
@@ -194,7 +219,7 @@
     <link href="https://jpdscore.github.io/blog/vs/vs2022-offline-install/"/>
     <id>https://jpdscore.github.io/blog/vs/vs2022-offline-install/</id>
     <published>2025-07-15T15:00:00.000Z</published>
-    <updated>2025-09-12T13:35:38.555Z</updated>
+    <updated>2025-09-24T06:21:12.214Z</updated>
     
     
       
@@ -218,7 +243,7 @@
     <link href="https://jpdscore.github.io/blog/vs/create-a-simple-app-with-ghcopilot/"/>
     <id>https://jpdscore.github.io/blog/vs/create-a-simple-app-with-ghcopilot/</id>
     <published>2025-07-13T15:00:00.000Z</published>
-    <updated>2025-09-12T13:35:38.543Z</updated>
+    <updated>2025-09-24T06:21:12.205Z</updated>
     
     
       
@@ -243,7 +268,7 @@
     <link href="https://jpdscore.github.io/blog/dotnet/memoryleak-using-sta-thread/"/>
     <id>https://jpdscore.github.io/blog/dotnet/memoryleak-using-sta-thread/</id>
     <published>2025-07-03T15:00:00.000Z</published>
-    <updated>2025-09-12T13:35:38.540Z</updated>
+    <updated>2025-09-24T06:21:12.202Z</updated>
     
     
       
@@ -268,7 +293,7 @@
     <link href="https://jpdscore.github.io/blog/vs/troubleshooting-application-error-with-ghcopilot/"/>
     <id>https://jpdscore.github.io/blog/vs/troubleshooting-application-error-with-ghcopilot/</id>
     <published>2025-07-03T15:00:00.000Z</published>
-    <updated>2025-09-12T13:35:38.548Z</updated>
+    <updated>2025-09-24T06:21:12.209Z</updated>
     
     
       
@@ -296,7 +321,7 @@
     <link href="https://jpdscore.github.io/blog/vs/vc-silent-install/"/>
     <id>https://jpdscore.github.io/blog/vs/vc-silent-install/</id>
     <published>2025-07-01T15:00:00.000Z</published>
-    <updated>2025-09-12T13:35:38.554Z</updated>
+    <updated>2025-09-24T06:21:12.213Z</updated>
     
     
       
@@ -321,7 +346,7 @@
     <link href="https://jpdscore.github.io/blog/dotnet/netfx-how-to-repair/"/>
     <id>https://jpdscore.github.io/blog/dotnet/netfx-how-to-repair/</id>
     <published>2025-06-26T15:00:00.000Z</published>
-    <updated>2025-09-12T13:35:38.540Z</updated>
+    <updated>2025-09-24T06:21:12.204Z</updated>
     
     
       
@@ -347,7 +372,7 @@
     <link href="https://jpdscore.github.io/blog/windowssdk/mouse-ops-on-windows-forms-with-activex/"/>
     <id>https://jpdscore.github.io/blog/windowssdk/mouse-ops-on-windows-forms-with-activex/</id>
     <published>2024-08-02T08:03:08.000Z</published>
-    <updated>2025-09-12T13:35:38.558Z</updated>
+    <updated>2025-09-24T06:21:12.216Z</updated>
     
     
       
@@ -373,7 +398,7 @@
     <link href="https://jpdscore.github.io/blog/azuredevops/wif-service-connection/"/>
     <id>https://jpdscore.github.io/blog/azuredevops/wif-service-connection/</id>
     <published>2024-06-22T14:47:30.000Z</published>
-    <updated>2025-09-12T13:35:38.504Z</updated>
+    <updated>2025-09-24T06:21:12.177Z</updated>
     
     
       
@@ -399,7 +424,7 @@
     <link href="https://jpdscore.github.io/blog/azuredevops/service-connection-update/"/>
     <id>https://jpdscore.github.io/blog/azuredevops/service-connection-update/</id>
     <published>2024-06-04T05:25:32.000Z</published>
-    <updated>2025-09-12T13:35:38.474Z</updated>
+    <updated>2025-09-24T06:21:12.156Z</updated>
     
     
       
@@ -425,7 +450,7 @@
     <link href="https://jpdscore.github.io/blog/azuredevops/pipelines-agent-update/"/>
     <id>https://jpdscore.github.io/blog/azuredevops/pipelines-agent-update/</id>
     <published>2024-04-01T00:59:40.000Z</published>
-    <updated>2025-09-12T13:35:38.467Z</updated>
+    <updated>2025-09-24T06:21:12.151Z</updated>
     
     
       
@@ -452,7 +477,7 @@
     <link href="https://jpdscore.github.io/blog/azuredevops/tfs-basic-log-collection/"/>
     <id>https://jpdscore.github.io/blog/azuredevops/tfs-basic-log-collection/</id>
     <published>2024-03-03T15:00:00.000Z</published>
-    <updated>2025-09-12T13:35:38.482Z</updated>
+    <updated>2025-09-24T06:21:12.162Z</updated>
     
     
       
@@ -482,7 +507,7 @@
     <link href="https://jpdscore.github.io/blog/windowssdk/wuaapi-install-later/"/>
     <id>https://jpdscore.github.io/blog/windowssdk/wuaapi-install-later/</id>
     <published>2023-09-07T15:00:00.000Z</published>
-    <updated>2025-09-12T13:35:38.559Z</updated>
+    <updated>2025-09-24T06:21:12.216Z</updated>
     
     
       
@@ -500,29 +525,6 @@
     <category term="Windows SDK" scheme="https://jpdscore.github.io/blog/tags/Windows-SDK/"/>
     
     <category term="Windows Update Agent API" scheme="https://jpdscore.github.io/blog/tags/Windows-Update-Agent-API/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>自動シャットダウンを設定する際に必要な最小権限について</title>
-    <link href="https://jpdscore.github.io/blog/devtestlabs/auto-shutdown-permission/"/>
-    <id>https://jpdscore.github.io/blog/devtestlabs/auto-shutdown-permission/</id>
-    <published>2023-06-06T05:07:09.000Z</published>
-    <updated>2025-09-12T13:35:38.531Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;こんにちは、Japan Developer Support Core チームです🗻&lt;br&gt;サポートにはよく「Azure VM の自動シャットダウンを設定する際に必要な最小権限」についてお問合せがあります。&lt;br&gt;最初に結論を書きますが、残念ながら&lt;span</summary>
-        
-      
-    
-    
-    
-    
-    <category term="Azure DevTest Labs" scheme="https://jpdscore.github.io/blog/tags/Azure-DevTest-Labs/"/>
     
   </entry>
   
