@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>[メモリリーク #2] [HOWTO] WPR/WPA を用いたWin32アプリケーションのヒープメモリリークの調査 | JPDSC Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="こんにちは、Japan Developer Support Core チームの松井です。今回は、Win32 アプリケーションのヒープ メモリ リークの調査方法について解説します。 以前の記事では User-Mode Dump Heap (UMDH) ツールを使用した調査方法を解説しました。UMDH">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[メモリリーク #2] [HOWTO] WPR&#x2F;WPA を用いたWin32アプリケーションのヒープメモリリークの調査">
+<meta property="og:url" content="https://jpdscore.github.io/blog/debugging/analyze-win32-heap-leak/index.html">
+<meta property="og:site_name" content="Japan Developer Support Core Team Blog">
+<meta property="og:description" content="こんにちは、Japan Developer Support Core チームの松井です。今回は、Win32 アプリケーションのヒープ メモリ リークの調査方法について解説します。 以前の記事では User-Mode Dump Heap (UMDH) ツールを使用した調査方法を解説しました。UMDH">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:image" content="https://jpdscore.github.io/blog/debugging/analyze-win32-heap-leak/open-etl-file.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/debugging/analyze-win32-heap-leak/add-heap-allocations-graph.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/debugging/analyze-win32-heap-leak/check-memory-usage.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/debugging/analyze-win32-heap-leak/zoom-time-axis.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/debugging/analyze-win32-heap-leak/configure-columns.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/debugging/analyze-win32-heap-leak/configure-symbol-path.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/debugging/analyze-win32-heap-leak/configure-per-process-restriction.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/debugging/analyze-win32-heap-leak/load-symbols.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/debugging/analyze-win32-heap-leak/symbols-hub.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/debugging/analyze-win32-heap-leak/identify-impacting-stack.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/debugging/analyze-win32-heap-leak/identify-impacting-stack2.png">
+<meta property="article:published_time" content="2025-09-25T15:00:00.000Z">
+<meta property="article:modified_time" content="2025-09-25T23:59:19.892Z">
+<meta property="article:author" content="Developer Support Core Japan">
+<meta property="article:tag" content="Debug">
+<meta property="article:tag" content="Leak">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jpdscore.github.io/blog/debugging/analyze-win32-heap-leak/open-etl-file.png">
+  
+    <link rel="alternate" href="/blog/atom.xml" title="Japan Developer Support Core Team Blog" type="application/atom+xml">
+  
+
+  <link rel="icon" href="../../favicon.ico">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="theme-color" content="#ffffff">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="../../css/style.css">
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="site-header-logo"></div>
+  <div id="site-header-blog-wrapper"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        <div id="ms-logo"></div>
+        
+          <a class="main-nav-link" href="../../index.html">Home</a>
+        
+          <a class="main-nav-link" href="../../archives">Archives</a>
+        
+        <a class="main-nav-link" target="_blank" rel="noopener" href="https://cssjpn.github.io/">サポート情報</a>
+        <a class="main-nav-link" href="/blog/general/welcome/">About</a>
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/blog/atom.xml" title="RSSフィード"></a>
+        
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//www.bing.com/search" method="get" accept-charset="UTF-8" name="bing-search" onsubmit="var f=this;if(f['q'].value){var searchUrl =  'https://www.bing.com/search?q=' +  encodeURIComponent(f['q'].value + ' site:' + f['sitesearch'].value) ;window.open(searchUrl, 'blank') };return false;" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="検索"><button type="submit" id="nav-search-btn" class="search-form-submit"></button><input type="hidden" name="sitesearch" value="https://jpdscore.github.io/blog"></form>
+      </div>
+    </div>
+    <div id="header-title" class="inner">
+      <div id="logo-wrap">
+        <a href="../../index.html" id="logo">Japan Developer Support Core Team Blog</a>
+      </div>
+      
+        <div id="subtitle-wrap">
+          <a href="../../index.html" id="subtitle">日本マイクロソフトの Japan Developer Support Core チームのブログです。</a>
+        </div>
+      
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-debugging/analyze-win32-heap-leak" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header-single">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      [メモリリーク #2] [HOWTO] WPR/WPA を用いたWin32アプリケーションのヒープメモリリークの調査
+    </h1>
+  
+
+      </header>
+      <div class="article-share">
+        Last Update: 
+        <a href="" class="article-date-single">
+  <time datetime="2025-09-25T15:00:00.000Z" itemprop="datePublished">2025-09-26</time>
+</a>
+        
+        <div class="article-share-buttons">
+          <a target="_blank" rel="noopener" href="https://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="basic-label" data-hatena-bookmark-lang="ja" data-hatena-bookmark-height="20" title="このエントリーをはてなブックマークに追加"><img src="https://b.st-hatena.com/images/v4/public/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+        </div>
+        <div class="article-share-buttons">
+          <script src="https://platform.linkedin.com/in.js" type="text/javascript">lang: ja_JP</script>
+          <script type="IN/Share" data-url="https://jpdscore.github.io/blog/debugging/analyze-win32-heap-leak/"></script>
+        </div>
+        <div class="article-share-buttons">
+          <a target="_blank" rel="noopener" href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        </div>
+      </div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>こんにちは、Japan Developer Support Core チームの松井です。今回は、Win32 アプリケーションのヒープ メモリ リークの調査方法について解説します。</p>
+<p><a href="../UMDH/">以前の記事</a>では User-Mode Dump Heap (UMDH) ツールを使用した調査方法を解説しました。UMDH はヒープのメモリ リークの調査で古くから利用されている軽量で非常に便利なツールですが、スナップショット ベースの分析となるため、時系列の変化を追うことが難しい場合があります。また、テキスト ベースのツールであるため、情報の視覚化や詳細な分析のための機能は限られています。</p>
+<p>今回は、無償で利用できる Windows Performance Recorder (WPR) と Windows Performance Analyzer (WPA) を使用してヒープ メモリ リークを分析する方法を紹介します。WPR と WPA を使用すると、システムやアプリケーションのパフォーマンスに関する様々なシステムのトレース情報を収集し、グラフ機能とデータテーブルを組み合わせた詳細な分析が可能になります。これらは CPU 使用率やディスク I/O、ネットワーク アクティビティなど様々な観点からパフォーマンスの問題を調査できる高度な診断ツールですが、今回は特にヒープ メモリ リークの調査に焦点を当てて解説します。</p>
+<h2 id="はじめに"><a href="#はじめに" class="headerlink" title="はじめに"></a>はじめに</h2><p>メモリ リークは、アプリケーションが不要になったメモリを解放せず、使用し続けることによって発生します。<br>これにより、アプリケーションのメモリ使用量が増加し、最終的にはアプリケーションのクラッシュやシステム全体のパフォーマンスの低下といった問題が発生する可能性があります。</p>
+<p>メモリ リークを疑う場合、まずはパフォーマンス モニターなどでアプリケーションのプロセスの Private Bytes を監視し、右肩上がりの傾向が見られるか確認します。上昇している期間があっても右肩上がりではなく一定の範囲で変動している場合は、アプリケーションが正常にメモリを管理している可能性が高いと考えられます。また、キャッシュの使用やガベージ コレクションのタイミングによって一時的にメモリ使用量が増加することもありますので、アプリケーションの動作特性を理解することも重要です。</p>
+<p>また、リークしているメモリの種類を特定することも重要です。例えば malloc 関数や new 演算子で確保されたヒープ メモリのリークと、VirtualAlloc 関数で確保された仮想メモリのリークでは、情報採取方法や調査方法が異なります。今回は、malloc 関数や new 演算子で確保されたヒープ メモリのリークを対象とします。今回使用するサンプル プログラムは以下の C++ のとおりで、x64 のデバッグ ビルドでコンパイルして使用します。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// NativeHeapLeak.cpp</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;windows.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">unsigned</span> <span class="type">char</span>* <span class="title">allocate_buffer1</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="type">unsigned</span> <span class="type">char</span>[<span class="number">100</span> * <span class="number">1024</span>];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">unsigned</span> <span class="type">char</span>* <span class="title">allocate_buffer2</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="type">unsigned</span> <span class="type">char</span>[<span class="number">100</span> * <span class="number">1024</span>];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">free_buffer</span><span class="params">(<span class="type">unsigned</span> <span class="type">char</span>* p)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">delete</span>[] p;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">unsigned</span> <span class="type">char</span>* buffers[<span class="number">60</span>] = &#123;&#125;;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Press Ctrl+C to exit.\n&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> i = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (;;)</span><br><span class="line">    &#123;</span><br><span class="line">        buffers[i] = i % <span class="number">10</span> ? <span class="built_in">allocate_buffer1</span>() : <span class="built_in">allocate_buffer2</span>();</span><br><span class="line">        i = (i + <span class="number">1</span>) % <span class="number">60</span>;</span><br><span class="line">        <span class="keyword">if</span> (i == <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">0</span>; j &lt; <span class="number">30</span>; j++)</span><br><span class="line">                <span class="built_in">free_buffer</span>(buffers[j]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">Sleep</span>(<span class="number">100</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="WPR-による情報採取"><a href="#WPR-による情報採取" class="headerlink" title="WPR による情報採取"></a>WPR による情報採取</h2><p>Windows 10 / Windows Server 2016 以降には既定で WPR (C:\windows\system32\wpr.exe) がインストールされていますので、ツールのインストールは不要です。情報採取手順は以下のとおりです。</p>
+<ol>
+<li><p>管理者としてコマンド プロンプトを起動します。</p>
+</li>
+<li><p>以下のコマンドを実行してヒープ トレースを有効にします。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wpr.exe -HeapTracingConfig &lt;process_name&gt; enable</span><br></pre></td></tr></table></figure>
+<p><code>&lt;process_name&gt;</code> は調査対象のプロセス名に置き換えてください。例えば <code>NativeHeapLeak.exe</code> などです。</p>
+</li>
+<li><p>ヒープ トレースの設定を反映させるために、調査対象のアプリケーション プロセスを再起動します。</p>
+</li>
+<li><p>以下のコマンドを実行してトレースの記録を開始します。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wpr.exe -start HeapTracing -filemode -recordtempto &lt;temporary_directory&gt;</span><br></pre></td></tr></table></figure>
+<p> <code>&lt;temporary_directory&gt;</code> は一時ファイルを保存するディレクトリに置き換えてください。例えば <code>C:\logs</code> などです。一時ファイルはトレースの記録をキャンセルまたは停止した場合に自動的に削除されます。</p>
+</li>
+<li><p>アプリケーションを操作して、メモリ リークが発生する状況を再現します。メモリ使用量の増加量が少ない場合は正常な動作と異常な動作の区別が難しくなるため、メモリ リークが顕著に現れるまで操作を続けます。</p>
+</li>
+<li><p>トレースの記録を停止して、ETL ファイルを保存します。以下のコマンドを実行します。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wpr.exe -stop &lt;output_file&gt;</span><br></pre></td></tr></table></figure>
+<p><code>&lt;output_file&gt;</code> は保存する ETL ファイル名に置き換えてください。例えば <code>C:\logs\heap_trace.etl</code> などです。</p>
+</li>
+<li><p>ヒープ トレースを無効にします。以下のコマンドを実行します。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wpr.exe -HeapTracingConfig &lt;process_name&gt; disable</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>調査対象のアプリケーション プロセスを再起動します。</p>
+</li>
+</ol>
+<div class="admonition warning"><p class="admonition-title">注意事項
+</p><ul>
+<li>
+<p>トレースの記録を開始する時に<code>-filemode</code> オプションを指定した場合、記録を停止するまでの間トレースは一時ファイルに保存されます。指定しない場合は、循環ログとしてメモリに保存され古いデータが上書きされる可能性があります。<code>-filemode</code> オプションを指定した場合は、<code>-recordtempto</code> オプションで一時ファイルを保存するフォルダーを指定し、そのフォルダーに十分な空き容量があることを確認してください。</p>
+</li>
+<li>
+<p><code>-filemode</code> オプションを指定した場合はドライブの空き容量が許す限りトレースを記録し続けますが、ファイルが大きすぎると WPA での分析が困難になる場合がありますので注意してください。</p>
+</li>
+<li>
+<p><code>wpr.exe -status</code> コマンドを実行すると、現在のトレースの状態を確認できます。</p>
+</li>
+<li>
+<p><code>wpr.exe -cancel</code> コマンドを実行すると、現在のトレースを途中でキャンセルできます。</p>
+</li>
+<li>
+<p>WPR による情報採取がシステムのパフォーマンスに与える影響や一時ファイル、ログ ファイルのサイズは、システム構成やアプリケーションの動作によって大きく異なります。本番環境で情報採取を実行する前に必ず検証環境で事前に確認してください。</p>
+</li>
+</ul>
+</div>
+
+<h2 id="WPA-による分析"><a href="#WPA-による分析" class="headerlink" title="WPA による分析"></a>WPA による分析</h2><p>分析に使用する WPA は Windows には含まれていません。WPA は <a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/windows-hardware/test/wpt/">Windows Performance Toolkit (WPT)</a> の一部として提供されており、WPT は <a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/windows-hardware/get-started/adk-install">Windows ADK</a> のインストール時に選択してインストールできます。また、<a target="_blank" rel="noopener" href="https://apps.microsoft.com/detail/9n0w1b2bxgnz">Microsoft Store</a> からもインストールできます。特に事情が無ければ、自動更新に対応している Microsoft Store からのインストールをお勧めします。</p>
+<p>WPA がインストールできたら、以下の手順で分析を行います。</p>
+<h3 id="1-ETL-ファイルの読み込み"><a href="#1-ETL-ファイルの読み込み" class="headerlink" title="1. ETL ファイルの読み込み"></a>1. ETL ファイルの読み込み</h3><p>Windows Performance Analyzer を起動し、[Open file] メニューを選択して ETL ファイルを開きます。</p>
+<p><img src="open-etl-file.png" alt="ETL ファイルを開く"></p>
+<h3 id="2-Heap-Allocations-グラフの追加"><a href="#2-Heap-Allocations-グラフの追加" class="headerlink" title="2. [Heap Allocations] グラフの追加"></a>2. [Heap Allocations] グラフの追加</h3><p>ETL ファイルを開くと、[Graph Explorer] ペインに利用可能なグラフの一覧が表示されます。リストから [Heap Allocations] グラフをダブルクリックして [Analysis] タブに追加します。ここで [Heap Allocations] グラフが見つからない場合は、ヒープ トレースが記録されていなかったことを示しています。WPR の情報採取手順で正しいプロセス名に対してヒープ トレースが有効になっていること、およびヒープ トレースの有効化後にプロセスを再起動して反映させたか確認してください。</p>
+<p><img src="add-heap-allocations-graph.png" alt="Heap Allocations グラフの追加"></p>
+<p>[Heap Allocations] グラフが追加されると、ヒープ メモリの割り当てと解放の状況が時間軸に沿って表示されます。メモリ リークが発生している場合、グラフ上で割り当てが解放を上回り、全体としてメモリ使用量が増加している様子が確認できます。</p>
+<p><img src="check-memory-usage.png" alt="Heap Allocations グラフで割り当てが増えている様子"></p>
+<h3 id="3-グラフ中の時間軸の選択"><a href="#3-グラフ中の時間軸の選択" class="headerlink" title="3. グラフ中の時間軸の選択"></a>3. グラフ中の時間軸の選択</h3><p>情報採取した期間やタイミングによっては、メモリ リークが発生していない期間がトレース ログに含まれている場合があります。また、メモリ リークが発生している期間が長い場合は、グラフ全体を表示しても傾向が分かりにくい場合があります。不要な情報は調査をする際のノイズとなる可能性があるためため、グラフ内で着目したい期間をドラッグし、右クリックしてコンテキスト メニューから [Zoom] を選択して、選択した期間にズームインします。今回は一定周期で繰り返しメモリの増減の山と谷があるため、そのうちの一つを選択しています。</p>
+<p><img src="zoom-time-axis.png" alt="時間軸の選択"></p>
+<p>選択範囲を戻したい場合は、コンテキスト メニューから [Undo Zoom] や [Unzoom] を選択してください。</p>
+<p>なお、上部に表示されているグラフと下部に表示されているデータテーブルの選択は連動しています。グラフで範囲を選択すると、その期間に含まれるトレース ログに関する行だけがデータ テーブルで強調表示されます。反対にデータ テーブルで行を選択すると、その行に対応するトレース ログが含まれる期間がグラフで選択された状態になります。この機能は、問題が発生している期間やその時の処理の傾向を把握するために役立ちます。</p>
+<h3 id="4-分析に使用する列の構成"><a href="#4-分析に使用する列の構成" class="headerlink" title="4. 分析に使用する列の構成"></a>4. 分析に使用する列の構成</h3><p>ヒープ トレースでは、ヒープの割り当てや解放といったイベント毎に時刻やサイズ、スタック等の情報が記録されます。WPA では、これらの情報に基づいてグラフや集計を表示することができます。分析に使用する列の構成は、調査対象のアプリケーションや問題の特性によって異なりますが、ヒープのメモリ リークの調査に有用な列の一例を以下に示します。</p>
+<p><img src="configure-columns.png" alt="列の構成"></p>
+<ul>
+<li>Process</li>
+<li>Impacting Type</li>
+<li>Stack</li>
+<li>Count</li>
+<li>Impacting Size (KB)</li>
+</ul>
+<p>表の黄色いバーより左側の列は、トレース ログの集計時にグループ化するための列になります。上図では、プロセス、影響の種類、スタック毎にグループ化しています。これにより、プロセス毎に、スタックをドリルダウンしながらメモリ使用量に関連したモジュールや関数の情報を調べることができるようになります。ただし、ここまでの段階ではまだシンボルが読み込まれておらず、”Symbols disabled” と表示され関数名は確認できないため、シンボルの設定と読み込みを次のセクションで行います。</p>
+<p>なお、表の黄色いバーより右側の列は、集計した結果を表示するための列になります。上図では、各グループ毎のイベントの回数 (Count) と影響を受けたサイズ (Impacting Size (KB)) を表示しています。影響を受けたサイズが正の値の場合はメモリの割り当て、負の値の場合はメモリの解放を示しています。メモリ リークの調査では、影響を受けたサイズが正の値で大きいグループに注目します。</p>
+<h3 id="5-シンボルの設定と読み込み"><a href="#5-シンボルの設定と読み込み" class="headerlink" title="5. シンボルの設定と読み込み"></a>5. シンボルの設定と読み込み</h3><p>WPA でスタックの情報を表示するためには、シンボルの設定と読み込みが必要です。</p>
+<p>まず、メニューから [Trace] - [Configure Symbol Paths] を選択して、シンボルのパスを設定します。既定では下図のように、Microsoft のパブリック シンボル サーバーが設定されています。必要に応じて、アプリケーションのシンボル ファイル (PDB ファイル) が保存されているフォルダーを追加してください。</p>
+<p><img src="configure-symbol-path.png" alt="シンボル パスの設定"></p>
+<p>次に、[Load Settings] タブを選択し、[Load symbols per the following restrictions] を有効にして調査対象のプロセス名を [Load symbols for the following processes:] のリストに追加します。これを指定しない場合、WPA はすべてのモジュールのシンボルを読み込もうとするため、シンボルの読み込みに非常に時間がかかる場合があります。</p>
+<p><img src="configure-per-process-restriction.png" alt="シンボル読み込みの設定"></p>
+<p>[Configure Symbols] ダイアログで [OK] をクリックして設定を保存し、WPA のメニューから [Trace] - [Load Symbols] を選択してシンボルの読み込みを開始します。シンボルの読み込みが完了すると、[Heap Allocations] グラフのスタック列に関数名が表示されるようになります。</p>
+<p><img src="load-symbols.png" alt="シンボルの読み込み"></p>
+<p>シンボルの読み込みに関して問題がある場合は、[Symbols Hub] ペインに表示される診断情報を確認してください。モジュールの行を展開すると、シンボル読み込みを試行した URL やパスなどの詳細な情報が確認できます。</p>
+<p><img src="symbols-hub.png" alt="シンボル読み込みの診断情報"></p>
+<h3 id="6-メモリ割り当ての原因となった関数の特定"><a href="#6-メモリ割り当ての原因となった関数の特定" class="headerlink" title="6. メモリ割り当ての原因となった関数の特定"></a>6. メモリ割り当ての原因となった関数の特定</h3><p>まず、Process 列で調査対象のプロセスをフィルターします。次に、Impacting Type 列で “Impacting” をフィルターします。これにより、調査対象プロセスのメモリの割り当て (Impacting) のみが表示されるようになります。フィルターするには、データ テーブルの行を右クリックしてコンテキスト メニューから [Filter To Selection] を選択します。</p>
+<p>次に、Stack 列を展開し、影響を受けたサイズ (Impacting Size (KB)) が大きいノードを探します。これにより、メモリの割り当てが多い関数やモジュールを特定できます。さらに、スタックをドリルダウンしていくことで、メモリの割り当てが発生した具体的なコードの場所を特定できます。</p>
+<p><img src="identify-impacting-stack.png" alt="影響を受けたスタックの特定"></p>
+<p>例えば、上図の例では、<code>main</code> 関数の中で記録された 88 回のヒープの操作で 2,868,656 バイトのメモリ使用量の増加があったことが分かります。また、その呼び出し先関数のうち、 <code>allocate_buffer1</code> 関数で 79 回/2,561,300 バイト、<code>allocate_buffer2</code> 関数で 9 回/307,356 バイトのメモリ使用量の増加があったことが分かります。さらに <code>allocate_buffer1</code> 関数を展開すると、<code>new</code> 演算子でヒープ メモリが割り当てられていることが分かります。行番号は表示されないため、割り当てと解放の対応を確認するには、ソースコードを参照する必要があります。(今回は 32-33 行目で buffers のすべての要素を解放していないため、メモリ リークが発生しています。)</p>
+<p><img src="identify-impacting-stack2.png" alt="スタックの詳細確認"></p>
+<p>なお、実際のアプリケーションでは時間軸の選択を工夫しても、問題と直接関係しない大小様々な Impacting Size が表示される可能性があります。例えば、ズームインした範囲によってはメモリの解放が選択した期間が含まれておらず、その結果として割り当てが多く見える場合があります。そのため、Impacting Size がサイズが大きいものから注目することをお勧めします。また、メモリの割り当てが多い関数が必ずしもメモリ リークの原因であるとは限らないため、アプリケーションの動作特性を理解した上で、問題があるかどうかを判断する必要があります。例えば、キャッシュの使用や一時的なバッファーの確保など、アプリケーションの正常な動作に必要なメモリの割り当てもあります。</p>
+<p>適切な時間軸の選択とグループ化する列の構成、スタックの分析は、メモリ リークに限らず WAP を使用したパフォーマンスの問題調査において重要なポイントとなります。今回紹介した手順を参考に、是非実際のアプリケーションで試してみてください。</p>
+<h2 id="まとめ"><a href="#まとめ" class="headerlink" title="まとめ"></a>まとめ</h2><p>WPR と WPA を使用したヒープ メモリ リークの調査方法について解説しました。メモリ リークはアプリケーションのパフォーマンスや安定性に重大な影響を与える可能性がありますが、原因を特定するためには適切な手法を用いて情報の収集と分析を行う必要があります。本記事で紹介した内容が皆様の問題解決の一助となれば幸いです。</p>
+
+      
+      
+        <div class="article-disclaimer">
+        
+          <p><hr>本ブログの内容は弊社の公式見解として保証されるものではなく、開発・運用時の参考情報としてご活用いただくことを目的としています。もし公式な見解が必要な場合は、弊社ドキュメント (<a target="_blank" rel="noopener" href="https://learn.microsoft.com/">https://learn.microsoft.com</a> や <a target="_blank" rel="noopener" href="https://support.microsoft.com">https://support.microsoft.com</a>) をご参照いただくか、もしくは私共サポートまでお問い合わせください。</p>
+        
+        </div>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Debug/" rel="tag">Debug</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Leak/" rel="tag">Leak</a></li></ul>
+
+      <!-- 
+      
+        <a href="https://github.com/jpdscore/blog/edit/master/articles/debugging/analyze-win32-heap-leak.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
+        
+      -->
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="../../dotnet/netfx-4-rollup/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前の記事</strong>
+      <div class="article-nav-title">.NET Framework 4.x の更新プログラムの話</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最近の投稿</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="">[メモリリーク #2] [HOWTO] WPR/WPA を用いたWin32アプリケーションのヒープメモリリークの調査</a>
+          </li>
+        
+          <li>
+            <a href="../../dotnet/netfx-4-rollup/">.NET Framework 4.x の更新プログラムの話</a>
+          </li>
+        
+          <li>
+            <a href="../../vs/vc2015-compatibility/">Visual C++ の互換性について(Visual C++ 2015 以降)</a>
+          </li>
+        
+          <li>
+            <a href="../../windowssdk/wuaapi-install-updates/">Windows Update Agent API を使用して更新プログラムを検索、ダウンロード、インストールする</a>
+          </li>
+        
+          <li>
+            <a href="../../vs/vs2015-support-retirement/">Visual Studio 2015 のサポート終了について</a>
+          </li>
+        
+          <li>
+            <a href="../mcp-server-for-dbgeng/">C# でダンプ ファイル解析を行う MCP サーバーを作成する</a>
+          </li>
+        
+          <li>
+            <a href="../../dotnet/netfx-4-compatibility/">.NET Framework 4.x の互換性について</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">タグ</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="../../tags/ALM/">ALM</a><span class="tag-list-count">15</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-DevOps-Server">Azure DevOps Server</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-DevOps-Services">Azure DevOps Services</a><span class="tag-list-count">7</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-Pipelines">Azure Pipelines</a><span class="tag-list-count">6</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-Repos">Azure Repos</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Devcontainer">Devcontainer</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/GitHub">GitHub</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/TFS">TFS</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Visual-Studio-Code">Visual Studio Code</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86">情報採取手順</a><span class="tag-list-count">4</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/">情報採取手順</a><span class="tag-list-count">5</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/ALM">ALM</a><span class="tag-list-count">4</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/Azure-DevOps-Server">Azure DevOps Server</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/Azure-DevOps-Services">Azure DevOps Services</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/Azure-Pipelines">Azure Pipelines</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/TFS">TFS</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Windows-SDK/">Windows SDK</a><span class="tag-list-count">9</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Debug">Debug</a><span class="tag-list-count">5</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Documents-and-Printing">Documents and Printing</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/GDI">GDI</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Leak">Leak</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Windows-Update-Agent-API">Windows Update Agent API</a><span class="tag-list-count">2</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Debug/">Debug</a><span class="tag-list-count">15</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/NET">.NET</a><span class="tag-list-count">4</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/AI">AI</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Leak">Leak</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Memory">Memory</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Visual-Studio">Visual Studio</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Windows-SDK">Windows SDK</a><span class="tag-list-count">5</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/AI/">AI</a><span class="tag-list-count">3</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/AI/NET">.NET</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/AI/Debug">Debug</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/AI/Visual-Studio">Visual Studio</a><span class="tag-list-count">2</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/NET/">.NET</a><span class="tag-list-count">13</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/NET-Framework">.NET Framework</a><span class="tag-list-count">9</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/AI">AI</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/Debug">Debug</a><span class="tag-list-count">4</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Deployment/">Deployment</a><span class="tag-list-count">2</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Deployment/ClickOnce">ClickOnce</a><span class="tag-list-count">2</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E5%85%A8%E8%88%AC/">全般</a><span class="tag-list-count">1</span><ul></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Azure-PlayFab/">Azure PlayFab</a><span class="tag-list-count">3</span><ul></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Visual-Studio/">Visual Studio</a><span class="tag-list-count">12</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/AI">AI</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/C">C#</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/C">C++</a><span class="tag-list-count">5</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/Debug">Debug</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/VB-NET">VB.NET</a><span class="tag-list-count">2</span></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">アーカイブ</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/09/">2025 / 09</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/08/">2025 / 08</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/07/">2025 / 07</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/06/">2025 / 06</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/08/">2024 / 08</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/06/">2024 / 06</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/04/">2024 / 04</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/03/">2024 / 03</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/09/">2023 / 09</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/06/">2023 / 06</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/03/">2023 / 03</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/02/">2023 / 02</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/12/">2022 / 12</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/11/">2022 / 11</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/07/">2022 / 07</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/06/">2022 / 06</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/04/">2022 / 04</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/03/">2022 / 03</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/01/">2022 / 01</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/12/">2021 / 12</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/08/">2021 / 08</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/05/">2021 / 05</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/04/">2021 / 04</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/02/">2021 / 02</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/01/">2021 / 01</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/12/">2020 / 12</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/11/">2020 / 11</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/10/">2020 / 10</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/09/">2020 / 09</a><span class="archive-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">旧ブログ/フォーラム</h3>
+  <div class="widget">
+    <ul>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://social.msdn.microsoft.com/Forums/ja-jp/home?forum=visualstudiosupportteamja">Visual Studio サポートチーム フォーラム</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://social.msdn.microsoft.com/Forums/ja-jp/home?forum=windowssdksupportteamja&filter=alltypes&sort=lastpostdesc">Windows SDK サポートチーム フォーラム</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/archive/blogs/jpvsblog/">Visual Studio サポート チーム blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/archive/blogs/japan_platform_sdkwindows_sdk_support_team_blog/">JAPAN Platform SDK（Windows SDK） Support Team Blog</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">関連リンク</h3>
+  <div class="widget">
+    <ul>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://developercommunity.visualstudio.com/">Developer Community</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/dotnet/">.NET Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/visualstudio/">Visual Studio Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/cppblog/">C++ Team Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/xamarin/">Xamarin Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/devops/">Azure DevOps Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://techcommunity.microsoft.com/t5/azure-lab-services/bg-p/AzureLabServicesBlog/">Azure Lab Services Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/appcenter/">App Center Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://status.azure.com/status/">Azure Status</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://status.dev.azure.com/">Azure DevOps - Status</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2025 Developer Support Core Japan<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="../../index.html" class="mobile-nav-link">Home</a>
+  
+    <a href="../../archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+<script src="../../js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
