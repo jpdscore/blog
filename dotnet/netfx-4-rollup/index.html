@@ -15,7 +15,7 @@
 <meta property="og:locale" content="ja_JP">
 <meta property="og:image" content="https://jpdscore.github.io/blog/dotnet/netfx-4-rollup/NETUpdatesAcrossWindowsVersions.jpg">
 <meta property="article:published_time" content="2025-09-23T15:00:00.000Z">
-<meta property="article:modified_time" content="2025-09-24T06:21:12.203Z">
+<meta property="article:modified_time" content="2025-09-25T07:49:06.305Z">
 <meta property="article:author" content="Developer Support Core Japan">
 <meta property="article:tag" content=".NET">
 <meta property="article:tag" content=".NET Framework">
@@ -113,7 +113,7 @@
       
         <p>こんにちは、Japan Developer Support Core チームの上原です。<br>.NET Framework 4.x (.NET Framework 4 以降のバージョン) の更新プログラムについて解説させていただきます。<br>なお、.NET Framework 4.x の前バージョンとして .NET Framework 3.5 が、後継製品として .NET や .NET Core がありますが、更新プログラムの構成は大きく異なっておりますので、本記事は .NET Framework 4.x を対象にしておりますことご注意ください。</p>
 <h2 id="はじめに"><a href="#はじめに" class="headerlink" title="はじめに"></a>はじめに</h2><p>現在(2025年 9月) サポートされている全ての OS において、初期状態でいずれかのバージョンの .NET Framework 4.x がプレインストールされており、必要に応じて更新プログラムを適用する必要があります。<br>ロールアップと呼ばれる .NET Framework 更新プログラムは、様々な環境や用途を想定し設計されておりますので、本記事ではいくつかの観点から更新プログラムの構成や、適用に関する注意事項について説明させていただきます。</p>
-<h2 id="OS-バージョンと-NET-Framework"><a href="#OS-バージョンと-NET-Framework" class="headerlink" title="OS バージョンと .NET Framework"></a>OS バージョンと .NET Framework</h2><p>.NET Framework 4.x は、OS の一部として、いずれかのバージョンがプレインストールされており、より新しいバージョンにアップデートすることも可能です。<br>より新しいバージョンをインストールした場合にはインプレースアップグレードされ、.NET Framework 4.x ではシステムにインストールされている最も新しいバージョンのみが有効になりますので、複数のバージョンを同時に利用することはできません。</p>
+<h2 id="OS-バージョンと-NET-Framework"><a href="#OS-バージョンと-NET-Framework" class="headerlink" title="OS バージョンと .NET Framework"></a>OS バージョンと .NET Framework</h2><p>.NET Framework 4.x は、OS の一部として<a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/dotnet/framework/install/versions-and-dependencies">いずれかのバージョンがプレインストール</a>されており、より新しいバージョンにアップデートすることも可能です。<br>より新しいバージョンをインストールした場合にはインプレースアップグレードされ、.NET Framework 4.x ではシステムにインストールされている最も新しいバージョンのみが有効になりますので、複数のバージョンを同時に利用することはできません。</p>
 <p>一方で、OS にプレインストールされているバージョン未満にダウングレードすることはできません。<br>.NET Framework 4.x のアップグレードとダウングレードについて、<a href="https://jpdscore.github.io/blog/dotnet/ndp-upgrade-and-downgrade/">以前のブログ記事</a>で詳細に解説しておりますので、良ければこちらもご覧ください。</p>
 <h2 id="NET-Framework-バージョンの確認方法"><a href="#NET-Framework-バージョンの確認方法" class="headerlink" title=".NET Framework バージョンの確認方法"></a>.NET Framework バージョンの確認方法</h2><p>システムにおける現在の .NET Framework バージョンは、レジストリ値 <em>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full</em> の <em>Release</em> の値から判断することが可能です。<br>Release の値は、.NET Framework バージョンごとに範囲が定められており、例えば 528040 以上、533320 未満の値であれば、.NET Framework 4.8 であると判断できます。</p>
 <p>詳細な確認方法は、<a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/dotnet/framework/install/how-to-determine-which-versions-are-installed#net-framework-45-and-later-versions">こちらのドキュメント</a> に紹介されていますので、こちらもご覧ください。</p>
