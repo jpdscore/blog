@@ -1349,6 +1349,9 @@ p.admonition-title {
   text-shadow: none;
   padding: 0;
 }
+.article-entry .highlight {
+  position: relative;
+}
 .article-entry .highlight pre {
   border: none;
   margin: 0;
@@ -1490,6 +1493,38 @@ pre .coffeescript .title {
 pre .keyword,
 pre .javascript .function {
   color: #c9c;
+}
+.code-copy-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: rgba(255,255,255,0.1);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-size: 12px;
+  cursor: pointer;
+  opacity: 0;
+  -webkit-transition: opacity 0.2s ease;
+  -moz-transition: opacity 0.2s ease;
+  -ms-transition: opacity 0.2s ease;
+  transition: opacity 0.2s ease;
+  z-index: 10;
+  font-family: "Segoe UI", "SegoeUI", "Segoe WP", "Helvetica Neue", "Helvetica", "Tahoma", "Arial", sans-serif;
+}
+.code-copy-btn:hover {
+  background: rgba(255,255,255,0.2);
+}
+.code-copy-btn.copied {
+  background: rgba(76,175,80,0.8);
+  color: #fff;
+}
+.highlight:hover .code-copy-btn {
+  opacity: 1;
+}
+pre:hover .code-copy-btn {
+  opacity: 1;
 }
 @media screen and (max-width: 479px) {
   #mobile-nav {

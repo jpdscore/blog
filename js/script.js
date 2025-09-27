@@ -132,4 +132,128 @@
 
     $container.removeClass('mobile-nav-on');
   });
+
+  // Code copy functionality
+  function addCopyButtons() {
+    // Add copy buttons to highlight blocks
+    $('.highlight').each(function() {
+      var $highlight = $(this);
+      if ($highlight.find('.code-copy-btn').length === 0) {
+        var $copyBtn = $('<button class="code-copy-btn" title="コードをコピー">コピー</button>');
+        $highlight.append($copyBtn);
+      }
+    });
+
+    // Add copy buttons to regular pre blocks (not inside highlight)
+    $('.article-entry pre').not('.highlight pre').each(function() {
+      var $pre = $(this);
+      if ($pre.parent().hasClass('highlight')) return;
+      if ($pre.find('.code-copy-btn').length === 0) {
+        $pre.css('position', 'relative');
+        var $copyBtn = $('<button class="code-copy-btn" title="コードをコピー">コピー</button>');
+        $pre.append($copyBtn);
+      }
+    });
+  }
+
+  // Copy to clipboard function
+  function copyToClipboard(text) {
+    if (navigator.clipboard && window.isSecureContext) {
+      return navigator.clipboard.writeText(text);
+    } else {
+      // Fallback for older browsers
+      var textArea = document.createElement('textarea');
+      textArea.value = text;
+      textArea.style.position = 'fixed';
+      textArea.style.left = '-999999px';
+      textArea.style.top = '-999999px';
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      
+      return new Promise(function(resolve, reject) {
+        if (document.execCommand('copy')) {
+          resolve();
+        } else {
+          reject();
+        }
+        document.body.removeChild(textArea);
+      });
+    }
+  }
+
+  // Handle copy button clicks
+  $(document).on('click', '.code-copy-btn', function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    var $btn = $(this);
+    var $codeBlock = $btn.parent();
+    var codeText = '';
+    
+    // Get code text from highlight blocks
+    if ($codeBlock.hasClass('highlight')) {
+      var $code = $codeBlock.find('code');
+      if ($code.length > 0) {
+        codeText = $code.text();
+      } else {
+        // For table-based highlight
+        var $lines = $codeBlock.find('.code .line');
+        if ($lines.length > 0) {
+          codeText = $lines.map(function() { return $(this).text(); }).get().join('\n');
+        } else {
+          codeText = $codeBlock.find('pre').text();
+        }
+      }
+    } else {
+      // For regular pre blocks
+      codeText = $codeBlock.find('code').length > 0 ? $codeBlock.find('code').text() : $codeBlock.text();
+      // Remove the copy button text from the copied content
+      codeText = codeText.replace('コピー', '').trim();
+    }
+    
+    copyToClipboard(codeText).then(function() {
+      $btn.addClass('copied').text('✓');
+      setTimeout(function() {
+        $btn.removeClass('copied').text('コピー');
+      }, 2000);
+    }).catch(function() {
+      $btn.addClass('error').text('✗');
+      setTimeout(function() {
+        $btn.removeClass('error').text('コピー');
+      }, 2000);
+    });
+  });
+
+  // Initialize copy buttons when page loads
+  $(document).ready(function() {
+    addCopyButtons();
+    
+    // Re-observe for dynamically loaded content using MutationObserver
+    if (window.MutationObserver) {
+      var observer = new MutationObserver(function(mutations) {
+        var shouldAddButtons = false;
+        mutations.forEach(function(mutation) {
+          if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
+            for (var i = 0; i < mutation.addedNodes.length; i++) {
+              var node = mutation.addedNodes[i];
+              if (node.nodeType === 1 && (node.tagName === 'PRE' || node.className.indexOf('highlight') !== -1)) {
+                shouldAddButtons = true;
+                break;
+              }
+            }
+          }
+        });
+        if (shouldAddButtons) {
+          setTimeout(addCopyButtons, 100);
+        }
+      });
+      
+      observer.observe(document.body, {
+        childList: true,
+        subtree: true
+      });
+    }
+  });
+
 })(jQuery);

@@ -1,0 +1,51 @@
+/* Copy to clipboard button styles */
+.code-copy-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-size: 12px;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  z-index: 10;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  min-width: 48px;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.code-copy-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.code-copy-btn.copied {
+  background: rgba(76, 175, 80, 0.8);
+  color: #fff;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.code-copy-btn.error {
+  background: rgba(244, 67, 54, 0.8);
+  color: #fff;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.highlight {
+  position: relative;
+}
+
+.highlight:hover .code-copy-btn {
+  opacity: 1;
+}
+
+/* For non-highlight code blocks */
+pre:hover .code-copy-btn {
+  opacity: 1;
+}
