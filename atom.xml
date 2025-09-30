@@ -6,7 +6,7 @@
   <link href="https://jpdscore.github.io/blog/atom.xml" rel="self"/>
   
   <link href="https://jpdscore.github.io/blog/"/>
-  <updated>2025-09-27T10:23:54.909Z</updated>
+  <updated>2025-09-30T08:23:26.378Z</updated>
   <id>https://jpdscore.github.io/blog/</id>
   
   <author>
@@ -17,11 +17,34 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>タイトル・スタジオ作成時における推奨・注意事項</title>
+    <link href="https://jpdscore.github.io/blog/playfab/studio-creation-recommendation/"/>
+    <id>https://jpdscore.github.io/blog/playfab/studio-creation-recommendation/</id>
+    <published>2025-09-30T04:00:00.000Z</published>
+    <updated>2025-09-30T08:23:26.378Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;こんにちは、Japan Developer Support Core チームの近澤です。&lt;br&gt;PlayFab</summary>
+        
+      
+    
+    
+    
+    
+    <category term="Azure PlayFab" scheme="https://jpdscore.github.io/blog/tags/Azure-PlayFab/"/>
+    
+  </entry>
+  
+  <entry>
     <title>[メモリリーク #2] [HOWTO] WPR/WPA を用いたWin32アプリケーションのヒープメモリリークの調査</title>
     <link href="https://jpdscore.github.io/blog/debugging/analyze-win32-heap-leak/"/>
     <id>https://jpdscore.github.io/blog/debugging/analyze-win32-heap-leak/</id>
     <published>2025-09-25T15:00:00.000Z</published>
-    <updated>2025-09-27T10:23:54.909Z</updated>
+    <updated>2025-09-30T08:23:26.349Z</updated>
     
     
       
@@ -47,7 +70,7 @@
     <link href="https://jpdscore.github.io/blog/dotnet/netfx-4-rollup/"/>
     <id>https://jpdscore.github.io/blog/dotnet/netfx-4-rollup/</id>
     <published>2025-09-23T15:00:00.000Z</published>
-    <updated>2025-09-27T10:23:54.936Z</updated>
+    <updated>2025-09-30T08:23:26.376Z</updated>
     
     
       
@@ -72,7 +95,7 @@
     <link href="https://jpdscore.github.io/blog/vs/vc2015-compatibility/"/>
     <id>https://jpdscore.github.io/blog/vs/vc2015-compatibility/</id>
     <published>2025-09-11T15:00:00.000Z</published>
-    <updated>2025-09-27T10:23:54.946Z</updated>
+    <updated>2025-09-30T08:23:26.386Z</updated>
     
     
       
@@ -97,7 +120,7 @@
     <link href="https://jpdscore.github.io/blog/windowssdk/wuaapi-install-updates/"/>
     <id>https://jpdscore.github.io/blog/windowssdk/wuaapi-install-updates/</id>
     <published>2025-08-20T15:00:00.000Z</published>
-    <updated>2025-09-27T10:23:54.949Z</updated>
+    <updated>2025-09-30T08:23:26.389Z</updated>
     
     
       
@@ -123,7 +146,7 @@
     <link href="https://jpdscore.github.io/blog/vs/vs2015-support-retirement/"/>
     <id>https://jpdscore.github.io/blog/vs/vs2015-support-retirement/</id>
     <published>2025-08-19T15:00:00.000Z</published>
-    <updated>2025-09-27T10:23:54.947Z</updated>
+    <updated>2025-09-30T08:23:26.386Z</updated>
     
     
       
@@ -146,7 +169,7 @@
     <link href="https://jpdscore.github.io/blog/debugging/mcp-server-for-dbgeng/"/>
     <id>https://jpdscore.github.io/blog/debugging/mcp-server-for-dbgeng/</id>
     <published>2025-08-17T15:00:00.000Z</published>
-    <updated>2025-09-27T10:23:54.920Z</updated>
+    <updated>2025-09-30T08:23:26.360Z</updated>
     
     
       
@@ -173,7 +196,7 @@
     <link href="https://jpdscore.github.io/blog/dotnet/netfx-4-compatibility/"/>
     <id>https://jpdscore.github.io/blog/dotnet/netfx-4-compatibility/</id>
     <published>2025-08-06T15:00:00.000Z</published>
-    <updated>2025-09-27T10:23:54.936Z</updated>
+    <updated>2025-09-30T08:23:26.375Z</updated>
     
     
       
@@ -198,7 +221,7 @@
     <link href="https://jpdscore.github.io/blog/vs/vs-offline-install-certificate-error/"/>
     <id>https://jpdscore.github.io/blog/vs/vs-offline-install-certificate-error/</id>
     <published>2025-07-28T15:00:00.000Z</published>
-    <updated>2025-09-27T10:23:54.946Z</updated>
+    <updated>2025-09-30T08:23:26.386Z</updated>
     
     
       
@@ -221,7 +244,7 @@
     <link href="https://jpdscore.github.io/blog/playfab/dau-limit-exceeded/"/>
     <id>https://jpdscore.github.io/blog/playfab/dau-limit-exceeded/</id>
     <published>2025-07-23T15:00:00.000Z</published>
-    <updated>2025-09-27T10:23:54.938Z</updated>
+    <updated>2025-09-30T08:23:26.377Z</updated>
     
     
       
@@ -245,7 +268,7 @@
     <link href="https://jpdscore.github.io/blog/vs/vs2022-offline-install/"/>
     <id>https://jpdscore.github.io/blog/vs/vs2022-offline-install/</id>
     <published>2025-07-15T15:00:00.000Z</published>
-    <updated>2025-09-27T10:23:54.947Z</updated>
+    <updated>2025-09-30T08:23:26.387Z</updated>
     
     
       
@@ -269,7 +292,7 @@
     <link href="https://jpdscore.github.io/blog/vs/create-a-simple-app-with-ghcopilot/"/>
     <id>https://jpdscore.github.io/blog/vs/create-a-simple-app-with-ghcopilot/</id>
     <published>2025-07-13T15:00:00.000Z</published>
-    <updated>2025-09-27T10:23:54.938Z</updated>
+    <updated>2025-09-30T08:23:26.378Z</updated>
     
     
       
@@ -294,7 +317,7 @@
     <link href="https://jpdscore.github.io/blog/dotnet/memoryleak-using-sta-thread/"/>
     <id>https://jpdscore.github.io/blog/dotnet/memoryleak-using-sta-thread/</id>
     <published>2025-07-03T15:00:00.000Z</published>
-    <updated>2025-09-27T10:23:54.935Z</updated>
+    <updated>2025-09-30T08:23:26.375Z</updated>
     
     
       
@@ -319,7 +342,7 @@
     <link href="https://jpdscore.github.io/blog/vs/troubleshooting-application-error-with-ghcopilot/"/>
     <id>https://jpdscore.github.io/blog/vs/troubleshooting-application-error-with-ghcopilot/</id>
     <published>2025-07-03T15:00:00.000Z</published>
-    <updated>2025-09-27T10:23:54.942Z</updated>
+    <updated>2025-09-30T08:23:26.382Z</updated>
     
     
       
@@ -347,7 +370,7 @@
     <link href="https://jpdscore.github.io/blog/vs/vc-silent-install/"/>
     <id>https://jpdscore.github.io/blog/vs/vc-silent-install/</id>
     <published>2025-07-01T15:00:00.000Z</published>
-    <updated>2025-09-27T10:23:54.946Z</updated>
+    <updated>2025-09-30T08:23:26.386Z</updated>
     
     
       
@@ -372,7 +395,7 @@
     <link href="https://jpdscore.github.io/blog/dotnet/netfx-how-to-repair/"/>
     <id>https://jpdscore.github.io/blog/dotnet/netfx-how-to-repair/</id>
     <published>2025-06-26T15:00:00.000Z</published>
-    <updated>2025-09-27T10:23:54.937Z</updated>
+    <updated>2025-09-30T08:23:26.376Z</updated>
     
     
       
@@ -398,7 +421,7 @@
     <link href="https://jpdscore.github.io/blog/windowssdk/mouse-ops-on-windows-forms-with-activex/"/>
     <id>https://jpdscore.github.io/blog/windowssdk/mouse-ops-on-windows-forms-with-activex/</id>
     <published>2024-08-02T08:03:08.000Z</published>
-    <updated>2025-09-27T10:23:54.949Z</updated>
+    <updated>2025-09-30T08:23:26.389Z</updated>
     
     
       
@@ -424,7 +447,7 @@
     <link href="https://jpdscore.github.io/blog/azuredevops/wif-service-connection/"/>
     <id>https://jpdscore.github.io/blog/azuredevops/wif-service-connection/</id>
     <published>2024-06-22T14:47:30.000Z</published>
-    <updated>2025-09-27T10:23:54.907Z</updated>
+    <updated>2025-09-30T08:23:26.347Z</updated>
     
     
       
@@ -450,7 +473,7 @@
     <link href="https://jpdscore.github.io/blog/azuredevops/service-connection-update/"/>
     <id>https://jpdscore.github.io/blog/azuredevops/service-connection-update/</id>
     <published>2024-06-04T05:25:32.000Z</published>
-    <updated>2025-09-27T10:23:54.886Z</updated>
+    <updated>2025-09-30T08:23:26.326Z</updated>
     
     
       
@@ -476,7 +499,7 @@
     <link href="https://jpdscore.github.io/blog/azuredevops/pipelines-agent-update/"/>
     <id>https://jpdscore.github.io/blog/azuredevops/pipelines-agent-update/</id>
     <published>2024-04-01T00:59:40.000Z</published>
-    <updated>2025-09-27T10:23:54.881Z</updated>
+    <updated>2025-09-30T08:23:26.321Z</updated>
     
     
       
@@ -495,36 +518,6 @@
     <category term="ALM" scheme="https://jpdscore.github.io/blog/tags/ALM/"/>
     
     <category term="Azure DevOps Services" scheme="https://jpdscore.github.io/blog/tags/Azure-DevOps-Services/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Team Foundation Server / Azure DevOps Server のトラブルシューティング用データ採取について</title>
-    <link href="https://jpdscore.github.io/blog/azuredevops/tfs-basic-log-collection/"/>
-    <id>https://jpdscore.github.io/blog/azuredevops/tfs-basic-log-collection/</id>
-    <published>2024-03-03T15:00:00.000Z</published>
-    <updated>2025-09-27T10:23:54.892Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;こんにちは、Japan Developer Support Core チームです🗻&lt;br&gt;いつも Team Foundation Server / Azure DevOps Server をご利用いただき、ありがとうございます。  &lt;/p&gt;
-&lt;p&gt;突然ですが、Azure</summary>
-        
-      
-    
-    
-    
-    
-    <category term="ALM" scheme="https://jpdscore.github.io/blog/tags/ALM/"/>
-    
-    <category term="情報採取手順" scheme="https://jpdscore.github.io/blog/tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/"/>
-    
-    <category term="TFS" scheme="https://jpdscore.github.io/blog/tags/TFS/"/>
-    
-    <category term="Azure DevOps Server" scheme="https://jpdscore.github.io/blog/tags/Azure-DevOps-Server/"/>
     
   </entry>
   

@@ -4,26 +4,20 @@
   <meta charset="utf-8">
   
   
-  <title>Azure Pipelines エージェントの IP について | JPDSC Blog</title>
+  <title>タイトル・スタジオ作成時における推奨・注意事項 | JPDSC Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="こんにちは、Japan Developer Support Core チームです🐈 今日は Azure Pipelines で利用するエージェントの IP アドレスについて概要を解説しつつ、様々なシナリオを例にまとめていきます。この記事を読むことで、エージェントの IP アドレスに対しての知識が深">
+  <meta name="description" content="こんにちは、Japan Developer Support Core チームの近澤です。PlayFab では、まずスタジオを作成し、その中にタイトルを作成して、開発・運用します。この構成において、スタジオとタイトルの分類の仕方はお客様ごとに様々ですが、場合によっては潜在的な問題が発生する場合がありま">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Azure Pipelines エージェントの IP について">
-<meta property="og:url" content="https://jpdscore.github.io/blog/azuredevops/pipelines-agents-ip-settings/index.html">
+<meta property="og:title" content="タイトル・スタジオ作成時における推奨・注意事項">
+<meta property="og:url" content="https://jpdscore.github.io/blog/playfab/studio-creation-recommendation/index.html">
 <meta property="og:site_name" content="Japan Developer Support Core Team Blog">
-<meta property="og:description" content="こんにちは、Japan Developer Support Core チームです🐈 今日は Azure Pipelines で利用するエージェントの IP アドレスについて概要を解説しつつ、様々なシナリオを例にまとめていきます。この記事を読むことで、エージェントの IP アドレスに対しての知識が深">
+<meta property="og:description" content="こんにちは、Japan Developer Support Core チームの近澤です。PlayFab では、まずスタジオを作成し、その中にタイトルを作成して、開発・運用します。この構成において、スタジオとタイトルの分類の仕方はお客様ごとに様々ですが、場合によっては潜在的な問題が発生する場合がありま">
 <meta property="og:locale" content="ja_JP">
-<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/pipelines-agents-ip-settings/scenario1.png">
-<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/pipelines-agents-ip-settings/scenario2.png">
-<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/pipelines-agents-ip-settings/scenario3.png">
-<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/pipelines-agents-ip-settings/scenario4.png">
-<meta property="article:published_time" content="2022-04-11T15:00:00.000Z">
-<meta property="article:modified_time" content="2025-09-30T08:23:26.322Z">
+<meta property="article:published_time" content="2025-09-30T04:00:00.000Z">
+<meta property="article:modified_time" content="2025-09-30T08:23:26.378Z">
 <meta property="article:author" content="Developer Support Core Japan">
-<meta property="article:tag" content="ALM">
-<meta property="article:tag" content="Azure Pipelines">
+<meta property="article:tag" content="Azure PlayFab">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://jpdscore.github.io/blog/azuredevops/pipelines-agents-ip-settings/scenario1.png">
   
     <link rel="alternate" href="/blog/atom.xml" title="Japan Developer Support Core Team Blog" type="application/atom+xml">
   
@@ -83,7 +77,7 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-azuredevops/pipelines-agents-ip-settings" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-playfab/studio-creation-recommendation" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
     
@@ -92,7 +86,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Azure Pipelines エージェントの IP について
+      タイトル・スタジオ作成時における推奨・注意事項
     </h1>
   
 
@@ -100,7 +94,7 @@
       <div class="article-share">
         Last Update: 
         <a href="" class="article-date-single">
-  <time datetime="2022-04-11T15:00:00.000Z" itemprop="datePublished">2022-04-12</time>
+  <time datetime="2025-09-30T04:00:00.000Z" itemprop="datePublished">2025-09-30</time>
 </a>
         
         <div class="article-share-buttons">
@@ -108,7 +102,7 @@
         </div>
         <div class="article-share-buttons">
           <script src="https://platform.linkedin.com/in.js" type="text/javascript">lang: ja_JP</script>
-          <script type="IN/Share" data-url="https://jpdscore.github.io/blog/azuredevops/pipelines-agents-ip-settings/"></script>
+          <script type="IN/Share" data-url="https://jpdscore.github.io/blog/playfab/studio-creation-recommendation/"></script>
         </div>
         <div class="article-share-buttons">
           <a target="_blank" rel="noopener" href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
@@ -117,62 +111,69 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>こんにちは、Japan Developer Support Core チームです🐈</p>
-<p>今日は Azure Pipelines で利用するエージェントの IP アドレスについて概要を解説しつつ、様々なシナリオを例にまとめていきます。<br>この記事を読むことで、エージェントの IP アドレスに対しての知識が深まり、どういったシナリオのときに、どういったエージェントを使うことが適切なのかを知ることができます。<br>Azure リソースと連携したシナリオもたくさん記載しましたので、ぜひ皆様のビジネスにご活用ください。</p>
-<h2 id="Azure-Pipelines-エージェントに求められるネットワーク通信"><a href="#Azure-Pipelines-エージェントに求められるネットワーク通信" class="headerlink" title="Azure Pipelines エージェントに求められるネットワーク通信"></a>Azure Pipelines エージェントに求められるネットワーク通信</h2><p>初めに、Azure Pipelines エージェントに求められるネットワーク通信経路について、説明いたします！<br>Azure DevOps Services は Azure クラウド ネットワーク上で提供される Microsoft のサービスの一つであり、Azure Pipelines はこの Azure DevOps Services が提供する機能の一つです。<br>そして、Azure Pipelines から行うビルドやリリース (デプロイ) といった処理は、実際には Azure DevOps Services ではなく、Azure Pipelines エージェントと呼ばれるプログラムが行っています。<br>このため、Azure Pipelines エージェントは、ビルドやリリース (デプロイ) 作業に必要となる各種ネットワーク資源やネットワーク サービスと、ネットワーク通信してアクセスできる必要があります。</p>
-<h2 id="Azure-Pipelines-エージェントの-IP"><a href="#Azure-Pipelines-エージェントの-IP" class="headerlink" title="Azure Pipelines エージェントの IP"></a>Azure Pipelines エージェントの IP</h2><p>Azure Pipelines エージェントには以下の 3 種類があり、それぞれ利用可能な IP アドレスが異なります。</p>
+        <p>こんにちは、Japan Developer Support Core チームの近澤です。<br>PlayFab では、まずスタジオを作成し、その中にタイトルを作成して、開発・運用します。<br>この構成において、スタジオとタイトルの分類の仕方はお客様ごとに様々ですが、場合によっては潜在的な問題が発生する場合があります。<br>その問題と、スタジオを分類する上での推奨事項について説明します。</p>
+<h2 id="発生し得る問題について"><a href="#発生し得る問題について" class="headerlink" title="発生し得る問題について"></a>発生し得る問題について</h2><p>問題が発生する場合というのは、 <strong>タイトルを別のスタジオに移行する必要がある場合</strong> です。<br>PlayFab では、タイトルを移行する機能は提供していませんが、ビジネス的な要件でどうしても移行せざるを得ない場合は、個別にお問合せいただくことで別のスタジオにタイトルを移行する手続きを行っています。<br>しかしながら、このタイトルの移行はプレイヤーアカウントの管理の際に潜在的な問題が生じます。</p>
+<p>まず、PlayFab のマスタープレイヤーアカウントは「スタジオ単位」で管理され、同一スタジオ内の複数タイトル間でプレイヤーのマスター情報として共有されます。<br>このマスタープレイヤーアカウントに紐づく形で、各タイトル内にタイトルプレイヤーアカウントが生成されます。</p>
+<p>したがって、タイトルを移行したいとの要望があった場合、PlayFab の UI 上、特定のタイトルを別のスタジオ内に表示し、以前のスタジオには表示しないといった対応は可能ですが、マスタープレイヤーアカウントは元のスタジオに残されたままとなります。<br>このマスタープレイヤーアカウントはスタジオID と強く紐づいているため、移行の際に新しいスタジオに再リンクすることはできません。<br>そのため、タイトルを移行した場合、移行したタイトルでも以前のスタジオのマスタープレイヤーアカウントを参照し続けます。</p>
+<p>つまり、以下のような状態が発生します。</p>
+<p><strong>&lt;移行前&gt;</strong></p>
 <ul>
-<li><p>Microsoft-hosted エージェント</p>
-</li>
-<li><p>Self-hosted エージェント</p>
-</li>
-<li><p>Azure 仮想マシンスケールセット エージェント</p>
-<p><a target="_blank" rel="noopener" href="https://docs.microsoft.com/ja-jp/azure/devops/pipelines/agents/agents?view=azure-devops&tabs=browser">Azure Pipelines エージェント - Azure Pipelines | Microsoft Docs</a></p>
-<p>それぞれ詳しく見ていきましょう！</p>
-<h3 id="Microsoft-hosted-エージェント"><a href="#Microsoft-hosted-エージェント" class="headerlink" title="Microsoft-hosted エージェント"></a>Microsoft-hosted エージェント</h3><p>Microsoft-hosted エージェントは、Azure DevOps Services の組織 (organization) と同じ Azure 地域の IP 範囲を利用します。例えば、Azure DevOps Services の組織を東南アジア地域で作成した場合は、 Microsoft-hosted エージェントも東南アジア リージョン <code>AzureCloud.southeastasia</code> の IP 範囲、そして同じアジア太平洋に属する東アジア リージョン <code>AzureCloud.eastasia</code> の IP 範囲を利用します。<br>利用される IP 範囲は、<a target="_blank" rel="noopener" href="https://www.microsoft.com/en-us/download/details.aspx?id=56519">週単位の json ファイル</a> によって公開されています。</p>
-<p><a target="_blank" rel="noopener" href="https://docs.microsoft.com/ja-jp/azure/devops/pipelines/agents/hosted?view=azure-devops&tabs=yaml#networking">Microsoft がホストする Azure Pipelines - Azure Pipelines | Microsoft Docs</a></p>
-<p>※上記ドキュメントサイトに、南ブラジルおよび西ヨーロッパ リージョンをご利用いただく場合の注意点、ならびに Mac IP 範囲の注意点を記載しています。もしもこれらのリージョンや Mac IP 範囲を利用する場合は、ご確認いただくことをお勧めします。</p>
-<h3 id="Self-hosted-エージェント"><a href="#Self-hosted-エージェント" class="headerlink" title="Self-hosted エージェント"></a>Self-hosted エージェント</h3><p>Self-hosted エージェントが利用する IP アドレスは、エージェント機能をインストールしたマシンの IP アドレスです。<br>よくある Self-hosted エージェントの構成パターンとしては、以下の 2 種類があります。</p>
+<li>スタジオ A<ul>
+<li><span style="color:red">マスタープレイヤーアカウント A-1</span></li>
+<li>タイトル A1<ul>
+<li>ユーザ <span style="color:red">A-1</span></li>
+</ul>
 </li>
 </ul>
-<ol>
-<li><p>クラウド上に仮想マシンを作成して、エージェント機能をインストールする。</p>
 </li>
-<li><p>オンプレミス環境に物理的・仮想的に用意したマシンにエージェント機能をインストールする。</p>
-<p>クラウド上の仮想マシンの場合は、その仮想マシンが利用する Public IP アドレスを利用して Azure DevOps Services との通信を行います。<br>オンプレミス環境に物理的・仮想的に用意したマシンも同じように、インターネットへ接続するための Public IP アドレスを利用して Azure DevOps Services との通信を行います。</p>
-<p>どちらのパターンも、Azure DevOps Services との通信を行うためにはインターネットへの接続が必要となりますので、インターネット接続を完全に遮断しているマシンではご利用いただけません。</p>
-<h3 id="Azure-仮想マシンスケールセット-エージェント-VMSS"><a href="#Azure-仮想マシンスケールセット-エージェント-VMSS" class="headerlink" title="Azure 仮想マシンスケールセット エージェント (VMSS)"></a>Azure 仮想マシンスケールセット エージェント (VMSS)</h3><p>Azure 仮想マシンスケールセット エージェント (VMSS) が利用する IP アドレスは、 Azure 仮想マシンスケールセットに設定した Public IP アドレスです。</p>
-<p><a target="_blank" rel="noopener" href="https://docs.microsoft.com/ja-jp/azure/devops/pipelines/agents/scale-set-agents?view=azure-devops">Azure 仮想マシン スケール セット エージェント - Azure Pipelines | Microsoft Docs</a></p>
-<p>Azure Pipelines エージェントの分類としては Self-hosted エージェントと同じ扱いになりますが、 IP アドレスの観点からは次のような特徴があります。</p>
-</li>
-</ol>
-<ul>
-<li><p>Azure DevOps Services との通信に使用する Public IP アドレスは、インターネットへの接続が必要です。(Self-hosted agent の場合と同じです)</p>
-</li>
-<li><p>ビルド時やデプロイ時にローカルのネットワークとの通信が必要になる場合は、要件によっては VMSS での対応が難しくなるケースがあります。</p>
-<h2 id="シナリオごとのエージェント"><a href="#シナリオごとのエージェント" class="headerlink" title="シナリオごとのエージェント"></a>シナリオごとのエージェント</h2><p>それでは、実際のシナリオごとに、必要となるエージェントの IP 設定を見ていきましょう。<br>VMSS は Self-hosted エージェントと同じ扱いになりますので、シナリオでは Microsoft-hosted エージェントと Self-hosted エージェントに焦点を当てて見ていきます。</p>
-<h3 id="エージェントマシンが-Azure-DevOps-Services-に接続するための許可ルールを設定したい"><a href="#エージェントマシンが-Azure-DevOps-Services-に接続するための許可ルールを設定したい" class="headerlink" title="エージェントマシンが Azure DevOps Services に接続するための許可ルールを設定したい"></a>エージェントマシンが Azure DevOps Services に接続するための許可ルールを設定したい</h3></li>
+<li>スタジオ B<ul>
+<li><span style="color:blue">マスタープレイヤーアカウント B-1</span></li>
+<li>タイトル B1<ul>
+<li>ユーザ <span style="color:blue">B-1</span></li>
 </ul>
-<p><img src="scenario1.png"></p>
-<p>Microsoft-hosted エージェントの場合は、Azure DevOps Services に接続するための許可ルールを追加設定する必要はありません。</p>
-<p>Self-hosted エージェントの場合は、エージェントマシンに <a target="_blank" rel="noopener" href="https://docs.microsoft.com/ja-jp/azure/devops/organizations/security/allow-list-ip-url?view=azure-devops&tabs=IP-V4#ip-addresses-and-range-restrictions">IP アドレスと範囲の制限 - Azure DevOps | Microsoft Docs</a> を設定いただくことで、 Azure DevOps Services との通信が可能になります。<br>注意点としましては、 Azure Pipelines でビルドやリリース (デプロイ) を実行したときに、Azure DevOps Services 以外の URL へアクセスする必要がある場合です。例えば、スクリプトから <code>pip install</code> を実行したときには、<code>https://pypi.org/</code> へのアクセスが発生します。<br>そのため、ホワイトリスト形式で許可ルールを設定する場合は、Azure DevOps Services への許可ルールだけではなく、ビルドやリリース (デプロイ) を実行したときに必要な許可ルールも設定する必要があります。</p>
-<h3 id="エージェントの-IP-アドレスからのみアクセス、またはデプロイを許可したい"><a href="#エージェントの-IP-アドレスからのみアクセス、またはデプロイを許可したい" class="headerlink" title="エージェントの IP アドレスからのみアクセス、またはデプロイを許可したい"></a>エージェントの IP アドレスからのみアクセス、またはデプロイを許可したい</h3><p><img src="scenario2.png"></p>
-<p>Microsoft-hosted エージェントの場合は、<a target="_blank" rel="noopener" href="https://www.microsoft.com/en-us/download/details.aspx?id=56519">週単位の json ファイル</a> を利用して、 Azure DevOps Services の組織が利用している地域の IP 範囲を許可する必要があります。<br>なお、<a target="_blank" rel="noopener" href="https://docs.microsoft.com/ja-jp/azure/devops/pipelines/agents/hosted?view=azure-devops&tabs=yaml#security">セキュリティ - Azure Pipelines | Microsoft Docs</a> のドキュメントサイトに記載のあるとおり、<a target="_blank" rel="noopener" href="https://www.microsoft.com/en-us/download/details.aspx?id=56519">週単位の json ファイル</a> に記載されている IP アドレスの範囲はかなり広く、この範囲にあるマシンは他のお客様のものである可能性もあります。Microsoft-hosted エージェントのご利用をご検討の際には、この点を踏まえて設計いただくことをお勧めします。</p>
-<p>Self-hosted エージェントの場合は、エージェント機能をインストールしたマシンの IP アドレスを固定していただき、その IP アドレスからのアクセスを許可することで実現できます。</p>
-<h3 id="Public-ネットワークへの通信が制限された、オンプレミス環境のサーバーへデプロイしたい"><a href="#Public-ネットワークへの通信が制限された、オンプレミス環境のサーバーへデプロイしたい" class="headerlink" title="Public ネットワークへの通信が制限された、オンプレミス環境のサーバーへデプロイしたい"></a>Public ネットワークへの通信が制限された、オンプレミス環境のサーバーへデプロイしたい</h3><p><img src="scenario3.png"></p>
-<p>Microsoft-hosted エージェントの場合は、Microsoft-hosted エージェントからオンプレミス環境へネットワーク通信してアクセスすることができないため、残念ながら実現できません。</p>
-<p>Self-hosted エージェントの場合は、オンプレミス環境にあるマシンにエージェント機能をインストールしていただき、そのマシンにおいて以下の条件を満たすことにより、実現が可能です。</p>
-<ul>
-<li><p>Azure DevOps Services に対し、ネットワーク通信してアクセス可能であること</p>
 </li>
-<li><p>Public ネットワークへの通信が制限されたオンプレミス環境のサーバーに対し、ネットワーク通信してアクセス可能であること</p>
-<h3 id="Azure-Web-App-や-Azure-Container-Registry-といった-PaaS-リソースに対して-Private-IP-アドレス経由でデプロイしたい"><a href="#Azure-Web-App-や-Azure-Container-Registry-といった-PaaS-リソースに対して-Private-IP-アドレス経由でデプロイしたい" class="headerlink" title="Azure Web App や Azure Container Registry といった PaaS リソースに対して Private IP アドレス経由でデプロイしたい"></a>Azure Web App や Azure Container Registry といった PaaS リソースに対して Private IP アドレス経由でデプロイしたい</h3></li>
+<li>タイトル B2<ul>
+<li>ユーザ <span style="color:blue">B-1</span></li>
 </ul>
-<p>Azure の Virtual Network (VNet) とプライベートエンドポイントを利用することにより、実現が可能です。</p>
-<p><img src="scenario4.png"></p>
-<p>Microsoft-hosted エージェントの場合は、エージェントが稼働するマシンに VNet を設定することができないため、残念ながら実現できません。</p>
-<p>Self-hosted エージェントの場合は、Azure 上に仮想マシン (Azure VM または、仮想マシンスケールセット) を作成すれば、作成した仮想マシンに VNet を設定することができますので、実現が可能です。<br>また、PaaS リソース (Azure Web App や Azure Container Registry など) に対して作成した VNet を、プライベートエンドポイントとして設定いただくことで、Self-hosted エージェントが稼働するマシンと PaaS リソース間で Private IP によるネットワーク通信が可能になりますので、デプロイを実現することが可能です。</p>
-<h3 id="最後に"><a href="#最後に" class="headerlink" title="最後に"></a>最後に</h3><p>いかがでしたでしょうか？  ご利用の Azure Pipelines エージェントの種類や、ネットワーク構成などのシナリオによって千差万別ではありますが、今後の Azure Pipelines エージェント運用の際に参考としていただけたらとても嬉しいです。<br>今後も Azure DevOps のご利用にお役立ていただける情報をどんどんご紹介していきたいと思いますので、どうぞよろしくお願いします！</p>
+</li>
+</ul>
+</li>
+</ul>
+<p><strong>&lt;移行後&gt;</strong></p>
+<ul>
+<li>スタジオ A<ul>
+<li><span style="color:red">マスタープレイヤーアカウント A-1</span></li>
+<li>タイトル A1<ul>
+<li>ユーザ <span style="color:red">A-1</span></li>
+</ul>
+</li>
+<li>タイトル B1<ul>
+<li>ユーザ <span style="color:blue">B-1</span></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>スタジオ B<ul>
+<li><span style="color:blue">マスタープレイヤーアカウント B-1</span></li>
+<li>タイトル B2<ul>
+<li>ユーザ <span style="color:blue">B-1</span></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>これによって、元スタジオ側で行われる操作（外部アカウントのリンク解除、マスタープレイヤー削除、認証ポリシー変更等）が移行先のタイトルに影響します。<br>具体的には以下のような問題が発生し得ます。</p>
+<ul>
+<li>元スタジオでユーザーの外部アカウント（例：Steam）のリンクを解除すると、移行先でも同様にリンクが解除され、同一外部アカウントでのログインが新規ユーザー扱いになる。</li>
+<li>元スタジオでマスタープレイヤーを削除されると、移行先の当該プレイヤー情報も消失する。</li>
+</ul>
+<h2 id="推奨するスタジオの分類方法"><a href="#推奨するスタジオの分類方法" class="headerlink" title="推奨するスタジオの分類方法"></a>推奨するスタジオの分類方法</h2><p>移行が必要になるパターンのうち、最も多い事例はタイトルの権利を他社へ譲渡・売却する場合や、会社統合・組織再編成などによる場合です。<br>したがって、スタジオをまたぐ移行が発生し得る場合は、あらかじめ「譲渡単位ごとにスタジオを分けておく」運用にすることを強く推奨します。</p>
+<p>例えば、同じゲームタイトルであっても、PlayFab 上では開発用タイトル、本番環境用タイトルなど複数用意するかと思いますが、それらは一つのスタジオにまとめて問題ありません。<br>ただし、お客様が運用される複数のゲームタイトルを同じスタジオに配置される場合には、それらのゲームタイトルが個別に他社へ譲渡される可能性が無いか、十分に検討の上、タイトルを作成してください。</p>
+<p>これにより、所有権・管理権限の分離、他社操作によるデータ損失のリスクを回避いただけます。</p>
+<h2 id="既にタイトルを作成済みの場合"><a href="#既にタイトルを作成済みの場合" class="headerlink" title="既にタイトルを作成済みの場合"></a>既にタイトルを作成済みの場合</h2><p>既に同じスタジオ内に複数のタイトルを作成し、運用を開始してしまっている場合、今後そのタイトルの権利を他社へ譲渡するといったことが無ければ特に問題はありません。</p>
+<p>もし、他社へ譲渡する可能性がある場合は、最も簡単な方法はスタジオごと譲渡することです。その際は、スタジオの管理者に新たな管理者を追加し、以前の管理者を削除するだけです。</p>
+<p>また、対象のタイトルが公開前であり、実際のプレイヤーがいないのであれば、移行先のスタジオに新しいタイトルを作成し、Title Data, Catalog, Leaderboards などを Download JSON と Upload JSON で個別に移動させることで対応いただくことも可能です。</p>
+<h2 id="まとめ"><a href="#まとめ" class="headerlink" title="まとめ"></a>まとめ</h2><p>会社間の譲渡や移管が発生する可能性があるタイトルは、初期設計段階から「譲渡単位ごとにスタジオを分ける」ことが最も安全かつ確実な方法です。<br>既にプレイヤーがいるタイトルを移す場合は、PlayFab サポートを通じて UI 上の移行は可能ですが、マスタープレイヤーアカウント共有に伴うリスク（データ消失や認証破綻）が残るため、事前に関係者間で十分な合意とバックアップ、そして移行後の運用ルールを整備してください。</p>
 
       
       
@@ -186,11 +187,11 @@
     <footer class="article-footer">
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/ALM/" rel="tag">ALM</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Azure-Pipelines/" rel="tag">Azure Pipelines</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Azure-PlayFab/" rel="tag">Azure PlayFab</a></li></ul>
 
       <!-- 
       
-        <a href="https://github.com/jpdscore/blog/edit/master/articles/azuredevops/pipelines-agents-ip-settings.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
+        <a href="https://github.com/jpdscore/blog/edit/master/articles/playfab/studio-creation-recommendation.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
         
       -->
     </footer>
@@ -199,19 +200,10 @@
     
 <nav id="article-nav">
   
-    <a href="../devops-log-collection/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">次の記事</strong>
-      <div class="article-nav-title">
-        
-          Azure DevOps Services トラブルシューティング用のデータ採取について
-        
-      </div>
-    </a>
   
-  
-    <a href="../deprecating-weak-cryptographic-standards-tls-1-0-and-tls-1-1-in-azure-devops/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="../../debugging/analyze-win32-heap-leak/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">前の記事</strong>
-      <div class="article-nav-title">Azure DevOps Services における弱い暗号化標準 (TLS 1.0 および TLS 1.1) の廃止について</div>
+      <div class="article-nav-title">[メモリリーク #2] [HOWTO] WPR/WPA を用いたWin32アプリケーションのヒープメモリリークの調査</div>
     </a>
   
 </nav>
@@ -230,7 +222,7 @@
       <ul>
         
           <li>
-            <a href="../../playfab/studio-creation-recommendation/">タイトル・スタジオ作成時における推奨・注意事項</a>
+            <a href="">タイトル・スタジオ作成時における推奨・注意事項</a>
           </li>
         
           <li>
