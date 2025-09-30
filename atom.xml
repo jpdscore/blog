@@ -6,7 +6,7 @@
   <link href="https://jpdscore.github.io/blog/atom.xml" rel="self"/>
   
   <link href="https://jpdscore.github.io/blog/"/>
-  <updated>2025-09-30T08:23:26.378Z</updated>
+  <updated>2025-09-30T08:44:03.299Z</updated>
   <id>https://jpdscore.github.io/blog/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://jpdscore.github.io/blog/playfab/studio-creation-recommendation/"/>
     <id>https://jpdscore.github.io/blog/playfab/studio-creation-recommendation/</id>
     <published>2025-09-30T04:00:00.000Z</published>
-    <updated>2025-09-30T08:23:26.378Z</updated>
+    <updated>2025-09-30T08:44:03.299Z</updated>
     
     
       
@@ -44,7 +44,7 @@
     <link href="https://jpdscore.github.io/blog/debugging/analyze-win32-heap-leak/"/>
     <id>https://jpdscore.github.io/blog/debugging/analyze-win32-heap-leak/</id>
     <published>2025-09-25T15:00:00.000Z</published>
-    <updated>2025-09-30T08:23:26.349Z</updated>
+    <updated>2025-09-30T08:44:03.269Z</updated>
     
     
       
@@ -70,7 +70,7 @@
     <link href="https://jpdscore.github.io/blog/dotnet/netfx-4-rollup/"/>
     <id>https://jpdscore.github.io/blog/dotnet/netfx-4-rollup/</id>
     <published>2025-09-23T15:00:00.000Z</published>
-    <updated>2025-09-30T08:23:26.376Z</updated>
+    <updated>2025-09-30T08:44:03.296Z</updated>
     
     
       
@@ -95,7 +95,7 @@
     <link href="https://jpdscore.github.io/blog/vs/vc2015-compatibility/"/>
     <id>https://jpdscore.github.io/blog/vs/vc2015-compatibility/</id>
     <published>2025-09-11T15:00:00.000Z</published>
-    <updated>2025-09-30T08:23:26.386Z</updated>
+    <updated>2025-09-30T08:44:03.307Z</updated>
     
     
       
@@ -120,7 +120,7 @@
     <link href="https://jpdscore.github.io/blog/windowssdk/wuaapi-install-updates/"/>
     <id>https://jpdscore.github.io/blog/windowssdk/wuaapi-install-updates/</id>
     <published>2025-08-20T15:00:00.000Z</published>
-    <updated>2025-09-30T08:23:26.389Z</updated>
+    <updated>2025-09-30T08:44:03.310Z</updated>
     
     
       
@@ -146,7 +146,7 @@
     <link href="https://jpdscore.github.io/blog/vs/vs2015-support-retirement/"/>
     <id>https://jpdscore.github.io/blog/vs/vs2015-support-retirement/</id>
     <published>2025-08-19T15:00:00.000Z</published>
-    <updated>2025-09-30T08:23:26.386Z</updated>
+    <updated>2025-09-30T08:44:03.307Z</updated>
     
     
       
@@ -169,7 +169,7 @@
     <link href="https://jpdscore.github.io/blog/debugging/mcp-server-for-dbgeng/"/>
     <id>https://jpdscore.github.io/blog/debugging/mcp-server-for-dbgeng/</id>
     <published>2025-08-17T15:00:00.000Z</published>
-    <updated>2025-09-30T08:23:26.360Z</updated>
+    <updated>2025-09-30T08:44:03.280Z</updated>
     
     
       
@@ -196,7 +196,7 @@
     <link href="https://jpdscore.github.io/blog/dotnet/netfx-4-compatibility/"/>
     <id>https://jpdscore.github.io/blog/dotnet/netfx-4-compatibility/</id>
     <published>2025-08-06T15:00:00.000Z</published>
-    <updated>2025-09-30T08:23:26.375Z</updated>
+    <updated>2025-09-30T08:44:03.296Z</updated>
     
     
       
@@ -221,7 +221,7 @@
     <link href="https://jpdscore.github.io/blog/vs/vs-offline-install-certificate-error/"/>
     <id>https://jpdscore.github.io/blog/vs/vs-offline-install-certificate-error/</id>
     <published>2025-07-28T15:00:00.000Z</published>
-    <updated>2025-09-30T08:23:26.386Z</updated>
+    <updated>2025-09-30T08:44:03.307Z</updated>
     
     
       
@@ -244,7 +244,7 @@
     <link href="https://jpdscore.github.io/blog/playfab/dau-limit-exceeded/"/>
     <id>https://jpdscore.github.io/blog/playfab/dau-limit-exceeded/</id>
     <published>2025-07-23T15:00:00.000Z</published>
-    <updated>2025-09-30T08:23:26.377Z</updated>
+    <updated>2025-09-30T08:44:03.298Z</updated>
     
     
       
@@ -268,7 +268,7 @@
     <link href="https://jpdscore.github.io/blog/vs/vs2022-offline-install/"/>
     <id>https://jpdscore.github.io/blog/vs/vs2022-offline-install/</id>
     <published>2025-07-15T15:00:00.000Z</published>
-    <updated>2025-09-30T08:23:26.387Z</updated>
+    <updated>2025-09-30T08:44:03.307Z</updated>
     
     
       
@@ -292,7 +292,7 @@
     <link href="https://jpdscore.github.io/blog/vs/create-a-simple-app-with-ghcopilot/"/>
     <id>https://jpdscore.github.io/blog/vs/create-a-simple-app-with-ghcopilot/</id>
     <published>2025-07-13T15:00:00.000Z</published>
-    <updated>2025-09-30T08:23:26.378Z</updated>
+    <updated>2025-09-30T08:44:03.299Z</updated>
     
     
       
@@ -317,7 +317,7 @@
     <link href="https://jpdscore.github.io/blog/dotnet/memoryleak-using-sta-thread/"/>
     <id>https://jpdscore.github.io/blog/dotnet/memoryleak-using-sta-thread/</id>
     <published>2025-07-03T15:00:00.000Z</published>
-    <updated>2025-09-30T08:23:26.375Z</updated>
+    <updated>2025-09-30T08:44:03.296Z</updated>
     
     
       
@@ -342,7 +342,7 @@
     <link href="https://jpdscore.github.io/blog/vs/troubleshooting-application-error-with-ghcopilot/"/>
     <id>https://jpdscore.github.io/blog/vs/troubleshooting-application-error-with-ghcopilot/</id>
     <published>2025-07-03T15:00:00.000Z</published>
-    <updated>2025-09-30T08:23:26.382Z</updated>
+    <updated>2025-09-30T08:44:03.303Z</updated>
     
     
       
@@ -370,7 +370,7 @@
     <link href="https://jpdscore.github.io/blog/vs/vc-silent-install/"/>
     <id>https://jpdscore.github.io/blog/vs/vc-silent-install/</id>
     <published>2025-07-01T15:00:00.000Z</published>
-    <updated>2025-09-30T08:23:26.386Z</updated>
+    <updated>2025-09-30T08:44:03.307Z</updated>
     
     
       
@@ -395,7 +395,7 @@
     <link href="https://jpdscore.github.io/blog/dotnet/netfx-how-to-repair/"/>
     <id>https://jpdscore.github.io/blog/dotnet/netfx-how-to-repair/</id>
     <published>2025-06-26T15:00:00.000Z</published>
-    <updated>2025-09-30T08:23:26.376Z</updated>
+    <updated>2025-09-30T08:44:03.297Z</updated>
     
     
       
@@ -421,7 +421,7 @@
     <link href="https://jpdscore.github.io/blog/windowssdk/mouse-ops-on-windows-forms-with-activex/"/>
     <id>https://jpdscore.github.io/blog/windowssdk/mouse-ops-on-windows-forms-with-activex/</id>
     <published>2024-08-02T08:03:08.000Z</published>
-    <updated>2025-09-30T08:23:26.389Z</updated>
+    <updated>2025-09-30T08:44:03.310Z</updated>
     
     
       
@@ -447,7 +447,7 @@
     <link href="https://jpdscore.github.io/blog/azuredevops/wif-service-connection/"/>
     <id>https://jpdscore.github.io/blog/azuredevops/wif-service-connection/</id>
     <published>2024-06-22T14:47:30.000Z</published>
-    <updated>2025-09-30T08:23:26.347Z</updated>
+    <updated>2025-09-30T08:44:03.268Z</updated>
     
     
       
@@ -473,7 +473,7 @@
     <link href="https://jpdscore.github.io/blog/azuredevops/service-connection-update/"/>
     <id>https://jpdscore.github.io/blog/azuredevops/service-connection-update/</id>
     <published>2024-06-04T05:25:32.000Z</published>
-    <updated>2025-09-30T08:23:26.326Z</updated>
+    <updated>2025-09-30T08:44:03.246Z</updated>
     
     
       
@@ -499,7 +499,7 @@
     <link href="https://jpdscore.github.io/blog/azuredevops/pipelines-agent-update/"/>
     <id>https://jpdscore.github.io/blog/azuredevops/pipelines-agent-update/</id>
     <published>2024-04-01T00:59:40.000Z</published>
-    <updated>2025-09-30T08:23:26.321Z</updated>
+    <updated>2025-09-30T08:44:03.241Z</updated>
     
     
       
