@@ -4,20 +4,19 @@
   <meta charset="utf-8">
   
   
-  <title>Azure DevOps Services における弱い暗号化標準 (TLS 1.0 および TLS 1.1) の廃止について | JPDSC Blog</title>
+  <title>Visual Studio 2022 のシステム要件 | JPDSC Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="こんにちは、Japan Developer Support Core チームの松井です。Azure DevOps Services における弱い暗号化標準 (TLS 1.0 および TLS 1.1) の廃止についてご案内いたします。  Deprecating weak cryptographic s">
+  <meta name="description" content="こんにちは。Developer Support Core チームの上原です。今回は Visual Studio 2022 のシステム要件について解説いたします。 はじめにVisual Studio を利用する際には、インストール対象の環境がシステム要件を満たしている必要があります。本記事では Vis">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Azure DevOps Services における弱い暗号化標準 (TLS 1.0 および TLS 1.1) の廃止について">
-<meta property="og:url" content="https://jpdscore.github.io/blog/azuredevops/deprecating-weak-cryptographic-standards-tls-1-0-and-tls-1-1-in-azure-devops/index.html">
+<meta property="og:title" content="Visual Studio 2022 のシステム要件">
+<meta property="og:url" content="https://jpdscore.github.io/blog/vs/vs2022-requirement/index.html">
 <meta property="og:site_name" content="Japan Developer Support Core Team Blog">
-<meta property="og:description" content="こんにちは、Japan Developer Support Core チームの松井です。Azure DevOps Services における弱い暗号化標準 (TLS 1.0 および TLS 1.1) の廃止についてご案内いたします。  Deprecating weak cryptographic s">
+<meta property="og:description" content="こんにちは。Developer Support Core チームの上原です。今回は Visual Studio 2022 のシステム要件について解説いたします。 はじめにVisual Studio を利用する際には、インストール対象の環境がシステム要件を満たしている必要があります。本記事では Vis">
 <meta property="og:locale" content="ja_JP">
-<meta property="article:published_time" content="2022-03-15T15:00:00.000Z">
-<meta property="article:modified_time" content="2025-10-03T00:27:29.359Z">
+<meta property="article:published_time" content="2025-10-02T15:00:00.000Z">
+<meta property="article:modified_time" content="2025-10-03T00:27:29.433Z">
 <meta property="article:author" content="Developer Support Core Japan">
-<meta property="article:tag" content="ALM">
-<meta property="article:tag" content="Azure DevOps Services">
+<meta property="article:tag" content="Visual Studio">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternate" href="/blog/atom.xml" title="Japan Developer Support Core Team Blog" type="application/atom+xml">
@@ -81,7 +80,7 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-azuredevops/deprecating-weak-cryptographic-standards-tls-1-0-and-tls-1-1-in-azure-devops" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-vs/vs2022-requirement" class="article article-type-post" itemscope itemprop="blogPost">
   
     <aside id="toc" role="complementary" aria-label="Table of Contents"></aside>
   
@@ -93,7 +92,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Azure DevOps Services における弱い暗号化標準 (TLS 1.0 および TLS 1.1) の廃止について
+      Visual Studio 2022 のシステム要件
     </h1>
   
 
@@ -101,7 +100,7 @@
       <div class="article-share">
         Last Update: 
         <a href="" class="article-date-single">
-  <time datetime="2022-03-15T15:00:00.000Z" itemprop="datePublished">2022-03-16</time>
+  <time datetime="2025-10-02T15:00:00.000Z" itemprop="datePublished">2025-10-03</time>
 </a>
         
         <div class="article-share-buttons">
@@ -109,7 +108,7 @@
         </div>
         <div class="article-share-buttons">
           <script src="https://platform.linkedin.com/in.js" type="text/javascript">lang: ja_JP</script>
-          <script type="IN/Share" data-url="https://jpdscore.github.io/blog/azuredevops/deprecating-weak-cryptographic-standards-tls-1-0-and-tls-1-1-in-azure-devops/"></script>
+          <script type="IN/Share" data-url="https://jpdscore.github.io/blog/vs/vs2022-requirement/"></script>
         </div>
         <div class="article-share-buttons">
           <a target="_blank" rel="noopener" href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
@@ -118,18 +117,31 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>こんにちは、Japan Developer Support Core チームの松井です。Azure DevOps Services における弱い暗号化標準 (TLS 1.0 および TLS 1.1) の廃止についてご案内いたします。</p>
+        <p>こんにちは。Developer Support Core チームの上原です。今回は Visual Studio 2022 のシステム要件について解説いたします。</p>
+<h2 id="はじめに"><a href="#はじめに" class="headerlink" title="はじめに"></a>はじめに</h2><p>Visual Studio を利用する際には、インストール対象の環境がシステム要件を満たしている必要があります。<br>本記事では <a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/visualstudio/releases/2022/system-requirements#visual-studio-2022-system-requirements">Visual Studio 2022 のシステム要件</a> を元に説明いたしますが、厳密には Visual Studio バージョンや、利用するコンポーネント等によって異なる場合があります。<br>また、同じ Visual Studio ファミリ製品である Visual Studio Code(VS Code) についても、一部個別に言及している個所を除き、基本的には本記事の対象外となりますこと、あらかじめご了承ください。</p>
+<h2 id="Visual-Studio-2022-のシステム要件"><a href="#Visual-Studio-2022-のシステム要件" class="headerlink" title="Visual Studio 2022 のシステム要件"></a>Visual Studio 2022 のシステム要件</h2><p>Visual Studio 2022 におけるシステム要件は、<a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/visualstudio/releases/2022/system-requirements#visual-studio-2022-system-requirements">こちらのドキュメント</a>に記載されています。<br>システム要件を満たさない環境ではいかなる動作も保証されず、また、サポートサービスも提供されませんので、事前に必ず問題がないかご確認ください。</p>
+<p>なお、Visual Studio インストーラーでは、インストール時に環境がシステム要件を満たしているかチェックし、要件を満たしていないと判断される場合には警告を出力します。<br>しかしながら、これらの機能はあくまでも補助的なものであり、エラーや警告が表示されないことは必ずしもサポートされている環境であることを保証するものではありませんので、ご注意ください。</p>
+<h3 id="OS-バージョンのサポート-ライフサイクル"><a href="#OS-バージョンのサポート-ライフサイクル" class="headerlink" title="OS バージョンのサポート ライフサイクル"></a>OS バージョンのサポート ライフサイクル</h3><p>Visual Studio のサポート ライフサイクルに関わらず、サポートを終了した OS バージョン上での Visual Studio の利用はサポートされていません。<br>例えば本記事執筆時点で Visual Studio 2022 はサポート期間内で、システム要件として Windows 11 はサポート対象 OS ですが、<a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/lifecycle/products/windows-11-home-and-pro">Windows 11 version 21H2 は 2023年に既にサポートを終了</a> していますので、Windows 11 version 21H2 での Visual Studio 2022 の利用は現在サポートされていません。<br>各 OS バージョンのサポート期限等は、<a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/lifecycle/">ライフサイクル ポリシー</a>のサイトから確認いただけますので、必要に応じてまずはサポートされている OS バージョンであるかをご確認ください。</p>
+<h3 id="長期サポートバージョン-LTSC-はサポートされません"><a href="#長期サポートバージョン-LTSC-はサポートされません" class="headerlink" title="長期サポートバージョン(LTSC) はサポートされません"></a>長期サポートバージョン(LTSC) はサポートされません</h3><p>Visual Studio の利用がサポートされていない環境の 1つに、長期サポートバージョン(LTSC) での利用があります。<br><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/windows/whats-new/ltsc/overview">Windows Enterprise LTSC</a> は、特定の目的に限定し長期に利用することを想定している OS となっており、Visual Studio をインストールし、アプリケーションを開発するといったシナリオはサポートされておりません。</p>
+<p>そのため、ドキュメントにも記載がある通り、Visual Studio で開発したアプリケーションを利用することは可能ですが、Windows Enterprise LTSC に Visual Studio をインストールし、利用することはサポートされておらず、いかなる動作も保証されませんので注意が必要です。</p>
 <blockquote>
-<p><a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/devops/deprecating-weak-cryptographic-standards-tls-1-0-and-tls-1-1-in-azure-devops/">Deprecating weak cryptographic standards (TLS 1.0 and TLS 1.1) in Azure DevOps</a></p>
+<p>Visual Studio の実行には、次の機能はサポートされていません。<br>・Windows 11 Home (S モード)、Windows Enterprise IoT、Windows 10 IoT Core、Windows 10 Enterprise LTSC エディション、Windows 10 S、Windows 10 Team Edition。 これらのエディションの Windows 上で実行されるアプリは、Visual Studio 2022 を使用してビルドできます。<br>・Windows Server 用の Server IoT および最小限のサーバー インターフェイス オプション。</p>
 </blockquote>
-<p>上記のブログ記事でアナウンスされているとおり、2022 年 1 月 31 日に Azure DevOps Services において TLS 1.0 および TLS 1.1 の廃止が予定されています。これに伴い Azure DevOps Services は TLS 1.0 および TLS 1.1 の接続を受け付けなくなるため、クライアントは TLS 1.2 以上のバージョンを使用する必要があります。既に Azure DevOps Services への接続の約 99.5% は TLS 1.2 が利用されている状況のため、TLS 1.0 および TLS 1.1 の廃止に伴う影響は限定的と予想されますが、TLS 1.2 に対応していない古いバージョンの OS や .NET Framework、Visual Studio や Git などでは Azure DevOps Services に接続できなくなる可能性がありますのでご注意ください。</p>
-<p>上記ブログ記事をご確認の上、影響を受ける可能性がある場合はソフトウェアのアップデートや TLS 1.2 の有効化をお願いいたします。この件につきましてご不明点などがありましたら、私共サポートまでお問い合わせください。</p>
-<h3 id="2022-02-02-追記"><a href="#2022-02-02-追記" class="headerlink" title="2022/02/02 追記"></a>2022/02/02 追記</h3><blockquote>
-<p><strong>2022 年 1 月 31 日 (PST) に実施された上記の変更につきましては、変更に伴う予期しない問題が確認されたためロールバックされました。現時点では Azure DevOps Services は引き続き TLS 1.0/1.1 の接続をサポートしています。現在上記の問題の解消に向けて取り組んでおり、改めて TLS 1.0/1.1 の新しい廃止予定日をアナウンスする予定です。ご不便をおかけいたしましたことをお詫び申し上げます。当ブログも随時更新しますが、最新の情報につきましては <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/devops/deprecating-weak-cryptographic-standards-tls-1-0-and-tls-1-1-in-azure-devops/">Azure DevOps Blog</a> の記事もあわせてご確認ください。</strong></p>
+<h3 id="複数ユーザーによる利用はサポートされません"><a href="#複数ユーザーによる利用はサポートされません" class="headerlink" title="複数ユーザーによる利用はサポートされません"></a>複数ユーザーによる利用はサポートされません</h3><p>Visual Studio では、同一環境上で複数のユーザーが同時に利用することはサポートされておりません。</p>
+<p>一例としまして、サーバー端末に対して複数のユーザーがリモートからサインインし、端末を利用するといったシナリオにおいて、端末にインストールされた Visual Studio を利用するといったケースが考えられます。<br>この場合、2人以上のユーザーが同時に Visual Studio を起動するといった操作はサポートされておらず、いかなる動作も保証されておりません。<br>一方で、必ずいずれか 1名のユーザーのみが Visual Studio を利用するという状況であれば本制約を回避することは可能ですが、その場合、他ユーザーの利用をブロックするといった機能はないため、運用ルールなどを用いて複数ユーザーによる利用を避けていただく必要があります。</p>
+<blockquote>
+<p>Visual Studio の実行には、次の機能はサポートされていません。<br>・共有仮想デスクトップ インフラストラクチャ マシンやプールされた Windows Virtual Desktop ホスト プールなど、同じコンピューター上でソフトウェアを使用する複数の同時ユーザー。</p>
 </blockquote>
-<h3 id="2022-03-16-追記"><a href="#2022-03-16-追記" class="headerlink" title="2022/03/16 追記"></a>2022/03/16 追記</h3><blockquote>
-<p><strong>ロールバックされた上記の変更につきましては、2022 年 3 月 31 日に改めてロールアウトされる予定です。また、恒久的な変更に先立ち、お客様が影響を受けるソフトウェアを事前に識別できるように、下記の日程にて https://orgname.visualstudio.com および https://dev.azure.com/orgname の URL について一時的に TLS 1.0/1.1 を無効にする予定です。<br>- 2022 年 3 月 22 日 09:00-21:00 (UTC) https://orgname.visualstudio.com のみ対象<br>- 2022 年 3 月 24 日 09:00-21:00 (UTC) https://dev.azure.com/orgname のみ対象<br>最新の情報につきましては <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/devops/deprecating-weak-cryptographic-standards-tls-1-0-and-1-1-in-azure-devops-services/">Azure DevOps Blog</a> の記事もあわせてご確認ください。</strong></p>
+<p>なお、本制約については、現時点で (2025年 10月) 全ての Visual Studio および <a target="_blank" rel="noopener" href="https://code.visualstudio.com/Docs/supporting/requirements">Visual Studio Code(VS Code)</a> が対象となっていますが、将来バージョンについては適宜最新の情報をご確認ください。</p>
+<h3 id="リモートデスクトップ-サービスはサポートされません"><a href="#リモートデスクトップ-サービスはサポートされません" class="headerlink" title="リモートデスクトップ サービスはサポートされません"></a>リモートデスクトップ サービスはサポートされません</h3><p>私たちサポートにお問い合わせいただく事例の中に、Windows Server 系 OS に Visual Studio(や、後述の SSMS) をインストールした際に、システム要件を満たしていないとの警告が表示されるが、心当たりがないといったケースがあります。</p>
+<p>システム要件を満たしているかは環境によって異なりますので、システム要件のドキュメントを元に確認いただく必要がありますが、特に見落としがちな制約として、<a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/windows-server/remote/remote-desktop-services/remote-desktop-services-overview">Windows Server におけるリモートデスクトップ サービス</a>があります。<br>もし、リモートデスクトップ サービスが有効になっている場合には、システム要件を満たさず、サポートされない環境となりますため、サーバーマネージャーを起動し、 <em>リモートデスクトップ セッションホスト</em> の役割がインストールされているかをご確認ください。</p>
+<h3 id="コンテナや仮想マシン環境での利用"><a href="#コンテナや仮想マシン環境での利用" class="headerlink" title="コンテナや仮想マシン環境での利用"></a>コンテナや仮想マシン環境での利用</h3><p>Visual Studio のインストールには完全な Windows OS が必要です。<br>そのため、Docker などのサードパーティー技術やサービスを含め、OS の機能を完全に提供していないコンテナーや仮想マシン環境での動作はサポートされていません。</p>
+<blockquote>
+<p>Visual Studio の実行には、次の機能はサポートされていません。<br>・Visual Studio Build Tools を除く、Windows コンテナー。<br>・完全な Windows オペレーティング システムなしの仮想マシン環境での実行。</p>
 </blockquote>
+<p>ただし、<a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/visualstudio/releases/2022/system-requirements#microsoft-visual-studio-build-tools-2022-system-requirements">Visual Studio Build Tools</a>については、Windows Server における Server Core オプションや、<a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/visualstudio/install/build-tools-container?view=vs-2022">コンテナでの利用</a>がサポートされています。</p>
+<h2 id="補足-SQL-Server-Management-Studio-SSMS-の利用に関して"><a href="#補足-SQL-Server-Management-Studio-SSMS-の利用に関して" class="headerlink" title="補足: SQL Server Management Studio(SSMS) の利用に関して"></a>補足: SQL Server Management Studio(SSMS) の利用に関して</h2><p>現在(2025年 10月)、最新の SSMS(SQL Server Management Studio) は Visual Studio インストーラーを用いてインストールされております。<br>そのような背景から、本記事で解説した内容の一部は <a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/ssms/system-requirements#sql-server-management-studio-system-requirements">SSMS のシステム要件</a>でも同様となっています。</p>
+<p>Visual Studio と SSMS は別の製品であるため、それぞれの製品ドキュメントに沿ってシステム要件を確認いただく必要がありますが、共通している要件については本記事の内容が少しでもご参考になれば幸いです。</p>
 
       
       
@@ -143,11 +155,11 @@
     <footer class="article-footer">
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/ALM/" rel="tag">ALM</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Azure-DevOps-Services/" rel="tag">Azure DevOps Services</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Visual-Studio/" rel="tag">Visual Studio</a></li></ul>
 
       <!-- 
       
-        <a href="https://github.com/jpdscore/blog/edit/master/articles/azuredevops/deprecating-weak-cryptographic-standards-tls-1-0-and-tls-1-1-in-azure-devops.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
+        <a href="https://github.com/jpdscore/blog/edit/master/articles/vs/vs2022-requirement.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
         
       -->
     </footer>
@@ -156,19 +168,10 @@
     
 <nav id="article-nav">
   
-    <a href="../pipelines-agents-ip-settings/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">次の記事</strong>
-      <div class="article-nav-title">
-        
-          Azure Pipelines エージェントの IP について
-        
-      </div>
-    </a>
   
-  
-    <a href="../pipelines-log-collection/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="../../playfab/studio-creation-recommendation/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">前の記事</strong>
-      <div class="article-nav-title">Azure Pipelines のトラブルシューティング用データ採取について</div>
+      <div class="article-nav-title">タイトル・スタジオ作成時における推奨・注意事項</div>
     </a>
   
 </nav>
@@ -187,7 +190,7 @@
       <ul>
         
           <li>
-            <a href="../../vs/vs2022-requirement/">Visual Studio 2022 のシステム要件</a>
+            <a href="">Visual Studio 2022 のシステム要件</a>
           </li>
         
           <li>
@@ -203,7 +206,7 @@
           </li>
         
           <li>
-            <a href="../../vs/vc2015-compatibility/">Visual C++ の互換性について(Visual C++ 2015 以降)</a>
+            <a href="../vc2015-compatibility/">Visual C++ の互換性について(Visual C++ 2015 以降)</a>
           </li>
         
           <li>
@@ -211,7 +214,7 @@
           </li>
         
           <li>
-            <a href="../../vs/vs2015-support-retirement/">Visual Studio 2015 のサポート終了について</a>
+            <a href="../vs2015-support-retirement/">Visual Studio 2015 のサポート終了について</a>
           </li>
         
       </ul>
