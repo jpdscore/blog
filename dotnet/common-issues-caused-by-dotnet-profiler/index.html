@@ -16,7 +16,7 @@
 <meta property="og:image" content="https://jpdscore.github.io/blog/dotnet/common-issues-caused-by-dotnet-profiler/corprofiler.png">
 <meta property="og:image" content="https://jpdscore.github.io/blog/dotnet/common-issues-caused-by-dotnet-profiler/criticalerror.png">
 <meta property="article:published_time" content="2021-08-22T15:00:00.000Z">
-<meta property="article:modified_time" content="2025-10-03T00:27:29.420Z">
+<meta property="article:modified_time" content="2025-10-08T23:32:49.873Z">
 <meta property="article:author" content="Developer Support Core Japan">
 <meta property="article:tag" content=".NET">
 <meta property="article:tag" content=".NET Framework">
@@ -122,12 +122,12 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>こんにちは、Japan Developer Support Core チームの松井です。<br>今回は、.NET Framework のプロファイル機能を利用する製品に起因する一般的な問題についてご案内します。</p>
-<h1 id="NET-Framework-のプロファイル機能"><a href="#NET-Framework-のプロファイル機能" class="headerlink" title=".NET Framework のプロファイル機能"></a>.NET Framework のプロファイル機能</h1><p>.NET Framework では、.NET Framework 上で動作するアプリケーションの実行を監視するためのプログラム (プロファイラー) が利用するための<a target="_blank" rel="noopener" href="https://docs.microsoft.com/ja-jp/dotnet/framework/unmanaged-api/profiling/">プロファイル API</a> が提供されています。プロファイラーの開発者は、この API を利用してデバッグの支援や各種メトリクスの計測などの様々な機能をプロファイラー DLL として実装します。プロファイル機能を有効にしてプロファイラー DLL が登録されると、.NET Framework アプリケーションは共通言語ランタイムの初期化処理の過程でプロセスにプロファイラー DLL をロードします。.NET Framework は、アプリケーションの実行を通じて発生するガベージ コレクションや JIT コンパイルなどの様々なイベントがプロファイラー DLL へ通知し、プロファイラーによってその内容が利用されます。</p>
-<h1 id="プロファイル機能を有効にする方法"><a href="#プロファイル機能を有効にする方法" class="headerlink" title="プロファイル機能を有効にする方法"></a>プロファイル機能を有効にする方法</h1><p>プロファイル機能は通常、COR_ENABLE_PROFILING と COR_PROFILER の 2 つの環境変数によって有効化されます。COR_ENABLE_PROFILING 環境変数を 1 に設定すると、プロファイル機能が有効になります。COR_PROFILER 環境変数には、プロファイラー DLL が実装するプロファイラーを指定します。プロファイル機能が有効化されプロファイラーが正常にロードされると、ソース .NET Runtime、ID 1022 の以下のようなメッセージがアプリケーションの起動時にイベント ログへ記録されます。</p>
+<h2 id="NET-Framework-のプロファイル機能"><a href="#NET-Framework-のプロファイル機能" class="headerlink" title=".NET Framework のプロファイル機能"></a>.NET Framework のプロファイル機能</h2><p>.NET Framework では、.NET Framework 上で動作するアプリケーションの実行を監視するためのプログラム (プロファイラー) が利用するための<a target="_blank" rel="noopener" href="https://docs.microsoft.com/ja-jp/dotnet/framework/unmanaged-api/profiling/">プロファイル API</a> が提供されています。プロファイラーの開発者は、この API を利用してデバッグの支援や各種メトリクスの計測などの様々な機能をプロファイラー DLL として実装します。プロファイル機能を有効にしてプロファイラー DLL が登録されると、.NET Framework アプリケーションは共通言語ランタイムの初期化処理の過程でプロセスにプロファイラー DLL をロードします。.NET Framework は、アプリケーションの実行を通じて発生するガベージ コレクションや JIT コンパイルなどの様々なイベントがプロファイラー DLL へ通知し、プロファイラーによってその内容が利用されます。</p>
+<h2 id="プロファイル機能を有効にする方法"><a href="#プロファイル機能を有効にする方法" class="headerlink" title="プロファイル機能を有効にする方法"></a>プロファイル機能を有効にする方法</h2><p>プロファイル機能は通常、COR_ENABLE_PROFILING と COR_PROFILER の 2 つの環境変数によって有効化されます。COR_ENABLE_PROFILING 環境変数を 1 に設定すると、プロファイル機能が有効になります。COR_PROFILER 環境変数には、プロファイラー DLL が実装するプロファイラーを指定します。プロファイル機能が有効化されプロファイラーが正常にロードされると、ソース .NET Runtime、ID 1022 の以下のようなメッセージがアプリケーションの起動時にイベント ログへ記録されます。</p>
 <blockquote>
 <p>.NET Runtime version 4.0.30319.0 - プロファイラーが正常に読み込まれました。  プロファイラーの CLSID: ‘{909B2AD5-42DF-4832-8EA0-7808E80D7741}’。  プロセス ID (10 進数): 12860。  メッセージ ID: [0x2507]。</p>
 </blockquote>
-<h1 id="よくある問題"><a href="#よくある問題" class="headerlink" title="よくある問題"></a>よくある問題</h1><p>プロファイラー DLL はアプリケーションと同じプロセスにロードされる性質のため、アプリケーションの動作に影響を与えないよう注意深く設計する必要があります。例えばプロファイラーの処理の内部でアクセス違反例外が発生した場合、プロファイラーの動作に問題が生じるだけでなくアプリケーション自体が異常終了します。一般的にはプロファイラーはアプリケーションのデバッグやテストの過程で対象のプロセスに限定して有効化することがほとんどですが、システム レベルでプロファイラーを有効にすると .NET Framework を利用するアプリケーションに影響を与える可能性があります。サーバー マネージャーや PowerShell など Windows の機能も .NET Framework 上で動作するため、システム レベルで有効化したプロファイラーの影響で Windows の機能が起動できなくなるといった事象が起こりえます。</p>
+<h2 id="よくある問題"><a href="#よくある問題" class="headerlink" title="よくある問題"></a>よくある問題</h2><p>プロファイラー DLL はアプリケーションと同じプロセスにロードされる性質のため、アプリケーションの動作に影響を与えないよう注意深く設計する必要があります。例えばプロファイラーの処理の内部でアクセス違反例外が発生した場合、プロファイラーの動作に問題が生じるだけでなくアプリケーション自体が異常終了します。一般的にはプロファイラーはアプリケーションのデバッグやテストの過程で対象のプロセスに限定して有効化することがほとんどですが、システム レベルでプロファイラーを有効にすると .NET Framework を利用するアプリケーションに影響を与える可能性があります。サーバー マネージャーや PowerShell など Windows の機能も .NET Framework 上で動作するため、システム レベルで有効化したプロファイラーの影響で Windows の機能が起動できなくなるといった事象が起こりえます。</p>
 <p>弊社へよくお問い合わせをいただく問題としては以下のようなものが挙げられます。</p>
 <ol>
 <li>イベント ログにソース .NET Runtime、イベント ID 1022 のエラーが頻繁に記録されるようになった。</li>
@@ -135,7 +135,7 @@
 <li>アプリケーションの実行中にエラーが発生して突然終了するようになった。</li>
 </ol>
 <p>プロファイル機能は開発者用ツールやセキュリティ ソフトウェアなどから利用されるケースが多く、このようなアプリケーションの導入や更新などが契機で上記のような事象が発生する場合は、問題の切り分けを実施した上で当該製品の開発元へお問い合わせすることも検討してください。</p>
-<h1 id="プロファイラーによって発生する問題の切り分け"><a href="#プロファイラーによって発生する問題の切り分け" class="headerlink" title="プロファイラーによって発生する問題の切り分け"></a>プロファイラーによって発生する問題の切り分け</h1><p>プロファイラーは下記 2 つの環境変数によって構成されるため、環境変数の設定を変更してプロファイラーを無効化し、問題の再現性に変化があるか確認することで問題の切り分けが可能です。プロファイラーを無効化したときには問題が発生しない場合、プロファイラーの動作が問題の原因の一つとなっていると考えられます。</p>
+<h2 id="プロファイラーによって発生する問題の切り分け"><a href="#プロファイラーによって発生する問題の切り分け" class="headerlink" title="プロファイラーによって発生する問題の切り分け"></a>プロファイラーによって発生する問題の切り分け</h2><p>プロファイラーは下記 2 つの環境変数によって構成されるため、環境変数の設定を変更してプロファイラーを無効化し、問題の再現性に変化があるか確認することで問題の切り分けが可能です。プロファイラーを無効化したときには問題が発生しない場合、プロファイラーの動作が問題の原因の一つとなっていると考えられます。</p>
 <ul>
 <li>COR_ENABLE_PROFILING</li>
 <li>COR_PROFILER</li>
@@ -147,7 +147,7 @@
 </blockquote>
 <p><img src="./corprofiler.png"></p>
 <p>なお、プロファイラー機能は弊社製品でも Visual Studio プロファイラーやコード カバレッジなど様々な機能で利用されていますが、システム レベルで永続的にプロファイラーを有効化することは通常ありません。</p>
-<h1 id="一般的なエラー内容"><a href="#一般的なエラー内容" class="headerlink" title="一般的なエラー内容"></a>一般的なエラー内容</h1><p>プロファイラーの設定や実装の問題に起因するエラーでよくお問い合わせいただくものとして、代表的なものをいくつか記載します。</p>
+<h2 id="一般的なエラー内容"><a href="#一般的なエラー内容" class="headerlink" title="一般的なエラー内容"></a>一般的なエラー内容</h2><p>プロファイラーの設定や実装の問題に起因するエラーでよくお問い合わせいただくものとして、代表的なものをいくつか記載します。</p>
 <hr>
 <h3 id="CoCreateInstance-中に、プロファイラーを読み込めませんでした。-HRESULT-0x80040154"><a href="#CoCreateInstance-中に、プロファイラーを読み込めませんでした。-HRESULT-0x80040154" class="headerlink" title="CoCreateInstance 中に、プロファイラーを読み込めませんでした。(HRESULT: 0x80040154)"></a>CoCreateInstance 中に、プロファイラーを読み込めませんでした。(HRESULT: 0x80040154)</h3><blockquote>
 <p>.NET Runtime version 4.0.30319.0 - CoCreateInstance 中に、プロファイラーを読み込めませんでした。  プロファイラーの CLSID: ‘{909B2AD5-42DF-4832-8EA0-7808E80D7741}’。  HRESULT: 0x80040154。  プロセス ID (10 進数): 24504。  メッセージ ID: [0x2504]。</p>
@@ -168,7 +168,7 @@
 <hr>
 <p>なお、プロファイラー DLL がロードされた後にプロファイラーの処理で発生する問題は、イベント ログやダイアログには表示されず突然アプリケーションが強制終了するといった事象で顕在化する可能性があり、プロファイラーの影響か判断することが困難な場合があります。もしくは、.NET Runtime のイベント ログ ID 1023 (.NET ランタイムの内部エラー) として顕在化する場合もあります。</p>
 <p>開発者ツールやセキュリティ ソフトウェアなどの導入が契機となり突然 .NET Framework アプリケーションに問題が生じるようになった場合や、イベント ID 1022 のイベント ログが記録されている場合は、プロファイラーの動作が影響している可能性が考えられます。そのような場合は、プロファイラーを無効化して問題の再現性に変化があるかご確認ください。また、プロファイラーの動作によって問題が生じている場合はプロファイラーの開発元へのお問い合わせをお願いします。</p>
-<h1 id="参考情報"><a href="#参考情報" class="headerlink" title="参考情報"></a>参考情報</h1><p>.NET Framework のプロファイル API については以下のドキュメントで詳細な情報を公開しています。<br><a target="_blank" rel="noopener" href="https://docs.microsoft.com/ja-jp/dotnet/framework/unmanaged-api/profiling/">https://docs.microsoft.com/ja-jp/dotnet/framework/unmanaged-api/profiling/</a></p>
+<h2 id="参考情報"><a href="#参考情報" class="headerlink" title="参考情報"></a>参考情報</h2><p>.NET Framework のプロファイル API については以下のドキュメントで詳細な情報を公開しています。<br><a target="_blank" rel="noopener" href="https://docs.microsoft.com/ja-jp/dotnet/framework/unmanaged-api/profiling/">https://docs.microsoft.com/ja-jp/dotnet/framework/unmanaged-api/profiling/</a></p>
 <p>また、プロファイル API が活用されているツールとして CLR Profiler や PerfView がオープン ソースで公開されています。<br><a target="_blank" rel="noopener" href="https://github.com/microsoftarchive/clrprofiler">https://github.com/microsoftarchive/clrprofiler</a><br><a target="_blank" rel="noopener" href="https://github.com/microsoft/perfview">https://github.com/microsoft/perfview</a></p>
 <p>プロファイラー内部で問題が起きたときの動作を簡単に試せる Visual Studio 2019 でビルド可能なサンプル コードを<a href="./MyNetFxProfiler.zip">こちら</a>に置いていますので、興味のある方はダウンロードして試してみてください。</p>
 

@@ -17,7 +17,7 @@
 <meta property="og:image" content="https://jpdscore.github.io/blog/vs/vs2013-signin-error/schusestrongcrypto-x86os.png">
 <meta property="og:image" content="https://jpdscore.github.io/blog/vs/vs2013-signin-error/schusestrongcrypto-x64os.png">
 <meta property="article:published_time" content="2022-04-27T15:00:00.000Z">
-<meta property="article:modified_time" content="2025-10-03T00:27:29.433Z">
+<meta property="article:modified_time" content="2025-10-08T23:32:49.886Z">
 <meta property="article:author" content="Developer Support Core Japan">
 <meta property="article:tag" content="Visual Studio">
 <meta name="twitter:card" content="summary">
@@ -122,10 +122,10 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>こんにちは、Japan Developer Support Core チームの松井です。<br>今回は Visual Studio 2013 でサインイン画面が表示されない場合の対処方法についてご案内します。</p>
-<h1 id="現象"><a href="#現象" class="headerlink" title="現象"></a>現象</h1><p>Visual Studio 2013 でサインイン画面の表示を試みた場合に、”問題が発生しました”、”オンライン サービスは使用できません。後でやり直してください。” のエラーが表示される。</p>
+<h2 id="現象"><a href="#現象" class="headerlink" title="現象"></a>現象</h2><p>Visual Studio 2013 でサインイン画面の表示を試みた場合に、”問題が発生しました”、”オンライン サービスは使用できません。後でやり直してください。” のエラーが表示される。</p>
 <p><img src="vs2013-signin-error.png"></p>
-<h1 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h1><p>Visual Studio のサインイン画面をはじめとする弊社の各 Web サイトやサービスでは、古い暗号化プロトコルである TLS 1.0 および TLS 1.1 の廃止が順次進められています。一方で Visual Studio 2013 は .NET Framework 4 の既定の暗号化プロトコルを使用しており、既定のシステム構成では TLS 1.0 が使用されます。そのため、Visual Studio 2013 からサインイン画面のサイトへ接続を試みた際に接続が拒否され、ダイアログにエラーが表示されます。</p>
-<h1 id="対処方法"><a href="#対処方法" class="headerlink" title="対処方法"></a>対処方法</h1><p>PowerShell を起動して以下のコマンドレットを実行し、コンピューターに .NET Framework 4.6 以降のバージョンがインストールされているか確認してください。</p>
+<h2 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h2><p>Visual Studio のサインイン画面をはじめとする弊社の各 Web サイトやサービスでは、古い暗号化プロトコルである TLS 1.0 および TLS 1.1 の廃止が順次進められています。一方で Visual Studio 2013 は .NET Framework 4 の既定の暗号化プロトコルを使用しており、既定のシステム構成では TLS 1.0 が使用されます。そのため、Visual Studio 2013 からサインイン画面のサイトへ接続を試みた際に接続が拒否され、ダイアログにエラーが表示されます。</p>
+<h2 id="対処方法"><a href="#対処方法" class="headerlink" title="対処方法"></a>対処方法</h2><p>PowerShell を起動して以下のコマンドレットを実行し、コンピューターに .NET Framework 4.6 以降のバージョンがインストールされているか確認してください。</p>
 <figure class="highlight ps"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(<span class="built_in">Get-ItemProperty</span> <span class="string">&quot;HKLM:\SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full&quot;</span>).Release <span class="operator">-ge</span> <span class="number">393295</span></span><br></pre></td></tr></table></figure>
 
 <p>True が出力される場合は .NET Framework 4.6 がインストールされていますので、以下のレジストリ設定を追加します。</p>
@@ -143,7 +143,7 @@
 <blockquote>
 <p><a target="_blank" rel="noopener" href="https://jpdsi.github.io/blog/internet-explorer-microsoft-edge/dotnet-framework-tls12/#6-NET-Framework-4-5-2-%E3%81%A7-TLS-1-1-%E3%81%8A%E3%82%88%E3%81%B3-1-2-%E3%82%92%E6%97%A2%E5%AE%9A%E5%80%A4%E3%81%AB%E3%81%99%E3%82%8B%E3%81%9F%E3%82%81%E3%81%AE%E6%96%B9%E6%B3%95">6. .NET Framework 4.5.2 で TLS 1.1 および 1.2 を既定値にするための方法</a></p>
 </blockquote>
-<h1 id="参考情報"><a href="#参考情報" class="headerlink" title="参考情報"></a>参考情報</h1><p>TLS 1.0 / TLS 1.1 の廃止、およびこの変更により Visual Studio の機能が影響を受ける可能性があることについては Visual Studio 開発チームの下記のブログ記事にてご案内しています。</p>
+<h2 id="参考情報"><a href="#参考情報" class="headerlink" title="参考情報"></a>参考情報</h2><p>TLS 1.0 / TLS 1.1 の廃止、およびこの変更により Visual Studio の機能が影響を受ける可能性があることについては Visual Studio 開発チームの下記のブログ記事にてご案内しています。</p>
 <p><a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/visualstudio/azure-devops-requires-tls-1-2-on-all-connections-including-visual-studio/">Azure DevOps requires TLS 1.2 on all connections including Visual Studio</a></p>
 <blockquote>
 <p><strong>原文抜粋</strong><br>Visual Studio 2022, Visual Studio 2019, and the latest release of Visual Studio 2017 (version 15.9 and beyond) already use TLS 1.2 and are not impacted by the upcoming change. Earlier versions of Visual Studio that are running on devices not configured to use TLS 1.2, may begin to see errors when connecting to Azure DevOps services. Features such as signing into Visual Studio, unlocking the IDE, and remote Git operations could be affected.</p>

@@ -16,7 +16,7 @@
 <meta property="og:image" content="https://jpdscore.github.io/blog/vs/identity-of-build-artifacts-from-identical-source/timedatestamp.png">
 <meta property="og:image" content="https://jpdscore.github.io/blog/vs/identity-of-build-artifacts-from-identical-source/debughash.png">
 <meta property="article:published_time" content="2021-01-20T15:00:00.000Z">
-<meta property="article:modified_time" content="2025-10-03T00:27:29.428Z">
+<meta property="article:modified_time" content="2025-10-08T23:32:49.881Z">
 <meta property="article:author" content="Developer Support Core Japan">
 <meta property="article:tag" content="Visual Studio">
 <meta property="article:tag" content="C++">
@@ -124,7 +124,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>こんにちは、Japan Developer Support Core チームの松井です。<br>今回は、Visual Studio に含まれる C++, C#, Visual Basic.NET における、同一ソースコードから生成されるビルド成果物のバイナリ同一性についてご案内します。</p>
-<h1 id="はじめに"><a href="#はじめに" class="headerlink" title="はじめに"></a>はじめに</h1><p>「同一ソースコードをビルドして得られる成果物は、毎回のビルド毎にバイナリ レベルで同一であることが保証されるか?」というご質問は、私たちのサポート チームによくいただくお問い合わせ内容の一つです。同一ソースコードからバイト単位で同一のビルド成果物を得られるようにすることは、決定論的 (deterministic) ビルド、再現可能 (reproducible) ビルドなどとして弊社製品に限らず様々な場所で議論されています。</p>
+<h2 id="はじめに"><a href="#はじめに" class="headerlink" title="はじめに"></a>はじめに</h2><p>「同一ソースコードをビルドして得られる成果物は、毎回のビルド毎にバイナリ レベルで同一であることが保証されるか?」というご質問は、私たちのサポート チームによくいただくお問い合わせ内容の一つです。同一ソースコードからバイト単位で同一のビルド成果物を得られるようにすることは、決定論的 (deterministic) ビルド、再現可能 (reproducible) ビルドなどとして弊社製品に限らず様々な場所で議論されています。</p>
 <p>ご質問の背景は様々ですが、お客様からいただく代表的なものとして以下のような状況が挙げられます。</p>
 <ol>
 <li>ビルド環境 (OS や Visual Studio など) の移行を行うので、移行前後の成果物を比較してビルド環境に問題がないことを保証したい</li>
@@ -132,13 +132,13 @@
 </ol>
 <p>結論から述べると、1. については環境もビルドの入力と見なされることから実現できずビルド成果物は同一にならない可能性があり、また同一になったとしてもビルド環境に問題がないことの保証にもなりません。2. についてもビルド ツールの対応や環境などについて前提条件が生じます。そのため、ビルド成果物に相違が生じる要因やビルド ツールの対応状況、同一のビルド成果物を得るための前提条件について理解することが重要です。</p>
 <p>なお、この記事ではビルド成果物をバイト単位で見たときのバイナリ レベルの同一性について触れています。ソースコードやリンクされるオブジェクト類が同一であれば、同じビルド ツールによって生成されるビルド成果物の動作や機能に相違が生じるようなことは通常ありません。この点はご安心ください。</p>
-<h1 id="ビルド成果物に相違が生じる主な要因について"><a href="#ビルド成果物に相違が生じる主な要因について" class="headerlink" title="ビルド成果物に相違が生じる主な要因について"></a>ビルド成果物に相違が生じる主な要因について</h1><p>EXE や DLL などのヘッダー情報 (Portable Executable header) には <a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/windows/win32/debug/pe-format#coff-file-header-object-and-image">TimeDateStamp</a> フィールドが含まれており、成果物が作成された日時がコンパイラーやリンカーなどのビルド ツールによって書き込まれます。また、EXE や DLL とそのデバッグ情報を含むシンボル ファイル (PDB ファイル) を一意に関連付けるために、ビルド時にランダムな値が識別子として生成され EXE や DLL、PDB ファイルに埋め込まれます。これらはビルドする度に毎回異なる値となりますので、比較すると下図のように相違が生じていることが分かります。</p>
+<h2 id="ビルド成果物に相違が生じる主な要因について"><a href="#ビルド成果物に相違が生じる主な要因について" class="headerlink" title="ビルド成果物に相違が生じる主な要因について"></a>ビルド成果物に相違が生じる主な要因について</h2><p>EXE や DLL などのヘッダー情報 (Portable Executable header) には <a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/windows/win32/debug/pe-format#coff-file-header-object-and-image">TimeDateStamp</a> フィールドが含まれており、成果物が作成された日時がコンパイラーやリンカーなどのビルド ツールによって書き込まれます。また、EXE や DLL とそのデバッグ情報を含むシンボル ファイル (PDB ファイル) を一意に関連付けるために、ビルド時にランダムな値が識別子として生成され EXE や DLL、PDB ファイルに埋め込まれます。これらはビルドする度に毎回異なる値となりますので、比較すると下図のように相違が生じていることが分かります。</p>
 <p><img src="timedatestamp.png" alt="タイムスタンプ"><br><img src="debughash.png" alt="デバッグ情報の一意の ID"></p>
 <p>同一ソースコードをビルドした成果物にバイナリ レベルで相違が生じる原因としては、生成されるファイル内に埋め込まれるこのようなタイム スタンプやソース ファイルのパス、乱数が主なものとして挙げられます。また、C# および Visual Basic.NET における <a target="_blank" rel="noopener" href="https://docs.microsoft.com/ja-jp/dotnet/api/system.runtime.compilerservices.callerfilepathattribute">CallerFilePath 属性</a>や、C/C++ における <strong>FILE</strong> マクロや <strong>DATE</strong> マクロのように、コンパイルしたソースコードの場所や日時などに展開するための機能もあり、このような言語やプラットフォームに固有の機能も決定論的ビルドの妨げとなる可能性があります。その他にも弊社の<a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/oldnewthing/20180103-00/?p=97705">ブログ記事</a>の中でいくつかの要因が挙げられていますので、興味のある方はあわせてご参照ください。</p>
-<h1 id="Visual-C-の対応について"><a href="#Visual-C-の対応について" class="headerlink" title="Visual C++ の対応について"></a>Visual C++ の対応について</h1><p>Visual C++ のコンパイラーおよびリンカーは、この記事の執筆時点では決定論的ビルドをサポートしていません。</p>
+<h2 id="Visual-C-の対応について"><a href="#Visual-C-の対応について" class="headerlink" title="Visual C++ の対応について"></a>Visual C++ の対応について</h2><p>Visual C++ のコンパイラーおよびリンカーは、この記事の執筆時点では決定論的ビルドをサポートしていません。</p>
 <p>Visual Studio に付属する dumpbin ツールの <a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/cpp/build/reference/disasm">/disasm オプション</a>を使用することで、前項で挙げたタイムスタンプやシンボル ファイルの識別子といった要因を除外して実行命令のみを逆アセンブルして抽出することが可能ですので、この方法でビルド成果物を比較した場合は一致が見られる可能性はあります。</p>
 <p>ただし、決定論的ビルドはサポートされておらずビルド成果物のバイナリ レベルでの一致も保証されていませんので、逆アセンブルした結果で比較しても相違が生じている可能性があります。また、どのような条件でどのような相違が生じるのかについても、すべてを網羅して明確にお答えすることはできません。</p>
-<h1 id="C-および-Visual-Basic-NET-の対応について"><a href="#C-および-Visual-Basic-NET-の対応について" class="headerlink" title="C# および Visual Basic.NET の対応について"></a>C# および Visual Basic.NET の対応について</h1><p>C# および Visual Basic.NET のコンパイラー、およびビルド ツールとして利用される MSBuild では、決定論的ビルドを行うためのコンパイラー オプションやプロパティが提供されています。</p>
+<h2 id="C-および-Visual-Basic-NET-の対応について"><a href="#C-および-Visual-Basic-NET-の対応について" class="headerlink" title="C# および Visual Basic.NET の対応について"></a>C# および Visual Basic.NET の対応について</h2><p>C# および Visual Basic.NET のコンパイラー、およびビルド ツールとして利用される MSBuild では、決定論的ビルドを行うためのコンパイラー オプションやプロパティが提供されています。</p>
 <p>[C#] <a target="_blank" rel="noopener" href="https://docs.microsoft.com/ja-jp/dotnet/csharp/language-reference/compiler-options/deterministic-compiler-option">https://docs.microsoft.com/ja-jp/dotnet/csharp/language-reference/compiler-options/deterministic-compiler-option</a><br>[VB.NET] <a target="_blank" rel="noopener" href="https://docs.microsoft.com/ja-jp/dotnet/visual-basic/reference/command-line-compiler/deterministic">https://docs.microsoft.com/ja-jp/dotnet/visual-basic/reference/command-line-compiler/deterministic</a><br>[MSBuild] <a target="_blank" rel="noopener" href="https://docs.microsoft.com/ja-jp/visualstudio/msbuild/common-msbuild-project-properties">https://docs.microsoft.com/ja-jp/visualstudio/msbuild/common-msbuild-project-properties</a></p>
 <p>C# および Visual Basic.NET における決定論的ビルドは “同一の入力” に対して “同一の出力” を生成することを目的としています。”入力” として見なされる事項は以下のドキュメントで列挙されていますが、ソースコード以外にも様々あり、これらの条件が異なれば生成されるビルド成果物にも相違が生じる可能性がありますので注意してください。<br><a target="_blank" rel="noopener" href="https://github.com/dotnet/roslyn/blob/master/docs/compilers/Deterministic%20Inputs.md">https://github.com/dotnet/roslyn/blob/master/docs/compilers/Deterministic%20Inputs.md</a></p>
 <p>なお、この機能は <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/dotnet/whats-new-for-c-and-vb-in-visual-studio/">Visual Studio 2015 Update 2 で追加</a>されました。以前のバージョンの Visual Studio には含まれていませんので、利用する場合は新しいバージョンの Visual Studio へアップグレードしてください。</p>

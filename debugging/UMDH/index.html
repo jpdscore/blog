@@ -14,7 +14,7 @@
 <meta property="og:description" content="(※ 2013 年 8 月 18 日に JAPAN Platform SDK（Windows SDK） Support Team Blog に公開した情報の再編集・再掲です。)   こんにちは、Japan Developer Support Core チーム 平田 a.k.a ぴろとです。本日は、メ">
 <meta property="og:locale" content="ja_JP">
 <meta property="article:published_time" content="2020-12-28T07:15:07.000Z">
-<meta property="article:modified_time" content="2025-10-03T00:27:29.395Z">
+<meta property="article:modified_time" content="2025-10-08T23:32:49.848Z">
 <meta property="article:author" content="Developer Support Core Japan">
 <meta property="article:tag" content="Windows SDK">
 <meta property="article:tag" content="Debug">
@@ -121,20 +121,20 @@
       
         <p>(※ 2013 年 8 月 18 日に JAPAN Platform SDK（Windows SDK） Support Team Blog に公開した情報の再編集・再掲です。)  </p>
 <p>こんにちは、Japan Developer Support Core チーム 平田 a.k.a ぴろとです。<br>本日は、メモリ リークに焦点を当てて調査を行う方法についてご紹介いたします。</p>
-<h1 id="概要説明"><a href="#概要説明" class="headerlink" title="概要説明"></a>概要説明</h1><p>多くの場合、アプリケーションのメモリ リーク箇所の特定は非常に難しいトラブルシューティングとなります。しかしながら、本日ご紹介させていただく User-Mode Dump Heap (以下、UMDH) というツールを用いることで、メモリ リークの発生箇所や、リークの大きさを特定することができます。私たちもお客様からのお問い合わせを調査する際に利用しているツールですので、ひょっとしたらメモリ リークしてるかも？という場合にぜひともご利用いただきたいツールです。</p>
+<h2 id="概要説明"><a href="#概要説明" class="headerlink" title="概要説明"></a>概要説明</h2><p>多くの場合、アプリケーションのメモリ リーク箇所の特定は非常に難しいトラブルシューティングとなります。しかしながら、本日ご紹介させていただく User-Mode Dump Heap (以下、UMDH) というツールを用いることで、メモリ リークの発生箇所や、リークの大きさを特定することができます。私たちもお客様からのお問い合わせを調査する際に利用しているツールですので、ひょっとしたらメモリ リークしてるかも？という場合にぜひともご利用いただきたいツールです。</p>
 <p>UMDH ツールは、Windows SDK に含まれる Debugging Tools for Windows の一部として提供されており、簡単に利用できるのですが、VirtualAlloc() や VirtualAllocEx() で確保されたメモリのメモリ リークは残念ながら検出することができません。その点だけお気を付けいただければ便利に使えるツールです。</p>
 <p>自分のプログラムにメモリ リークが疑われたら、まず、パフォーマンス モニターでメモリに関する情報を採取してみましょう。これには、パフォーマンス モニターの Process カテゴリの情報を採取し、 Private Bytes の値を監視します。この値が右肩上がりの傾向であれば、メモリ リークが発生している可能性あるため、より詳しく調査をするために UMDH の出番となります。</p>
 <h2 id="ツールのインストール"><a href="#ツールのインストール" class="headerlink" title="ツールのインストール"></a>ツールのインストール</h2><ol>
 <li>UMDH のインストール方法<br>以下の SDK をダウンロードしてインストールします。この時、[Debugging Tools for Windows] をインストールするようにチェックボックスにチェックを入れます。<br><a target="_blank" rel="noopener" href="https://developer.microsoft.com/ja-jp/windows/downloads/windows-10-sdk/">Windows 10 SDK</a><br><a target="_blank" rel="noopener" href="https://developer.microsoft.com/ja-jp/windows/downloads/windows-10-sdk/">https://developer.microsoft.com/ja-jp/windows/downloads/windows-10-sdk/</a></li>
 <li>インストールが成功すると、以下のフォルダーに Debugger Tools for Windows がインストールされます。<br>C:\Program Files (x86)\Windows Kits\10\Debuggers\x64<br>C:\Program Files (x86)\Windows Kits\10\Debuggers\x86</li>
 </ol>
-<h1 id="使ってみよう"><a href="#使ってみよう" class="headerlink" title="使ってみよう"></a>使ってみよう</h1><h2 id="サンプル作成"><a href="#サンプル作成" class="headerlink" title="サンプル作成"></a>サンプル作成</h2><p>今回は、以下のようなサンプル アプリケーションを使って UMDH の使い方を簡単にご説明します。まずはメモリリークするサンプルプログラムを作成します。<br>このサンプルコードを  LeakSample.cpp として保存します。</p>
+<h2 id="使ってみよう"><a href="#使ってみよう" class="headerlink" title="使ってみよう"></a>使ってみよう</h2><h3 id="サンプル作成"><a href="#サンプル作成" class="headerlink" title="サンプル作成"></a>サンプル作成</h3><p>今回は、以下のようなサンプル アプリケーションを使って UMDH の使い方を簡単にご説明します。まずはメモリリークするサンプルプログラムを作成します。<br>このサンプルコードを  LeakSample.cpp として保存します。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">#include &quot;stdafx.h&quot;</span><br><span class="line">#include &quot;Leak.h&quot;</span><br><span class="line">#include &lt;conio.h&gt;</span><br><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line"></span><br><span class="line">void heapleak()</span><br><span class="line">&#123;</span><br><span class="line">    CLeak *p;</span><br><span class="line">    p = new CLeak();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int _tmain(int argc, _TCHAR* argv[])</span><br><span class="line">&#123;</span><br><span class="line">    _getch();</span><br><span class="line">    for(int i=0;i&lt;100;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        heapleak();</span><br><span class="line">    &#125;</span><br><span class="line">    _getch();</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>また、以下のヘッダファイルを Leak.h として保存してプロジェクトに入れてください。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">#pragma once</span><br><span class="line">class CLeak</span><br><span class="line">&#123;</span><br><span class="line">public:</span><br><span class="line">    int a;</span><br><span class="line">    int b;</span><br><span class="line">    int c;</span><br><span class="line">    int d;</span><br><span class="line">    CLeak() &#123;&#125;;</span><br><span class="line">    ~CLeak() &#123;&#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 <p>LeakSample.exeとしてコンパイルしましょう。コンパイル時に生成されたシンボルファイル (拡張子が .pdb のファイル) を、C:\symbols.cache_pubにコピーしてください。</p>
-<h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><ol>
+<h3 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h3><ol>
 <li><p>環境変数の設定<br>UMDH による調査では、最低 2 回 UMDH を実行して、実行した時点で確保されているメモリの差分よりメモリ リークを調査します。UMDH が実行されて、次に実行される間に確保、解放されたメモリは適切に解放されたメモリですので  UMDH では検出することができません。<br>また、UMDH は管理者権限で実行する必要があります。そのため、以下の手順はすべて管理者権限をもつユーザーとして実行してください。<br>コマンドプロンプトを起動して、環境変数 _NT_SYMBOL_PATH にシンボル ファイルの参照元を設定します。<br> <code>&gt;set _NT_SYMBOL_PATH=srv*C:\symbols.cache_pub*http://msdl.microsoft.com/download/symbols</code></p>
 </li>
 <li><p>flags コマンドを使い、スタックトレースの取得を有効にします。<br>「Leaksample.exe」がメモリ リークの調査対象なので、以下のように gflags コマンドを実行します。<br> <code>&gt; gflags -i Leaksample.exe +ust</code></p>
@@ -157,7 +157,7 @@
 <li><p>2 回目の情報採取をします。<br> <code>C:\Program Files (x86)\Windows Kits\10\Debuggers\x86&gt;umdh -p:6248 -f:C:\TEMP\log2.log</code></p>
 </li>
 </ol>
-<h2 id="解析してみよう"><a href="#解析してみよう" class="headerlink" title="解析してみよう"></a>解析してみよう</h2><p>1 回目と 2 回目での間にて確保されたメモリの差分がリークしたメモリになります。この差分の検出するときも UMDH を使います。  </p>
+<h3 id="解析してみよう"><a href="#解析してみよう" class="headerlink" title="解析してみよう"></a>解析してみよう</h3><p>1 回目と 2 回目での間にて確保されたメモリの差分がリークしたメモリになります。この差分の検出するときも UMDH を使います。  </p>
 <ol>
 <li>UMDH で情報採取結果を取得するために、以下のコマンドにて結果を取得します<br> <code>C:\Program Files (x86)\Windows Kits\10\Debuggers\x86&gt;umdh C:\TEMP\log1.log C:\TEMP\log2.log &gt; C:\TEMP\diff12.txt</code></li>
 <li>diff12.txt をテキストエディタで開きます</li>

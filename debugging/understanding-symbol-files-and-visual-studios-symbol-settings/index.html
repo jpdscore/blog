@@ -23,7 +23,7 @@
 <meta property="og:image" content="https://jpdscore.github.io/blog/debugging/understanding-symbol-files-and-visual-studios-symbol-settings/manual-load-symbols-from-callstack-window.png">
 <meta property="og:image" content="https://jpdscore.github.io/blog/debugging/understanding-symbol-files-and-visual-studios-symbol-settings/manual-load-symbols-from-modules-window.png">
 <meta property="article:published_time" content="2021-02-11T15:00:00.000Z">
-<meta property="article:modified_time" content="2025-10-03T00:27:29.412Z">
+<meta property="article:modified_time" content="2025-10-08T23:32:49.866Z">
 <meta property="article:author" content="Developer Support Core Japan">
 <meta property="article:tag" content="Debug">
 <meta name="twitter:card" content="summary">
@@ -134,9 +134,9 @@
 <p>2015 年 1 月 5 日に Visual Studio Blog で公開された記事 <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/devops/understanding-symbol-files-and-visual-studios-symbol-settings/">Understanding symbol files and Visual Studio’s symbol settings</a> で、シンボルについての説明や Visual Studio での利用方法および設定が英語で紹介されていますので、この記事の内容がシンボルについてご理解いただくためのお役に立てれば幸いです。以降は上記ブログ記事の和訳となります。</p>
 <hr>
 <hr>
-<h1 id="Understanding-symbol-files-and-Visual-Studio’s-symbol-settings"><a href="#Understanding-symbol-files-and-Visual-Studio’s-symbol-settings" class="headerlink" title="Understanding symbol files and Visual Studio’s symbol settings"></a>Understanding symbol files and Visual Studio’s symbol settings</h1><p>シンボルは、デバッグおよびその他の診断ツールの基本要件です。幸い、ほとんどの場合、Visual Studio でアプリケーションをビルドして Visual Studio でアプリケーションを起動するときにコードのシンボルについて意識する必要はほとんどありません。ただし、シンボルのロード方法やデバッガーのシンボル検索場所を変更したり、サードパーティ製品 (Windows や .NET ライブラリなど) のシンボルをロードすることがいつか必要になるかもしれません。また、シンボルはデバッグにおける非常に基本的なものであるため、私たちは継続してそのエクスペリエンスの調整を行っており、Visual Studio の動作の詳細を理解することで何時間ものフラストレーションを軽減できます。</p>
+<h2 id="Understanding-symbol-files-and-Visual-Studio’s-symbol-settings"><a href="#Understanding-symbol-files-and-Visual-Studio’s-symbol-settings" class="headerlink" title="Understanding symbol files and Visual Studio’s symbol settings"></a>Understanding symbol files and Visual Studio’s symbol settings</h2><p>シンボルは、デバッグおよびその他の診断ツールの基本要件です。幸い、ほとんどの場合、Visual Studio でアプリケーションをビルドして Visual Studio でアプリケーションを起動するときにコードのシンボルについて意識する必要はほとんどありません。ただし、シンボルのロード方法やデバッガーのシンボル検索場所を変更したり、サードパーティ製品 (Windows や .NET ライブラリなど) のシンボルをロードすることがいつか必要になるかもしれません。また、シンボルはデバッグにおける非常に基本的なものであるため、私たちは継続してそのエクスペリエンスの調整を行っており、Visual Studio の動作の詳細を理解することで何時間ものフラストレーションを軽減できます。</p>
 <p>このブログ ポストでは、シンボルとは何か、Visual Studio のシンボル設定を構成する方法 (デバッガーだけでなくパフォーマンス ツールや IntelliTrace などの診断ツールでも使用されます)、デバッグ時に利用できる様々な設定、Visual Studio が必要なシンボル ファイルを見つけられない場合のトラブルシュート方法について説明します。</p>
-<h2 id="シンボルの基本"><a href="#シンボルの基本" class="headerlink" title="シンボルの基本"></a>シンボルの基本</h2><p>シンボル ファイルの詳細について詳しく説明する前に、シンボルとは何か、なぜシンボルが重要なのかを簡単に確認しておきます。</p>
+<h3 id="シンボルの基本"><a href="#シンボルの基本" class="headerlink" title="シンボルの基本"></a>シンボルの基本</h3><p>シンボル ファイルの詳細について詳しく説明する前に、シンボルとは何か、なぜシンボルが重要なのかを簡単に確認しておきます。</p>
 <ul>
 <li><strong>シンボルとは何ですか?:</strong> Microsoft コンパイラーの場合、シンボルはビルドの一部として生成される .pdb ファイルです。</li>
 <li><strong>シンボル (.pdb) ファイルには何が含まれていますか?:</strong> シンボル ファイルの正確な内容は言語ごと、コンパイラーの設定によって異なりますが、ざっくり言えば、その内容はコンパイラーがソースコードをプロセッサが実行する命令に変換した方法の記録です。</li>
@@ -147,7 +147,7 @@
 </ul>
 </li>
 </ul>
-<h2 id="Visual-Studio-の既定の動作"><a href="#Visual-Studio-の既定の動作" class="headerlink" title="Visual Studio の既定の動作"></a>Visual Studio の既定の動作</h2><p>Visual Studio の詳細設定を見ていく前に、一度立ち止まって既定の動作 (つまり、設定を変更したことがない場合にどのように動作するのか) を確認しておきます。</p>
+<h3 id="Visual-Studio-の既定の動作"><a href="#Visual-Studio-の既定の動作" class="headerlink" title="Visual Studio の既定の動作"></a>Visual Studio の既定の動作</h3><p>Visual Studio の詳細設定を見ていく前に、一度立ち止まって既定の動作 (つまり、設定を変更したことがない場合にどのように動作するのか) を確認しておきます。</p>
 <ul>
 <li>Visual Studio はプロセス内のすべてのバイナリ (モジュールと呼ばれます) について、モジュールがロードされたときにシンボルのロードを試みます。また、既に読み込まれている全てのモジュールについて、プロセスにアタッチしたときにシンボルのロードを試みます。<ul>
 <li>例外として、マネージド (.NET) アプリケーションをデバッグしている場合、[マイ コードのみを有効にする] が設定されていると「マイ コードではない」とみなされたシンボルをロードしません。</li>
@@ -163,7 +163,7 @@
 </ul>
 </li>
 </ul>
-<h2 id="シンボルがロードされているかどうか、ロードされていない場合はその理由をどのように確認できますか"><a href="#シンボルがロードされているかどうか、ロードされていない場合はその理由をどのように確認できますか" class="headerlink" title="シンボルがロードされているかどうか、ロードされていない場合はその理由をどのように確認できますか?"></a>シンボルがロードされているかどうか、ロードされていない場合はその理由をどのように確認できますか?</h2><p>上記のスクリーンショット (中抜きされた丸のブレークポイント) は、ブレークポイントを設定しようとしているソース ファイルのシンボルが読み込まれなかった状況を示しています。シンボルがロードされているかどうかを判断する方法は以下があります。</p>
+<h3 id="シンボルがロードされているかどうか、ロードされていない場合はその理由をどのように確認できますか"><a href="#シンボルがロードされているかどうか、ロードされていない場合はその理由をどのように確認できますか" class="headerlink" title="シンボルがロードされているかどうか、ロードされていない場合はその理由をどのように確認できますか?"></a>シンボルがロードされているかどうか、ロードされていない場合はその理由をどのように確認できますか?</h3><p>上記のスクリーンショット (中抜きされた丸のブレークポイント) は、ブレークポイントを設定しようとしているソース ファイルのシンボルが読み込まれなかった状況を示しています。シンボルがロードされているかどうかを判断する方法は以下があります。</p>
 <ul>
 <li>シンボルが読み込まれなかったことを示すメッセージが [呼び出し履歴] ウィンドウに表示されます。<img src="callstack.png"></li>
 <li>[モジュール] ウィンドウ ([デバッグ] - [ウィンドウ] - [モジュール]) に次の内容が表示されます。<ul>
@@ -186,7 +186,7 @@
 </li>
 <li>[マイ コードのみを有効にする] の設定はデバッガーのシンボル ファイルの読み込みを抑止します。(マネージドの場合のみ)</li>
 </ul>
-<h2 id="Visual-Studio-設定の構成"><a href="#Visual-Studio-設定の構成" class="headerlink" title="Visual Studio 設定の構成"></a>Visual Studio 設定の構成</h2><p>シンボルとは何か、およびシンボルがロードされているかどうかを判断するう方法を理解したところで、Visual Studio のシンボル設置絵を構成する方法を見ていきましょう。シンボル設定を表示するには、[デバッグ] メニューに移動して [オプション] (古いバージョンの Visual Studio では [オプションと設定]) を選択し、[シンボル] サブ ページを選択します。<img src="symbols-option.png"></p>
+<h3 id="Visual-Studio-設定の構成"><a href="#Visual-Studio-設定の構成" class="headerlink" title="Visual Studio 設定の構成"></a>Visual Studio 設定の構成</h3><p>シンボルとは何か、およびシンボルがロードされているかどうかを判断するう方法を理解したところで、Visual Studio のシンボル設置絵を構成する方法を見ていきましょう。シンボル設定を表示するには、[デバッグ] メニューに移動して [オプション] (古いバージョンの Visual Studio では [オプションと設定]) を選択し、[シンボル] サブ ページを選択します。<img src="symbols-option.png"></p>
 <p>このページには以下の設定があります。</p>
 <ul>
 <li>シンボル ファイル (.pdb) の場所</li>
@@ -194,7 +194,7 @@
 <li>[すべてのシンボルを読み込む] ボタン</li>
 <li>シンボルの自動読み込みの設定</li>
 </ul>
-<h2 id="シンボル-ファイルの場所"><a href="#シンボル-ファイルの場所" class="headerlink" title="シンボル ファイルの場所"></a>シンボル ファイルの場所</h2><p>Visual Studio から自分のアプリケーションをビルドしてデバッグしている場合は自分のモジュールのシンボルでは当てはまらないかもしれませんが、サードパーティのシンボル ファイル (Microsoft のシンボル ファイルなど) が必要な場合や、ローカル マシンにシンボルがない可能性がある環境で作業している場合 (アプリケーションがビルド サーバーでビルドされているなど(※)) は、リモートのシンボルの場所 (シンボル サーバー) がシンボルの読み込みで使用されます。</p>
+<h3 id="シンボル-ファイルの場所"><a href="#シンボル-ファイルの場所" class="headerlink" title="シンボル ファイルの場所"></a>シンボル ファイルの場所</h3><p>Visual Studio から自分のアプリケーションをビルドしてデバッグしている場合は自分のモジュールのシンボルでは当てはまらないかもしれませんが、サードパーティのシンボル ファイル (Microsoft のシンボル ファイルなど) が必要な場合や、ローカル マシンにシンボルがない可能性がある環境で作業している場合 (アプリケーションがビルド サーバーでビルドされているなど(※)) は、リモートのシンボルの場所 (シンボル サーバー) がシンボルの読み込みで使用されます。</p>
 <p>[シンボル ファイルの場所] ダイアログは、デバッガーにシンボル ファイルを検索する場所を指示します。シンボル ファイルを検索する場所は、http シンボル サーバー (既定で登録されている “Microsoft シンボル サーバー” など) やネットワーク共有、またはローカル マシン上のフォルダーが指定できます。</p>
 <ul>
 <li>必要な数のパスを追加できます。</li>
@@ -205,9 +205,9 @@
 </ul>
 <p>※ Azure DevOps Server (Team Foundation Server) を使用している場合は、シンボルとソースのアーカイブのサポートを追加する方法についてのこちらの記事も参考にしてください。<a target="_blank" rel="noopener" href="http://bit.ly/SymbolServerTFS">http://bit.ly/SymbolServerTFS</a></p>
 <p>※ 訳注: Azure DevOps Services はプライベート シンボル サーバーとしてもご利用いただけますので、ビルドに利用されている方は是非シンボルの管理でもご活用ください。<a target="_blank" rel="noopener" href="https://docs.microsoft.com/ja-jp/azure/devops/artifacts/concepts/symbols?view=azure-devops">https://docs.microsoft.com/ja-jp/azure/devops/artifacts/concepts/symbols?view=azure-devops</a></p>
-<h2 id="シンボル-キャッシュ"><a href="#シンボル-キャッシュ" class="headerlink" title="シンボル キャッシュ"></a>シンボル キャッシュ</h2><p>シンボル キャッシュは、Visual Studio がリモートの場所から見つけたシンボルを、後の利用のために複製を置いておくためのローカルの場所です。シンボル キャッシュのパスを指定すると、Visual Studio はシンボル ファイルの場所からシンボルを検索する前に、シンボル キャッシュを検索します。パフォーマンス上の理由から、リモートの場所にシンボルを格納する必要がある場合は、シンボル キャッシュを指定することをお勧めします。</p>
-<h2 id="すべてのシンボルの読み込む"><a href="#すべてのシンボルの読み込む" class="headerlink" title="すべてのシンボルの読み込む"></a>すべてのシンボルの読み込む</h2><p>このボタンは、Visual Studio がデバッグ モードの間のみ有効になり、クリックすると、プロセス内のすべてのモジュールのシンボルの読み込みを試みるようデバッガーに指示します。</p>
-<h2 id="シンボルの自動読み込みの設定"><a href="#シンボルの自動読み込みの設定" class="headerlink" title="シンボルの自動読み込みの設定"></a>シンボルの自動読み込みの設定</h2><p>Visual Studio は、2 つのシンボルの自動読み込みのモードを提供しています。</p>
+<h3 id="シンボル-キャッシュ"><a href="#シンボル-キャッシュ" class="headerlink" title="シンボル キャッシュ"></a>シンボル キャッシュ</h3><p>シンボル キャッシュは、Visual Studio がリモートの場所から見つけたシンボルを、後の利用のために複製を置いておくためのローカルの場所です。シンボル キャッシュのパスを指定すると、Visual Studio はシンボル ファイルの場所からシンボルを検索する前に、シンボル キャッシュを検索します。パフォーマンス上の理由から、リモートの場所にシンボルを格納する必要がある場合は、シンボル キャッシュを指定することをお勧めします。</p>
+<h3 id="すべてのシンボルの読み込む"><a href="#すべてのシンボルの読み込む" class="headerlink" title="すべてのシンボルの読み込む"></a>すべてのシンボルの読み込む</h3><p>このボタンは、Visual Studio がデバッグ モードの間のみ有効になり、クリックすると、プロセス内のすべてのモジュールのシンボルの読み込みを試みるようデバッガーに指示します。</p>
+<h3 id="シンボルの自動読み込みの設定"><a href="#シンボルの自動読み込みの設定" class="headerlink" title="シンボルの自動読み込みの設定"></a>シンボルの自動読み込みの設定</h3><p>Visual Studio は、2 つのシンボルの自動読み込みのモードを提供しています。</p>
 <ul>
 <li><p><b>除外されていないすべてのモジュールを読み込む:</b> タイトルが示すように、[除外されるモジュールの指定] をクリックしてモジュールを除外リストに追加しない限り、Visual Studio はプロセス内のすべてのモジュールのシンボルの読み込みを試みます。この設定は一般的に、プロセス内のほぼすべてのシンボルを読み込みたい場合、またはメモリやデバッグ開始のパフォーマンス上の理由からロードしたくない非常に大きなシンボルがごく一部しかない場合に適しています。</p>
 </li>
@@ -221,7 +221,7 @@
 <li><p>デバッグ中にシンボルを手動で読み込むもう一つの選択肢は、[モジュール] ウィンドウ ([デバッグ] - [ウィンドウ] - [モジュール]]) でそのモジュールを指定することです。<img src="manual-load-symbols-from-modules-window.png"></p>
 </li>
 </ul>
-<h2 id="手動によるシンボル読み込みの詳細"><a href="#手動によるシンボル読み込みの詳細" class="headerlink" title="手動によるシンボル読み込みの詳細"></a>手動によるシンボル読み込みの詳細</h2><p>[指定されたモジュールのみを読み込む] が私と Visual Studio チームの多くのメンバーが推奨する設定であることを強調しておきます。その理由は次のとおりです。</p>
+<h3 id="手動によるシンボル読み込みの詳細"><a href="#手動によるシンボル読み込みの詳細" class="headerlink" title="手動によるシンボル読み込みの詳細"></a>手動によるシンボル読み込みの詳細</h3><p>[指定されたモジュールのみを読み込む] が私と Visual Studio チームの多くのメンバーが推奨する設定であることを強調しておきます。その理由は次のとおりです。</p>
 <ul>
 <li><p>非常に大きなアプリケーションをデバッグする場合に、必要に応じてオンデマンドでシンボルを読み込むことができます。これは以下の点で役立ちます。</p>
 <ul>
@@ -238,7 +238,7 @@
 <li>これらのモジュールでブレークポイントをヒットさせる必要がある場合は、自動的に読み込むように設定する必要があります。</li>
 <li>事前にシンボルが必要かどうかわからない場合は、オブジェクトの確認や呼び出し履歴の補完で必要な場合のみ、シンボルを読み込む必要があります。</li>
 </ul>
-<h2 id="まとめ"><a href="#まとめ" class="headerlink" title="まとめ"></a>まとめ</h2><p>シンボルについて把握し、設定を正しく構成して最適なパフォーマンスを得ることは、非常に複雑になる可能性があります。上記の内容が、利用可能な設定を理解する上でお役に立てれば幸いです。ただし、ここで取り上げていない問題が発生した場合、または共有したいその他のフィードバックがある場合は、Visual Studio の “スマイルを送る” 機能 (※)、または <a target="_blank" rel="noopener" href="https://social.msdn.microsoft.com/Forums/ja-JP/home">MSDN フォーラム</a> でお知らせください。</p>
+<h3 id="まとめ"><a href="#まとめ" class="headerlink" title="まとめ"></a>まとめ</h3><p>シンボルについて把握し、設定を正しく構成して最適なパフォーマンスを得ることは、非常に複雑になる可能性があります。上記の内容が、利用可能な設定を理解する上でお役に立てれば幸いです。ただし、ここで取り上げていない問題が発生した場合、または共有したいその他のフィードバックがある場合は、Visual Studio の “スマイルを送る” 機能 (※)、または <a target="_blank" rel="noopener" href="https://social.msdn.microsoft.com/Forums/ja-JP/home">MSDN フォーラム</a> でお知らせください。</p>
 <p>※訳注 この機能は新しい Visual Studio のバージョンでは廃止されています。<a target="_blank" rel="noopener" href="https://docs.microsoft.com/ja-jp/visualstudio/ide/feedback-options">https://docs.microsoft.com/ja-jp/visualstudio/ide/feedback-options</a> の方法でフィードバックをお願いします。</p>
 
       

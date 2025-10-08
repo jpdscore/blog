@@ -14,7 +14,7 @@
 <meta property="og:description" content="(※ 2014 年 10 月 28 日に Microsoft Japan Visual Studio Support Team Blog に公開した情報のアーカイブです。)(※ 参照先ドキュメントの変更や廃止に伴い、リンク先を差し替えています。) こんにちは。Visual Studio サポート チ">
 <meta property="og:locale" content="ja_JP">
 <meta property="article:published_time" content="2021-01-12T15:00:00.000Z">
-<meta property="article:modified_time" content="2025-10-03T00:27:29.433Z">
+<meta property="article:modified_time" content="2025-10-08T23:32:49.887Z">
 <meta property="article:author" content="Developer Support Core Japan">
 <meta property="article:tag" content="Visual Studio">
 <meta property="article:tag" content="C++">
@@ -123,7 +123,7 @@
         <p>(※ 2014 年 10 月 28 日に Microsoft Japan Visual Studio Support Team Blog に公開した情報のアーカイブです。)<br>(※ 参照先ドキュメントの変更や廃止に伴い、リンク先を差し替えています。)</p>
 <p>こんにちは。Visual Studio サポート チームです。</p>
 <p>今回は、Visual Studio でアプリケーションを開発する時にデータ型として使用できる浮動小数点数についてのお話です。<br>本記事の内容は Visual C++、Visual C#、Visual Basic を対象としております。</p>
-<h1 id="浮動小数点数を使用する際の注意点"><a href="#浮動小数点数を使用する際の注意点" class="headerlink" title="浮動小数点数を使用する際の注意点"></a>浮動小数点数を使用する際の注意点</h1><p>浮動小数点数はプログラムで小数を扱うために広く利用されていますが、少し癖のあるデータ型でもあるため、その特性をよく理解して利用しないと、思わぬ落とし穴に遭遇してしまうこともあります。<br>浮動小数点の特性として、注意した方が良いものは主に以下の 3 点となります。</p>
+<h2 id="浮動小数点数を使用する際の注意点"><a href="#浮動小数点数を使用する際の注意点" class="headerlink" title="浮動小数点数を使用する際の注意点"></a>浮動小数点数を使用する際の注意点</h2><p>浮動小数点数はプログラムで小数を扱うために広く利用されていますが、少し癖のあるデータ型でもあるため、その特性をよく理解して利用しないと、思わぬ落とし穴に遭遇してしまうこともあります。<br>浮動小数点の特性として、注意した方が良いものは主に以下の 3 点となります。</p>
 <p>  a) 浮動小数点数の演算に固有の誤差が常に生じる可能性がある。</p>
 <p>  b) ビルド環境やオプションによって、同一のソースコードでも計算結果が変わる可能性がある。</p>
 <p>  c) 実行する CPU が変われば、同一の実行モジュールでも計算結果が変わる可能性がある。</p>
@@ -140,7 +140,7 @@ http://support.microsoft.com/kb/409744/ja
 <p>このような特性があるため、厳密な計算が求められる金額計算などに浮動小数点数を利用する際は、特に注意が必要となります。<br>浮動小数点数の演算結果を完全に一致させることを保証する方法はないため、以下の 2 点に注意して設計・プログラミングを行う必要があります。</p>
 <p>  方針1 : 浮動小数点数の演算結果については有効桁数の範囲で評価する</p>
 <p>  方針2 : それでも演算誤差の最小化が必要な場合は 10進形式の型の利用を検討する</p>
-<h1 id="小数計算を行う場合の設計・プログラミング方針"><a href="#小数計算を行う場合の設計・プログラミング方針" class="headerlink" title="小数計算を行う場合の設計・プログラミング方針"></a>小数計算を行う場合の設計・プログラミング方針</h1><p>1).  浮動小数点数の演算結果については有効桁数の範囲で評価する<br>浮動小数点数を扱うデータ型には、有効桁数が定められています。<br>例えば、.NET Framework の float 型の場合、有効桁数 7 桁、double 型なら有効桁数は 15 ～ 16 桁程度と定義されています。</p>
+<h2 id="小数計算を行う場合の設計・プログラミング方針"><a href="#小数計算を行う場合の設計・プログラミング方針" class="headerlink" title="小数計算を行う場合の設計・プログラミング方針"></a>小数計算を行う場合の設計・プログラミング方針</h2><p>1).  浮動小数点数の演算結果については有効桁数の範囲で評価する<br>浮動小数点数を扱うデータ型には、有効桁数が定められています。<br>例えば、.NET Framework の float 型の場合、有効桁数 7 桁、double 型なら有効桁数は 15 ～ 16 桁程度と定義されています。</p>
 <p>浮動小数点数の特性上、有効桁数以上の桁数に対する演算結果は不定であり、この部分を評価対象とするようなシステムの設計やプログラミングは避ける必要があります。<br>例えば、小数値の一致を評価したい場合、以下のコードでは、前者の比較演算子 “==” を使用する方法では、通常、意図した結果を得られません。</p>
 <p>このため、後者のように誤差の発生を考慮した比較で代用する必要があります。</p>
 <figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Double val_1 = <span class="number">0.1</span> + <span class="number">0.2</span> + <span class="number">0.3</span>;</span><br><span class="line">Double val_2 = <span class="number">0.6</span>;</span><br><span class="line"><span class="keyword">const</span> Double Eps = <span class="number">0.000000000000001</span>;</span><br><span class="line"><span class="comment">// 不適切な比較方法</span></span><br><span class="line"><span class="keyword">if</span> (val_1 == val_2)</span><br><span class="line">&#123;</span><br><span class="line">    Console.WriteLine(<span class="string">&quot;変数 val_1 と val_2 は等しい&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 誤差を考慮した比較方法</span></span><br><span class="line"><span class="keyword">if</span> (Math.Abs(val_1 - val_2) &lt; Eps)</span><br><span class="line">&#123;</span><br><span class="line">    Console.WriteLine(<span class="string">&quot;変数 val_1 と val_2 はほぼ等しい&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -150,7 +150,7 @@ http://support.microsoft.com/kb/409744/ja
 <p>Decimal 型の詳細と利用方法については以下のドキュメントを参照してください。</p>
 <p>  Decimal 構造体<br><a target="_blank" rel="noopener" href="https://docs.microsoft.com/ja-jp/dotnet/api/system.decimal">https://docs.microsoft.com/ja-jp/dotnet/api/system.decimal</a></p>
 <p>なお、.NET Framework を利用せず、Visual C++ を利用される場合には、10 進形式の型は標準では提供しておりません。<br>Visual C++ で精度の高い 10 進数の演算を行いたい場合には、2 進化 10 進数 (BCD: Binary Coded Decimal) ライブラリなどを入手し、ご利用いただくといった方法がございます。</p>
-<h2 id="【コラム-浮動小数点の演算にて微少な誤差がでるのはどうして？】"><a href="#【コラム-浮動小数点の演算にて微少な誤差がでるのはどうして？】" class="headerlink" title="【コラム : 浮動小数点の演算にて微少な誤差がでるのはどうして？】"></a>【コラム : 浮動小数点の演算にて微少な誤差がでるのはどうして？】</h2><p>浮動小数点にて誤差が発生する要因は、まず根本的に、コンピューターが演算に使用する数値が 2 進数で管理されており、10 進数の小数が必ずしも 2 進数で正確に表現できない、という制限によるものです。<br>さらに、CPU の演算命令自体の性質や順序、コンパイラの最適化処理による影響等、複数の要因が関連して、10 進数のままの演算で考えた場合には同様の値が得られると期待される状況でも、実際にコンピューターの演算結果では誤差が発生する可能性があります。</p>
+<h3 id="【コラム-浮動小数点の演算にて微少な誤差がでるのはどうして？】"><a href="#【コラム-浮動小数点の演算にて微少な誤差がでるのはどうして？】" class="headerlink" title="【コラム : 浮動小数点の演算にて微少な誤差がでるのはどうして？】"></a>【コラム : 浮動小数点の演算にて微少な誤差がでるのはどうして？】</h3><p>浮動小数点にて誤差が発生する要因は、まず根本的に、コンピューターが演算に使用する数値が 2 進数で管理されており、10 進数の小数が必ずしも 2 進数で正確に表現できない、という制限によるものです。<br>さらに、CPU の演算命令自体の性質や順序、コンパイラの最適化処理による影響等、複数の要因が関連して、10 進数のままの演算で考えた場合には同様の値が得られると期待される状況でも、実際にコンピューターの演算結果では誤差が発生する可能性があります。</p>
 <p>この現象は Visual C++、Visual C#、Visual Basic の問題や制限によって生じているものではなく、浮動小数点で広く採用されている IEEE 浮動小数点表現に関する規格に則り、数値をバイナリ形式で格納していることから生じています。<br>例えば 10 進の 0.5 が、2 進では 0.1、10 進の 0.75 が 2 進では 0.11 と表されます。<br>2 進数の小数点以下の各ビット (0.1、0.01、0.001、0.0001 …) の重みは 10 進数の、 1/2、1/4、1/8、1/16 … に対応しており、10 進の小数を 2 進で表現する際は、これら各ビットの組み合わせによる近似値として表されます。</p>
 <p>従いまして、全体のビット数を増やすことにより、10 進数に対する近似の精度を高くすることは可能ですが、2 進数で完全には表せない 10 進の小数の場合、無限小数となり、データ型がもつ精度以上の桁は切り捨てられます。</p>
 <p>ご参考までに、以下に一般的な数値からの具体例を 2 つ記載させていただきます。</p>

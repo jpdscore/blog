@@ -6,15 +6,15 @@
   
   <title>SelectObject 関数利用時の注意事項 | JPDSC Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="こんにちは、Japan Developer Support Core チームです。 今回は、アプリケーションで GDI を利用する際に注意していただきたいことをご案内します。2021 年 3 月 以降の更新プログラムを適用すると GDI 関連の処理が厳格化され、以前動作していた特定のコード（例：プリ">
+  <meta name="description" content="はじめにこんにちは、Japan Developer Support Core チームです。 今回は、アプリケーションで GDI を利用する際に注意していただきたいことをご案内します。2021 年 3 月 以降の更新プログラムを適用すると GDI 関連の処理が厳格化され、以前動作していた特定のコード（">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SelectObject 関数利用時の注意事項">
 <meta property="og:url" content="https://jpdscore.github.io/blog/windowssdk/note-when-use-selectobject-function/index.html">
 <meta property="og:site_name" content="Japan Developer Support Core Team Blog">
-<meta property="og:description" content="こんにちは、Japan Developer Support Core チームです。 今回は、アプリケーションで GDI を利用する際に注意していただきたいことをご案内します。2021 年 3 月 以降の更新プログラムを適用すると GDI 関連の処理が厳格化され、以前動作していた特定のコード（例：プリ">
+<meta property="og:description" content="はじめにこんにちは、Japan Developer Support Core チームです。 今回は、アプリケーションで GDI を利用する際に注意していただきたいことをご案内します。2021 年 3 月 以降の更新プログラムを適用すると GDI 関連の処理が厳格化され、以前動作していた特定のコード（">
 <meta property="og:locale" content="ja_JP">
 <meta property="article:published_time" content="2021-05-25T08:17:43.000Z">
-<meta property="article:modified_time" content="2025-10-03T00:27:29.436Z">
+<meta property="article:modified_time" content="2025-10-08T23:32:49.890Z">
 <meta property="article:author" content="Developer Support Core Japan">
 <meta property="article:tag" content="Windows SDK">
 <meta property="article:tag" content="GDI">
@@ -118,16 +118,16 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>こんにちは、Japan Developer Support Core チームです。</p>
+        <h2 id="はじめに"><a href="#はじめに" class="headerlink" title="はじめに"></a>はじめに</h2><p>こんにちは、Japan Developer Support Core チームです。</p>
 <p>今回は、アプリケーションで GDI を利用する際に注意していただきたいことをご案内します。<br>2021 年 3 月 以降の更新プログラムを適用すると GDI 関連の処理が厳格化され、以前動作していた特定のコード（例：プリンターに画像を出力する）が失敗するようになりましたので、以下に該当される場合にはアプリケーションの修正をお願いします。</p>
-<h1 id="詳細情報"><a href="#詳細情報" class="headerlink" title="詳細情報"></a>詳細情報</h1><p>SelectObject 関数で デバイス コンテキスト (Device Context、以下 DC) に デバイス依存ビットマップ (Device-Dependent Bitmap、以下 DDB) を設定する場合は、DCと DDB が適切に対応するよう、デバイスに対応する DC から生成したメモリDCに対し、同様にデバイスに対応する DC を指定して CreateCompatibleBitmap 関数等で生成した DDB を設定する必要があります。</p>
+<h2 id="詳細情報"><a href="#詳細情報" class="headerlink" title="詳細情報"></a>詳細情報</h2><p>SelectObject 関数で デバイス コンテキスト (Device Context、以下 DC) に デバイス依存ビットマップ (Device-Dependent Bitmap、以下 DDB) を設定する場合は、DCと DDB が適切に対応するよう、デバイスに対応する DC から生成したメモリDCに対し、同様にデバイスに対応する DC を指定して CreateCompatibleBitmap 関数等で生成した DDB を設定する必要があります。</p>
 <p>特に、CreateCompatibleDC 関数では、引数に NULL を指定した場合は、アプリケーションの現在のスクリーンに対応する メモリ DC を生成しますので、以下のコード例のように、スクリーンに対応したメモリ DC に対してプリンター DC に基づき生成された DDB を SelectObject 関数で設定しないように注意してください。</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">HDC printerDC = myPrintDlg.hDC;     </span><br><span class="line">HDC compatibleDC = <span class="built_in">CreateCompatibleDC</span>(<span class="literal">NULL</span>);　 <span class="comment">// スクリーン DC を基にメモリDC が生成されます</span></span><br><span class="line">HBITMAP printerBmp = <span class="built_in">CreateCompatibleBitmap</span>(printerDC, nWidth, nHeight);　 <span class="comment">// プリンター DC を基に DDB が生成されます</span></span><br><span class="line">HGDIOBJ hgdiOld = <span class="built_in">SelectObject</span>(compatibleDC, printerBmp);</span><br></pre></td></tr></table></figure>
 
 <p>また、2021 年 3 月以降の更新プログラムを適用した OS では GDI 関連の処理が厳格化され、このようなコードでは SelectObject 関数の実行が失敗するようになりました。このため、前述のようなコードを利用されていた場合には、適切な DC から メモリ DC を生成するなど修正をお願いします。</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">HDC printerDC = myPrintDlg.hDC;</span><br><span class="line">HDC compatibleDC = <span class="built_in">CreateCompatibleDC</span>(printerDC);　 <span class="comment">// プリンター DC を基にメモリDCが生成されます</span></span><br><span class="line">HBITMAP printerBmp = <span class="built_in">CreateCompatibleBitmap</span>(printerDC, nWidth, nHeight);　 <span class="comment">// プリンター DC を基に DDB が生成されます</span></span><br><span class="line">HGDIOBJ hgdiOld = <span class="built_in">SelectObject</span>(compatibleDC, printerBmp);</span><br></pre></td></tr></table></figure>
 
-<h1 id="参考情報"><a href="#参考情報" class="headerlink" title="参考情報"></a>参考情報</h1><p>CreateCompatibleDC function (wingdi.h)<br><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-createcompatibledc">https://docs.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-createcompatibledc</a></p>
+<h2 id="参考情報"><a href="#参考情報" class="headerlink" title="参考情報"></a>参考情報</h2><p>CreateCompatibleDC function (wingdi.h)<br><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-createcompatibledc">https://docs.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-createcompatibledc</a></p>
 <p>CreateCompatibleBitmap function (wingdi.h)<br><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-createcompatiblebitmap">https://docs.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-createcompatiblebitmap</a></p>
 <p>SelectObject function (wingdi.h)<br><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-selectobject">https://docs.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-selectobject</a></p>
 

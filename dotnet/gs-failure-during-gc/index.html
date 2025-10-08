@@ -15,7 +15,7 @@
 <meta property="og:locale" content="ja_JP">
 <meta property="og:image" content="https://jpdscore.github.io/blog/dotnet/gs-failure-during-gc/pinvokestackimbalance.png">
 <meta property="article:published_time" content="2021-08-26T15:00:00.000Z">
-<meta property="article:modified_time" content="2025-10-03T00:27:29.421Z">
+<meta property="article:modified_time" content="2025-10-08T23:32:49.875Z">
 <meta property="article:author" content="Developer Support Core Japan">
 <meta property="article:tag" content="Debug">
 <meta property="article:tag" content=".NET">
@@ -121,12 +121,12 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>こんにちは、Japan Developer Support Core チームの松井です。今回は、.NET アプリケーションでガベージ コレクション (GC) の実行中にランタイムが例外コード 0xc0000409 を通知してアプリケーションが異常終了する事象について、一般的な例をもとにエラーの発生経緯や調査方法についてご紹介します。</p>
-<h1 id="1-0xC0000409-のエラー-コードについて"><a href="#1-0xC0000409-のエラー-コードについて" class="headerlink" title="1. 0xC0000409 のエラー コードについて"></a>1. 0xC0000409 のエラー コードについて</h1><p>0xc0000409 は STATUS_STACK_BUFFER_OVERRUN のエラー コードで、一般的にはシステムやランタイムがスタック領域におけるバッファー オーバーランを検出した状況を示しています。このエラーが発生すると、イベント ログには Application Error のソースで ID 1000 のログが以下のような内容で記録されます。</p>
+<h2 id="1-0xC0000409-のエラー-コードについて"><a href="#1-0xC0000409-のエラー-コードについて" class="headerlink" title="1. 0xC0000409 のエラー コードについて"></a>1. 0xC0000409 のエラー コードについて</h2><p>0xc0000409 は STATUS_STACK_BUFFER_OVERRUN のエラー コードで、一般的にはシステムやランタイムがスタック領域におけるバッファー オーバーランを検出した状況を示しています。このエラーが発生すると、イベント ログには Application Error のソースで ID 1000 のログが以下のような内容で記録されます。</p>
 <blockquote>
 <p>障害が発生しているアプリケーション名: ConsoleApp1.exe、バージョン: 1.0.0.0、タイム スタンプ: 0xbba3dadf<br>障害が発生しているモジュール名: clr.dll、バージョン: 4.8.4300.0、タイム スタンプ: 0x5f7e61bb<br>例外コード: 0xc0000409<br>障害オフセット: 0x0060cd78<br>障害が発生しているプロセス ID: 0x130a8<br>障害が発生しているアプリケーションの開始時刻: 0x01d796b92363709c<br>障害が発生しているアプリケーション パス: C:\Users\user1\source\repos\GSFailureDuringGC\Debug\ConsoleApp1.exe<br>障害が発生しているモジュール パス: C:\Windows\Microsoft.NET\Framework\v4.0.30319\clr.dll</p>
 </blockquote>
 <p>このログの内容だけ見ると、.NET Framework のランタイム clr.dll で障害が発生しているとのことなので、一見すると .NET Framework のランタイムに不具合があるように見えます。確かにランタイムの不具合により同様のエラーとなる可能性もありますが、結論から述べると、今回はアプリケーションのコードの問題に起因しています。clr.dll で発生する例外コード 0xc0000409 のすべてがこの状況に該当するとは限りませんが、疑われるポイントの一つとして参考にしていただければと幸いです。</p>
-<h1 id="2-例外発生時のコールスタック"><a href="#2-例外発生時のコールスタック" class="headerlink" title="2. 例外発生時のコールスタック"></a>2. 例外発生時のコールスタック</h1><p>以下は例外発生時のマネージ スタックです。こちらは特に異常は見られません。</p>
+<h2 id="2-例外発生時のコールスタック"><a href="#2-例外発生時のコールスタック" class="headerlink" title="2. 例外発生時のコールスタック"></a>2. 例外発生時のコールスタック</h2><p>以下は例外発生時のマネージ スタックです。こちらは特に異常は見られません。</p>
 <pre><code>0:000&gt; !ClrStack
 OS Thread Id: 0x7d0c (0)
 Child SP       IP Call Site
@@ -173,7 +173,7 @@ Child SP       IP Call Site
 21 005afa38 00000000     ntdll!_RtlUserThreadStart+0x1b
 </code></pre>
 <p>GS のエラーが報告されるまでの間の frame 07 から frame 02 は何をしている処理なのでしょうか。次はこのエラーが発生したプログラムのソース コードと、.NET の実装を見ていきます。また、上記は .NET Framework で実行した例ですが、ランタイムの実装にも少し触れるために .NET 5 に変更して確認します。</p>
-<h1 id="3-デバッグ"><a href="#3-デバッグ" class="headerlink" title="3. デバッグ"></a>3. デバッグ</h1><p>.NET 5 でビルドしなおして事象を再現させたときのコール スタックは以下のようになります。概ね内容は同じですが、.NET 5 はオープン ソースでプライベート シンボルが公開されているので行番号も確認できます。</p>
+<h2 id="3-デバッグ"><a href="#3-デバッグ" class="headerlink" title="3. デバッグ"></a>3. デバッグ</h2><p>.NET 5 でビルドしなおして事象を再現させたときのコール スタックは以下のようになります。概ね内容は同じですが、.NET 5 はオープン ソースでプライベート シンボルが公開されているので行番号も確認できます。</p>
 <pre><code>0:000&gt; k
 # ChildEBP RetAddr      
 00 0077e61c 78e1c6bc     coreclr!__report_gsfailure+0x18 [d:\agent\_work\4\s\src\vctools\crt\vcstartup\src\gs\gs_report.c @ 220] 
@@ -286,7 +286,7 @@ Child SP       IP Call Site
 <p>DLL がエクスポートしている Foo 関数は int 型の引数を取りますが、マネージ コードの DllImport の定義には引数がなく、呼出し元と呼び出し先でスタックの扱いに不整合が生じて破損する可能性があります。結局のところ、__report_gsfailure の報告は GC の処理が各スタック フレームからのオブジェクト参照を操作する中でこの問題を検出したものでした。上記のソースコードは問題を極端にシンプル化した例ですが、実際のアプリケーションはより複雑で規模も大きく、コード レビューで問題を見つけることも容易ではありません。</p>
 <p>ちなみに、Foo 関数の呼び出しでスタックの扱いに不整合が生じているなら呼び出したらすぐ問題が起きそうなものですが、このケースの場合、実際には GC が発生するまで問題が顕在化しません。なぜでしょうか？</p>
 <p>スタックの不整合で不正な状態が生じる範囲が軽微な場合、プラットフォーム相互運用の呼び出し先から戻る際に影響を生じないため、破損していても問題が顕在化せずそのまま処理が進むことがあります。ところが破損しているスタック フレームがある状態で GC がトリガーされると、GC がスタック フレームを走査する過程で GS チェックが行われるため問題が検出され強制終了します。実際のアプリケーションでは、問題があるコードが実行されるタイミングと GC のトリガー タイミングが一致した場合にのみ顕在化する再現性がない事象となるため、トラブルシュートが難しい不具合につながります。</p>
-<h1 id="4-Managed-Debugging-Assistants-による再現性の確保"><a href="#4-Managed-Debugging-Assistants-による再現性の確保" class="headerlink" title="4. Managed Debugging Assistants による再現性の確保"></a>4. Managed Debugging Assistants による再現性の確保</h1><p>x86 アプリケーションの場合、Visual Studio でデバッグ実行する際に [デバッグ] &gt; [ウィンドウ] &gt; [例外の設定] で [例外の設定] ダイアログを表示し、[Managed Debugging Assistants] - [PInvokeStackImbalance] にチェックを入れておくと、このようなプラットフォーム相互運用におけるスタックの問題を検出出来る場合があります。</p>
+<h2 id="4-Managed-Debugging-Assistants-による再現性の確保"><a href="#4-Managed-Debugging-Assistants-による再現性の確保" class="headerlink" title="4. Managed Debugging Assistants による再現性の確保"></a>4. Managed Debugging Assistants による再現性の確保</h2><p>x86 アプリケーションの場合、Visual Studio でデバッグ実行する際に [デバッグ] &gt; [ウィンドウ] &gt; [例外の設定] で [例外の設定] ダイアログを表示し、[Managed Debugging Assistants] - [PInvokeStackImbalance] にチェックを入れておくと、このようなプラットフォーム相互運用におけるスタックの問題を検出出来る場合があります。</p>
 <p><img src="pinvokestackimbalance.png"></p>
 <p>PInvokeStackImbalance MDA を有効にした場合、.NET Framework のランタイムによってプラットフォーム相互運用の前後でスタックの検証が行われ、問題が検出された場合に直ちに設定されている事後デバッガーを起動します。PInvokeStackImbalance MDA によって事後デバッガーから出力されたダンプ ファイルは以下のようなコールスタックとなり、問題があったメソッドが容易に確認できます。また、検証はプラットフォーム相互運用呼び出しの都度行われるため、GC によって不定なタイミングで発生する再現の困難さも解消することができます。</p>
 <pre><code>0:006&gt; !ClrStack
@@ -342,7 +342,7 @@ Child SP       IP Call Site
 </code></pre>
 <p>MDA の機能や設定方法の詳細については、以下のドキュメントをご確認ください。<br><a target="_blank" rel="noopener" href="https://docs.microsoft.com/ja-jp/dotnet/framework/debug-trace-profile/diagnosing-errors-with-managed-debugging-assistants">https://docs.microsoft.com/ja-jp/dotnet/framework/debug-trace-profile/diagnosing-errors-with-managed-debugging-assistants</a></p>
 <p>なお、MDA は Visual Studio 固有の機能ではなく .NET Framework 自体の機能ですので、Visual Studio をインストールしなくても利用することが可能です。ただし、PInvokeStackImbalance の MDA は問題の検出をデバッガーへ通知するため、Visual Studio と共に使用しない場合は ProcDump など他のツールやデバッガーを事後デバッガーとして指定しておく必要があります。例えば <a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/sysinternals/downloads/procdump">ProcDump</a> ツールを使う場合は procdump.exe -i -ma を実行することで典型的な構成での事後デバッガーの構成が可能です。事後デバッガーの設定の詳細は以下のドキュメントを参考にしてください。<br><a target="_blank" rel="noopener" href="https://docs.microsoft.com/ja-jp/windows-hardware/drivers/debugger/enabling-postmortem-debugging">https://docs.microsoft.com/ja-jp/windows-hardware/drivers/debugger/enabling-postmortem-debugging</a></p>
-<h1 id="5-まとめ"><a href="#5-まとめ" class="headerlink" title="5. まとめ"></a>5. まとめ</h1><p>clr.dll で例外コード 0xc0000409 が発生する場合、まずダンプ ファイルを採取して例外のスタックを確認してください。スタックに clr!CrawlFrame::* が現れる場合はマネージ スタック フレームのいずれかで破損が検出された状況が推測されます。この場合、GC で処理を行っている対象のスレッドとスタック フレームが特定できれば原因が特定できる可能性があります。スタックの破損に至る要因やその範囲は様々で、この記事で取り上げたケースのように簡単な状況ではないことも多くありますが、アプリケーションのデバッグの参考になれば幸いです。.NET Framework アプリケーションの場合はランタイム内部の構造体フィールドの確認などでプライベート シンボルが必要となりますので、弊社のプレミア サポートやユニファイド サポートのご利用もご検討ください。</p>
+<h2 id="5-まとめ"><a href="#5-まとめ" class="headerlink" title="5. まとめ"></a>5. まとめ</h2><p>clr.dll で例外コード 0xc0000409 が発生する場合、まずダンプ ファイルを採取して例外のスタックを確認してください。スタックに clr!CrawlFrame::* が現れる場合はマネージ スタック フレームのいずれかで破損が検出された状況が推測されます。この場合、GC で処理を行っている対象のスレッドとスタック フレームが特定できれば原因が特定できる可能性があります。スタックの破損に至る要因やその範囲は様々で、この記事で取り上げたケースのように簡単な状況ではないことも多くありますが、アプリケーションのデバッグの参考になれば幸いです。.NET Framework アプリケーションの場合はランタイム内部の構造体フィールドの確認などでプライベート シンボルが必要となりますので、弊社のプレミア サポートやユニファイド サポートのご利用もご検討ください。</p>
 
       
       

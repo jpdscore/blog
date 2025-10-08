@@ -6,15 +6,15 @@
   
   <title>.NET Framework 4.x のアップグレード及びダウングレード | JPDSC Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="こんにちは、Japan Developer Support Core チームの近澤です。.NET Framework 4 以降のバージョンでは、以前 .NET Framework の各バージョン同士の関係 でもご説明しております通り、インプレース更新されます。このインプレース更新によるシステムやアプ">
+  <meta name="description" content="はじめにこんにちは、Japan Developer Support Core チームの近澤です。.NET Framework 4 以降のバージョンでは、以前 .NET Framework の各バージョン同士の関係 でもご説明しております通り、インプレース更新されます。このインプレース更新によるシステ">
 <meta property="og:type" content="article">
 <meta property="og:title" content=".NET Framework 4.x のアップグレード及びダウングレード">
 <meta property="og:url" content="https://jpdscore.github.io/blog/dotnet/ndp-upgrade-and-downgrade/index.html">
 <meta property="og:site_name" content="Japan Developer Support Core Team Blog">
-<meta property="og:description" content="こんにちは、Japan Developer Support Core チームの近澤です。.NET Framework 4 以降のバージョンでは、以前 .NET Framework の各バージョン同士の関係 でもご説明しております通り、インプレース更新されます。このインプレース更新によるシステムやアプ">
+<meta property="og:description" content="はじめにこんにちは、Japan Developer Support Core チームの近澤です。.NET Framework 4 以降のバージョンでは、以前 .NET Framework の各バージョン同士の関係 でもご説明しております通り、インプレース更新されます。このインプレース更新によるシステ">
 <meta property="og:locale" content="ja_JP">
 <meta property="article:published_time" content="2022-11-02T09:00:00.000Z">
-<meta property="article:modified_time" content="2025-10-03T00:27:29.422Z">
+<meta property="article:modified_time" content="2025-10-08T23:32:49.875Z">
 <meta property="article:author" content="Developer Support Core Japan">
 <meta property="article:tag" content=".NET">
 <meta property="article:tag" content=".NET Framework">
@@ -118,13 +118,13 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>こんにちは、Japan Developer Support Core チームの近澤です。<br>.NET Framework 4 以降のバージョンでは、以前 <a href="https://jpdscore.github.io/blog/dotnet/relationship-between-ndp-versions/#4-%E3%81%8A%E3%82%88%E3%81%B34-5-x-%E3%81%AE%E3%82%A4%E3%83%B3%E3%83%97%E3%83%AC%E3%83%BC%E3%82%B9%E6%9B%B4%E6%96%B0%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6">.NET Framework の各バージョン同士の関係</a> でもご説明しております通り、インプレース更新されます。<br>このインプレース更新によるシステムやアプリケーションへの影響や、万が一問題が発生した際のダウングレード方法について、複数のお客様よりよくお問い合わせいただく内容について下記にお纏めいたします。</p>
-<h1 id="インプレース更新とその影響について"><a href="#インプレース更新とその影響について" class="headerlink" title="インプレース更新とその影響について"></a>インプレース更新とその影響について</h1><p>.NET Framework 4.x は、インプレース更新され、以前のバージョンが新しいバージョンで置き換えられる形となります。<br>その際、以前のバージョンをアンインストールするなどの対応は不要です。<br>また、複数の .NET Framework 4.x (4.6.2 と 4.8 など) の共存についてご質問いただくことがございますが、これらを共存する形でインストールすることはできません。<br>ただし、.NET Framework 4.x では高い後方互換がサポートされております。<br>そのため、例えば.NET Framework 4.8 をインストールした環境であっても、以前のバージョン (4.6.2 など) の機能も動作いたします。</p>
+        <h2 id="はじめに"><a href="#はじめに" class="headerlink" title="はじめに"></a>はじめに</h2><p>こんにちは、Japan Developer Support Core チームの近澤です。<br>.NET Framework 4 以降のバージョンでは、以前 <a href="https://jpdscore.github.io/blog/dotnet/relationship-between-ndp-versions/#4-%E3%81%8A%E3%82%88%E3%81%B34-5-x-%E3%81%AE%E3%82%A4%E3%83%B3%E3%83%97%E3%83%AC%E3%83%BC%E3%82%B9%E6%9B%B4%E6%96%B0%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6">.NET Framework の各バージョン同士の関係</a> でもご説明しております通り、インプレース更新されます。<br>このインプレース更新によるシステムやアプリケーションへの影響や、万が一問題が発生した際のダウングレード方法について、複数のお客様よりよくお問い合わせいただく内容について下記にお纏めいたします。</p>
+<h2 id="インプレース更新とその影響について"><a href="#インプレース更新とその影響について" class="headerlink" title="インプレース更新とその影響について"></a>インプレース更新とその影響について</h2><p>.NET Framework 4.x は、インプレース更新され、以前のバージョンが新しいバージョンで置き換えられる形となります。<br>その際、以前のバージョンをアンインストールするなどの対応は不要です。<br>また、複数の .NET Framework 4.x (4.6.2 と 4.8 など) の共存についてご質問いただくことがございますが、これらを共存する形でインストールすることはできません。<br>ただし、.NET Framework 4.x では高い後方互換がサポートされております。<br>そのため、例えば.NET Framework 4.8 をインストールした環境であっても、以前のバージョン (4.6.2 など) の機能も動作いたします。</p>
 <p>.NET Framework の互換性については下記のドキュメントにて詳細をご説明しております。</p>
 <p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/dotnet/framework/migration-guide/version-compatibility#backward-compatibility">.NET Framework のバージョンの互換性 - .NET Framework | Microsoft Learn</a></p>
 <p>また、更新による影響については、前述の通り、高い後方互換性により最小限に抑えられますが、もしご利用されているアプリケーションが特定の .NET Framework のバージョンのみに含まれる機能 (現在は非推奨であったり、既に削除されたもの) を使用している場合、互換性の問題が発生する可能性がございます。<br>通常、このような問題が発生することはございませんが、もしご心配されるようでしたら、下記のサイトから特定のバージョンへ移行した場合に発生する互換性の問題についてアプリケーション開発元へご確認いただければと存じます。</p>
 <p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/dotnet/framework/migration-guide/application-compatibility">ランタイムの変更と再ターゲットの変更 - .NET Framework | Microsoft Learn</a></p>
-<h1 id="ダウングレードについて"><a href="#ダウングレードについて" class="headerlink" title="ダウングレードについて"></a>ダウングレードについて</h1><p>.NET Framework 4.x は OS に既定でインストールされているバージョンより前に戻すことはできませんが、新しくインストールした .NET Framework 4.x はダウングレードすることが可能です。</p>
+<h2 id="ダウングレードについて"><a href="#ダウングレードについて" class="headerlink" title="ダウングレードについて"></a>ダウングレードについて</h2><p>.NET Framework 4.x は OS に既定でインストールされているバージョンより前に戻すことはできませんが、新しくインストールした .NET Framework 4.x はダウングレードすることが可能です。</p>
 <p>.NET Framework 4 以降の新しいバージョンは、Windows 8.1 / Windows Server 2012 以降の場合、コントロール パネルの [プログラム] - [インストールされた更新プログラムを表示] からご確認いただける更新プログラム (KBxxxxxxx) の形でインストールされます。<br>この画面から更新プログラムをアンインストールすることで更新前のバージョンへダウングレードすることが可能です。<br>また、Windows 7 SP1, Windows Server 2008 R2 SP1 の場合、コントロール パネルの [プログラム] - [プログラムと機能] にインストール済み製品として表示されます。例えば .NET Framework 4.6.2 をインストールした場合、”Microsoft .NET Framework 4.6.2” のように一覧に表示されます。言語パックについては “Microsoft .NET Framework 4.6.2 (日本語)” のように表示されます。<br>この画面からインストールした新しいバージョンの .NET Framework をアンインストールすることで、更新前のバージョンへダウングレードすることが可能です。</p>
 <p>この更新プログラムの番号は .NET Framework 、OS のバージョンごとに異なるため、それぞれ個別に確認する必要がございます。<br>下記表にまとめましたので、ご参考ください。</p>
 <p>※ 対象の .NET Framework リリース時点でサポートが終了している OS は除外しています。<br>※ 表内のリンクは更新プログラムと関連する KB を参照しておりますが、KB がないものについては関連するドキュメントやページを参照しております。</p>

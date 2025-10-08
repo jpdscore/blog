@@ -17,7 +17,7 @@
 <meta property="og:image" content="https://jpdscore.github.io/blog/playfab/grantitemstouser-timeout/stackable.png">
 <meta property="og:image" content="https://jpdscore.github.io/blog/playfab/grantitemstouser-timeout/modifyitemuses.png">
 <meta property="article:published_time" content="2022-07-13T16:21:30.000Z">
-<meta property="article:modified_time" content="2025-10-03T00:27:29.424Z">
+<meta property="article:modified_time" content="2025-10-08T23:32:49.877Z">
 <meta property="article:author" content="Developer Support Core Japan">
 <meta property="article:tag" content="Azure PlayFab">
 <meta name="twitter:card" content="summary">
@@ -123,11 +123,11 @@
       
         <p>こんにちは、Japan Developer Support Core チームの近澤です。<br>私たちのチームではゲーム開発向けのバックエンド プラットフォームである Azure PlayFab もサポートしています。<br>今回は、PlayFab をご利用のお客様からよくお問い合わせいただく現象について、対処方法と合わせてご紹介します。 </p>
 <p>PlayFab にてプレイヤーにアイテムを付与する場合は、<a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/rest/api/playfab/server/player-item-management/grant-items-to-user?view=playfab-rest">Grant Items To User API</a> を使用してアイテムを付与しますが、呼び出し方によっては処理に時間がかかり、例えば CloudScript から呼び出した場合にタイムアウトしてしまうことがあります。</p>
-<h1 id="タイムアウトが発生する原因について"><a href="#タイムアウトが発生する原因について" class="headerlink" title="タイムアウトが発生する原因について"></a>タイムアウトが発生する原因について</h1><p>PlayFab のプレイヤー インベントリでは、高頻度で更新が要求された場合にパフォーマンスが大きく低下することがあります。<br>これはデータベースの設計に起因するもので、個々のプレイヤーのインベントリの更新頻度が高い場合に、更新が完了するまでにかかる時間が大きくなるものです。<br>Legacy CloudScript では 4.5 秒、Azure Functions を使用した現行の CloudScript では 10 秒のタイムアウトの制限があるため、頻繁にインベントリを更新し API のパフォーマンスが低下したことが原因で、CloudScript の処理時間がこの制限時間を超え、タイムアウトが発生することがあります。</p>
+<h2 id="タイムアウトが発生する原因について"><a href="#タイムアウトが発生する原因について" class="headerlink" title="タイムアウトが発生する原因について"></a>タイムアウトが発生する原因について</h2><p>PlayFab のプレイヤー インベントリでは、高頻度で更新が要求された場合にパフォーマンスが大きく低下することがあります。<br>これはデータベースの設計に起因するもので、個々のプレイヤーのインベントリの更新頻度が高い場合に、更新が完了するまでにかかる時間が大きくなるものです。<br>Legacy CloudScript では 4.5 秒、Azure Functions を使用した現行の CloudScript では 10 秒のタイムアウトの制限があるため、頻繁にインベントリを更新し API のパフォーマンスが低下したことが原因で、CloudScript の処理時間がこの制限時間を超え、タイムアウトが発生することがあります。</p>
 <p>GrantItemsToUser API でスタック可能ではない同一のアイテムを複数付与した場合、それぞれ別のアイテム インスタンスとしてプレイヤーのインベントリに追加されます。<br>この際、各アイテム インスタンスを追加するためのインベントリの更新がそれぞれ発生します。<br>そのため、GrantItemsToUser API の呼び出しが1回であっても、1度に多量のアイテムがプレイヤーに付与される場合に高頻度なインベントリの更新が発生し、タイムアウトを引き起こす原因となりえます。<br>例えば、あるアイテムを GrantItemsToUser API で10個付与した場合は、短時間のうちに 10回のインベントリの更新が発生します。</p>
 <p>下記画像では、同一のアイテムである <code>test item</code> が Grant Items To User API により、3つのインスタンスに分かれて追加されている様子です。<br><img src="grantitemstouser.png"></p>
 <p>なお、CloudScript にてこのタイムアウトが発生した場合でも、API 呼び出し自体は成功し、正常にアイテムが付与されることが想定されます。<br>これは、CloudScript が API を呼び出して以降、そのレスポンスを受け取るのに時間を要しタイムアウトしているのであり、API 呼び出し自体はパフォーマンスは低下しながらも処理は継続されているためです。</p>
-<h1 id="タイムアウトが発生する場合の対処法について"><a href="#タイムアウトが発生する場合の対処法について" class="headerlink" title="タイムアウトが発生する場合の対処法について"></a>タイムアウトが発生する場合の対処法について</h1><p>同一のアイテムを複数配布する場合は、スタック可能として設定することで同一のアイテム インスタンスとして追加し、インベントリの更新頻度を下げることができます。<br>アイテムをスタック可能にするには、PlayFab ポータルから対象のアイテムの設定を開き、 “スタック可能” にチェックを入れ保存します。<br>なお、既存アイテムを後からスタック可能に変更することも可能ですが、既に配布されたアイテムは別のインスタンスとして各プレイヤーのインベントリに残されたままになります。</p>
+<h2 id="タイムアウトが発生する場合の対処法について"><a href="#タイムアウトが発生する場合の対処法について" class="headerlink" title="タイムアウトが発生する場合の対処法について"></a>タイムアウトが発生する場合の対処法について</h2><p>同一のアイテムを複数配布する場合は、スタック可能として設定することで同一のアイテム インスタンスとして追加し、インベントリの更新頻度を下げることができます。<br>アイテムをスタック可能にするには、PlayFab ポータルから対象のアイテムの設定を開き、 “スタック可能” にチェックを入れ保存します。<br>なお、既存アイテムを後からスタック可能に変更することも可能ですが、既に配布されたアイテムは別のインスタンスとして各プレイヤーのインベントリに残されたままになります。</p>
 <p><img src="stackable.png"></p>
 <p>また、アイテムの設定を変更することが難しい場合は、GrantItemsToUser API でアイテムを配布するのではなく、<a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/rest/api/playfab/server/player-item-management/modify-item-uses?view=playfab-rest">Modify Item Uses API</a> を使用することで、インベントリ更新の負荷を低減できます。</p>
 <p>Modify Item Uses API は既に配布されたアイテムの個数を変更する API です。<br>Modify Item Uses API を使用する場合は、既に配布された アイテムのインスタンス ID に対して追加もしくは削除したい個数を指定し、そのアイテムの残り使用回数を変更します。<br>これにより、インベントリ情報の変更が1回となり、高頻度なインベントリの更新を回避できます。</p>
@@ -139,9 +139,8 @@
 <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;PlayFabId&quot;</span><span class="punctuation">:</span> <span class="string">&quot;XXXXXXXXXXXXXXXX&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;ItemInstanceId&quot;</span><span class="punctuation">:</span> <span class="string">&quot;1B8F30D3579C0C1A&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;UsesToAdd&quot;</span><span class="punctuation">:</span> <span class="number">10</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
 
 <p>上の呼び出しにより、残り使用回数が 3回であった <code>test item</code> が 13回に更新されました。<br><img src="modifyitemuses.png"></p>
-<p>プレイヤーが対象のアイテムを持っていなかった場合は、GrantItemsToUser API で1つアイテムを付与し、Modify Item Uses API で数を変更する形で実装します。<br>なお、UsestoAdd に負の数を指定した場合は、その数だけアイテムを減少させます。
-　</p>
-<h1 id="最後に"><a href="#最後に" class="headerlink" title="最後に"></a>最後に</h1><p>上記のような手続きは、タイムアウトのような問題が発生していない場合は、特別対応いただく必要はありませんが、アイテムのインスタンスを減らし、PlayFab ポータルからプレイヤーのインベントリを確認しやすくするメリットもありますので、ぜひご活用ください。</p>
+<p>プレイヤーが対象のアイテムを持っていなかった場合は、GrantItemsToUser API で1つアイテムを付与し、Modify Item Uses API で数を変更する形で実装します。<br>なお、UsestoAdd に負の数を指定した場合は、その数だけアイテムを減少させます。</p>
+<h2 id="最後に"><a href="#最後に" class="headerlink" title="最後に"></a>最後に</h2><p>上記のような手続きは、タイムアウトのような問題が発生していない場合は、特別対応いただく必要はありませんが、アイテムのインスタンスを減らし、PlayFab ポータルからプレイヤーのインベントリを確認しやすくするメリットもありますので、ぜひご活用ください。</p>
 
       
       
