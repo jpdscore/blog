@@ -4,27 +4,20 @@
   <meta charset="utf-8">
   
   
-  <title>Azure Pipelines エージェントの更新について | JPDSC Blog</title>
+  <title>Visual Studio 2022 のライセンス認証について | JPDSC Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="こんにちは、Japan Developer Support Core チームです🐶 今日は Azure DevOps における縁の下の力持ちである Azure Pipelines エージェントの更新についてのお話です。 Azure Pipelines エージェントは、Azure Pipelines">
+  <meta name="description" content="こんにちは。Developer Support Core チームの上原です。今回は Visual Studio 2022 のライセンス認証について、手順や注意点をご紹介させていただきます。 はじめにVisual Studio では、利用にあたりライセンス認証が求められる場合があります。Visual">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Azure Pipelines エージェントの更新について">
-<meta property="og:url" content="https://jpdscore.github.io/blog/azuredevops/pipelines-agent-update/index.html">
+<meta property="og:title" content="Visual Studio 2022 のライセンス認証について">
+<meta property="og:url" content="https://jpdscore.github.io/blog/vs/vs2022-update-license/index.html">
 <meta property="og:site_name" content="Japan Developer Support Core Team Blog">
-<meta property="og:description" content="こんにちは、Japan Developer Support Core チームです🐶 今日は Azure DevOps における縁の下の力持ちである Azure Pipelines エージェントの更新についてのお話です。 Azure Pipelines エージェントは、Azure Pipelines">
+<meta property="og:description" content="こんにちは。Developer Support Core チームの上原です。今回は Visual Studio 2022 のライセンス認証について、手順や注意点をご紹介させていただきます。 はじめにVisual Studio では、利用にあたりライセンス認証が求められる場合があります。Visual">
 <meta property="og:locale" content="ja_JP">
-<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/pipelines-agent-update/updateagent.png">
-<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/pipelines-agent-update/updateenvironment.png">
-<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/pipelines-agent-update/autoupdate1.png">
-<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/pipelines-agent-update/autoupdate2.png">
-<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/pipelines-agent-update/autoupdate3.png">
-<meta property="article:published_time" content="2024-04-01T00:59:40.000Z">
-<meta property="article:modified_time" content="2025-10-10T08:15:13.963Z">
+<meta property="article:published_time" content="2025-10-09T15:00:00.000Z">
+<meta property="article:modified_time" content="2025-10-10T08:15:14.030Z">
 <meta property="article:author" content="Developer Support Core Japan">
-<meta property="article:tag" content="ALM">
-<meta property="article:tag" content="Azure DevOps Services">
+<meta property="article:tag" content="Visual Studio">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://jpdscore.github.io/blog/azuredevops/pipelines-agent-update/updateagent.png">
   
     <link rel="alternate" href="/blog/atom.xml" title="Japan Developer Support Core Team Blog" type="application/atom+xml">
   
@@ -87,7 +80,7 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="devops-azuredevops/pipelines-agent-update" class="article article-type-devops" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-vs/vs2022-update-license" class="article article-type-post" itemscope itemprop="blogPost">
   
     <aside id="toc" role="complementary" aria-label="Table of Contents"></aside>
   
@@ -99,7 +92,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Azure Pipelines エージェントの更新について
+      Visual Studio 2022 のライセンス認証について
     </h1>
   
 
@@ -107,7 +100,7 @@
       <div class="article-share">
         Last Update: 
         <a href="" class="article-date-single">
-  <time datetime="2024-04-01T00:59:40.000Z" itemprop="datePublished">2024-04-01</time>
+  <time datetime="2025-10-09T15:00:00.000Z" itemprop="datePublished">2025-10-10</time>
 </a>
         
         <div class="article-share-buttons">
@@ -115,7 +108,7 @@
         </div>
         <div class="article-share-buttons">
           <script src="https://platform.linkedin.com/in.js" type="text/javascript">lang: ja_JP</script>
-          <script type="IN/Share" data-url="https://jpdscore.github.io/blog/azuredevops/pipelines-agent-update/"></script>
+          <script type="IN/Share" data-url="https://jpdscore.github.io/blog/vs/vs2022-update-license/"></script>
         </div>
         <div class="article-share-buttons">
           <a target="_blank" rel="noopener" href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
@@ -124,67 +117,41 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>こんにちは、Japan Developer Support Core チームです🐶</p>
-<p>今日は Azure DevOps における縁の下の力持ちである Azure Pipelines エージェントの更新についてのお話です。</p>
-<p>Azure Pipelines エージェントは、Azure Pipelines と連携してビルドやデプロイを行うプログラムであり、Azure DevOps では、数週間おきに新しいバージョンの Agent プログラムをリリースしています。Microsoft-hosted agent は自動更新されるため、常に最新の状態を保っています。一方、Azure Virtual Machine Scale Set agent や Self-hosted agent は既定で自動更新されますが、この設定を変更して自動更新を停止することも可能です。<br>ただし、エージェントは最新バージョンのみがサポートされるため、トラブルが生じた場合は、特別な事情がない限り、最新バージョンの Agent プログラムの使用をお勧めします。</p>
-<p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/azure/devops/pipelines/agents/agents?view=azure-devops&tabs=yaml,browser#self-hosted-agents">セルフホステッド エージェント</a></p>
-<blockquote>
-<p>最新バージョンのエージェントのみをサポートしているのは、それがすべての最新のパッチとバグ修正が保証されている唯一のバージョンだからです。</p>
-</blockquote>
-<p>なお、エージェントを常に最新バージョンとすることで、以下のような問題を未然に防ぐことができます。</p>
+        <p>こんにちは。Developer Support Core チームの上原です。今回は Visual Studio 2022 のライセンス認証について、手順や注意点をご紹介させていただきます。</p>
+<h2 id="はじめに"><a href="#はじめに" class="headerlink" title="はじめに"></a>はじめに</h2><p>Visual Studio では、利用にあたりライセンス認証が求められる場合があります。<br>Visual Studio のバージョンによって状況が異なりますので、本記事では現時点(2025年 10月) の最新バージョン Visual Studio 2022 を例に紹介させていただきます。</p>
+<p>Visual Studio 2022 では主に、特定の用途において無料で利用可能な Community エディション、および、有償で利用可能な Professional、Enterprise エディションが提供されています。<br>Professional および Enterprise エディションのインストールを実施すると、まず一定期間利用できる試用版(Trial) としてインストールされ、その後、ご契約いただいたライセンス情報を元に認証することで、期間の制約なく正式版としてご利用いただくことが可能となっております。</p>
+<p>そのため、ご購入前の評価といった目的でインストールし、一時的に試用する場合には、ライセンス認証を実施いただく必要はございません。<br>また、試用版をご利用している場合も、ライセンスの有無に関わらず、<a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/visualstudio/ide/how-to-unlock-visual-studio?view=vs-2022">Microsoft アカウントにてサインインすることで試用期間を延長する</a> ことは可能ですので、必要に応じてこちらもご活用ください。</p>
+<h2 id="ライセンス認証の方法"><a href="#ライセンス認証の方法" class="headerlink" title="ライセンス認証の方法"></a>ライセンス認証の方法</h2><p>Visual Studio 2022 の Professional あるいは Enterprise エディションといった有償エディションでは、インストール後にライセンス認証が必要となりますが、認証方法は大きくわけて 2種類あります。</p>
 <ul>
-<li><strong>互換性の問題:</strong> 新しいバージョンの Azure DevOps や他のソフトウェアとの互換性が失われ、パイプラインの実行が不安定になる可能性があります。</li>
-<li><strong>セキュリティリスク:</strong> セキュリティ パッチが適用されず、セキュリティの脆弱性が修正されないため、攻撃者による悪用のリスクが増加します。</li>
-<li><strong>機能の制限:</strong> 最新の機能や改善が含まれるエージェント バージョンを利用できず、効率的な開発やデプロイメントが妨げられます。</li>
-<li><strong>サポートの終了:</strong> 古いバージョンのサポートを段階的に終了する可能性があるため、問題が発生した際にサポートを受けられなくなります。</li>
-<li><strong>パフォーマンスの低下:</strong> 古いバージョンは最新のハードウェアやソフトウェアの最適化が行われていないため、パフォーマンスが低下します。</li>
+<li>アカウントの資格情報を入力する</li>
+<li>プロダクトキーを入力する</li>
 </ul>
-<hr>
-<h2 id="互換性の問題の例"><a href="#互換性の問題の例" class="headerlink" title="互換性の問題の例"></a>互換性の問題の例</h2><hr>
-<p>Azure Pipelines のタスクは、Node.js で開発されており、Node.js のサポート期限などに応じて新しいバージョンに対応するよう変更が行われます。またこれに伴い、タスクの処理を実行するエージェントも変更に対応できるよう随時更新されています。<br>たとえば、SSH タスクは Node.js バージョン 10 を使用していましたが、そのサポート終了に伴い、バージョン 16 以上へと更新されています。そして、エージェントでも v2.206.1 から Node.js のバージョン 16 に対応しています。これにより、v2.206.1 以前のエージェントで SSH タスクを使用すると、下記エラーが発生します。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[error]A supported task execution handler was not found. The task does not carry an implementation that is compatible with your current operating system &#x27;Windows(X64)&#x27;. Contact the task author for more details.</span><br></pre></td></tr></table></figure>
-
-<p>この場合は、エージェントのバージョンを v2.206.1 以降のバージョンに更新することで、エラーを解消できます。</p>
-<hr>
-<h2 id="エージェントの更新方法について"><a href="#エージェントの更新方法について" class="headerlink" title="エージェントの更新方法について"></a>エージェントの更新方法について</h2><hr>
-<p>エージェントの手動でのバージョンアップは、Azure DevOps Services の Web ポータルから行うことができます。以下に具体的な手順を紹介します。</p>
-<ol>
-<li>[Organization settings] - [Agent pools] ページを開きます。</li>
-<li>対象のエージェントがある Agent Pool を選択します。</li>
-<li>[Agents] タブを選択し、登録されているエージェントの一覧とバージョンを確認します。</li>
-<li>対象のエージェントの右端にある [Update agent] をクリックします。<br><img src="updateagent.png"><br>※複数のエージェントを更新する場合は、右上にある [Update all agents] ボタンを使用できます。</li>
-<li>[Update] ボタンをクリックしてバージョンアップを進めます。</li>
-</ol>
-<p>エージェントがオンラインの場合、バージョンアップ用のジョブがキューに登録され、エージェントが自動的にパッケージのダウンロードからバージョンアップまでを行います。オフラインの場合は、エージェントを起動してから更新を実施してください。</p>
-<h4 id="注意点"><a href="#注意点" class="headerlink" title="注意点:"></a>注意点:</h4><ul>
-<li>エージェントがバージョンアップを行うためには、パッケージのダウンロードが可能である必要があります。ファイア ウォールやプロキシの設定を確認し、必要な URL へのアクセスを許可してください。これらの URL は、下記公式ドキュメントに「Agent Package」として記載されています。<br><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/azure/devops/pipelines/agents/linux-agent?view=azure-devops#im-running-a-firewall-and-my-code-is-in-azure-repos-what-urls-does-the-agent-need-to-communicate-with">I’m running a firewall and my code is in Azure Repos. What URLs does the agent need to communicate with?</a></li>
-<li>パッケージのダウンロードが許可されていない場合は、いったんエージェントを削除し、新しいバージョンのパッケージを使用して再登録する必要があります。具体的な手順については <a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/azure/devops/pipelines/agents/linux-agent?view=azure-devops#remove-and-reconfigure-an-agent">エージェントの削除と再構成</a> をご参照ください。</li>
-<li>Environments や Deployment groups にターゲット マシン（エージェント）を登録した場合は、最初にインストールしたエージェント バージョンにて動作し、Agent pools のように、自動的にエージェント バージョンを更新するような機能はありません。<br>Environments の場合、エージェント バージョンを最新へ更新する方法としては、以下のとおりです。</li>
+<p>なお、お持ちのライセンスによっては、いずれか片方の認証方法のみが利用可能といった場合もありますので、ライセンスの管理者や購入元にご確認ください。</p>
+<h2 id="アカウントの資格情報を入力する"><a href="#アカウントの資格情報を入力する" class="headerlink" title="アカウントの資格情報を入力する"></a>アカウントの資格情報を入力する</h2><p>Visual Studio 2022 の UI 上から、ライセンスと紐づけられている Microsoft アカウントや職場のアカウントでサインインすることで、ライセンス認証を実施することが可能です。<br>Visual Studio 2022 を起動し、メニューのファイル&gt;アカウント設定 の画面から、事前にライセンスの紐づけを実施済の <a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/visualstudio/ide/how-to-unlock-visual-studio?view=vs-2022#update-an-expired-license">アカウントの資格情報を入力</a> することで、認証を完了することができます。</p>
+<p>なお、Visual Studio は定期的にライセンスが有効であるかを検証しますので、有効期限が切れた場合も同様に、アカウントの資格情報を入力し、ライセンスを更新してください。</p>
+<h3 id="一般的なトラブルシューティング"><a href="#一般的なトラブルシューティング" class="headerlink" title="一般的なトラブルシューティング"></a>一般的なトラブルシューティング</h3><p>弊社までよくお問合せをいただく事例として、Visual Studio からサインインを実施する際にエラーが発生し、認証に失敗するといった状況があります。<br>サインインに失敗する要因は様々ですが、ここでは問題が発生した場合の一般的なトラブルシューティングについてご紹介します。</p>
+<p>まず、ネットワークを介してサインインを行うにあたり、ファイアウォールやプロキシサーバーを介して通信を実施する必要がある環境では、あらかじめ　[サインインに必要となる通信](許可リストに追加する URL と開くポートとプロトコル) を許可しておく必要があります。<br>もし、サインインに必要となる通信を許可することが難しい場合には、オフライン環境での利用と同様に、プロダクトキーによる認証もご検討ください。</p>
+<p>次に、Visual Studio ではなく、システムの Web ブラウザー(Microsoft Edge) を用いてサインインが可能であるかを確認ください。<br>もし、システムの Web ブラウザーでは正常にサインイン可能である場合には、 Visual Studio の設定を変更し、<a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/visualstudio/ide/work-with-multi-factor-authentication?view=vs-2022#enabling-system-web-browser">システム Web ブラウザーの有効化</a> することでサインインに成功するかをご確認ください。</p>
+<p>他にも、<a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/troubleshoot/developer/visualstudio/installation/troubleshoot-network-related-errors">Visual Studio におけるネットワークに関するトラブルシューティング</a> のドキュメントには、既知の事例や対処方法が紹介されております。<br>エラーメッセージなどを手掛かりに、もし該当する事例がありましたら、対処方法を実施し、問題が解消するかお試しください。</p>
+<p>最後に、アカウントのサインインに失敗するケースは、多くの場合、端末が配置されたネットワーク構成や、ネットワーク上に配置されたプロキシサーバーなどに起因して問題が発生することがほとんどですが、上記を確認しても問題が解消しない場合には、弊社サポートにて問題解決のご支援をすることも可能です。<br>その場合に必要となる情報採取について、本記事の後半にまとめておりますので、もしよろしければ事前に情報を採取の上、弊社までお問合せください。</p>
+<h2 id="プロダクトキーを入力する"><a href="#プロダクトキーを入力する" class="headerlink" title="プロダクトキーを入力する"></a>プロダクトキーを入力する</h2><p>主にオフライン環境で利用するといったシナリオでは、<a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/visualstudio/ide/how-to-unlock-visual-studio?view=vs-2022#update-an-expired-license">Visual Studio の画面上でプロダクトキーを入力</a>し、ライセンス認証を実施することも可能です。<br>プロダクトキーが入手可能か、あるいは、実際の入手方法は契約によって異なり、例えば Visual Studio サブスクリプションを用いた手順については <a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/visualstudio/subscriptions/product-keys#accessing-product-keys">こちらのドキュメント</a> に紹介されています。</p>
+<p>なお、Visual Studio におけるプロダクトキーは、バージョン(Visual Studio 2022 や 2019 など)、および、エディション(Professional や Enterprise) ごとに異なりますので、入手する際はバージョンとエディションにもご注意ください。</p>
+<h3 id="コマンドからの認証"><a href="#コマンドからの認証" class="headerlink" title="コマンドからの認証"></a>コマンドからの認証</h3><p>複数の端末に対して Visual Studio を展開するといったシナリオにおいて、コマンドからプロダクトキーを適用し、ライセンス認証を実施することも可能です。<br>Visual Studio 2022 では <em>StoreID.exe</em> と呼ばれるコマンドを利用することで、コマンドからプロダクトキーを適用することが可能ですので、<a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/visualstudio/install/automatically-apply-product-keys-when-deploying-visual-studio?view=vs-2022">こちらのドキュメント</a>の手順に沿って、実施をご検討ください。</p>
+<h2 id="参考情報-サインインが失敗する場合の情報採取について"><a href="#参考情報-サインインが失敗する場合の情報採取について" class="headerlink" title="[参考情報] サインインが失敗する場合の情報採取について"></a>[参考情報] サインインが失敗する場合の情報採取について</h2><p><em>(注)一般的なトラブルシューティング のセクションを事前にご確認ください。</em></p>
+<ul>
+<li><p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/visualstudio/releases/2022/release-history#evergreen-bootstrappers">最新の Visual Studio バージョン</a> でも、問題が同様に発生するかご確認ください。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/visualstudio/ide/how-to-increase-chances-of-performance-issue-being-fixed?view=vs-2022#out-of-process-issues">アウトプロセスの問題(Out-Of-Process Issues)</a> の手順に沿って、ServiceHub のログを採取します。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/visualstudio/ide/reference/log-devenv-exe?view=vs-2022">Visual Studio のアクティビティ ログ</a></p>
+</li>
 </ul>
-<ol>
-<li><p>   [Organization Settings] &gt; [Deployment pools] を開きます。</p>
-</li>
-<li><p>   “environment-“ から始まる名前の pool を確認し、更新対象のターゲット マシンを検索します。</p>
-</li>
-<li><p>“environment-“ から […] を選択して、[Update targets] を選択します。<br><img src="updateenvironment.png"></p>
-<p>Deployment groups の場合は、[Devployment groups] からエージェントを選択して、同様に [Update targets] から更新可能です。詳細については、<a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/azure/devops/pipelines/release/deployment-groups/?view=azure-devops#set-up-agents-on-deployment-groups">配置グループにエージェントを設定する</a> をご確認ください。</p>
-</li>
-</ol>
-<p>なお、通信上の問題等で自動更新の設定を変更したい場合は、以下のとおりです。</p>
-<hr>
-<h2 id="自動更新の設定変更方法について"><a href="#自動更新の設定変更方法について" class="headerlink" title="自動更新の設定変更方法について"></a>自動更新の設定変更方法について</h2><hr>
-<ol>
-<li><p>Azure DevOps ポータル (<a target="_blank" rel="noopener" href="https://dev.azure.com/%7BOrganization">https://dev.azure.com/{Organization</a> 名}) へアクセスし、[Organization settings] を選択します。<br><img src="autoupdate1.png"></p>
-</li>
-<li><p>[Agent pools] を選択し、目的の Agent pool を選択します。<br><img src="autoupdate2.png"></p>
-</li>
-<li><p>[Settings] タブ内、[Agent update settings] の [Allow agents in this pool to automatically update] を OFF にします。既定では ON です。<br><img src="autoupdate3.png"></p>
-</li>
-</ol>
-<p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/azure/devops/release-notes/2020/sprint-165-update#disable-automatic-agents-upgrades-at-a-pool-level">自動エージェントアップグレードの無効化</a></p>
-<p>自動更新には適切な通信設定が必要です。エージェントは Azure DevOps サービスと通信して最新の状態を保つため、ファイア ウォールやプロキシの設定を確認し、必要な通信が行えるようにしてください。通信上の問題で自動更新ができない場合は、上述の<a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/azure/devops/pipelines/agents/linux-agent?view=azure-devops#remove-and-reconfigure-an-agent">エージェントの削除と再構成</a>が必要です。</p>
-<p>最新の技術を安全に、そして効率的に利用するためにも、エージェントのバージョン管理には十分注意してください。<br>皆様の開発環境が常に最良の状態であることを願っています。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">1. アプリケーションの一覧から &quot;Developer Command Prompt for VS &lt;Visual Studio のバージョン&gt;&quot; を起動します。</span><br><span class="line"></span><br><span class="line">2. &quot;devenv /Log &lt;ログファイルを保存したいファイルパス&gt;\ActivityLog.xml&quot; のコマンドを実行し、 Visual Studio を実行します。</span><br><span class="line"></span><br><span class="line">3. 起動した Visual Studio にてサインインを実施し、エラーが発生することを確認します。</span><br><span class="line"></span><br><span class="line">4. 手順2. の手順で指定したファイルパスに xml 形式のログが出力されますので、採取します。</span><br></pre></td></tr></table></figure>
 
+<ul>
+<li>エラー発生時のネットワーク キャプチャ</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">1. 管理者権限を持つアカウントでコマンド プロンプトを開きます。</span><br><span class="line">    ※ UAC が有効の場合には、&quot;管理者として実行&quot; で開きます。</span><br><span class="line"> </span><br><span class="line">2. 次のコマンドを実行し、キャプチャを開始します。</span><br><span class="line">netsh trace start capture=yes</span><br><span class="line"> </span><br><span class="line">3. Visual Studio を起動し、サインインを実施し、エラーが発生することを確認します。</span><br><span class="line"> </span><br><span class="line">4. 次のコマンドを実行して、キャプチャを停止します。</span><br><span class="line">netsh trace stop</span><br><span class="line"> </span><br><span class="line">5. 手順4 の実行後、プロンプトに [ファイルの場所] 欄が表示されますので、保存された NetTrace.etl ファイル、</span><br><span class="line">    同じフォルダ内の NetTrace.cab の 2 つのファイルを採取します。</span><br></pre></td></tr></table></figure>
       
       
         <div class="article-disclaimer">
@@ -197,11 +164,11 @@
     <footer class="article-footer">
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/ALM/" rel="tag">ALM</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Azure-DevOps-Services/" rel="tag">Azure DevOps Services</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Visual-Studio/" rel="tag">Visual Studio</a></li></ul>
 
       <!-- 
       
-        <a href="https://github.com/jpdscore/blog/edit/master/articles/azuredevops/pipelines-agent-update.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
+        <a href="https://github.com/jpdscore/blog/edit/master/articles/vs/vs2022-update-license.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
         
       -->
     </footer>
@@ -210,19 +177,10 @@
     
 <nav id="article-nav">
   
-    <a href="../service-connection-update/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">次の記事</strong>
-      <div class="article-nav-title">
-        
-          Azure DevOps Service Connection の更新について
-        
-      </div>
-    </a>
   
-  
-    <a href="../tfs-basic-log-collection/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="../vs2022-requirement/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">前の記事</strong>
-      <div class="article-nav-title">Team Foundation Server / Azure DevOps Server のトラブルシューティング用データ採取について</div>
+      <div class="article-nav-title">Visual Studio 2022 のシステム要件</div>
     </a>
   
 </nav>
@@ -241,11 +199,11 @@
       <ul>
         
           <li>
-            <a href="../../vs/vs2022-update-license/">Visual Studio 2022 のライセンス認証について</a>
+            <a href="">Visual Studio 2022 のライセンス認証について</a>
           </li>
         
           <li>
-            <a href="../../vs/vs2022-requirement/">Visual Studio 2022 のシステム要件</a>
+            <a href="../vs2022-requirement/">Visual Studio 2022 のシステム要件</a>
           </li>
         
           <li>
@@ -261,7 +219,7 @@
           </li>
         
           <li>
-            <a href="../../vs/vc2015-compatibility/">Visual C++ の互換性について(Visual C++ 2015 以降)</a>
+            <a href="../vc2015-compatibility/">Visual C++ の互換性について(Visual C++ 2015 以降)</a>
           </li>
         
           <li>
