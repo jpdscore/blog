@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>ClickOnce アプリケーションの起動を試みても反応しない事象について | JPDSC Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="こんにちは、Japan Developer Support Core チームの松井です。特定の状況下で ClickOnce アプリケーションの起動を試みた際に、アプリケーションが起動せず反応がないように見える事象が発生する場合があります。本記事では、この事象に関する一般的な原因とその回避方法について">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ClickOnce アプリケーションの起動を試みても反応しない事象について">
+<meta property="og:url" content="https://jpdscore.github.io/blog/deployment/nothing-happens-when-attempting-to-launch-clickonce-apps/index.html">
+<meta property="og:site_name" content="Japan Developer Support Core Team Blog">
+<meta property="og:description" content="こんにちは、Japan Developer Support Core チームの松井です。特定の状況下で ClickOnce アプリケーションの起動を試みた際に、アプリケーションが起動せず反応がないように見える事象が発生する場合があります。本記事では、この事象に関する一般的な原因とその回避方法について">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:image" content="https://jpdscore.github.io/blog/deployment/nothing-happens-when-attempting-to-launch-clickonce-apps/process-property-job-tab-not-present.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/deployment/nothing-happens-when-attempting-to-launch-clickonce-apps/breakaway-flag-not-present.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/deployment/nothing-happens-when-attempting-to-launch-clickonce-apps/breakaway-flags-present.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/deployment/nothing-happens-when-attempting-to-launch-clickonce-apps/procmon-events-when-failed.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/deployment/nothing-happens-when-attempting-to-launch-clickonce-apps/process-creation-stack.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/deployment/nothing-happens-when-attempting-to-launch-clickonce-apps/procmon-events-when-succeeded.png">
+<meta property="article:published_time" content="2025-10-16T15:00:00.000Z">
+<meta property="article:modified_time" content="2025-10-16T17:39:45.803Z">
+<meta property="article:author" content="Developer Support Core Japan">
+<meta property="article:tag" content="Deployment">
+<meta property="article:tag" content="ClickOnce">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jpdscore.github.io/blog/deployment/nothing-happens-when-attempting-to-launch-clickonce-apps/process-property-job-tab-not-present.png">
+  
+    <link rel="alternate" href="/blog/atom.xml" title="Japan Developer Support Core Team Blog" type="application/atom+xml">
+  
+
+  <link rel="icon" href="../../favicon.ico">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="theme-color" content="#ffffff">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="../../css/style.css">
+
+  
+<link rel="stylesheet" href="../../css/copy-button.css">
+
+  
+<link rel="stylesheet" href="../../css/toc.css">
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="site-header-logo"></div>
+  <div id="site-header-blog-wrapper"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        <div id="ms-logo"></div>
+        
+          <a class="main-nav-link" href="../../index.html">Home</a>
+        
+          <a class="main-nav-link" href="../../archives">Archives</a>
+        
+        <a class="main-nav-link" target="_blank" rel="noopener" href="https://cssjpn.github.io/">サポート情報</a>
+        <a class="main-nav-link" href="/blog/general/welcome/">About</a>
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/blog/atom.xml" title="RSSフィード"></a>
+        
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//www.google.com/search" method="get" accept-charset="UTF-8" name="google-search" onsubmit="var f=this;if(f['q'].value){var searchUrl =  'https://www.google.com/search?q=' +  encodeURIComponent(f['q'].value + ' site:' + f['sitesearch'].value) ;window.open(searchUrl, 'blank') };return false;" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="検索"><button type="submit" id="nav-search-btn" class="search-form-submit"></button><input type="hidden" name="sitesearch" value="https://jpdscore.github.io/blog"></form>
+      </div>
+    </div>
+    <div id="header-title" class="inner">
+      <div id="logo-wrap">
+        <a href="../../index.html" id="logo">Japan Developer Support Core Team Blog</a>
+      </div>
+      
+        <div id="subtitle-wrap">
+          <a href="../../index.html" id="subtitle">日本マイクロソフトの Japan Developer Support Core チームのブログです。</a>
+        </div>
+      
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-deployment/nothing-happens-when-attempting-to-launch-clickonce-apps" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <aside id="toc" role="complementary" aria-label="Table of Contents"></aside>
+  
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header-single">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      ClickOnce アプリケーションの起動を試みても反応しない事象について
+    </h1>
+  
+
+      </header>
+      <div class="article-share">
+        Last Update: 
+        <a href="" class="article-date-single">
+  <time datetime="2025-10-16T15:00:00.000Z" itemprop="datePublished">2025-10-17</time>
+</a>
+        
+        <div class="article-share-buttons">
+          <a target="_blank" rel="noopener" href="https://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="basic-label" data-hatena-bookmark-lang="ja" data-hatena-bookmark-height="20" title="このエントリーをはてなブックマークに追加"><img src="https://b.st-hatena.com/images/v4/public/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+        </div>
+        <div class="article-share-buttons">
+          <script src="https://platform.linkedin.com/in.js" type="text/javascript">lang: ja_JP</script>
+          <script type="IN/Share" data-url="https://jpdscore.github.io/blog/deployment/nothing-happens-when-attempting-to-launch-clickonce-apps/"></script>
+        </div>
+        <div class="article-share-buttons">
+          <a target="_blank" rel="noopener" href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        </div>
+      </div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>こんにちは、Japan Developer Support Core チームの松井です。特定の状況下で ClickOnce アプリケーションの起動を試みた際に、アプリケーションが起動せず反応がないように見える事象が発生する場合があります。本記事では、この事象に関する一般的な原因とその回避方法について説明します。</p>
+<h2 id="現象"><a href="#現象" class="headerlink" title="現象"></a>現象</h2><p>スタート メニューやデスクトップのショートカット、または Web ブラウザー上のリンクなどから ClickOnce アプリケーションを起動しようとした際に、アプリケーションが起動せずエラーも表示されない場合があります。(起動時にエラーダイアログが表示される場合は<a href="../fail-to-launch-clickonce-apps-after-updated/">こちらの記事</a>を参考にしてください。)</p>
+<h2 id="一般的な原因"><a href="#一般的な原因" class="headerlink" title="一般的な原因"></a>一般的な原因</h2><p>エクスプローラーやブラウザーが<a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/windows/win32/procthread/job-objects">ジョブ オブジェクト</a>と呼ばれるプロセス グループに属している場合、既定ではすべての子プロセスもジョブ オブジェクトに関連付けられ、ジョブ オブジェクトに指定された制限の影響を受けます。例えば、アプリケーションが使用できるシステム リソースが制限されたり、ジョブ オブジェクトを閉じるときに関連付けられたプロセスも終了されるといった影響を受ける可能性があります。そのため、起動された ClickOnce ローダーおよび ClickOnce アプリケーションがジョブ オブジェクトの制限の影響を受けないよう、ClickOnce ローダーのプロセスはジョブ オブジェクトから分離して作成されます。</p>
+<p>ジョブ オブジェクトから分離してプロセスを作成するためには、ジョブ オブジェクトに <code>JOB_OBJECT_LIMIT_BREAKAWAY_OK</code> もしくは <code>JOB_OBJECT_LIMIT_SILENT_BREAKAWAY_OK</code> のいずれかの制限が設定されている必要があります。エクスプローラーやブラウザーがジョブ オブジェクトに属している場合で、かつ <code>JOB_OBJECT_LIMIT_BREAKAWAY_OK</code> と <code>JOB_OBJECT_LIMIT_SILENT_BREAKAWAY_OK</code> のいずれの制限も設定されていない場合、ClickOnce ローダーのプロセスの作成に失敗してアプリケーションも起動されず、ユーザーからは何も起こらないように見える事象が発生します。これは ClickOnce ローダーの起動の仕組みに起因する想定された動作です。</p>
+<h2 id="本事象の発生が報告されているシナリオ"><a href="#本事象の発生が報告されているシナリオ" class="headerlink" title="本事象の発生が報告されているシナリオ"></a>本事象の発生が報告されているシナリオ</h2><p>前節で説明した状況が発生することが報告されている一般的なシナリオとしては以下のようなものがあります。ただし、これらに限定されるものではなく、あくまでもジョブ オブジェクトに属している状況が発生する可能性のある例となりますのでご注意ください。</p>
+<h3 id="1-タスク-スケジューラーのタスクからエクスプローラーやブラウザーが起動されている"><a href="#1-タスク-スケジューラーのタスクからエクスプローラーやブラウザーが起動されている" class="headerlink" title="1. タスク スケジューラーのタスクからエクスプローラーやブラウザーが起動されている"></a>1. タスク スケジューラーのタスクからエクスプローラーやブラウザーが起動されている</h3><p>タスク スケジューラーのタスクから起動されるプロセスは、タスク スケジューラーによって作成されたジョブ オブジェクトに属します。この場合、ジョブ オブジェクトには <code>JOB_OBJECT_LIMIT_BREAKAWAY_OK</code> と <code>JOB_OBJECT_LIMIT_SILENT_BREAKAWAY_OK</code> のいずれの制限も設定されていないため、本事象が発生します。</p>
+<h3 id="2-ログオン-スクリプトからブラウザーが起動されている"><a href="#2-ログオン-スクリプトからブラウザーが起動されている" class="headerlink" title="2. ログオン スクリプトからブラウザーが起動されている"></a>2. ログオン スクリプトからブラウザーが起動されている</h3><p>Edge がログオン スクリプトから起動されると、Edge のメイン プロセスがジョブ オブジェクトに属している状態となる場合があります。この場合、ジョブ オブジェクトには <code>JOB_OBJECT_LIMIT_BREAKAWAY_OK</code> と <code>JOB_OBJECT_LIMIT_SILENT_BREAKAWAY_OK</code> のいずれの制限も設定されておらず、本事象が発生します。</p>
+<h3 id="3-管理者承認モードを無効にした状態でビルドイン管理者ユーザーでログオンしている"><a href="#3-管理者承認モードを無効にした状態でビルドイン管理者ユーザーでログオンしている" class="headerlink" title="3. 管理者承認モードを無効にした状態でビルドイン管理者ユーザーでログオンしている"></a>3. 管理者承認モードを無効にした状態でビルドイン管理者ユーザーでログオンしている</h3><p>管理者承認モードを無効にした状態でドメイン管理者などのビルトイン管理者ユーザーでログオンしている場合、エクスプローラーは管理者権限で開始されます。しかし、&quot;<a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/oldnewthing/20220524-00/?p=106682">What is the CreateExplorerShellUnelevatedTask scheduled task?</a>&quot;の記事で解説されているように、エクスプローラーは管理者特権なしで実行する必要があるため、管理者権限で実行されていることを検出した場合は <code>CreateExplorerShellUnelevatedTask</code> タスクというスケジュールされたタスクを使用して自分自身のプロセスの昇格の解除を試みます。この動作に伴い、エクスプローラーがタスク スケジューラーのタスクから起動することとなるため、1. の項で説明した状況となり本事象が発生します。この事象は &quot;<a target="_blank" rel="noopener" href="https://support.microsoft.com/kb/4561303">Windows 10 では、組み込みの管理者アカウントから ClickOnce アプリケーションが起動しない場合がある</a>&quot; の KB でも説明されています。</p>
+<h2 id="回避方法"><a href="#回避方法" class="headerlink" title="回避方法"></a>回避方法</h2><p>本事象を事象が発生する状況の場合、以下のいずれかの方法で ClickOnce アプリケーションを起動できる場合があります。</p>
+<h3 id="1-ブラウザーのプロセスをすべて終了してから起動しなおす"><a href="#1-ブラウザーのプロセスをすべて終了してから起動しなおす" class="headerlink" title="1. ブラウザーのプロセスをすべて終了してから起動しなおす"></a>1. ブラウザーのプロセスをすべて終了してから起動しなおす</h3><p>タスク スケジューラーのタスクやログオン スクリプトからブラウザーが起動されたことでジョブ オブジェクトに属している場合、ブラウザーをジョブ オブジェクトに属さない状態で起動しなおすことで本事象を回避できます。</p>
+<p>ブラウザーは複数のプロセスで構成されている場合があるため、ウィンドウを閉じるだけではジョブ オブジェクトに属しているメイン プロセスが残ってしまう場合があります。そのため、タスク マネージャーなどでブラウザーのプロセスをすべて終了してから再度ブラウザーを起動してください。Edge の場合、プロセス名は <code>msedge.exe</code> となります。</p>
+<h3 id="2-ClickOnce-ローダーを直接起動する"><a href="#2-ClickOnce-ローダーを直接起動する" class="headerlink" title="2. ClickOnce ローダーを直接起動する"></a>2. ClickOnce ローダーを直接起動する</h3><p>本事象は ClickOnce ローダーのプロセスの起動に失敗することによって発生します。ClickOnce ローダーは一度起動するとしばらくの間は起動したままとなり、同じユーザー コンテキストであれば再利用されます。そのため、ClickOnce ローダーを直接起動してから ClickOnce アプリケーションを起動することで本事象を回避することができます。</p>
+<p>ClickOnce ローダーを直接起動するためには、エクスプローラーやコマンド プロンプトから以下のパスのファイルを実行します。</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">C:\<span class="title">Windows</span>\<span class="title">Microsoft.NET</span>\<span class="title">Framework64</span>\<span class="title">v4</span>.0.30319\<span class="title">dfsvc.exe</span></span></span><br></pre></td></tr></table></figure>
+
+<h2 id="補足-ClickOnce-アプリケーションの起動フロー"><a href="#補足-ClickOnce-アプリケーションの起動フロー" class="headerlink" title="補足: ClickOnce アプリケーションの起動フロー"></a>補足: ClickOnce アプリケーションの起動フロー</h2><p>ClickOnce アプリケーションを起動する際の処理フローは以下の通りです。</p>
+<div class="mermaid">
+sequenceDiagram
+    participant User as ユーザー
+    participant Browser as ブラウザー
+    participant Server as Web サーバー
+    participant Dfshim as dfshim.dll<br/>(rundll32.exe 経由)
+    participant Loader as ClickOnce ローダー<br/>(dfsvc.exe)
+    participant Cache as ClickOnce キャッシュ
+    participant App as アプリケーション
+
+    User->>Browser: ClickOnce リンクをクリック
+    Browser->>Server: 配置マニフェスト (*.application) をリクエスト
+    Server-->>Browser: 配置マニフェスト (.application) をダウンロード
+    Note over Browser: 拡張子 (.application) または<br/>MIME タイプ (application/x-ms-application) を確認
+    Browser->>Dfshim: rundll32.exe 経由で dfshim.dll を呼び出し
+    Dfshim->>Dfshim: dfsvc.exe が起動しているか確認
+    alt dfsvc.exe が未起動の場合
+        Dfshim->>Loader: dfsvc.exe を起動
+        Note over Dfshim,Loader: ジョブ オブジェクトから分離して起動<br/>(CREATE_BREAKAWAY_FROM_JOB フラグ)
+    end
+    Dfshim->>Loader: アプリケーションの開始を指示
+    Loader->>Loader: 配置マニフェストを解析
+    Loader->>Server: アプリケーション マニフェスト (.manifest) をリクエスト
+    Server-->>Loader: アプリケーション マニフェストをダウンロード
+    Loader->>Loader: アプリケーション マニフェストを解析
+    Loader->>Server: 必要なアセンブリとファイルをリクエスト
+    Server-->>Loader: アプリケーションファイルをダウンロード
+    Loader->>Cache: ファイルを ClickOnce キャッシュに配置
+    Loader->>App: アプリケーションを起動
+    App-->>User: アプリケーションが表示される
+</div>
+
+<h3 id="処理フローの詳細"><a href="#処理フローの詳細" class="headerlink" title="処理フローの詳細"></a>処理フローの詳細</h3><ol>
+<li><p><strong>配置マニフェストのダウンロード</strong></p>
+<ul>
+<li>ユーザーが Web サイト上の ClickOnce アプリケーションのリンクをクリックすると、ブラウザーが ClickOnce アプリケーションの配置マニフェスト (*.application ファイル) をダウンロードします。</li>
+<li>配置マニフェストには、アプリケーションの配置情報、更新ポリシー、アプリケーション マニフェスト (*.exe.manifest ファイル) の場所といった構成が記述されています。</li>
+</ul>
+</li>
+<li><p><strong>ClickOnce ローダーの起動</strong></p>
+<ul>
+<li>ブラウザーは、ファイルの拡張子 (.application) または MIME タイプ (application/x-ms-application) に基づいて、rundll32.exe 経由で dfshim.dll を呼び出します。</li>
+<li>dfshim.dll は、dfsvc.exe (ClickOnce ローダー) が既に起動しているかを確認します。</li>
+<li>dfsvc.exe が起動していない場合、dfshim.dll は <code>CREATE_BREAKAWAY_FROM_JOB</code> フラグを指定し、dfsvc.exe をジョブ オブジェクトから分離した状態で起動します。</li>
+<li>dfshim.dll は dfsvc.exe に対してアプリケーションの開始を指示します。</li>
+</ul>
+</li>
+<li><p><strong>アプリケーション マニフェストの取得</strong></p>
+<ul>
+<li>ClickOnce ローダー (dfsvc.exe) は配置マニフェストを解析し、アプリケーション マニフェストの場所を特定します。</li>
+<li>アプリケーション マニフェストには、実行に必要なアセンブリ、ファイル、依存関係などの構成が記述されています。</li>
+</ul>
+</li>
+<li><p><strong>ClickOnce キャッシュへのダウンロードと配置</strong></p>
+<ul>
+<li>ClickOnce ローダーは、アプリケーション マニフェストに記載されているコンテンツをダウンロードします。</li>
+<li>ダウンロードしたファイルは、ClickOnce キャッシュ (<code>%LocalAppData%\Apps\2.0\</code> 配下) に配置されます。</li>
+</ul>
+</li>
+<li><p><strong>アプリケーションの起動</strong></p>
+<ul>
+<li>すべての必要なファイルが配置されると、ClickOnce ローダーがアプリケーションを起動します。</li>
+<li>アプリケーションは ClickOnce キャッシュ内の場所から実行されます。</li>
+</ul>
+</li>
+</ol>
+<h3 id="本事象が発生するポイント"><a href="#本事象が発生するポイント" class="headerlink" title="本事象が発生するポイント"></a>本事象が発生するポイント</h3><p>本事象は、2. <strong>ClickOnce ローダーの起動</strong> のステップで発生します。</p>
+<p>具体的には、dfshim.dll が dfsvc.exe を起動しようとした際に問題が発生します。ブラウザーがジョブ オブジェクトに属している場合で、そのジョブ オブジェクトに <code>JOB_OBJECT_LIMIT_BREAKAWAY_OK</code> または <code>JOB_OBJECT_LIMIT_SILENT_BREAKAWAY_OK</code> の制限が設定されていない場合、<code>CREATE_BREAKAWAY_FROM_JOB</code> フラグを使用した dfsvc.exe のプロセス作成に失敗します。このため、以降のステップが実行されず、アプリケーションが起動しない状態となります。</p>
+<h2 id="補足-ジョブ-オブジェクトに属していることを確認する方法"><a href="#補足-ジョブ-オブジェクトに属していることを確認する方法" class="headerlink" title="補足: ジョブ オブジェクトに属していることを確認する方法"></a>補足: ジョブ オブジェクトに属していることを確認する方法</h2><p>エクスプローラーやブラウザーのプロセスがジョブ オブジェクトに属しているかどうかについては、以下の手順で確認できます。</p>
+<ol>
+<li><p>以下の URL から Process Explorer をダウンロードして任意のフォルダーに展開します。</p>
+<p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/sysinternals/downloads/process-explorer">https://learn.microsoft.com/ja-jp/sysinternals/downloads/process-explorer</a></p>
+</li>
+<li><p>Process Explorer を管理者として実行します。</p>
+</li>
+<li><p>エクスプローラーやブラウザーのプロセス (例: <code>explorer.exe</code> や <code>msedge.exe</code>) を右クリックして [Properties] を選択します。<code>msedge.exe</code> を確認する場合は、ツリーのルートにあるメイン プロセスの <code>msedge.exe</code> を選択してください。</p>
+</li>
+<li><p>タブに [Job] が表示されていない場合、当該プロセスはジョブ オブジェクトに属していません。この場合、ClickOnce アプリケーションが起動しない原因は他にある可能性があります。</p>
+<p><img src="process-property-job-tab-not-present.png" alt="Job タブが表示されていない場合"></p>
+</li>
+<li><p>タブに [Job] が表示されている場合、当該プロセスはジョブ オブジェクトに属しています。[Job] タブを選択し、[Limit flags] の欄に <code>BREAKAWAY_OK</code> または <code>SILENT_BREAKAWAY_OK</code> が含まれているかどうかを確認します。</p>
+<ul>
+<li><p>いずれの Limit flag も含まれていない場合は、ClickOnce アプリケーションが起動しない原因となります。</p>
+<p><img src="breakaway-flag-not-present.png" alt="Job タブが表示され、いずれの Limit flag も含まれていない場合"></p>
+</li>
+<li><p>いずれかの Limit flag が含まれている場合、ClickOnce アプリケーションが起動しない原因は他にある可能性があります。</p>
+<p><img src="breakaway-flags-present.png" alt="Job タブが表示され、いずれかの Limit flag が含まれている場合"></p>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="補足-本事象が発生したときのログ"><a href="#補足-本事象が発生したときのログ" class="headerlink" title="補足: 本事象が発生したときのログ"></a>補足: 本事象が発生したときのログ</h2><p>本事象が発生した場合、ClickOnce ローダー (dfsvc.exe) 自体が起動できていない状況のため、ClickOnce ローダーのエラー メッセージも表示されず、ログにもエラーなどが記録されません。</p>
+<p><a href="../../debugging/collect-procmon/">Process Monitor ログ</a>を取得して <code>rundll32.exe</code> のプロセスでフィルタリングすると、dfsvc.exe のプロセスを起動するための <code>C:\Windows\Microsoft.NET\Framework64\v4.0.30319</code> フォルダーのアクセスやアプリケーション固有の <a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/previous-versions/windows/desktop/xperf/image-file-execution-options">Image File Execution Option (IFEO) レジストリ キー</a>へのアクセスのイベントのすぐ後で <code>Process Exit</code> に進んでおり、プロセスが起動できていない状況が確認できます。</p>
+<p><img src="procmon-events-when-failed.png" alt="ClickOnce ローダーの起動に失敗した場合の Process Monitor ログ"></p>
+<p><img src="process-creation-stack.png" alt="IFEO レジストリ キーのイベントのコール スタック"></p>
+<p>正常に起動できた場合は、下図のように <code>dfsvc.exe</code> のファイルにアクセスするイベントが続き <code>Process Create</code> に進んでいることが確認できます。</p>
+<p><img src="procmon-events-when-succeeded.png" alt="ClickOnce ローダーの起動に成功した場合の Process Monitor ログの様子"></p>
+
+      
+      
+        <div class="article-disclaimer">
+        
+          <p><hr>本ブログの内容は弊社の公式見解として保証されるものではなく、開発・運用時の参考情報としてご活用いただくことを目的としています。もし公式な見解が必要な場合は、弊社ドキュメント (<a target="_blank" rel="noopener" href="https://learn.microsoft.com/">https://learn.microsoft.com</a> や <a target="_blank" rel="noopener" href="https://support.microsoft.com">https://support.microsoft.com</a>) をご参照いただくか、もしくは私共サポートまでお問い合わせください。</p>
+        
+        </div>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/ClickOnce/" rel="tag">ClickOnce</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Deployment/" rel="tag">Deployment</a></li></ul>
+
+      <!-- 
+      
+        <a href="https://github.com/jpdscore/blog/edit/master/articles/deployment/nothing-happens-when-attempting-to-launch-clickonce-apps.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
+        
+      -->
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="../../vs/vs2022-update-license/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前の記事</strong>
+      <div class="article-nav-title">Visual Studio 2022 のライセンス認証について</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最近の投稿</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="">ClickOnce アプリケーションの起動を試みても反応しない事象について</a>
+          </li>
+        
+          <li>
+            <a href="../../vs/vs2022-update-license/">Visual Studio 2022 のライセンス認証について</a>
+          </li>
+        
+          <li>
+            <a href="../../vs/vs2022-requirement/">Visual Studio 2022 のシステム要件</a>
+          </li>
+        
+          <li>
+            <a href="../../playfab/studio-creation-recommendation/">タイトル・スタジオ作成時における推奨・注意事項</a>
+          </li>
+        
+          <li>
+            <a href="../../debugging/analyze-win32-heap-leak/">[メモリリーク #2] [HOWTO] WPR/WPA を用いたWin32アプリケーションのヒープメモリリークの調査</a>
+          </li>
+        
+          <li>
+            <a href="../../dotnet/netfx-4-rollup/">.NET Framework 4.x の更新プログラムの話</a>
+          </li>
+        
+          <li>
+            <a href="../../vs/vc2015-compatibility/">Visual C++ の互換性について(Visual C++ 2015 以降)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">タグ</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="../../tags/ALM/">ALM</a><span class="tag-list-count">15</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-DevOps-Server">Azure DevOps Server</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-DevOps-Services">Azure DevOps Services</a><span class="tag-list-count">7</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-Pipelines">Azure Pipelines</a><span class="tag-list-count">6</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-Repos">Azure Repos</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Devcontainer">Devcontainer</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/GitHub">GitHub</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/TFS">TFS</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Visual-Studio-Code">Visual Studio Code</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86">情報採取手順</a><span class="tag-list-count">4</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/">情報採取手順</a><span class="tag-list-count">5</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/ALM">ALM</a><span class="tag-list-count">4</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/Azure-DevOps-Server">Azure DevOps Server</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/Azure-DevOps-Services">Azure DevOps Services</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/Azure-Pipelines">Azure Pipelines</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/TFS">TFS</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Windows-SDK/">Windows SDK</a><span class="tag-list-count">9</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Debug">Debug</a><span class="tag-list-count">5</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Documents-and-Printing">Documents and Printing</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/GDI">GDI</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Leak">Leak</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Windows-Update-Agent-API">Windows Update Agent API</a><span class="tag-list-count">2</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Debug/">Debug</a><span class="tag-list-count">15</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/NET">.NET</a><span class="tag-list-count">4</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/AI">AI</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Leak">Leak</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Memory">Memory</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Visual-Studio">Visual Studio</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Windows-SDK">Windows SDK</a><span class="tag-list-count">5</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/AI/">AI</a><span class="tag-list-count">3</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/AI/NET">.NET</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/AI/Debug">Debug</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/AI/Visual-Studio">Visual Studio</a><span class="tag-list-count">2</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/NET/">.NET</a><span class="tag-list-count">13</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/NET-Framework">.NET Framework</a><span class="tag-list-count">9</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/AI">AI</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/Debug">Debug</a><span class="tag-list-count">4</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Deployment/">Deployment</a><span class="tag-list-count">3</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Deployment/ClickOnce">ClickOnce</a><span class="tag-list-count">3</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E5%85%A8%E8%88%AC/">全般</a><span class="tag-list-count">1</span><ul></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Azure-PlayFab/">Azure PlayFab</a><span class="tag-list-count">4</span><ul></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Visual-Studio/">Visual Studio</a><span class="tag-list-count">14</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/AI">AI</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/C">C#</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/C">C++</a><span class="tag-list-count">5</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/Debug">Debug</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/VB-NET">VB.NET</a><span class="tag-list-count">2</span></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">アーカイブ</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/10/">2025 / 10</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/09/">2025 / 09</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/08/">2025 / 08</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/07/">2025 / 07</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/06/">2025 / 06</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/08/">2024 / 08</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/06/">2024 / 06</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/04/">2024 / 04</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/03/">2024 / 03</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/09/">2023 / 09</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/06/">2023 / 06</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/03/">2023 / 03</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/02/">2023 / 02</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/12/">2022 / 12</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/11/">2022 / 11</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/07/">2022 / 07</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/06/">2022 / 06</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/04/">2022 / 04</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/03/">2022 / 03</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/01/">2022 / 01</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/12/">2021 / 12</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/08/">2021 / 08</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/05/">2021 / 05</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/04/">2021 / 04</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/02/">2021 / 02</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/01/">2021 / 01</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/12/">2020 / 12</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/11/">2020 / 11</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/10/">2020 / 10</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/09/">2020 / 09</a><span class="archive-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">旧ブログ/フォーラム</h3>
+  <div class="widget">
+    <ul>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://social.msdn.microsoft.com/Forums/ja-jp/home?forum=visualstudiosupportteamja">Visual Studio サポートチーム フォーラム</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://social.msdn.microsoft.com/Forums/ja-jp/home?forum=windowssdksupportteamja&filter=alltypes&sort=lastpostdesc">Windows SDK サポートチーム フォーラム</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/archive/blogs/jpvsblog/">Visual Studio サポート チーム blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/archive/blogs/japan_platform_sdkwindows_sdk_support_team_blog/">JAPAN Platform SDK（Windows SDK） Support Team Blog</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">関連リンク</h3>
+  <div class="widget">
+    <ul>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://developercommunity.visualstudio.com/">Developer Community</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/dotnet/">.NET Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/visualstudio/">Visual Studio Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/cppblog/">C++ Team Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/xamarin/">Xamarin Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/devops/">Azure DevOps Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://techcommunity.microsoft.com/t5/azure-lab-services/bg-p/AzureLabServicesBlog/">Azure Lab Services Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/appcenter/">App Center Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://status.azure.com/status/">Azure Status</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://status.dev.azure.com/">Azure DevOps - Status</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2025 Developer Support Core Japan<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="../../index.html" class="mobile-nav-link">Home</a>
+  
+    <a href="../../archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+<script src="../../js/script.js"></script>
+
+
+<script src="../../js/toc.js"></script>
+
+
+
+
+
+<!-- Mermaid -->
+<script src="https://unpkg.com/mermaid@10.9.0/dist/mermaid.min.js"></script>
+<script>
+  mermaid.initialize({
+    startOnLoad: true,
+    theme: 'default'
+  });
+</script>
+
+
+  </div>
+</body>
+</html>

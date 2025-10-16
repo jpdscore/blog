@@ -6,7 +6,7 @@
   <link href="https://jpdscore.github.io/blog/atom.xml" rel="self"/>
   
   <link href="https://jpdscore.github.io/blog/"/>
-  <updated>2025-10-10T08:15:14.030Z</updated>
+  <updated>2025-10-16T17:39:45.803Z</updated>
   <id>https://jpdscore.github.io/blog/</id>
   
   <author>
@@ -17,11 +17,36 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>ClickOnce アプリケーションの起動を試みても反応しない事象について</title>
+    <link href="https://jpdscore.github.io/blog/deployment/nothing-happens-when-attempting-to-launch-clickonce-apps/"/>
+    <id>https://jpdscore.github.io/blog/deployment/nothing-happens-when-attempting-to-launch-clickonce-apps/</id>
+    <published>2025-10-16T15:00:00.000Z</published>
+    <updated>2025-10-16T17:39:45.803Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;こんにちは、Japan Developer Support Core チームの松井です。特定の状況下で ClickOnce</summary>
+        
+      
+    
+    
+    
+    
+    <category term="Deployment" scheme="https://jpdscore.github.io/blog/tags/Deployment/"/>
+    
+    <category term="ClickOnce" scheme="https://jpdscore.github.io/blog/tags/ClickOnce/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Visual Studio 2022 のライセンス認証について</title>
     <link href="https://jpdscore.github.io/blog/vs/vs2022-update-license/"/>
     <id>https://jpdscore.github.io/blog/vs/vs2022-update-license/</id>
     <published>2025-10-09T15:00:00.000Z</published>
-    <updated>2025-10-10T08:15:14.030Z</updated>
+    <updated>2025-10-16T17:39:45.825Z</updated>
     
     
       
@@ -45,7 +70,7 @@
     <link href="https://jpdscore.github.io/blog/vs/vs2022-requirement/"/>
     <id>https://jpdscore.github.io/blog/vs/vs2022-requirement/</id>
     <published>2025-10-02T15:00:00.000Z</published>
-    <updated>2025-10-10T08:15:14.030Z</updated>
+    <updated>2025-10-16T17:39:45.825Z</updated>
     
     
       
@@ -69,14 +94,15 @@
     <link href="https://jpdscore.github.io/blog/playfab/studio-creation-recommendation/"/>
     <id>https://jpdscore.github.io/blog/playfab/studio-creation-recommendation/</id>
     <published>2025-09-30T04:00:00.000Z</published>
-    <updated>2025-10-10T08:15:14.021Z</updated>
+    <updated>2025-10-16T17:39:45.816Z</updated>
     
     
       
       
         
         
-    <summary type="html">&lt;p&gt;こんにちは、Japan Developer Support Core チームの近澤です。&lt;br&gt;PlayFab</summary>
+    <summary type="html">&lt;p&gt;こんにちは、Japan Developer Support Core チームの近澤です。
+PlayFab</summary>
         
       
     
@@ -92,7 +118,7 @@
     <link href="https://jpdscore.github.io/blog/debugging/analyze-win32-heap-leak/"/>
     <id>https://jpdscore.github.io/blog/debugging/analyze-win32-heap-leak/</id>
     <published>2025-09-25T15:00:00.000Z</published>
-    <updated>2025-10-10T08:15:13.992Z</updated>
+    <updated>2025-10-16T17:39:45.783Z</updated>
     
     
       
@@ -118,14 +144,16 @@
     <link href="https://jpdscore.github.io/blog/dotnet/netfx-4-rollup/"/>
     <id>https://jpdscore.github.io/blog/dotnet/netfx-4-rollup/</id>
     <published>2025-09-23T15:00:00.000Z</published>
-    <updated>2025-10-10T08:15:14.019Z</updated>
+    <updated>2025-10-16T17:39:45.814Z</updated>
     
     
       
       
         
         
-    <summary type="html">&lt;p&gt;こんにちは、Japan Developer Support Core チームの上原です。&lt;br&gt;.NET Framework 4.x (.NET Framework 4 以降のバージョン) の更新プログラムについて解説させていただきます。&lt;br&gt;なお、.NET</summary>
+    <summary type="html">&lt;p&gt;こんにちは、Japan Developer Support Core チームの上原です。
+.NET Framework 4.x (.NET Framework 4 以降のバージョン) の更新プログラムについて解説させていただきます。
+なお、.NET Framework</summary>
         
       
     
@@ -143,7 +171,7 @@
     <link href="https://jpdscore.github.io/blog/vs/vc2015-compatibility/"/>
     <id>https://jpdscore.github.io/blog/vs/vc2015-compatibility/</id>
     <published>2025-09-11T15:00:00.000Z</published>
-    <updated>2025-10-10T08:15:14.029Z</updated>
+    <updated>2025-10-16T17:39:45.824Z</updated>
     
     
       
@@ -168,7 +196,7 @@
     <link href="https://jpdscore.github.io/blog/windowssdk/wuaapi-install-updates/"/>
     <id>https://jpdscore.github.io/blog/windowssdk/wuaapi-install-updates/</id>
     <published>2025-08-20T15:00:00.000Z</published>
-    <updated>2025-10-10T08:15:14.033Z</updated>
+    <updated>2025-10-16T17:39:45.828Z</updated>
     
     
       
@@ -194,14 +222,15 @@
     <link href="https://jpdscore.github.io/blog/vs/vs2015-support-retirement/"/>
     <id>https://jpdscore.github.io/blog/vs/vs2015-support-retirement/</id>
     <published>2025-08-19T15:00:00.000Z</published>
-    <updated>2025-10-10T08:15:14.030Z</updated>
+    <updated>2025-10-16T17:39:45.825Z</updated>
     
     
       
       
         
         
-    <summary type="html">&lt;p&gt;こんにちは。Developer Support Core チームの上原です。今回は 2025年 10月にせまった Visual Studio 2015 のサポート終了についてご紹介します。&lt;br&gt;なお、本ブログ記事は、&lt;a</summary>
+    <summary type="html">&lt;p&gt;こんにちは。Developer Support Core チームの上原です。今回は 2025年 10月にせまった Visual Studio 2015 のサポート終了についてご紹介します。
+なお、本ブログ記事は、&lt;a</summary>
         
       
     
@@ -217,7 +246,7 @@
     <link href="https://jpdscore.github.io/blog/debugging/mcp-server-for-dbgeng/"/>
     <id>https://jpdscore.github.io/blog/debugging/mcp-server-for-dbgeng/</id>
     <published>2025-08-17T15:00:00.000Z</published>
-    <updated>2025-10-10T08:15:14.003Z</updated>
+    <updated>2025-10-16T17:39:45.794Z</updated>
     
     
       
@@ -244,14 +273,16 @@
     <link href="https://jpdscore.github.io/blog/dotnet/netfx-4-compatibility/"/>
     <id>https://jpdscore.github.io/blog/dotnet/netfx-4-compatibility/</id>
     <published>2025-08-06T15:00:00.000Z</published>
-    <updated>2025-10-10T08:15:14.019Z</updated>
+    <updated>2025-10-16T17:39:45.814Z</updated>
     
     
       
       
         
         
-    <summary type="html">&lt;p&gt;こんにちは、Japan Developer Support Core チームの上原です。&lt;br&gt;.NET Framework 4.x (.NET Framework 4 以降のバージョン) に関する互換性について解説させていただきます。&lt;br&gt;なお、.NET</summary>
+    <summary type="html">&lt;p&gt;こんにちは、Japan Developer Support Core チームの上原です。
+.NET Framework 4.x (.NET Framework 4 以降のバージョン) に関する互換性について解説させていただきます。
+なお、.NET Framework</summary>
         
       
     
@@ -269,7 +300,7 @@
     <link href="https://jpdscore.github.io/blog/vs/vs-offline-install-certificate-error/"/>
     <id>https://jpdscore.github.io/blog/vs/vs-offline-install-certificate-error/</id>
     <published>2025-07-28T15:00:00.000Z</published>
-    <updated>2025-10-10T08:15:14.029Z</updated>
+    <updated>2025-10-16T17:39:45.824Z</updated>
     
     
       
@@ -292,14 +323,15 @@
     <link href="https://jpdscore.github.io/blog/playfab/dau-limit-exceeded/"/>
     <id>https://jpdscore.github.io/blog/playfab/dau-limit-exceeded/</id>
     <published>2025-07-23T15:00:00.000Z</published>
-    <updated>2025-10-10T08:15:14.021Z</updated>
+    <updated>2025-10-16T17:39:45.816Z</updated>
     
     
       
       
         
         
-    <summary type="html">&lt;p&gt;こんにちは、Japan Developer Support Core チームの近澤です。&lt;br&gt;PlayFab を利用しているタイトルにおいて、API 呼び出し時に以下のようなエラーが発生することがあります。&lt;/p&gt;
+    <summary type="html">&lt;p&gt;こんにちは、Japan Developer Support Core チームの近澤です。
+PlayFab を利用しているタイトルにおいて、API 呼び出し時に以下のようなエラーが発生することがあります。&lt;/p&gt;
 &lt;figure class=&quot;highlight</summary>
         
       
@@ -316,7 +348,7 @@
     <link href="https://jpdscore.github.io/blog/vs/vs2022-offline-install/"/>
     <id>https://jpdscore.github.io/blog/vs/vs2022-offline-install/</id>
     <published>2025-07-15T15:00:00.000Z</published>
-    <updated>2025-10-10T08:15:14.030Z</updated>
+    <updated>2025-10-16T17:39:45.825Z</updated>
     
     
       
@@ -340,7 +372,7 @@
     <link href="https://jpdscore.github.io/blog/vs/create-a-simple-app-with-ghcopilot/"/>
     <id>https://jpdscore.github.io/blog/vs/create-a-simple-app-with-ghcopilot/</id>
     <published>2025-07-13T15:00:00.000Z</published>
-    <updated>2025-10-10T08:15:14.022Z</updated>
+    <updated>2025-10-16T17:39:45.817Z</updated>
     
     
       
@@ -365,7 +397,7 @@
     <link href="https://jpdscore.github.io/blog/dotnet/memoryleak-using-sta-thread/"/>
     <id>https://jpdscore.github.io/blog/dotnet/memoryleak-using-sta-thread/</id>
     <published>2025-07-03T15:00:00.000Z</published>
-    <updated>2025-10-10T08:15:14.019Z</updated>
+    <updated>2025-10-16T17:39:45.814Z</updated>
     
     
       
@@ -390,7 +422,7 @@
     <link href="https://jpdscore.github.io/blog/vs/troubleshooting-application-error-with-ghcopilot/"/>
     <id>https://jpdscore.github.io/blog/vs/troubleshooting-application-error-with-ghcopilot/</id>
     <published>2025-07-03T15:00:00.000Z</published>
-    <updated>2025-10-10T08:15:14.025Z</updated>
+    <updated>2025-10-16T17:39:45.820Z</updated>
     
     
       
@@ -418,14 +450,16 @@
     <link href="https://jpdscore.github.io/blog/vs/vc-silent-install/"/>
     <id>https://jpdscore.github.io/blog/vs/vc-silent-install/</id>
     <published>2025-07-01T15:00:00.000Z</published>
-    <updated>2025-10-10T08:15:14.029Z</updated>
+    <updated>2025-10-16T17:39:45.824Z</updated>
     
     
       
       
         
         
-    <summary type="html">&lt;p&gt;こんにちは、Japan Developer Support Core チームの上原です。&lt;br&gt;今回は、Visual C++ 再頒布パッケージ(Redistributable) をコマンドでインストールする方法、サイレント</summary>
+    <summary type="html">&lt;p&gt;こんにちは、Japan Developer Support Core チームの上原です。
+今回は、Visual C++ 再頒布パッケージ(Redistributable) をコマンドでインストールする方法、サイレント インストールについてご案内します。&lt;/p&gt;
+&lt;h2</summary>
         
       
     
@@ -443,7 +477,7 @@
     <link href="https://jpdscore.github.io/blog/dotnet/netfx-how-to-repair/"/>
     <id>https://jpdscore.github.io/blog/dotnet/netfx-how-to-repair/</id>
     <published>2025-06-26T15:00:00.000Z</published>
-    <updated>2025-10-10T08:15:14.020Z</updated>
+    <updated>2025-10-16T17:39:45.815Z</updated>
     
     
       
@@ -469,7 +503,7 @@
     <link href="https://jpdscore.github.io/blog/windowssdk/mouse-ops-on-windows-forms-with-activex/"/>
     <id>https://jpdscore.github.io/blog/windowssdk/mouse-ops-on-windows-forms-with-activex/</id>
     <published>2024-08-02T08:03:08.000Z</published>
-    <updated>2025-10-10T08:15:14.032Z</updated>
+    <updated>2025-10-16T17:39:45.827Z</updated>
     
     
       
@@ -487,32 +521,6 @@
     <category term=".NET" scheme="https://jpdscore.github.io/blog/tags/NET/"/>
     
     <category term=".NET Framework" scheme="https://jpdscore.github.io/blog/tags/NET-Framework/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Azure DevOps Service Connection と Workload Identity Federation について</title>
-    <link href="https://jpdscore.github.io/blog/azuredevops/wif-service-connection/"/>
-    <id>https://jpdscore.github.io/blog/azuredevops/wif-service-connection/</id>
-    <published>2024-06-22T14:47:30.000Z</published>
-    <updated>2025-10-10T08:15:13.990Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;こんにちは、Japan Developer Support Core チームです🐶&lt;/p&gt;
-&lt;p&gt;Azure DevOps では、Service Principal の有効期限を気にすることなく、Service Connection</summary>
-        
-      
-    
-    
-    
-    
-    <category term="ALM" scheme="https://jpdscore.github.io/blog/tags/ALM/"/>
-    
-    <category term="Azure DevOps Services" scheme="https://jpdscore.github.io/blog/tags/Azure-DevOps-Services/"/>
     
   </entry>
   

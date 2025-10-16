@@ -103,6 +103,58 @@
       <div class="outer">
         <section id="main">
   
+    <article id="devops-azuredevops/wif-service-connection" class="article article-type-devops" itemscope itemprop="blogPost">
+
+  <div class="article-inner">
+    <!-- post date -->
+    <div class="article-meta">
+      <a href="../../azuredevops/wif-service-connection/" class="article-date">
+  <time datetime="2024-06-22T14:47:30.000Z" itemprop="datePublished">2024-06-22</time>
+</a>
+      
+    </div>
+
+    
+    <!-- post title -->
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="../../azuredevops/wif-service-connection/">Azure DevOps Service Connection と Workload Identity Federation について</a>
+    </h1>
+  
+
+      </header>
+    
+
+    <!-- post caption -->
+    <div class="article-entry" itemprop="articleBody">
+      
+        こんにちは、Japan Developer Support Core チームです🐶
+Azure DevOps では、Service Principal の有効期限を気にすることなく、Service Connection を管理できる新機能が追加されました。今回は、この便利な機能、Workload Identity Federation を使用した Service Connection についてご紹介します。
+
+Workload Identity Federation とは
+Azure DevOps における Service Connection の認証方法に革命をもたらす Workload Identity Federation が、Azure Resource Manager タイプの Service Connection で利用可能になりました。これは、Azure Pipelines...
+        <p class="article-readmore">
+          <a href="../../azuredevops/wif-service-connection/">Read more</a>
+        </p>
+      
+    </div>
+
+    <footer class="article-footer">
+      <!--a data-url="https://jpdscore.github.io/blog/azuredevops/wif-service-connection/" data-id="cmgtpgacr000qjf3v583k7mjx" class="article-share-link">共有</a-->
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/ALM/" rel="tag">ALM</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Azure-DevOps-Services/" rel="tag">Azure DevOps Services</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="devops-azuredevops/service-connection-update" class="article article-type-devops" itemscope itemprop="blogPost">
 
   <div class="article-inner">
@@ -131,11 +183,13 @@
     <!-- post caption -->
     <div class="article-entry" itemprop="articleBody">
       
-        こんにちは、Japan Developer Support Core チームです🐶今回は、Azure DevOps Service Connection についてのお話です。
-Azure DevOps での CI/CD パイプラインは、外部サービスとの連携が不可欠です。Service Connection は、これらの外部サービスへのアクセスポイントとして中心的な役割を果たしており、その期限切れはパイプラインの実行に大きな支障をきたす可能性があります。本記事では、Azure Resource Manager タイプの Service Connection (以降 Service Connection) の期限切れに迅速かつ正確に対処するためのベスト プラクティスをご紹介します。
+        こんにちは、Japan Developer Support Core チームです🐶
+今回は、Azure DevOps Service Connection についてのお話です。
+Azure DevOps での CI/CD パイプラインは、外部サービスとの連携が不可欠です。Service Connection は、これらの外部サービスへのアクセスポイントとして中心的な役割を果たしており、その期限切れはパイプラインの実行に大きな支障をきたす可能性があります。
+本記事では、Azure Resource Manager タイプの Service Connection (以降 Service Connection) の期限切れに迅速かつ正確に対処するためのベスト プラクティスをご紹介します。
 
 Service Connection の重要性と期限切れのリスク
-Azure DevOps のパイプラインは...
+Azure DevOps のパイプライ...
         <p class="article-readmore">
           <a href="../../azuredevops/service-connection-update/">Read more</a>
         </p>
@@ -143,7 +197,7 @@ Azure DevOps のパイプラインは...
     </div>
 
     <footer class="article-footer">
-      <!--a data-url="https://jpdscore.github.io/blog/azuredevops/service-connection-update/" data-id="cmgkkn50p000dj63v691xe18o" class="article-share-link">共有</a-->
+      <!--a data-url="https://jpdscore.github.io/blog/azuredevops/service-connection-update/" data-id="cmgtpgacn000djf3v89vjdqc0" class="article-share-link">共有</a-->
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/ALM/" rel="tag">ALM</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Azure-DevOps-Services/" rel="tag">Azure DevOps Services</a></li></ul>
@@ -185,7 +239,8 @@ Azure DevOps のパイプラインは...
       
         こんにちは、Japan Developer Support Core チームです🐶
 今日は Azure DevOps における縁の下の力持ちである Azure Pipelines エージェントの更新についてのお話です。
-Azure Pipelines エージェントは、Azure Pipelines と連携してビルドやデプロイを行うプログラムであり、Azure DevOps では、数週間おきに新しいバージョンの Agent プログラムをリリースしています。Microsoft-hosted agent は自動更新されるため、常に最新の状態を保っています。一方、Azure Virtual Machine Scale Set agent や Self-hosted agent は既定で自動更新されますが、この設定を変更して自動更新を停止することも可能です。ただし、エージェントは最新バージョンのみ...
+Azure Pipelines エージェントは、Azure Pipelines と連携してビルドやデプロイを行うプログラムであり、Azure DevOps では、数週間おきに新しいバージョンの Agent プログラムをリリースしています。Microsoft-hosted agent は自動更新されるため、常に最新の状態を保っています。一方、Azure Virtual Machine Scale Set agent や Self-hosted agent は既定で自動更新されますが、この設定を変更して自動更新を停止することも可能です。
+ただし、エージェントは最新バージョンの...
         <p class="article-readmore">
           <a href="../../azuredevops/pipelines-agent-update/">Read more</a>
         </p>
@@ -193,7 +248,7 @@ Azure Pipelines エージェントは、Azure Pipelines と連携してビルド
     </div>
 
     <footer class="article-footer">
-      <!--a data-url="https://jpdscore.github.io/blog/azuredevops/pipelines-agent-update/" data-id="cmgkkn50l0007j63vht6a7ep7" class="article-share-link">共有</a-->
+      <!--a data-url="https://jpdscore.github.io/blog/azuredevops/pipelines-agent-update/" data-id="cmgtpgach0007jf3v653b2njd" class="article-share-link">共有</a-->
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/ALM/" rel="tag">ALM</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Azure-DevOps-Services/" rel="tag">Azure DevOps Services</a></li></ul>
@@ -234,9 +289,11 @@ Azure Pipelines エージェントは、Azure Pipelines と連携してビルド
     <div class="article-entry" itemprop="articleBody">
       
         こんにちは、Japan Developer Support Core チームです🗻いつも Team Foundation Server / Azure DevOps Server をご利用いただき、ありがとうございます。  
-突然ですが、Azure DevOps にはオンプレミス版とクラウド版の 2 種類の製品があることをご存じでしょうか？・Azure DevOps Services (クラウド版)・Azure DevOps Server または Team Foundation Server (オンプレミス版)
+突然ですが、Azure DevOps にはオンプレミス版とクラウド版の 2 種類の製品があることをご存じでしょうか？
+・Azure DevOps Services (クラウド版)
+・Azure DevOps Server または Team Foundation Server (オンプレミス版)
 今回の記事ではオンプレミス版である Team Foundation Server / Azure DevOps Server 全般で生じた問題におけるトラブルシューティング用のデータ採取方法についてご紹介していきます。
-もし現在クラウド版をご利用の方は、別途トラブルシューティング...
+もし現在クラウド版をご利用の方は、別途トラブルシューティ...
         <p class="article-readmore">
           <a href="../../azuredevops/tfs-basic-log-collection/">Read more</a>
         </p>
@@ -244,7 +301,7 @@ Azure Pipelines エージェントは、Azure Pipelines と連携してビルド
     </div>
 
     <footer class="article-footer">
-      <!--a data-url="https://jpdscore.github.io/blog/azuredevops/tfs-basic-log-collection/" data-id="cmgkkn50r000ij63vfpm423bp" class="article-share-link">共有</a-->
+      <!--a data-url="https://jpdscore.github.io/blog/azuredevops/tfs-basic-log-collection/" data-id="cmgtpgacp000ijf3v80ay3bcy" class="article-share-link">共有</a-->
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/ALM/" rel="tag">ALM</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Azure-DevOps-Server/" rel="tag">Azure DevOps Server</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/TFS/" rel="tag">TFS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/" rel="tag">情報採取手順</a></li></ul>
@@ -285,9 +342,11 @@ Azure Pipelines エージェントは、Azure Pipelines と連携してビルド
     <div class="article-entry" itemprop="articleBody">
       
         こんにちは、Japan Developer Support Core チームの近澤です。
-WSUS から Windows Update を配信する構成は、Windows Update Agent (WUA) API を使用してスクリプトから実行することが可能です。これにより、配信する更新プログラムの検索、選定、ダウンロード、インストールを自動化することができます。
+WSUS から Windows Update を配信する構成は、Windows Update Agent (WUA) API を使用してスクリプトから実行することが可能です。
+これにより、配信する更新プログラムの検索、選定、ダウンロード、インストールを自動化することができます。
 Windows Update エージェント API - Win32 apps | Microsoft Learn
-さて、組織で更新プログラムを管理する際、検証環境と本番環境を分け、十分に検証を実施した後に、本番環境に同じ更新プログラムを当てたい、という要望がよくあります。WUA API の使用例は、下記ドキュメントなどにありますが、この例では、スクリプトの中で検索、ダウンロード、インストールをひとまとめにして実施しています。その...
+さて、組織で更新プログラムを管理する際、検証環境と本番環境を分け、十分に検証を実施した後に、本番環境に同じ更新プログラムを当てたい、という要望がよくあります。
+WUA API の使用例は、下記ドキュメントなどにありますが、この例では、スクリプトの中で検索、ダウンロード、インストールをひとまとめにして実施しています。...
         <p class="article-readmore">
           <a href="../../windowssdk/wuaapi-install-later/">Read more</a>
         </p>
@@ -295,7 +354,7 @@ Windows Update エージェント API - Win32 apps | Microsoft Learn
     </div>
 
     <footer class="article-footer">
-      <!--a data-url="https://jpdscore.github.io/blog/windowssdk/wuaapi-install-later/" data-id="cmgkkn522003uj63vh93858by" class="article-share-link">共有</a-->
+      <!--a data-url="https://jpdscore.github.io/blog/windowssdk/wuaapi-install-later/" data-id="cmgtpgadx003vjf3v9fpdakax" class="article-share-link">共有</a-->
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Windows-SDK/" rel="tag">Windows SDK</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Windows-Update-Agent-API/" rel="tag">Windows Update Agent API</a></li></ul>
@@ -335,11 +394,15 @@ Windows Update エージェント API - Win32 apps | Microsoft Learn
     <!-- post caption -->
     <div class="article-entry" itemprop="articleBody">
       
-        こんにちは、Japan Developer Support Core チームです🗻サポートにはよく「Azure VM の自動シャットダウンを設定する際に必要な最小権限」についてお問合せがあります。最初に結論を書きますが、残念ながら自動シャットダウンのみを設定するための権限は用意されていません。自動シャットダウンの設定を行う際は、以下の 2 種類の権限が必要です。
+        こんにちは、Japan Developer Support Core チームです🗻
+サポートにはよく「Azure VM の自動シャットダウンを設定する際に必要な最小権限」についてお問合せがあります。
+最初に結論を書きますが、残念ながら自動シャットダウンのみを設定するための権限は用意されていません。
+自動シャットダウンの設定を行う際は、以下の 2 種類の権限が必要です。
 　1. 自動シャットダウンの設定リソースに対する権限　2. Azure VM に対する権限  
 
 1. 自動シャットダウンの設定リソースに対する権限
-Azure VM の自動シャットダウン機能は、内部的に Azure DevTest Labs と呼ばれるサービスの Schedule 機能を利用しています。そのため、自動シャットダウンの設定を行う際は、Microsoft.DevTestLab/schedules/* に対する権限が...
+Azure VM の自動シャットダウン機能は、内部的に Azure DevTest Labs と呼ばれるサービスの Schedule 機能を利用しています。
+そのため、自動シャットダウンの設定を行う際は、Microsoft.DevTestLab/schedules/* に対す...
         <p class="article-readmore">
           <a href="../../devtestlabs/auto-shutdown-permission/">Read more</a>
         </p>
@@ -347,7 +410,7 @@ Azure VM の自動シャットダウン機能は、内部的に Azure DevTest La
     </div>
 
     <footer class="article-footer">
-      <!--a data-url="https://jpdscore.github.io/blog/devtestlabs/auto-shutdown-permission/" data-id="cmgkkn517001rj63v0ogmguz9" class="article-share-link">共有</a-->
+      <!--a data-url="https://jpdscore.github.io/blog/devtestlabs/auto-shutdown-permission/" data-id="cmgtpgad3001ujf3v6svp126b" class="article-share-link">共有</a-->
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Azure-DevTest-Labs/" rel="tag">Azure DevTest Labs</a></li></ul>
@@ -388,14 +451,16 @@ Azure VM の自動シャットダウン機能は、内部的に Azure DevTest La
     <div class="article-entry" itemprop="articleBody">
       
         こんにちは、Japan Developer Support Core チームです🐈
-今回は Azure DevOps でよくお問い合わせいただくサインインのトラブルシューティング ガイドについてのご案内をします。サインインが失敗するシナリオや要因には様々なものがあります。以下はその一例です。
+今回は Azure DevOps でよくお問い合わせいただくサインインのトラブルシューティング ガイドについてのご案内をします。
+サインインが失敗するシナリオや要因には様々なものがあります。以下はその一例です。
 
 ユーザーが複数の Azure AD に参加している場合
 ゲスト ユーザーとして組織に招待されている場合
 Azure AD の条件付きアクセス ポリシーによって、認証が通らない場合
 
 いくつかのシナリオにわけてトラブルシューティング ガイドをご紹介しますので、サインインのトラブル解決 SOS としてお役立てください。
-最初のトラブルシューティングサインインのトラブルシューティングで最初に試してほしい手順をご紹介します。サインインが失敗する問題の多くはブラウザの Cookie の影響によって発生し、以...
+最初のトラブルシューティングサインインのトラブルシューティングで最初に試してほしい手順をご紹介します。
+サインインが失敗する問題の多くはブラウザの Cookie の影響によって発生し...
         <p class="article-readmore">
           <a href="../../azuredevops/signin-401-403-tsg/">Read more</a>
         </p>
@@ -403,7 +468,7 @@ Azure AD の条件付きアクセス ポリシーによって、認証が通ら�
     </div>
 
     <footer class="article-footer">
-      <!--a data-url="https://jpdscore.github.io/blog/azuredevops/signin-401-403-tsg/" data-id="cmgkkn50q000gj63vf58hhe6a" class="article-share-link">共有</a-->
+      <!--a data-url="https://jpdscore.github.io/blog/azuredevops/signin-401-403-tsg/" data-id="cmgtpgaco000gjf3vf10ram2s" class="article-share-link">共有</a-->
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/ALM/" rel="tag">ALM</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/" rel="tag">情報採取手順</a></li></ul>
@@ -444,8 +509,13 @@ Azure AD の条件付きアクセス ポリシーによって、認証が通ら�
     <div class="article-entry" itemprop="articleBody">
       
         こんにちは、Japan Developer Support Core チームです。
-今回は AddPrinter 関数によりプリンタを追加したときに、アクセス権の無いユーザーに対してプリンタが一時的に表示される可能性についてご案内いたします。AddPrinter関数は、パラメータの1つである PRINTER_INFO2構造体のpSecurityDescripterメンバ変数に、プリンタを利用するユーザーのアクセス権を指定することができます。通常、アクセス権の無いユーザーがログインしてもプリンタが表示されることはありませんが、以下の手順においてプリンタが表示されることがあります。
--　再現手順　1. ユーザーA、ユーザーBで、同一のリモートデスクトップサーバーにリモートデスクトップ接続します。　2. ユーザーAでメモ帳などのアプリを起動し、印刷ダイアログを表示します。　3. ユーザーBで A...
+今回は AddPrinter 関数によりプリンタを追加したときに、アクセス権の無いユーザーに対してプリンタが一時的に表示される可能性についてご案内いたします。
+AddPrinter関数は、パラメータの1つである PRINTER_INFO2構造体のpSecurityDescripterメンバ変数に、プリンタを利用するユーザーのアクセス権を指定することができます。
+通常、アクセス権の無いユーザーがログインしてもプリンタが表示されることはありませんが、以下の手順においてプリンタが表示されることがあります。
+-　再現手順
+　1. ユーザーA、ユーザーBで、同一のリモートデスクトップサーバーにリモートデスクトップ接続します。
+　2. ユーザーAでメモ帳などのアプリを起動し、印刷ダイアログを表示します。
+　3. ユーザ...
         <p class="article-readmore">
           <a href="../../windowssdk/printer-temporarily-appears-when-use-addprinter-function/">Read more</a>
         </p>
@@ -453,7 +523,7 @@ Azure AD の条件付きアクセス ポリシーによって、認証が通ら�
     </div>
 
     <footer class="article-footer">
-      <!--a data-url="https://jpdscore.github.io/blog/windowssdk/printer-temporarily-appears-when-use-addprinter-function/" data-id="cmgkkn521003rj63v6p6sgy3w" class="article-share-link">共有</a-->
+      <!--a data-url="https://jpdscore.github.io/blog/windowssdk/printer-temporarily-appears-when-use-addprinter-function/" data-id="cmgtpgadw003ujf3v8fy4dxpj" class="article-share-link">共有</a-->
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Documents-and-Printing/" rel="tag">Documents and Printing</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Windows-SDK/" rel="tag">Windows SDK</a></li></ul>
@@ -528,7 +598,7 @@ Client ...
     </div>
 
     <footer class="article-footer">
-      <!--a data-url="https://jpdscore.github.io/blog/playfab/order-of-leaderboard-positions/" data-id="cmgkkn51h002oj63v0ra2a45t" class="article-share-link">共有</a-->
+      <!--a data-url="https://jpdscore.github.io/blog/playfab/order-of-leaderboard-positions/" data-id="cmgtpgadb002qjf3v07q9coyx" class="article-share-link">共有</a-->
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Azure-PlayFab/" rel="tag">Azure PlayFab</a></li></ul>
@@ -573,7 +643,8 @@ Client ...
 
 こんにちは、Japan Developer Support Core チームです🐈
 今日は Azure Pipelines で利用する Service connection (Azure service connection) の Service principal を Managed identity に移行する手順をご紹介します。
-Managed identity にはいくつかのメリットがありますが、 Azure Pipelines の観点における最大のメリットは有効期限の延長が不要であることではないでしょうか。Service principal はセキュリティの都合から最大 2 年間の有効期限があるため定期的なキーローテーションが必要となっており、有効期...
+Managed identity にはいくつかのメリットがありますが、 Azure Pipelines の観点における最大のメリットは有効期限の延長が不要であることではないでしょうか。
+Service principal はセキュリティの都合から最大 2 年間の有効期限があるため定期的なキーローテーションが必要となっており、有効...
         <p class="article-readmore">
           <a href="../../azuredevops/migrate-sp-to-mi/">Read more</a>
         </p>
@@ -581,59 +652,10 @@ Managed identity にはいくつかのメリットがありますが、 Azure Pi
     </div>
 
     <footer class="article-footer">
-      <!--a data-url="https://jpdscore.github.io/blog/azuredevops/migrate-sp-to-mi/" data-id="cmgkkn50k0005j63v80p04l6a" class="article-share-link">共有</a-->
+      <!--a data-url="https://jpdscore.github.io/blog/azuredevops/migrate-sp-to-mi/" data-id="cmgtpgacg0005jf3v716m1rcc" class="article-share-link">共有</a-->
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/ALM/" rel="tag">ALM</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Azure-DevOps-Services/" rel="tag">Azure DevOps Services</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Azure-Pipelines/" rel="tag">Azure Pipelines</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-dotnet/ndp-upgrade-and-downgrade" class="article article-type-post" itemscope itemprop="blogPost">
-
-  <div class="article-inner">
-    <!-- post date -->
-    <div class="article-meta">
-      <a href="../../dotnet/ndp-upgrade-and-downgrade/" class="article-date">
-  <time datetime="2022-11-02T09:00:00.000Z" itemprop="datePublished">2022-11-02</time>
-</a>
-      
-    </div>
-
-    
-    <!-- post title -->
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="../../dotnet/ndp-upgrade-and-downgrade/">.NET Framework 4.x のアップグレード及びダウングレード</a>
-    </h1>
-  
-
-      </header>
-    
-
-    <!-- post caption -->
-    <div class="article-entry" itemprop="articleBody">
-      
-        はじめにこんにちは、Japan Developer Support Core チームの近澤です。.NET Framework 4 以降のバージョンでは、以前 .NET Framework の各バージョン同士の関係 でもご説明しております通り、インプレース更新されます。このインプレース更新によるシステムやアプリケーションへの影響や、万が一問題が発生した際のダウングレード方法について、複数のお客様よりよくお問い合わせいただく内容について下記にお纏めいたします。
-インプレース更新とその影響について.NET Framework 4.x は、インプレース更新され、以前のバージョンが新しいバージョンで置き換えられる形となります。その際、以前のバージョンをアンインストールするなどの対応は不要です。また、複数の .NET Framework 4.x (4.6.2 と 4.8 など) の共存についてご質問い...
-        <p class="article-readmore">
-          <a href="../../dotnet/ndp-upgrade-and-downgrade/">Read more</a>
-        </p>
-      
-    </div>
-
-    <footer class="article-footer">
-      <!--a data-url="https://jpdscore.github.io/blog/dotnet/ndp-upgrade-and-downgrade/" data-id="cmgkkn51a0023j63v41u997r4" class="article-share-link">共有</a-->
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/NET/" rel="tag">.NET</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/NET-Framework/" rel="tag">.NET Framework</a></li></ul>
 
     </footer>
   </div>
@@ -659,6 +681,10 @@ Managed identity にはいくつかのメリットがありますが、 Azure Pi
       <ul>
         
           <li>
+            <a href="../../deployment/nothing-happens-when-attempting-to-launch-clickonce-apps/">ClickOnce アプリケーションの起動を試みても反応しない事象について</a>
+          </li>
+        
+          <li>
             <a href="../../vs/vs2022-update-license/">Visual Studio 2022 のライセンス認証について</a>
           </li>
         
@@ -682,10 +708,6 @@ Managed identity にはいくつかのメリットがありますが、 Azure Pi
             <a href="../../vs/vc2015-compatibility/">Visual C++ の互換性について(Visual C++ 2015 以降)</a>
           </li>
         
-          <li>
-            <a href="../../windowssdk/wuaapi-install-updates/">Windows Update Agent API を使用して更新プログラムを検索、ダウンロード、インストールする</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -695,7 +717,7 @@ Managed identity にはいくつかのメリットがありますが、 Azure Pi
   <div class="widget-wrap">
     <h3 class="widget-title">タグ</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="../../tags/ALM/">ALM</a><span class="tag-list-count">15</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-DevOps-Server">Azure DevOps Server</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-DevOps-Services">Azure DevOps Services</a><span class="tag-list-count">7</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-Pipelines">Azure Pipelines</a><span class="tag-list-count">6</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-Repos">Azure Repos</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Devcontainer">Devcontainer</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/GitHub">GitHub</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/TFS">TFS</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Visual-Studio-Code">Visual Studio Code</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86">情報採取手順</a><span class="tag-list-count">4</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/">情報採取手順</a><span class="tag-list-count">5</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/ALM">ALM</a><span class="tag-list-count">4</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/Azure-DevOps-Server">Azure DevOps Server</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/Azure-DevOps-Services">Azure DevOps Services</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/Azure-Pipelines">Azure Pipelines</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/TFS">TFS</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Windows-SDK/">Windows SDK</a><span class="tag-list-count">9</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Debug">Debug</a><span class="tag-list-count">5</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Documents-and-Printing">Documents and Printing</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/GDI">GDI</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Leak">Leak</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Windows-Update-Agent-API">Windows Update Agent API</a><span class="tag-list-count">2</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Debug/">Debug</a><span class="tag-list-count">15</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/NET">.NET</a><span class="tag-list-count">4</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/AI">AI</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Leak">Leak</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Memory">Memory</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Visual-Studio">Visual Studio</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Windows-SDK">Windows SDK</a><span class="tag-list-count">5</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/AI/">AI</a><span class="tag-list-count">3</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/AI/NET">.NET</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/AI/Debug">Debug</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/AI/Visual-Studio">Visual Studio</a><span class="tag-list-count">2</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/NET/">.NET</a><span class="tag-list-count">13</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/NET-Framework">.NET Framework</a><span class="tag-list-count">9</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/AI">AI</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/Debug">Debug</a><span class="tag-list-count">4</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Deployment/">Deployment</a><span class="tag-list-count">2</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Deployment/ClickOnce">ClickOnce</a><span class="tag-list-count">2</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E5%85%A8%E8%88%AC/">全般</a><span class="tag-list-count">1</span><ul></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Azure-PlayFab/">Azure PlayFab</a><span class="tag-list-count">4</span><ul></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Visual-Studio/">Visual Studio</a><span class="tag-list-count">14</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/AI">AI</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/C">C#</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/C">C++</a><span class="tag-list-count">5</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/Debug">Debug</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/VB-NET">VB.NET</a><span class="tag-list-count">2</span></li></ul></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="../../tags/ALM/">ALM</a><span class="tag-list-count">15</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-DevOps-Server">Azure DevOps Server</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-DevOps-Services">Azure DevOps Services</a><span class="tag-list-count">7</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-Pipelines">Azure Pipelines</a><span class="tag-list-count">6</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-Repos">Azure Repos</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Devcontainer">Devcontainer</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/GitHub">GitHub</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/TFS">TFS</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Visual-Studio-Code">Visual Studio Code</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86">情報採取手順</a><span class="tag-list-count">4</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/">情報採取手順</a><span class="tag-list-count">5</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/ALM">ALM</a><span class="tag-list-count">4</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/Azure-DevOps-Server">Azure DevOps Server</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/Azure-DevOps-Services">Azure DevOps Services</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/Azure-Pipelines">Azure Pipelines</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/TFS">TFS</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Windows-SDK/">Windows SDK</a><span class="tag-list-count">9</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Debug">Debug</a><span class="tag-list-count">5</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Documents-and-Printing">Documents and Printing</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/GDI">GDI</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Leak">Leak</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Windows-Update-Agent-API">Windows Update Agent API</a><span class="tag-list-count">2</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Debug/">Debug</a><span class="tag-list-count">15</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/NET">.NET</a><span class="tag-list-count">4</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/AI">AI</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Leak">Leak</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Memory">Memory</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Visual-Studio">Visual Studio</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Windows-SDK">Windows SDK</a><span class="tag-list-count">5</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/AI/">AI</a><span class="tag-list-count">3</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/AI/NET">.NET</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/AI/Debug">Debug</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/AI/Visual-Studio">Visual Studio</a><span class="tag-list-count">2</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/NET/">.NET</a><span class="tag-list-count">13</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/NET-Framework">.NET Framework</a><span class="tag-list-count">9</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/AI">AI</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/Debug">Debug</a><span class="tag-list-count">4</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Deployment/">Deployment</a><span class="tag-list-count">3</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Deployment/ClickOnce">ClickOnce</a><span class="tag-list-count">3</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E5%85%A8%E8%88%AC/">全般</a><span class="tag-list-count">1</span><ul></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Azure-PlayFab/">Azure PlayFab</a><span class="tag-list-count">4</span><ul></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Visual-Studio/">Visual Studio</a><span class="tag-list-count">14</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/AI">AI</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/C">C#</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/C">C++</a><span class="tag-list-count">5</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/Debug">Debug</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/VB-NET">VB.NET</a><span class="tag-list-count">2</span></li></ul></li></ul>
     </div>
   </div>
 
@@ -705,7 +727,7 @@ Managed identity にはいくつかのメリットがありますが、 Azure Pi
   <div class="widget-wrap">
     <h3 class="widget-title">アーカイブ</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/10/">2025 / 10</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/09/">2025 / 09</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/08/">2025 / 08</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/07/">2025 / 07</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/06/">2025 / 06</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/08/">2024 / 08</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/06/">2024 / 06</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/04/">2024 / 04</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/03/">2024 / 03</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/09/">2023 / 09</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/06/">2023 / 06</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/03/">2023 / 03</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/02/">2023 / 02</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/12/">2022 / 12</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/11/">2022 / 11</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/07/">2022 / 07</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/06/">2022 / 06</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/04/">2022 / 04</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/03/">2022 / 03</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/01/">2022 / 01</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/12/">2021 / 12</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/08/">2021 / 08</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/05/">2021 / 05</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/04/">2021 / 04</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/02/">2021 / 02</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/01/">2021 / 01</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/12/">2020 / 12</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/11/">2020 / 11</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/10/">2020 / 10</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/09/">2020 / 09</a><span class="archive-list-count">4</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/10/">2025 / 10</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/09/">2025 / 09</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/08/">2025 / 08</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/07/">2025 / 07</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/06/">2025 / 06</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/08/">2024 / 08</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/06/">2024 / 06</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/04/">2024 / 04</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/03/">2024 / 03</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/09/">2023 / 09</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/06/">2023 / 06</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/03/">2023 / 03</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/02/">2023 / 02</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/12/">2022 / 12</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/11/">2022 / 11</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/07/">2022 / 07</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/06/">2022 / 06</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/04/">2022 / 04</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/03/">2022 / 03</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/01/">2022 / 01</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/12/">2021 / 12</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/08/">2021 / 08</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/05/">2021 / 05</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/04/">2021 / 04</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/02/">2021 / 02</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/01/">2021 / 01</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/12/">2020 / 12</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/11/">2020 / 11</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/10/">2020 / 10</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/09/">2020 / 09</a><span class="archive-list-count">4</span></li></ul>
     </div>
   </div>
 
@@ -816,6 +838,8 @@ Managed identity にはいくつかのメリットがありますが、 Azure Pi
 
 
 <script src="../../js/toc.js"></script>
+
+
 
 
 
