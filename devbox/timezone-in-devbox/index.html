@@ -4,26 +4,20 @@
   <meta charset="utf-8">
   
   
-  <title>Azure DevOps Service Connection と Workload Identity Federation について | JPDSC Blog</title>
+  <title>Dev Box のタイムゾーンの動作と注意点 | JPDSC Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="こんにちは、Japan Developer Support Core チームです🐶 Azure DevOps では、Service Principal の有効期限を気にすることなく、Service Connection を管理できる新機能が追加されました。今回は、この便利な機能、Workload">
+  <meta name="description" content="こんにちは、Japan Developer Support Core チームの松井です。 今回は、Microsoft Dev Box を利用する際に注意が必要なタイムゾーンの動作と設定について解説します。 問題の概要Dev Box で利用できる標準のイメージは 協定世界時 (Coordinated">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Azure DevOps Service Connection と Workload Identity Federation について">
-<meta property="og:url" content="https://jpdscore.github.io/blog/azuredevops/wif-service-connection/index.html">
+<meta property="og:title" content="Dev Box のタイムゾーンの動作と注意点">
+<meta property="og:url" content="https://jpdscore.github.io/blog/devbox/timezone-in-devbox/index.html">
 <meta property="og:site_name" content="Japan Developer Support Core Team Blog">
-<meta property="og:description" content="こんにちは、Japan Developer Support Core チームです🐶 Azure DevOps では、Service Principal の有効期限を気にすることなく、Service Connection を管理できる新機能が追加されました。今回は、この便利な機能、Workload">
+<meta property="og:description" content="こんにちは、Japan Developer Support Core チームの松井です。 今回は、Microsoft Dev Box を利用する際に注意が必要なタイムゾーンの動作と設定について解説します。 問題の概要Dev Box で利用できる標準のイメージは 協定世界時 (Coordinated">
 <meta property="og:locale" content="ja_JP">
-<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/wif-service-connection/pic0.png">
-<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/wif-service-connection/pic1.png">
-<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/wif-service-connection/pic2.png">
-<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/wif-service-connection/pic3.png">
-<meta property="article:published_time" content="2024-06-22T14:47:30.000Z">
-<meta property="article:modified_time" content="2025-10-31T14:50:19.371Z">
+<meta property="article:published_time" content="2025-10-30T15:00:00.000Z">
+<meta property="article:modified_time" content="2025-10-31T14:50:19.397Z">
 <meta property="article:author" content="Developer Support Core Japan">
-<meta property="article:tag" content="ALM">
-<meta property="article:tag" content="Azure DevOps Services">
+<meta property="article:tag" content="Dev Box">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://jpdscore.github.io/blog/azuredevops/wif-service-connection/pic0.png">
   
     <link rel="alternate" href="/blog/atom.xml" title="Japan Developer Support Core Team Blog" type="application/atom+xml">
   
@@ -86,7 +80,7 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="devops-azuredevops/wif-service-connection" class="article article-type-devops" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-devbox/timezone-in-devbox" class="article article-type-post" itemscope itemprop="blogPost">
   
     <aside id="toc" role="complementary" aria-label="Table of Contents"></aside>
   
@@ -98,7 +92,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Azure DevOps Service Connection と Workload Identity Federation について
+      Dev Box のタイムゾーンの動作と注意点
     </h1>
   
 
@@ -106,7 +100,7 @@
       <div class="article-share">
         Last Update: 
         <a href="" class="article-date-single">
-  <time datetime="2024-06-22T14:47:30.000Z" itemprop="datePublished">2024-06-22</time>
+  <time datetime="2025-10-30T15:00:00.000Z" itemprop="datePublished">2025-10-31</time>
 </a>
         
         <div class="article-share-buttons">
@@ -114,7 +108,7 @@
         </div>
         <div class="article-share-buttons">
           <script src="https://platform.linkedin.com/in.js" type="text/javascript">lang: ja_JP</script>
-          <script type="IN/Share" data-url="https://jpdscore.github.io/blog/azuredevops/wif-service-connection/"></script>
+          <script type="IN/Share" data-url="https://jpdscore.github.io/blog/devbox/timezone-in-devbox/"></script>
         </div>
         <div class="article-share-buttons">
           <a target="_blank" rel="noopener" href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
@@ -123,63 +117,52 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>こんにちは、Japan Developer Support Core チームです🐶</p>
-<p>Azure DevOps では、Service Principal の有効期限を気にすることなく、Service Connection を管理できる新機能が追加されました。今回は、この便利な機能、Workload Identity Federation を使用した Service Connection についてご紹介します。</p>
-<hr>
-<h2 id="Workload-Identity-Federation-とは"><a href="#Workload-Identity-Federation-とは" class="headerlink" title="Workload Identity Federation とは"></a>Workload Identity Federation とは</h2><hr>
-<p>Azure DevOps における Service Connection の認証方法に革命をもたらす Workload Identity Federation が、Azure Resource Manager タイプの Service Connection で利用可能になりました。これは、Azure Pipelines と Azure リソース間の認証プロセスを効率化し、セキュリティを強化する画期的なステップです。</p>
-<p>従来の Service Connection では、Service Principal のクライアント シークレットの管理がセキュリティ上の大きな課題となっていました。これに対する唯一の代替手段は、マネージド ID を用いて Self-hosted agent を運用することでした。しかし、Workload Identity Federation の登場により、このような制約から解放されることになります。</p>
-<p>OpenID Connect (OIDC) を駆使した Workload Identity Federation は、有効期間が短いトークンを使用し、Azure への認証を行うことで、セキュリティリスクを軽減します。これにより、シークレットの共有や管理の必要がなくなり、DevOps の運用がより安全かつスムーズになります。</p>
-<p>Workload Identity federation の詳細については、<a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/entra/workload-id/workload-identity-federation">Workload Identity Federation</a> や <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/devops/public-preview-of-workload-identity-federation-for-azure-pipelines/">Public preview of Workload identity federation for Azure Pipelines</a> で紹介しています。
-また、マネージド ID を使用した Service Connection については、<a href="https://jpdscore.github.io/blog/azuredevops/migrate-sp-to-mi/">Service connection で利用中の Service principal を Managed identity に移行する手順</a> をご確認ください。</p>
-<hr>
-<h2 id="従来の-Service-Connection-からの移行"><a href="#従来の-Service-Connection-からの移行" class="headerlink" title="従来の Service Connection からの移行"></a>従来の Service Connection からの移行</h2><hr>
-<p>従来のクライアント シークレットを使用した Service Connection から、Workload Identity Federation を利用した Service Connection への移行は、以下の手順で簡単に行えます。</p>
+        <p>こんにちは、Japan Developer Support Core チームの松井です。
+今回は、Microsoft Dev Box を利用する際に注意が必要な<strong>タイムゾーン</strong>の動作と設定について解説します。</p>
+<h2 id="問題の概要"><a href="#問題の概要" class="headerlink" title="問題の概要"></a>問題の概要</h2><p>Dev Box で利用できる標準のイメージは <strong>協定世界時 (Coordinated Universal Time, UTC)</strong> が初期設定となっています。
+しかし、クライアントの<strong>タイムゾーン リダイレクト</strong>が有効になっているため、リモート デスクトップ接続したユーザーには日本のタイムゾーンで動作しているように見える場合があります。一方で、ログオンしているユーザー以外のアカウント、例えば IIS のアカウントをはじめとするサービス アカウントやシステム アカウントではタイムゾーン リダイレクトは適用されません。</p>
+<p>この動作により、アプリケーションやサービスの実行アカウントとそのタイムゾーンを考慮しない場合、以下のような問題が発生する可能性があります。</p>
+<ul>
+<li>スケジュール タスクが想定した時刻に実行されない</li>
+<li>ログのタイムスタンプが意図しない時刻で記録される (例: JST で午前 9:00 に操作しても、ログには UTC の午前 0:00 と記録される)</li>
+<li>アプリケーションの時刻に関する処理が正しく動作しない</li>
+</ul>
+<h2 id="タイムゾーン-リダイレクトの仕組みと動作の確認"><a href="#タイムゾーン-リダイレクトの仕組みと動作の確認" class="headerlink" title="タイムゾーン リダイレクトの仕組みと動作の確認"></a>タイムゾーン リダイレクトの仕組みと動作の確認</h2><p>リモート デスクトップ接続では、クライアント側のタイムゾーン情報をリモート セッションに転送する機能があります。これにより、ユーザーがリモート デスクトップ接続している間は、Dev Box のタイムゾーンがクライアントのタイムゾーン (例: 日本標準時 JST) として表示されます。</p>
+<h3 id="ユーザー-セッション中のタイムゾーン確認"><a href="#ユーザー-セッション中のタイムゾーン確認" class="headerlink" title="ユーザー セッション中のタイムゾーン確認"></a>ユーザー セッション中のタイムゾーン確認</h3><p>PowerShell で Get-TimeZone コマンドレットを使用して、リモート デスクトップ接続中のユーザー セッションでのタイムゾーンを確認することができます。今回は日本標準時となっていることが確認できます。</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># PowerShell でタイムゾーンを確認</span></span><br><span class="line"><span class="built_in">Get-TimeZone</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 結果例 (RDP 接続中)</span></span><br><span class="line">Id                         : Tokyo Standard Time</span><br><span class="line">HasIanaId                  : False</span><br><span class="line">DisplayName                : (UTC+<span class="number">09</span>:<span class="number">00</span>) Osaka, Sapporo, Tokyo</span><br><span class="line">StandardName               : Tokyo Standard Time</span><br><span class="line">DaylightName               : Tokyo Daylight Time</span><br><span class="line">BaseUtcOffset              : <span class="number">09</span>:<span class="number">00</span>:<span class="number">00</span></span><br><span class="line">SupportsDaylightSavingTime : False</span><br></pre></td></tr></table></figure>
+
+<h3 id="システムのタイムゾーン確認"><a href="#システムのタイムゾーン確認" class="headerlink" title="システムのタイムゾーン確認"></a>システムのタイムゾーン確認</h3><p>レジストリから実際のシステム タイムゾーンを確認したり、システム アカウントでタイムゾーンを確認することで、システムのタイムゾーン設定が UTC であることがわかります。</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># レジストリから実際のシステム タイムゾーンを確認</span></span><br><span class="line"><span class="built_in">Get-ItemProperty</span> <span class="literal">-Path</span> <span class="string">&quot;HKLM:\SYSTEM\CurrentControlSet\Control\TimeZoneInformation&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 結果例</span></span><br><span class="line">Bias                        : <span class="number">0</span></span><br><span class="line">DaylightBias                : <span class="number">0</span></span><br><span class="line">DaylightName                : @tzres.dll,<span class="literal">-931</span></span><br><span class="line">DaylightStart               : &#123;<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>…&#125;</span><br><span class="line">StandardBias                : <span class="number">0</span></span><br><span class="line">StandardName                : @tzres.dll,<span class="literal">-932</span></span><br><span class="line">StandardStart               : &#123;<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>…&#125;</span><br><span class="line">TimeZoneKeyName             : UTC</span><br><span class="line">DynamicDaylightTimeDisabled : <span class="number">0</span></span><br><span class="line">RealTimeIsUniversal         : <span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># システム アカウントでタイムゾーンを確認</span></span><br><span class="line"><span class="comment"># https://learn.microsoft.com/en-us/sysinternals/downloads/psexec</span></span><br><span class="line">C:\pstools\psexec.exe <span class="literal">-s</span> powershell.exe <span class="literal">-Command</span> <span class="string">&quot;Get-TimeZone&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 結果例 (システム アカウント)</span></span><br><span class="line">Id                         : UTC</span><br><span class="line">DisplayName                : (UTC) Coordinated Universal Time</span><br><span class="line">StandardName               : Coordinated Universal Time</span><br><span class="line">DaylightName               : Coordinated Universal Time</span><br><span class="line">BaseUtcOffset              : <span class="number">00</span>:<span class="number">00</span>:<span class="number">00</span></span><br><span class="line">SupportsDaylightSavingTime : False</span><br></pre></td></tr></table></figure>
+
+<h2 id="解決策"><a href="#解決策" class="headerlink" title="解決策"></a>解決策</h2><p>アプリケーションやサービスの実装でタイムゾーンを考慮することが難しい場合、Dev Box のシステムのタイムゾーンを変更することで問題を解決できる可能性があります。
+Dev Box のシステムのタイムゾーンを変更する方法は以下の 2 通りが挙げられます。</p>
+<h3 id="方法-1-プロビジョニング後にタイムゾーンを変更する"><a href="#方法-1-プロビジョニング後にタイムゾーンを変更する" class="headerlink" title="方法 1: プロビジョニング後にタイムゾーンを変更する"></a>方法 1: プロビジョニング後にタイムゾーンを変更する</h3><p>Dev Box のタイムゾーンを変更する場合、Dev Box 上でクライアントのタイムゾーン リダイレクト設定を一時的に無効化してからタイムゾーンを変更し、再度有効化する手順が必要になります。</p>
 <ol>
-<li>   Azure DevOps にサインインし、プロジェクトの [Project settings] &gt; [Service connections] に移動します。</li>
-<li>   変換したい Service Connection を開き、[Overview] タブを確認します。</li>
-<li>   “Convert” ボタンを押下し、Workload Identity Federation を利用した Service Connection へ変換します。
-<img src="pic0.png"></li>
+<li><p>Dev Box に接続してログオンします。</p>
+</li>
+<li><p>[ファイル名を指定して実行] から “gpedit.msc” を入力してローカル グループ ポリシー エディターを起動します。</p>
+</li>
+<li><p>グループ ポリシーの構成で以下の設定を [無効] に変更します。</p>
+<p>[コンピューターの構成] - [管理用テンプレート] - [Windows コンポーネント] - [リモート デスクトップ] - [リモート デスクトップ セッションホスト] - [デバイスとリソースのリダイレクト] - “タイムゾーン リダイレクトを許可する”</p>
+</li>
+<li><p>タイムゾーン リダイレクトの変更を反映するため、コンピューター (Dev Box) を再起動します。</p>
+</li>
+<li><p>下記ブログ記事のいずれかの手順でタイムゾーンを JST ((UTC+09:00)大阪、札幌、東京) に変更します。</p>
+<p><a target="_blank" rel="noopener" href="https://jpwinsup.github.io/blog/2021/09/29/RemoteDesktopService/AVD/TimeZoneSettingForSystemUser/#%E8%A8%AD%E5%AE%9A%E6%89%8B%E9%A0%86">AVD 環境でシステムのタイム ゾーンを設定する - 設定手順</a></p>
+</li>
+<li><p>手順 3. で行った変更を元に戻します。</p>
+</li>
+<li><p>タイムゾーン リダイレクトの変更を反映するため、もう一度コンピューター (Dev Box) を再起動します。</p>
+</li>
+<li><p>実施したタイムゾーンの変更が反映されているかご確認ください。</p>
+</li>
 </ol>
-<p>変換後は、7 日以内であれば、Overview タブに表示される &quot;Revert conversion to the original scheme&quot; ボタンから元の Service Connection に戻すことが可能です。万が一問題が生じた場合でも、安心して変換を試すことができます。
-<img src="pic1.png"></p>
-<hr>
-<h2 id="Service-Connection-の作成方法"><a href="#Service-Connection-の作成方法" class="headerlink" title="Service Connection の作成方法"></a>Service Connection の作成方法</h2><hr>
-<p>Workload Identity Federation を使用する Service Connection の作成には、自動（automatic）と手動（manual）の 2 つの方法があります。</p>
-<ul>
-<li><strong>自動での作成方法:</strong></li>
-</ul>
-<ol>
-<li>   [Project settings] &gt; [Service connections] に移動し、[New service connection] を選択します。</li>
-<li>   [Azure Resource Manager] を選び、[Workload Identity federation (automatic)] を選択します。
-<img src="pic2.png"></li>
-<li>   対象 Subscription を選択します。スコープを Resource Group に絞りたい場合は Resource Group を選択します。
-<img src="pic3.png"></li>
-<li>   その他必要な情報を入力し、[Save] をクリックしてサービス接続を作成します。</li>
-</ol>
-<ul>
-<li><strong>手動での作成方法:</strong>
-Service Connection を作成する際には、後述の権限が必要ですが、すべての権限を一人の作業ユーザーに付与することは、時に困難です。この場合、Workload Identity federation (manual) を選択することで、Azure Portal と Azure DevOps portal それぞれの作業に必要な権限を分けて付与し、Service Connection を作成できます。
-また、ご自身で用意した Service Principal に加え、マネージド ID を使用することもできます。これにより、よりセキュアで管理しやすい環境を構築可能です。
-詳細な手動での作成手順は <a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/azure/devops/pipelines/release/configure-workload-identity?view=azure-devops">Azure Resource Manager Workload Identity サービス接続を手動で設定</a> を参照ください。</li>
-</ul>
-<p>automatic はすべて自動で作成されるため手順が簡単ですが、Service Principal が自動的に命名されてしまうため運用上の管理が難しく、作業ユーザーに強い権限が必要となるデメリットがあります。その場合は、manual での作成もご検討ください。</p>
-<hr>
-<h2 id="Workload-Identity-federation-の-Service-Connection作成に必要な権限"><a href="#Workload-Identity-federation-の-Service-Connection作成に必要な権限" class="headerlink" title="Workload Identity federation の Service Connection作成に必要な権限"></a>Workload Identity federation の Service Connection作成に必要な権限</h2><hr>
-<p>Service Connection を作成する際には、特定の権限が必要です。以下の権限を確認し、必要に応じて付与してください。</p>
-<ul>
-<li><strong>Azure DevOps:</strong> Organization/Project における Service Connection の <a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/azure/devops/pipelines/library/service-endpoints?view=azure-devops&tabs=yaml#user-permissions">Creator または Administrator ロール</a>。</li>
-<li><strong>Microsoft Entra ID:</strong> Service Principal を Azure テナント上に作成するための権限。詳細は <a target="_blank" rel="noopener" href="https://jpazureid.github.io/blog/azure-active-directory/users-can-register-applications/">ユーザーはアプリケーションを登録できる」の設定について</a> を参照ください。</li>
-<li><strong>Azure サブスクリプション:</strong> ロールを付与する権限が必要です。具体的には Microsoft.Authorization/roleAssignments/write 権限が必要となり、”所有者” または “ユーザー アクセス管理者” ロールが必要です。もし、対象の Service Connection が、リソース グループを対象としている場合は、リソース グループに対する権限で操作可能です。</li>
-</ul>
-<hr>
-<h2 id="Workload-Identity-Federation-に対応しているパイプラインタスク"><a href="#Workload-Identity-Federation-に対応しているパイプラインタスク" class="headerlink" title="Workload Identity Federation に対応しているパイプラインタスク"></a>Workload Identity Federation に対応しているパイプラインタスク</h2><hr>
-<p>2024 年 6 月時点では、すべてのパイプライン タスクが Workload Identity Federation をサポートしているわけではありませんので、ご注意ください。
-詳しくは <a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/azure/devops/pipelines/release/troubleshoot-workload-identity?view=azure-devops#review-pipeline-tasks">こちら</a> に記載がありますが、複数のタスクにて対応、対応予定があります。
-なお、Marketplace からインストールされたタスクのサポートについては、拡張機能の発行元に問い合わせる必要があります。</p>
-<hr>
-<h2 id="まとめ"><a href="#まとめ" class="headerlink" title="まとめ"></a>まとめ</h2><hr>
-<p>Azure DevOps の Service Connection を選択する際には、セキュリティ、運用の容易さ、および環境の柔軟性を考慮することが重要です。マネージド ID、Service Principal、Workload Identity Federation のそれぞれには、特定のシナリオや要件に適したメリットとデメリットがあります。適切な選択を行い、DevOps の実践をより効果的かつ安全に進めるために、上記が役立つことを願っています。</p>
+<h3 id="方法-2-カスタマイズを使用してプロビジョニング時にタイムゾーンを変更する"><a href="#方法-2-カスタマイズを使用してプロビジョニング時にタイムゾーンを変更する" class="headerlink" title="方法 2: カスタマイズを使用してプロビジョニング時にタイムゾーンを変更する"></a>方法 2: カスタマイズを使用してプロビジョニング時にタイムゾーンを変更する</h3><p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/azure/dev-box/concept-what-are-dev-box-customizations">Dev Box のカスタマイズ機能</a>を利用して、プロビジョニング時にタイムゾーンを設定することも可能です。以下は、タイムゾーンを &quot;Tokyo Standard Time&quot; に設定するカスタマイズ ファイルの例です。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># customization-task.yaml</span></span><br><span class="line"> <span class="string">$schema:</span> <span class="number">1.0</span></span><br><span class="line"> <span class="attr">tasks:</span></span><br><span class="line"> <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">~/powershell</span></span><br><span class="line">   <span class="attr">parameters:</span></span><br><span class="line">      <span class="attr">command:</span> <span class="string">|</span></span><br><span class="line"><span class="string">        $id = &#x27;Tokyo Standard Time&#x27;</span></span><br><span class="line"><span class="string">        Set-TimeZone -Id $id</span></span><br></pre></td></tr></table></figure>
 
       
       
@@ -193,11 +176,11 @@ Service Connection を作成する際には、後述の権限が必要ですが�
     <footer class="article-footer">
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/ALM/" rel="tag">ALM</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Azure-DevOps-Services/" rel="tag">Azure DevOps Services</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Dev-Box/" rel="tag">Dev Box</a></li></ul>
 
       <!-- 
       
-        <a href="https://github.com/jpdscore/blog/edit/master/articles/azuredevops/wif-service-connection.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
+        <a href="https://github.com/jpdscore/blog/edit/master/articles/devbox/timezone-in-devbox.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
         
       -->
     </footer>
@@ -206,19 +189,10 @@ Service Connection を作成する際には、後述の権限が必要ですが�
     
 <nav id="article-nav">
   
-    <a href="../../windowssdk/mouse-ops-on-windows-forms-with-activex/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">次の記事</strong>
-      <div class="article-nav-title">
-        
-          Windows Forms の MDI アプリケーションで ActiveX コントロールを使用すると、マウス クリックで子ウィンドウの切り替えができなくなる
-        
-      </div>
-    </a>
   
-  
-    <a href="../service-connection-update/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="../../deployment/nothing-happens-when-attempting-to-launch-clickonce-apps/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">前の記事</strong>
-      <div class="article-nav-title">Azure DevOps Service Connection の更新について</div>
+      <div class="article-nav-title">ClickOnce アプリケーションの起動を試みても反応しない事象について</div>
     </a>
   
 </nav>
@@ -237,7 +211,7 @@ Service Connection を作成する際には、後述の権限が必要ですが�
       <ul>
         
           <li>
-            <a href="../../devbox/timezone-in-devbox/">Dev Box のタイムゾーンの動作と注意点</a>
+            <a href="">Dev Box のタイムゾーンの動作と注意点</a>
           </li>
         
           <li>
