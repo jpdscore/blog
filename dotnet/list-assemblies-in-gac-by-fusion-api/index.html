@@ -4,24 +4,21 @@
   <meta charset="utf-8">
   
   
-  <title>.NET Framework のプロファイル機能を利用する製品に起因する一般的な問題について | JPDSC Blog</title>
+  <title>Fusion API を使用して GAC に登録されているアセンブリの一覧を取得する | JPDSC Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="こんにちは、Japan Developer Support Core チームの松井です。  今回は、.NET Framework のプロファイル機能を利用する製品に起因する一般的な問題についてご案内します。 .NET Framework のプロファイル機能.NET Framework では、.NET">
+  <meta name="description" content="GAC に登録されているアセンブリを Fusion API を使用して一覧取得する方法について説明します。">
 <meta property="og:type" content="article">
-<meta property="og:title" content=".NET Framework のプロファイル機能を利用する製品に起因する一般的な問題について">
-<meta property="og:url" content="https://jpdscore.github.io/blog/dotnet/common-issues-caused-by-dotnet-profiler/index.html">
+<meta property="og:title" content="Fusion API を使用して GAC に登録されているアセンブリの一覧を取得する">
+<meta property="og:url" content="https://jpdscore.github.io/blog/dotnet/list-assemblies-in-gac-by-fusion-api/index.html">
 <meta property="og:site_name" content="Japan Developer Support Core Team Blog">
-<meta property="og:description" content="こんにちは、Japan Developer Support Core チームの松井です。  今回は、.NET Framework のプロファイル機能を利用する製品に起因する一般的な問題についてご案内します。 .NET Framework のプロファイル機能.NET Framework では、.NET">
+<meta property="og:description" content="GAC に登録されているアセンブリを Fusion API を使用して一覧取得する方法について説明します。">
 <meta property="og:locale" content="ja_JP">
-<meta property="og:image" content="https://jpdscore.github.io/blog/dotnet/common-issues-caused-by-dotnet-profiler/corprofiler.png">
-<meta property="og:image" content="https://jpdscore.github.io/blog/dotnet/common-issues-caused-by-dotnet-profiler/criticalerror.png">
-<meta property="article:published_time" content="2021-08-22T15:00:00.000Z">
-<meta property="article:modified_time" content="2025-11-10T08:35:55.429Z">
+<meta property="article:published_time" content="2025-11-09T15:00:00.000Z">
+<meta property="article:modified_time" content="2025-11-10T08:35:55.431Z">
 <meta property="article:author" content="Developer Support Core Japan">
 <meta property="article:tag" content=".NET">
 <meta property="article:tag" content=".NET Framework">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://jpdscore.github.io/blog/dotnet/common-issues-caused-by-dotnet-profiler/corprofiler.png">
   
     <link rel="alternate" href="/blog/atom.xml" title="Japan Developer Support Core Team Blog" type="application/atom+xml">
   
@@ -84,7 +81,7 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-dotnet/common-issues-caused-by-dotnet-profiler" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-dotnet/list-assemblies-in-gac-by-fusion-api" class="article article-type-post" itemscope itemprop="blogPost">
   
     <aside id="toc" role="complementary" aria-label="Table of Contents"></aside>
   
@@ -96,7 +93,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      .NET Framework のプロファイル機能を利用する製品に起因する一般的な問題について
+      Fusion API を使用して GAC に登録されているアセンブリの一覧を取得する
     </h1>
   
 
@@ -104,7 +101,7 @@
       <div class="article-share">
         Last Update: 
         <a href="" class="article-date-single">
-  <time datetime="2021-08-22T15:00:00.000Z" itemprop="datePublished">2021-08-23</time>
+  <time datetime="2025-11-09T15:00:00.000Z" itemprop="datePublished">2025-11-10</time>
 </a>
         
         <div class="article-share-buttons">
@@ -112,7 +109,7 @@
         </div>
         <div class="article-share-buttons">
           <script src="https://platform.linkedin.com/in.js" type="text/javascript">lang: ja_JP</script>
-          <script type="IN/Share" data-url="https://jpdscore.github.io/blog/dotnet/common-issues-caused-by-dotnet-profiler/"></script>
+          <script type="IN/Share" data-url="https://jpdscore.github.io/blog/dotnet/list-assemblies-in-gac-by-fusion-api/"></script>
         </div>
         <div class="article-share-buttons">
           <a target="_blank" rel="noopener" href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
@@ -121,64 +118,16 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>こんにちは、Japan Developer Support Core チームの松井です。 
-今回は、.NET Framework のプロファイル機能を利用する製品に起因する一般的な問題についてご案内します。</p>
-<h2 id="NET-Framework-のプロファイル機能"><a href="#NET-Framework-のプロファイル機能" class="headerlink" title=".NET Framework のプロファイル機能"></a>.NET Framework のプロファイル機能</h2><p>.NET Framework では、.NET Framework 上で動作するアプリケーションの実行を監視するためのプログラム (プロファイラー) が利用するための<a target="_blank" rel="noopener" href="https://docs.microsoft.com/ja-jp/dotnet/framework/unmanaged-api/profiling/">プロファイル API</a> が提供されています。プロファイラーの開発者は、この API を利用してデバッグの支援や各種メトリクスの計測などの様々な機能をプロファイラー DLL として実装します。プロファイル機能を有効にしてプロファイラー DLL が登録されると、.NET Framework アプリケーションは共通言語ランタイムの初期化処理の過程でプロセスにプロファイラー DLL をロードします。.NET Framework は、アプリケーションの実行を通じて発生するガベージ コレクションや JIT コンパイルなどの様々なイベントがプロファイラー DLL へ通知し、プロファイラーによってその内容が利用されます。</p>
-<h2 id="プロファイル機能を有効にする方法"><a href="#プロファイル機能を有効にする方法" class="headerlink" title="プロファイル機能を有効にする方法"></a>プロファイル機能を有効にする方法</h2><p>プロファイル機能は通常、COR_ENABLE_PROFILING と COR_PROFILER の 2 つの環境変数によって有効化されます。COR_ENABLE_PROFILING 環境変数を 1 に設定すると、プロファイル機能が有効になります。COR_PROFILER 環境変数には、プロファイラー DLL が実装するプロファイラーを指定します。プロファイル機能が有効化されプロファイラーが正常にロードされると、ソース .NET Runtime、ID 1022 の以下のようなメッセージがアプリケーションの起動時にイベント ログへ記録されます。</p>
-<blockquote>
-<p>.NET Runtime version 4.0.30319.0 - プロファイラーが正常に読み込まれました。  プロファイラーの CLSID: &#39;{909B2AD5-42DF-4832-8EA0-7808E80D7741}&#39;。  プロセス ID (10 進数): 12860。  メッセージ ID: [0x2507]。</p>
-</blockquote>
-<h2 id="よくある問題"><a href="#よくある問題" class="headerlink" title="よくある問題"></a>よくある問題</h2><p>プロファイラー DLL はアプリケーションと同じプロセスにロードされる性質のため、アプリケーションの動作に影響を与えないよう注意深く設計する必要があります。例えばプロファイラーの処理の内部でアクセス違反例外が発生した場合、プロファイラーの動作に問題が生じるだけでなくアプリケーション自体が異常終了します。一般的にはプロファイラーはアプリケーションのデバッグやテストの過程で対象のプロセスに限定して有効化することがほとんどですが、システム レベルでプロファイラーを有効にすると .NET Framework を利用するアプリケーションに影響を与える可能性があります。サーバー マネージャーや PowerShell など Windows の機能も .NET Framework 上で動作するため、システム レベルで有効化したプロファイラーの影響で Windows の機能が起動できなくなるといった事象が起こりえます。</p>
-<p>弊社へよくお問い合わせをいただく問題としては以下のようなものが挙げられます。</p>
-<ol>
-<li>イベント ログにソース .NET Runtime、イベント ID 1022 のエラーが頻繁に記録されるようになった。</li>
-<li>アプリケーションの開始時にエラーが発生して起動できなくなった。</li>
-<li>アプリケーションの実行中にエラーが発生して突然終了するようになった。</li>
-</ol>
-<p>プロファイル機能は開発者用ツールやセキュリティ ソフトウェアなどから利用されるケースが多く、このようなアプリケーションの導入や更新などが契機で上記のような事象が発生する場合は、問題の切り分けを実施した上で当該製品の開発元へお問い合わせすることも検討してください。</p>
-<h2 id="プロファイラーによって発生する問題の切り分け"><a href="#プロファイラーによって発生する問題の切り分け" class="headerlink" title="プロファイラーによって発生する問題の切り分け"></a>プロファイラーによって発生する問題の切り分け</h2><p>プロファイラーは下記 2 つの環境変数によって構成されるため、環境変数の設定を変更してプロファイラーを無効化し、問題の再現性に変化があるか確認することで問題の切り分けが可能です。プロファイラーを無効化したときには問題が発生しない場合、プロファイラーの動作が問題の原因の一つとなっていると考えられます。</p>
-<ul>
-<li>COR_ENABLE_PROFILING</li>
-<li>COR_PROFILER</li>
-</ul>
-<h3 id="COR-ENABLE-PROFILING"><a href="#COR-ENABLE-PROFILING" class="headerlink" title="COR_ENABLE_PROFILING"></a>COR_ENABLE_PROFILING</h3><p>COR_ENABLE_PROFILING 環境変数はプロファイラーの機能を利用するかどうかを 0 (無効) または 1 (有効) で設定します。システム レベルでプロファイラーが有効となっている場合、ユーザー環境変数やシステム環境変数で COR_ENABLE_PROFILING が設定されていますので、環境変数の値を 0 に設定して問題が解消するかご確認ください。</p>
-<h3 id="COR-PROFILER"><a href="#COR-PROFILER" class="headerlink" title="COR_PROFILER"></a>COR_PROFILER</h3><p>COR_PROFILER 環境変数の値はプロファイラーの識別子となっており、レジストリで識別子とプロファイラー DLL のパスが関連付けられています。COR_PROFILER 環境変数の値でレジストリを検索することで、問題を引き起こしているプロファイラー DLL を特定できる場合があります。例えば COR_PROFILER={909B2AD5-42DF-4832-8EA0-7808E80D7741} の場合は以下のキーにプロファイラー DLL のパスが設定されています。</p>
-<blockquote>
-<p>\HKEY_CLASSES_ROOT\CLSID\{909B2AD5-42DF-4832-8EA0-7808E80D7741}\InprocServer32
-\HKEY_CLASSES_ROOT\WOW6432Node\CLSID\{909B2AD5-42DF-4832-8EA0-7808E80D7741}\InprocServer32</p>
-</blockquote>
-<p><img src="./corprofiler.png"></p>
-<p>なお、プロファイラー機能は弊社製品でも Visual Studio プロファイラーやコード カバレッジなど様々な機能で利用されていますが、システム レベルで永続的にプロファイラーを有効化することは通常ありません。</p>
-<h2 id="一般的なエラー内容"><a href="#一般的なエラー内容" class="headerlink" title="一般的なエラー内容"></a>一般的なエラー内容</h2><p>プロファイラーの設定や実装の問題に起因するエラーでよくお問い合わせいただくものとして、代表的なものをいくつか記載します。</p>
-<hr>
-<h3 id="CoCreateInstance-中に、プロファイラーを読み込めませんでした。-HRESULT-0x80040154"><a href="#CoCreateInstance-中に、プロファイラーを読み込めませんでした。-HRESULT-0x80040154" class="headerlink" title="CoCreateInstance 中に、プロファイラーを読み込めませんでした。(HRESULT: 0x80040154)"></a>CoCreateInstance 中に、プロファイラーを読み込めませんでした。(HRESULT: 0x80040154)</h3><blockquote>
-<p>.NET Runtime version 4.0.30319.0 - CoCreateInstance 中に、プロファイラーを読み込めませんでした。  プロファイラーの CLSID: &#39;{909B2AD5-42DF-4832-8EA0-7808E80D7741}&#39;。  HRESULT: 0x80040154。  プロセス ID (10 進数): 24504。  メッセージ ID: [0x2504]。</p>
-</blockquote>
-<p>0x80040154 は REGDB_E_CLASSNOTREG のエラー コードです。このコードがイベント ログに記録される場合、COR_ENABLE_PROFILING 環境変数でプロファイル機能が有効になっているにも関わらず、COR_PROFILER 環境変数に設定されている識別子がレジストリに登録されていないことを示しています。この場合、プロファイラー製品のインストールやアンインストール、更新に問題があり不完全な状態となっている可能性があります。</p>
-<h3 id="CoCreateInstance-中に、プロファイラーを読み込めませんでした。-HRESULT-0x8007007e"><a href="#CoCreateInstance-中に、プロファイラーを読み込めませんでした。-HRESULT-0x8007007e" class="headerlink" title="CoCreateInstance 中に、プロファイラーを読み込めませんでした。(HRESULT: 0x8007007e)"></a>CoCreateInstance 中に、プロファイラーを読み込めませんでした。(HRESULT: 0x8007007e)</h3><blockquote>
-<p>.NET Runtime version 4.0.30319.0 - CoCreateInstance 中に、プロファイラーを読み込めませんでした。  プロファイラーの CLSID: &#39;{909B2AD5-42DF-4832-8EA0-7808E80D7741}&#39;。  HRESULT: 0x8007007e。  プロセス ID (10 進数): 19528。  メッセージ ID: [0x2504]。</p>
-</blockquote>
-<p>0x8007007e は ERROR_MOD_NOT_FOUND のエラー コードです。このエラーはレジストリに設定されているプロファイラー DLL が見つからなかった場合に発生し、この場合もプロファイラー製品のインストールやアンインストール、更新に問題があり不完全な状態となっている可能性があります。</p>
-<h3 id="COR-ENABLE-PROFILING-は適切に設定されていましたが、COR-PROFILLER-が適切に設定されていませんでした。"><a href="#COR-ENABLE-PROFILING-は適切に設定されていましたが、COR-PROFILLER-が適切に設定されていませんでした。" class="headerlink" title="COR_ENABLE_PROFILING は適切に設定されていましたが、COR_PROFILLER が適切に設定されていませんでした。"></a>COR_ENABLE_PROFILING は適切に設定されていましたが、COR_PROFILLER が適切に設定されていませんでした。</h3><blockquote>
-<p>.NET Runtime version 4.0.30319.0 - プロファイラーを読み込めませんでした。  COR_ENABLE_PROFILING は適切に設定されていましたが、COR_PROFILER が適切に設定されていませんでした。  COR_PROFILER は、読み込むプロファイラーの CLSID に設定する必要があります。  プロセス ID (10 進数): 7852。  メッセージ ID: [0x2500]。</p>
-</blockquote>
-<p>このエラーは、COR_ENABLE_PROFILING 環境変数が設定されプロファイラーが有効化されているにも関わらず、COR_PROFILER が設定されていないためプロファイラー DLL がロードできなかった場合にイベント ログに記録されます。プロファイラーの機能を提供しているアプリケーションのインストールや更新、設定の変更などに伴って、環境変数の設定に不整合が生じている可能性があります。</p>
-<h3 id="CLR-エラー-80040005-プログラムを終了します。"><a href="#CLR-エラー-80040005-プログラムを終了します。" class="headerlink" title="CLR エラー: 80040005. プログラムを終了します。"></a>CLR エラー: 80040005. プログラムを終了します。</h3><blockquote>
-<p>致命的なエラー
-CLR エラー: 80004005. プログラムを終了します。
-<img src="./criticalerror.png"></p>
-</blockquote>
-<p>このエラーはイベント ログには記録されず、アプリケーション起動時にダイアログが表示されて開始できない状態になります。このエラーは、プロファイラー DLL がロードされた後の初期化処理中に致命的なエラーが発生してアプリケーションの起動が続行できない場合に表示されます。</p>
-<hr>
-<p>なお、プロファイラー DLL がロードされた後にプロファイラーの処理で発生する問題は、イベント ログやダイアログには表示されず突然アプリケーションが強制終了するといった事象で顕在化する可能性があり、プロファイラーの影響か判断することが困難な場合があります。もしくは、.NET Runtime のイベント ログ ID 1023 (.NET ランタイムの内部エラー) として顕在化する場合もあります。</p>
-<p>開発者ツールやセキュリティ ソフトウェアなどの導入が契機となり突然 .NET Framework アプリケーションに問題が生じるようになった場合や、イベント ID 1022 のイベント ログが記録されている場合は、プロファイラーの動作が影響している可能性が考えられます。そのような場合は、プロファイラーを無効化して問題の再現性に変化があるかご確認ください。また、プロファイラーの動作によって問題が生じている場合はプロファイラーの開発元へのお問い合わせをお願いします。</p>
-<h2 id="参考情報"><a href="#参考情報" class="headerlink" title="参考情報"></a>参考情報</h2><p>.NET Framework のプロファイル API については以下のドキュメントで詳細な情報を公開しています。
-<a target="_blank" rel="noopener" href="https://docs.microsoft.com/ja-jp/dotnet/framework/unmanaged-api/profiling/">https://docs.microsoft.com/ja-jp/dotnet/framework/unmanaged-api/profiling/</a></p>
-<p>また、プロファイル API が活用されているツールとして CLR Profiler や PerfView がオープン ソースで公開されています。
-<a target="_blank" rel="noopener" href="https://github.com/microsoftarchive/clrprofiler">https://github.com/microsoftarchive/clrprofiler</a>
-<a target="_blank" rel="noopener" href="https://github.com/microsoft/perfview">https://github.com/microsoft/perfview</a></p>
-<p>プロファイラー内部で問題が起きたときの動作を簡単に試せる Visual Studio 2019 でビルド可能なサンプル コードを<a href="./MyNetFxProfiler.zip">こちら</a>に置いていますので、興味のある方はダウンロードして試してみてください。</p>
+        <p>こんにちは、Japan Developer Support Core チームの松井です。
+今回は、.NET Framework の Fusion API を使用して、グローバル アセンブリ キャッシュ (GAC) に登録されているアセンブリの一覧を取得する方法について説明します。</p>
+<h2 id="GAC-の概要"><a href="#GAC-の概要" class="headerlink" title="GAC の概要"></a>GAC の概要</h2><p>GAC とは、.NET Framework において共有アセンブリを格納するためのキャッシュの場所です。GAC に登録されたアセンブリは、複数の .NET Framework アプリケーションから共有して使用することができます。GAC に登録されているアセンブリの例としては、.NET Framework 自体が提供するフレームワーク ライブラリや、サードパーティ製の共有ライブラリなどがあります。もちろんアプリケーション固有のアセンブリを GAC に登録することも可能です。</p>
+<h2 id="GAC-に登録されているアセンブリの確認方法"><a href="#GAC-に登録されているアセンブリの確認方法" class="headerlink" title="GAC に登録されているアセンブリの確認方法"></a>GAC に登録されているアセンブリの確認方法</h2><p>GAC にインストールされているアセンブリを確認する一般的な方法としては、Visual Studio や .NET Framework SDK に付属する <a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/dotnet/framework/tools/gacutil-exe-gac-tool">gacutil.exe</a> を使用する方法があります。しかし、gacutil.exe の再頒布は許諾されていないため、運用環境で利用する場合は開発者ツールをインストールする必要があります。また、従来は .NET Framework に付属していたアセンブリ キャッシュ ビューアーのシェル拡張機能 (shfusion.dll) によりエクスプローラーから GAC の内容を参照することも可能でしたが、これは Windows 8 および Windows Server 2012 以降の OS バージョンでは廃止されており、.NET Framework 4 以降にも対応していません。</p>
+<h2 id="Fusion-API-を使用して-GAC-のアセンブリを一覧取得する方法"><a href="#Fusion-API-を使用して-GAC-のアセンブリを一覧取得する方法" class="headerlink" title="Fusion API を使用して GAC のアセンブリを一覧取得する方法"></a>Fusion API を使用して GAC のアセンブリを一覧取得する方法</h2><p>あまり知られていませんが、.NET Framework はアセンブリのインストール、アンインストール、検索などの操作をプログラムから行う方法として <a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/dotnet/framework/unmanaged-api/fusion/">Fusion API</a> を公開しています。Fusion API は COM ベースのインターフェイスで提供されており、C++ や C# などの言語から利用できる他、PowerShell からも呼び出すことも可能です。列挙体やインターフェイスなどの型を定義したヘッダー ファイルは .NET Framework SDK に付属しており、<code>C:\Program Files (x86)\Windows Kits\NETFXSDK\&lt;version&gt;\Include\um\fusion.h</code> に格納されています。以下では PowerShell スクリプトから Fusion API を呼び出して、GAC に登録されているアセンブリの一覧を取得するサンプルコードを示します。</p>
+<div class="admonition warning"><p class="admonition-title">注意事項
+</p><p>サンプルスクリプトは機能や使用方法を紹介する目的で提供しているものとなります。実際に運用環境で使用する場合はスクリプトの内容を理解した上で十分な動作確認とテストを行い、お客様の責任のもとでご利用ください。</p>
+</div>
 
+<figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># List assemblies in the Global Assembly Cache (GAC) like &quot;gacutil.exe /l&quot; by calling the following Fusion APIs.</span></span><br><span class="line"><span class="comment"># https://learn.microsoft.com/en-us/dotnet/framework/unmanaged-api/fusion/createassemblyenum-function</span></span><br><span class="line"><span class="comment"># https://learn.microsoft.com/en-us/dotnet/framework/unmanaged-api/fusion/iassemblyenum-interface </span></span><br><span class="line"><span class="comment"># https://learn.microsoft.com/en-us/dotnet/framework/unmanaged-api/fusion/iassemblyname-interface</span></span><br><span class="line"><span class="comment"># https://learn.microsoft.com/en-us/dotnet/framework/unmanaged-api/fusion/asm-display-flags-enumeration</span></span><br><span class="line"><span class="variable">$source</span> = <span class="string">@&quot;</span></span><br><span class="line"><span class="string">   using Microsoft.Win32;</span></span><br><span class="line"><span class="string">   using System;</span></span><br><span class="line"><span class="string">   using System.Collections.Generic;</span></span><br><span class="line"><span class="string">   using System.ComponentModel;</span></span><br><span class="line"><span class="string">   using System.Diagnostics;</span></span><br><span class="line"><span class="string">   using System.IO;</span></span><br><span class="line"><span class="string">   using System.Runtime.InteropServices;</span></span><br><span class="line"><span class="string">   using System.Text;</span></span><br><span class="line"><span class="string"> </span></span><br><span class="line"><span class="string">   public class FusionAPi</span></span><br><span class="line"><span class="string">   &#123;</span></span><br><span class="line"><span class="string">       [ComImport, InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]</span></span><br><span class="line"><span class="string">       [Guid(&quot;21b8916c-f28e-11d2-a473-00c04f8ef448&quot;)]</span></span><br><span class="line"><span class="string">       internal interface IAssemblyEnum</span></span><br><span class="line"><span class="string">       &#123;</span></span><br><span class="line"><span class="string">           [PreserveSig]</span></span><br><span class="line"><span class="string">           int GetNextAssembly(IntPtr pvReserved, out IAssemblyName ppName, int flags);</span></span><br><span class="line"><span class="string">           int Reset();</span></span><br><span class="line"><span class="string">           int Clone(out IAssemblyEnum ppEnum);</span></span><br><span class="line"><span class="string">       &#125;</span></span><br><span class="line"><span class="string"> </span></span><br><span class="line"><span class="string">       [ComImport, InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]</span></span><br><span class="line"><span class="string">       [Guid(&quot;CD193BC0-B4BC-11d2-9833-00C04FC31D2E&quot;)]</span></span><br><span class="line"><span class="string">       internal interface IAssemblyName</span></span><br><span class="line"><span class="string">       &#123;</span></span><br><span class="line"><span class="string">           int SetProperty(int PropertyId, IntPtr pvProperty, int cbProperty);</span></span><br><span class="line"><span class="string">           int GetProperty(int PropertyId, IntPtr pvProperty, ref int pcbProperty);</span></span><br><span class="line"><span class="string">           int Finalize();</span></span><br><span class="line"><span class="string">           [PreserveSig]</span></span><br><span class="line"><span class="string">           int GetDisplayName(StringBuilder pDisplayName, ref int pccDisplayName, int displayFlags);</span></span><br><span class="line"><span class="string">           int Reserved(ref Guid guid, Object obj1, Object obj2, String string1, Int64 llFlags, IntPtr pvReserved, int cbReserved, out IntPtr ppv);</span></span><br><span class="line"><span class="string">           [PreserveSig]</span></span><br><span class="line"><span class="string">           int GetName(ref int pccBuffer, StringBuilder pwzName);</span></span><br><span class="line"><span class="string">           int GetVersion(out int versionHi, out int versionLow);</span></span><br><span class="line"><span class="string">           int IsEqual(IAssemblyName pAsmName, int cmpFlags);</span></span><br><span class="line"><span class="string">           int Clone(out IAssemblyName pAsmName);</span></span><br><span class="line"><span class="string">       &#125;</span></span><br><span class="line"><span class="string"> </span></span><br><span class="line"><span class="string">       [UnmanagedFunctionPointer(CallingConvention.Winapi, CharSet = CharSet.Unicode)]</span></span><br><span class="line"><span class="string">       private delegate int CreateAssemblyEnumDelegate(out IAssemblyEnum ppEnum, IntPtr pUnkReserved, IAssemblyName pName, int flags, IntPtr pvReserved);</span></span><br><span class="line"><span class="string"> </span></span><br><span class="line"><span class="string">       [DllImport(&quot;kernel32.dll&quot;, SetLastError=true)]</span></span><br><span class="line"><span class="string">       private static extern IntPtr LoadLibrary(string lpFileName);</span></span><br><span class="line"><span class="string"> </span></span><br><span class="line"><span class="string">       [DllImport(&quot;kernel32.dll&quot;, SetLastError=true)]</span></span><br><span class="line"><span class="string">       private static extern IntPtr GetProcAddress(IntPtr hModule, [MarshalAs(UnmanagedType.LPStr)] string procName);</span></span><br><span class="line"><span class="string"> </span></span><br><span class="line"><span class="string">       [DllImport(&quot;kernel32.dll&quot;)]</span></span><br><span class="line"><span class="string">       [return: MarshalAs(UnmanagedType.Bool)]</span></span><br><span class="line"><span class="string">       private static extern bool FreeLibrary(IntPtr hModule);</span></span><br><span class="line"><span class="string"> </span></span><br><span class="line"><span class="string">       public static List&lt;string&gt; GetGacAssemblies()</span></span><br><span class="line"><span class="string">       &#123;</span></span><br><span class="line"><span class="string">           RegistryKey regKeyNetFx = Registry.LocalMachine.OpenSubKey(@&quot;Software\Microsoft\.NETFramework&quot;, false);</span></span><br><span class="line"><span class="string">           string installRoot = Path.Combine(regKeyNetFx.GetValue(&quot;InstallRoot&quot;).ToString(), &quot;v4.0.30319&quot;);</span></span><br><span class="line"><span class="string">           string fusionDllPath = Path.Combine(installRoot, &quot;fusion.dll&quot;);</span></span><br><span class="line"><span class="string">           IntPtr hModule = LoadLibrary(fusionDllPath);</span></span><br><span class="line"><span class="string">           if (hModule == IntPtr.Zero)</span></span><br><span class="line"><span class="string">           &#123;</span></span><br><span class="line"><span class="string">               throw new Win32Exception(fusionDllPath);</span></span><br><span class="line"><span class="string">           &#125;</span></span><br><span class="line"><span class="string"> </span></span><br><span class="line"><span class="string">           List&lt;string&gt; result = new List&lt;string&gt;();</span></span><br><span class="line"><span class="string">           try</span></span><br><span class="line"><span class="string">           &#123;</span></span><br><span class="line"><span class="string">               if (hModule != IntPtr.Zero)</span></span><br><span class="line"><span class="string">               &#123;</span></span><br><span class="line"><span class="string">                   const string procName = &quot;CreateAssemblyEnum&quot;;</span></span><br><span class="line"><span class="string">                   IntPtr pfnCreateAssemblyEnum = GetProcAddress(hModule, procName);</span></span><br><span class="line"><span class="string">                   if (pfnCreateAssemblyEnum == IntPtr.Zero)</span></span><br><span class="line"><span class="string">                   &#123;</span></span><br><span class="line"><span class="string">                       throw new Win32Exception(procName);</span></span><br><span class="line"><span class="string">                   &#125;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">                   var d = (CreateAssemblyEnumDelegate)Marshal.GetDelegateForFunctionPointer(pfnCreateAssemblyEnum, typeof(CreateAssemblyEnumDelegate));</span></span><br><span class="line"><span class="string"> </span></span><br><span class="line"><span class="string">                   IAssemblyEnum assemblyEnum = null;</span></span><br><span class="line"><span class="string">                   int hr = d(out assemblyEnum, IntPtr.Zero, null, 2 /* AssemblyCacheFalgs.Gac */, IntPtr.Zero);</span></span><br><span class="line"><span class="string">                   if (hr &lt; 0)</span></span><br><span class="line"><span class="string">                   &#123;</span></span><br><span class="line"><span class="string">                       Marshal.ThrowExceptionForHR(hr);</span></span><br><span class="line"><span class="string">                   &#125;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">                   IAssemblyName assemblyName = null;</span></span><br><span class="line"><span class="string">                   while (assemblyEnum.GetNextAssembly(IntPtr.Zero, out assemblyName, 0) &gt;= 0 &amp;&amp; assemblyName != null)</span></span><br><span class="line"><span class="string">                   &#123;</span></span><br><span class="line"><span class="string">                       // ASM_DISPLAYF_VERSION | ASM_DISPLAYF_CULTURE | ASM_DISPLAYF_PUBLIC_KEY_TOKEN | ASM_DISPLAYF_PROCESSORARCHITECTURE | ASM_DISPLAYF_RETARGET</span></span><br><span class="line"><span class="string">                       const int displayFlag = 0xA7;</span></span><br><span class="line"><span class="string">                       int bufferSize = 0;</span></span><br><span class="line"><span class="string">                       StringBuilder buffer = null;</span></span><br><span class="line"><span class="string">                       assemblyName.GetDisplayName(buffer, ref bufferSize, displayFlag);</span></span><br><span class="line"><span class="string">                       buffer = new StringBuilder(bufferSize);</span></span><br><span class="line"><span class="string">                       assemblyName.GetDisplayName(buffer, ref bufferSize, displayFlag);</span></span><br><span class="line"><span class="string">                       result.Add(buffer.ToString());</span></span><br><span class="line"><span class="string">                   &#125;</span></span><br><span class="line"><span class="string">               &#125;</span></span><br><span class="line"><span class="string">           &#125;</span></span><br><span class="line"><span class="string">           finally</span></span><br><span class="line"><span class="string">           &#123;</span></span><br><span class="line"><span class="string">               FreeLibrary(hModule);</span></span><br><span class="line"><span class="string">           &#125;</span></span><br><span class="line"><span class="string">           return result;</span></span><br><span class="line"><span class="string">       &#125;</span></span><br><span class="line"><span class="string">   &#125;</span></span><br><span class="line"><span class="string">&quot;@</span></span><br><span class="line"><span class="built_in">Add-Type</span> <span class="literal">-Language</span> CSharp <span class="literal">-TypeDefinition</span> <span class="variable">$source</span></span><br><span class="line">[<span class="type">FusionApi</span>]::GetGacAssemblies()</span><br></pre></td></tr></table></figure>
       
       
         <div class="article-disclaimer">
@@ -195,7 +144,7 @@ CLR エラー: 80004005. プログラムを終了します。
 
       <!-- 
       
-        <a href="https://github.com/jpdscore/blog/edit/master/articles/dotnet/common-issues-caused-by-dotnet-profiler.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
+        <a href="https://github.com/jpdscore/blog/edit/master/articles/dotnet/list-assemblies-in-gac-by-fusion-api.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
         
       -->
     </footer>
@@ -204,19 +153,10 @@ CLR エラー: 80004005. プログラムを終了します。
     
 <nav id="article-nav">
   
-    <a href="../gs-failure-during-gc/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">次の記事</strong>
-      <div class="article-nav-title">
-        
-          .NET アプリケーションで GC 中に発生する例外コード 0xc0000409 のエラーについて
-        
-      </div>
-    </a>
   
-  
-    <a href="../../windowssdk/note-when-use-selectobject-function/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="../../devbox/timezone-in-devbox/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">前の記事</strong>
-      <div class="article-nav-title">SelectObject 関数利用時の注意事項</div>
+      <div class="article-nav-title">Dev Box のタイムゾーンの動作と注意点</div>
     </a>
   
 </nav>
@@ -235,7 +175,7 @@ CLR エラー: 80004005. プログラムを終了します。
       <ul>
         
           <li>
-            <a href="../list-assemblies-in-gac-by-fusion-api/">Fusion API を使用して GAC に登録されているアセンブリの一覧を取得する</a>
+            <a href="">Fusion API を使用して GAC に登録されているアセンブリの一覧を取得する</a>
           </li>
         
           <li>
