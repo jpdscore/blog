@@ -4,20 +4,20 @@
   <meta charset="utf-8">
   
   
-  <title>WER を使って Dump を採取する | JPDSC Blog</title>
+  <title>.NET Framework 3.5 から 4.x への移行 | JPDSC Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Windows エラー報告 (Windows Error Reporting) を使って Dump を採取するこんにちは、Japan Developer Support Core チーム 平田 a.k.a ぴろとです。以前は、ミニ四駆に精を出していましたが、最近はメダカの飼育にはまってます。マイクロ">
+  <meta name="description" content="こんにちは、Japan Developer Support Core チームの上原です。 開発しているアプリケーションのターゲットフレームワークバージョンを、.NET Framework 3.5 から .NET Framework 4 以降のバージョンへ移行する際に考慮いただくべき点や、検討のお役に">
 <meta property="og:type" content="article">
-<meta property="og:title" content="WER を使って Dump を採取する">
-<meta property="og:url" content="https://jpdscore.github.io/blog/debugging/using-WER/index.html">
+<meta property="og:title" content=".NET Framework 3.5 から 4.x への移行">
+<meta property="og:url" content="https://jpdscore.github.io/blog/dotnet/netfx-4-upgrade/index.html">
 <meta property="og:site_name" content="Japan Developer Support Core Team Blog">
-<meta property="og:description" content="Windows エラー報告 (Windows Error Reporting) を使って Dump を採取するこんにちは、Japan Developer Support Core チーム 平田 a.k.a ぴろとです。以前は、ミニ四駆に精を出していましたが、最近はメダカの飼育にはまってます。マイクロ">
+<meta property="og:description" content="こんにちは、Japan Developer Support Core チームの上原です。 開発しているアプリケーションのターゲットフレームワークバージョンを、.NET Framework 3.5 から .NET Framework 4 以降のバージョンへ移行する際に考慮いただくべき点や、検討のお役に">
 <meta property="og:locale" content="ja_JP">
-<meta property="article:published_time" content="2020-11-25T01:32:06.000Z">
-<meta property="article:modified_time" content="2025-11-21T12:49:07.901Z">
+<meta property="article:published_time" content="2025-11-20T15:00:00.000Z">
+<meta property="article:modified_time" content="2025-11-21T12:49:07.918Z">
 <meta property="article:author" content="Developer Support Core Japan">
-<meta property="article:tag" content="Windows SDK">
-<meta property="article:tag" content="Debug">
+<meta property="article:tag" content=".NET">
+<meta property="article:tag" content=".NET Framework">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternate" href="/blog/atom.xml" title="Japan Developer Support Core Team Blog" type="application/atom+xml">
@@ -81,7 +81,7 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-debugging/using-WER" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-dotnet/netfx-4-upgrade" class="article article-type-post" itemscope itemprop="blogPost">
   
     <aside id="toc" role="complementary" aria-label="Table of Contents"></aside>
   
@@ -93,7 +93,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      WER を使って Dump を採取する
+      .NET Framework 3.5 から 4.x への移行
     </h1>
   
 
@@ -101,7 +101,7 @@
       <div class="article-share">
         Last Update: 
         <a href="" class="article-date-single">
-  <time datetime="2020-11-25T01:32:06.000Z" itemprop="datePublished">2020-11-25</time>
+  <time datetime="2025-11-20T15:00:00.000Z" itemprop="datePublished">2025-11-21</time>
 </a>
         
         <div class="article-share-buttons">
@@ -109,7 +109,7 @@
         </div>
         <div class="article-share-buttons">
           <script src="https://platform.linkedin.com/in.js" type="text/javascript">lang: ja_JP</script>
-          <script type="IN/Share" data-url="https://jpdscore.github.io/blog/debugging/using-WER/"></script>
+          <script type="IN/Share" data-url="https://jpdscore.github.io/blog/dotnet/netfx-4-upgrade/"></script>
         </div>
         <div class="article-share-buttons">
           <a target="_blank" rel="noopener" href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
@@ -118,28 +118,39 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="Windows-エラー報告-Windows-Error-Reporting-を使って-Dump-を採取する"><a href="#Windows-エラー報告-Windows-Error-Reporting-を使って-Dump-を採取する" class="headerlink" title="Windows エラー報告 (Windows Error Reporting) を使って Dump を採取する"></a>Windows エラー報告 (Windows Error Reporting) を使って Dump を採取する</h2><p>こんにちは、Japan Developer Support Core チーム 平田 a.k.a ぴろとです。<br>以前は、ミニ四駆に精を出していましたが、最近はメダカの飼育にはまってます。マイクロソフトの中の人には、沼にはまった趣味を持つ人が多いので、話を聞くだけでもいろいろな視点をもたらしてくれるよい同僚がいて、刺激を受けてます。  </p>
-<p>話を戻して、前回は、ProcDump を用いてダンプの採取をおこないました。クラッシュ系のダンプを採取する場合には、ProcDump のようにアタッチをしたままで運用することが難しいパターンもあります。この場合は、Windows が提供している Windows Error Reporting を用いてクラッシュ時に自動でダンプを取得するように設定をすることも検討する価値があります。</p>
-<h3 id="Windows-エラー報告-Windows-Error-Reporting"><a href="#Windows-エラー報告-Windows-Error-Reporting" class="headerlink" title="Windows エラー報告 (Windows Error Reporting)"></a>Windows エラー報告 (Windows Error Reporting)</h3><p>Windows エラー報告 (Windows Error Reporting、以下 WER) は、Windows XP 以前では、Dr.Watson の機能に該当していたものですが、Windows Vista 以降では、WER に置き換えられました。これにより、いつ発生するかわからない例外によるクラッシュ時のダンプをとることを可能にすることができます。基本的には、クラッシュ ダンプになるため、1st Chance 例外の場合はダンプが取れない場合があります。この場合には、恐れ入りますが、ProcDump による採取をご検討いただくのが良いかと思います。</p>
-<h3 id="設定方法"><a href="#設定方法" class="headerlink" title="設定方法"></a>設定方法</h3><p><strong>重要このセクション、方法、またはタスクには、レジストリの編集方法が記載されています。レジストリを誤って変更すると、深刻な問題が発生することがあります。レジストリを変更する際には十分に注意してください。万一に備えて、編集の前にレジストリをバックアップしてください。問題が発生した場合でも、レジストリを復元できます。レジストリのバックアップ方法および復元方法の詳細を参照するには、以下のマイクロソフト サポート技術情報番号をクリックしてください。
-<a target="_blank" rel="noopener" href="https://support.microsoft.com/ja-jp/help/322756/how-to-back-up-and-restore-the-registry-in-windows">322756</a> Windows でレジストリをバックアップおよび復元する方法</strong></p>
-<pre><code>1. レジストリ エディタを起動します。
-2. 左ペインより、以下のキーを展開後、右クリックし、[新規] - [キー] を選択します。
-   HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\Windows Error Reporting
-3. 作成された [新しいキー #1] の名前を以下に変更します。
-   LocalDumps
-4. [LocalDumps] を右クリックし、[新規] - [Dword (32 ビット) 値] を選択します。
-5. 作成された [新しい値 #1] の名前を以下に変更します。
-   DumpType
-6. [DumpType] をダブルクリックし、[値のデータ] を 2 に設定します。
-7. [LocalDumps] を右クリックし、[新規] - [展開可能な文字列] を選択します。
-8. 作成された [新しい値 #1] の名前を以下に変更します。
-   DumpFolder
-9. [DumpFolder] をダブルクリックし、[値のデータ] にダンプの出力先として
-   任意のフォルダ名を設定します。
-</code></pre>
-<p>実施するのは、以上になります。再現したら、ここで指定されたフォルダーにダンプされるため、出力されるのを待ちます。
-そのあとには、解析を進めていくこととなります。</p>
+        <p>こんにちは、Japan Developer Support Core チームの上原です。
+開発しているアプリケーションのターゲットフレームワークバージョンを、.NET Framework 3.5 から .NET Framework 4 以降のバージョンへ移行する際に考慮いただくべき点や、検討のお役に立つ情報などについて解説させていただきます。</p>
+<p>なお、本記事は <em>2025年 11月現在</em> の情報を元に記載しておりますが、必要に応じて最新の情報をご確認ください。</p>
+<h2 id="NET-Framework-3-5-について"><a href="#NET-Framework-3-5-について" class="headerlink" title=".NET Framework 3.5 について"></a>.NET Framework 3.5 について</h2><p>現在サポートされております全ての OS バージョンでは、.NET Framework 3.5 は OS の機能の一部として提供されており、&quot;Windows の機能の有効化または無効化&quot; と呼ばれる機能からランタイムを有効化し、利用することが可能です。
+なお、.NET Framework 3.5 は .NET Framework 3.5 SP1(Service Pack 1) を表記される場合もありますが、現在サポートされている全ての OS バージョンにおいて同一ソフトウェアを指しており、区別いただく必要はありません。</p>
+<p>.NET Framework 3.5 のサポートライフサイクルは、<a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/lifecycle/products/microsoft-net-framework">ライフサイクルのドキュメント</a> にも掲載されている通り、OS バージョンによって異なります。
+Windows 10 バージョン 1809 および Windows Server 2019 以降は、.NET Framework 3.5 は固定ポリシーが適用されるスタンドアロン製品としてサポートされますので、OS のサポートが継続している限り、最長で 2029年 1月 9日までサポートされます。
+一方で、Windows 10 バージョン 1809 および Windows Server 2019 より前の OS バージョンでは、OS の一部として、OS のサポートライフサイクルに沿ってサポートされます。</p>
+<p>ただし、.NET Framework 3.5 は既にメインの開発は終了しており、セキュリティなどの致命的な問題を除き修正や改善は提供されませんので、既存のアプリケーションを引き続きご利用いただくといったシナリオでは懸念はありませんが、「継続的なアプリケーション開発や新規開発といった用途での利用は推奨しておりません。
+また、最長でも 2029年には全ての環境において .NET Framework 3.5 のサポートが終了しますので、既存の .NET Framework 3.5 アプリケーションは、速やかに .NET Framework 4.8 といったより上位のバージョンへの移行を検討いただければと思います。</p>
+<p>アプリケーションのターゲットフレームワークバージョンを、.NET Framework 3.5 から .NET Framework 4.x へ移行する際には、3.5 から 4(4.0) への移行と、4.x バージョン間での移行の、両方の観点で考慮が必要です。
+本記事では、それぞれの段階に分けて、一般的な .NET Framework アプリケーション開発に関するドキュメントなどをご紹介させていただきます。</p>
+<h2 id="NET-Framework-3-5-から-4-への移行"><a href="#NET-Framework-3-5-から-4-への移行" class="headerlink" title=".NET Framework 3.5 から 4 への移行"></a>.NET Framework 3.5 から 4 への移行</h2><p>.NET Framework 3.5 と .NET Framework 4 では、多くの機能や API で互換性がありますので、既存の .NET Framework 3.5 アプリケーションのターゲットフレームワークを変更し、再ビルドすることで従来同様に動作することが記載されます。
+しかしながら、一部の機能では破壊的な変更や、動作に際が生じる場合もありますので、ターゲットフレームワークを変更した上で、ビルドや動作について問題が生じないか検証する必要があります。</p>
+<p>.NET Framework 3.5 アプリケーションの移行手順や、よくある一般的なトラブルシューティングにつきましては、以下の弊社ドキュメントにまとめられております。</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/dotnet/framework/migration-guide/how-to-configure-an-app-to-support-net-framework-4-or-4-5">方法: .NET Framework 4 以降のバージョンをサポートするアプリを構成する</a></li>
+<li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/dotnet/framework/migration-guide/migrating-from-the-net-framework-1-1">.NET Framework 1.1、2.0、3.5 から .NET Framework 4 に移行する</a></li>
+<li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/dotnet/framework/migration-guide/net-framework-4-migration-issues">.NET Framework 4 への移行に関する問題</a></li>
+</ul>
+<h2 id="NET-Framework-4-x-バージョン間での移行"><a href="#NET-Framework-4-x-バージョン間での移行" class="headerlink" title=".NET Framework 4.x バージョン間での移行"></a>.NET Framework 4.x バージョン間での移行</h2><p>移行対象の具体的な .NET Framework 4.x バージョンにつきましては、<a href="https://jpdscore.github.io/blog/dotnet/netfx-4-compatibility/">以前の記事</a> でも解説した通り、アプリケーションの要件や実際に利用が想定される環境などをふまえ、移行前に決定いただく必要があります。
+現時点で .NET Framework 4.6.1 以前のバージョンはサポートが終了しており、一般的により新しいバージョンの利用を推奨しておりますので、特に要件や制約がない場合には、.NET Framework 4.8 への移行をご検討いただければと思います。</p>
+<p>.NET Framework 4.x における互換性情報については、それぞれのバージョンごとに互換性ドキュメントが用意されており、影響を受ける機能や API が紹介されております。
+例えば、.NET Framework 4 から 4.8 へ移行する際には、4 の次のバージョンである 4.5 から 4.8 の全てのバージョン <strong>4.5, 4.5.1, 4.5.2, 4.6...4.7.2, 4.8</strong> の互換性ドキュメントから、アプリケーションが利用している機能や API を中心に確認ください。</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/dotnet/framework/migration-guide/retargeting/4.5.x">.NET Framework 4.5.x への移行のためのターゲット変更</a></li>
+<li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/dotnet/framework/migration-guide/retargeting/4.6.x">.NET Framework 4.6.x への移行に関する変更の再ターゲット</a></li>
+<li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/dotnet/framework/migration-guide/retargeting/4.7.x">.NET Framework 4.7.x への移行に伴うリターゲットの変更</a></li>
+<li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/dotnet/framework/migration-guide/retargeting/4.8.x">.NET Framework 4.8.x への移行に関する変更の再ターゲット</a></li>
+</ul>
+<h2 id="参考情報-Windows-11-Insider-Preview-Build-27965"><a href="#参考情報-Windows-11-Insider-Preview-Build-27965" class="headerlink" title="[参考情報] Windows 11 Insider Preview Build 27965"></a>[参考情報] Windows 11 Insider Preview Build 27965</h2><p>2025年 11月現在、既にリリースされております Windows 11 の Insider Preview において、.NET Framework 3.5 をインストール方法が、 <em>Windows の機能の有効化と無効化</em> による有効化から、単体インストーラーでのインストールに変更されております。
+Insider Preview は評価や検証を目的としたリリースであり、今後予告なく変更される可能性もありますので、将来の OS バージョンでも引き続き .NET Framework 3.5 アプリケーションを利用する際には、必要に応じて最新の状況をご確認ください。</p>
+<p><a target="_blank" rel="noopener" href="https://blogs.windows.com/windows-insider/2025/10/08/announcing-windows-11-insider-preview-build-27965-canary-channel/">Announcing Windows 11 Insider Preview Build 27965 (Canary Channel)</a></p>
 
       
       
@@ -153,11 +164,11 @@
     <footer class="article-footer">
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Debug/" rel="tag">Debug</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Windows-SDK/" rel="tag">Windows SDK</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/NET/" rel="tag">.NET</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/NET-Framework/" rel="tag">.NET Framework</a></li></ul>
 
       <!-- 
       
-        <a href="https://github.com/jpdscore/blog/edit/master/articles/debugging/using-WER.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
+        <a href="https://github.com/jpdscore/blog/edit/master/articles/dotnet/netfx-4-upgrade.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
         
       -->
     </footer>
@@ -166,19 +177,10 @@
     
 <nav id="article-nav">
   
-    <a href="../oom-on-x86apps/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">次の記事</strong>
-      <div class="article-nav-title">
-        
-          32 bit アプリケーションで発生するメモリ不足に関連するエラーについて
-        
-      </div>
-    </a>
   
-  
-    <a href="../collect-dump/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="../list-assemblies-in-gac-by-fusion-api/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">前の記事</strong>
-      <div class="article-nav-title">Dump ファイルの取得</div>
+      <div class="article-nav-title">Fusion API を使用して GAC に登録されているアセンブリの一覧を取得する</div>
     </a>
   
 </nav>
@@ -197,11 +199,11 @@
       <ul>
         
           <li>
-            <a href="../../dotnet/netfx-4-upgrade/">.NET Framework 3.5 から 4.x への移行</a>
+            <a href="">.NET Framework 3.5 から 4.x への移行</a>
           </li>
         
           <li>
-            <a href="../../dotnet/list-assemblies-in-gac-by-fusion-api/">Fusion API を使用して GAC に登録されているアセンブリの一覧を取得する</a>
+            <a href="../list-assemblies-in-gac-by-fusion-api/">Fusion API を使用して GAC に登録されているアセンブリの一覧を取得する</a>
           </li>
         
           <li>
