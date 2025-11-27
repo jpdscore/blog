@@ -6,7 +6,7 @@
   <link href="https://jpdscore.github.io/blog/atom.xml" rel="self"/>
   
   <link href="https://jpdscore.github.io/blog/"/>
-  <updated>2025-11-21T12:49:07.918Z</updated>
+  <updated>2025-11-27T15:28:19.271Z</updated>
   <id>https://jpdscore.github.io/blog/</id>
   
   <author>
@@ -17,11 +17,37 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Windows Update による .NET (旧 .NET Core) の自動更新について</title>
+    <link href="https://jpdscore.github.io/blog/dotnet/dotnet-auto-updates/"/>
+    <id>https://jpdscore.github.io/blog/dotnet/dotnet-auto-updates/</id>
+    <published>2025-11-26T15:00:00.000Z</published>
+    <updated>2025-11-27T15:28:19.271Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;こんにちは、Japan Developer Support Core チームの松井です。&lt;/p&gt;
+&lt;p&gt;.NET アプリケーションおよびそれを利用する環境のセキュリティを維持するためには、.NET</summary>
+        
+      
+    
+    
+    
+    
+    <category term=".NET" scheme="https://jpdscore.github.io/blog/tags/NET/"/>
+    
+    <category term="更新プログラム" scheme="https://jpdscore.github.io/blog/tags/%E6%9B%B4%E6%96%B0%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0/"/>
+    
+  </entry>
+  
+  <entry>
     <title>.NET Framework 3.5 から 4.x への移行</title>
     <link href="https://jpdscore.github.io/blog/dotnet/netfx-4-upgrade/"/>
     <id>https://jpdscore.github.io/blog/dotnet/netfx-4-upgrade/</id>
     <published>2025-11-20T15:00:00.000Z</published>
-    <updated>2025-11-21T12:49:07.918Z</updated>
+    <updated>2025-11-27T15:28:19.273Z</updated>
     
     
       
@@ -47,7 +73,7 @@
     <link href="https://jpdscore.github.io/blog/dotnet/list-assemblies-in-gac-by-fusion-api/"/>
     <id>https://jpdscore.github.io/blog/dotnet/list-assemblies-in-gac-by-fusion-api/</id>
     <published>2025-11-09T15:00:00.000Z</published>
-    <updated>2025-11-21T12:49:07.917Z</updated>
+    <updated>2025-11-27T15:28:19.272Z</updated>
     
     
     <summary type="html">GAC に登録されているアセンブリを Fusion API を使用して一覧取得する方法について説明します。</summary>
@@ -66,7 +92,7 @@
     <link href="https://jpdscore.github.io/blog/devbox/timezone-in-devbox/"/>
     <id>https://jpdscore.github.io/blog/devbox/timezone-in-devbox/</id>
     <published>2025-10-30T15:00:00.000Z</published>
-    <updated>2025-11-21T12:49:07.908Z</updated>
+    <updated>2025-11-27T15:28:19.266Z</updated>
     
     
       
@@ -91,7 +117,7 @@
     <link href="https://jpdscore.github.io/blog/deployment/nothing-happens-when-attempting-to-launch-clickonce-apps/"/>
     <id>https://jpdscore.github.io/blog/deployment/nothing-happens-when-attempting-to-launch-clickonce-apps/</id>
     <published>2025-10-16T15:00:00.000Z</published>
-    <updated>2025-11-21T12:49:07.902Z</updated>
+    <updated>2025-11-27T15:28:19.261Z</updated>
     
     
       
@@ -116,7 +142,7 @@
     <link href="https://jpdscore.github.io/blog/vs/vs2022-update-license/"/>
     <id>https://jpdscore.github.io/blog/vs/vs2022-update-license/</id>
     <published>2025-10-09T15:00:00.000Z</published>
-    <updated>2025-11-21T12:49:07.933Z</updated>
+    <updated>2025-11-27T15:28:19.284Z</updated>
     
     
       
@@ -140,7 +166,7 @@
     <link href="https://jpdscore.github.io/blog/vs/vs2022-requirement/"/>
     <id>https://jpdscore.github.io/blog/vs/vs2022-requirement/</id>
     <published>2025-10-02T15:00:00.000Z</published>
-    <updated>2025-11-21T12:49:07.933Z</updated>
+    <updated>2025-11-27T15:28:19.284Z</updated>
     
     
       
@@ -164,7 +190,7 @@
     <link href="https://jpdscore.github.io/blog/playfab/studio-creation-recommendation/"/>
     <id>https://jpdscore.github.io/blog/playfab/studio-creation-recommendation/</id>
     <published>2025-09-30T04:00:00.000Z</published>
-    <updated>2025-11-21T12:49:07.921Z</updated>
+    <updated>2025-11-27T15:28:19.275Z</updated>
     
     
       
@@ -188,7 +214,7 @@ PlayFab</summary>
     <link href="https://jpdscore.github.io/blog/debugging/analyze-win32-heap-leak/"/>
     <id>https://jpdscore.github.io/blog/debugging/analyze-win32-heap-leak/</id>
     <published>2025-09-25T15:00:00.000Z</published>
-    <updated>2025-11-21T12:49:07.874Z</updated>
+    <updated>2025-11-27T15:28:19.242Z</updated>
     
     
       
@@ -214,7 +240,7 @@ PlayFab</summary>
     <link href="https://jpdscore.github.io/blog/dotnet/netfx-4-rollup/"/>
     <id>https://jpdscore.github.io/blog/dotnet/netfx-4-rollup/</id>
     <published>2025-09-23T15:00:00.000Z</published>
-    <updated>2025-11-21T12:49:07.917Z</updated>
+    <updated>2025-11-27T15:28:19.272Z</updated>
     
     
       
@@ -241,7 +267,7 @@ PlayFab</summary>
     <link href="https://jpdscore.github.io/blog/vs/vc2015-compatibility/"/>
     <id>https://jpdscore.github.io/blog/vs/vc2015-compatibility/</id>
     <published>2025-09-11T15:00:00.000Z</published>
-    <updated>2025-11-21T12:49:07.932Z</updated>
+    <updated>2025-11-27T15:28:19.283Z</updated>
     
     
       
@@ -266,7 +292,7 @@ PlayFab</summary>
     <link href="https://jpdscore.github.io/blog/windowssdk/wuaapi-install-updates/"/>
     <id>https://jpdscore.github.io/blog/windowssdk/wuaapi-install-updates/</id>
     <published>2025-08-20T15:00:00.000Z</published>
-    <updated>2025-11-21T12:49:07.937Z</updated>
+    <updated>2025-11-27T15:28:19.287Z</updated>
     
     
       
@@ -292,7 +318,7 @@ PlayFab</summary>
     <link href="https://jpdscore.github.io/blog/vs/vs2015-support-retirement/"/>
     <id>https://jpdscore.github.io/blog/vs/vs2015-support-retirement/</id>
     <published>2025-08-19T15:00:00.000Z</published>
-    <updated>2025-11-21T12:49:07.933Z</updated>
+    <updated>2025-11-27T15:28:19.283Z</updated>
     
     
       
@@ -316,7 +342,7 @@ PlayFab</summary>
     <link href="https://jpdscore.github.io/blog/debugging/mcp-server-for-dbgeng/"/>
     <id>https://jpdscore.github.io/blog/debugging/mcp-server-for-dbgeng/</id>
     <published>2025-08-17T15:00:00.000Z</published>
-    <updated>2025-11-21T12:49:07.889Z</updated>
+    <updated>2025-11-27T15:28:19.253Z</updated>
     
     
       
@@ -343,7 +369,7 @@ PlayFab</summary>
     <link href="https://jpdscore.github.io/blog/dotnet/netfx-4-compatibility/"/>
     <id>https://jpdscore.github.io/blog/dotnet/netfx-4-compatibility/</id>
     <published>2025-08-06T15:00:00.000Z</published>
-    <updated>2025-11-21T12:49:07.917Z</updated>
+    <updated>2025-11-27T15:28:19.272Z</updated>
     
     
       
@@ -370,7 +396,7 @@ PlayFab</summary>
     <link href="https://jpdscore.github.io/blog/vs/vs-offline-install-certificate-error/"/>
     <id>https://jpdscore.github.io/blog/vs/vs-offline-install-certificate-error/</id>
     <published>2025-07-28T15:00:00.000Z</published>
-    <updated>2025-11-21T12:49:07.932Z</updated>
+    <updated>2025-11-27T15:28:19.283Z</updated>
     
     
       
@@ -393,7 +419,7 @@ PlayFab</summary>
     <link href="https://jpdscore.github.io/blog/playfab/dau-limit-exceeded/"/>
     <id>https://jpdscore.github.io/blog/playfab/dau-limit-exceeded/</id>
     <published>2025-07-23T15:00:00.000Z</published>
-    <updated>2025-11-21T12:49:07.920Z</updated>
+    <updated>2025-11-27T15:28:19.274Z</updated>
     
     
       
@@ -418,7 +444,7 @@ PlayFab を利用しているタイトルにおいて、API 呼び出し時に�
     <link href="https://jpdscore.github.io/blog/vs/vs2022-offline-install/"/>
     <id>https://jpdscore.github.io/blog/vs/vs2022-offline-install/</id>
     <published>2025-07-15T15:00:00.000Z</published>
-    <updated>2025-11-21T12:49:07.933Z</updated>
+    <updated>2025-11-27T15:28:19.284Z</updated>
     
     
       
@@ -442,7 +468,7 @@ PlayFab を利用しているタイトルにおいて、API 呼び出し時に�
     <link href="https://jpdscore.github.io/blog/vs/create-a-simple-app-with-ghcopilot/"/>
     <id>https://jpdscore.github.io/blog/vs/create-a-simple-app-with-ghcopilot/</id>
     <published>2025-07-13T15:00:00.000Z</published>
-    <updated>2025-11-21T12:49:07.921Z</updated>
+    <updated>2025-11-27T15:28:19.275Z</updated>
     
     
       
@@ -467,7 +493,7 @@ PlayFab を利用しているタイトルにおいて、API 呼び出し時に�
     <link href="https://jpdscore.github.io/blog/dotnet/memoryleak-using-sta-thread/"/>
     <id>https://jpdscore.github.io/blog/dotnet/memoryleak-using-sta-thread/</id>
     <published>2025-07-03T15:00:00.000Z</published>
-    <updated>2025-11-21T12:49:07.917Z</updated>
+    <updated>2025-11-27T15:28:19.272Z</updated>
     
     
       
@@ -484,34 +510,6 @@ PlayFab を利用しているタイトルにおいて、API 呼び出し時に�
     <category term=".NET" scheme="https://jpdscore.github.io/blog/tags/NET/"/>
     
     <category term=".NET Framework" scheme="https://jpdscore.github.io/blog/tags/NET-Framework/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>アプリケーションエラーを Visual Studio + GitHub Copilot で調査する</title>
-    <link href="https://jpdscore.github.io/blog/vs/troubleshooting-application-error-with-ghcopilot/"/>
-    <id>https://jpdscore.github.io/blog/vs/troubleshooting-application-error-with-ghcopilot/</id>
-    <published>2025-07-03T15:00:00.000Z</published>
-    <updated>2025-11-21T12:49:07.926Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;こんにちは、Japan Developer Support Core チームの松井です。今回は、Visual Studio 2022 と GitHub Copilot を使用したアプリケーション エラーの調査事例を紹介します。&lt;/p&gt;
-&lt;h2 id=&quot;前提条件&quot;&gt;&lt;a</summary>
-        
-      
-    
-    
-    
-    
-    <category term="Debug" scheme="https://jpdscore.github.io/blog/tags/Debug/"/>
-    
-    <category term="AI" scheme="https://jpdscore.github.io/blog/tags/AI/"/>
-    
-    <category term="Visual Studio" scheme="https://jpdscore.github.io/blog/tags/Visual-Studio/"/>
     
   </entry>
   

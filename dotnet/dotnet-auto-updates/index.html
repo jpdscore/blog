@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Windows Update による .NET (旧 .NET Core) の自動更新について | JPDSC Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="こんにちは、Japan Developer Support Core チームの松井です。 .NET アプリケーションおよびそれを利用する環境のセキュリティを維持するためには、.NET ランタイムの更新プログラムを適切かつ迅速に適用することが重要です。本記事では、Windows Update により">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Windows Update による .NET (旧 .NET Core) の自動更新について">
+<meta property="og:url" content="https://jpdscore.github.io/blog/dotnet/dotnet-auto-updates/index.html">
+<meta property="og:site_name" content="Japan Developer Support Core Team Blog">
+<meta property="og:description" content="こんにちは、Japan Developer Support Core チームの松井です。 .NET アプリケーションおよびそれを利用する環境のセキュリティを維持するためには、.NET ランタイムの更新プログラムを適切かつ迅速に適用することが重要です。本記事では、Windows Update により">
+<meta property="og:locale" content="ja_JP">
+<meta property="article:published_time" content="2025-11-26T15:00:00.000Z">
+<meta property="article:modified_time" content="2025-11-27T15:28:19.271Z">
+<meta property="article:author" content="Developer Support Core Japan">
+<meta property="article:tag" content=".NET">
+<meta property="article:tag" content="更新プログラム">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/blog/atom.xml" title="Japan Developer Support Core Team Blog" type="application/atom+xml">
+  
+
+  <link rel="icon" href="../../favicon.ico">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="theme-color" content="#ffffff">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="../../css/style.css">
+
+  
+<link rel="stylesheet" href="../../css/copy-button.css">
+
+  
+<link rel="stylesheet" href="../../css/toc.css">
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="site-header-logo"></div>
+  <div id="site-header-blog-wrapper"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        <div id="ms-logo"></div>
+        
+          <a class="main-nav-link" href="../../index.html">Home</a>
+        
+          <a class="main-nav-link" href="../../archives">Archives</a>
+        
+        <a class="main-nav-link" target="_blank" rel="noopener" href="https://cssjpn.github.io/">サポート情報</a>
+        <a class="main-nav-link" href="/blog/general/welcome/">About</a>
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/blog/atom.xml" title="RSSフィード"></a>
+        
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//www.google.com/search" method="get" accept-charset="UTF-8" name="google-search" onsubmit="var f=this;if(f['q'].value){var searchUrl =  'https://www.google.com/search?q=' +  encodeURIComponent(f['q'].value + ' site:' + f['sitesearch'].value) ;window.open(searchUrl, 'blank') };return false;" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="検索"><button type="submit" id="nav-search-btn" class="search-form-submit"></button><input type="hidden" name="sitesearch" value="https://jpdscore.github.io/blog"></form>
+      </div>
+    </div>
+    <div id="header-title" class="inner">
+      <div id="logo-wrap">
+        <a href="../../index.html" id="logo">Japan Developer Support Core Team Blog</a>
+      </div>
+      
+        <div id="subtitle-wrap">
+          <a href="../../index.html" id="subtitle">日本マイクロソフトの Japan Developer Support Core チームのブログです。</a>
+        </div>
+      
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-dotnet/dotnet-auto-updates" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <aside id="toc" role="complementary" aria-label="Table of Contents"></aside>
+  
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header-single">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Windows Update による .NET (旧 .NET Core) の自動更新について
+    </h1>
+  
+
+      </header>
+      <div class="article-share">
+        Last Update: 
+        <a href="" class="article-date-single">
+  <time datetime="2025-11-26T15:00:00.000Z" itemprop="datePublished">2025-11-27</time>
+</a>
+        
+        <div class="article-share-buttons">
+          <a target="_blank" rel="noopener" href="https://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="basic-label" data-hatena-bookmark-lang="ja" data-hatena-bookmark-height="20" title="このエントリーをはてなブックマークに追加"><img src="https://b.st-hatena.com/images/v4/public/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+        </div>
+        <div class="article-share-buttons">
+          <script src="https://platform.linkedin.com/in.js" type="text/javascript">lang: ja_JP</script>
+          <script type="IN/Share" data-url="https://jpdscore.github.io/blog/dotnet/dotnet-auto-updates/"></script>
+        </div>
+        <div class="article-share-buttons">
+          <a target="_blank" rel="noopener" href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        </div>
+      </div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>こんにちは、Japan Developer Support Core チームの松井です。</p>
+<p>.NET アプリケーションおよびそれを利用する環境のセキュリティを維持するためには、.NET ランタイムの更新プログラムを適切かつ迅速に適用することが重要です。本記事では、Windows Update により .NET (旧 .NET Core) の自動更新を行うための方法について、.NET Framework との違いを含めて解説します。</p>
+<h2 id="NET-Framework-の自動更新"><a href="#NET-Framework-の自動更新" class="headerlink" title=".NET Framework の自動更新"></a>.NET Framework の自動更新</h2><p>.NET Framework 4.x は Windows の OS コンポーネントとして扱われています。そのため、.NET Framework の更新プログラムは Windows の更新プログラムと同様に Windows Update サービスを通じて配信されています。Windows の自動更新が有効になっている場合、.NET Framework の更新プログラムも自動的に検出されてインストールされます。</p>
+<h2 id="NET-の自動更新"><a href="#NET-の自動更新" class="headerlink" title=".NET の自動更新"></a>.NET の自動更新</h2><p>.NET は Windows の OS コンポーネントではなく独立した製品で、「その他の Microsoft 製品」として扱われています。そのため、.NET の更新プログラムは Windows Update サービスではなく、Microsoft Update サービスを通じて配信されています。Windows の自動更新が有効になっているだけでは .NET の更新プログラムは自動的にインストールされませんので注意してください。</p>
+<p>Microsoft Update サービスを通じて .NET の更新プログラムを自動的にインストールするには、以下の手順で設定を行います。(グループ ポリシーや Intune などの管理ツールを使用している場合は、そちらで<a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/windows/deployment/update/update-other-microsoft-products">同様の設定</a>を行ってください。)</p>
+<ol>
+<li>[設定] アプリを開きます。</li>
+<li>[Windows Update] セクションに移動します。</li>
+<li>[詳細オプション] をクリックします。</li>
+<li>[その他の Microsoft 製品の更新プログラムを受け取る」オプションを有効化します。</li>
+</ol>
+<p>また、サーバー系 OS (Windows Server 2025 など) の場合、Microsoft Update サービスを通じて .NET の更新プログラムを検出するためには下記のレジストリの設定も必要です。</p>
+<table>
+<thead>
+<tr>
+<th>.NET のバージョン</th>
+<th>レジストリ キー</th>
+<th>値名</th>
+<th>種類</th>
+<th>値</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>全バージョン</td>
+<td><code>HKLM\SOFTWARE\Microsoft\.NET</code></td>
+<td><code>AllowAUOnServerOS</code></td>
+<td><code>REG_DWORD</code></td>
+<td><code>1</code></td>
+</tr>
+<tr>
+<td>.NET 10</td>
+<td><code>HKLM\SOFTWARE\Microsoft\.NET\10.0</code></td>
+<td><code>AllowAUOnServerOS</code></td>
+<td><code>REG_DWORD</code></td>
+<td><code>1</code></td>
+</tr>
+<tr>
+<td>.NET 9</td>
+<td><code>HKLM\SOFTWARE\Microsoft\.NET\9.0</code></td>
+<td><code>AllowAUOnServerOS</code></td>
+<td><code>REG_DWORD</code></td>
+<td><code>1</code></td>
+</tr>
+<tr>
+<td>.NET 8</td>
+<td><code>HKLM\SOFTWARE\Microsoft\.NET\8.0</code></td>
+<td><code>AllowAUOnServerOS</code></td>
+<td><code>REG_DWORD</code></td>
+<td><code>1</code></td>
+</tr>
+<tr>
+<td>.NET 7</td>
+<td><code>HKLM\SOFTWARE\Microsoft\.NET\7.0</code></td>
+<td><code>AllowAUOnServerOS</code></td>
+<td><code>REG_DWORD</code></td>
+<td><code>1</code></td>
+</tr>
+<tr>
+<td>.NET 6</td>
+<td><code>HKLM\SOFTWARE\Microsoft\.NET\6.0</code></td>
+<td><code>AllowAUOnServerOS</code></td>
+<td><code>REG_DWORD</code></td>
+<td><code>1</code></td>
+</tr>
+<tr>
+<td>.NET 5</td>
+<td><code>HKLM\SOFTWARE\Microsoft\.NET\5.0</code></td>
+<td><code>AllowAUOnServerOS</code></td>
+<td><code>REG_DWORD</code></td>
+<td><code>1</code></td>
+</tr>
+<tr>
+<td>.NET Core 3.1</td>
+<td><code>HKLM\SOFTWARE\Microsoft\.NET\3.1</code></td>
+<td><code>AllowAUOnServerOS</code></td>
+<td><code>REG_DWORD</code></td>
+<td><code>1</code></td>
+</tr>
+</tbody></table>
+<h3 id="注意点"><a href="#注意点" class="headerlink" title="注意点"></a>注意点</h3><ul>
+<li><p>Windows Server Update Services (WSUS) や Microsoft Endpoint Configuration Manager (MECM) で更新プログラムの配信を管理している場合、Microsoft Update の有効化やレジストリ設定は必要ありません。WSUS や MECM の管理ツールで .NET の更新プログラムの配信を構成してください。</p>
+</li>
+<li><p>[その他の Microsoft 製品の更新プログラムを受け取る] オプションを有効化すると、.NET 以外の Microsoft 製品 (Visual Studio、SQL Server、Office など) の更新プログラムも自動的にインストールされる可能性があります。.NET のみを対象としたい場合は、WSUS や MECM などの管理ツールを使用して更新プログラムの配信を制御する必要があります。</p>
+</li>
+</ul>
+<h2 id="よくある質問"><a href="#よくある質問" class="headerlink" title="よくある質問"></a>よくある質問</h2><ul>
+<li><p><strong>Q: Windows の自動更新を有効にしているのに .NET の更新プログラムがインストールされないのはなぜですか?</strong>  </p>
+<p>A: Windows の自動更新は .NET Framework の更新プログラムのみを対象としており、.NET (旧 .NET Core) の更新プログラムは Microsoft Update サービスを通じて配信されます。Microsoft Update を有効にする必要があり、サーバー OS の場合はそれに加えてレジストリ設定行う必要があります。</p>
+</li>
+<li><p><strong>Q: WSUS を使用している場合、.NET の更新プログラムはどのように管理すればよいですか?</strong>  </p>
+<p>A: WSUS を使用している場合、Microsoft Update の有効化やレジストリ設定は不要です。WSUS 管理コンソールで .NET の製品の更新プログラムを同期し、必要な更新プログラムのインストールを承認してください。</p>
+</li>
+<li><p><strong>Q: Azure Update Manager を使用していますが、.NET の更新プログラムが検出されません。</strong>  </p>
+<p>A: Azure Update Manager は Windows Update エージェント API (WUA API) を使用して更新プログラムを検出しています (<a target="_blank" rel="noopener" href="https://jpazmon-integ.github.io/blog/UpdateManager/AboutUpdateManager/#2-%E5%AF%BE%E8%B1%A1%E3%83%9E%E3%82%B7%E3%83%B3%E3%81%A7%E8%A9%95%E4%BE%A1%E3%80%81%E6%9B%B4%E6%96%B0%E6%93%8D%E4%BD%9C%E3%82%92%E5%AE%9F%E8%A1%8C">Azure Monitoring サポート ブログ参照</a>)。WUA API が Microsoft Update を更新ソースとして参照するかどうかは Windows の設定に依存します。Microsoft Update を有効にし、サーバー OS の場合はそれに加えてサーバー OS のレジストリ設定を行ってください。</p>
+</li>
+<li><p><strong>Q: .NET のメジャー バージョンアップ (例: .NET 9 から .NET 10) は自動更新で適用されますか?</strong>  </p>
+<p>A: いいえ、.NET の自動更新ではセキュリティ更新プログラムや重要な修正のみが適用され、メジャー バージョンアップは含まれません。メジャー バージョンアップを適用するには、手動でインストーラーをダウンロードして実行する必要があります。また、古いバージョンは自動的にはアンインストールされませんので、古いバージョンに依存するアプリケーションがないことを確認した上で、不要なバージョンを手動でアンインストールしてください。</p>
+</li>
+<li><p><strong>Q: .NET の自動更新を有効にすると、.NET を利用していない場合でもインストールされますか?</strong></p>
+<p>A: いいえ、.NET の自動更新を有効にしても、.NET が自動的にインストールされることはありません。 自動更新はインストール済みの .NET バージョンに対するセキュリティ更新プログラムや重要な修正のみを対象としています。</p>
+</li>
+<li><p><strong>Q: .NET の自動更新を有効にすると、自己完結型アプリケーション (.NET ランタイムを内包するアプリケーション) にも更新プログラムが適用されますか?</strong></p>
+<p>A: いいえ、自己完結型アプリケーションはそのアプリケーションに必要な .NET ランタイムを含んでいるため、.NET の自動更新の対象にはなりません。自己完結型アプリケーションの更新は、アプリケーション自体の再配布によって行う必要があります。</p>
+</li>
+</ul>
+<h2 id="参考情報"><a href="#参考情報" class="headerlink" title="参考情報"></a>参考情報</h2><p>.NET の自動更新に関する詳細な情報や過去の経緯については、以下の公式ドキュメントやブログ記事をご参照ください。</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/dotnet/core/install/windows#microsoft-update">Windows へのインストール - Microsoft Update</a></li>
+<li><a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/dotnet/net-core-updates-coming-to-microsoft-update/">.NET Core 2.1, 3.1, and .NET 5.0 updates are coming to Microsoft Update</a></li>
+<li><a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/dotnet/server-operating-systems-auto-updates/">.NET Automatic Updates for Server Operating Systems</a></li>
+<li><a target="_blank" rel="noopener" href="https://techcommunity.microsoft.com/blog/coreinfrastructureandsecurityblog/azure-update-manager-%E2%80%93-patching-net-core/4377179">Azure Update Manager – Patching .NET Core</a></li>
+</ul>
+
+      
+      
+        <div class="article-disclaimer">
+        
+          <p><hr>本ブログの内容は弊社の公式見解として保証されるものではなく、開発・運用時の参考情報としてご活用いただくことを目的としています。もし公式な見解が必要な場合は、弊社ドキュメント (<a target="_blank" rel="noopener" href="https://learn.microsoft.com/">https://learn.microsoft.com</a> や <a target="_blank" rel="noopener" href="https://support.microsoft.com">https://support.microsoft.com</a>) をご参照いただくか、もしくは私共サポートまでお問い合わせください。</p>
+        
+        </div>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/NET/" rel="tag">.NET</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/%E6%9B%B4%E6%96%B0%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0/" rel="tag">更新プログラム</a></li></ul>
+
+      <!-- 
+      
+        <a href="https://github.com/jpdscore/blog/edit/master/articles/dotnet/dotnet-auto-updates.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
+        
+      -->
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="../netfx-4-upgrade/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前の記事</strong>
+      <div class="article-nav-title">.NET Framework 3.5 から 4.x への移行</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最近の投稿</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="">Windows Update による .NET (旧 .NET Core) の自動更新について</a>
+          </li>
+        
+          <li>
+            <a href="../netfx-4-upgrade/">.NET Framework 3.5 から 4.x への移行</a>
+          </li>
+        
+          <li>
+            <a href="../list-assemblies-in-gac-by-fusion-api/">Fusion API を使用して GAC に登録されているアセンブリの一覧を取得する</a>
+          </li>
+        
+          <li>
+            <a href="../../devbox/timezone-in-devbox/">Dev Box のタイムゾーンの動作と注意点</a>
+          </li>
+        
+          <li>
+            <a href="../../deployment/nothing-happens-when-attempting-to-launch-clickonce-apps/">ClickOnce アプリケーションの起動を試みても反応しない事象について</a>
+          </li>
+        
+          <li>
+            <a href="../../vs/vs2022-update-license/">Visual Studio 2022 のライセンス認証について</a>
+          </li>
+        
+          <li>
+            <a href="../../vs/vs2022-requirement/">Visual Studio 2022 のシステム要件</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">タグ</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="../../tags/ALM/">ALM</a><span class="tag-list-count">15</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-DevOps-Server">Azure DevOps Server</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-DevOps-Services">Azure DevOps Services</a><span class="tag-list-count">7</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-Pipelines">Azure Pipelines</a><span class="tag-list-count">6</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-Repos">Azure Repos</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Devcontainer">Devcontainer</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/GitHub">GitHub</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/TFS">TFS</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Visual-Studio-Code">Visual Studio Code</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86">情報採取手順</a><span class="tag-list-count">4</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/">情報採取手順</a><span class="tag-list-count">5</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/ALM">ALM</a><span class="tag-list-count">4</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/Azure-DevOps-Server">Azure DevOps Server</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/Azure-DevOps-Services">Azure DevOps Services</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/Azure-Pipelines">Azure Pipelines</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/TFS">TFS</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Windows-SDK/">Windows SDK</a><span class="tag-list-count">9</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Debug">Debug</a><span class="tag-list-count">5</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Documents-and-Printing">Documents and Printing</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/GDI">GDI</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Leak">Leak</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Windows-Update-Agent-API">Windows Update Agent API</a><span class="tag-list-count">2</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Debug/">Debug</a><span class="tag-list-count">15</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/NET">.NET</a><span class="tag-list-count">4</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/AI">AI</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Leak">Leak</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Memory">Memory</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Visual-Studio">Visual Studio</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Windows-SDK">Windows SDK</a><span class="tag-list-count">5</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/AI/">AI</a><span class="tag-list-count">3</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/AI/NET">.NET</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/AI/Debug">Debug</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/AI/Visual-Studio">Visual Studio</a><span class="tag-list-count">2</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/NET/">.NET</a><span class="tag-list-count">16</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/NET-Framework">.NET Framework</a><span class="tag-list-count">11</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/AI">AI</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/Debug">Debug</a><span class="tag-list-count">4</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/%E6%9B%B4%E6%96%B0%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0">更新プログラム</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Deployment/">Deployment</a><span class="tag-list-count">3</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Deployment/ClickOnce">ClickOnce</a><span class="tag-list-count">3</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Dev-Box/">Dev Box</a><span class="tag-list-count">1</span><ul></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E5%85%A8%E8%88%AC/">全般</a><span class="tag-list-count">1</span><ul></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Azure-PlayFab/">Azure PlayFab</a><span class="tag-list-count">4</span><ul></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Visual-Studio/">Visual Studio</a><span class="tag-list-count">14</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/AI">AI</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/C">C#</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/C">C++</a><span class="tag-list-count">5</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/Debug">Debug</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/VB-NET">VB.NET</a><span class="tag-list-count">2</span></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">アーカイブ</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/11/">2025 / 11</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/10/">2025 / 10</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/09/">2025 / 09</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/08/">2025 / 08</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/07/">2025 / 07</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/06/">2025 / 06</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/08/">2024 / 08</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/06/">2024 / 06</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/04/">2024 / 04</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/03/">2024 / 03</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/09/">2023 / 09</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/06/">2023 / 06</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/03/">2023 / 03</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/02/">2023 / 02</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/12/">2022 / 12</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/11/">2022 / 11</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/07/">2022 / 07</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/06/">2022 / 06</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/04/">2022 / 04</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/03/">2022 / 03</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/01/">2022 / 01</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/12/">2021 / 12</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/08/">2021 / 08</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/05/">2021 / 05</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/04/">2021 / 04</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/02/">2021 / 02</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/01/">2021 / 01</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/12/">2020 / 12</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/11/">2020 / 11</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/10/">2020 / 10</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/09/">2020 / 09</a><span class="archive-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">旧ブログ/フォーラム</h3>
+  <div class="widget">
+    <ul>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://social.msdn.microsoft.com/Forums/ja-jp/home?forum=visualstudiosupportteamja">Visual Studio サポートチーム フォーラム</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://social.msdn.microsoft.com/Forums/ja-jp/home?forum=windowssdksupportteamja&filter=alltypes&sort=lastpostdesc">Windows SDK サポートチーム フォーラム</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/archive/blogs/jpvsblog/">Visual Studio サポート チーム blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/archive/blogs/japan_platform_sdkwindows_sdk_support_team_blog/">JAPAN Platform SDK（Windows SDK） Support Team Blog</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">関連リンク</h3>
+  <div class="widget">
+    <ul>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://developercommunity.visualstudio.com/">Developer Community</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/dotnet/">.NET Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/visualstudio/">Visual Studio Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/cppblog/">C++ Team Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/xamarin/">Xamarin Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/devops/">Azure DevOps Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://techcommunity.microsoft.com/t5/azure-lab-services/bg-p/AzureLabServicesBlog/">Azure Lab Services Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/appcenter/">App Center Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://status.azure.com/status/">Azure Status</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://status.dev.azure.com/">Azure DevOps - Status</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2025 Developer Support Core Japan<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="../../index.html" class="mobile-nav-link">Home</a>
+  
+    <a href="../../archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+<script src="../../js/script.js"></script>
+
+
+<script src="../../js/toc.js"></script>
+
+
+
+
+
+
+  </div>
+</body>
+</html>
