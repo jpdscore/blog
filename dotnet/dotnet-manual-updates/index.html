@@ -4,25 +4,21 @@
   <meta charset="utf-8">
   
   
-  <title>Azure DevOps Service Connection の更新について | JPDSC Blog</title>
+  <title>.NET (旧 .NET Core) の手動更新について | JPDSC Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="こんにちは、Japan Developer Support Core チームです🐶 今回は、Azure DevOps Service Connection についてのお話です。 Azure DevOps での CI&#x2F;CD パイプラインは、外部サービスとの連携が不可欠です。Service Conne">
+  <meta name="description" content="こんにちは、Japan Developer Support Core チームの松井です。 .NET アプリケーションおよびそれを利用する環境のセキュリティを維持するためには、.NET ランタイムの更新プログラムを適切かつ迅速に適用することが重要です。前回の記事では .NET (旧 .NET Core">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Azure DevOps Service Connection の更新について">
-<meta property="og:url" content="https://jpdscore.github.io/blog/azuredevops/service-connection-update/index.html">
+<meta property="og:title" content=".NET (旧 .NET Core) の手動更新について">
+<meta property="og:url" content="https://jpdscore.github.io/blog/dotnet/dotnet-manual-updates/index.html">
 <meta property="og:site_name" content="Japan Developer Support Core Team Blog">
-<meta property="og:description" content="こんにちは、Japan Developer Support Core チームです🐶 今回は、Azure DevOps Service Connection についてのお話です。 Azure DevOps での CI&#x2F;CD パイプラインは、外部サービスとの連携が不可欠です。Service Conne">
+<meta property="og:description" content="こんにちは、Japan Developer Support Core チームの松井です。 .NET アプリケーションおよびそれを利用する環境のセキュリティを維持するためには、.NET ランタイムの更新プログラムを適切かつ迅速に適用することが重要です。前回の記事では .NET (旧 .NET Core">
 <meta property="og:locale" content="ja_JP">
-<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/service-connection-update/updatesc0.png">
-<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/service-connection-update/updatesc1.png">
-<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/service-connection-update/updatesc2.png">
-<meta property="article:published_time" content="2024-06-04T05:25:32.000Z">
-<meta property="article:modified_time" content="2025-11-28T11:30:43.103Z">
+<meta property="article:published_time" content="2025-11-27T15:00:00.000Z">
+<meta property="article:modified_time" content="2025-11-28T11:30:43.158Z">
 <meta property="article:author" content="Developer Support Core Japan">
-<meta property="article:tag" content="ALM">
-<meta property="article:tag" content="Azure DevOps Services">
+<meta property="article:tag" content=".NET">
+<meta property="article:tag" content="更新プログラム">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://jpdscore.github.io/blog/azuredevops/service-connection-update/updatesc0.png">
   
     <link rel="alternate" href="/blog/atom.xml" title="Japan Developer Support Core Team Blog" type="application/atom+xml">
   
@@ -85,7 +81,7 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="devops-azuredevops/service-connection-update" class="article article-type-devops" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-dotnet/dotnet-manual-updates" class="article article-type-post" itemscope itemprop="blogPost">
   
     <aside id="toc" role="complementary" aria-label="Table of Contents"></aside>
   
@@ -97,7 +93,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Azure DevOps Service Connection の更新について
+      .NET (旧 .NET Core) の手動更新について
     </h1>
   
 
@@ -105,7 +101,7 @@
       <div class="article-share">
         Last Update: 
         <a href="" class="article-date-single">
-  <time datetime="2024-06-04T05:25:32.000Z" itemprop="datePublished">2024-06-04</time>
+  <time datetime="2025-11-27T15:00:00.000Z" itemprop="datePublished">2025-11-28</time>
 </a>
         
         <div class="article-share-buttons">
@@ -113,7 +109,7 @@
         </div>
         <div class="article-share-buttons">
           <script src="https://platform.linkedin.com/in.js" type="text/javascript">lang: ja_JP</script>
-          <script type="IN/Share" data-url="https://jpdscore.github.io/blog/azuredevops/service-connection-update/"></script>
+          <script type="IN/Share" data-url="https://jpdscore.github.io/blog/dotnet/dotnet-manual-updates/"></script>
         </div>
         <div class="article-share-buttons">
           <a target="_blank" rel="noopener" href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
@@ -122,71 +118,57 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>こんにちは、Japan Developer Support Core チームです🐶
-今回は、Azure DevOps Service Connection についてのお話です。</p>
-<p>Azure DevOps での CI/CD パイプラインは、外部サービスとの連携が不可欠です。Service Connection は、これらの外部サービスへのアクセスポイントとして中心的な役割を果たしており、その期限切れはパイプラインの実行に大きな支障をきたす可能性があります。
-本記事では、Azure Resource Manager タイプの Service Connection (以降 Service Connection) の期限切れに迅速かつ正確に対処するためのベスト プラクティスをご紹介します。</p>
-<hr>
-<h2 id="Service-Connection-の重要性と期限切れのリスク"><a href="#Service-Connection-の重要性と期限切れのリスク" class="headerlink" title="Service Connection の重要性と期限切れのリスク"></a>Service Connection の重要性と期限切れのリスク</h2><hr>
-<p>Azure DevOps のパイプラインは、Microsoft Entra ID の機能であるアプリの登録を通じて作成される Service Principal や Managed Identity、Workload Identity Federation を利用して Azure リソースへのアクセスを実現しています。
-Service Principal を利用した Service Connection の作成方法には、automatic と manual の二つの方法がありますが、いずれの方法を用いた場合でも、有効期限が切れた際には以下のようなエラー メッセージが表示されることがあります。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AADSTS7000222: The provided client secret keys for app ‘***’ are expired</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Secret has expired. Convert your service connections to workload identity federation for improved security and simplified maintenance.</span><br></pre></td></tr></table></figure>
-
-<p>これらのエラーメッセージは、Service Connection に紐づく Service Principal のクライアント シークレットの更新が必要であることを示しています。</p>
-<hr>
-<h2 id="Service-Connection-の更新手順"><a href="#Service-Connection-の更新手順" class="headerlink" title="Service Connection の更新手順"></a>Service Connection の更新手順</h2><hr>
-<p>automatic と manual で更新手順が異なります。
-まず、&quot;Service principal (automatic)&quot; の場合は以下の手順です。</p>
-<ol>
-<li>   Azure DevOps にログインし、対象のプロジェクトを選択します。</li>
-<li>   プロジェクト設定に移動し、Service Connections を選択します。</li>
-<li>   期限切れの Service Connection を見つけ、[Edit] をクリックします。
-Service Connection が &quot;Service principal (automatic)&quot; で作成されたものかどうかは、Service Connection の編集画面を開いた際、下図の黄色くマーカーされた箇所に表示されます。
-<img src="updatesc0.png"></li>
-<li>   [Save] ボタンを押下するのみでシークレットが更新され、Service Connection の有効期限が自動的に 3 カ月延長されます。</li>
-<li>   Azure DevOps に戻り、Service Connection を検証します。</li>
-</ol>
-<p>次に、&quot;Service principal (manual)&quot; の場合は以下のとおりです。</p>
-<ol>
-<li>   Azure DevOps にログインし、対象のプロジェクトを選択します。</li>
-<li>   プロジェクト設定に移動し、Service Connections を選択します。</li>
-<li>   期限切れの Service Connection を見つけ、[Manage Service Principal] をクリックします。Azure ポータル画面が表示されます。
-<img src="updatesc1.png"></li>
-<li>   Service Connection が利用している Service Principal のページにて、左側のメニューより [証明書とシークレット] を選択します。</li>
-<li>   新しいクライアント シークレットを作成します。クライアント シークレットの作成手順は、<a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/entra/identity-platform/quickstart-register-app#add-a-client-secret%E5%86%85">ドキュメント</a> 内 “クライアント シークレットの追加” セクションを参照ください。</li>
-<li>   追加したクライアント シークレット行の &quot;値&quot; 欄右横の &quot;クリップ ボードにコピー&quot; マークをクリックします。※この内容は、この画面でしか表示されませんので、必要に応じてテキスト エディタなどを利用して保存を行ってください。</li>
-<li>   手順 3 の Azure DevOps の Service Connection の画面に戻ります。</li>
-<li>   Service Connection ページにて、右上の [Edit] をクリックします。</li>
-<li>   [Edit service connection] ダイアログにて [Service principal key] 欄に、手順 6 にて取得したクライアント シークレットの値を貼り付けます。 ※ 証明書の更新時間があるため、このまま 1 分ほど待機します。</li>
-<li>   [Verify and save] ボタンを押下し設定を保存します。
-<img src="updatesc2.png"></li>
-</ol>
-<p>なお、期限切れ前に更新する場合も同様の手順です。
-補足として Docker Registry タイプの Service Connection において [Registry type: Azure Container Registry] を選択している場合には &quot;Service principal (manual)&quot; の更新手順と同様に [Save] ボタンを押下するのみでシークレットが更新されます。</p>
-<hr>
-<h2 id="Service-Connection-の更新に必要な権限"><a href="#Service-Connection-の更新に必要な権限" class="headerlink" title="Service Connection の更新に必要な権限"></a>Service Connection の更新に必要な権限</h2><hr>
-<p>Service Connection を更新する際には、特定の権限が必要です。以下の権限を確認し、必要に応じて付与してください。</p>
+        <p>こんにちは、Japan Developer Support Core チームの松井です。</p>
+<p>.NET アプリケーションおよびそれを利用する環境のセキュリティを維持するためには、.NET ランタイムの更新プログラムを適切かつ迅速に適用することが重要です。<a href="../dotnet-auto-updates/">前回の記事</a>では .NET (旧 .NET Core) の自動更新について解説しましたが、運用上の要件などのために手動での適用が必要となる場合もあるかと思います。本記事では、.NET の更新プログラムを手動でダウンロードして適用する方法について説明します。</p>
+<h2 id="NET-の更新プログラムについて"><a href="#NET-の更新プログラムについて" class="headerlink" title=".NET の更新プログラムについて"></a>.NET の更新プログラムについて</h2><p>.NET の更新プログラムは Windows の更新パッケージ (<em>.msu ファイル) ではなく、インストーラー形式 (</em>.exe ファイル) で配布されています。また、インストーラーは差分更新ではなく、製品全体を含む完全なインストーラーとなっており、インストール時に既存のバージョンが上書きされる形で更新が適用されます。</p>
+<p>.NET はワークロードに応じて .NET Runtime、ASP.NET Core Runtime、Desktop Runtime、SDK など複数のインストーラーが提供されています。そのため、既にインストールされているランタイムの種類に応じて、適切なインストーラーを選択して更新プログラムを適用する必要があります。インストールされていないランタイムを実行した場合は新規インストールとなりますので注意してください。</p>
+<h2 id="NET-の更新プログラムの手動適用の流れ"><a href="#NET-の更新プログラムの手動適用の流れ" class="headerlink" title=".NET の更新プログラムの手動適用の流れ"></a>.NET の更新プログラムの手動適用の流れ</h2><ol>
+<li><p>インストールされているバージョンとランタイムの種類を確認する</p>
+<p>[設定] アプリを開き、[アプリ] - [インストールされているアプリ] を選択し、&quot;.NET&quot; で検索してインストールされている .NET のバージョンと種類を確認します。例えば、以下のような項目が表示されます。</p>
 <ul>
-<li><strong>Azure DevOps:</strong> 対象の Service Connection における &quot;Administrator&quot; ロールが必要です。Service Connection の作成者は自動でこのロールが付与されます。</li>
-<li><strong>Microsoft Entra ID:</strong> Service Principal を更新する権限として、Service Principal の所有者、もしくは &quot;アプリケーション管理者&quot; ロールが必要です。Service Connection を作成したユーザーは Service Principal の所有者となるため、特に制限がなければ既定で更新可能です。</li>
-<li><strong>Azure サブスクリプション:</strong> ロールを付与する権限が必要です。具体的には Microsoft.Authorization/roleAssignments/write 権限が必要となり、&quot;所有者&quot; または &quot;ユーザー アクセス管理者&quot; ロールが必要です。もし、対象の Service Connection が、リソース グループを対象としている場合は、リソース グループに対する権限で操作可能です。</li>
+<li><code>Microsoft .NET 8.0.17 Windows Server Hosting</code> - &quot;ASP.NET Core Runtime (Hosting Bundle)&quot; がインストールされている</li>
+<li><code>Microsoft ASP.NET Core 8.0.17 - Shared Framework (x64)</code> - &quot;ASP.NET Core Runtime&quot; がインストールされている</li>
+<li><code>Microsoft Windows Desktop Runtime - 8.0.17 (x64)</code> - &quot;.NET Desktop Runtime&quot; がインストールされている</li>
+<li><code>Microsoft .NET Runtime - 8.0.17 (x64)</code> - &quot;.NET Runtime&quot; がインストールされている</li>
+<li><code>Microsoft .NET SDK 8.0.411 (x64)</code> - &quot;.NET SDK&quot; がインストールされている</li>
 </ul>
-<hr>
-<h2 id="新たな-Service-Connection-の作成"><a href="#新たな-Service-Connection-の作成" class="headerlink" title="新たな Service Connection の作成"></a>新たな Service Connection の作成</h2><hr>
-<p>クライアント シークレットの有効期限を管理する必要をなくすために、以下の方法で新たな Service Connection を作成することをご検討ください。</p>
+</li>
+<li><p>必要なインストーラーをダウンロードする</p>
+<p>公式の .NET ダウンロード ページから、該当するバージョンとランタイムの種類に合ったインストーラーをダウンロードします。</p>
 <ul>
-<li><strong>方法 1:</strong> マネージド ID を使用して認証可能な Service Connection を作成します。</li>
-<li><strong>方法 2:</strong> Workload Identity Federation を使用して認証可能な Service Connection を作成します。</li>
+<li><a target="_blank" rel="noopener" href="https://dotnet.microsoft.com/ja-jp/download/dotnet">.NET ダウンロード ページ</a></li>
 </ul>
-<p>これらの方法により、セキュリティを強化し、メンテナンスを簡素化することができます。
-詳細については以下のブログをご参照ください。
-<a href="https://jpdscore.github.io/blog/azuredevops/wif-service-connection/">Azure DevOps Service Connection と Workload Identity Federation について | Japan Developer Support Core Team Blog</a></p>
-<hr>
-<h2 id="まとめ"><a href="#まとめ" class="headerlink" title="まとめ"></a>まとめ</h2><hr>
-<p>Service Connection の管理は、Azure DevOps の運用において非常に重要です。期限切れによる中断を避けるためにも、定期的な監視と更新が必要となります。このガイドが、Service Connection のスムーズな管理に役立つことを願っています。
-定期的な更新だけでなく、Workload Identity Federation やマネージド ID を利用した新しい Service Connection の作成を検討することで、より安全で効率的な DevOps 環境を実現できますので、あわせてご検討ください。</p>
+<p>また、OS のアーキテクチャ (x64, x86, ARM64) に合ったインストーラーを選択してください。</p>
+</li>
+<li><p>インストーラーを実行する</p>
+<p>ダウンロードしたインストーラー (.exe ファイル) をダブルクリックして実行します。画面の指示に従ってインストールを完了させます。</p>
+</li>
+<li><p>更新が適用されたことを確認する</p>
+<p>以下のコマンドを実行し、バージョンが更新されていることを確認します。</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">dotnet <span class="literal">--list-runtimes</span></span><br><span class="line">dotnet <span class="literal">--list-sdks</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h2 id="注意点"><a href="#注意点" class="headerlink" title="注意点"></a>注意点</h2><ul>
+<li><p>Visual Studio がインストールされている環境では、Visual Studio 経由でインストールされた .NET SDK やランタイムも表示されることがあります。この場合、末尾に &quot;from Visual Studio&quot; のように Visual Studio 経由でインストールされたことが示されます。Visual Studio 経由でインストールされたランタイムや SDK は、Visual Studio の更新プログラムを通じて更新されるため、個別に手動で新しいバージョンをインストールする必要はありません。</p>
+</li>
+<li><p>インストーラーは管理者権限での実行が必要です。インストール中にユーザー アカウント制御 (UAC) のプロンプトが表示された場合は、[はい] をクリックして続行してください。</p>
+</li>
+<li><p>ファイルが使用中の場合、インストールの終了後にコンピューターの再起動が必要となることがあります。インストーラーの指示に従って再起動を行ってください。</p>
+</li>
+</ul>
+<h2 id="よくある質問"><a href="#よくある質問" class="headerlink" title="よくある質問"></a>よくある質問</h2><ul>
+<li><p><strong>Q: Microsoft Update カタログから .NET の更新プログラムをダウンロードして適用できますか?</strong></p>
+<p>A: はい。ただし、Microsoft Update カタログで提供されているファイルもインストーラー形式 (*.exe ファイル) であり、差分更新ではなく完全なインストーラーとなっています。</p>
+</li>
+<li><p><strong>Q: Microsoft Update カタログでダウンロード ページを開くと多数のファイルが表示されますが、どれを選択すればよいですか?</strong></p>
+<p>A: Microsoft Update カタログでは、各ランタイムや SDK ごとに複数のアーキテクチャ (x64, x86, ARM64) 用のインストーラーが提供されています。インストールされているランタイムや SDK の種類とバージョン、OS のアーキテクチャに合ったインストーラーを選択してください。</p>
+</li>
+<li><p><strong>Q: サイレント インストールは可能ですか?</strong></p>
+<p>A: はい。インストーラーはコマンド ライン引数を使用してサイレント インストールを実行できます。以下のコマンド例を参照してください。</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.\dotnet<span class="literal">-runtime-8</span>.<span class="number">0.17</span><span class="literal">-win-x64</span>.exe /quiet /norestart</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
 
       
       
@@ -200,11 +182,11 @@ Service Connection が &quot;Service principal (automatic)&quot; で作成され
     <footer class="article-footer">
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/ALM/" rel="tag">ALM</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Azure-DevOps-Services/" rel="tag">Azure DevOps Services</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/NET/" rel="tag">.NET</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/%E6%9B%B4%E6%96%B0%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0/" rel="tag">更新プログラム</a></li></ul>
 
       <!-- 
       
-        <a href="https://github.com/jpdscore/blog/edit/master/articles/azuredevops/service-connection-update.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
+        <a href="https://github.com/jpdscore/blog/edit/master/articles/dotnet/dotnet-manual-updates.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
         
       -->
     </footer>
@@ -213,19 +195,10 @@ Service Connection が &quot;Service principal (automatic)&quot; で作成され
     
 <nav id="article-nav">
   
-    <a href="../wif-service-connection/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">次の記事</strong>
-      <div class="article-nav-title">
-        
-          Azure DevOps Service Connection と Workload Identity Federation について
-        
-      </div>
-    </a>
   
-  
-    <a href="../pipelines-agent-update/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="../dotnet-auto-updates/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">前の記事</strong>
-      <div class="article-nav-title">Azure Pipelines エージェントの更新について</div>
+      <div class="article-nav-title">Windows Update による .NET (旧 .NET Core) の自動更新について</div>
     </a>
   
 </nav>
@@ -244,19 +217,19 @@ Service Connection が &quot;Service principal (automatic)&quot; で作成され
       <ul>
         
           <li>
-            <a href="../../dotnet/dotnet-manual-updates/">.NET (旧 .NET Core) の手動更新について</a>
+            <a href="">.NET (旧 .NET Core) の手動更新について</a>
           </li>
         
           <li>
-            <a href="../../dotnet/dotnet-auto-updates/">Windows Update による .NET (旧 .NET Core) の自動更新について</a>
+            <a href="../dotnet-auto-updates/">Windows Update による .NET (旧 .NET Core) の自動更新について</a>
           </li>
         
           <li>
-            <a href="../../dotnet/netfx-4-upgrade/">.NET Framework 3.5 から 4.x への移行</a>
+            <a href="../netfx-4-upgrade/">.NET Framework 3.5 から 4.x への移行</a>
           </li>
         
           <li>
-            <a href="../../dotnet/list-assemblies-in-gac-by-fusion-api/">Fusion API を使用して GAC に登録されているアセンブリの一覧を取得する</a>
+            <a href="../list-assemblies-in-gac-by-fusion-api/">Fusion API を使用して GAC に登録されているアセンブリの一覧を取得する</a>
           </li>
         
           <li>
