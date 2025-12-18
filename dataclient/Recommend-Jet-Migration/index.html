@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Jet データベースエンジンの移行のススメ | JPDSC Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="こんにちは、Japan Developer Support Core チームの高橋です。かつて SQL Server サポートの一環でデータベース アクセス関連のテクノロジーを対応しており、ブログも執筆していましたが、開発支援サポートのチームでも引き続き同テクノロジーについて対応しています。今回はそ">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Jet データベースエンジンの移行のススメ">
+<meta property="og:url" content="https://jpdscore.github.io/blog/dataclient/Recommend-Jet-Migration/index.html">
+<meta property="og:site_name" content="Japan Developer Support Core Team Blog">
+<meta property="og:description" content="こんにちは、Japan Developer Support Core チームの高橋です。かつて SQL Server サポートの一環でデータベース アクセス関連のテクノロジーを対応しており、ブログも執筆していましたが、開発支援サポートのチームでも引き続き同テクノロジーについて対応しています。今回はそ">
+<meta property="og:locale" content="ja_JP">
+<meta property="article:published_time" content="2025-12-17T05:19:47.000Z">
+<meta property="article:modified_time" content="2025-12-18T04:38:25.007Z">
+<meta property="article:author" content="Developer Support Core Japan">
+<meta property="article:tag" content="Data Access">
+<meta property="article:tag" content="Jet">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/blog/atom.xml" title="Japan Developer Support Core Team Blog" type="application/atom+xml">
+  
+
+  <link rel="icon" href="../../favicon.ico">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="theme-color" content="#ffffff">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="../../css/style.css">
+
+  
+<link rel="stylesheet" href="../../css/copy-button.css">
+
+  
+<link rel="stylesheet" href="../../css/toc.css">
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="site-header-logo"></div>
+  <div id="site-header-blog-wrapper"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        <div id="ms-logo"></div>
+        
+          <a class="main-nav-link" href="../../index.html">Home</a>
+        
+          <a class="main-nav-link" href="../../archives">Archives</a>
+        
+        <a class="main-nav-link" target="_blank" rel="noopener" href="https://cssjpn.github.io/">サポート情報</a>
+        <a class="main-nav-link" href="/blog/general/welcome/">About</a>
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/blog/atom.xml" title="RSSフィード"></a>
+        
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//www.google.com/search" method="get" accept-charset="UTF-8" name="google-search" onsubmit="var f=this;if(f['q'].value){var searchUrl =  'https://www.google.com/search?q=' +  encodeURIComponent(f['q'].value + ' site:' + f['sitesearch'].value) ;window.open(searchUrl, 'blank') };return false;" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="検索"><button type="submit" id="nav-search-btn" class="search-form-submit"></button><input type="hidden" name="sitesearch" value="https://jpdscore.github.io/blog"></form>
+      </div>
+    </div>
+    <div id="header-title" class="inner">
+      <div id="logo-wrap">
+        <a href="../../index.html" id="logo">Japan Developer Support Core Team Blog</a>
+      </div>
+      
+        <div id="subtitle-wrap">
+          <a href="../../index.html" id="subtitle">日本マイクロソフトの Japan Developer Support Core チームのブログです。</a>
+        </div>
+      
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-dataclient/Recommend-Jet-Migration" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <aside id="toc" role="complementary" aria-label="Table of Contents"></aside>
+  
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header-single">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Jet データベースエンジンの移行のススメ
+    </h1>
+  
+
+      </header>
+      <div class="article-share">
+        Last Update: 
+        <a href="" class="article-date-single">
+  <time datetime="2025-12-17T05:19:47.000Z" itemprop="datePublished">2025-12-17</time>
+</a>
+        
+        <div class="article-share-buttons">
+          <a target="_blank" rel="noopener" href="https://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="basic-label" data-hatena-bookmark-lang="ja" data-hatena-bookmark-height="20" title="このエントリーをはてなブックマークに追加"><img src="https://b.st-hatena.com/images/v4/public/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+        </div>
+        <div class="article-share-buttons">
+          <script src="https://platform.linkedin.com/in.js" type="text/javascript">lang: ja_JP</script>
+          <script type="IN/Share" data-url="https://jpdscore.github.io/blog/dataclient/Recommend-Jet-Migration/"></script>
+        </div>
+        <div class="article-share-buttons">
+          <a target="_blank" rel="noopener" href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        </div>
+      </div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>こんにちは、Japan Developer Support Core チームの高橋です。かつて SQL Server サポートの一環でデータベース アクセス関連のテクノロジーを対応しており、ブログも執筆していましたが、開発支援サポートのチームでも引き続き同テクノロジーについて対応しています。今回はその中から Jet データベース エンジンの利用の終了を皆さんにご検討いただきたく、Jet データベース エンジンの現状と移行について本記事で説明します。</p>
+<h2 id="Jet-データベース-エンジンとは？"><a href="#Jet-データベース-エンジンとは？" class="headerlink" title="Jet データベース エンジンとは？"></a>Jet データベース エンジンとは？</h2><p>Jet データベース エンジンは Microsoft が 1990年代に初めてリリースした Windows 向けの組み込み型データベースエンジンです。主に Microsoft Access のデータストレージ エンジンとして採用され、また Visual Basic をはじめとするアプリケーションで組み込みデータベースとして利用されてきました。Jet エンジンはサーバー プロセスを持たないファイル共有型の RDBMS であり、データは単一のファイル（.mdb 形式など）に格納されます。これにより、専用のデータベース サーバーを用意せずとも手軽にデータベース機能を組み込めるため、小規模データや単独ユーザーでの利用に便利です。一方で、大規模データや多数ユーザーでの同時利用を前提としていないため、例えば Web サーバーでのマルチスレッド処理が想定される環境での利用はサポートされないなどの制限があります。</p>
+<p>なお、DAO (Data Access Objects)、ADO (Microsoft ActiveX Data Objects) や MFC (Microsoft Foundation Class) の CDatabase などのデータ アクセス テクノロジーを使用して MDB ファイルにアクセスする処理であることは把握していても、「Jet を使っている」と意識していないケースも多いようですが、次のような .mdb ファイルを使用するケースでは Jet データベース エンジンを利用しています。</p>
+<ul>
+<li>過去のバージョンの Microsoft Access で作成した業務ツール</li>
+<li>&quot;Microsoft.Jet.OLEDB.4.0&quot; (Microsoft OLE DB Provider for Jet) を接続用 OLE DB プロバイダーとして利用している VBA、VB6.0、VC++、VB.NET アプリ</li>
+<li>&quot;Microsoft Access Driver (*.mdb)&quot; を接続用 ODBC ドライバとして利用している VBA、VB6.0、VC++、VB.NET アプリ</li>
+</ul>
+<h2 id="Jet-データベース-エンジンの非推奨化とサポート状況"><a href="#Jet-データベース-エンジンの非推奨化とサポート状況" class="headerlink" title="Jet データベース エンジンの非推奨化とサポート状況"></a>Jet データベース エンジンの非推奨化とサポート状況</h2><p>現在、Jet データベース エンジンは非推奨 (Deprecated) の技術と位置付けられています。次のページでも &quot;Microsoft Jet データベース エンジン 4.0&quot; が非推奨のコンポーネントとして紹介されていることをご覧いただけます。</p>
+<p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/sql/connect/connect-history?view=sql-server-ver17&redirectedfrom=MSDN#deprecated-mdacwdac-components">非推奨の MDAC/WDAC コンポーネント</a></p>
+<p>これは、新規開発では使用を避けるべきレガシーコンポーネントであり、将来のプラットフォームからは除去される可能性があるという意味です。実際、弊社では 2000 年代以降 Jet データベース エンジン自体の開発を停止しており、Jet データベース エンジン バージョン 4.0 以降は機能強化が行われず、Windows に含まれる Jet 関連のコンポーネントもセキュリティ対策のための修正のみとする維持モードです。また、64 ビット版の Jet データベース エンジンは提供されておらず、今後も予定はありません。これに伴い、Windows 搭載の Jet 向け OLE DB プロバイダーや ODBC ドライバーも 32 ビット版のみ提供しています。これは、64 ビット ネイティブのアプリケーションから Jet データベース エンジンを介してデータベース (.mdb) に直接アクセスできないことを意味します。(WoW64 上の 32ビットプロキシを介す必要があります。)</p>
+<h2 id="Jet-データベース-エンジン利用上のリスク"><a href="#Jet-データベース-エンジン利用上のリスク" class="headerlink" title="Jet データベース エンジン利用上のリスク"></a>Jet データベース エンジン利用上のリスク</h2><p>前述の通り、Jet データベースは開発を終了している維持モードにつき、以前より存在していた不具合が表面化した場合にもセキュリティ脆弱性に相当しない限りはその修正は行われません。直近では次のような問題が報告されましたが、問題に遭遇したユーザーの皆様には同理由により修正ではなく移行による対応を進めていただきました。</p>
+<blockquote>
+<p>発生する問題:<br>mdb ファイルへの接続時に &quot;Not a valid password.&quot; のエラーが発生して接続が失敗することがある。</p>
+</blockquote>
+<blockquote>
+<p>上記問題の原因:<br>Jet データベース エンジンは Temp 環境変数で示される領域に一時ファイルを作成し、データの並べ替えなどの作業用に使用しますが、今回のエラーは実際のデータベースへの接続にあたって作成される一時ファイル向けのパスワード処理で未初期化の変数を使用するため、その変数が割り当てられたメモリ領域の内容に依存してエラーと判断される問題です。</p>
+</blockquote>
+<p>また、Jet データベース エンジンはその古さゆえに、セキュリティ面でもいくつかのリスクや課題があります。  </p>
+<p>代表的なものを挙げます:</p>
+<table>
+<thead>
+<tr>
+<th><nobr>リスク項目</nobr></th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>パスワードセキュリティの弱さ</td>
+<td>Jet データベース(.mdb)にはオプションで「データベース暗号化/パスワード設定」が可能ですが、その実装は非常に脆弱です。Access 95–2003 の Jet 3.x/4.x では、パスワード文字列が平文または単純な XOR パターンでファイルヘッダに格納されるだのみにつき、第三者による解析が容易と言われています。</td>
+</tr>
+<tr>
+<td>ユーザー権限機能の形骸化</td>
+<td>Jet データベース (.mdb) は独自のユーザー/グループ管理によるアクセス制御機能（俗に「ワークグループセキュリティ」）を提供しています。しかしこの仕組みもセキュリティが不十分のため、設定が複雑な割に回避策が存在するものと言えます。</td>
+</tr>
+<tr>
+<td>ファイル自体への物理アクセス</td>
+<td>Jet データベースは単一ファイルにまとまっているため、そのファイルにアクセスできれば OS レベルでコピー・移動・解析が可能です。たとえファイルを開くパスワードを設けても前述の通り容易に解読できるため、悪意ある内部ユーザーや第三者にファイルそのものを取得されると情報漏えいにつながります。サーバー型の RDBMS のような統合認証や通信暗号化を Jet は備えていないため、設置環境でのファイルアクセス権限の厳重な管理が不可欠です。</td>
+</tr>
+</tbody></table>
+<p>以上のように、Jet データベース エンジンはセキュリティ面でも<strong>時代遅れ</strong>につき、企業システムで Jet (.mdb) を使い続けることは、脆弱性や情報漏洩リスクの観点からも望ましくありません。</p>
+<h2 id="Jet-データベース-エンジンからの移行先"><a href="#Jet-データベース-エンジンからの移行先" class="headerlink" title="Jet データベース エンジンからの移行先"></a>Jet データベース エンジンからの移行先</h2><p>冒頭にも記載したように、Jet データベース エンジンの利用を終了し、他のデータベース製品への移行を公式に推奨しています。Jet データベース エンジンを利用しているアプリケーションやシステムは、用途に応じて以下のような弊社サポート対象の代替データベース エンジンへの移行を検討しましょう。</p>
+<table>
+<thead>
+<tr>
+<th>移行先</th>
+<th>概要と利点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Microsoft SQL Server (Express Edition を含む)</td>
+<td>企業向けの標準的 RDBMS です。Jet データベース エンジンの代替としては SQL Server Express エディション (無償版) が適しています。Express エディションはローカル PC にインストールして手軽に使える一方、性能・信頼性・セキュリティはいずれも Jet データベース エンジンより大幅に向上します。将来的にデータやユーザー数が増大した場合も、上位エディションの SQL Server へのスケールアップが可能です。Access を使用しているケースでは、Jet データベース エンジンの「アップサイジングウィザード」も SQL Server への移行を支援します。</td>
+</tr>
+<tr>
+<td>Access ランタイム (.ACCDB形式)</td>
+<td>Microsoft Access 2007 で採用された新世代エンジンを使用する方法です。Jet バージョン 4.0 から派生しており従来の Jet と高い互換性を保ちつつ、マルチバリューフィールドや添付ファイル型などの新機能、強化された暗号化を備えています。Access ランタイムにて提供される OLE DB プロバイダーや ODBC ドライバーからも旧 MDB ファイルを扱えるため、既存 Jet アプリも Access ランタイムのインストールと接続文字列に指定するプロバイダーやドライバの指定の変更によって継続運用が可能です。また、64 ビット版も提供されています。Access を使った業務ツールなど Jet 特有の機能が必要な場合、このエンジン環境へ移行することが一つの解決策です。</td>
+</tr>
+</tbody></table>
+<h2 id="まとめ"><a href="#まとめ" class="headerlink" title="まとめ"></a>まとめ</h2><p>Jet データベース エンジンはデスクトップ向けデータベース エンジンとして完結した機能セットを持ち、小規模な用途であればプログラムから直接扱える便利なものであり、MS Access 黎明期から多くのアプリケーションで用いられてきた実績あるエンジンでした。しかし、その構造上の制約から時代と共に役割を終え、現在では非推奨のレガシー技術です。サイズや同時利用、セキュリティの制約があるため、より堅牢なデータベース技術へ置き換えられてきたと言えます。このような背景を踏まえ、Jet データベース エンジンを使用したシステムに対して弊社では SQL Server ファミリや Access ランタイムへの移行を推奨しています。Jet データベースを利用したシステムをお持ちの場合、上記情報を参考に是非早めの移行計画策定をお勧めします。</p>
+<style>
+        :root {
+        --accent: #464feb;
+        --timeline-ln: linear-gradient(to bottom, transparent 0%, #b0beff 15%, #b0beff 85%, transparent 100%);
+        --timeline-border: #ffffff;
+        --bg-card: #f5f7fa;
+        --bg-hover: #ebefff;
+        --text-title: #424242;
+        --text-accent: var(--accent);
+        --text-sub: #424242;
+        --radius: 12px;
+        --border: #e0e0e0;
+        --shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+        --hover-shadow: 0 4px 14px rgba(39, 16, 16, 0.1);
+        --font: "Segoe Sans", "Segoe UI", "Segoe UI Web (West European)", -apple-system, "system-ui", Roboto, "Helvetica Neue", sans-serif;
+        --overflow-wrap: break-word;
+    }
+
+    @media (prefers-color-scheme: dark) {
+        :root {
+            --accent: #7385ff;
+            --timeline-ln: linear-gradient(to bottom, transparent 0%, transparent 3%, #6264a7 30%, #6264a7 50%, transparent 97%, transparent 100%);
+            --timeline-border: #424242;
+            --bg-card: #1a1a1a;
+            --bg-hover: #2a2a2a;
+            --text-title: #ffffff;
+            --text-sub: #ffffff;
+            --shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            --hover-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+            --border: #3d3d3d;
+        }
+    }
+
+    @media (prefers-contrast: more),
+    (forced-colors: active) {
+        :root {
+            --accent: ActiveText;
+            --timeline-ln: ActiveText;
+            --timeline-border: Canvas;
+            --bg-card: Canvas;
+            --bg-hover: Canvas;
+            --text-title: CanvasText;
+            --text-sub: CanvasText;
+            --shadow: 0 2px 10px Canvas;
+            --hover-shadow: 0 4px 14px Canvas;
+            --border: ButtonBorder;
+        }
+    }
+
+    .insights-container {
+        display: grid;
+        grid-template-columns: repeat(2,minmax(240px,1fr));
+        padding: 0px 16px 0px 16px;
+        gap: 16px;
+        margin: 0 0;
+        font-family: var(--font);
+    }
+
+    .insight-card:last-child:nth-child(odd){
+        grid-column: 1 / -1;
+    }
+
+    .insight-card {
+        background-color: var(--bg-card);
+        border-radius: var(--radius);
+        border: 1px solid var(--border);
+        box-shadow: var(--shadow);
+        min-width: 220px;
+        padding: 16px 20px 16px 20px;
+    }
+
+    .insight-card:hover {
+        background-color: var(--bg-hover);
+    }
+
+    .insight-card h4 {
+        margin: 0px 0px 8px 0px;
+        font-size: 1.1rem;
+        color: var(--text-accent);
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .insight-card .icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 20px;
+        height: 20px;
+        font-size: 1.1rem;
+        color: var(--text-accent);
+    }
+
+    .insight-card p {
+        font-size: 0.92rem;
+        color: var(--text-sub);
+        line-height: 1.5;
+        margin: 0px;
+        overflow-wrap: var(--overflow-wrap);
+    }
+
+    .insight-card p b, .insight-card p strong {
+        font-weight: 600;
+    }
+
+    .metrics-container {
+        display:grid;
+        grid-template-columns:repeat(2,minmax(210px,1fr));
+        font-family: var(--font);
+        padding: 0px 16px 0px 16px;
+        gap: 16px;
+    }
+
+    .metric-card:last-child:nth-child(odd){
+        grid-column:1 / -1; 
+    }
+
+    .metric-card {
+        flex: 1 1 210px;
+        padding: 16px;
+        background-color: var(--bg-card);
+        border-radius: var(--radius);
+        border: 1px solid var(--border);
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .metric-card:hover {
+        background-color: var(--bg-hover);
+    }
+
+    .metric-card h4 {
+        margin: 0px;
+        font-size: 1rem;
+        color: var(--text-title);
+        font-weight: 600;
+    }
+
+    .metric-card .metric-card-value {
+        margin: 0px;
+        font-size: 1.4rem;
+        font-weight: 600;
+        color: var(--text-accent);
+    }
+
+    .metric-card p {
+        font-size: 0.85rem;
+        color: var(--text-sub);
+        line-height: 1.45;
+        margin: 0;
+        overflow-wrap: var(--overflow-wrap);
+    }
+
+    .timeline-container {
+        position: relative;
+        margin: 0 0 0 0;
+        padding: 0px 16px 0px 56px;
+        list-style: none;
+        font-family: var(--font);
+        font-size: 0.9rem;
+        color: var(--text-sub);
+        line-height: 1.4;
+    }
+
+    .timeline-container::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: calc(-40px + 56px);
+        width: 2px;
+        height: 100%;
+        background: var(--timeline-ln);
+    }
+
+    .timeline-container > li {
+        position: relative;
+        margin-bottom: 16px;
+        padding: 16px 20px 16px 20px;
+        border-radius: var(--radius);
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+    }
+
+    .timeline-container > li:last-child {
+        margin-bottom: 0px;
+    }
+
+    .timeline-container > li:hover {
+        background-color: var(--bg-hover);
+    }
+
+    .timeline-container > li::before {
+        content: "";
+        position: absolute;
+        top: 18px;
+        left: -40px;
+        width: 14px;
+        height: 14px;
+        background: var(--accent);
+        border: var(--timeline-border) 2px solid;
+        border-radius: 50%;
+        transform: translateX(-50%);
+        box-shadow: 0px 0px 2px 0px #00000012, 0px 4px 8px 0px #00000014;
+    }
+
+    .timeline-container > li h4 {
+        margin: 0 0 5px;
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--accent);
+    }
+
+    .timeline-container > li h4 em {
+        margin: 0 0 5px;
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--accent);
+        font-style: normal;
+    }
+
+    .timeline-container > li * {
+        margin: 0;
+        font-size: 0.9rem;
+        color: var(--text-sub);
+        line-height: 1.4;
+    }
+
+    .timeline-container > li * b, .timeline-container > li * strong {
+        font-weight: 600;
+    }
+        @media (max-width:600px){
+        .metrics-container,
+        .insights-container{
+            grid-template-columns:1fr;
+      }
+    }
+</style>
+<div class="insights-container">
+  <div class="insight-card">
+    <h4>Jet はレガシーな組み込みデータベース エンジン</h4>
+    <p><Person>Microsoft</Person>が 1990 年代に開発した <b>Jet データベース エンジン</b>は、<b>Microsoft Access</b> や古い <b>Visual Basic</b> アプリからアクセスするデータベースエンジンとして広く利用されたファイルベース型の RDBMS です。</p>
+  </div>
+  <div class="insight-card">
+    <h4>非推奨と制約</h4>
+    <p>Jet データベース エンジンは現在 Microsoft によって<b>非推奨 (Deprecated)</b> とされており、<b>2GB</b> までのファイルサイズ制限や<b>同時接続 255 ユーザー</b>までといった容量・規模上の限界、および <b>32 ビット環境専用</b>（64ビット未対応）といった技術的制約があります。</p>
+  </div>
+  <div class="insight-card">
+    <h4>移行の推奨</h4>
+    <p>Jet を使用するアプリケーションは、Microsoft がサポートする<b>代替データベース製品</b>への移行が推奨されます。具体的には、<b>SQL Server</b>（小規模用途には無償 Express 版含む）や、Access の新しい <b>ACCDB 形式 (Access ランタイム利用)</b> などが公式に推奨されています。</p>
+  </div>
+</div>
+
+      
+      
+        <div class="article-disclaimer">
+        
+          <p><hr>本ブログの内容は弊社の公式見解として保証されるものではなく、開発・運用時の参考情報としてご活用いただくことを目的としています。もし公式な見解が必要な場合は、弊社ドキュメント (<a target="_blank" rel="noopener" href="https://learn.microsoft.com/">https://learn.microsoft.com</a> や <a target="_blank" rel="noopener" href="https://support.microsoft.com">https://support.microsoft.com</a>) をご参照いただくか、もしくは私共サポートまでお問い合わせください。</p>
+        
+        </div>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Data-Access/" rel="tag">Data Access</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Jet/" rel="tag">Jet</a></li></ul>
+
+      <!-- 
+      
+        <a href="https://github.com/jpdscore/blog/edit/master/articles/dataclient/Recommend-Jet-Migration.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
+        
+      -->
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="../../azuredevops/extensions-support/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">次の記事</strong>
+      <div class="article-nav-title">
+        
+          Azure DevOps 拡張機能におけるテクニカル サポートの対応範囲
+        
+      </div>
+    </a>
+  
+  
+    <a href="../../azuredevops/hosted-images-update/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前の記事</strong>
+      <div class="article-nav-title">Microsoft-hosted エージェントイメージの更新方法</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最近の投稿</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="../../azuredevops/extensions-support/">Azure DevOps 拡張機能におけるテクニカル サポートの対応範囲</a>
+          </li>
+        
+          <li>
+            <a href="">Jet データベースエンジンの移行のススメ</a>
+          </li>
+        
+          <li>
+            <a href="../../azuredevops/hosted-images-update/">Microsoft-hosted エージェントイメージの更新方法</a>
+          </li>
+        
+          <li>
+            <a href="../../dotnet/dotnet-manual-updates/">.NET (旧 .NET Core) の手動更新について</a>
+          </li>
+        
+          <li>
+            <a href="../../dotnet/dotnet-auto-updates/">Windows Update による .NET (旧 .NET Core) の自動更新について</a>
+          </li>
+        
+          <li>
+            <a href="../../dotnet/netfx-4-upgrade/">.NET Framework 3.5 から 4.x への移行</a>
+          </li>
+        
+          <li>
+            <a href="../../dotnet/list-assemblies-in-gac-by-fusion-api/">Fusion API を使用して GAC に登録されているアセンブリの一覧を取得する</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">タグ</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="../../tags/ALM/">ALM</a><span class="tag-list-count">17</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-DevOps-Server">Azure DevOps Server</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-DevOps-Services">Azure DevOps Services</a><span class="tag-list-count">9</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-Pipelines">Azure Pipelines</a><span class="tag-list-count">7</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-Repos">Azure Repos</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Devcontainer">Devcontainer</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/GitHub">GitHub</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/TFS">TFS</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Visual-Studio-Code">Visual Studio Code</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86">情報採取手順</a><span class="tag-list-count">4</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/">情報採取手順</a><span class="tag-list-count">5</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/ALM">ALM</a><span class="tag-list-count">4</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/Azure-DevOps-Server">Azure DevOps Server</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/Azure-DevOps-Services">Azure DevOps Services</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/Azure-Pipelines">Azure Pipelines</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/TFS">TFS</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Data-Access/">Data Access</a><span class="tag-list-count">1</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Data-Access/Jet">Jet</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Windows-SDK/">Windows SDK</a><span class="tag-list-count">9</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Debug">Debug</a><span class="tag-list-count">5</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Documents-and-Printing">Documents and Printing</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/GDI">GDI</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Leak">Leak</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Windows-Update-Agent-API">Windows Update Agent API</a><span class="tag-list-count">2</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Debug/">Debug</a><span class="tag-list-count">15</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/NET">.NET</a><span class="tag-list-count">4</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/AI">AI</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Leak">Leak</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Memory">Memory</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Visual-Studio">Visual Studio</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Windows-SDK">Windows SDK</a><span class="tag-list-count">5</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/AI/">AI</a><span class="tag-list-count">3</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/AI/NET">.NET</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/AI/Debug">Debug</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/AI/Visual-Studio">Visual Studio</a><span class="tag-list-count">2</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/NET/">.NET</a><span class="tag-list-count">17</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/NET-Framework">.NET Framework</a><span class="tag-list-count">11</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/AI">AI</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/Debug">Debug</a><span class="tag-list-count">4</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/%E6%9B%B4%E6%96%B0%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0">更新プログラム</a><span class="tag-list-count">2</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Deployment/">Deployment</a><span class="tag-list-count">3</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Deployment/ClickOnce">ClickOnce</a><span class="tag-list-count">3</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Dev-Box/">Dev Box</a><span class="tag-list-count">1</span><ul></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E5%85%A8%E8%88%AC/">全般</a><span class="tag-list-count">1</span><ul></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Azure-PlayFab/">Azure PlayFab</a><span class="tag-list-count">4</span><ul></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Visual-Studio/">Visual Studio</a><span class="tag-list-count">14</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/AI">AI</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/C">C#</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/C">C++</a><span class="tag-list-count">5</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/Debug">Debug</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/VB-NET">VB.NET</a><span class="tag-list-count">2</span></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">アーカイブ</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/12/">2025 / 12</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/11/">2025 / 11</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/10/">2025 / 10</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/09/">2025 / 09</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/08/">2025 / 08</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/07/">2025 / 07</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/06/">2025 / 06</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/08/">2024 / 08</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/06/">2024 / 06</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/04/">2024 / 04</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/03/">2024 / 03</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/09/">2023 / 09</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/06/">2023 / 06</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/03/">2023 / 03</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/02/">2023 / 02</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/12/">2022 / 12</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/11/">2022 / 11</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/07/">2022 / 07</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/06/">2022 / 06</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/04/">2022 / 04</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/03/">2022 / 03</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/01/">2022 / 01</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/12/">2021 / 12</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/08/">2021 / 08</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/05/">2021 / 05</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/04/">2021 / 04</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/02/">2021 / 02</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/01/">2021 / 01</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/12/">2020 / 12</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/11/">2020 / 11</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/10/">2020 / 10</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/09/">2020 / 09</a><span class="archive-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">旧ブログ/フォーラム</h3>
+  <div class="widget">
+    <ul>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://social.msdn.microsoft.com/Forums/ja-jp/home?forum=visualstudiosupportteamja">Visual Studio サポートチーム フォーラム</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://social.msdn.microsoft.com/Forums/ja-jp/home?forum=windowssdksupportteamja&filter=alltypes&sort=lastpostdesc">Windows SDK サポートチーム フォーラム</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/archive/blogs/jpvsblog/">Visual Studio サポート チーム blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/archive/blogs/japan_platform_sdkwindows_sdk_support_team_blog/">JAPAN Platform SDK（Windows SDK） Support Team Blog</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">関連リンク</h3>
+  <div class="widget">
+    <ul>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://developercommunity.visualstudio.com/">Developer Community</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/dotnet/">.NET Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/visualstudio/">Visual Studio Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/cppblog/">C++ Team Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/xamarin/">Xamarin Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/devops/">Azure DevOps Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://techcommunity.microsoft.com/t5/azure-lab-services/bg-p/AzureLabServicesBlog/">Azure Lab Services Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/appcenter/">App Center Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://status.azure.com/status/">Azure Status</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://status.dev.azure.com/">Azure DevOps - Status</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2025 Developer Support Core Japan<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="../../index.html" class="mobile-nav-link">Home</a>
+  
+    <a href="../../archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+<script src="../../js/script.js"></script>
+
+
+<script src="../../js/toc.js"></script>
+
+
+
+
+
+
+  </div>
+</body>
+</html>
