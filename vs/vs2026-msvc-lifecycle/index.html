@@ -4,21 +4,23 @@
   <meta charset="utf-8">
   
   
-  <title>WUA API で WSUS から取得した更新プログラムを任意のタイミングで適用する | JPDSC Blog</title>
+  <title>MSVC(Visual C++) 14.50 以降のリリースとサポートライフサイクル | JPDSC Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="こんにちは、Japan Developer Support Core チームの近澤です。 WSUS から Windows Update を配信する構成は、Windows Update Agent (WUA) API を使用してスクリプトから実行することが可能です。 これにより、配信する更新プログラム">
+  <meta name="description" content="こんにちは、Japan Developer Support Core チームの上原です。 今回は C++ Team Blog の記事 New release cadence and support lifecycle for Microsoft C++ Build Tools で発表された、MSVC">
 <meta property="og:type" content="article">
-<meta property="og:title" content="WUA API で WSUS から取得した更新プログラムを任意のタイミングで適用する">
-<meta property="og:url" content="https://jpdscore.github.io/blog/windowssdk/wuaapi-install-later/index.html">
+<meta property="og:title" content="MSVC(Visual C++) 14.50 以降のリリースとサポートライフサイクル">
+<meta property="og:url" content="https://jpdscore.github.io/blog/vs/vs2026-msvc-lifecycle/index.html">
 <meta property="og:site_name" content="Japan Developer Support Core Team Blog">
-<meta property="og:description" content="こんにちは、Japan Developer Support Core チームの近澤です。 WSUS から Windows Update を配信する構成は、Windows Update Agent (WUA) API を使用してスクリプトから実行することが可能です。 これにより、配信する更新プログラム">
+<meta property="og:description" content="こんにちは、Japan Developer Support Core チームの上原です。 今回は C++ Team Blog の記事 New release cadence and support lifecycle for Microsoft C++ Build Tools で発表された、MSVC">
 <meta property="og:locale" content="ja_JP">
-<meta property="article:published_time" content="2023-09-07T15:00:00.000Z">
-<meta property="article:modified_time" content="2025-12-29T08:42:47.402Z">
+<meta property="og:image" content="https://jpdscore.github.io/blog/vs/vs2026-msvc-lifecycle/msvc-release-schedule.jpg">
+<meta property="article:published_time" content="2025-12-25T15:00:00.000Z">
+<meta property="article:modified_time" content="2025-12-29T08:42:47.397Z">
 <meta property="article:author" content="Developer Support Core Japan">
-<meta property="article:tag" content="Windows SDK">
-<meta property="article:tag" content="Windows Update Agent API">
+<meta property="article:tag" content="Visual Studio">
+<meta property="article:tag" content="C++">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jpdscore.github.io/blog/vs/vs2026-msvc-lifecycle/msvc-release-schedule.jpg">
   
     <link rel="alternate" href="/blog/atom.xml" title="Japan Developer Support Core Team Blog" type="application/atom+xml">
   
@@ -81,7 +83,7 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-windowssdk/wuaapi-install-later" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-vs/vs2026-msvc-lifecycle" class="article article-type-post" itemscope itemprop="blogPost">
   
     <aside id="toc" role="complementary" aria-label="Table of Contents"></aside>
   
@@ -93,7 +95,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      WUA API で WSUS から取得した更新プログラムを任意のタイミングで適用する
+      MSVC(Visual C++) 14.50 以降のリリースとサポートライフサイクル
     </h1>
   
 
@@ -101,7 +103,7 @@
       <div class="article-share">
         Last Update: 
         <a href="" class="article-date-single">
-  <time datetime="2023-09-07T15:00:00.000Z" itemprop="datePublished">2023-09-08</time>
+  <time datetime="2025-12-25T15:00:00.000Z" itemprop="datePublished">2025-12-26</time>
 </a>
         
         <div class="article-share-buttons">
@@ -109,7 +111,7 @@
         </div>
         <div class="article-share-buttons">
           <script src="https://platform.linkedin.com/in.js" type="text/javascript">lang: ja_JP</script>
-          <script type="IN/Share" data-url="https://jpdscore.github.io/blog/windowssdk/wuaapi-install-later/"></script>
+          <script type="IN/Share" data-url="https://jpdscore.github.io/blog/vs/vs2026-msvc-lifecycle/"></script>
         </div>
         <div class="article-share-buttons">
           <a target="_blank" rel="noopener" href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
@@ -118,21 +120,54 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>こんにちは、Japan Developer Support Core チームの近澤です。</p>
-<p>WSUS から Windows Update を配信する構成は、Windows Update Agent (WUA) API を使用してスクリプトから実行することが可能です。
-これにより、配信する更新プログラムの検索、選定、ダウンロード、インストールを自動化することができます。</p>
-<p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/windows/win32/wua_sdk/portal-client">Windows Update エージェント API - Win32 apps | Microsoft Learn</a></p>
-<p>さて、組織で更新プログラムを管理する際、検証環境と本番環境を分け、十分に検証を実施した後に、本番環境に同じ更新プログラムを当てたい、という要望がよくあります。
-WUA API の使用例は、下記ドキュメントなどにありますが、この例では、スクリプトの中で検索、ダウンロード、インストールをひとまとめにして実施しています。
-そのため、例えば、検証環境にインストールした更新プログラムと全く同じものを、その1か月後に本番環境にインストールしたい場合、このスクリプトでは1か月後に新しくリリースされた更新プログラムも含まれてしまい、検証環境と同じ更新プログラムを当てることができません。</p>
-<p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/windows/win32/wua_sdk/searching--downloading--and-installing-updates">更新の検索、ダウンロード、インストール - Win32 apps | Microsoft Learn</a></p>
-<p>そのような状況に対処するための方法をご紹介します。</p>
-<h2 id="UpdateID-をファイルに保持する対処方法について"><a href="#UpdateID-をファイルに保持する対処方法について" class="headerlink" title="UpdateID をファイルに保持する対処方法について"></a>UpdateID をファイルに保持する対処方法について</h2><p>更新プログラムには UpdateID という一意の識別子が用意されています。
-検証環境に更新プログラムをインストールする際に、あらかじめ Update ID を保持しておき、本番環境への適用時にその ID の更新プログラムのみを検索し、ダウンロード・インストールするという方法があります。
-下記のサンプルのスクリプトをご参考ください。
-なお、下記では、C:\WU\PATCH_LIST.txt というテキストファイルに書き出しています。</p>
-<h3 id="lt-更新を検索し、テキストファイルへ書き出すスクリプト-gt"><a href="#lt-更新を検索し、テキストファイルへ書き出すスクリプト-gt" class="headerlink" title="&lt;更新を検索し、テキストファイルへ書き出すスクリプト&gt;"></a>&lt;更新を検索し、テキストファイルへ書き出すスクリプト&gt;</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">###################################</span></span><br><span class="line"><span class="comment"># Check Updates and Write to file</span></span><br><span class="line"><span class="comment">###################################</span></span><br><span class="line"><span class="comment"># Load the Windows Update Agent (WUA) COM object</span></span><br><span class="line"><span class="variable">$updateSession</span> = <span class="built_in">New-Object</span> <span class="literal">-COM</span> <span class="string">&quot;Microsoft.Update.Session&quot;</span></span><br><span class="line"><span class="comment"># Create an update searcher</span></span><br><span class="line"><span class="variable">$updateSearcher</span> = <span class="variable">$updateSession</span>.CreateUpdateSearcher()</span><br><span class="line"><span class="comment"># Search for available updates</span></span><br><span class="line"><span class="variable">$searchResult</span> = <span class="variable">$updateSearcher</span>.Search(<span class="string">&quot;IsInstalled=0&quot;</span>)</span><br><span class="line"><span class="comment"># Check updates</span></span><br><span class="line"><span class="variable">$updatesExcludingFU</span> = <span class="built_in">New-Object</span> <span class="literal">-COM</span> <span class="string">&quot;Microsoft.Update.UpdateColl&quot;</span></span><br><span class="line"><span class="keyword">foreach</span> (<span class="variable">$update</span> <span class="keyword">in</span> <span class="variable">$searchResult</span>.Updates) &#123;</span><br><span class="line">    <span class="variable">$updatesExcludingFU</span>.Add(<span class="variable">$update</span>) | <span class="built_in">Out-Null</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment"># Write to file</span></span><br><span class="line"> <span class="variable">$updatesExcludingFU</span> | <span class="built_in">ForEach-Object</span> &#123;<span class="variable">$_</span>.Identity.UpdateID&#125; &gt;&gt; C:\WU\PATCH_LIST.txt</span><br></pre></td></tr></table></figure>
-<h3 id="＜テキストファイルを読み込み、ダウンロード・インストールするスクリプト＞"><a href="#＜テキストファイルを読み込み、ダウンロード・インストールするスクリプト＞" class="headerlink" title="＜テキストファイルを読み込み、ダウンロード・インストールするスクリプト＞"></a>＜テキストファイルを読み込み、ダウンロード・インストールするスクリプト＞</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">########################################</span></span><br><span class="line"><span class="comment"># Download &amp; Install Update from file </span></span><br><span class="line"><span class="comment">########################################</span></span><br><span class="line"><span class="comment"># Read file</span></span><br><span class="line"><span class="variable">$updateIds</span> = <span class="built_in">Get-Content</span> <span class="literal">-Path</span> C:\WU\PATCH_LIST.txt</span><br><span class="line"><span class="comment"># Load the Windows Update Agent (WUA) COM object</span></span><br><span class="line"><span class="variable">$updateSession</span> = <span class="built_in">New-Object</span> <span class="literal">-COM</span> <span class="string">&quot;Microsoft.Update.Session&quot;</span></span><br><span class="line"><span class="comment"># Create an update searcher</span></span><br><span class="line"><span class="variable">$updateSearcher</span> = <span class="variable">$updateSession</span>.CreateUpdateSearcher()</span><br><span class="line"><span class="comment"># Search for available updates</span></span><br><span class="line"><span class="variable">$searchResult</span> = <span class="variable">$updateSearcher</span>.Search(<span class="string">&quot;IsInstalled=0&quot;</span>)</span><br><span class="line"><span class="comment"># Get target updates</span></span><br><span class="line"><span class="variable">$updatesToDownload</span> = <span class="built_in">New-Object</span> <span class="literal">-COM</span> <span class="string">&quot;Microsoft.Update.UpdateColl&quot;</span></span><br><span class="line"><span class="variable">$updatesToInstall</span> = <span class="built_in">New-Object</span> <span class="literal">-COM</span> <span class="string">&quot;Microsoft.Update.UpdateColl&quot;</span></span><br><span class="line"><span class="keyword">foreach</span> (<span class="variable">$update</span> <span class="keyword">in</span> <span class="variable">$searchResult</span>.Updates) &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="variable">$update</span>.Identity.UpdateID <span class="operator">-in</span> <span class="variable">$updateIds</span>) &#123;</span><br><span class="line">        <span class="comment"># for download</span></span><br><span class="line">        <span class="keyword">if</span> (<span class="variable">$update</span>.IsDownloaded <span class="operator">-eq</span> <span class="variable">$false</span>) &#123;</span><br><span class="line">            <span class="variable">$updatesToDownload</span>.Add(<span class="variable">$update</span>) | <span class="built_in">Out-Null</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment"># for install</span></span><br><span class="line">        <span class="variable">$updatesToInstall</span>.Add(<span class="variable">$update</span>) | <span class="built_in">Out-Null</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">Echo</span> <span class="string">&quot;Updates to download&quot;</span></span><br><span class="line"><span class="variable">$updatesToDownload</span> | <span class="built_in">Sort-Object</span> <span class="literal">-Property</span> title | <span class="built_in">Format-Table</span> Title</span><br><span class="line"><span class="built_in">Echo</span> <span class="string">&quot;Updates to install&quot;</span></span><br><span class="line"><span class="variable">$updatesToInstall</span> | <span class="built_in">Sort-Object</span> <span class="literal">-Property</span> title | <span class="built_in">Format-Table</span> Title</span><br><span class="line"><span class="comment"># Download</span></span><br><span class="line"><span class="keyword">if</span> (<span class="variable">$updatesToDownload</span>.Count <span class="operator">-gt</span> <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="variable">$downloader</span> = <span class="variable">$updateSession</span>.CreateUpdateDownloader()</span><br><span class="line">    <span class="variable">$downloader</span>.Updates = <span class="variable">$updatesToDownload</span></span><br><span class="line">    <span class="variable">$downloadResult</span> = <span class="variable">$downloader</span>.Download()</span><br><span class="line">    <span class="variable">$downloadResult</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment"># Install the loaded updates</span></span><br><span class="line"><span class="keyword">if</span> (<span class="variable">$updatesToInstall</span>.Count <span class="operator">-gt</span> <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="variable">$installer</span> = <span class="variable">$updateSession</span>.CreateUpdateInstaller()</span><br><span class="line">    <span class="variable">$installer</span>.Updates = <span class="variable">$updatesToInstall</span></span><br><span class="line">    <span class="variable">$installationResult</span> = <span class="variable">$installer</span>.Install()</span><br><span class="line">    <span class="variable">$installationResult</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        <p>こんにちは、Japan Developer Support Core チームの上原です。</p>
+<p>今回は C++ Team Blog の記事 <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/cppblog/new-release-cadence-and-support-lifecycle-for-msvc-build-tools/"><strong>New release cadence and support lifecycle for Microsoft C++ Build Tools</strong></a> で発表された、<strong>MSVC ビルドツールのリリースとサポートライフサイクル</strong> に関する更新点を、一部加筆、修正の上、日本語で説明します。</p>
+<h2 id="はじめに"><a href="#はじめに" class="headerlink" title="はじめに"></a>はじめに</h2><p>Visual Studio が毎月の機能更新と年次のメジャーバージョンを導入する<a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/visualstudio/visual-studio-built-for-the-speed-of-modern-development/">モダンライフサイクルに移行する中で</a>、コンパイラを IDE (Visual Studio) から切り離すことで、IDE の迅速な更新と、ビルドツールの安定性を両立することが可能となりました。このアプローチは、IDE とビルドツールの両方で最新の C++ の進歩を活用しつつ、安全で標準に準拠したビルド環境を維持し、エンタープライズでも利用可能な動作保証と柔軟なアップグレードを、それぞれのプロジェクトのニーズに合わせて実施可能となります。</p>
+<p>この記事では、主な変更点、変わらない点、そして移行をどのように支援するかを概説します。</p>
+<h2 id="MSVC-リリースおよびサポート-ライフサイクルの変更の概要"><a href="#MSVC-リリースおよびサポート-ライフサイクルの変更の概要" class="headerlink" title="MSVC リリースおよびサポート ライフサイクルの変更の概要"></a>MSVC リリースおよびサポート ライフサイクルの変更の概要</h2><p>Visual Studio 2026 バージョン 18.0 は 2025年 11月 11日にリリースされ、リリース時点の MSVC バージョンは 14.50 です。この MSVC バージョンは長期サポート リリース（LTS）となります。</p>
+<h3 id="何が変わるのか？"><a href="#何が変わるのか？" class="headerlink" title="何が変わるのか？"></a>何が変わるのか？</h3><ul>
+<li><p>MSVC 14.50 から、MSVC のライフサイクルは Visual Studio から分離され、<a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/lifecycle/policies/modern">モダン ライフサイクル ポリシー</a> を採用します。</p>
+<ul>
+<li>これらの変更は Microsoft C++ ビルドツールが対象であり、Windows C++ のコンパイラ ツール（例: <code>cl.exe</code>、<code>link.exe</code>）、C および C++ ライブラリ（STL、ATL/MFC、OpenMP など）、VC Runtime の再頒布可能ファイルを含みます。</li>
+<li>これらのコンポーネントは通常、<code>[VS Folder]\VC\Tools\MSVC\14.NN.NNNNN\</code> 配下にインストールされます。</li>
+</ul>
+</li>
+<li><p>リリース時期: MSVC は Stable チャンネルでリリースされる Visual Studio の月次アップデートの一環として、6か月ごと（5月と 11月）に新しいバージョンがリリースされ、サポート期間は 9か月です。</p>
+</li>
+<li><p>長期サポート(LTS): 2年ごとの 11月のリリースを MSVC LTS（Long Term Support）として指定し、LTS はバグ修正、セキュリティ更新、互換性改善を含む 3 年間のサポートが提供されます。</p>
+</li>
+<li><p>入手方法: MSVC プレビューを含むすべてのリリースは Visual Studio の Stable Channel および Insiders Channel で利用可能で、ユーザーはオプトインで利用可能です。</p>
+</li>
+</ul>
+<p>以下の図は、今後数年間の MSVC リリーススケジュールがどのようなものになるかを示しています。なお、本図は 2025年 11月時点での計画を示しており、実際のリリーススケジュールは変更される可能性があります。</p>
+<p><img src="msvc-release-schedule.jpg" alt="MSVCのリリース頻度とサポートライフサイクル"></p>
+<h3 id="何が変わらないのか？"><a href="#何が変わらないのか？" class="headerlink" title="何が変わらないのか？"></a>何が変わらないのか？</h3><ul>
+<li>Visual Studio での MSVC のインストール方法: Visual Studio は、<a target="_blank" rel="noopener" href="https://visualstudio.microsoft.com/downloads/">Visual Studio IDE のインストール</a> または <a target="_blank" rel="noopener" href="https://visualstudio.microsoft.com/downloads/#build-tools-for-visual-studio-2026">Visual Studio Build Tools インストール</a> を通じて、従来どおり MSVC をインストールして利用できます。</li>
+<li>複数の MSVC バージョンの利用:　Visual Studio では複数の MSVC バージョンが提供されており、すでにサポートが終了したバージョンも含めて、プロジェクトに必要なビルドツールのバージョンを選択し、IDE(Visual Studio 本体) のバージョンアップとは独立して管理できます。</li>
+<li>C++ バイナリ互換性: <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/cppblog/upgrading-c-projects-to-visual-studio-2026/#c++-binary-compatibility-for-step-by-step-upgrades">MSVC 14.50</a> は、従来の MSVC 14.x と同様に、Visual Studio 2015 以降の MSVC バージョンとバイナリ互換が維持されます。そのため、開発チームが実行環境の C++ バージョンに直接依存せずに、開発に利用する MSVC バージョンを決定でき、多くの場合、上位バージョンへの移行も容易です。</li>
+<li>C++ 再頒布可能パッケージ（VCRedist）は、<a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/lifecycle/faq/visual-c-faq">付属する MSVC Build Tools のライフサイクルに従い</a>、バイナリ互換性が維持されたインプレイス アップグレード製品として、従来どおりサポートされます。つまり、新しいバージョンの VCRedist は古いバージョンと互換性が維持されており、古いバージョンで構築された既存のアプリケーションも、新しいバージョンのランタイム上で従来どおり動作することが期待されます。</li>
+<li>過去バージョンの MSVC リリースのサポート: Visual Studio 2022 以前に出荷された MSVC バージョンは、最初に出荷された Visual Studio のライフサイクルに応じて引き続きサポートされます。新しいモダン サポート ライフサイクルは、MSVC バージョン 14.50 以降に適用されます。</li>
+<li>他の Visual Studio コンポーネントへの影響: Visual Studio にインストールされる他のコンポーネント（例: 他のツールセット、ライブラリ、SDK、フレームワーク）は、今回の MSVC に関する変更の影響を受けません。</li>
+</ul>
+<h2 id="変革の推進力"><a href="#変革の推進力" class="headerlink" title="変革の推進力"></a>変革の推進力</h2><p>従来の MSVC は Visual Studio のサポートポリシーとリリーススケジュールに沿ってサポートされていました。
+Visual Studio 2026 以降では、MSVC のライフサイクルは安定性、コンプライアンス、モダニゼーションを優先し、お客様のニーズにより良く応えます。この変化により、より安定した長期サポートを提供し、開発チームが変化に対応できるよう支援し、新しいツールによるアップグレードを簡素化しつつ、断片化を減らし、安全で最新の C++ を活用いただけます。</p>
+<ul>
+<li>Visual Studio 2026 以降のリリース頻度:　Visual Studio は四半期ごとではなく<a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/visualstudio/releases/2026/release-rhythm">月次リリースとなり</a>、新しい生産性機能や AI ワークフローをより容易に導入できるようになりました。IDE の進化が速くなるにつれて、ほとんどの顧客は IDE と同じような速いペースで MSVC リリースに追従することは困難であることを認識しています。この安定性重視の姿勢を反映するため、 MSVC ビルドツールは IDE と分離され、かつ頻度の低いリリーススケジュールを採用します。また、MSVC の新バージョンにより速やかに移行したい方には、Visual Studio の Insiders Channel および Stable Channel で利用可能な、MSVC プレビューリリースもご利用いただけます。</li>
+<li>.NET の長期サポートとの連携: .NET はすでに<a target="_blank" rel="noopener" href="https://dotnet.microsoft.com/en-us/platform/support/policy/dotnet-core">最新のライフサイクルポリシー</a>に従っています。<a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/dotnet/core/whats-new/dotnet-10/overview">.NET 10</a> は 2025年 11月にリリースされ、これは、長期に .NET を利用する顧客向けの LTS リリースでもあります。シンプルさと利便性のために、MSVC ビルドツールの LTS スケジュールを .NET LTS スケジュールに合わせ、11月リリース(MSVC 14.50)を LTS リリースとして指定しています。</li>
+<li>最新かつ基準や規制への準拠: CyberEO(米国)や CRA(EU)などの規制は、ソフトウェアサプライチェーンのセキュリティを確保するための最新のツールを求めています。NIST や CISA などの基準を満たすことが求められており、時代遅れのコンパイラに依存することはもはや受け入れられません。これらの標準は新たなセキュリティ課題に対応するために絶えず進化しており、コンプライアンスを維持するために定期的なツール更新が不可欠です。最新のツールへのアップデートは、現在の脅威に対処するためのより安全で最新のコーディング手法へのアクセスも可能にします。</li>
+<li>断片化を減らして価値を高める: 10年前のコンパイラのサポートはますます複雑になっています。MSVC のバージョン数を限定することで、期待されるサービスやセキュリティの品質を維持しつつ、C++ 標準の適合性、コード安全性、パフォーマンスの向上により多くの投資を行えます。</li>
+</ul>
+<p>これらの理由を踏まえ、私たちの目標は MSVC のライフサイクルを近代化し、機敏性と革新を促進しつつ、企業のニーズに最良のサポートを提供することです。</p>
+<h2 id="アップグレードをお手伝いします"><a href="#アップグレードをお手伝いします" class="headerlink" title="アップグレードをお手伝いします"></a>アップグレードをお手伝いします</h2><p>開発環境を最新かつ安全に保つために、MSVC のリリース時期に合わせた定期的なツールセットアップグレードを推奨します。アップグレードには課題やコストが伴うことを理解しており、特に頻繁なアップデートを優先してこなかったチームにとってはなおさらです。皆様からのフィードバックをもとに、最新バージョンへの移行をより簡単で速く、予測可能にするためのツールやワークフローの改善に投資しています。</p>
+<ul>
+<li>ツールセットのアップグレード ワークフローの改善: Visual Studio 2026 は、MSVC などのツールセットのアップグレードを改善し、<a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/cppblog/upgrading-c-projects-to-visual-studio-2026/">「セットアップアシスタント」 という、より柔軟なアップグレード機能</a> を導入します。</li>
+<li>サポート期間(サポート ウィンドウ) の重複により、新規リリースごとにアップグレードする場合でも、LTS を使い続ける場合でも、移行が容易になります。LTS バージョンは 1年間、通常リリースは 3ヶ月の重複期間があり、サポートを維持しながらアップグレードを検討する時間が確保されます。</li>
+<li>MSVC 14.50 以降での C++ バイナリ互換性: MSVC 14.50 以降では、<a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/cpp/porting/binary-compat-2015-2017?view=msvc-170">バイナリ互換性が保証されている</a> ことを最大限に活用し、段階的にソリューションをアップグレードすることも可能です。すべてのプロジェクトや外部依存関係を、一度に再構築する必要はありません。また、サードパーティーのオープンソース ソフトウェアに対する依存関係については、<a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/cppblog/inside-visual-studio-improving-open-source-workflows-with-vcpkg/">vcpkg パッケージマネージャー</a> を活用することで、最新のツールセットに対して依存関係を再構築することも可能になりました。</li>
+<li><a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/cppblog/app-modernization-cpp-private-preview/">C++ 向け GitHub Copilot アプリのモダナイゼーション</a>: Visual Studio では、新しい AI 支援によるツールセットアップグレード機能を、まずはプライベートプレビューとしてリリースされました。この新機能は、例えばプロジェクト設定の調整、新たな推奨警告やセキュリティフラグの有効化、さらにはコンパイラの厳格な準拠によって生じるエラーのクラスを除去するためにソースコードを変更することが可能です。ご興味があれば、今日から C++ 向け GitHub Copilot アプリのモダン化のプライベートプレビューに登録できます。</li>
+</ul>
+<h2 id="未来を見据えて"><a href="#未来を見据えて" class="headerlink" title="未来を見据えて"></a>未来を見据えて</h2><p>いつも C++ や MSVC をご利用くださりありがとうございます。新しい MSVC のリリース時期やサポート ライフサイクルの変更が、どのような影響を与えるかについてご質問がある場合は、<a href="mailto:vcupgrade@microsoft.com">vcupgrade@microsoft.com</a> までお問い合わせください。</p>
+<p>Visual Studio 2026 と並行して最新の MSVC リリースが提供され、大幅なパフォーマンス向上、標準適合性の向上、セキュリティ機能の強化が案内されています。MSVC Build Tools バージョン 14.50 にアップグレードして改善点を試し、Visual Studio の「ヘルプ &gt; フィードバックの送信」から提案を共有してください。</p>
+
       
       
         <div class="article-disclaimer">
@@ -145,11 +180,11 @@ WUA API の使用例は、下記ドキュメントなどにありますが、こ
     <footer class="article-footer">
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Windows-SDK/" rel="tag">Windows SDK</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Windows-Update-Agent-API/" rel="tag">Windows Update Agent API</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/C/" rel="tag">C++</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Visual-Studio/" rel="tag">Visual Studio</a></li></ul>
 
       <!-- 
       
-        <a href="https://github.com/jpdscore/blog/edit/master/articles/windowssdk/wuaapi-install-later.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
+        <a href="https://github.com/jpdscore/blog/edit/master/articles/vs/vs2026-msvc-lifecycle.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
         
       -->
     </footer>
@@ -158,19 +193,19 @@ WUA API の使用例は、下記ドキュメントなどにありますが、こ
     
 <nav id="article-nav">
   
-    <a href="../../azuredevops/tfs-basic-log-collection/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="../../azuredevops/extensions-support/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">次の記事</strong>
       <div class="article-nav-title">
         
-          Team Foundation Server / Azure DevOps Server のトラブルシューティング用データ採取について
+          Azure DevOps 拡張機能におけるテクニカル サポートの対応範囲
         
       </div>
     </a>
   
   
-    <a href="../../devtestlabs/auto-shutdown-permission/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="../vs2026-supportlifecycle/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">前の記事</strong>
-      <div class="article-nav-title">自動シャットダウンを設定する際に必要な最小権限について</div>
+      <div class="article-nav-title">Visual Studio 2026 以降のリリースとサポートライフサイクル</div>
     </a>
   
 </nav>
@@ -193,11 +228,11 @@ WUA API の使用例は、下記ドキュメントなどにありますが、こ
           </li>
         
           <li>
-            <a href="../../vs/vs2026-msvc-lifecycle/">MSVC(Visual C++) 14.50 以降のリリースとサポートライフサイクル</a>
+            <a href="">MSVC(Visual C++) 14.50 以降のリリースとサポートライフサイクル</a>
           </li>
         
           <li>
-            <a href="../../vs/vs2026-supportlifecycle/">Visual Studio 2026 以降のリリースとサポートライフサイクル</a>
+            <a href="../vs2026-supportlifecycle/">Visual Studio 2026 以降のリリースとサポートライフサイクル</a>
           </li>
         
           <li>
