@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Visual Studio 2026 以降のリリースとサポートライフサイクル | JPDSC Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="こんにちは、Japan Developer Support Core チームの上原です。 今回は、Visual Studio Blog の記事 Visual Studio – Built for the Speed of Modern Development で発表された、Visual Studio">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Visual Studio 2026 以降のリリースとサポートライフサイクル">
+<meta property="og:url" content="https://jpdscore.github.io/blog/vs/vs2026-supportlifecycle/index.html">
+<meta property="og:site_name" content="Japan Developer Support Core Team Blog">
+<meta property="og:description" content="こんにちは、Japan Developer Support Core チームの上原です。 今回は、Visual Studio Blog の記事 Visual Studio – Built for the Speed of Modern Development で発表された、Visual Studio">
+<meta property="og:locale" content="ja_JP">
+<meta property="article:published_time" content="2025-12-25T15:00:00.000Z">
+<meta property="article:modified_time" content="2025-12-29T08:40:16.448Z">
+<meta property="article:author" content="Developer Support Core Japan">
+<meta property="article:tag" content="Visual Studio">
+<meta property="article:tag" content="Visual Studio 2026">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/blog/atom.xml" title="Japan Developer Support Core Team Blog" type="application/atom+xml">
+  
+
+  <link rel="icon" href="../../favicon.ico">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="theme-color" content="#ffffff">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="../../css/style.css">
+
+  
+<link rel="stylesheet" href="../../css/copy-button.css">
+
+  
+<link rel="stylesheet" href="../../css/toc.css">
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="site-header-logo"></div>
+  <div id="site-header-blog-wrapper"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        <div id="ms-logo"></div>
+        
+          <a class="main-nav-link" href="../../index.html">Home</a>
+        
+          <a class="main-nav-link" href="../../archives">Archives</a>
+        
+        <a class="main-nav-link" target="_blank" rel="noopener" href="https://cssjpn.github.io/">サポート情報</a>
+        <a class="main-nav-link" href="/blog/general/welcome/">About</a>
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/blog/atom.xml" title="RSSフィード"></a>
+        
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//www.google.com/search" method="get" accept-charset="UTF-8" name="google-search" onsubmit="var f=this;if(f['q'].value){var searchUrl =  'https://www.google.com/search?q=' +  encodeURIComponent(f['q'].value + ' site:' + f['sitesearch'].value) ;window.open(searchUrl, 'blank') };return false;" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="検索"><button type="submit" id="nav-search-btn" class="search-form-submit"></button><input type="hidden" name="sitesearch" value="https://jpdscore.github.io/blog"></form>
+      </div>
+    </div>
+    <div id="header-title" class="inner">
+      <div id="logo-wrap">
+        <a href="../../index.html" id="logo">Japan Developer Support Core Team Blog</a>
+      </div>
+      
+        <div id="subtitle-wrap">
+          <a href="../../index.html" id="subtitle">日本マイクロソフトの Japan Developer Support Core チームのブログです。</a>
+        </div>
+      
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-vs/vs2026-supportlifecycle" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <aside id="toc" role="complementary" aria-label="Table of Contents"></aside>
+  
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header-single">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Visual Studio 2026 以降のリリースとサポートライフサイクル
+    </h1>
+  
+
+      </header>
+      <div class="article-share">
+        Last Update: 
+        <a href="" class="article-date-single">
+  <time datetime="2025-12-25T15:00:00.000Z" itemprop="datePublished">2025-12-26</time>
+</a>
+        
+        <div class="article-share-buttons">
+          <a target="_blank" rel="noopener" href="https://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="basic-label" data-hatena-bookmark-lang="ja" data-hatena-bookmark-height="20" title="このエントリーをはてなブックマークに追加"><img src="https://b.st-hatena.com/images/v4/public/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+        </div>
+        <div class="article-share-buttons">
+          <script src="https://platform.linkedin.com/in.js" type="text/javascript">lang: ja_JP</script>
+          <script type="IN/Share" data-url="https://jpdscore.github.io/blog/vs/vs2026-supportlifecycle/"></script>
+        </div>
+        <div class="article-share-buttons">
+          <a target="_blank" rel="noopener" href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        </div>
+      </div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>こんにちは、Japan Developer Support Core チームの上原です。</p>
+<p>今回は、Visual Studio Blog の記事 <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/visualstudio/visual-studio-built-for-the-speed-of-modern-development/"><strong>Visual Studio – Built for the Speed of Modern Development</strong></a> で発表された、Visual Studio 2026 以降のリリースとサポートライフサイクルの変更点を、一部加筆、修正を加えた上で、日本語でご紹介します。</p>
+<h2 id="概要"><a href="#概要" class="headerlink" title="概要"></a>概要</h2><p>Visual Studio 2026 以降、Visual Studio は <strong>継続的に更新される IDE</strong> として、<a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/visualstudio/releases/2026/release-rhythm#stable-channel">機能更新の提供頻度とサポートの考え方</a>が整理されました。
+今後は IDE としての Visual Studio は、.NET や Visual C++ などのビルドツールとは分離してサポート ライフサイクルが定められます。</p>
+<h2 id="なぜモダナイズするのか（Why-We’re-Modernizing）"><a href="#なぜモダナイズするのか（Why-We’re-Modernizing）" class="headerlink" title="なぜモダナイズするのか（Why We’re Modernizing）"></a>なぜモダナイズするのか（Why We’re Modernizing）</h2><p>Visual Studio は日々で革新を遂げており、デスクトップアプリ、クラウドサービス、ゲーム、Web API、AI エージェントのいずれを構築しても、IDE として毎月最新のパフォーマンスと機能向上を提供します。これは、GitHub Copilot の体験が常に最新の状態に保たれることも含まれます。</p>
+<p>また、新しいバージョンへのよりスムーズな移行についての要望も聞きました。既存のプロジェクト、ソリューション、拡張機能は、今後も現在同様に機能を提供し続けていきます。月次リリースと年次リリースで高い互換性基準を維持しているため、IDE としての進化が進んでも、ビルドにより生成される成果物は安定した状態を維持できます。</p>
+<p>IDE とビルドツールは切り離されているため、これらの変更は既存のプロジェクトを修正したり、動作中のアプリケーションを再構築したりする必要はありません。
+Visual Studio は IDE として毎月更新されますが、.NET や Visual C++ のコンパイラやビルドツール、ランタイム、拡張機能は、引き続き従来と同様に動作します。
+ビルドツールや SDK は、それぞれ数年にわたるライフサイクルが保証されていますので、IDE が継続的に更新され新機能が追加されても、ビルド環境は安定して利用できることが想定されています。</p>
+<h2 id="モダン開発におけるアップデート（Built-for-Modern-Development）"><a href="#モダン開発におけるアップデート（Built-for-Modern-Development）" class="headerlink" title="モダン開発におけるアップデート（Built for Modern Development）"></a>モダン開発におけるアップデート（Built for Modern Development）</h2><p>Visual Studio 2026 以降では、<strong>毎月の機能更新(feature update)</strong> と <strong>年次のメジャー リリース</strong> が提供されます。
+また、Modern Support Lifecycle として、<strong>1年間は毎月の機能更新</strong> が提供され、その後の 1年間(2年目) は <strong>LTSC(Long-Term Support Channel: 長期サポート チャネル) としてセキュリティ修正</strong> が提供されます。</p>
+<p>なお、Visual Studio 2026(安定 Stable チャネル) のバージョン表記は <strong>&lt;Major&gt;.&lt;Minor&gt;.&lt;Servicing&gt;</strong> となり、例えば、18.1.2 であれば、メジャーバージョンが 18、マイナーバージョンが 1、サービス更新プログラムが 2 になります。</p>
+<ul>
+<li>メジャー バージョンは <strong>毎年</strong> リリースされます。</li>
+<li>機能更新(マイナーバージョン)は、従来の四半期ごとから、原則として <strong>毎月</strong> リリースされます。</li>
+<li>品質やセキュリティなどを修正するサービス更新プログラムは随時リリースされ、各月でサービス更新プログラムのリリース番号がインクリメントされます。</li>
+<li>サポートポリシーは <a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/lifecycle/faq/modern-policy">Modern Support Lifecycle（モダン サポート ライフサイクル）</a> に基づきます。</li>
+</ul>
+<h2 id="ビルドツールは選択できます（Build-Tools-Freedom-–-You-Are-in-Control）"><a href="#ビルドツールは選択できます（Build-Tools-Freedom-–-You-Are-in-Control）" class="headerlink" title="ビルドツールは選択できます（Build Tools Freedom – You Are in Control）"></a>ビルドツールは選択できます（Build Tools Freedom – You Are in Control）</h2><p>Visual Studio の更新とサポート方法の変化に伴い、ビルドツールやコンポーネントがこの新しいモデルにどのように組み込まれるかを理解することも同様に重要です。</p>
+<p>Visual Studio を用いた開発では、それぞれ異なる目的や要件、制約があるものと理解しており、Visual Studio 2026でも従来同様のプラットフォームをターゲットにした幅広いビルドツールやコンポーネントを搭載しています。
+多くの場合、複数バージョンのビルドツールが同時にサポートされており、Visual Studio に含まれているため、プロジェクトの状況に応じて利用するバージョンや、バージョンアップのタイミングを選べます。最新のコンパイラ、ランタイム、SDK　を開発スケジュールに沿って導入しつつ、毎月の　IDE　改善や　AI機能向上の恩恵を受けられます。</p>
+<p>これらのビルドツール、SDK、ランタイムはそれぞれ独自のサポートライフサイクルで利用可能です。例えば、最新の.NET　は毎年リリースされ、標準期間サポート(STS)　は2年、長期サポート(LTS)　は3年間提供されています。.NET Framework　のライフサイクルは、<a href="https://jpdscore.github.io/blog/dotnet/netfx-4-compatibility/">以前のブログ記事</a> でもご紹介していますので、こちらもご参照ください。</p>
+<p>C++ 開発者向けには、Microsoft C++(MSVC) コンパイラとビルドツールを Visual Studio のライフサイクルから切り離しています。これにより、コンパイラチームはより速く、より機敏な更新を 6か月ごとに提供し、長期サポート版は 2年ごとに提供できます。詳細については、<a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/cppblog/new-release-cadence-and-support-lifecycle-for-msvc-build-tools/">新しい MSVC ライフサイクルに関するブログ記事</a> をご覧ください。</p>
+<h2 id="インサイダー-チャネルと-安定チャネル-Insiders-and-Stable-Channels）"><a href="#インサイダー-チャネルと-安定チャネル-Insiders-and-Stable-Channels）" class="headerlink" title="インサイダー チャネルと 安定チャネル (Insiders and Stable Channels）"></a>インサイダー チャネルと 安定チャネル (Insiders and Stable Channels）</h2><p>Visual Studio 2026 から、主に次の 2 チャネルが提供されます。</p>
+<ul>
+<li>Insiders Channel(インサイダーチャネル): 先行機能を試すためのチャネル（従来の Preview の置き換え）</li>
+<li>Stable Channel(安定チャネル): 検証済の機能更新が利用できる、本番開発むけチャネル（従来の Current の置き換え）</li>
+</ul>
+<p>Insiders で提供された機能は、準備が整い次第 Stable としてリリースされますが、Insiders チャネルはあくまでも試用版となりますため、サポートサービスは提供されず、製品開発での利用も想定されていませんので、ご注意ください。</p>
+<p>また、主に企業向けとして、<strong>前年度版に対する LTSC（Long-Term Servicing Channel）</strong> が side-by-side で提供されるため、一定期間は Visual Studio の機能を固定し、セキュリティ更新のみを適用することが可能です。
+例えば、2025年 11月に Stable Channel としてリリースされた Visual Studio 2026 は、1年後の 2026年 11月に LTSC に移行され、1年間セキュリティ更新のみが提供され、2027年 11月にサポートを終了します。</p>
+<h2 id="ライセンスと登録（Flexible-Licensing-and-Registration）"><a href="#ライセンスと登録（Flexible-Licensing-and-Registration）" class="headerlink" title="ライセンスと登録（Flexible Licensing and Registration）"></a>ライセンスと登録（Flexible Licensing and Registration）</h2><p>Visual Studio 2026 では、Visual Studio 2022 から Visual Studio Community の扱いに大きな変更はありません。
+オープンソース プロジェクト、教育、Visual Studio 拡張機能の開発など特定の用途、および、小規模組織での開発において、引き続き無料でご利用いただけます。
+詳細は、<a target="_blank" rel="noopener" href="https://visualstudio.microsoft.com/license-terms/">ライセンスのドキュメント</a> をご確認ください。</p>
+<p>Professional / Enterprise については、契約形態（サブスクリプション／単体ライセンス）によって影響を受ける場合があります。
+Visual Studio サブスクリプションをお持ちの場合には、登録プロセス等に変更はなく、従来通りサインインによりライセンス認証を行うか、あるいは、プロダクトキーを用いてライセンス認証を実施いただけます。</p>
+<p>単体ライセンスを利用する場合には、毎年のメジャーバージョンごとにライセンスが用意されておりますので、利用を継続する場合には、利用する Visual Studio メジャーバージョン単位でライセンスをご購入ください。
+Microsoft 以外からライセンスを購入されている場合には、詳細はご購入された企業様にご確認ください。</p>
+<p>なお、本変更は Visual Studio 2026 以降の方針であり、Visual Studio 2022/2019/2017 などの既存のバージョンに変更はありません。</p>
+<p>参考:</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/lifecycle/products/visual-studio-2022">Visual Studio 2022 lifecycle</a></li>
+<li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/lifecycle/products/visual-studio-2019">Visual Studio 2019 lifecycle</a></li>
+<li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/lifecycle/products/visual-studio-2017">Visual Studio 2017 lifecycle</a></li>
+</ul>
+<h2 id="まとめ（Always-Current-Always-Ready）"><a href="#まとめ（Always-Current-Always-Ready）" class="headerlink" title="まとめ（Always Current, Always Ready）"></a>まとめ（Always Current, Always Ready）</h2><p>Visual Studio 2026 は、新しい <strong>モダンで、継続的に改善される IDE</strong> であり、より速やかに最新のアップデートを提供することで、最新のツールで開発に集中できるようになります。
+また、フィードバックを通じて今後もより Visual Studio を進化させていきますので、<a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/visualstudio/ide/suggest-a-feature?view=visualstudio">機能の提案</a> や <a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/visualstudio/ide/how-to-report-a-problem-with-visual-studio?view=visualstudio">問題の報告</a> もどうぞよろしくお願いいたします。</p>
+
+      
+      
+        <div class="article-disclaimer">
+        
+          <p><hr>本ブログの内容は弊社の公式見解として保証されるものではなく、開発・運用時の参考情報としてご活用いただくことを目的としています。もし公式な見解が必要な場合は、弊社ドキュメント (<a target="_blank" rel="noopener" href="https://learn.microsoft.com/">https://learn.microsoft.com</a> や <a target="_blank" rel="noopener" href="https://support.microsoft.com">https://support.microsoft.com</a>) をご参照いただくか、もしくは私共サポートまでお問い合わせください。</p>
+        
+        </div>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Visual-Studio/" rel="tag">Visual Studio</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Visual-Studio-2026/" rel="tag">Visual Studio 2026</a></li></ul>
+
+      <!-- 
+      
+        <a href="https://github.com/jpdscore/blog/edit/master/articles/vs/vs2026-supportlifecycle.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
+        
+      -->
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="../../azuredevops/extensions-support/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">次の記事</strong>
+      <div class="article-nav-title">
+        
+          Azure DevOps 拡張機能におけるテクニカル サポートの対応範囲
+        
+      </div>
+    </a>
+  
+  
+    <a href="../../dataclient/Recommend-Jet-Migration/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前の記事</strong>
+      <div class="article-nav-title">Jet データベースエンジンの移行のススメ</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最近の投稿</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="../../azuredevops/extensions-support/">Azure DevOps 拡張機能におけるテクニカル サポートの対応範囲</a>
+          </li>
+        
+          <li>
+            <a href="">Visual Studio 2026 以降のリリースとサポートライフサイクル</a>
+          </li>
+        
+          <li>
+            <a href="../../dataclient/Recommend-Jet-Migration/">Jet データベースエンジンの移行のススメ</a>
+          </li>
+        
+          <li>
+            <a href="../../azuredevops/hosted-images-update/">Microsoft-hosted エージェントイメージの更新方法</a>
+          </li>
+        
+          <li>
+            <a href="../../dotnet/dotnet-manual-updates/">.NET (旧 .NET Core) の手動更新について</a>
+          </li>
+        
+          <li>
+            <a href="../../dotnet/dotnet-auto-updates/">Windows Update による .NET (旧 .NET Core) の自動更新について</a>
+          </li>
+        
+          <li>
+            <a href="../../dotnet/netfx-4-upgrade/">.NET Framework 3.5 から 4.x への移行</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">タグ</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="../../tags/ALM/">ALM</a><span class="tag-list-count">17</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-DevOps-Server">Azure DevOps Server</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-DevOps-Services">Azure DevOps Services</a><span class="tag-list-count">9</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-Pipelines">Azure Pipelines</a><span class="tag-list-count">7</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-Repos">Azure Repos</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Devcontainer">Devcontainer</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/GitHub">GitHub</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/TFS">TFS</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Visual-Studio-Code">Visual Studio Code</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86">情報採取手順</a><span class="tag-list-count">4</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/">情報採取手順</a><span class="tag-list-count">5</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/ALM">ALM</a><span class="tag-list-count">4</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/Azure-DevOps-Server">Azure DevOps Server</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/Azure-DevOps-Services">Azure DevOps Services</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/Azure-Pipelines">Azure Pipelines</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/TFS">TFS</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Data-Access/">Data Access</a><span class="tag-list-count">1</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Data-Access/Jet">Jet</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Windows-SDK/">Windows SDK</a><span class="tag-list-count">9</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Debug">Debug</a><span class="tag-list-count">5</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Documents-and-Printing">Documents and Printing</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/GDI">GDI</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Leak">Leak</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Windows-Update-Agent-API">Windows Update Agent API</a><span class="tag-list-count">2</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Debug/">Debug</a><span class="tag-list-count">15</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/NET">.NET</a><span class="tag-list-count">4</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/AI">AI</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Leak">Leak</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Memory">Memory</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Visual-Studio">Visual Studio</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Windows-SDK">Windows SDK</a><span class="tag-list-count">5</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/AI/">AI</a><span class="tag-list-count">3</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/AI/NET">.NET</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/AI/Debug">Debug</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/AI/Visual-Studio">Visual Studio</a><span class="tag-list-count">2</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/NET/">.NET</a><span class="tag-list-count">17</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/NET-Framework">.NET Framework</a><span class="tag-list-count">11</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/AI">AI</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/Debug">Debug</a><span class="tag-list-count">4</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/%E6%9B%B4%E6%96%B0%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0">更新プログラム</a><span class="tag-list-count">2</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Deployment/">Deployment</a><span class="tag-list-count">3</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Deployment/ClickOnce">ClickOnce</a><span class="tag-list-count">3</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Dev-Box/">Dev Box</a><span class="tag-list-count">1</span><ul></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E5%85%A8%E8%88%AC/">全般</a><span class="tag-list-count">1</span><ul></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Azure-PlayFab/">Azure PlayFab</a><span class="tag-list-count">4</span><ul></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Visual-Studio/">Visual Studio</a><span class="tag-list-count">15</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/AI">AI</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/C">C#</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/C">C++</a><span class="tag-list-count">5</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/Debug">Debug</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/VB-NET">VB.NET</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/Visual-Studio-2026">Visual Studio 2026</a><span class="tag-list-count">1</span></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">アーカイブ</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/12/">2025 / 12</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/11/">2025 / 11</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/10/">2025 / 10</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/09/">2025 / 09</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/08/">2025 / 08</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/07/">2025 / 07</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/06/">2025 / 06</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/08/">2024 / 08</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/06/">2024 / 06</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/04/">2024 / 04</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/03/">2024 / 03</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/09/">2023 / 09</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/06/">2023 / 06</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/03/">2023 / 03</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/02/">2023 / 02</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/12/">2022 / 12</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/11/">2022 / 11</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/07/">2022 / 07</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/06/">2022 / 06</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/04/">2022 / 04</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/03/">2022 / 03</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/01/">2022 / 01</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/12/">2021 / 12</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/08/">2021 / 08</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/05/">2021 / 05</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/04/">2021 / 04</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/02/">2021 / 02</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/01/">2021 / 01</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/12/">2020 / 12</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/11/">2020 / 11</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/10/">2020 / 10</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/09/">2020 / 09</a><span class="archive-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">旧ブログ/フォーラム</h3>
+  <div class="widget">
+    <ul>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://social.msdn.microsoft.com/Forums/ja-jp/home?forum=visualstudiosupportteamja">Visual Studio サポートチーム フォーラム</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://social.msdn.microsoft.com/Forums/ja-jp/home?forum=windowssdksupportteamja&filter=alltypes&sort=lastpostdesc">Windows SDK サポートチーム フォーラム</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/archive/blogs/jpvsblog/">Visual Studio サポート チーム blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/archive/blogs/japan_platform_sdkwindows_sdk_support_team_blog/">JAPAN Platform SDK（Windows SDK） Support Team Blog</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">関連リンク</h3>
+  <div class="widget">
+    <ul>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://developercommunity.visualstudio.com/">Developer Community</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/dotnet/">.NET Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/visualstudio/">Visual Studio Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/cppblog/">C++ Team Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/xamarin/">Xamarin Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/devops/">Azure DevOps Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://techcommunity.microsoft.com/t5/azure-lab-services/bg-p/AzureLabServicesBlog/">Azure Lab Services Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/appcenter/">App Center Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://status.azure.com/status/">Azure Status</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://status.dev.azure.com/">Azure DevOps - Status</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2025 Developer Support Core Japan<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="../../index.html" class="mobile-nav-link">Home</a>
+  
+    <a href="../../archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+<script src="../../js/script.js"></script>
+
+
+<script src="../../js/toc.js"></script>
+
+
+
+
+
+
+  </div>
+</body>
+</html>
