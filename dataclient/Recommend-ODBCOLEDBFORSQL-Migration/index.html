@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>SQL Server 向け ODBC ドライバー/OLE DB プロバイダー移行のススメ | JPDSC Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="こんにちは、Japan Developer Support Core チームの高橋です。前回の &quot;Jet データベースエンジンの移行のススメ&quot; に続くレガシーなデータ アクセス テクノロジーの移行のススメ第 2 弾です。 SQL Server に接続する既存アプリケーションの中に">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SQL Server 向け ODBC ドライバー&#x2F;OLE DB プロバイダー移行のススメ">
+<meta property="og:url" content="https://jpdscore.github.io/blog/dataclient/Recommend-ODBCOLEDBFORSQL-Migration/index.html">
+<meta property="og:site_name" content="Japan Developer Support Core Team Blog">
+<meta property="og:description" content="こんにちは、Japan Developer Support Core チームの高橋です。前回の &quot;Jet データベースエンジンの移行のススメ&quot; に続くレガシーなデータ アクセス テクノロジーの移行のススメ第 2 弾です。 SQL Server に接続する既存アプリケーションの中に">
+<meta property="og:locale" content="ja_JP">
+<meta property="article:published_time" content="2026-01-08T15:00:00.000Z">
+<meta property="article:modified_time" content="2026-01-13T07:45:59.910Z">
+<meta property="article:author" content="Developer Support Core Japan">
+<meta property="article:tag" content="Data Access">
+<meta property="article:tag" content="SQL Server">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/blog/atom.xml" title="Japan Developer Support Core Team Blog" type="application/atom+xml">
+  
+
+  <link rel="icon" href="../../favicon.ico">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="theme-color" content="#ffffff">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="../../css/style.css">
+
+  
+<link rel="stylesheet" href="../../css/copy-button.css">
+
+  
+<link rel="stylesheet" href="../../css/toc.css">
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="site-header-logo"></div>
+  <div id="site-header-blog-wrapper"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        <div id="ms-logo"></div>
+        
+          <a class="main-nav-link" href="../../index.html">Home</a>
+        
+          <a class="main-nav-link" href="../../archives">Archives</a>
+        
+        <a class="main-nav-link" target="_blank" rel="noopener" href="https://cssjpn.github.io/">サポート情報</a>
+        <a class="main-nav-link" href="/blog/general/welcome/">About</a>
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/blog/atom.xml" title="RSSフィード"></a>
+        
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//www.google.com/search" method="get" accept-charset="UTF-8" name="google-search" onsubmit="var f=this;if(f['q'].value){var searchUrl =  'https://www.google.com/search?q=' +  encodeURIComponent(f['q'].value + ' site:' + f['sitesearch'].value) ;window.open(searchUrl, 'blank') };return false;" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="検索"><button type="submit" id="nav-search-btn" class="search-form-submit"></button><input type="hidden" name="sitesearch" value="https://jpdscore.github.io/blog"></form>
+      </div>
+    </div>
+    <div id="header-title" class="inner">
+      <div id="logo-wrap">
+        <a href="../../index.html" id="logo">Japan Developer Support Core Team Blog</a>
+      </div>
+      
+        <div id="subtitle-wrap">
+          <a href="../../index.html" id="subtitle">日本マイクロソフトの Japan Developer Support Core チームのブログです。</a>
+        </div>
+      
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-dataclient/Recommend-ODBCOLEDBFORSQL-Migration" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <aside id="toc" role="complementary" aria-label="Table of Contents"></aside>
+  
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header-single">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      SQL Server 向け ODBC ドライバー/OLE DB プロバイダー移行のススメ
+    </h1>
+  
+
+      </header>
+      <div class="article-share">
+        Last Update: 
+        <a href="" class="article-date-single">
+  <time datetime="2026-01-08T15:00:00.000Z" itemprop="datePublished">2026-01-09</time>
+</a>
+        
+        <div class="article-share-buttons">
+          <a target="_blank" rel="noopener" href="https://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="basic-label" data-hatena-bookmark-lang="ja" data-hatena-bookmark-height="20" title="このエントリーをはてなブックマークに追加"><img src="https://b.st-hatena.com/images/v4/public/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+        </div>
+        <div class="article-share-buttons">
+          <script src="https://platform.linkedin.com/in.js" type="text/javascript">lang: ja_JP</script>
+          <script type="IN/Share" data-url="https://jpdscore.github.io/blog/dataclient/Recommend-ODBCOLEDBFORSQL-Migration/"></script>
+        </div>
+        <div class="article-share-buttons">
+          <a target="_blank" rel="noopener" href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        </div>
+      </div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>こんにちは、Japan Developer Support Core チームの高橋です。前回の &quot;<a href="https://jpdscore.github.io/blog/dataclient/Recommend-Jet-Migration/">Jet データベースエンジンの移行のススメ</a>&quot; に続くレガシーなデータ アクセス テクノロジーの移行のススメ第 2 弾です。</p>
+<p>SQL Server に接続する既存アプリケーションの中には、Windows OS 同梱の <strong>SQL Server ODBC Driver (SQLSRV32)</strong> や <strong>OLE DB Provider for SQL Server (SQLOLEDB)</strong> または、SQL Server 2005 より左記の後継として提供開始された <strong>SQL Server Native Client (SQLNCLI)</strong> を今も使用している様子を各種お問い合わせで確認しています。その主な理由としては・・・</p>
+<ul>
+<li>長年問題なく動いている</li>
+<li>当時の開発者不在につきコードを触れないため変えたくない</li>
+<li>追加のインストールを避け、OS に含まれるコンポーネントを使用したい</li>
+</ul>
+<p>特に日本では開発作業は他社に依頼して成果物のみを受け取って運用、その後の保守も動いている限りは不要であるなど、いざメンテナンスということがなければ開発に相当する作業に誰も手を出せない状態に陥るケースがそこそこあるのが現実のようです。  </p>
+<p>しかし、だからといってこれらの古いデータ アクセス コンポーネントを使用することにおけるリスクについてはいかがでしょうか。セキュリティについては基本前提として DX や AI などと言われる現在、本当にそのまま運用していていいのでしょうか。</p>
+<p>これらの傾向を踏まえ、今回は SQL Server 向けの ODBC ドライバーおよび OLE DB プロバイダーの移行を皆さんにご検討いただきたく、本記事で説明します。</p>
+<h2 id="Microsoft-が提供する-SQL-Server-向け-ODBC-ドライバーおよび-OLE-DB-プロバイダー"><a href="#Microsoft-が提供する-SQL-Server-向け-ODBC-ドライバーおよび-OLE-DB-プロバイダー" class="headerlink" title="Microsoft が提供する SQL Server 向け ODBC ドライバーおよび OLE DB プロバイダー"></a>Microsoft が提供する SQL Server 向け ODBC ドライバーおよび OLE DB プロバイダー</h2><p>以下の記事の &quot;ODBC&quot; および &quot;OLE DB (OLE DB)&quot; で説明されているように、SQL Server 向けの ODBC ドライバーおよび OLE DB プロバイダーにはそれぞれ 3 つの世代があります。<br><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/sql/connect/connect-history?view=sql-server-ver17">Microsoft SQL Server のドライバー履歴</a></p>
+<table>
+<thead>
+<tr>
+<th>世代</th>
+<th>ODBC ドライバー</th>
+<th>OLE DB プロバイダー</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>SQL Server (SQLSRV32)</td>
+<td>OLE DB Provider for SQL Server (SQLOLEDB)</td>
+</tr>
+<tr>
+<td>2</td>
+<td>SQL Server Native Client (SQLNCLI)</td>
+<td>SQL Server Native Client (SQLNCLI)</td>
+</tr>
+<tr>
+<td>3</td>
+<td>ODBC Driver for SQL Server (MSODBCSQL)</td>
+<td>OLE DB Driver for SQL Server (MSOLEDBSQL)</td>
+</tr>
+</tbody></table>
+<p>(*) 名称や略にはバージョン番号が入りますがここではいったん省略します。</p>
+<p>それぞれの世代のサポート状況は以下の通りです。</p>
+<ul>
+<li><p>第 1 世代<br>Windows OS 同梱の Windows Data Access Components の一部として提供されています。そのため Windows のサポート ライフサイクルに従います。<br>ただし、SQL Server 2005 の第 2 世代のリリースにより第 1 世代の開発は終了、新規開発では使用を避けるべきレガシーコンポーネントとして非推奨 (Deprecated) の位置付けとなり、セキュリティ上の問題に対してのみ更新プログラムが提供されています。<br><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/sql/connect/connect-history?view=sql-server-ver17&redirectedfrom=MSDN#deprecated-mdacwdac-components">非推奨の MDAC/WDAC コンポーネント</a></p>
+</li>
+<li><p>第 2 世代<br>SQL Server 2005 で提供が開始され、SQL Server とともにインストールされます。また、SQL Server に接続するアプリケーションが動作する環境など、SQL Server 関連の機能をまとめた Feature Pack や単体のインストーラーによる入手が可能でした。<br>しかし、第 3 世代のリリースにより第 2 世代は SQL Server 2012 相当のバージョン 11.0 で開発終了、こちらも新規開発では使用を避けるべきレガシーコンポーネントとして非推奨 (Deprecated) の位置付けとなりました。サポート ライフサイクルは SQL Server に従いますが、最終バージョンの 11.0 はそれに相当する SQL Server 2012 以降でもインストールされるため、以下のページの &quot;サポート ライフサイクル&quot; の箇所で説明されているようにサポートの提供は限定的であり、例外としての提供です。アプリケーションにて使用する場合には適用されませんので、アプリケーション開発・運用においては、第 2 世代は事実上サポートを終了している状態です。<br><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/sql/relational-databases/native-client/applications/support-policies-for-sql-server-native-client?view=sql-server-ver15#support-lifecycle">SQL Server Native Client のサポート ポリシー &gt; サポート ライフサイクル</a></p>
+</li>
+<li><p>第 3 世代<br>ODBC ドライバー、OLE DB プロバイダーそれぞれにサポート ライフサイクルを定義していますので、それぞれのページでどのバージョンが現在サポート対象か確認できます。 </p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/sql/connect/odbc/support-lifecycle?view=sql-server-ver17">Microsoft ODBC Driver for SQL Server のサポート ライフサイクル</a>  </li>
+<li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/sql/connect/oledb/support-lifecycle?view=sql-server-ver17">Microsoft OLE DB Driver for SQL Server のサポート ライフサイクル</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="古い-ODBC-ドライバー-OLE-DB-プロバイダー利用上のリスク"><a href="#古い-ODBC-ドライバー-OLE-DB-プロバイダー利用上のリスク" class="headerlink" title="古い ODBC ドライバー / OLE DB プロバイダー利用上のリスク"></a>古い ODBC ドライバー / OLE DB プロバイダー利用上のリスク</h2><p>第 1 世代も第 2 世代も開発を終了していますので、現行の SQL Server や Azure SQL Database へのアクセスにおいて当然ながらそれらのサーバー側の新しい機能には完全に対応できないパターンがあります。また、以前のバージョンからの基本的な機能のみを使用するためその点は問題はないとして使用し続けるケースも見られますが、第 1 世代はサポート対象ではあるものの非推奨の位置付けですので、不具合に関してはセキュリティ脆弱性に相当しない限りはその修正は行われません。  </p>
+<p>そしてセキュリティ対策という点では、接続確立時に必ず行われる SSL/TLS 暗号化に関して、例外的に第 1 世代も (Windows Server 2016 同梱のコンポーネントを除き) TLS バージョン 1.1 および 1.2 には対応しましたが、TLS 1.3 以降への対応の予定はありません。TLS バージョンは 1.0 も有効化しているので問題ないというケースにおいても、仮にアプリケーション実行環境はそのまま、SQL Server 側をバージョンアップするにあたり、その稼働環境の OS もバージョンアップするようなケースでは特に OS 間の暗号スイートの差異などがあれば SSL ハンドシェイクができず、接続を確立できないという状況に陥ることもあります。</p>
+<p>細かな事例の列挙はしませんが、簡単にあげるだけでもこのようなリスクがありますので、企業システムでこのような古い世代のものを使い続けることは望ましくないといえます。</p>
+<h2 id="移行の進め方"><a href="#移行の進め方" class="headerlink" title="移行の進め方"></a>移行の進め方</h2><ol>
+<li>まずは既存のアプリケーションで古いドライバーやプロバイダーが使用されているかどうか (移行検討対象か) を確認しましょう。</li>
+<li>次に、システム要件など、移行可否を確認しましょう。</li>
+<li>確認の結果として移行できる場合には移行方法を把握しましょう。</li>
+<li>そして移行した場合の動作を検証にて確認しましょう。</li>
+</ol>
+<h3 id="移行対象かどうかの確認方法"><a href="#移行対象かどうかの確認方法" class="headerlink" title="移行対象かどうかの確認方法"></a>移行対象かどうかの確認方法</h3><p>移行にあたっては既存のアプリケーションでどの世代の ODBC ドライバーおよび OLE DB プロバイダーを使用しているかを把握する必要がありますが、その確認方法としては主に以下の 2 種類の方法があげられます。</p>
+<p><strong>A. ソースコード検索</strong><br>ソースコード一式から SQL Server 向けの接続設定 (接続文字列) を検索し、どの世代の名前の ODBC ドライバーもしくは OLE DB プロバイダーが指定されているかを確認します。</p>
+<p><strong>B. ロードされたモジュール確認</strong><br>実際に SQL Server へアクセスする処理を実行している間にロードされた DLL ファイル名に、各世代の名前の ODBC ドライバーもしくは OLE DB プロバイダーが含まれているかを確認します。</p>
+<p>具体例をあげます。</p>
+<p><strong>//// A について /////</strong><br>アプリケーションでどのような API が使用されているかを把握できていることが望ましいですが、もしも把握できていない場合には単純に前述の &quot;Microsoft が提供する SQL Server 向け ODBC ドライバーおよび OLE DB プロバイダー&quot; で紹介した各世代の名前もしくは略語で検索してみましょう。<br>参考までに、いくつかの API のパターンについて説明します。</p>
+<ul>
+<li><p>ADO を使用している場合<br>接続には主に Connection オブジェクトを使用しますので、接続先などの情報はその ConnectionString プロパティに渡す文字列、もしくは、Open メソッド時に指定する文字列に指定します。これが接続文字列です。また、OLE DB を介して OLE DB プロバイダーを使用して SQL Server に接続しますので、接続文字列には次のように Provider= の箇所に使用される OLE DB プロバイダー名が指定されます。<br>~~<br><em><strong>Provider=SQLOLEDB</strong>;Data Source=servername;Initial Catalog=databasename;Integrated Security=SSPI;</em><br>~~<br>つまり、<strong>Provider</strong> というキーワードで検索することで使用されている OLE DB プロバイダー名を確認できます。 
+また、SQLOLEDB や SQLNCLI といった OLE DB プロバイダー名で検索してみてもよいでしょう。時々 OLE DB プロバイダーから ODBC ドライバーを経由するような接続手法を取っているケースもありますので、接続文字列全体を見てみることも忘れずに。  </p>
+</li>
+<li><p>C++ から ODBC API を使用している場合<br>接続には SQLDriverConnect 関数もしくは SQLConnect 関数が使用されますのでそれらを探すのが最も効率的です。<br>まずは <strong>SQLDriverConnect</strong> 関数を検索してみましょう。ADO の場合と同様に接続文字列が渡され、そこには <strong>Driver=</strong> の箇所に使用される ODBC ドライバーの名前が指定されますのでその名前でどの世代の ODBC ドライバーが指定されているかを把握できるでしょう。<br>~~<br><em>SQLCHAR connstr[] = &quot;<strong>Driver={SQL Server}</strong>;Server=SERVER01;Database=master;Trusted_Connection=yes;&quot;;<br>ret = SQLDriverConnect(hDbc, (SQLHWND)NULL, connstr, SQL_NTS, connstrout, 1024, &amp;outconnstrlen, SQL_DRIVER_NOPROMPT);</em><br>~~<br>また、ADO の場合と同様に ODBC ドライバーの名前を検索するのもよいでしょう。ここでは略語ではなく、ODBC ドライバーの名前で検索することになりますが、幸いにどの世代も必ず <strong>SQL Server</strong> が名称にありますので、これを探してみるのもよいかもしれません。<br>もしどちらも見つからない場合には接続に <strong>SQLConnect</strong> 関数が使用されている可能性がありますのでこの関数名で検索してみましょう。この場合、あらかじめその環境に用意されている ODBC データソース (DSN) の名前が指定されているはずです。その環境の ODBC データソース アドミニストレーター (odbcad32.exe) を起動すると、一致する DSN 名が [ユーザー DSN] もしくは [システム DSN] で見つけられると思いますので、どの ODBC ドライバーを使用して構成されたものかを確認しましょう。</p>
+</li>
+<li><p>ADO.NET を使用している場合<br>SQL Server に対しては System.Data.SqlClient もしくは Microsoft.Data.SqlClient の名前空間のクラスを使用しているケースがほとんどですが、もしも System.Data.Odbc もしくは System.Data.OleDb を使用している場合には ODBC ドライバー / OLE DB プロバイダーが使用されていることになりますので、まずはこの点を確認しましょう。検索で <strong>System.Data.Odbc</strong> や <strong>System.Data.OleDb</strong>、もしくは、<strong>OdbcConnection</strong> や <strong>OleDbConnection</strong> のようなクラス名を検索してみるのがよいでしょう。<br>確認の結果、もしも System.Data.OleDb や OleDbConnection が見つかったら ADO の場合と同様に接続文字列に <strong>Provider</strong> の指定があるはずですので、その箇所を探すとよいでしょう。<br>System.Data.Odbc の場合は C++ から ODBC API の SQLDriverConnect 関数を呼ぶ場合と同様に <strong>Driver</strong> の指定がある、もしくは、SQLConnect と同様の <strong>DSN</strong> の指定があるはずですので、そこから使用されている ODBC ドライバーを把握できます。</p>
+</li>
+</ul>
+<p><strong>//// B について /////</strong><br>いくつか方法はありますが、可能な限り確実に捉える方法として Process Monitor ツールを使用する方法を紹介します。  </p>
+<p><a href="https://jpdscore.github.io/blog/debugging/collect-procmon/">Process Monitor ログの採取手順</a></p>
+<p>上記ブログを参考にアプリケーションが SQL Server にアクセスしている間のログを取得してみてください。採取手順の &quot;情報採取手順 (長期間の採取)&quot; の方にある手順 3. の Filter の設定で対象となるアプリケーションプロセスの名前を指定しておくとその後の解析が楽になるでしょう。</p>
+<p>さて取得できたら次のように Filter の設定を追加してみましょう。</p>
+<ul>
+<li>[Operation] [begin with] [Load]</li>
+<li>[Path] [contains] [sql]</li>
+</ul>
+<p>絞られたログは、対象のアプリケーション プロセスにロードされたモジュールのうち、ファイルのパスに sql が含まれているものだけになります。この中から、対象の ODBC ドライバーや OLE DB プロバイダーがロードされているかを見てみましょう。</p>
+<h3 id="移行可否の確認"><a href="#移行可否の確認" class="headerlink" title="移行可否の確認"></a>移行可否の確認</h3><p>SQL Server ODBC ドライバーや SQL Server Native Client ドライバーは第 3 世代の ODBC Driver for SQL Server へ、SQLOLEDB や SQLNCLI OLE DB プロバイダーは第 3 世代の OLE DB Driver for SQL Server へ移行することを検討することとなりますが、そのサポートライフサイクルやシステム要件を確認し、今回の対象の環境にインストールして利用できるバージョンをそれぞれ確認しましょう。<br>サポート ライフサイクルは前述しましたので、ここではシステム要件のページを紹介します。</p>
+<ul>
+<li><p>ODBC<br><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/sql/connect/odbc/windows/system-requirements-installation-and-driver-files?view=sql-server-ver17">システム必要条件、インストール、およびドライバー ファイル</a></p>
+</li>
+<li><p>OLE DB<br><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/sql/connect/oledb/system-requirements-for-oledb-driver-for-sql-server?view=sql-server-ver17">OLE DB Driver for SQL Server のシステム要件</a><br><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/sql/connect/oledb/applications/support-policies-for-oledb-driver-for-sql-server?view=sql-server-ver17">OLE DB Driver for SQL Server のサポート ポリシー</a></p>
+</li>
+</ul>
+<h3 id="移行方法の把握"><a href="#移行方法の把握" class="headerlink" title="移行方法の把握"></a>移行方法の把握</h3><p>移行においては主に次の 2 点が必要となります。</p>
+<ol>
+<li>第 3 世代の ODBC ドライバーもしくは OLE DB ドライバーのインストール  </li>
+<li>アプリケーションで使用されている接続文字列に指定されている ODBC ドライバー名や OLE DB プロバイダー名の変更<br>※ODBC DSN を使用しているケースではその DSN の削除と新しいドライバーで同名の DSN 作成</li>
+</ol>
+<p>上記のみでよいかどうかについては念のためリリースノートを確認しましょう。特に、新しいバージョンの ODBC ドライバーや OLE DB プロバイダーでは既定で暗号化が有効となりますので、SQL Server 側で暗号化を強制しておらず暗号化に必要となる証明書がないようなケースにおいては接続が失敗する可能性があります。このようなケースにおいては暗号化を前提として証明書などを用意して構成するか、もしくは、以前と同様に明示的には暗号化しないよう接続文字列にオプションを追加するかなどを検討します。</p>
+<ul>
+<li><p>ODBC<br><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/sql/connect/odbc/windows/release-notes-odbc-sql-server-windows?view=sql-server-ver17">Microsoft ODBC Driver for SQL Server on Windows のリリース ノート</a><br><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/sql/connect/odbc/windows/features-of-the-microsoft-odbc-driver-for-sql-server-on-windows?view=sql-server-ver17">Microsoft ODBC Driver for SQL Server on Windows の機能</a>  </p>
+</li>
+<li><p>OLE DB<br><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/sql/connect/oledb/release-notes-for-oledb-driver-for-sql-server?view=sql-server-ver17">Microsoft OLE DB Driver for SQL Server のリリース ノート</a>  </p>
+</li>
+</ul>
+<h3 id="移行した場合の動作検証"><a href="#移行した場合の動作検証" class="headerlink" title="移行した場合の動作検証"></a>移行した場合の動作検証</h3><p>念のため一通りのテストによる動作確認をお願いします。主に前述の接続文字列や DSN の変更のみで動作するかどうか、リリースノートなどで得られる変更点などへの対応が必要か、それ以外の問題がないかの検出と対策を行います。</p>
+<h2 id="まとめ"><a href="#まとめ" class="headerlink" title="まとめ"></a>まとめ</h2><p>SQL Server へアクセスするアプリケーションから OS 同梱の ODBC ドライバーや OLE DB プロバイダーをそのまま使用できて便利でしたが、新しい SQL Server バージョンのリリースに合わせた機能対応が難しいなどの理由もあり、第 2 世代を経て第 3 世代へと代替わりしています。こうして現在では第 2 世代以前はレガシー技術に位置付けられています。  </p>
+<p>古い世代の ODBC ドライバーや OLE DB プロバイダーを利用したシステムをお持ちの場合には、より新しい機能への対応やセキュアなアクセスの観点からも、早めの移行をお勧めします。上記情報が移行計画を進める参考になればうれしいです。</p>
+
+      
+      
+        <div class="article-disclaimer">
+        
+          <p><hr>本ブログの内容は弊社の公式見解として保証されるものではなく、開発・運用時の参考情報としてご活用いただくことを目的としています。もし公式な見解が必要な場合は、弊社ドキュメント (<a target="_blank" rel="noopener" href="https://learn.microsoft.com/">https://learn.microsoft.com</a> や <a target="_blank" rel="noopener" href="https://support.microsoft.com">https://support.microsoft.com</a>) をご参照いただくか、もしくは私共サポートまでお問い合わせください。</p>
+        
+        </div>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Data-Access/" rel="tag">Data Access</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/SQL-Server/" rel="tag">SQL Server</a></li></ul>
+
+      <!-- 
+      
+        <a href="https://github.com/jpdscore/blog/edit/master/articles/dataclient/Recommend-ODBCOLEDBFORSQL-Migration.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
+        
+      -->
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="../../vs/vs2026-msvc-lifecycle/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前の記事</strong>
+      <div class="article-nav-title">MSVC(Visual C++) 14.50 以降のリリースとサポートライフサイクル</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最近の投稿</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="">SQL Server 向け ODBC ドライバー/OLE DB プロバイダー移行のススメ</a>
+          </li>
+        
+          <li>
+            <a href="../../vs/vs2026-msvc-lifecycle/">MSVC(Visual C++) 14.50 以降のリリースとサポートライフサイクル</a>
+          </li>
+        
+          <li>
+            <a href="../../vs/vs2026-supportlifecycle/">Visual Studio 2026 以降のリリースとサポートライフサイクル</a>
+          </li>
+        
+          <li>
+            <a href="../Recommend-Jet-Migration/">Jet データベースエンジンの移行のススメ</a>
+          </li>
+        
+          <li>
+            <a href="../../azuredevops/extensions-support/">Azure DevOps 拡張機能におけるテクニカル サポートの対応範囲</a>
+          </li>
+        
+          <li>
+            <a href="../../azuredevops/hosted-images-update/">Microsoft-hosted エージェントイメージの更新方法</a>
+          </li>
+        
+          <li>
+            <a href="../../dotnet/dotnet-manual-updates/">.NET (旧 .NET Core) の手動更新について</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">タグ</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="../../tags/ALM/">ALM</a><span class="tag-list-count">17</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-DevOps-Server">Azure DevOps Server</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-DevOps-Services">Azure DevOps Services</a><span class="tag-list-count">9</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-Pipelines">Azure Pipelines</a><span class="tag-list-count">7</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-Repos">Azure Repos</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Devcontainer">Devcontainer</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/GitHub">GitHub</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/TFS">TFS</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Visual-Studio-Code">Visual Studio Code</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86">情報採取手順</a><span class="tag-list-count">4</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/">情報採取手順</a><span class="tag-list-count">5</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/ALM">ALM</a><span class="tag-list-count">4</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/Azure-DevOps-Server">Azure DevOps Server</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/Azure-DevOps-Services">Azure DevOps Services</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/Azure-Pipelines">Azure Pipelines</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/TFS">TFS</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Data-Access/">Data Access</a><span class="tag-list-count">2</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Data-Access/Jet">Jet</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Data-Access/SQL-Server">SQL Server</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Windows-SDK/">Windows SDK</a><span class="tag-list-count">9</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Debug">Debug</a><span class="tag-list-count">5</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Documents-and-Printing">Documents and Printing</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/GDI">GDI</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Leak">Leak</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Windows-Update-Agent-API">Windows Update Agent API</a><span class="tag-list-count">2</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Debug/">Debug</a><span class="tag-list-count">15</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/NET">.NET</a><span class="tag-list-count">4</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/AI">AI</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Leak">Leak</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Memory">Memory</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Visual-Studio">Visual Studio</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Windows-SDK">Windows SDK</a><span class="tag-list-count">5</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/AI/">AI</a><span class="tag-list-count">3</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/AI/NET">.NET</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/AI/Debug">Debug</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/AI/Visual-Studio">Visual Studio</a><span class="tag-list-count">2</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/NET/">.NET</a><span class="tag-list-count">17</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/NET-Framework">.NET Framework</a><span class="tag-list-count">11</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/AI">AI</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/Debug">Debug</a><span class="tag-list-count">4</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/%E6%9B%B4%E6%96%B0%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0">更新プログラム</a><span class="tag-list-count">2</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Deployment/">Deployment</a><span class="tag-list-count">3</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Deployment/ClickOnce">ClickOnce</a><span class="tag-list-count">3</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Dev-Box/">Dev Box</a><span class="tag-list-count">1</span><ul></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E5%85%A8%E8%88%AC/">全般</a><span class="tag-list-count">1</span><ul></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Azure-PlayFab/">Azure PlayFab</a><span class="tag-list-count">4</span><ul></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Visual-Studio/">Visual Studio</a><span class="tag-list-count">16</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/AI">AI</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/C">C#</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/C">C++</a><span class="tag-list-count">6</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/Debug">Debug</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/VB-NET">VB.NET</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/Visual-Studio-2026">Visual Studio 2026</a><span class="tag-list-count">1</span></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">アーカイブ</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2026/01/">2026 / 01</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/12/">2025 / 12</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/11/">2025 / 11</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/10/">2025 / 10</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/09/">2025 / 09</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/08/">2025 / 08</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/07/">2025 / 07</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/06/">2025 / 06</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/08/">2024 / 08</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/06/">2024 / 06</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/04/">2024 / 04</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/03/">2024 / 03</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/09/">2023 / 09</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/06/">2023 / 06</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/03/">2023 / 03</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/02/">2023 / 02</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/12/">2022 / 12</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/11/">2022 / 11</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/07/">2022 / 07</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/06/">2022 / 06</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/04/">2022 / 04</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/03/">2022 / 03</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/01/">2022 / 01</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/12/">2021 / 12</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/08/">2021 / 08</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/05/">2021 / 05</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/04/">2021 / 04</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/02/">2021 / 02</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/01/">2021 / 01</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/12/">2020 / 12</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/11/">2020 / 11</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/10/">2020 / 10</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/09/">2020 / 09</a><span class="archive-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">旧ブログ/フォーラム</h3>
+  <div class="widget">
+    <ul>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://social.msdn.microsoft.com/Forums/ja-jp/home?forum=visualstudiosupportteamja">Visual Studio サポートチーム フォーラム</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://social.msdn.microsoft.com/Forums/ja-jp/home?forum=windowssdksupportteamja&filter=alltypes&sort=lastpostdesc">Windows SDK サポートチーム フォーラム</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/archive/blogs/jpvsblog/">Visual Studio サポート チーム blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/archive/blogs/japan_platform_sdkwindows_sdk_support_team_blog/">JAPAN Platform SDK（Windows SDK） Support Team Blog</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">関連リンク</h3>
+  <div class="widget">
+    <ul>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://developercommunity.visualstudio.com/">Developer Community</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/dotnet/">.NET Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/visualstudio/">Visual Studio Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/cppblog/">C++ Team Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/xamarin/">Xamarin Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/devops/">Azure DevOps Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://techcommunity.microsoft.com/t5/azure-lab-services/bg-p/AzureLabServicesBlog/">Azure Lab Services Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/appcenter/">App Center Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://status.azure.com/status/">Azure Status</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://status.dev.azure.com/">Azure DevOps - Status</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2026 Developer Support Core Japan<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="../../index.html" class="mobile-nav-link">Home</a>
+  
+    <a href="../../archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+<script src="../../js/script.js"></script>
+
+
+<script src="../../js/toc.js"></script>
+
+
+
+
+
+
+  </div>
+</body>
+</html>
