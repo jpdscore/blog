@@ -18,7 +18,7 @@
 <meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/pipelines-agents-ip-settings/scenario3.png">
 <meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/pipelines-agents-ip-settings/scenario4.png">
 <meta property="article:published_time" content="2022-04-11T15:00:00.000Z">
-<meta property="article:modified_time" content="2026-01-13T07:45:59.885Z">
+<meta property="article:modified_time" content="2026-01-14T08:06:17.729Z">
 <meta property="article:author" content="Developer Support Core Japan">
 <meta property="article:tag" content="ALM">
 <meta property="article:tag" content="Azure Pipelines">
@@ -133,11 +133,11 @@ Azure DevOps Services は Azure クラウド ネットワーク上で提供さ�
 このため、Azure Pipelines エージェントは、ビルドやリリース (デプロイ) 作業に必要となる各種ネットワーク資源やネットワーク サービスと、ネットワーク通信してアクセスできる必要があります。</p>
 <h2 id="Azure-Pipelines-エージェントの-IP"><a href="#Azure-Pipelines-エージェントの-IP" class="headerlink" title="Azure Pipelines エージェントの IP"></a>Azure Pipelines エージェントの IP</h2><p>Azure Pipelines エージェントには以下の 3 種類があり、それぞれ利用可能な IP アドレスが異なります。</p>
 <ul>
-<li><p>Microsoft-hosted エージェント</p>
-</li>
-<li><p>Self-hosted エージェント</p>
-</li>
-<li><p>Azure 仮想マシンスケールセット エージェント</p>
+<li>Microsoft-hosted エージェント</li>
+<li>Self-hosted エージェント</li>
+<li>Azure 仮想マシンスケールセット エージェント</li>
+<li>マネージド DevOps プール</li>
+</ul>
 <p><a target="_blank" rel="noopener" href="https://docs.microsoft.com/ja-jp/azure/devops/pipelines/agents/agents?view=azure-devops&tabs=browser">Azure Pipelines エージェント - Azure Pipelines | Microsoft Docs</a></p>
 <p>それぞれ詳しく見ていきましょう！</p>
 <h3 id="Microsoft-hosted-エージェント"><a href="#Microsoft-hosted-エージェント" class="headerlink" title="Microsoft-hosted エージェント"></a>Microsoft-hosted エージェント</h3><p>Microsoft-hosted エージェントは、Azure DevOps Services の組織 (organization) と同じ Azure 地域の IP 範囲を利用します。例えば、Azure DevOps Services の組織を東南アジア地域で作成した場合は、 Microsoft-hosted エージェントも東南アジア リージョン <code>AzureCloud.southeastasia</code> の IP 範囲、そして同じアジア太平洋に属する東アジア リージョン <code>AzureCloud.eastasia</code> の IP 範囲を利用します。
@@ -146,29 +146,32 @@ Azure DevOps Services は Azure クラウド ネットワーク上で提供さ�
 <p>※上記ドキュメントサイトに、南ブラジルおよび西ヨーロッパ リージョンをご利用いただく場合の注意点、ならびに Mac IP 範囲の注意点を記載しています。もしもこれらのリージョンや Mac IP 範囲を利用する場合は、ご確認いただくことをお勧めします。</p>
 <h3 id="Self-hosted-エージェント"><a href="#Self-hosted-エージェント" class="headerlink" title="Self-hosted エージェント"></a>Self-hosted エージェント</h3><p>Self-hosted エージェントが利用する IP アドレスは、エージェント機能をインストールしたマシンの IP アドレスです。
 よくある Self-hosted エージェントの構成パターンとしては、以下の 2 種類があります。</p>
-</li>
-</ul>
 <ol>
-<li><p>クラウド上に仮想マシンを作成して、エージェント機能をインストールする。</p>
-</li>
-<li><p>オンプレミス環境に物理的・仮想的に用意したマシンにエージェント機能をインストールする。</p>
+<li>クラウド上に仮想マシンを作成して、エージェント機能をインストールする。</li>
+<li>オンプレミス環境に物理的・仮想的に用意したマシンにエージェント機能をインストールする。</li>
+</ol>
 <p>クラウド上の仮想マシンの場合は、その仮想マシンが利用する Public IP アドレスを利用して Azure DevOps Services との通信を行います。
 オンプレミス環境に物理的・仮想的に用意したマシンも同じように、インターネットへ接続するための Public IP アドレスを利用して Azure DevOps Services との通信を行います。</p>
 <p>どちらのパターンも、Azure DevOps Services との通信を行うためにはインターネットへの接続が必要となりますので、インターネット接続を完全に遮断しているマシンではご利用いただけません。</p>
 <h3 id="Azure-仮想マシンスケールセット-エージェント-VMSS"><a href="#Azure-仮想マシンスケールセット-エージェント-VMSS" class="headerlink" title="Azure 仮想マシンスケールセット エージェント (VMSS)"></a>Azure 仮想マシンスケールセット エージェント (VMSS)</h3><p>Azure 仮想マシンスケールセット エージェント (VMSS) が利用する IP アドレスは、 Azure 仮想マシンスケールセットに設定した Public IP アドレスです。</p>
 <p><a target="_blank" rel="noopener" href="https://docs.microsoft.com/ja-jp/azure/devops/pipelines/agents/scale-set-agents?view=azure-devops">Azure 仮想マシン スケール セット エージェント - Azure Pipelines | Microsoft Docs</a></p>
 <p>Azure Pipelines エージェントの分類としては Self-hosted エージェントと同じ扱いになりますが、 IP アドレスの観点からは次のような特徴があります。</p>
-</li>
-</ol>
 <ul>
-<li><p>Azure DevOps Services との通信に使用する Public IP アドレスは、インターネットへの接続が必要です。(Self-hosted agent の場合と同じです)</p>
-</li>
-<li><p>ビルド時やデプロイ時にローカルのネットワークとの通信が必要になる場合は、要件によっては VMSS での対応が難しくなるケースがあります。</p>
+<li>Azure DevOps Services との通信に使用する Public IP アドレスは、インターネットへの接続が必要です。(Self-hosted agent の場合と同じです)</li>
+<li>ビルド時やデプロイ時にローカルのネットワークとの通信が必要になる場合は、要件によっては VMSS での対応が難しくなるケースがあります。</li>
+</ul>
+<h3 id="マネージド-DevOps-プール-MDP"><a href="#マネージド-DevOps-プール-MDP" class="headerlink" title="マネージド DevOps プール (MDP)"></a>マネージド DevOps プール (MDP)</h3><p>マネージド DevOps プール (MDP) が利用する IP アドレスは、Microsoft が提供する分離された仮想ネットワーク、および利用者が作成した既存の仮想ネットワークの二つをご利用いただけます。</p>
+<p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/azure/devops/managed-devops-pools/configure-networking?view=azure-devops&tabs=azure-portal">ネットワークを構成する - Managed DevOps Pools | Microsoft Learn</a></p>
+<p>こちらも Azure Pipelines エージェントの分類としては Self-hosted エージェントと同じ扱いになりますが、 IP アドレスの観点からは次のような特徴があります。</p>
+<h4 id="Microsoft-が提供する分離された仮想ネットワーク"><a href="#Microsoft-が提供する分離された仮想ネットワーク" class="headerlink" title="Microsoft が提供する分離された仮想ネットワーク"></a>Microsoft が提供する分離された仮想ネットワーク</h4><p>Microsoft が提供する分離された仮想ネットワークでは、Public IP アドレス経由のルートを <strong>「なし」</strong> または <strong>「Microsoft 提供 IP」</strong> のどちらか一方を選択することができます。</p>
+<ul>
+<li><strong>なし</strong>: Microsoft が提供する Public IP アドレスを使用してすべての送信トラフィックを許可します。「なし」というのは Public IP アドレスの設定を「何も設定せず」ということであり、インターネットを経由する送信トラフィックを制限するものではないことにご注意ください。<br>また、 <a target="_blank" rel="noopener" href="https://azure.microsoft.com/ja-jp/updates?id=default-outbound-access-for-vms-in-azure-will-be-retired-transition-to-a-new-method-of-internet-access">Azure の更新情報</a> にもあるように、既定のアウトバウンド接続が廃止となる影響を受けることから、こちらの設定も合わせて廃止予定となっています。</li>
+<li><strong>Microsoft 提供 IP</strong>: 最大 16 個の静的送信 IP アドレスを使用するようにプールを構成できます。これによりプールと同じリージョンに NAT ゲートウェイが作成され、Public IP アドレスが提供されます。 NAT ゲートウェイや Public IP アドレス等のリソースは、お客様にて管理いただく必要はございません。</li>
+</ul>
+<h4 id="利用者が作成した既存の仮想ネットワーク"><a href="#利用者が作成した既存の仮想ネットワーク" class="headerlink" title="利用者が作成した既存の仮想ネットワーク"></a>利用者が作成した既存の仮想ネットワーク</h4><p>利用者が作成した仮想ネットワークおよびサブネットを選択することができます。<br>仮想ネットワークに設定した通信方法を用いてアウトバウンド接続を接続をするため、例えば仮想ネットワークのサブネットに NAT ゲートウェイ リソースを紐づけている場合には、 NAT ゲートウェイに設定したアウトバウンド IP 設定を用いた Public IP アドレスが利用されます。</p>
 <h2 id="シナリオごとのエージェント"><a href="#シナリオごとのエージェント" class="headerlink" title="シナリオごとのエージェント"></a>シナリオごとのエージェント</h2><p>それでは、実際のシナリオごとに、必要となるエージェントの IP 設定を見ていきましょう。
 VMSS は Self-hosted エージェントと同じ扱いになりますので、シナリオでは Microsoft-hosted エージェントと Self-hosted エージェントに焦点を当てて見ていきます。</p>
-<h3 id="エージェントマシンが-Azure-DevOps-Services-に接続するための許可ルールを設定したい"><a href="#エージェントマシンが-Azure-DevOps-Services-に接続するための許可ルールを設定したい" class="headerlink" title="エージェントマシンが Azure DevOps Services に接続するための許可ルールを設定したい"></a>エージェントマシンが Azure DevOps Services に接続するための許可ルールを設定したい</h3></li>
-</ul>
-<p><img src="scenario1.png"></p>
+<h3 id="エージェントマシンが-Azure-DevOps-Services-に接続するための許可ルールを設定したい"><a href="#エージェントマシンが-Azure-DevOps-Services-に接続するための許可ルールを設定したい" class="headerlink" title="エージェントマシンが Azure DevOps Services に接続するための許可ルールを設定したい"></a>エージェントマシンが Azure DevOps Services に接続するための許可ルールを設定したい</h3><p><img src="scenario1.png"></p>
 <p>Microsoft-hosted エージェントの場合は、Azure DevOps Services に接続するための許可ルールを追加設定する必要はありません。</p>
 <p>Self-hosted エージェントの場合は、エージェントマシンに <a target="_blank" rel="noopener" href="https://docs.microsoft.com/ja-jp/azure/devops/organizations/security/allow-list-ip-url?view=azure-devops&tabs=IP-V4#ip-addresses-and-range-restrictions">IP アドレスと範囲の制限 - Azure DevOps | Microsoft Docs</a> を設定いただくことで、 Azure DevOps Services との通信が可能になります。
 注意点としましては、 Azure Pipelines でビルドやリリース (デプロイ) を実行したときに、Azure DevOps Services 以外の URL へアクセスする必要がある場合です。例えば、スクリプトから <code>pip install</code> を実行したときには、<code>https://pypi.org/</code> へのアクセスが発生します。
@@ -181,16 +184,13 @@ VMSS は Self-hosted エージェントと同じ扱いになりますので、�
 <p>Microsoft-hosted エージェントの場合は、Microsoft-hosted エージェントからオンプレミス環境へネットワーク通信してアクセスすることができないため、残念ながら実現できません。</p>
 <p>Self-hosted エージェントの場合は、オンプレミス環境にあるマシンにエージェント機能をインストールしていただき、そのマシンにおいて以下の条件を満たすことにより、実現が可能です。</p>
 <ul>
-<li><p>Azure DevOps Services に対し、ネットワーク通信してアクセス可能であること</p>
-</li>
-<li><p>Public ネットワークへの通信が制限されたオンプレミス環境のサーバーに対し、ネットワーク通信してアクセス可能であること</p>
-<h3 id="Azure-Web-App-や-Azure-Container-Registry-といった-PaaS-リソースに対して-Private-IP-アドレス経由でデプロイしたい"><a href="#Azure-Web-App-や-Azure-Container-Registry-といった-PaaS-リソースに対して-Private-IP-アドレス経由でデプロイしたい" class="headerlink" title="Azure Web App や Azure Container Registry といった PaaS リソースに対して Private IP アドレス経由でデプロイしたい"></a>Azure Web App や Azure Container Registry といった PaaS リソースに対して Private IP アドレス経由でデプロイしたい</h3></li>
+<li>Azure DevOps Services に対し、ネットワーク通信してアクセス可能であること</li>
+<li>Public ネットワークへの通信が制限されたオンプレミス環境のサーバーに対し、ネットワーク通信してアクセス可能であること</li>
 </ul>
-<p>Azure の Virtual Network (VNet) とプライベートエンドポイントを利用することにより、実現が可能です。</p>
+<h3 id="Azure-Web-App-や-Azure-Container-Registry-といった-PaaS-リソースに対して-Private-IP-アドレス経由でデプロイしたい"><a href="#Azure-Web-App-や-Azure-Container-Registry-といった-PaaS-リソースに対して-Private-IP-アドレス経由でデプロイしたい" class="headerlink" title="Azure Web App や Azure Container Registry といった PaaS リソースに対して Private IP アドレス経由でデプロイしたい"></a>Azure Web App や Azure Container Registry といった PaaS リソースに対して Private IP アドレス経由でデプロイしたい</h3><p>Azure の Virtual Network (VNet) とプライベートエンドポイントを利用することにより、実現が可能です。</p>
 <p><img src="scenario4.png"></p>
 <p>Microsoft-hosted エージェントの場合は、エージェントが稼働するマシンに VNet を設定することができないため、残念ながら実現できません。</p>
-<p>Self-hosted エージェントの場合は、Azure 上に仮想マシン (Azure VM または、仮想マシンスケールセット) を作成すれば、作成した仮想マシンに VNet を設定することができますので、実現が可能です。
-また、PaaS リソース (Azure Web App や Azure Container Registry など) に対して作成した VNet を、プライベートエンドポイントとして設定いただくことで、Self-hosted エージェントが稼働するマシンと PaaS リソース間で Private IP によるネットワーク通信が可能になりますので、デプロイを実現することが可能です。</p>
+<p>Self-hosted エージェントの場合は、Azure 上に仮想マシン (Azure VM または、仮想マシンスケールセット) を作成すれば、作成した仮想マシンに VNet を設定することができますので、実現が可能です。<br>マネージド DevOps プール (MDP) を利用する場合にも同様に  VNet を設定することができますので、実現が可能です。<br>また、PaaS リソース (Azure Web App や Azure Container Registry など) に対して作成した VNet を、プライベートエンドポイントとして設定いただくことで、Self-hosted エージェントが稼働するマシンと PaaS リソース間で Private IP によるネットワーク通信が可能になりますので、デプロイを実現することが可能です。</p>
 <h3 id="最後に"><a href="#最後に" class="headerlink" title="最後に"></a>最後に</h3><p>いかがでしたでしょうか？  ご利用の Azure Pipelines エージェントの種類や、ネットワーク構成などのシナリオによって千差万別ではありますが、今後の Azure Pipelines エージェント運用の際に参考としていただけたらとても嬉しいです。
 今後も Azure DevOps のご利用にお役立ていただける情報をどんどんご紹介していきたいと思いますので、どうぞよろしくお願いします！</p>
 
