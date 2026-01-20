@@ -6,7 +6,7 @@
   <link href="https://jpdscore.github.io/blog/atom.xml" rel="self"/>
   
   <link href="https://jpdscore.github.io/blog/"/>
-  <updated>2026-01-15T06:06:39.525Z</updated>
+  <updated>2026-01-20T00:29:30.127Z</updated>
   <id>https://jpdscore.github.io/blog/</id>
   
   <author>
@@ -17,11 +17,28 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>.NET MAUI アプリで iosWidgets を利用する</title>
+    <link href="https://jpdscore.github.io/blog/maui/iosWidgets/"/>
+    <id>https://jpdscore.github.io/blog/maui/iosWidgets/</id>
+    <published>2026-01-19T05:43:42.000Z</published>
+    <updated>2026-01-20T00:29:30.127Z</updated>
+    
+    
+    <summary type="html">.NET MAUI アプリと iOS WidgetKit を連携させる具体的な実現方法について翻訳しています。</summary>
+    
+    
+    
+    
+    <category term=".NET" scheme="https://jpdscore.github.io/blog/tags/NET/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Microsoft JDBC Driver for SQL Server のトレース取得方法まとめ</title>
     <link href="https://jpdscore.github.io/blog/dataclient/JDBC-Tracing/"/>
     <id>https://jpdscore.github.io/blog/dataclient/JDBC-Tracing/</id>
     <published>2026-01-14T08:24:05.000Z</published>
-    <updated>2026-01-15T06:06:39.525Z</updated>
+    <updated>2026-01-20T00:29:30.096Z</updated>
     
     
     <summary type="html">JDBC Driver でのトレース有効化手順と SSL/TLS デバッグ出力方法を説明します。</summary>
@@ -40,7 +57,7 @@
     <link href="https://jpdscore.github.io/blog/dataclient/Recommend-ODBCOLEDBFORSQL-Migration/"/>
     <id>https://jpdscore.github.io/blog/dataclient/Recommend-ODBCOLEDBFORSQL-Migration/</id>
     <published>2026-01-08T15:00:00.000Z</published>
-    <updated>2026-01-15T06:06:39.525Z</updated>
+    <updated>2026-01-20T00:29:30.097Z</updated>
     
     
       
@@ -65,7 +82,7 @@
     <link href="https://jpdscore.github.io/blog/vs/vs2026-msvc-lifecycle/"/>
     <id>https://jpdscore.github.io/blog/vs/vs2026-msvc-lifecycle/</id>
     <published>2025-12-25T15:00:00.000Z</published>
-    <updated>2026-01-15T06:06:39.567Z</updated>
+    <updated>2026-01-20T00:29:30.144Z</updated>
     
     
       
@@ -91,7 +108,7 @@
     <link href="https://jpdscore.github.io/blog/vs/vs2026-supportlifecycle/"/>
     <id>https://jpdscore.github.io/blog/vs/vs2026-supportlifecycle/</id>
     <published>2025-12-25T15:00:00.000Z</published>
-    <updated>2026-01-15T06:06:39.568Z</updated>
+    <updated>2026-01-20T00:29:30.145Z</updated>
     
     
       
@@ -117,7 +134,7 @@
     <link href="https://jpdscore.github.io/blog/dataclient/Recommend-Jet-Migration/"/>
     <id>https://jpdscore.github.io/blog/dataclient/Recommend-Jet-Migration/</id>
     <published>2025-12-17T05:19:47.000Z</published>
-    <updated>2026-01-15T06:06:39.525Z</updated>
+    <updated>2026-01-20T00:29:30.097Z</updated>
     
     
       
@@ -142,7 +159,7 @@
     <link href="https://jpdscore.github.io/blog/azuredevops/extensions-support/"/>
     <id>https://jpdscore.github.io/blog/azuredevops/extensions-support/</id>
     <published>2025-12-15T15:00:00.000Z</published>
-    <updated>2026-01-15T06:06:39.489Z</updated>
+    <updated>2026-01-20T00:29:30.064Z</updated>
     
     
       
@@ -168,7 +185,7 @@
     <link href="https://jpdscore.github.io/blog/azuredevops/hosted-images-update/"/>
     <id>https://jpdscore.github.io/blog/azuredevops/hosted-images-update/</id>
     <published>2025-12-06T15:00:00.000Z</published>
-    <updated>2026-01-15T06:06:39.491Z</updated>
+    <updated>2026-01-20T00:29:30.065Z</updated>
     
     
       
@@ -196,7 +213,7 @@
     <link href="https://jpdscore.github.io/blog/dotnet/dotnet-manual-updates/"/>
     <id>https://jpdscore.github.io/blog/dotnet/dotnet-manual-updates/</id>
     <published>2025-11-27T15:00:00.000Z</published>
-    <updated>2026-01-15T06:06:39.554Z</updated>
+    <updated>2026-01-20T00:29:30.124Z</updated>
     
     
       
@@ -222,7 +239,7 @@
     <link href="https://jpdscore.github.io/blog/dotnet/dotnet-auto-updates/"/>
     <id>https://jpdscore.github.io/blog/dotnet/dotnet-auto-updates/</id>
     <published>2025-11-26T15:00:00.000Z</published>
-    <updated>2026-01-15T06:06:39.554Z</updated>
+    <updated>2026-01-20T00:29:30.124Z</updated>
     
     
       
@@ -248,7 +265,7 @@
     <link href="https://jpdscore.github.io/blog/dotnet/netfx-4-upgrade/"/>
     <id>https://jpdscore.github.io/blog/dotnet/netfx-4-upgrade/</id>
     <published>2025-11-20T15:00:00.000Z</published>
-    <updated>2026-01-15T06:06:39.557Z</updated>
+    <updated>2026-01-20T00:29:30.126Z</updated>
     
     
       
@@ -274,7 +291,7 @@
     <link href="https://jpdscore.github.io/blog/dotnet/list-assemblies-in-gac-by-fusion-api/"/>
     <id>https://jpdscore.github.io/blog/dotnet/list-assemblies-in-gac-by-fusion-api/</id>
     <published>2025-11-09T15:00:00.000Z</published>
-    <updated>2026-01-15T06:06:39.555Z</updated>
+    <updated>2026-01-20T00:29:30.125Z</updated>
     
     
     <summary type="html">GAC に登録されているアセンブリを Fusion API を使用して一覧取得する方法について説明します。</summary>
@@ -293,7 +310,7 @@
     <link href="https://jpdscore.github.io/blog/devbox/timezone-in-devbox/"/>
     <id>https://jpdscore.github.io/blog/devbox/timezone-in-devbox/</id>
     <published>2025-10-30T15:00:00.000Z</published>
-    <updated>2026-01-15T06:06:39.549Z</updated>
+    <updated>2026-01-20T00:29:30.120Z</updated>
     
     
       
@@ -318,7 +335,7 @@
     <link href="https://jpdscore.github.io/blog/deployment/nothing-happens-when-attempting-to-launch-clickonce-apps/"/>
     <id>https://jpdscore.github.io/blog/deployment/nothing-happens-when-attempting-to-launch-clickonce-apps/</id>
     <published>2025-10-16T15:00:00.000Z</published>
-    <updated>2026-01-15T06:06:39.545Z</updated>
+    <updated>2026-01-20T00:29:30.115Z</updated>
     
     
       
@@ -343,7 +360,7 @@
     <link href="https://jpdscore.github.io/blog/vs/vs2022-update-license/"/>
     <id>https://jpdscore.github.io/blog/vs/vs2022-update-license/</id>
     <published>2025-10-09T15:00:00.000Z</published>
-    <updated>2026-01-15T06:06:39.567Z</updated>
+    <updated>2026-01-20T00:29:30.144Z</updated>
     
     
       
@@ -367,7 +384,7 @@
     <link href="https://jpdscore.github.io/blog/vs/vs2022-requirement/"/>
     <id>https://jpdscore.github.io/blog/vs/vs2022-requirement/</id>
     <published>2025-10-02T15:00:00.000Z</published>
-    <updated>2026-01-15T06:06:39.567Z</updated>
+    <updated>2026-01-20T00:29:30.144Z</updated>
     
     
       
@@ -391,7 +408,7 @@
     <link href="https://jpdscore.github.io/blog/playfab/studio-creation-recommendation/"/>
     <id>https://jpdscore.github.io/blog/playfab/studio-creation-recommendation/</id>
     <published>2025-09-30T04:00:00.000Z</published>
-    <updated>2026-01-15T06:06:39.558Z</updated>
+    <updated>2026-01-20T00:29:30.136Z</updated>
     
     
       
@@ -415,7 +432,7 @@ PlayFab</summary>
     <link href="https://jpdscore.github.io/blog/debugging/analyze-win32-heap-leak/"/>
     <id>https://jpdscore.github.io/blog/debugging/analyze-win32-heap-leak/</id>
     <published>2025-09-25T15:00:00.000Z</published>
-    <updated>2026-01-15T06:06:39.525Z</updated>
+    <updated>2026-01-20T00:29:30.097Z</updated>
     
     
       
@@ -441,7 +458,7 @@ PlayFab</summary>
     <link href="https://jpdscore.github.io/blog/dotnet/netfx-4-rollup/"/>
     <id>https://jpdscore.github.io/blog/dotnet/netfx-4-rollup/</id>
     <published>2025-09-23T15:00:00.000Z</published>
-    <updated>2026-01-15T06:06:39.556Z</updated>
+    <updated>2026-01-20T00:29:30.126Z</updated>
     
     
       
@@ -468,7 +485,7 @@ PlayFab</summary>
     <link href="https://jpdscore.github.io/blog/vs/vc2015-compatibility/"/>
     <id>https://jpdscore.github.io/blog/vs/vc2015-compatibility/</id>
     <published>2025-09-11T15:00:00.000Z</published>
-    <updated>2026-01-15T06:06:39.566Z</updated>
+    <updated>2026-01-20T00:29:30.144Z</updated>
     
     
       
@@ -485,32 +502,6 @@ PlayFab</summary>
     <category term="Visual Studio" scheme="https://jpdscore.github.io/blog/tags/Visual-Studio/"/>
     
     <category term="C++" scheme="https://jpdscore.github.io/blog/tags/C/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Windows Update Agent API を使用して更新プログラムを検索、ダウンロード、インストールする</title>
-    <link href="https://jpdscore.github.io/blog/windowssdk/wuaapi-install-updates/"/>
-    <id>https://jpdscore.github.io/blog/windowssdk/wuaapi-install-updates/</id>
-    <published>2025-08-20T15:00:00.000Z</published>
-    <updated>2026-01-15T06:06:39.571Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;こんにちは、Japan Developer Support Core チームの松井です。今回は、Windows Update Agent (WUA) API を使用して更新プログラムの検索とダウンロード、インストールを行う方法を紹介します。&lt;/p&gt;
-&lt;div</summary>
-        
-      
-    
-    
-    
-    
-    <category term="Windows SDK" scheme="https://jpdscore.github.io/blog/tags/Windows-SDK/"/>
-    
-    <category term="Windows Update Agent API" scheme="https://jpdscore.github.io/blog/tags/Windows-Update-Agent-API/"/>
     
   </entry>
   

@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>.NET MAUI アプリで iosWidgets を利用する | JPDSC Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content=".NET MAUI アプリと iOS WidgetKit を連携させる具体的な実現方法について翻訳しています。">
+<meta property="og:type" content="article">
+<meta property="og:title" content=".NET MAUI アプリで iosWidgets を利用する">
+<meta property="og:url" content="https://jpdscore.github.io/blog/maui/iosWidgets/index.html">
+<meta property="og:site_name" content="Japan Developer Support Core Team Blog">
+<meta property="og:description" content=".NET MAUI アプリと iOS WidgetKit を連携させる具体的な実現方法について翻訳しています。">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:image" content="https://jpdscore.github.io/blog/maui/iosWidgets/iphonewidgetexample.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/maui/iosWidgets/xcodenewappproject.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/maui/iosWidgets/xcodenewwidgetproject.png">
+<meta property="article:published_time" content="2026-01-19T05:43:42.000Z">
+<meta property="article:modified_time" content="2026-01-20T00:29:30.127Z">
+<meta property="article:author" content="Developer Support Core Japan">
+<meta property="article:tag" content=".NET">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jpdscore.github.io/blog/maui/iosWidgets/iphonewidgetexample.png">
+  
+    <link rel="alternate" href="/blog/atom.xml" title="Japan Developer Support Core Team Blog" type="application/atom+xml">
+  
+
+  <link rel="icon" href="../../favicon.ico">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="theme-color" content="#ffffff">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="../../css/style.css">
+
+  
+<link rel="stylesheet" href="../../css/copy-button.css">
+
+  
+<link rel="stylesheet" href="../../css/toc.css">
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="site-header-logo"></div>
+  <div id="site-header-blog-wrapper"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        <div id="ms-logo"></div>
+        
+          <a class="main-nav-link" href="../../index.html">Home</a>
+        
+          <a class="main-nav-link" href="../../archives">Archives</a>
+        
+        <a class="main-nav-link" target="_blank" rel="noopener" href="https://cssjpn.github.io/">サポート情報</a>
+        <a class="main-nav-link" href="/blog/general/welcome/">About</a>
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/blog/atom.xml" title="RSSフィード"></a>
+        
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//www.google.com/search" method="get" accept-charset="UTF-8" name="google-search" onsubmit="var f=this;if(f['q'].value){var searchUrl =  'https://www.google.com/search?q=' +  encodeURIComponent(f['q'].value + ' site:' + f['sitesearch'].value) ;window.open(searchUrl, 'blank') };return false;" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="検索"><button type="submit" id="nav-search-btn" class="search-form-submit"></button><input type="hidden" name="sitesearch" value="https://jpdscore.github.io/blog"></form>
+      </div>
+    </div>
+    <div id="header-title" class="inner">
+      <div id="logo-wrap">
+        <a href="../../index.html" id="logo">Japan Developer Support Core Team Blog</a>
+      </div>
+      
+        <div id="subtitle-wrap">
+          <a href="../../index.html" id="subtitle">日本マイクロソフトの Japan Developer Support Core チームのブログです。</a>
+        </div>
+      
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-maui/iosWidgets" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <aside id="toc" role="complementary" aria-label="Table of Contents"></aside>
+  
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header-single">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      .NET MAUI アプリで iosWidgets を利用する
+    </h1>
+  
+
+      </header>
+      <div class="article-share">
+        Last Update: 
+        <a href="" class="article-date-single">
+  <time datetime="2026-01-19T05:43:42.000Z" itemprop="datePublished">2026-01-19</time>
+</a>
+        
+        <div class="article-share-buttons">
+          <a target="_blank" rel="noopener" href="https://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="basic-label" data-hatena-bookmark-lang="ja" data-hatena-bookmark-height="20" title="このエントリーをはてなブックマークに追加"><img src="https://b.st-hatena.com/images/v4/public/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+        </div>
+        <div class="article-share-buttons">
+          <script src="https://platform.linkedin.com/in.js" type="text/javascript">lang: ja_JP</script>
+          <script type="IN/Share" data-url="https://jpdscore.github.io/blog/maui/iosWidgets/"></script>
+        </div>
+        <div class="article-share-buttons">
+          <a target="_blank" rel="noopener" href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        </div>
+      </div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>こんにちは、Japan Developer Support Core チームです。</p>
+<p>iOS の WidgetKit がリリースされてから、.NET MAUI アプリと WidgetKit を連携させる具体的な実現方法について公開情報はありませんでしたが、2025 年 12 月 15 日に.NET Blog で公開された記事 <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/dotnet/how-to-build-ios-widgets-with-dotnet-maui/">How to Build iOS Widgets with .NET MAUI</a> で、詳細な手順が紹介されています。今回はこのブログ記事の和訳となります。</p>
+<hr>
+<hr>
+<p><em>これは  <a target="_blank" rel="noopener" href="https://www.linkedin.com/in/toinedeboer/">Toine de Boer</a> のゲスト ブログです。</em></p>
+<p>私は主に .NET MAUI と ASP.NET を利用するバックエンドサービスの開発を担当しています。最近、ウィジェットを利用するアプリ開発に取り組む中で、情報が非常に限られており、当初はなかなかうまくいきませんでした。そこで、.NET MAUI アプリで完全なウィジェットを構築できることを証明するためにこの記事を書くことにしました。しかも、ネイティブ開発環境と同等のプロフェッショナルな方法で構築でき、ビルドやアップデートのたびにすべてが壊れてしまう心配もありません。</p>
+<p>これはハンズオン形式のチュートリアルではなく、iOS ウィジェットを構築する際に直面する問題を解決するために、重要なポイントを優先順に整理したものです。.NET MAUI や Xamarin の経験があることが望ましく、macOS へのアクセスが必須です。残念ながら macOS なしで iOS ウィジェットを作成することは不可能です。必要だと思うものを選んでも構いませんが、最初から最後まで読んでみないと、ウィジェットが動作しない細かい点を見逃すかもしれません。本記事は、シンプルな静的ウィジェットの作成から始まり、完全にインタラクティブなウィジェットの基本的なシステムで終わります。</p>
+<p>すぐに始められるように、動作するインタラクティブなウィジェットを作成しました。これは <a target="_blank" rel="noopener" href="https://github.com/Toine-db/Maui.WidgetExample">github&gt;Maui.WidgetExample</a> にあります。 </p>
+<p><img src="iphonewidgetexample.png" alt="iphoneでWidgetを表示した画像"></p>
+<div class="admonition warning"><p class="admonition-title">注記
+</p><p>iOS ウィジェットはホストアプリにリンクされたスタンドアロンのアプリです。シンプルにするために、主に.NET MAUIアプリを「アプリ」、ウィジェットアプリを「ウィジェット」と呼んでいます。</p>
+</div>
+
+<h2 id="前提条件"><a href="#前提条件" class="headerlink" title="前提条件"></a>前提条件</h2><p>作業を始める前に、Apple のデベロッパーコンソールでいくつかの設定を済ませておく必要があります。既存のアプリのバンドル ID に加えて、ウィジェット用のバンドル ID も必要です。もしアプリが <code>com.enbyin.WidgetExample</code> を使用している場合、通常はウィジェットに  <code>com.enbyin.WidgetExample.WidgetExtension</code> のように追加します。さらに、両方のバンドル ID には専用グループを持つ App Groups 機能が必要です。アプリのバンドル ID の先頭に <code>group</code> を付けて、例えば <code>group.enbyin.WidgetExample</code> のようにグループ ID を作成します。</p>
+<p>Apple Developer Console で事前に準備・取得しておくべき情報:</p>
+<ul>
+<li>バンドル ID (例 <code>com.enbyin.WidgetExample</code>)</li>
+<li>ウィジェット (アプリ) バンドル ID (例 <code>com.enbyin.WidgetExample.WidgetExtension</code>)</li>
+<li>グループ ID (例 <code>group.enbyin.WidgetExample</code>)</li>
+</ul>
+<p>デモ目的で、iOS と Android のみをターゲットにしたデフォルトの .NET MAUI アプリを作成しました。iOS のターゲットには、新たに作成したバンドル ID <code>com.enbyin.WidgetExample</code>　を設定しています。また、ウィジェット画面で正しいアイコンが使われているかどうかを簡単に確認できるように、非常に目立つアプリのアイコンも追加しました。</p>
+<h2 id="ウィジェットプロジェクトの作成"><a href="#ウィジェットプロジェクトの作成" class="headerlink" title="ウィジェットプロジェクトの作成"></a>ウィジェットプロジェクトの作成</h2><p>.NET 開発者である私にとって最大のステップから始めましょう。それは Xcode と Swift での作業です。
+Xcode でプロジェクトを作成した後は、Visual Studio Code に切り替えて Copilot とペアプログラミングし、迅速に反復開発を行うことをおすすめします。
+Apple の規約に従いながら、しっかりした小さなアプリをすぐにセットアップできます。</p>
+<p>Xcode では、まず Swift コードを使って App テンプレートでアプリプロジェクトを作成します。このプロジェクトは、実際のウィジェット拡張を追加するためのベースとなり、必要に応じて簡単なテストにも利用できます。バンドル ID は .NET MAUI アプリと同じものを設定します。バンドル ID を再利用しても問題ありません。なぜなら、このほぼ空の Xcode アプリは実際にリリースされることがないからです。</p>
+<p><img src="xcodenewappproject.png" alt="Xcodeで新規アプリのプロジェクト設定"></p>
+<p>アプリ プロジェクトができたら、次にウィジェット拡張機能を作成します。Xcode で「File &gt; New &gt; Target」 とクリックし、<code>Widget Extension</code> のテンプレートを選択してください。ウィジェット用に正しいバンドル ID を使っている名前を選ぶことで、後から編集する手間を省くことができます。<code>Include Configuration App Intent</code> を選択すると、すぐに動作するウィジェットを作成できます。</p>
+<p><img src="xcodenewwidgetproject.png" alt="Xcodeで新規ウィジェットのプロジェクト設定"></p>
+<p>すべてのプロジェクトを作成したら、必ずターゲットごとに iOS バージョンを揃えます。すべての Xcode ターゲットで同じバージョンになっていることを確認します。これを確認するには、メインウィンドウのソリューション設定を開き、ソリューション名をタップして「Minimum Deployment iOS Version」のタブ「General」ですべてのターゲットについて同じバージョンを設定してください。設定が終わったら、「Product &gt; Build in Xcode」 を使ってデバイスで実行してみます。</p>
+<h2 id="ウィジェット内のオブジェクトとフロー"><a href="#ウィジェット内のオブジェクトとフロー" class="headerlink" title="ウィジェット内のオブジェクトとフロー"></a>ウィジェット内のオブジェクトとフロー</h2><p>Xcode でウィジェット プロジェクトを作成すると多くのオブジェクトが生成されます。最初は驚きますが、ほとんどの情報が一つのファイルにまとめられているためです。そのため、私はいつもリファクタリングから始めます。各オブジェクトを個別のファイルに分け、フォルダー構造を整理します。Swift は厳密に名前空間を使わないので、フォルダー構造に関係なく、このプロジェクト内のすべては同じ名前空間に属します。したがって、こうした分割を行っても問題はありません。</p>
+<p>リファクタリング後の開発の流れは意外とシンプルです。以下に、主要なオブジェクトや関数、その役割をまとめます。</p>
+<ul>
+<li><strong>WidgetBundle</strong> : ウィジェット拡張機能のエントリーポイントで、ここを経由して 1 つ以上のウィジェットをエンドユーザーに公開できます。</li>
+<li><strong>Widget</strong> : 特定のウィジェットの設定で、ビュー、プロバイダー、ConfigurationIntent、サポートサイズなどすべてが一覧化されています。</li>
+<li><strong>AppIntentTimelineProvider</strong> : ビューを構築するためのデータモデルを提供し、複数のモデルをタイムラインに従って公開することができます。<ul>
+<li><strong>func placeholder</strong> : ウィジェットの読み込み中に表示される最小限のデータモデルを提供します（ほとんど表示されることはありません）。</li>
+<li><strong>func snapshot</strong> : ウィジェットがギャラリーでプレビュー表示されるときや、画面に初めて追加されたときに使用するデータモデルを提供します。</li>
+<li><strong>func timeline</strong> : 通常の利用時に使う単一のデータモデル（または複数のモデル）を提供します。ウィジェットのすべてのデータモデルは基本的にここから取得されます。</li>
+</ul>
+</li>
+<li><strong>TimelineEntry</strong> : データモデル インスタンスです。</li>
+<li><strong>View</strong> : ウィジェットの視覚的要素です。</li>
+<li><strong>WidgetConfigurationIntent</strong> : エンドユーザーがウィジェットを設定できるようにします。AppIntentTimelineProvider の <code>timeline()</code> でこれらの設定を受け取ると、必要に応じてデータモデルに反映します。</li>
+</ul>
+<p>モデルやキャッシュシステム、単純な静的フィールドなどメモリ内のデータを管理することはあまり意味がありません。iOS ウィジェットは、非常に短時間しか存在しない静的なオブジェクトで、非常に小さな動作を実行します。AppIntentTimelineProvider では関数はほぼ同時に呼び出されますが、実際には別々のプロセスとして動作します。データの受け渡しや保存には、何らかのローカルストレージ(後述)を使用するのが最適です。</p>
+<h2 id="アプリのアイコン"><a href="#アプリのアイコン" class="headerlink" title="アプリのアイコン"></a>アプリのアイコン</h2><p>以前、ウィジェットが異なるビューで間違ったアイコンを表示する問題が繰り返し発生しました。ウィジェット拡張機能の Assets に明示的に AppIcon の画像を追加し、info.plist で参照することで、ほぼ解決しました。アセットや info.plist を更新してもアイコンが正しく表示されない場合は、テストデバイスを再起動してください。iOS はウィジェットで何らかのアイコン キャッシュを行っているようです。</p>
+<p>Xcode では、AppIcon のアセットはウィジェット プロジェクトであらかじめ定義されています。AppIcon の Assets ページを開き、右側の Inspector で iOS の「All Sizes」を選択できます。これですべての画像サイズを設定できます。個人的には手作業が多すぎると感じるので、iOS のオンライン アイコン ジェネレーターを使ってすべてのフォーマットを作成し、そのまま <code>Assets.xcassets/AppIcon.appiconset</code> フォルダにコピーしています。</p>
+<p>plist 設定を調整するには、ウィジェット拡張機能の <code>Info.plist</code> を Xcode 以外 (例:Visual Studio Code) で開き、以下のエントリーを <code>NSExtension</code> セクション内に追加してください:</p>
+<pre><code><span class="hljs-tag">  <<span class="hljs-name">key</span>></span>NSExtensionPrincipalClass<span class="hljs-tag"><<span class="hljs-name">/key</span>></span> 
+  <span class="hljs-tag"><<span class="hljs-name">string</span>></span>MyWidgetExtension.MyWidgetBundle<span class="hljs-tag"><<span class="hljs-name">/string</span>></span>
+  <span class="hljs-tag"><<span class="hljs-name">key</span>></span>CFBundleIcons<span class="hljs-tag"><<span class="hljs-name">/key</span>></span>
+  <span class="hljs-tag"><<span class="hljs-name">dict</span>></span>
+    <span class="hljs-tag"><<span class="hljs-name">key</span>></span>CFBundlePrimaryIcon<span class="hljs-tag"><<span class="hljs-name">/key</span>></span>
+    <span class="hljs-tag"><<span class="hljs-name">dict</span>></span>
+      <span class="hljs-tag"><<span class="hljs-name">key</span>></span>CFBundleIconFiles<span class="hljs-tag"><<span class="hljs-name">/key</span>></span>
+      <span class="hljs-tag"><<span class="hljs-name">array</span>></span>
+       <span class="hljs-tag"><<span class="hljs-name">string</span>></span>AppIcon<span class="hljs-tag"><<span class="hljs-name">/string</span>></span>
+      <span class="hljs-tag"><<span class="hljs-name">/array</span>></span>
+      <span class="hljs-tag"><<span class="hljs-name">key</span>></span>UIPrerenderedIcon<span class="hljs-tag"><<span class="hljs-name">/key</span>></span>
+      <span class="hljs-tag"><<span class="hljs-name">false</span>/></span>
+     <span class="hljs-tag"><<span class="hljs-name">/dict</span>></span>
+    <span class="hljs-tag"><<span class="hljs-name">/dict</span>></span>
+  <span class="hljs-tag"><<span class="hljs-name">key</span>></span>CFBundleIconName<span class="hljs-tag"><<span class="hljs-name">/key</span>></span>
+  <span class="hljs-tag"><<span class="hljs-name">string</span>></span>AppIcon<span class="hljs-tag"><<span class="hljs-name">/string</span>></span></code></pre>
+
+<p>NSExtensionPrincipalClass を以下のように調整します:</p>
+<pre><code>  <span class="hljs-tag"><<span class="hljs-name">key</span>></span>NSExtensionPrincipalClass<span class="hljs-tag"><<span class="hljs-name">/key</span>></span>
+  <span class="hljs-tag"><<span class="hljs-name">string</span>></span>&#123;YourWidgetModuleName&#125;.&#123;YourWidgetName&#125;<span class="hljs-tag"><<span class="hljs-name">/string</span>></span>
+  <span class="hljs-comment"><</span><span class="hljs-comment">!</span><span class="hljs-comment">-- YourWidgetModuleName can be found in: Extension > Build Settings > Product Module Name --></span>
+  <span class="hljs-comment"><</span><span class="hljs-comment">!</span><span class="hljs-comment">-- YourWidgetName is the name of the Widget bundle, like ‘MyWidgetsBundle’ in: --></span>
+  <span class="hljs-comment"><</span><span class="hljs-comment">!</span><span class="hljs-comment">--  @main --></span>
+  <span class="hljs-comment"><</span><span class="hljs-comment">!</span><span class="hljs-comment">--  struct MyWidgetsBundle: WidgetBundle &#123; --></span></code></pre>
+
+<h2 id="ウィジェットのリリースビルドの作成"><a href="#ウィジェットのリリースビルドの作成" class="headerlink" title="ウィジェットのリリースビルドの作成"></a>ウィジェットのリリースビルドの作成</h2><p>Xcode でリリースビルドを作成するのは簡単ですが、適切な設定を見つけるのは面倒なことがあります。そこで私は、リリースを専用フォルダにまとめるための標準スクリプトを使っています。このスクリプトを使えば、ビルドパイプラインでも利用できる形で簡単に整理できます。このスクリプトは Xcode プロジェクトのルートから実行し、リリースは <code>XReleases</code> に出力されます。フォルダ名の先頭に「X」を付けているのは、Visual Studio のデフォルトの <code>.gitignore</code> で除外されないようにするためです。</p>
+<pre><code>  rm -Rf XReleases
+
+  xcodebuild -project XCodeWidgetExample.xcodeproj \
+  -scheme "MyWidgetExtension" \
+  -configuration Release \
+  -sdk iphoneos \
+  BUILD_DIR=$(PWD)/XReleases clean build
+
+  xcodebuild -project XCodeWidgetExample.xcodeproj \
+  -scheme "MyWidgetExtension" \
+  -configuration Release \
+  -sdk iphonesimulator \
+  BUILD_DIR=$(PWD)/XReleases clean build</code></pre>
+
+
+<h2 id="MAUI-アプリへのウィジェットリリースの追加"><a href="#MAUI-アプリへのウィジェットリリースの追加" class="headerlink" title="MAUI アプリへのウィジェットリリースの追加"></a>MAUI アプリへのウィジェットリリースの追加</h2><p>ウィジェットのビルド出力は <code>.appex</code>（macOS の特殊なバンドルフォルダーで、<code>.app</code> に似たもの）です。
+以前、Windows 上の Visual Studio で appex が見つからないというビルドエラーが頻発したことがありました。
+これを回避するため、現在はリリース出力を <code>Platforms/iOS/</code> 配下に配置し、<code>CopyToOutput</code> で含めるようにしています。</p>
+<p>以下のスニペットを <code>.csproj</code> に追加すると、ビルドでファイルを利用できるようになります:</p>
+<pre><code>  <span class="hljs-tag"><<span class="hljs-name">ItemGroup</span> <span class="hljs-attr">Condition</span>=<span class="hljs-string">"$(TargetFramework.Contains('-ios'))"</span>></span> 
+    <span class="hljs-tag"><<span class="hljs-name">Content</span> <span class="hljs-attr">Remove</span>=<span class="hljs-string">"Platforms\iOS\WidgetExtensions\**"</span> /></span>
+    <span class="hljs-tag"><<span class="hljs-name">Content</span> <span class="hljs-attr">Condition</span>=<span class="hljs-string">"'$(ComputedPlatform)' == 'iPhone'"</span> <span class="hljs-attr">Include</span>=<span class="hljs-string">".\Platforms\iOS\WidgetExtensions\Release-iphoneos\MyWidgetExtension.appex\**"</span> <span class="hljs-attr">CopyToOutputDirectory</span>=<span class="hljs-string">"PreserveNewest"</span> /></span>
+    <span class="hljs-tag"><<span class="hljs-name">Content</span> <span class="hljs-attr">Condition</span>=<span class="hljs-string">"'$(ComputedPlatform)' == 'iPhoneSimulator'"</span> <span class="hljs-attr">Include</span>=<span class="hljs-string">".\Platforms\iOS\WidgetExtensions\Release-iphonesimulator\MyWidgetExtension.appex\**"</span> <span class="hljs-attr">CopyToOutputDirectory</span>=<span class="hljs-string">"PreserveNewest"</span> /></span>
+  <span class="hljs-tag"><<span class="hljs-name">/ItemGroup</span>></span></code></pre>
+
+<p>次に、.NET MAUI アプリプロジェクトに ウィジェット拡張機能を追加します。以下の ItemGroup はビルド時にこれが確実に実行されるようにするものです。パスやファイル名には非常に厳密な制約があるため、注意してください。</p>
+<pre><code>  <span class="hljs-tag"><<span class="hljs-name">ItemGroup</span> <span class="hljs-attr">Condition</span>=<span class="hljs-string">"$(TargetFramework.Contains('-ios'))"</span>></span>
+    <span class="hljs-comment"><</span><span class="hljs-comment">!</span><span class="hljs-comment">-- the appex folder path without the platform suffix --></span>
+    <span class="hljs-tag"><<span class="hljs-name">AdditionalAppExtensions</span> <span class="hljs-attr">Include</span>=<span class="hljs-string">"$(MSBuildProjectDirectory)/Platforms/iOS/WidgetExtensions"</span>></span>
+      <span class="hljs-comment"><</span><span class="hljs-comment">!</span><span class="hljs-comment">-- the appex file without the .appex suffix --></span>
+      <span class="hljs-tag"><<span class="hljs-name">Name</span>></span>MyWidgetExtension<span class="hljs-tag"><<span class="hljs-name">/Name</span>></span>
+      <span class="hljs-comment"><</span><span class="hljs-comment">!</span><span class="hljs-comment">-- the appex folder platform suffixes --></span>
+      <span class="hljs-tag"><<span class="hljs-name">BuildOutput</span> <span class="hljs-attr">Condition</span>=<span class="hljs-string">"'$(ComputedPlatform)' == 'iPhone'"</span>></span>Release-iphoneos<span class="hljs-tag"><<span class="hljs-name">/BuildOutput</span>></span>
+      <span class="hljs-tag"><<span class="hljs-name">BuildOutput</span> <span class="hljs-attr">Condition</span>=<span class="hljs-string">"'$(ComputedPlatform)' == 'iPhoneSimulator'"</span>></span>Release-iphonesimulator<span class="hljs-tag"><<span class="hljs-name">/BuildOutput</span>></span>
+    <span class="hljs-tag"><<span class="hljs-name">/AdditionalAppExtensions</span>></span>
+  <span class="hljs-tag"><<span class="hljs-name">/ItemGroup</span>></span></code></pre>
+
+<p>この時点で、ウィジェットは .NET MAUI アプリのビルド内で表示されるはずです。現状では、.NET MAUI アプリからのデータや通信を一切使わず、完全に独立して動作するウィジェットになっています。</p>
+<div class="admonition warning"><p class="admonition-title">注記
+</p><p>Visual Studio から「iOS ローカルデバイス」向けにビルドすると、ウィジェット拡張はおそらく見えません。</p>
+</div>
+
+<h2 id="アプリとウィジェット間のデータ共有"><a href="#アプリとウィジェット間のデータ共有" class="headerlink" title="アプリとウィジェット間のデータ共有"></a>アプリとウィジェット間のデータ共有</h2><p>iOS のウィジェットは、独立したアプリとして扱うのが最適です。.NET MAUI アプリとウィジェットは自由にデータを交換したり通信したりすることはできません。
+データ交換には、iOS の UserDefaults に対応する .NET MAUI の Preferences を使用できます。両方が同じデータソースを使うようにするため、両方のプロジェクトに同じグループ ID を指定した <code>Entitlements.plist</code> が必要です。このグループ ID は、以前バンドル ID を App Groups 機能で設定した際に作成したものです。
+以下は、グループ ID <code>group.com.enbyin.WidgetExample</code> を指定した <code>Entitlements.plist</code> の例です。</p>
+<pre><code>  <span class="hljs-meta"><</span><span class="hljs-meta">?xml version=<span class="hljs-string">"1.0"</span> encoding=<span class="hljs-string">"UTF-8"</span>?></span>
+  <span class="hljs-meta"><</span><span class="hljs-meta">!DOCTYPE <span class="hljs-keyword">plist</span> <span class="hljs-keyword">PUBLIC</span> <span class="hljs-string">"-//Apple//DTD PLIST1.0//EN"</span> <span class="hljs-string">"http://www.apple.com/DTDs/PropertyList-1.0.dtd"</span>></span>
+  <span class="hljs-tag"><<span class="hljs-name">plist</span> <span class="hljs-attr">version</span>=<span class="hljs-string">"1.0"</span>></span>
+    <span class="hljs-tag"><<span class="hljs-name">dict</span>></span>
+    <span class="hljs-tag"><<span class="hljs-name">key</span>></span>com.apple.security.application-groups<span class="hljs-tag"><<span class="hljs-name">/key</span>></span>
+    <span class="hljs-tag"><<span class="hljs-name">array</span>></span>
+    <span class="hljs-tag"><<span class="hljs-name">string</span>></span>group.com.enbyin.WidgetExample<span class="hljs-tag"><<span class="hljs-name">/string</span>></span>
+    <span class="hljs-tag"><<span class="hljs-name">/array</span>></span>
+    <span class="hljs-tag"><<span class="hljs-name">/dict</span>></span>
+  <span class="hljs-tag"><<span class="hljs-name">/plist</span>></span>
+</code></pre>
+
+<p>明確にするために:ウィジェットの Xcode プロジェクトと .NET MAUI プロジェクトの両方で、このようなエンタイトルメントを使用する必要があります。また、エンタイトルメントを追加した後は、Xcode プロジェクトの新しいリリースを作成することを忘れないでください。さらに、ウィジェットの Xcode プロジェクトのエンタイトルメントは、.NET MAUI ビルド用の <code>.csproj</code> 内で <code>AdditionalAppExtensions</code> セクションに記載が必要です。</p>
+<pre><code>   <span class="hljs-tag"><<span class="hljs-name">ItemGroup</span> <span class="hljs-attr">Condition</span>=<span class="hljs-string">"$(TargetFramework.Contains('-ios'))"</span>></span>
+      <span class="hljs-comment"><</span><span class="hljs-comment">!</span><span class="hljs-comment">-- the appex folder path without the platform suffix --></span>
+      <span class="hljs-tag"><<span class="hljs-name">AdditionalAppExtensions</span> <span class="hljs-attr">Include</span>=<span class="hljs-string">"$(MSBuildProjectDirectory)/Platforms/iOS/WidgetExtensions"</span>></span>
+        <span class="hljs-comment"><</span><span class="hljs-comment">!</span><span class="hljs-comment">-- the appex file without the .appex suffix --></span>
+        <span class="hljs-tag"><<span class="hljs-name">Name</span>></span>MyWidgetExtension<span class="hljs-tag"><<span class="hljs-name">/Name</span>></span>
+        <span class="hljs-comment"><</span><span class="hljs-comment">!</span><span class="hljs-comment">-- the appex folder platform suffixes --></span>
+        <span class="hljs-tag"><<span class="hljs-name">BuildOutput</span> <span class="hljs-attr">Condition</span>=<span class="hljs-string">"'$(ComputedPlatform)' == 'iPhone'"</span>></span>Release-iphoneos<span class="hljs-tag"><<span class="hljs-name">/BuildOutput</span>></span>
+        <span class="hljs-tag"><<span class="hljs-name">BuildOutput</span> <span class="hljs-attr">Condition</span>=<span class="hljs-string">"'$(ComputedPlatform)' == 'iPhoneSimulator'"</span>></span>Release-iphonesimulator<span class="hljs-tag"><<span class="hljs-name">/BuildOutput</span>></span>
+
+        <span class="hljs-comment"><</span><span class="hljs-comment">!</span><span class="hljs-comment">-- entitlements for the appex, without this the shared storage won't work --></span>
+        <span class="hljs-comment"><</span><span class="hljs-comment">!</span><span class="hljs-comment">-- errors that entitlements could not be found: include the entitlements with CopyToOutput --></span>
+        <span class="hljs-comment"><</span><span class="hljs-comment">!</span><span class="hljs-comment">-- errors when reading entitlements during build: store entitlements file with line-ending type LF --></span>
+        <span class="hljs-tag"><<span class="hljs-name">CodesignEntitlements</span>></span>Platforms/iOS/Entitlements.MyWidgetExtension.plist<span class="hljs-tag"><<span class="hljs-name">/CodesignEntitlements</span>></span>
+      <span class="hljs-tag"><<span class="hljs-name">/AdditionalAppExtensions</span>></span>
+  <span class="hljs-tag"><<span class="hljs-name">/ItemGroup</span>></span></code></pre>
+
+<p>この時点で、アプリとウィジェットは同じデータソースを利用できるようになっているはずです。
+両方のプロジェクトで、特定のグループ ID の使用をコード内で明示的に指定する必要があります。
+.NET MAUI では <code>Preferences.Default</code> を使用せず、<code>sharedName</code> パラメーターにグループ ID を指定してください。</p>
+<pre><code>  <span class="hljs-comment">// example how to store data in .NET MAUI.</span>
+  Preferences.Set(<span class="hljs-string">"MyDataKey"</span>, <span class="hljs-string">"my data to share"</span>, <span class="hljs-string">"group.com.enbyin.WidgetExample"</span>);</code></pre>  
+
+<pre><code>  <span class="hljs-comment">// example how to store data in Swift.</span>
+  <span class="hljs-type">UserDefaults</span>(suiteName: <span class="hljs-string">"group.com.enbyin.WidgetExample"</span>)<span class="hljs-operator">?</span>.set(<span class="hljs-string">"my data to share"</span>, forKey: <span class="hljs-string">"MyDataKey"</span>)
+  <span class="hljs-comment">// example how to get data in Swift.</span>
+  <span class="hljs-keyword">let</span> data <span class="hljs-operator">=</span> <span class="hljs-type">UserDefaults</span>(suiteName: <span class="hljs-string">"group.com.enbyin.WidgetExample"</span>)<span class="hljs-operator">?</span>.string(forKey: <span class="hljs-string">"MyDataKey"</span>)</code></pre>
+
+<div class="admonition warning"><p class="admonition-title">注記
+</p><p>ストレージキーは大文字を区別しています。問題を避けるために、キーはシンプルにし、オプションで一貫して小文字にすることをおすすめします。</p>
+</div>
+
+<h2 id="アプリからウィジェットへのコミュニケーション"><a href="#アプリからウィジェットへのコミュニケーション" class="headerlink" title="アプリからウィジェットへのコミュニケーション"></a>アプリからウィジェットへのコミュニケーション</h2><p>ウィジェットは、アプリがデータを共有したタイミングを認識できず、アプリもウィジェットが共有したタイミングを認識できません。アプリからウィジェットへ新しいデータが利用可能であることを通知する仕組みは、ウィジェットからアプリへの通知とは異なります。アプリからウィジェットへの通知は、Apple の WidgetKit API を使えば簡単です。ただし、この API は .NET MAUI では利用できないため、自分でバインディングを作成する必要があります。この API は非常に小規模なので、バインディングの実験には最適です。今回のデモでは、すでにバインディングが実装されている NuGet パッケージ <code>WidgetKit.WidgetCenterProxy</code> を使用します。</p>
+<p>WidgetKit API は主に 2 つのオプションを提供します：「デバイス上のすべてのウィジェットを再読み込みする」または「特定の種類のウィジェットのみを再読み込みする」の2つです。私はいつも後者を使用します。なぜなら、これらのオプションを頻繁に使うとプラットフォームが無視してしまうからです。また、自分のウィジェットだけを更新することが推奨されていると思います。ウィジェットの種類は、Swift のウィジェットオブジェクト内の <code>kind</code> プロパティで簡単に確認できます。</p>
+<pre><code>  <span class="hljs-comment">// Example on how to refresh all Widgets of kind ‘MyWidget’ in .NET MAUI</span>
+  <span class="hljs-keyword">var</span> widgetCenterProxy = <span class="hljs-keyword">new</span> WidgetKit.WidgetCenterProxy();
+  widgetCenterProxy.ReloadTimeLinesOfKind(<span class="hljs-string">"MyWidget"</span>);</code></pre>
+
+<div class="admonition warning"><p class="admonition-title">注記
+</p><p>WidgetKit の再読み込み機能は OS への「丁寧なリクエスト」であり、実際にいつ実行されるか、また使用頻度が多すぎないかは OS が判断します。通常、ウィジェットの更新はすぐに行われます。</p>
+</div>
+
+<h2 id="ウィジェットからアプリへの通信"><a href="#ウィジェットからアプリへの通信" class="headerlink" title="ウィジェットからアプリへの通信"></a>ウィジェットからアプリへの通信</h2><p>ウィジェットからアプリへの通信は、オプションでごく少量のデータを含めて、2つの方法で行うことができます。デフォルトでは、ウィジェットをタップすると対応するアプリが起動しますが、これを <code>widgetUrl()</code> で上書きすると URL 内にデータを含むディープリンク（Deep Link）でアプリを開けます。ただし、ウィジェットは静的オブジェクトとして構築されるため、<code>widgetUrl</code> を使用する場合は、ウィジェットビューのセットアップ時（多くの場合プロバイダー内）に URL をあらかじめ決定し、データモデルを介して文字列として渡す必要があります。</p>
+<pre><code>  <span class="hljs-comment">// example of using a DeepLink url in Swift</span>
+  <span class="hljs-keyword">struct</span> <span class="hljs-title class_">MyView</span> : <span class="hljs-title class_ inherited__">View</span> &#123;
+      <span class="hljs-keyword">var</span> body: <span class="hljs-keyword">some</span> <span class="hljs-type">View</span> &#123;
+      <span class="hljs-comment">// my views</span>
+      &#125;.widgetUrl(<span class="hljs-type">URL</span>(string: <span class="hljs-string">"mywidget://something?var1=dummy-data"</span>))
+  &#125;</code></pre>
+
+<p>AppIntents から始まる別の通信方法もあります。AppIntent は、ボタンなどのインタラクティブ要素にアクションやロジックを紐付ける仕組みです。OS はこの処理に少し時間を与えるため、HTTP 呼び出しのような長めの処理も可能です。
+例えば、カスタム AppIntent をボタンに紐付けて、ウィジェットが保持するストレージ内の値を変更し、その後 AppIntent 自体がウィジェットのリフレッシュをトリガーします。この結果、ウィジェットは新しいデータで再描画され、インタラクティブな操作が可能になります。</p>
+<pre><code>  <span class="hljs-comment">// example of an AppIntent changing data and reloading widget</span>
+  <span class="hljs-keyword">struct</span> <span class="hljs-title class_">IncrementCounterIntent</span>: <span class="hljs-title class_ inherited__">AppIntent</span> &#123;
+    <span class="hljs-keyword">static</span> <span class="hljs-keyword">var</span> title: <span class="hljs-type">LocalizedStringResource</span> &#123; <span class="hljs-string">"Increment Counter"</span> &#125;
+    <span class="hljs-keyword">static</span> <span class="hljs-keyword">var</span> description: <span class="hljs-type">IntentDescription</span> &#123; <span class="hljs-string">"Increments the counter by 1"</span> &#125;
+
+    <span class="hljs-keyword">func</span> <span class="hljs-title function_">perform</span>() <span class="hljs-keyword">async</span> <span class="hljs-keyword">throws</span> -> <span class="hljs-keyword">some</span> <span class="hljs-type">IntentResult</span> &#123;
+
+    <span class="hljs-keyword">var</span> currentCount <span class="hljs-operator">=</span> <span class="hljs-number">0</span>
+
+    <span class="hljs-keyword">let</span> userDefaults <span class="hljs-operator">=</span> <span class="hljs-type">UserDefaults</span>(suiteName: <span class="hljs-type">Settings</span>.groupId)
+    <span class="hljs-keyword">let</span> storedValue <span class="hljs-operator">=</span> userDefaults<span class="hljs-operator">?</span>.integer(forKey: <span class="hljs-type">Settings</span>.appIncommingDataKey)
+    <span class="hljs-keyword">if</span> <span class="hljs-keyword">let</span> storedValueCount <span class="hljs-operator">=</span> storedValue &#123;
+      currentCount <span class="hljs-operator">=</span> storedValueCount
+    &#125;
+
+    <span class="hljs-comment">// do action</span>
+    <span class="hljs-keyword">let</span> newCount <span class="hljs-operator">=</span> currentCount <span class="hljs-operator">+</span> <span class="hljs-number">1</span>
+
+    <span class="hljs-comment">// Save new value</span>
+    userDefaults<span class="hljs-operator">?</span>.set(newCount, forKey: <span class="hljs-type">Settings</span>.appIncommingDataKey)
+
+    <span class="hljs-comment">// Reload timelines > refreshing widget</span>
+    <span class="hljs-type">WidgetCenter</span>.shared.reloadTimelines(ofKind: <span class="hljs-string">"MyWidget"</span>)
+
+    <span class="hljs-keyword">return</span> .result()
+  &#125;</code></pre>
+
+<pre><code>  <span class="hljs-comment">// example of Button using AppIntent in Swift</span>
+  <span class="hljs-keyword">struct</span> <span class="hljs-title class_">MyWidgetView</span> : <span class="hljs-title class_ inherited__">View</span> &#123;
+      <span class="hljs-keyword">var</span> entry: <span class="hljs-type">Provider</span>.<span class="hljs-type">Entry</span>
+
+      <span class="hljs-keyword">var</span> body: <span class="hljs-keyword">some</span> <span class="hljs-type">View</span> &#123;
+        <span class="hljs-type">VStack</span>(spacing:<span class="hljs-number">4</span>) &#123;
+            <span class="hljs-type">Button</span>(intent: <span class="hljs-type">IncrementCounterIntent</span>()) &#123;
+              <span class="hljs-type">Text</span>(<span class="hljs-string">"+"</span>)
+            &#125;
+        &#125;
+        .padding()
+      &#125;
+  &#125;</code></pre>
+
+<p>iOS では、ウィジェットは <strong>バックグラウンドでアプリと通信できません。</strong>
+直接呼び出しを行うと、アプリがフォアグラウンドに移動します。
+アプリを閉じたまま処理を実行するには、ウィジェット内で AppIntents を使用してバックエンドを呼び出します。バックエンドはアクションを実行し、必要に応じてアプリにサイレント プッシュ通知を送信できます。アプリはその通知を受け取り、必要ならバックグラウンドで更新を処理します。
+この仕組みは、任意の Web サービスや既存のプッシュ通知プロバイダーで実現可能です。そのため、デモコードでは完全な実装ではなく、エントリーポイントとして例示的な SilentNotificationService のみを含めています。</p>
+<h2 id="ウィジェット開発の効率化"><a href="#ウィジェット開発の効率化" class="headerlink" title="ウィジェット開発の効率化"></a>ウィジェット開発の効率化</h2><p>インタラクティブウィジェットが完成したら、次のステップはロジックの実装とウィジェットのレイアウトやスタイリングの調整です。理想的にはすべてのロジックを.NET MAUI アプリにまとめることで、他のプラットフォームでも再利用できます。ただし、ストレージの処理、ビューの構築、バックエンドとの簡単な通信など、一部は Swift での実装が避けられません。C# から Swift への移行には多少の学習コストがかかります。そのため、Visual Studio Code に切り替えて Copilot とペアプログラミングし、効率的に反復開発を進めることをおすすめします。Copilot は一度で完璧なコードを生成するわけではありませんが、優れた相棒となり、作業を効率的に進める助けになります。さらに、Xcode を同時に開いて頻繁にビルドとテストを行い、問題を早期に発見してください。ウィジェットを Xcode の Canvas ビューで #preview データを使って開いておくと、ビルド後すぐにビジュアルの変更を確認できます。</p>
+<h2 id="まとめと実用的なヒント"><a href="#まとめと実用的なヒント" class="headerlink" title="まとめと実用的なヒント"></a>まとめと実用的なヒント</h2><p>インタラクティブウィジェットの実装が完了したら、次のステップはロジック、レイアウト、そして全体的なデザインの洗練です。
+コアロジックの大部分は .NET MAUI アプリ内に保持し、他のプラットフォームでも再利用できますが、ストレージ処理、ビュー構築、軽量なバックエンド処理などウィジェット固有のタスクは、多少の Swift 実装が必ず必要になります。
+ここでは、C# から Swift への移行をスムーズに進めるための最終的なヒントをいくつか紹介します。</p>
+<ul>
+<li>Swift のコードを作成する際は、Copilotとペアプログラミングするために　Visual Studio Codeを使いましょう。</li>
+<li>Xcode を開いたままにして、ビルドとプレビューを繰り返し、問題を早期に発見しましょう。</li>
+<li>Xcode の Canvas ビューを開き、#preview データを使用して、ビジュアルの変更をすぐに確認しましょう。</li>
+</ul>
+<p>Android ウィジェット開発に関する記事も近日公開予定です。続報をお楽しみに!</p>
+
+      
+      
+        <div class="article-disclaimer">
+        
+          <p><hr>本ブログの内容は弊社の公式見解として保証されるものではなく、開発・運用時の参考情報としてご活用いただくことを目的としています。もし公式な見解が必要な場合は、弊社ドキュメント (<a target="_blank" rel="noopener" href="https://learn.microsoft.com/">https://learn.microsoft.com</a> や <a target="_blank" rel="noopener" href="https://support.microsoft.com">https://support.microsoft.com</a>) をご参照いただくか、もしくは私共サポートまでお問い合わせください。</p>
+        
+        </div>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/NET/" rel="tag">.NET</a></li></ul>
+
+      <!-- 
+      
+        <a href="https://github.com/jpdscore/blog/edit/master/articles/maui/iosWidgets.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
+        
+      -->
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="../../dataclient/JDBC-Tracing/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前の記事</strong>
+      <div class="article-nav-title">Microsoft JDBC Driver for SQL Server のトレース取得方法まとめ</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最近の投稿</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="">.NET MAUI アプリで iosWidgets を利用する</a>
+          </li>
+        
+          <li>
+            <a href="../../dataclient/JDBC-Tracing/">Microsoft JDBC Driver for SQL Server のトレース取得方法まとめ</a>
+          </li>
+        
+          <li>
+            <a href="../../dataclient/Recommend-ODBCOLEDBFORSQL-Migration/">SQL Server 向け ODBC ドライバー/OLE DB プロバイダー移行のススメ</a>
+          </li>
+        
+          <li>
+            <a href="../../vs/vs2026-msvc-lifecycle/">MSVC(Visual C++) 14.50 以降のリリースとサポートライフサイクル</a>
+          </li>
+        
+          <li>
+            <a href="../../vs/vs2026-supportlifecycle/">Visual Studio 2026 以降のリリースとサポートライフサイクル</a>
+          </li>
+        
+          <li>
+            <a href="../../dataclient/Recommend-Jet-Migration/">Jet データベースエンジンの移行のススメ</a>
+          </li>
+        
+          <li>
+            <a href="../../azuredevops/extensions-support/">Azure DevOps 拡張機能におけるテクニカル サポートの対応範囲</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">タグ</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="../../tags/ALM/">ALM</a><span class="tag-list-count">17</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-DevOps-Server">Azure DevOps Server</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-DevOps-Services">Azure DevOps Services</a><span class="tag-list-count">9</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-Pipelines">Azure Pipelines</a><span class="tag-list-count">7</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-Repos">Azure Repos</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Devcontainer">Devcontainer</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/GitHub">GitHub</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/TFS">TFS</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Visual-Studio-Code">Visual Studio Code</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86">情報採取手順</a><span class="tag-list-count">4</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/">情報採取手順</a><span class="tag-list-count">5</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/ALM">ALM</a><span class="tag-list-count">4</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/Azure-DevOps-Server">Azure DevOps Server</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/Azure-DevOps-Services">Azure DevOps Services</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/Azure-Pipelines">Azure Pipelines</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/TFS">TFS</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Data-Access/">Data Access</a><span class="tag-list-count">3</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Data-Access/JDBC-Driver">JDBC Driver</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Data-Access/Jet">Jet</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Data-Access/SQL-Server">SQL Server</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Windows-SDK/">Windows SDK</a><span class="tag-list-count">9</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Debug">Debug</a><span class="tag-list-count">5</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Documents-and-Printing">Documents and Printing</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/GDI">GDI</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Leak">Leak</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Windows-Update-Agent-API">Windows Update Agent API</a><span class="tag-list-count">2</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Debug/">Debug</a><span class="tag-list-count">15</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/NET">.NET</a><span class="tag-list-count">4</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/AI">AI</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Leak">Leak</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Memory">Memory</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Visual-Studio">Visual Studio</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Windows-SDK">Windows SDK</a><span class="tag-list-count">5</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/AI/">AI</a><span class="tag-list-count">3</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/AI/NET">.NET</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/AI/Debug">Debug</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/AI/Visual-Studio">Visual Studio</a><span class="tag-list-count">2</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/NET/">.NET</a><span class="tag-list-count">18</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/NET-Framework">.NET Framework</a><span class="tag-list-count">11</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/AI">AI</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/Debug">Debug</a><span class="tag-list-count">4</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/%E6%9B%B4%E6%96%B0%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0">更新プログラム</a><span class="tag-list-count">2</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Deployment/">Deployment</a><span class="tag-list-count">3</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Deployment/ClickOnce">ClickOnce</a><span class="tag-list-count">3</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Dev-Box/">Dev Box</a><span class="tag-list-count">1</span><ul></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E5%85%A8%E8%88%AC/">全般</a><span class="tag-list-count">1</span><ul></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Azure-PlayFab/">Azure PlayFab</a><span class="tag-list-count">4</span><ul></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Visual-Studio/">Visual Studio</a><span class="tag-list-count">16</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/AI">AI</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/C">C#</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/C">C++</a><span class="tag-list-count">6</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/Debug">Debug</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/VB-NET">VB.NET</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/Visual-Studio-2026">Visual Studio 2026</a><span class="tag-list-count">1</span></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">アーカイブ</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2026/01/">2026 / 01</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/12/">2025 / 12</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/11/">2025 / 11</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/10/">2025 / 10</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/09/">2025 / 09</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/08/">2025 / 08</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/07/">2025 / 07</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/06/">2025 / 06</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/08/">2024 / 08</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/06/">2024 / 06</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/04/">2024 / 04</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/03/">2024 / 03</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/09/">2023 / 09</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/06/">2023 / 06</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/03/">2023 / 03</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/02/">2023 / 02</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/12/">2022 / 12</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/11/">2022 / 11</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/07/">2022 / 07</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/06/">2022 / 06</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/04/">2022 / 04</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/03/">2022 / 03</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/01/">2022 / 01</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/12/">2021 / 12</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/08/">2021 / 08</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/05/">2021 / 05</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/04/">2021 / 04</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/02/">2021 / 02</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/01/">2021 / 01</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/12/">2020 / 12</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/11/">2020 / 11</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/10/">2020 / 10</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/09/">2020 / 09</a><span class="archive-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">旧ブログ/フォーラム</h3>
+  <div class="widget">
+    <ul>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://social.msdn.microsoft.com/Forums/ja-jp/home?forum=visualstudiosupportteamja">Visual Studio サポートチーム フォーラム</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://social.msdn.microsoft.com/Forums/ja-jp/home?forum=windowssdksupportteamja&filter=alltypes&sort=lastpostdesc">Windows SDK サポートチーム フォーラム</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/archive/blogs/jpvsblog/">Visual Studio サポート チーム blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/archive/blogs/japan_platform_sdkwindows_sdk_support_team_blog/">JAPAN Platform SDK（Windows SDK） Support Team Blog</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">関連リンク</h3>
+  <div class="widget">
+    <ul>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://developercommunity.visualstudio.com/">Developer Community</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/dotnet/">.NET Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/visualstudio/">Visual Studio Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/cppblog/">C++ Team Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/xamarin/">Xamarin Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/devops/">Azure DevOps Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://techcommunity.microsoft.com/t5/azure-lab-services/bg-p/AzureLabServicesBlog/">Azure Lab Services Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/appcenter/">App Center Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://status.azure.com/status/">Azure Status</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://status.dev.azure.com/">Azure DevOps - Status</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2026 Developer Support Core Japan<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="../../index.html" class="mobile-nav-link">Home</a>
+  
+    <a href="../../archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+<script src="../../js/script.js"></script>
+
+
+<script src="../../js/toc.js"></script>
+
+
+
+
+
+
+  </div>
+</body>
+</html>
