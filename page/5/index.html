@@ -104,6 +104,62 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-devtestlabs/auto-shutdown-permission" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <div class="article-inner">
+    <!-- post date -->
+    <div class="article-meta">
+      <a href="../../devtestlabs/auto-shutdown-permission/" class="article-date">
+  <time datetime="2023-06-06T05:07:09.000Z" itemprop="datePublished">2023-06-06</time>
+</a>
+      
+    </div>
+
+    
+    <!-- post title -->
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="../../devtestlabs/auto-shutdown-permission/">自動シャットダウンを設定する際に必要な最小権限について</a>
+    </h1>
+  
+
+      </header>
+    
+
+    <!-- post caption -->
+    <div class="article-entry" itemprop="articleBody">
+      
+        こんにちは、Japan Developer Support Core チームです🗻
+サポートにはよく「Azure VM の自動シャットダウンを設定する際に必要な最小権限」についてお問合せがあります。
+最初に結論を書きますが、残念ながら自動シャットダウンのみを設定するための権限は用意されていません。
+自動シャットダウンの設定を行う際は、以下の 2 種類の権限が必要です。
+　1. 自動シャットダウンの設定リソースに対する権限　2. Azure VM に対する権限  
+
+1. 自動シャットダウンの設定リソースに対する権限
+Azure VM の自動シャットダウン機能は、内部的に Azure DevTest Labs と呼ばれるサービスの Schedule 機能を利用しています。
+そのため、自動シャットダウンの設定を行う際は、Microsoft.DevTestLab/schedules/* に対す...
+        <p class="article-readmore">
+          <a href="../../devtestlabs/auto-shutdown-permission/">Read more</a>
+        </p>
+      
+    </div>
+
+    <footer class="article-footer">
+      <!--a data-url="https://jpdscore.github.io/blog/devtestlabs/auto-shutdown-permission/" data-id="cmkvudszc0027lw456ebw1tbo" class="article-share-link">共有</a-->
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Azure-DevTest-Labs/" rel="tag">Azure DevTest Labs</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-azuredevops/signin-401-403-tsg" class="article article-type-post" itemscope itemprop="blogPost">
 
   <div class="article-inner">
@@ -150,7 +206,7 @@ Azure AD の条件付きアクセス ポリシーによって、認証が通ら�
     </div>
 
     <footer class="article-footer">
-      <!--a data-url="https://jpdscore.github.io/blog/azuredevops/signin-401-403-tsg/" data-id="cmkrfs91o000kml4502i733r9" class="article-share-link">共有</a-->
+      <!--a data-url="https://jpdscore.github.io/blog/azuredevops/signin-401-403-tsg/" data-id="cmkvudsyr000klw45hou587k9" class="article-share-link">共有</a-->
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/ALM/" rel="tag">ALM</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/" rel="tag">情報採取手順</a></li></ul>
@@ -205,7 +261,7 @@ AddPrinter関数は、パラメータの1つである PRINTER_INFO2構造体のp
     </div>
 
     <footer class="article-footer">
-      <!--a data-url="https://jpdscore.github.io/blog/windowssdk/printer-temporarily-appears-when-use-addprinter-function/" data-id="cmkrfs93j004pml45f5j027pk" class="article-share-link">共有</a-->
+      <!--a data-url="https://jpdscore.github.io/blog/windowssdk/printer-temporarily-appears-when-use-addprinter-function/" data-id="cmkvudt0j004qlw452rr6eykj" class="article-share-link">共有</a-->
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Documents-and-Printing/" rel="tag">Documents and Printing</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Windows-SDK/" rel="tag">Windows SDK</a></li></ul>
@@ -280,7 +336,7 @@ Client ...
     </div>
 
     <footer class="article-footer">
-      <!--a data-url="https://jpdscore.github.io/blog/playfab/order-of-leaderboard-positions/" data-id="cmkrfs92v003iml45g67xhxuv" class="article-share-link">共有</a-->
+      <!--a data-url="https://jpdscore.github.io/blog/playfab/order-of-leaderboard-positions/" data-id="cmkvudszy003jlw4553s20pxy" class="article-share-link">共有</a-->
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Azure-PlayFab/" rel="tag">Azure PlayFab</a></li></ul>
@@ -334,7 +390,7 @@ Service principal はセキュリティの都合から最大 2 年間の有効�
     </div>
 
     <footer class="article-footer">
-      <!--a data-url="https://jpdscore.github.io/blog/azuredevops/migrate-sp-to-mi/" data-id="cmkrfs91j0008ml45crcc4wbn" class="article-share-link">共有</a-->
+      <!--a data-url="https://jpdscore.github.io/blog/azuredevops/migrate-sp-to-mi/" data-id="cmkvudsym0008lw457bgi9m0f" class="article-share-link">共有</a-->
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/ALM/" rel="tag">ALM</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Azure-DevOps-Services/" rel="tag">Azure DevOps Services</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Azure-Pipelines/" rel="tag">Azure Pipelines</a></li></ul>
@@ -387,7 +443,7 @@ Service principal はセキュリティの都合から最大 2 年間の有効�
     </div>
 
     <footer class="article-footer">
-      <!--a data-url="https://jpdscore.github.io/blog/dotnet/ndp-upgrade-and-downgrade/" data-id="cmkrfs92c002tml45gpgd4jqs" class="article-share-link">共有</a-->
+      <!--a data-url="https://jpdscore.github.io/blog/dotnet/ndp-upgrade-and-downgrade/" data-id="cmkvudszp002wlw45blr397k1" class="article-share-link">共有</a-->
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/NET/" rel="tag">.NET</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/NET-Framework/" rel="tag">.NET Framework</a></li></ul>
@@ -440,7 +496,7 @@ PlayFab にてプレイヤーにアイテムを付与する場合は、Grant Ite
     </div>
 
     <footer class="article-footer">
-      <!--a data-url="https://jpdscore.github.io/blog/playfab/grantitemstouser-timeout/" data-id="cmkrfs92u003gml458q3s7mor" class="article-share-link">共有</a-->
+      <!--a data-url="https://jpdscore.github.io/blog/playfab/grantitemstouser-timeout/" data-id="cmkvudszx003hlw4562oh8top" class="article-share-link">共有</a-->
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Azure-PlayFab/" rel="tag">Azure PlayFab</a></li></ul>
@@ -492,7 +548,7 @@ Azure DevOps Services は、無料で開始することができます。開始�
     </div>
 
     <footer class="article-footer">
-      <!--a data-url="https://jpdscore.github.io/blog/azuredevops/DevOpsPricing/" data-id="cmkrfs91a0000ml458rxt2vta" class="article-share-link">共有</a-->
+      <!--a data-url="https://jpdscore.github.io/blog/azuredevops/DevOpsPricing/" data-id="cmkvudsyd0000lw45h22y13f3" class="article-share-link">共有</a-->
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/ALM/" rel="tag">ALM</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Azure-DevOps-Services/" rel="tag">Azure DevOps Services</a></li></ul>
@@ -544,7 +600,7 @@ Azure DevOps Services は、無料で開始することができます。開始�
     </div>
 
     <footer class="article-footer">
-      <!--a data-url="https://jpdscore.github.io/blog/vs/vs2013-signin-error/" data-id="cmkrfs937003zml458sj5hz8x" class="article-share-link">共有</a-->
+      <!--a data-url="https://jpdscore.github.io/blog/vs/vs2013-signin-error/" data-id="cmkvudt040042lw45bv1hhuqx" class="article-share-link">共有</a-->
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Visual-Studio/" rel="tag">Visual Studio</a></li></ul>
@@ -602,63 +658,10 @@ Azure Pipelines のトラブルシューティング用データ採取につい�
     </div>
 
     <footer class="article-footer">
-      <!--a data-url="https://jpdscore.github.io/blog/azuredevops/devops-log-collection/" data-id="cmkrfs91g0004ml45f9c74xas" class="article-share-link">共有</a-->
+      <!--a data-url="https://jpdscore.github.io/blog/azuredevops/devops-log-collection/" data-id="cmkvudsyk0005lw45968w185m" class="article-share-link">共有</a-->
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/ALM/" rel="tag">ALM</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Azure-DevOps-Services/" rel="tag">Azure DevOps Services</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/" rel="tag">情報採取手順</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-azuredevops/pipelines-agents-ip-settings" class="article article-type-post" itemscope itemprop="blogPost">
-
-  <div class="article-inner">
-    <!-- post date -->
-    <div class="article-meta">
-      <a href="../../azuredevops/pipelines-agents-ip-settings/" class="article-date">
-  <time datetime="2022-04-11T15:00:00.000Z" itemprop="datePublished">2022-04-12</time>
-</a>
-      
-    </div>
-
-    
-    <!-- post title -->
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="../../azuredevops/pipelines-agents-ip-settings/">Azure Pipelines エージェントの IP について</a>
-    </h1>
-  
-
-      </header>
-    
-
-    <!-- post caption -->
-    <div class="article-entry" itemprop="articleBody">
-      
-        こんにちは、Japan Developer Support Core チームです🐈
-今日は Azure Pipelines で利用するエージェントの IP アドレスについて概要を解説しつつ、様々なシナリオを例にまとめていきます。
-この記事を読むことで、エージェントの IP アドレスに対しての知識が深まり、どういったシナリオのときに、どういったエージェントを使うことが適切なのかを知ることができます。
-Azure リソースと連携したシナリオもたくさん記載しましたので、ぜひ皆様のビジネスにご活用ください。
-Azure Pipelines エージェントに求められるネットワーク通信初めに、Azure Pipelines エージェントに求められるネットワーク通信経路について、説明いたします！
-Azure DevOps Services は Azure クラウド ネットワーク上で提供される Micro...
-        <p class="article-readmore">
-          <a href="../../azuredevops/pipelines-agents-ip-settings/">Read more</a>
-        </p>
-      
-    </div>
-
-    <footer class="article-footer">
-      <!--a data-url="https://jpdscore.github.io/blog/azuredevops/pipelines-agents-ip-settings/" data-id="cmkrfs91m000cml453egm2ugw" class="article-share-link">共有</a-->
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/ALM/" rel="tag">ALM</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Azure-Pipelines/" rel="tag">Azure Pipelines</a></li></ul>
 
     </footer>
   </div>
@@ -684,6 +687,10 @@ Azure DevOps Services は Azure クラウド ネットワーク上で提供さ�
       <ul>
         
           <li>
+            <a href="../../devtestlabs/auto-shutdown-command/">自動シャットダウンをコマンドを使用して設定および確認する方法</a>
+          </li>
+        
+          <li>
             <a href="../../vs/visual-studio-isenslogon-subscription-eventlog-warning/">Visual Studio ISensLogon Subscription に関する警告レベルのイベント ログについて</a>
           </li>
         
@@ -707,10 +714,6 @@ Azure DevOps Services は Azure クラウド ネットワーク上で提供さ�
             <a href="../../vs/vs2026-supportlifecycle/">Visual Studio 2026 以降のリリースとサポートライフサイクル</a>
           </li>
         
-          <li>
-            <a href="../../dataclient/Recommend-Jet-Migration/">Jet データベースエンジンの移行のススメ</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -730,7 +733,7 @@ Azure DevOps Services は Azure クラウド ネットワーク上で提供さ�
   <div class="widget-wrap">
     <h3 class="widget-title">アーカイブ</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2026/01/">2026 / 01</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/12/">2025 / 12</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/11/">2025 / 11</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/10/">2025 / 10</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/09/">2025 / 09</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/08/">2025 / 08</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/07/">2025 / 07</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/06/">2025 / 06</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/08/">2024 / 08</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/06/">2024 / 06</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/04/">2024 / 04</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/03/">2024 / 03</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/09/">2023 / 09</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/06/">2023 / 06</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/03/">2023 / 03</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/02/">2023 / 02</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/12/">2022 / 12</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/11/">2022 / 11</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/07/">2022 / 07</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/06/">2022 / 06</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/04/">2022 / 04</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/03/">2022 / 03</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/01/">2022 / 01</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/12/">2021 / 12</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/08/">2021 / 08</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/05/">2021 / 05</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/04/">2021 / 04</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/02/">2021 / 02</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/01/">2021 / 01</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/12/">2020 / 12</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/11/">2020 / 11</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/10/">2020 / 10</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/09/">2020 / 09</a><span class="archive-list-count">4</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2026/01/">2026 / 01</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/12/">2025 / 12</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/11/">2025 / 11</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/10/">2025 / 10</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/09/">2025 / 09</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/08/">2025 / 08</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/07/">2025 / 07</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/06/">2025 / 06</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/08/">2024 / 08</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/06/">2024 / 06</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/04/">2024 / 04</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/03/">2024 / 03</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/09/">2023 / 09</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/06/">2023 / 06</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/03/">2023 / 03</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/02/">2023 / 02</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/12/">2022 / 12</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/11/">2022 / 11</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/07/">2022 / 07</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/06/">2022 / 06</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/04/">2022 / 04</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/03/">2022 / 03</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/01/">2022 / 01</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/12/">2021 / 12</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/08/">2021 / 08</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/05/">2021 / 05</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/04/">2021 / 04</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/02/">2021 / 02</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/01/">2021 / 01</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/12/">2020 / 12</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/11/">2020 / 11</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/10/">2020 / 10</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/09/">2020 / 09</a><span class="archive-list-count">4</span></li></ul>
     </div>
   </div>
 
