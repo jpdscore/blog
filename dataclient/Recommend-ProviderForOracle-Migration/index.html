@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Oracle 向けデータプロバイダー移行のススメ | JPDSC Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="開発アプリケーションでマイクロソフトが提供する Oracle 向けデータ アクセス製品を使用しているケースに対して Oracle 提供の製品利用に移行を勧める理由やその方法について説明します。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Oracle 向けデータプロバイダー移行のススメ">
+<meta property="og:url" content="https://jpdscore.github.io/blog/dataclient/Recommend-ProviderForOracle-Migration/index.html">
+<meta property="og:site_name" content="Japan Developer Support Core Team Blog">
+<meta property="og:description" content="開発アプリケーションでマイクロソフトが提供する Oracle 向けデータ アクセス製品を使用しているケースに対して Oracle 提供の製品利用に移行を勧める理由やその方法について説明します。">
+<meta property="og:locale" content="ja_JP">
+<meta property="article:published_time" content="2026-02-01T15:00:00.000Z">
+<meta property="article:modified_time" content="2026-02-02T00:16:19.086Z">
+<meta property="article:author" content="Developer Support Core Japan">
+<meta property="article:tag" content="Data Access">
+<meta property="article:tag" content="Oracle">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/blog/atom.xml" title="Japan Developer Support Core Team Blog" type="application/atom+xml">
+  
+
+  <link rel="icon" href="../../favicon.ico">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="theme-color" content="#ffffff">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="../../css/style.css">
+
+  
+<link rel="stylesheet" href="../../css/copy-button.css">
+
+  
+<link rel="stylesheet" href="../../css/toc.css">
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="site-header-logo"></div>
+  <div id="site-header-blog-wrapper"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        <div id="ms-logo"></div>
+        
+          <a class="main-nav-link" href="../../index.html">Home</a>
+        
+          <a class="main-nav-link" href="../../archives">Archives</a>
+        
+        <a class="main-nav-link" target="_blank" rel="noopener" href="https://cssjpn.github.io/">サポート情報</a>
+        <a class="main-nav-link" href="/blog/general/welcome/">About</a>
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/blog/atom.xml" title="RSSフィード"></a>
+        
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//www.google.com/search" method="get" accept-charset="UTF-8" name="google-search" onsubmit="var f=this;if(f['q'].value){var searchUrl =  'https://www.google.com/search?q=' +  encodeURIComponent(f['q'].value + ' site:' + f['sitesearch'].value) ;window.open(searchUrl, 'blank') };return false;" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="検索"><button type="submit" id="nav-search-btn" class="search-form-submit"></button><input type="hidden" name="sitesearch" value="https://jpdscore.github.io/blog"></form>
+      </div>
+    </div>
+    <div id="header-title" class="inner">
+      <div id="logo-wrap">
+        <a href="../../index.html" id="logo">Japan Developer Support Core Team Blog</a>
+      </div>
+      
+        <div id="subtitle-wrap">
+          <a href="../../index.html" id="subtitle">日本マイクロソフトの Japan Developer Support Core チームのブログです。</a>
+        </div>
+      
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-dataclient/Recommend-ProviderForOracle-Migration" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <aside id="toc" role="complementary" aria-label="Table of Contents"></aside>
+  
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header-single">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Oracle 向けデータプロバイダー移行のススメ
+    </h1>
+  
+
+      </header>
+      <div class="article-share">
+        Last Update: 
+        <a href="" class="article-date-single">
+  <time datetime="2026-02-01T15:00:00.000Z" itemprop="datePublished">2026-02-02</time>
+</a>
+        
+        <div class="article-share-buttons">
+          <a target="_blank" rel="noopener" href="https://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="basic-label" data-hatena-bookmark-lang="ja" data-hatena-bookmark-height="20" title="このエントリーをはてなブックマークに追加"><img src="https://b.st-hatena.com/images/v4/public/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+        </div>
+        <div class="article-share-buttons">
+          <script src="https://platform.linkedin.com/in.js" type="text/javascript">lang: ja_JP</script>
+          <script type="IN/Share" data-url="https://jpdscore.github.io/blog/dataclient/Recommend-ProviderForOracle-Migration/"></script>
+        </div>
+        <div class="article-share-buttons">
+          <a target="_blank" rel="noopener" href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        </div>
+      </div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>こんにちは、Japan Developer Support Core チームの高橋です。データアクセス テクノロジーの移行のススメ第 3 弾、今回はマイクロソフトが提供する Oracle 向けの ODBC ドライバー、OLE DB プロバイダー、.NET Framework データプロバイダーのサポート状況やバージョン互換性などの観点からの移行の必要性についてお伝えします。</p>
+<h2 id="マイクロソフトが提供する-Oracle-向けデータアクセス製品の基本知識"><a href="#マイクロソフトが提供する-Oracle-向けデータアクセス製品の基本知識" class="headerlink" title="マイクロソフトが提供する Oracle 向けデータアクセス製品の基本知識"></a>マイクロソフトが提供する Oracle 向けデータアクセス製品の基本知識</h2><p>マイクロソフトが提供する Oracle 向けのデータアクセス技術には、以下のような製品があります。</p>
+<table>
+<thead>
+<tr>
+<th>アプリケーションの種類</th>
+<th>使用する製品</th>
+<th>ファイル名</th>
+<th>補足</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ODBC API 呼び出し</td>
+<td><strong>Microsoft ODBC for Oracle</strong></td>
+<td>MSORCL32.dll</td>
+<td>アンマネージ (C++ など) だけではなくマネージ (.NET Framework) で <code>System.Data.Odbc</code> を使用する場合も該当します。</td>
+</tr>
+<tr>
+<td>OLE DB 呼び出し</td>
+<td><strong>Microsoft OLE DB Provider for Oracle</strong>（<strong>MSDAORA</strong>）</td>
+<td>MSDAORA.dll</td>
+<td>アンマネージ (C++ など) での API 直接呼出しのほか、ADO (ActiveX Data Objects) の API を使用する場合も該当します。また、.NET Framework で <code>System.Data.OleDb</code> を使用する場合も該当します。</td>
+</tr>
+<tr>
+<td>.NET Framework</td>
+<td><strong>.NET Framework Data Provider for Oracle</strong> (<code>System.Data.OracleClient</code>)</td>
+<td>System.Data.OracleClient.dll</td>
+<td>ODBC や OLE DB を使用せず、この名前空間のクラスを使用するケースのみ該当します。</td>
+</tr>
+</tbody></table>
+<p>それぞれのサポート状況や移行の必要性などはこの後説明しますがその前にすべてに共通することをここで先にお伝えします。</p>
+<p>まず、これらの製品はすべて、Oracle クライアントソフトウェアに含まれる <strong>Oracle Call Interface（OCI）</strong> と呼ばれる API 経由で Oracle データベースにアクセスする設計になっています。つまり、製品を使うアプリケーションの動作環境には必ず Oracle クライアント ソフトウェアが必要となるということですね。</p>
+<p>そして重要な点として、「マイクロソフトがサポートする Oracle バージョン」という表現は、Oracle データベースのバージョンではなく、<strong>クライアントマシンにインストールされた Oracle クライアントソフトウェアのバージョン</strong>を指します。</p>
+<p>では、それぞれについて見ていきましょう。</p>
+<h2 id="Microsoft-ODBC-for-Oracle-と-Microsoft-OLE-DB-Provider-for-Oracle（MSDAORA）のサポート状況"><a href="#Microsoft-ODBC-for-Oracle-と-Microsoft-OLE-DB-Provider-for-Oracle（MSDAORA）のサポート状況" class="headerlink" title="Microsoft ODBC for Oracle と Microsoft OLE DB Provider for Oracle（MSDAORA）のサポート状況"></a>Microsoft ODBC for Oracle と Microsoft OLE DB Provider for Oracle（MSDAORA）のサポート状況</h2><p>Windows Data Access Components の一部として Windows OS に同梱にて提供されており、そのためサポート ライフサイクルとしては OS に従うものの、使用される OCI バージョンの互換性の関係上から次の通りのサポート状況です。</p>
+<ul>
+<li>✅ Oracle 7：完全サポート</li>
+<li>✅ Oracle 8 および 8i：限定的なサポート</li>
+<li>❌ Oracle 9i 以降：サポート対象外</li>
+</ul>
+<p>また、Oracle 側のサポート状況も鑑みて、これらの製品は <strong>Deprecated（廃止予定）</strong> と位置付けられています。</p>
+<p>参考: <a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/sql/connect/connect-history?view=sql-server-ver17#deprecated-mdacwdac-components">非推奨の MDAC/WDAC コンポーネント</a></p>
+<p>このようなサポート状況の都合もあり、それまでに開発された <strong>32 ビット版のみの提供</strong>となっており、<strong>64 ビット版の提供はありません</strong>。</p>
+<p>また、前述の通り、これらの製品は OCI と呼ばれる API を呼び出すよう設計されており、Oracle クライアント ソフトウェアが必要となりますが、現時点 (2026 年) で Oracle クライアント ソフトウェアに Oracle 8i が使用されていることはおそらくないでしょう。そのため、実質、マイクロソフトとしてサポート可能な組み合わせでの利用はないと言えます。</p>
+<p>念のためこのようにサポートをほぼ終了している状況となった経緯に触れておきますね。</p>
+<h3 id="歴史的背景"><a href="#歴史的背景" class="headerlink" title="歴史的背景"></a>歴史的背景</h3><p>これらの製品は <strong>Oracle バージョン 7</strong> で提供される OCI で動作するよう開発されたため、Oracle 7 利用においては完全サポート、つまり、開発において不具合などの問題が見つかれば修正対応していました。</p>
+<p>次の Oracle 8、およびその次の Oracle 8i においては、変わらずバージョン 7 相当の OCI に基づく設計のまま拡張は行われませんでした。そのため、バージョン 7 との互換がある限りは動作するとの限定的なサポート対象となりました。</p>
+<p>しかし、次のバージョンの Oracle 9i がリリースされた 2000 年代初期には Oracle 社自身が Oracle 用の ODBC ドライバーおよび OLE DB プロバイダーをリリースしていたため、マイクロソフトは自社製品としてのこれらの開発を終了しました。そのため、Oracle 9i 以降の新機能や仕様変更には対応しておらず、Oracle 9i 以降はサポート対象外と位置づけられました。</p>
+<h3 id="製品利用上の問題点"><a href="#製品利用上の問題点" class="headerlink" title="製品利用上の問題点"></a>製品利用上の問題点</h3><p>私どもへのお問い合わせにおいて Oracle 11g くらいまではそのまま引き続き利用されていたユーザーの方々もいらっしゃったのですが、さらにそれ以降のバージョンへの移行の際にエラーとなるとのお話を耳にしました。Oracle 11g との組み合わせはサポート対象外ですので詳細な調査は承れませんが、興味があって調べたところ、<strong>Oracle バージョン 12.2 では OCI 7.3 のサポートが廃止された</strong>ようですね。つまり、移行によりエラーが発生するようになったのはこの仕様変更によるものと想像できます。</p>
+<p>このように、マイクロソフトの提供する Oracle 向けの ODBC ドライバーや OLE DB プロバイダーは古いバージョンの OCI を使用する設計のため、新しいバージョンの Oracle とは互換性がない可能性があり、その結果として接続もできないという問題が起こりえるでしょう。しかし、開発終了に伴い新しい OCI バージョンへの対応予定はありませんので、Oracle へのアクセスに利用している製品の移行以外にはアプリケーションが動作できるようにする方法はないと言えます。</p>
+<h2 id="System-Data-OracleClient（-NET-Framework-Data-Provider-for-Oracle）のサポート状況"><a href="#System-Data-OracleClient（-NET-Framework-Data-Provider-for-Oracle）のサポート状況" class="headerlink" title="System.Data.OracleClient（.NET Framework Data Provider for Oracle）のサポート状況"></a>System.Data.OracleClient（.NET Framework Data Provider for Oracle）のサポート状況</h2><p>現在サポートされる .NET Framework に同梱にて提供されているため、基本的に .NET Framework のサポートライフサイクルに従いますが、使用される OCI バージョンの互換性の関係上から次の通りのサポート状況です。</p>
+<ul>
+<li>✅ Oracle 8i Release 3：完全サポート</li>
+<li>✅ Oracle 9i：完全サポート</li>
+<li>✅ Oracle 10g：限定的なサポート</li>
+<li>❌ Oracle 11g 以降：サポート対象外</li>
+</ul>
+<p>また、このデータプロバイダーは <strong>2009 年</strong> の時点で <strong>Deprecated (廃止予定)</strong> として扱われることが公式に発表されました。</p>
+<p>参考：<a target="_blank" rel="noopener" href="https://blogs.msdn.microsoft.com/adonet/2009/06/15/system-data-oracleclient-update/">System.Data.OracleClient Update</a></p>
+<p>廃止に至った理由は先の ODBC ドライバーや OLE DB プロバイダーと同様です。Oracle 社が独自の <strong>Oracle Data Provider for .NET (ODP.NET)</strong> をリリースし、新バージョンの Oracle 機能に対応した更新を継続して提供しているためです。</p>
+<p>したがって、こちらも ODBC ドライバーなどと同様に、実質、現時点でマイクロソフトとしてサポート可能な組み合わせでの利用はないであろうと考えます。</p>
+<h3 id="製品利用上の問題点-1"><a href="#製品利用上の問題点-1" class="headerlink" title="製品利用上の問題点"></a>製品利用上の問題点</h3><p>このデータプロバイダーは <strong>Oracle バージョン 8.1.7</strong> の OCI で動作するよう開発されているため、より新しいバージョンの Oracle との組み合わせにおいて OCI の互換性の問題が生ずる可能性があります。</p>
+<p>しかし、サポート対象外のバージョンの組み合わせ上、このような問題は発生しうるものであり、また、このデータプロバイダーは開発を終了していますので、データ プロバイダーにおける不具合かどうかの判定や問題の修正などによる対応は不可能です。開発支援のサポートとしても組み合わせの関係から承ることはできないとの返答を差し上げることとなります。</p>
+<p>サポートされない組み合わせであることはこのような対処不可能な問題を引き起こす可能性があることからも、使用し続けることは望ましくないと言えます。</p>
+<h2 id="移行の進め方"><a href="#移行の進め方" class="headerlink" title="移行の進め方"></a>移行の進め方</h2><p>もしもご利用のアプリケーションから Oracle にアクセスしていることまではわかるものの、どのような製品のどのバージョンで接続しているかがわからない場合にはその把握から進めましょう。以下は SQL Server 向けの ODBC ドライバーや OLE DB プロバイダーについて説明した記事ですが、Oracle へのアクセスにおいても同様の手法で確認できるはずです。</p>
+<p>参考記事: <a href="https://jpdscore.github.io/blog/dataclient/Recommend-ODBCOLEDBFORSQL-Migration/#%E7%A7%BB%E8%A1%8C%E5%AF%BE%E8%B1%A1%E3%81%8B%E3%81%A9%E3%81%86%E3%81%8B%E3%81%AE%E7%A2%BA%E8%AA%8D%E6%96%B9%E6%B3%95">移行対象かどうかの確認方法</a></p>
+<p>ソースコードやロードされているモジュールを探す場合のキーワードについては本記事の前半の基本事項の説明を参考にしましょう。</p>
+<p>その上で、以下を把握できたとなれば、サポートされる組み合わせなのか移行を検討すべきなのかを判断できるはずです。</p>
+<ul>
+<li>クライアントマシンにインストールする Oracle クライアントソフトウェアのバージョン</li>
+<li>アプリケーションで使用しているマイクロソフト製品（ODBC、OLE DB、System.Data.OracleClient など）</li>
+</ul>
+<p>もし確認した結果としてサポートされない組み合わせであった場合には移行を検討しましょう。移行を進める場合のステップも SQL Server 向けのドライバーの移行の場合と基本的に同様です。システム要件などの観点で移行可否を確認し、その上で、移行方法を把握し、動作検証を行いましょう。</p>
+<p>なお、移行先ですが、基本的には Oracle 社より各バージョンに応じた ODBC ドライバー/ OLE DB プロバイダー / .NET Framework 用データプロバイダーが提供されているようですので、そちらが候補となると考えます。</p>
+<table>
+<thead>
+<tr>
+<th>現在の製品</th>
+<th>想定される移行先</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Microsoft ODBC for Oracle</td>
+<td>Oracle 社提供の ODBC ドライバー</td>
+</tr>
+<tr>
+<td>Microsoft OLE DB Provider for Oracle（MSDAORA）</td>
+<td>Oracle 社提供の OLE DB プロバイダー</td>
+</tr>
+<tr>
+<td>System.Data.OracleClient</td>
+<td>Oracle 社提供の Oracle Data Provider for .NET <code>Oracle.DataAccess.Client</code> / <code>Oracle.ManagedDataAccess.Client</code></td>
+</tr>
+</tbody></table>
+<h2 id="まとめ"><a href="#まとめ" class="headerlink" title="まとめ"></a>まとめ</h2><p>マイクロソフトが提供する Oracle 向けのデータプロバイダーはどれもかなり古く、新しいバージョンの Oracle 向けのクライアントソフトウェアとは互換性がないことで適切に動作しない可能性が見込まれます。現状動作していたとしても、マイクロソフトではどれも開発を終了しており、機能やセキュリティの観点からもそのまま継続して使用することは推奨されません。</p>
+<p>そのため、Oracle への接続に既存のマイクロソフト製品をお使いの場合には、早めにOracle 社提供の最新ドライバーなどへの移行をお勧めします。本記事が移行計画を進める参考になるようであれば幸いです。</p>
+
+      
+      
+        <div class="article-disclaimer">
+        
+          <p><hr>本ブログの内容は弊社の公式見解として保証されるものではなく、開発・運用時の参考情報としてご活用いただくことを目的としています。もし公式な見解が必要な場合は、弊社ドキュメント (<a target="_blank" rel="noopener" href="https://learn.microsoft.com/">https://learn.microsoft.com</a> や <a target="_blank" rel="noopener" href="https://support.microsoft.com">https://support.microsoft.com</a>) をご参照いただくか、もしくは私共サポートまでお問い合わせください。</p>
+        
+        </div>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Data-Access/" rel="tag">Data Access</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Oracle/" rel="tag">Oracle</a></li></ul>
+
+      <!-- 
+      
+        <a href="https://github.com/jpdscore/blog/edit/master/articles/dataclient/Recommend-ProviderForOracle-Migration.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
+        
+      -->
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="../../devtestlabs/auto-shutdown-command/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前の記事</strong>
+      <div class="article-nav-title">自動シャットダウンをコマンドを使用して設定および確認する方法</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最近の投稿</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="">Oracle 向けデータプロバイダー移行のススメ</a>
+          </li>
+        
+          <li>
+            <a href="../../devtestlabs/auto-shutdown-command/">自動シャットダウンをコマンドを使用して設定および確認する方法</a>
+          </li>
+        
+          <li>
+            <a href="../../vs/visual-studio-isenslogon-subscription-eventlog-warning/">Visual Studio ISensLogon Subscription に関する警告レベルのイベント ログについて</a>
+          </li>
+        
+          <li>
+            <a href="../../maui/iosWidgets/">.NET MAUI アプリで iosWidgets を利用する</a>
+          </li>
+        
+          <li>
+            <a href="../JDBC-Tracing/">Microsoft JDBC Driver for SQL Server のトレース取得方法まとめ</a>
+          </li>
+        
+          <li>
+            <a href="../Recommend-ODBCOLEDBFORSQL-Migration/">SQL Server 向け ODBC ドライバー/OLE DB プロバイダー移行のススメ</a>
+          </li>
+        
+          <li>
+            <a href="../../vs/vs2026-msvc-lifecycle/">MSVC(Visual C++) 14.50 以降のリリースとサポートライフサイクル</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">タグ</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="../../tags/ALM/">ALM</a><span class="tag-list-count">17</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-DevOps-Server">Azure DevOps Server</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-DevOps-Services">Azure DevOps Services</a><span class="tag-list-count">9</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-Pipelines">Azure Pipelines</a><span class="tag-list-count">7</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-Repos">Azure Repos</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Devcontainer">Devcontainer</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/GitHub">GitHub</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/TFS">TFS</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Visual-Studio-Code">Visual Studio Code</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86">情報採取手順</a><span class="tag-list-count">4</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/">情報採取手順</a><span class="tag-list-count">5</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/ALM">ALM</a><span class="tag-list-count">4</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/Azure-DevOps-Server">Azure DevOps Server</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/Azure-DevOps-Services">Azure DevOps Services</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/Azure-Pipelines">Azure Pipelines</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/TFS">TFS</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Data-Access/">Data Access</a><span class="tag-list-count">4</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Data-Access/JDBC-Driver">JDBC Driver</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Data-Access/Jet">Jet</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Data-Access/Oracle">Oracle</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Data-Access/SQL-Server">SQL Server</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Windows-SDK/">Windows SDK</a><span class="tag-list-count">9</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Debug">Debug</a><span class="tag-list-count">5</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Documents-and-Printing">Documents and Printing</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/GDI">GDI</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Leak">Leak</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Windows-Update-Agent-API">Windows Update Agent API</a><span class="tag-list-count">2</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Debug/">Debug</a><span class="tag-list-count">15</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/NET">.NET</a><span class="tag-list-count">4</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/AI">AI</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Leak">Leak</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Memory">Memory</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Visual-Studio">Visual Studio</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Windows-SDK">Windows SDK</a><span class="tag-list-count">5</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/AI/">AI</a><span class="tag-list-count">3</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/AI/NET">.NET</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/AI/Debug">Debug</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/AI/Visual-Studio">Visual Studio</a><span class="tag-list-count">2</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/NET/">.NET</a><span class="tag-list-count">18</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/NET-Framework">.NET Framework</a><span class="tag-list-count">11</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/AI">AI</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/Debug">Debug</a><span class="tag-list-count">4</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/%E6%9B%B4%E6%96%B0%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0">更新プログラム</a><span class="tag-list-count">2</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Deployment/">Deployment</a><span class="tag-list-count">3</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Deployment/ClickOnce">ClickOnce</a><span class="tag-list-count">3</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Dev-Box/">Dev Box</a><span class="tag-list-count">1</span><ul></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E5%85%A8%E8%88%AC/">全般</a><span class="tag-list-count">1</span><ul></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Azure-PlayFab/">Azure PlayFab</a><span class="tag-list-count">4</span><ul></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Visual-Studio/">Visual Studio</a><span class="tag-list-count">17</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/AI">AI</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/C">C#</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/C">C++</a><span class="tag-list-count">6</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/Debug">Debug</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/VB-NET">VB.NET</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/Visual-Studio-2026">Visual Studio 2026</a><span class="tag-list-count">1</span></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">アーカイブ</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2026/02/">2026 / 02</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2026/01/">2026 / 01</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/12/">2025 / 12</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/11/">2025 / 11</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/10/">2025 / 10</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/09/">2025 / 09</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/08/">2025 / 08</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/07/">2025 / 07</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/06/">2025 / 06</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/08/">2024 / 08</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/06/">2024 / 06</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/04/">2024 / 04</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/03/">2024 / 03</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/09/">2023 / 09</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/06/">2023 / 06</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/03/">2023 / 03</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/02/">2023 / 02</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/12/">2022 / 12</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/11/">2022 / 11</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/07/">2022 / 07</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/06/">2022 / 06</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/04/">2022 / 04</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/03/">2022 / 03</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/01/">2022 / 01</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/12/">2021 / 12</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/08/">2021 / 08</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/05/">2021 / 05</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/04/">2021 / 04</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/02/">2021 / 02</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/01/">2021 / 01</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/12/">2020 / 12</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/11/">2020 / 11</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/10/">2020 / 10</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/09/">2020 / 09</a><span class="archive-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">旧ブログ/フォーラム</h3>
+  <div class="widget">
+    <ul>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://social.msdn.microsoft.com/Forums/ja-jp/home?forum=visualstudiosupportteamja">Visual Studio サポートチーム フォーラム</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://social.msdn.microsoft.com/Forums/ja-jp/home?forum=windowssdksupportteamja&filter=alltypes&sort=lastpostdesc">Windows SDK サポートチーム フォーラム</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/archive/blogs/jpvsblog/">Visual Studio サポート チーム blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/archive/blogs/japan_platform_sdkwindows_sdk_support_team_blog/">JAPAN Platform SDK（Windows SDK） Support Team Blog</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">関連リンク</h3>
+  <div class="widget">
+    <ul>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://developercommunity.visualstudio.com/">Developer Community</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/dotnet/">.NET Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/visualstudio/">Visual Studio Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/cppblog/">C++ Team Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/xamarin/">Xamarin Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/devops/">Azure DevOps Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://techcommunity.microsoft.com/t5/azure-lab-services/bg-p/AzureLabServicesBlog/">Azure Lab Services Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/appcenter/">App Center Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://status.azure.com/status/">Azure Status</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://status.dev.azure.com/">Azure DevOps - Status</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2026 Developer Support Core Japan<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="../../index.html" class="mobile-nav-link">Home</a>
+  
+    <a href="../../archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+<script src="../../js/script.js"></script>
+
+
+<script src="../../js/toc.js"></script>
+
+
+
+
+
+
+  </div>
+</body>
+</html>
