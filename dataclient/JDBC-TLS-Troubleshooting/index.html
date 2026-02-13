@@ -4,23 +4,21 @@
   <meta charset="utf-8">
   
   
-  <title>MSVC(Visual C++) 14.50 以降のリリースとサポートライフサイクル | JPDSC Blog</title>
+  <title>Microsoft JDBC Driver for SQL Server における TLS 関連の接続エラーのトラブルシューティング | JPDSC Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="こんにちは、Japan Developer Support Core チームの上原です。 今回は C++ Team Blog の記事 New release cadence and support lifecycle for Microsoft C++ Build Tools で発表された、MSVC">
+  <meta name="description" content="JDBC Driver による SQL Server への接続エラーのうち TLS 関連の設定に起因したトラブルを解決するための確認事項について説明します。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="MSVC(Visual C++) 14.50 以降のリリースとサポートライフサイクル">
-<meta property="og:url" content="https://jpdscore.github.io/blog/vs/vs2026-msvc-lifecycle/index.html">
+<meta property="og:title" content="Microsoft JDBC Driver for SQL Server における TLS 関連の接続エラーのトラブルシューティング">
+<meta property="og:url" content="https://jpdscore.github.io/blog/dataclient/JDBC-TLS-Troubleshooting/index.html">
 <meta property="og:site_name" content="Japan Developer Support Core Team Blog">
-<meta property="og:description" content="こんにちは、Japan Developer Support Core チームの上原です。 今回は C++ Team Blog の記事 New release cadence and support lifecycle for Microsoft C++ Build Tools で発表された、MSVC">
+<meta property="og:description" content="JDBC Driver による SQL Server への接続エラーのうち TLS 関連の設定に起因したトラブルを解決するための確認事項について説明します。">
 <meta property="og:locale" content="ja_JP">
-<meta property="og:image" content="https://jpdscore.github.io/blog/vs/vs2026-msvc-lifecycle/msvc-release-schedule.jpg">
-<meta property="article:published_time" content="2025-12-25T15:00:00.000Z">
-<meta property="article:modified_time" content="2026-02-13T00:20:32.418Z">
+<meta property="article:published_time" content="2026-02-12T15:00:00.000Z">
+<meta property="article:modified_time" content="2026-02-13T00:20:32.358Z">
 <meta property="article:author" content="Developer Support Core Japan">
-<meta property="article:tag" content="Visual Studio">
-<meta property="article:tag" content="C++">
+<meta property="article:tag" content="Data Access">
+<meta property="article:tag" content="JDBC Driver">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://jpdscore.github.io/blog/vs/vs2026-msvc-lifecycle/msvc-release-schedule.jpg">
   
     <link rel="alternate" href="/blog/atom.xml" title="Japan Developer Support Core Team Blog" type="application/atom+xml">
   
@@ -83,7 +81,7 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-vs/vs2026-msvc-lifecycle" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-dataclient/JDBC-TLS-Troubleshooting" class="article article-type-post" itemscope itemprop="blogPost">
   
     <aside id="toc" role="complementary" aria-label="Table of Contents"></aside>
   
@@ -95,7 +93,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      MSVC(Visual C++) 14.50 以降のリリースとサポートライフサイクル
+      Microsoft JDBC Driver for SQL Server における TLS 関連の接続エラーのトラブルシューティング
     </h1>
   
 
@@ -103,7 +101,7 @@
       <div class="article-share">
         Last Update: 
         <a href="" class="article-date-single">
-  <time datetime="2025-12-25T15:00:00.000Z" itemprop="datePublished">2025-12-26</time>
+  <time datetime="2026-02-12T15:00:00.000Z" itemprop="datePublished">2026-02-13</time>
 </a>
         
         <div class="article-share-buttons">
@@ -111,7 +109,7 @@
         </div>
         <div class="article-share-buttons">
           <script src="https://platform.linkedin.com/in.js" type="text/javascript">lang: ja_JP</script>
-          <script type="IN/Share" data-url="https://jpdscore.github.io/blog/vs/vs2026-msvc-lifecycle/"></script>
+          <script type="IN/Share" data-url="https://jpdscore.github.io/blog/dataclient/JDBC-TLS-Troubleshooting/"></script>
         </div>
         <div class="article-share-buttons">
           <a target="_blank" rel="noopener" href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
@@ -120,53 +118,141 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>こんにちは、Japan Developer Support Core チームの上原です。</p>
-<p>今回は C++ Team Blog の記事 <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/cppblog/new-release-cadence-and-support-lifecycle-for-msvc-build-tools/"><strong>New release cadence and support lifecycle for Microsoft C++ Build Tools</strong></a> で発表された、<strong>MSVC ビルドツールのリリースとサポートライフサイクル</strong> に関する更新点を、一部加筆、修正の上、日本語で説明します。</p>
-<h2 id="はじめに"><a href="#はじめに" class="headerlink" title="はじめに"></a>はじめに</h2><p>Visual Studio が毎月の機能更新と年次のメジャーバージョンを導入する<a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/visualstudio/visual-studio-built-for-the-speed-of-modern-development/">モダンライフサイクルに移行する中で</a>、コンパイラを IDE (Visual Studio) から切り離すことで、IDE の迅速な更新と、ビルドツールの安定性を両立することが可能となりました。このアプローチは、IDE とビルドツールの両方で最新の C++ の進歩を活用しつつ、安全で標準に準拠したビルド環境を維持し、エンタープライズでも利用可能な動作保証と柔軟なアップグレードを、それぞれのプロジェクトのニーズに合わせて実施可能となります。</p>
-<p>この記事では、主な変更点、変わらない点、そして移行をどのように支援するかを概説します。</p>
-<h2 id="MSVC-リリースおよびサポート-ライフサイクルの変更の概要"><a href="#MSVC-リリースおよびサポート-ライフサイクルの変更の概要" class="headerlink" title="MSVC リリースおよびサポート ライフサイクルの変更の概要"></a>MSVC リリースおよびサポート ライフサイクルの変更の概要</h2><p>Visual Studio 2026 バージョン 18.0 は 2025年 11月 11日にリリースされ、リリース時点の MSVC バージョンは 14.50 です。この MSVC バージョンは長期サポート リリース（LTS）となります。</p>
-<h3 id="何が変わるのか？"><a href="#何が変わるのか？" class="headerlink" title="何が変わるのか？"></a>何が変わるのか？</h3><ul>
-<li><p>MSVC 14.50 から、MSVC のライフサイクルは Visual Studio から分離され、<a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/lifecycle/policies/modern">モダン ライフサイクル ポリシー</a> を採用します。</p>
+        <p>こんにちは、Japan Developer Support Core チームの高橋です。今回は SQL Server への接続の問題のうち、Java アプリケーションから Microsoft JDBC Driver for SQL Server を使用して SQL Server に接続する際の、特に TLS (Transport Layer Security) に関連する設定に起因して接続エラーとなる事象のトラブルシューティング手順などについて解説します。</p>
+<p>この記事は以下のような状況にある方を対象としています：</p>
 <ul>
-<li>これらの変更は Microsoft C++ ビルドツールが対象であり、Windows C++ のコンパイラ ツール（例: <code>cl.exe</code>、<code>link.exe</code>）、C および C++ ライブラリ（STL、ATL/MFC、OpenMP など）、VC Runtime の再頒布可能ファイルを含みます。</li>
-<li>これらのコンポーネントは通常、<code>[VS Folder]\VC\Tools\MSVC\14.NN.NNNNN\</code> 配下にインストールされます。</li>
+<li>Microsoft JDBC Driver for SQL Server を使用した接続が 100% 失敗する。</li>
+<li>初めて環境を構成した、または設定を変更してからエラーが発生するようになった。</li>
+<li>Java アプリケーション実行環境の TLS バージョンを 1.2 に限定するなどの設定変更を行おうとしている。</li>
 </ul>
-</li>
-<li><p>リリース時期: MSVC は Stable チャンネルでリリースされる Visual Studio の月次アップデートの一環として、6か月ごと（5月と 11月）に新しいバージョンがリリースされ、サポート期間は 9か月です。</p>
-</li>
-<li><p>長期サポート(LTS): 2年ごとの 11月のリリースを MSVC LTS（Long Term Support）として指定し、LTS はバグ修正、セキュリティ更新、互換性改善を含む 3 年間のサポートが提供されます。</p>
-</li>
-<li><p>入手方法: MSVC プレビューを含むすべてのリリースは Visual Studio の Stable Channel および Insiders Channel で利用可能で、ユーザーはオプトインで利用可能です。</p>
-</li>
-</ul>
-<p>以下の図は、今後数年間の MSVC リリーススケジュールがどのようなものになるかを示しています。なお、本図は 2025年 11月時点での計画を示しており、実際のリリーススケジュールは変更される可能性があります。</p>
-<p><img src="msvc-release-schedule.jpg" alt="MSVCのリリース頻度とサポートライフサイクル"></p>
-<h3 id="何が変わらないのか？"><a href="#何が変わらないのか？" class="headerlink" title="何が変わらないのか？"></a>何が変わらないのか？</h3><ul>
-<li>Visual Studio での MSVC のインストール方法: Visual Studio は、<a target="_blank" rel="noopener" href="https://visualstudio.microsoft.com/downloads/">Visual Studio IDE のインストール</a> または <a target="_blank" rel="noopener" href="https://visualstudio.microsoft.com/downloads/#build-tools-for-visual-studio-2026">Visual Studio Build Tools インストール</a> を通じて、従来どおり MSVC をインストールして利用できます。</li>
-<li>複数の MSVC バージョンの利用:　Visual Studio では複数の MSVC バージョンが提供されており、すでにサポートが終了したバージョンも含めて、プロジェクトに必要なビルドツールのバージョンを選択し、IDE(Visual Studio 本体) のバージョンアップとは独立して管理できます。</li>
-<li>C++ バイナリ互換性: <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/cppblog/upgrading-c-projects-to-visual-studio-2026/#c++-binary-compatibility-for-step-by-step-upgrades">MSVC 14.50</a> は、従来の MSVC 14.x と同様に、Visual Studio 2015 以降の MSVC バージョンとバイナリ互換が維持されます。そのため、開発チームが実行環境の C++ バージョンに直接依存せずに、開発に利用する MSVC バージョンを決定でき、多くの場合、上位バージョンへの移行も容易です。</li>
-<li>C++ 再頒布可能パッケージ（VCRedist）は、<a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/lifecycle/faq/visual-c-faq">付属する MSVC Build Tools のライフサイクルに従い</a>、バイナリ互換性が維持されたインプレイス アップグレード製品として、従来どおりサポートされます。つまり、新しいバージョンの VCRedist は古いバージョンと互換性が維持されており、古いバージョンで構築された既存のアプリケーションも、新しいバージョンのランタイム上で従来どおり動作することが期待されます。</li>
-<li>過去バージョンの MSVC リリースのサポート: Visual Studio 2022 以前に出荷された MSVC バージョンは、最初に出荷された Visual Studio のライフサイクルに応じて引き続きサポートされます。新しいモダン サポート ライフサイクルは、MSVC バージョン 14.50 以降に適用されます。</li>
-<li>他の Visual Studio コンポーネントへの影響: Visual Studio にインストールされる他のコンポーネント（例: 他のツールセット、ライブラリ、SDK、フレームワーク）は、今回の MSVC に関する変更の影響を受けません。</li>
-</ul>
-<h2 id="変革の推進力"><a href="#変革の推進力" class="headerlink" title="変革の推進力"></a>変革の推進力</h2><p>従来の MSVC は Visual Studio のサポートポリシーとリリーススケジュールに沿ってサポートされていました。
-Visual Studio 2026 以降では、MSVC のライフサイクルは安定性、コンプライアンス、モダニゼーションを優先し、お客様のニーズにより良く応えます。この変化により、より安定した長期サポートを提供し、開発チームが変化に対応できるよう支援し、新しいツールによるアップグレードを簡素化しつつ、断片化を減らし、安全で最新の C++ を活用いただけます。</p>
+<h2 id="対象となるエラー"><a href="#対象となるエラー" class="headerlink" title="対象となるエラー"></a>対象となるエラー</h2><p>本記事では、TCP/IP によるセッションは確立できたものの、認証の過程でエラーとなるケースを対象とします。以下のようなエラーメッセージが表示される場合が該当します：</p>
+<p><em><strong>ドライバーが Secure Sockets Layer (SSL) 暗号化を使用して SQL Server へのセキュリティで保護された接続を確立できませんでした</strong></em></p>
+<p>このエラーメッセージに加えて、通常は根本的な原因を示す追加のメッセージ（例: &quot;SQL Server が応答を返しませんでした。接続が閉じられました。&quot; など）が続いて表示されます。これらの追加メッセージは原因特定に重要な情報となり、この記事に記載の問題とは別のトラブルシューティングが必要となることもありますので、必ず確認してください。</p>
+<h3 id="エラーが発生する理由"><a href="#エラーが発生する理由" class="headerlink" title="エラーが発生する理由"></a>エラーが発生する理由</h3><p>SQL Server への接続確立の処理では、以下の順序で処理が行われます：</p>
+<ol>
+<li>TCP/IP によるセッションの確立</li>
+<li>認証処理</li>
+<li>データベースへのアクセス</li>
+</ol>
+<p>2 ステップ目の認証処理で使用される資格情報（SQL 認証におけるパスワードなど）は、セキュリティ保護のために必ず暗号化されます。これは SQL Server 側で暗号化を強制しているかどうかに関係なく行われます。上記のエラーは、この認証処理における主に暗号化処理過程で問題が発生したことを示しています。例えばクライアントとサーバーのそれぞれで使用可能な TLS バージョンが異なることが主な原因の 1 つです。</p>
+<h2 id="トラブルシューティング手順"><a href="#トラブルシューティング手順" class="headerlink" title="トラブルシューティング手順"></a>トラブルシューティング手順</h2><p>クライアント側とサーバー側のそれぞれが同じ TLS バージョンを使用できない限りは SQL Server への接続は失敗します。つまり、このような不一致がない状態とすることが重要です。</p>
+<p>そこで、以下の 1 ～ 5 の手順に従って TLS 関連の設定を確認しましょう。その上で、不一致となるような環境構成となっている場合には、適宜変更を行い、問題が解消するか確認しましょう。</p>
+<h3 id="1-各種バージョンの確認"><a href="#1-各種バージョンの確認" class="headerlink" title="1. 各種バージョンの確認"></a>1. 各種バージョンの確認</h3><p>使用している製品がサポートされているバージョンであることを確認しましょう。</p>
+<h4 id="1-1-OS-バージョン"><a href="#1-1-OS-バージョン" class="headerlink" title="1.1 OS バージョン"></a>1.1 OS バージョン</h4><p>クライアント側とサーバー側の両方の OS バージョンがサポートされている OS であることを確認しましょう。もしサポートされていない OS バージョンの場合には OS アップグレード、別の環境の利用などを検討しましょう。<br><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/lifecycle/products/?products=windows">製品およびサービスのライフサイクル情報の検索 - Windows</a></p>
+<h4 id="1-2-SQL-Server-バージョン"><a href="#1-2-SQL-Server-バージョン" class="headerlink" title="1.2 SQL Server バージョン"></a>1.2 SQL Server バージョン</h4><p>SQL Server のバージョンがサポートされているバージョンであることを確認しましょう。もしサポートされていない SQL Server バージョンの場合には OS アップグレード、別の環境の利用などを検討しましょう。<br><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/lifecycle/products/?terms=windows&products=sql-server">製品およびサービスのライフサイクル情報の検索 - SQL Server</a></p>
+<h4 id="1-3-Java-ディストリビューション-バージョン"><a href="#1-3-Java-ディストリビューション-バージョン" class="headerlink" title="1.3 Java ディストリビューション/バージョン"></a>1.3 Java ディストリビューション/バージョン</h4><p>TLS バージョンの既定の設定がディストリビューションやバージョンによって異なる場合があります。そのため、使用している JDK/JRE のディストリビューション（Oracle、OpenJDK、IBM、Adoptium など）とバージョンを確認しておきましょう。</p>
+<h4 id="1-4-Microsoft-JDBC-Driver-for-SQL-Server-バージョン"><a href="#1-4-Microsoft-JDBC-Driver-for-SQL-Server-バージョン" class="headerlink" title="1.4 Microsoft JDBC Driver for SQL Server バージョン"></a>1.4 Microsoft JDBC Driver for SQL Server バージョン</h4><p>使用している JDBC ドライバーのバージョンを確認しましょう。サポートを終了している古いバージョンでは TLS 1.1 以降のバージョンがサポートされていない可能性があります。</p>
 <ul>
-<li>Visual Studio 2026 以降のリリース頻度:　Visual Studio は四半期ごとではなく<a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/visualstudio/releases/2026/release-rhythm">月次リリースとなり</a>、新しい生産性機能や AI ワークフローをより容易に導入できるようになりました。IDE の進化が速くなるにつれて、ほとんどの顧客は IDE と同じような速いペースで MSVC リリースに追従することは困難であることを認識しています。この安定性重視の姿勢を反映するため、 MSVC ビルドツールは IDE と分離され、かつ頻度の低いリリーススケジュールを採用します。また、MSVC の新バージョンにより速やかに移行したい方には、Visual Studio の Insiders Channel および Stable Channel で利用可能な、MSVC プレビューリリースもご利用いただけます。</li>
-<li>.NET の長期サポートとの連携: .NET はすでに<a target="_blank" rel="noopener" href="https://dotnet.microsoft.com/en-us/platform/support/policy/dotnet-core">最新のライフサイクルポリシー</a>に従っています。<a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/dotnet/core/whats-new/dotnet-10/overview">.NET 10</a> は 2025年 11月にリリースされ、これは、長期に .NET を利用する顧客向けの LTS リリースでもあります。シンプルさと利便性のために、MSVC ビルドツールの LTS スケジュールを .NET LTS スケジュールに合わせ、11月リリース(MSVC 14.50)を LTS リリースとして指定しています。</li>
-<li>最新かつ基準や規制への準拠: CyberEO(米国)や CRA(EU)などの規制は、ソフトウェアサプライチェーンのセキュリティを確保するための最新のツールを求めています。NIST や CISA などの基準を満たすことが求められており、時代遅れのコンパイラに依存することはもはや受け入れられません。これらの標準は新たなセキュリティ課題に対応するために絶えず進化しており、コンプライアンスを維持するために定期的なツール更新が不可欠です。最新のツールへのアップデートは、現在の脅威に対処するためのより安全で最新のコーディング手法へのアクセスも可能にします。</li>
-<li>断片化を減らして価値を高める: 10年前のコンパイラのサポートはますます複雑になっています。MSVC のバージョン数を限定することで、期待されるサービスやセキュリティの品質を維持しつつ、C++ 標準の適合性、コード安全性、パフォーマンスの向上により多くの投資を行えます。</li>
+<li><p>JDBC ドライバーのバージョン<br>.jar ファイルの名前に含まれています。（例: <code>mssql-jdbc-12.2.0.jre11.jar</code>）</p>
+</li>
+<li><p>サポートされているバージョン<br><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/sql/connect/jdbc/microsoft-jdbc-driver-for-sql-server-support-matrix?view=sql-server-ver17">Microsoft SQL Server 用 JDBC Driver のサポート表</a> で確認できます。</p>
+</li>
 </ul>
-<p>これらの理由を踏まえ、私たちの目標は MSVC のライフサイクルを近代化し、機敏性と革新を促進しつつ、企業のニーズに最良のサポートを提供することです。</p>
-<h2 id="アップグレードをお手伝いします"><a href="#アップグレードをお手伝いします" class="headerlink" title="アップグレードをお手伝いします"></a>アップグレードをお手伝いします</h2><p>開発環境を最新かつ安全に保つために、MSVC のリリース時期に合わせた定期的なツールセットアップグレードを推奨します。アップグレードには課題やコストが伴うことを理解しており、特に頻繁なアップデートを優先してこなかったチームにとってはなおさらです。皆様からのフィードバックをもとに、最新バージョンへの移行をより簡単で速く、予測可能にするためのツールやワークフローの改善に投資しています。</p>
+<p>その上で、サポートされていない古いバージョンを使用している場合は、最新のサポートされているバージョンへのアップグレードを検討しましょう。</p>
+<h3 id="2-Java-における-TLS-有効化設定の確認"><a href="#2-Java-における-TLS-有効化設定の確認" class="headerlink" title="2. Java における TLS 有効化設定の確認"></a>2. Java における TLS 有効化設定の確認</h3><p>Java では、<code>java.security</code> ファイル内の <strong>jdk.tls.disabledAlgorithms</strong> 設定で TLS バージョンの有効/無効を制御しています。使用したい TLS バージョンや暗号スイートが無効になっていないか、無効になっている場合にはその設定を削除して問題が解消するかを確認します。</p>
+<h4 id="Java-向け-TLS-設定ファイルの場所"><a href="#Java-向け-TLS-設定ファイルの場所" class="headerlink" title="Java 向け TLS 設定ファイルの場所"></a>Java 向け TLS 設定ファイルの場所</h4><p><code>java.security</code> ファイルは、通常以下の場所にあります：</p>
 <ul>
-<li>ツールセットのアップグレード ワークフローの改善: Visual Studio 2026 は、MSVC などのツールセットのアップグレードを改善し、<a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/cppblog/upgrading-c-projects-to-visual-studio-2026/">「セットアップアシスタント」 という、より柔軟なアップグレード機能</a> を導入します。</li>
-<li>サポート期間(サポート ウィンドウ) の重複により、新規リリースごとにアップグレードする場合でも、LTS を使い続ける場合でも、移行が容易になります。LTS バージョンは 1年間、通常リリースは 3ヶ月の重複期間があり、サポートを維持しながらアップグレードを検討する時間が確保されます。</li>
-<li>MSVC 14.50 以降での C++ バイナリ互換性: MSVC 14.50 以降では、<a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/cpp/porting/binary-compat-2015-2017?view=msvc-170">バイナリ互換性が保証されている</a> ことを最大限に活用し、段階的にソリューションをアップグレードすることも可能です。すべてのプロジェクトや外部依存関係を、一度に再構築する必要はありません。また、サードパーティーのオープンソース ソフトウェアに対する依存関係については、<a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/cppblog/inside-visual-studio-improving-open-source-workflows-with-vcpkg/">vcpkg パッケージマネージャー</a> を活用することで、最新のツールセットに対して依存関係を再構築することも可能になりました。</li>
-<li><a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/cppblog/app-modernization-cpp-private-preview/">C++ 向け GitHub Copilot アプリのモダナイゼーション</a>: Visual Studio では、新しい AI 支援によるツールセットアップグレード機能を、まずはプライベートプレビューとしてリリースされました。この新機能は、例えばプロジェクト設定の調整、新たな推奨警告やセキュリティフラグの有効化、さらにはコンパイラの厳格な準拠によって生じるエラーのクラスを除去するためにソースコードを変更することが可能です。ご興味があれば、今日から C++ 向け GitHub Copilot アプリのモダン化のプライベートプレビューに登録できます。</li>
+<li><code>$JAVA_HOME/conf/security/java.security</code> （Java 9 以降）</li>
+<li><code>$JAVA_HOME/lib/security/java.security</code> （Java 8 以前）</li>
 </ul>
-<h2 id="未来を見据えて"><a href="#未来を見据えて" class="headerlink" title="未来を見据えて"></a>未来を見据えて</h2><p>いつも C++ や MSVC をご利用くださりありがとうございます。新しい MSVC のリリース時期やサポート ライフサイクルの変更が、どのような影響を与えるかについてご質問がある場合は、<a href="mailto:vcupgrade@microsoft.com">vcupgrade@microsoft.com</a> までお問い合わせください。</p>
-<p>Visual Studio 2026 と並行して最新の MSVC リリースが提供され、大幅なパフォーマンス向上、標準適合性の向上、セキュリティ機能の強化が案内されています。MSVC Build Tools バージョン 14.50 にアップグレードして改善点を試し、Visual Studio の「ヘルプ &gt; フィードバックの送信」から提案を共有してください。</p>
+<h4 id="Java-向け-TLS-設定の確認方法"><a href="#Java-向け-TLS-設定の確認方法" class="headerlink" title="Java 向け TLS 設定の確認方法"></a>Java 向け TLS 設定の確認方法</h4><ol>
+<li><code>java.security</code> ファイルを任意のテキストエディターで開きます。</li>
+<li><code>jdk.tls.disabledAlgorithms</code> の設定を探します。</li>
+<li>設定が見つかったら、使用したい TLS バージョン（例: TLSv1.2）が無効化されていないか確認します。</li>
+<li>暗号スイートについても OS で使用可能な暗号スイートと一致するアルゴリズムが含まれているか確認します。</li>
+</ol>
+<p>例えば、以下のような設定の場合、TLSv1 と TLSv1.1 が無効化されていることを示します。：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jdk.tls.disabledAlgorithms=SSLv3, TLSv1, TLSv1.1, RC4, DES, MD5withRSA, ...</span><br></pre></td></tr></table></figure>
+
+<p>仮に古い環境との組み合わせにより TLS バージョン 1.0 が必要な場合には、この <code>TLSv1,</code> を設定から取り除いて保存します。これを利用する Java ランタイム環境からの SQL Server への接続において TLS 1.0 も使用可能となります。</p>
+<h3 id="3-OS-における-TLS-設定の確認"><a href="#3-OS-における-TLS-設定の確認" class="headerlink" title="3. OS における TLS 設定の確認"></a>3. OS における TLS 設定の確認</h3><p>Java アプリケーションは Java のセキュリティ設定を使用しますが、OS 側で TLS バージョンが制限されている場合は、その制限が適用されます。また、SQL Server も OS の TLS 設定を使用します。そのため、OS の TLS バージョンの設定も確認しましょう。</p>
+<h4 id="Windows-の-TLS-設定の確認"><a href="#Windows-の-TLS-設定の確認" class="headerlink" title="Windows の TLS 設定の確認"></a>Windows の TLS 設定の確認</h4><p>Windows では、レジストリで TLS バージョンの有効/無効を設定します。</p>
+<ol>
+<li>レジストリエディタを開きます。</li>
+<li>以下のパスを確認します：<ul>
+<li><strong>クライアント側</strong>: <code>HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\TLS 1.2\Client</code></li>
+<li><strong>サーバー側</strong>: <code>HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\TLS 1.2\Server</code></li>
+</ul>
+</li>
+<li><code>Enabled</code> の値が <code>1</code>、<code>DisabledByDefault</code> の値が <code>0</code> であることを確認します。</li>
+</ol>
+<p>詳細については、<a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/windows-server/security/tls/tls-registry-settings?tabs=diffie-hellman#tls-dtls-and-ssl-protocol-version-settings">トランスポート層セキュリティ (TLS) のレジストリ設定</a> に説明があります。</p>
+<p>また、Windows のバージョンごとにサポートされる暗号スイートが異なります。こちらも詳細は公式ドキュメント <a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/windows/win32/secauthn/cipher-suites-in-schannel">TLS/SSL (Schannel SSP) の暗号スイート</a> に説明があります。</p>
+<h4 id="Linux-の-TLS-設定の確認"><a href="#Linux-の-TLS-設定の確認" class="headerlink" title="Linux の TLS 設定の確認"></a>Linux の TLS 設定の確認</h4><p>Linux ディストリビューションによって設定方法が異なる可能性があります。使用しているディストリビューションのドキュメントを参照して、TLS 設定を確認してください。</p>
+<h3 id="4-SQL-Server-における暗号化強制設定の確認"><a href="#4-SQL-Server-における暗号化強制設定の確認" class="headerlink" title="4. SQL Server における暗号化強制設定の確認"></a>4. SQL Server における暗号化強制設定の確認</h3><p>SQL Server には通信の暗号化を強制する設定があります。暗号化が強制されている場合には追加の設定が必要となりますので、この設定についても確認しておきましょう。<br>なお、Azure SQL Database では暗号化が強制されます。</p>
+<h4 id="SQL-Server-の暗号化設定の確認方法"><a href="#SQL-Server-の暗号化設定の確認方法" class="headerlink" title="SQL Server の暗号化設定の確認方法"></a>SQL Server の暗号化設定の確認方法</h4><p>SQL Server Configuration Manager で以下を確認します：</p>
+<ol>
+<li>SQL Server Configuration Manager を開きます。</li>
+<li><strong>SQL Server ネットワークの構成</strong> &gt; <strong>[インスタンス名] のプロトコル</strong> を選択します。</li>
+<li>右側のペインを右クリックし、<strong>プロパティ</strong> を選択します。</li>
+<li><strong>フラグ</strong> タブで <strong>ForceEncryption</strong> の設定を確認します。</li>
+</ol>
+<h4 id="SQL-Server-で暗号化が強制されている場合の対応"><a href="#SQL-Server-で暗号化が強制されている場合の対応" class="headerlink" title="SQL Server で暗号化が強制されている場合の対応"></a>SQL Server で暗号化が強制されている場合の対応</h4><p>暗号化が強制されている場合は、以下のいずれかの対応が必要です：</p>
+<ul>
+<li><strong>証明書を信頼する設定</strong>: 接続文字列に <code>trustServerCertificate=true</code> を追加します。</li>
+<li><strong>証明書のインストール</strong>: サーバーの証明書をクライアント側のトラストストアにインポートします。</li>
+</ul>
+<p>詳細については、<a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/sql/database-engine/configure-windows/configure-sql-server-encryption?view=sql-server-ver16">接続を暗号化するために SQL Server データベース エンジンを構成する</a> を参照し、適宜設定しましょう。</p>
+<h3 id="5-接続文字列における-TLS-バージョンの設定"><a href="#5-接続文字列における-TLS-バージョンの設定" class="headerlink" title="5. 接続文字列における TLS バージョンの設定"></a>5. 接続文字列における TLS バージョンの設定</h3><p>Microsoft JDBC Driver for SQL Server では、接続プロパティ <strong>sslProtocol</strong> を使用して、認証時の暗号化に使用する TLS バージョンを明示的に指定できます。そこで、設定されているかどうか、設定されていない場合には追加設定することにより問題が解消するかどうか、設定されている場合には使用したい TLS バージョンであるかを確認します。</p>
+<h4 id="接続文字列での-TLS-バージョン設定例"><a href="#接続文字列での-TLS-バージョン設定例" class="headerlink" title="接続文字列での TLS バージョン設定例"></a>接続文字列での TLS バージョン設定例</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">connectionUrl</span> <span class="operator">=</span> <span class="string">&quot;jdbc:sqlserver://localhost:1433;&quot;</span> +</span><br><span class="line">    <span class="string">&quot;databaseName=MyDB;&quot;</span> +</span><br><span class="line">    <span class="string">&quot;user=MyUser;&quot;</span> +</span><br><span class="line">    <span class="string">&quot;password=MyPassword;&quot;</span> +</span><br><span class="line">    <span class="string">&quot;encrypt=true;&quot;</span> +</span><br><span class="line">    <span class="string">&quot;trustServerCertificate=false;&quot;</span> +</span><br><span class="line">    <span class="string">&quot;sslProtocol=TLSv1.2;&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<div class="admonition warning"><p class="admonition-title">注意事項
+</p><p>指定する文字列で使用される TLS バージョンは Java ディストリビューションによって異なります。</p>
+<ul>
+<li>TLS: Oracle JVM では TLS 1.0 ～ 1.2、IBM JVM では TLS 1.0 のみなど。</li>
+</ul>
+<p>詳細については、<a target="_blank" rel="noopener" href="https://github.com/Microsoft/mssql-jdbc/wiki/SSLProtocol">SSLProtocol</a> および <a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/sql/connect/jdbc/setting-the-connection-properties?view=sql-server-ver16">接続プロパティの設定</a> に説明があります。</p>
+</div>
+
+<h2 id="さらなる調査が必要な場合"><a href="#さらなる調査が必要な場合" class="headerlink" title="さらなる調査が必要な場合"></a>さらなる調査が必要な場合</h2><p>上記のトラブルシューティングを実施しても問題が解決しない場合は、マイクロソフト サポートまでお問い合わせください。お問い合わせの際には、以下の情報をご準備いただくとスムーズに調査を進めることができます。</p>
+<p>なお、事前に <a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/troubleshoot/sql/database-engine/connect/jdbc-config-troubleshoot">JDBC の構成とトラブルシューティング</a> に記載の内容も確認しておきましょう。思わぬ設定漏れに気づくことや、サンプルによる動作確認による問題箇所の最小化がその後の調査をスムーズとすることもあります。</p>
+<h3 id="準備していただきたい情報"><a href="#準備していただきたい情報" class="headerlink" title="準備していただきたい情報"></a>準備していただきたい情報</h3><ol>
+<li><p><strong>環境情報</strong></p>
+<ul>
+<li>クライアント OS のバージョン</li>
+<li>サーバー OS のバージョン</li>
+<li>SQL Server のバージョンとエディション</li>
+<li>Java ディストリビューションとバージョン</li>
+<li>Microsoft JDBC Driver for SQL Server のバージョン</li>
+</ul>
+</li>
+<li><p><strong>設定情報</strong></p>
+<ul>
+<li>接続文字列（パスワードは除く、マスクするなど）</li>
+<li><code>java.security</code> ファイルの <code>jdk.tls.disabledAlgorithms</code> 設定</li>
+<li>Windows の場合: TLS に関するレジストリ設定 (エクスポートしたファイル)</li>
+<li>SQL Server の暗号化設定（ForceEncryption の値）</li>
+</ul>
+</li>
+<li><p><strong>エラー情報</strong></p>
+<ul>
+<li>完全なエラーメッセージとスタックトレース</li>
+<li>エラーが発生するタイミング（常に/間欠的）</li>
+</ul>
+</li>
+<li><p><strong>トレース</strong><br>トレースの取得についてもブログで紹介していますのでそちらを参考に取得しましょう。
+<a href="https://jpdscore.github.io/blog/dataclient/JDBC-Tracing/">Microsoft JDBC Driver for SQL Server のトレース取得方法まとめ</a></p>
+<ul>
+<li>JDBC ドライバーのトレース: JDBC ドライバーの処理内容を記録</li>
+<li>Java SSL/TLS デバッグトレース: Java の SSL/TLS 通信の詳細を記録  </li>
+</ul>
+</li>
+<li><p><strong>実施済みのトラブルシューティング内容</strong></p>
+<ul>
+<li>本記事の手順のうち、どの手順を実施したか</li>
+<li>実施した結果、どのような状態であったか</li>
+</ul>
+</li>
+</ol>
+<h2 id="まとめ"><a href="#まとめ" class="headerlink" title="まとめ"></a>まとめ</h2><p>Microsoft JDBC Driver for SQL Server を使用した接続における TLS 関連のエラーは、主に以下の要因で発生します：</p>
+<ul>
+<li>各製品のバージョンのサポート状況</li>
+<li>Java における TLS バージョンの無効化設定</li>
+<li>OS における TLS バージョンの制限</li>
+<li>SQL Server の暗号化強制設定と証明書の信頼関係</li>
+<li>接続文字列での TLS バージョン設定</li>
+</ul>
+<p>本記事で紹介したトラブルシューティング手順に従って、設定を確認・変更することで、問題の解決の参考になるようでしたら幸いです。またそれでも解決しない場合は、スムーズな対処のためにもご紹介した各種情報を取得した上で、マイクロソフト サポートまでお問い合わせいただけると助かります。</p>
 
       
       
@@ -180,11 +266,11 @@ Visual Studio 2026 以降では、MSVC のライフサイクルは安定性、�
     <footer class="article-footer">
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/C/" rel="tag">C++</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Visual-Studio/" rel="tag">Visual Studio</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Data-Access/" rel="tag">Data Access</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/JDBC-Driver/" rel="tag">JDBC Driver</a></li></ul>
 
       <!-- 
       
-        <a href="https://github.com/jpdscore/blog/edit/master/articles/vs/vs2026-msvc-lifecycle.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
+        <a href="https://github.com/jpdscore/blog/edit/master/articles/dataclient/JDBC-TLS-Troubleshooting.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
         
       -->
     </footer>
@@ -193,19 +279,10 @@ Visual Studio 2026 以降では、MSVC のライフサイクルは安定性、�
     
 <nav id="article-nav">
   
-    <a href="../../dataclient/Recommend-ODBCOLEDBFORSQL-Migration/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">次の記事</strong>
-      <div class="article-nav-title">
-        
-          SQL Server 向け ODBC ドライバー/OLE DB プロバイダー移行のススメ
-        
-      </div>
-    </a>
   
-  
-    <a href="../vs2026-supportlifecycle/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="../../debugging/collect-procmon-with-adjusting-altitude/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">前の記事</strong>
-      <div class="article-nav-title">Visual Studio 2026 以降のリリースとサポートライフサイクル</div>
+      <div class="article-nav-title">Process Monitor の高度 (Altitude) を考慮した情報採取手順</div>
     </a>
   
 </nav>
@@ -224,7 +301,7 @@ Visual Studio 2026 以降では、MSVC のライフサイクルは安定性、�
       <ul>
         
           <li>
-            <a href="../../dataclient/JDBC-TLS-Troubleshooting/">Microsoft JDBC Driver for SQL Server における TLS 関連の接続エラーのトラブルシューティング</a>
+            <a href="">Microsoft JDBC Driver for SQL Server における TLS 関連の接続エラーのトラブルシューティング</a>
           </li>
         
           <li>
@@ -232,7 +309,7 @@ Visual Studio 2026 以降では、MSVC のライフサイクルは安定性、�
           </li>
         
           <li>
-            <a href="../../dataclient/Recommend-ProviderForOracle-Migration/">Oracle 向けデータプロバイダー移行のススメ</a>
+            <a href="../Recommend-ProviderForOracle-Migration/">Oracle 向けデータプロバイダー移行のススメ</a>
           </li>
         
           <li>
@@ -240,7 +317,7 @@ Visual Studio 2026 以降では、MSVC のライフサイクルは安定性、�
           </li>
         
           <li>
-            <a href="../visual-studio-isenslogon-subscription-eventlog-warning/">Visual Studio ISensLogon Subscription に関する警告レベルのイベント ログについて</a>
+            <a href="../../vs/visual-studio-isenslogon-subscription-eventlog-warning/">Visual Studio ISensLogon Subscription に関する警告レベルのイベント ログについて</a>
           </li>
         
           <li>
@@ -248,7 +325,7 @@ Visual Studio 2026 以降では、MSVC のライフサイクルは安定性、�
           </li>
         
           <li>
-            <a href="../../dataclient/JDBC-Tracing/">Microsoft JDBC Driver for SQL Server のトレース取得方法まとめ</a>
+            <a href="../JDBC-Tracing/">Microsoft JDBC Driver for SQL Server のトレース取得方法まとめ</a>
           </li>
         
       </ul>
