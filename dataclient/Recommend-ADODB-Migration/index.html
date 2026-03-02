@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>.NET アプリケーションでの ADODB.dll 利用から ADO.NET への移行のススメ | JPDSC Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content=".NET Framework もしくは .NET の開発アプリケーションでレガシーな ADO の PIA (ADODB.dll) もしくは IA (Interop.ADODB など) を使用するケースに対して ADO.NET へ移行が推奨される理由やその方法について説明します。">
+<meta property="og:type" content="article">
+<meta property="og:title" content=".NET アプリケーションでの ADODB.dll 利用から ADO.NET への移行のススメ">
+<meta property="og:url" content="https://jpdscore.github.io/blog/dataclient/Recommend-ADODB-Migration/index.html">
+<meta property="og:site_name" content="Japan Developer Support Core Team Blog">
+<meta property="og:description" content=".NET Framework もしくは .NET の開発アプリケーションでレガシーな ADO の PIA (ADODB.dll) もしくは IA (Interop.ADODB など) を使用するケースに対して ADO.NET へ移行が推奨される理由やその方法について説明します。">
+<meta property="og:locale" content="ja_JP">
+<meta property="article:published_time" content="2026-03-01T15:00:00.000Z">
+<meta property="article:modified_time" content="2026-03-02T00:56:26.185Z">
+<meta property="article:author" content="Developer Support Core Japan">
+<meta property="article:tag" content="Data Access">
+<meta property="article:tag" content="ADO.NET">
+<meta property="article:tag" content="ADO (ActiveX Data Objects)">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/blog/atom.xml" title="Japan Developer Support Core Team Blog" type="application/atom+xml">
+  
+
+  <link rel="icon" href="../../favicon.ico">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="theme-color" content="#ffffff">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="../../css/style.css">
+
+  
+<link rel="stylesheet" href="../../css/copy-button.css">
+
+  
+<link rel="stylesheet" href="../../css/toc.css">
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="site-header-logo"></div>
+  <div id="site-header-blog-wrapper"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        <div id="ms-logo"></div>
+        
+          <a class="main-nav-link" href="../../index.html">Home</a>
+        
+          <a class="main-nav-link" href="../../archives">Archives</a>
+        
+        <a class="main-nav-link" target="_blank" rel="noopener" href="https://cssjpn.github.io/">サポート情報</a>
+        <a class="main-nav-link" href="/blog/general/welcome/">About</a>
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/blog/atom.xml" title="RSSフィード"></a>
+        
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//www.google.com/search" method="get" accept-charset="UTF-8" name="google-search" onsubmit="var f=this;if(f['q'].value){var searchUrl =  'https://www.google.com/search?q=' +  encodeURIComponent(f['q'].value + ' site:' + f['sitesearch'].value) ;window.open(searchUrl, 'blank') };return false;" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="検索"><button type="submit" id="nav-search-btn" class="search-form-submit"></button><input type="hidden" name="sitesearch" value="https://jpdscore.github.io/blog"></form>
+      </div>
+    </div>
+    <div id="header-title" class="inner">
+      <div id="logo-wrap">
+        <a href="../../index.html" id="logo">Japan Developer Support Core Team Blog</a>
+      </div>
+      
+        <div id="subtitle-wrap">
+          <a href="../../index.html" id="subtitle">日本マイクロソフトの Japan Developer Support Core チームのブログです。</a>
+        </div>
+      
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-dataclient/Recommend-ADODB-Migration" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <aside id="toc" role="complementary" aria-label="Table of Contents"></aside>
+  
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header-single">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      .NET アプリケーションでの ADODB.dll 利用から ADO.NET への移行のススメ
+    </h1>
+  
+
+      </header>
+      <div class="article-share">
+        Last Update: 
+        <a href="" class="article-date-single">
+  <time datetime="2026-03-01T15:00:00.000Z" itemprop="datePublished">2026-03-02</time>
+</a>
+        
+        <div class="article-share-buttons">
+          <a target="_blank" rel="noopener" href="https://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="basic-label" data-hatena-bookmark-lang="ja" data-hatena-bookmark-height="20" title="このエントリーをはてなブックマークに追加"><img src="https://b.st-hatena.com/images/v4/public/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+        </div>
+        <div class="article-share-buttons">
+          <script src="https://platform.linkedin.com/in.js" type="text/javascript">lang: ja_JP</script>
+          <script type="IN/Share" data-url="https://jpdscore.github.io/blog/dataclient/Recommend-ADODB-Migration/"></script>
+        </div>
+        <div class="article-share-buttons">
+          <a target="_blank" rel="noopener" href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        </div>
+      </div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>こんにちは、Japan Developer Support Core チームの高橋です。データアクセス テクノロジーの移行のススメもこれで第 4 弾、今回は .NET Framework や .NET の開発アプリケーションにおいて、データベースアクセスに <strong>ADODB.dll</strong> や <strong>Interop.ADODB.dll</strong> を使用されているケースを取り上げます。</p>
+<p>今でも時々このようなアプリケーションに関するお問い合わせを見かけることがあり、「動いているから問題ない」と考えていらっしゃる方も多いかもしれませんが、.NET Framework がリリースされてから二十数年でまだこれを使用しているというのは少々想定外なんです。</p>
+<p>そこで、本記事では、ADODB.dll の正体とそのサポート状況、そして ADO.NET への移行が必要な理由について解説します。</p>
+<h2 id="ADODB-dll-とは何か"><a href="#ADODB-dll-とは何か" class="headerlink" title="ADODB.dll とは何か"></a>ADODB.dll とは何か</h2><h3 id="ADO-ActiveX-Data-Objects-について"><a href="#ADO-ActiveX-Data-Objects-について" class="headerlink" title="ADO (ActiveX Data Objects) について"></a>ADO (ActiveX Data Objects) について</h3><p>まず、ADO について簡単におさらいしましょう。ADO は、VB6.0 や VC++ などの非マネージコード向けのデータアクセステクノロジーです。Windows に同梱される Windows DAC (Windows Data Access Components、旧 Microsoft Data Access Components = MDAC) で提供され、COM (Component Object Model) ベースで動作します。</p>
+<p>参考: <a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/sql/connect/connect-history?view=sql-server-ver17&redirectedfrom=MSDN#mdacwdac-components">Microsoft SQL Server のドライバー履歴</a></p>
+<h3 id="ADODB-dll-の正体"><a href="#ADODB-dll-の正体" class="headerlink" title="ADODB.dll の正体"></a>ADODB.dll の正体</h3><p><strong>ADODB.dll は、この COM ベースの ADO を .NET Framework アプリケーションで使用できるようにしたラッパー</strong>です。正式には「プライマリ相互運用機能アセンブリ (Primary Interop Assembly、略して PIA)」と呼ばれます。</p>
+<p>この PIA は ADO を使用する VB6 アプリケーションを .NET Framework に移行する際の互換性を提供する目的で作られました。またこのように主にデータ アクセス機能を含む開発で使用されることから、Visual Studio や SQL Server Management Studio、Office とともに提供されており、以前のバージョンではインストール時に GAC (Global Assembly Cache) にも配置されていました。しかし昨今は .NET Framework がリリースされてから 20 年以上が経過していることもあり、製品による提供を終了、もしくは、GAC には配置せずに製品フォルダにのみ配置されるよう変更されています。<br>このように Windows OS の GAC 上に必ずしも存在するアセンブリではない点、留意が必要です。</p>
+<p>次に、Visual Studio にて VB.NET や C# などのプロジェクトを作成し、COM 参照として「Microsoft ActiveX Data Objects」を追加した場合には <strong>Interop.ADODB.dll</strong> が生成されますが、このアセンブリも同様の ADO のラッパーです。こちらは「相互運用機能アセンブリ (Interop Assembly、略して IA)」と呼ばれます。タイプライブラリ インポーター (tlbimp.exe) を使用して同様に「Microsoft ActiveX Data Objects」をもとに生成されたアセンブリも IA です。</p>
+<h2 id="重要：-NET-での-ADODB-dll-利用はサポート対象外"><a href="#重要：-NET-での-ADODB-dll-利用はサポート対象外" class="headerlink" title="重要：.NET での ADODB.dll 利用はサポート対象外"></a>重要：.NET での ADODB.dll 利用はサポート対象外</h2><p>ここが最も重要なポイントです。</p>
+<p><strong>.NET Framework および .NET 上での ADODB.dll などの ADO ラッパーはマイクロソフトのサポート対象外です。</strong></p>
+<p>マイクロソフトの公式ドキュメントには、以下のように明記されています：</p>
+<blockquote>
+<p><strong>Caution</strong>: ADO and ADO MD have not been fully tested in a Microsoft .NET Framework environment. They may cause intermittent issues, especially in service-based applications or in multithreaded applications. The techniques that are discussed in this article should only be used as a temporary measure during migration to ADO.NET. You should only use these techniques after you have conducted complete testing to make sure that there are no compatibility issues. <strong>Any issues that are caused by using ADO or ADO MD in this manner are unsupported.</strong></p>
+</blockquote>
+<p>出典: <a target="_blank" rel="noopener" href="https://support.microsoft.com/en-us/topic/an-ado-application-does-not-run-on-down-level-operating-systems-after-you-recompile-it-on-a-computer-that-is-running-windows-7-sp-1-or-windows-server-2008-r2-sp-1-or-that-has-kb983246-installed-1c59dbe9-62c3-a063-2c48-49487685df6c">ADO application issues on Windows 7 SP1 or Windows Server 2008 R2 SP1</a></p>
+<p>つまり、ADODB.dll や Interop.ADODB.dll は、<strong>ADO.NET への移行を前提とした一時的な措置</strong>として提供されているに過ぎません。COM Interop を経由するため完全にテストされておらず、問題が発生してもその原因を特定して修正するなどのサポートは受けられないのです。</p>
+<p>なお、<strong>アンマネージのアプリケーション（VC++ など）からの ADO の利用は引き続きサポート対象</strong>です。サポート対象外となるのは、.NET Framework / .NET のアプリケーション内での ADODB.dll などの ADO のラッパーです。</p>
+<p>参考: <a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/sql/connect/connect-history?view=sql-server-ver15&redirectedfrom=MSDN#microsoft-or-windows-data-access-components">Microsoft SQL Server のドライバー履歴</a></p>
+<h2 id="利用し続けた場合のリスク"><a href="#利用し続けた場合のリスク" class="headerlink" title="利用し続けた場合のリスク"></a>利用し続けた場合のリスク</h2><p>「現在動いているから大丈夫」と思われるかもしれませんが、以下のようなリスクがあります：</p>
+<ul>
+<li>環境移行時のトラブル<br>ADODB.dll を使用するアプリケーションを別の環境に移行した際、<strong>ADODB.dll が見つからない</strong>という問題が発生することがあります。ADODB.dll は Visual Studio や Office とともに提供されるため、移行先の OS にはインストールされていない可能性があります。しかも、<strong>ADODB.dll は再頒布が許可されていません</strong>。そのため PIA を使用していたケースでは、代わりに IA を使うようそのアプリケーションのプロジェクトにおける参照設定を変更する必要があります。</li>
+<li>マルチスレッド環境での互換性問題<br>前述の「.NET Framework 上での ADO や ADO MD がサポート対象外である」ことを示したドキュメントにもあるように、サービスベースのマルチスレッドアプリケーションで互換性の問題が発生する可能性があり、過去に報告例があります。</li>
+<li>将来的な機能強化が期待できない<br>.NET Framework/.NET の ADO.NET (データプロバイダー含む) であれば機能強化が期待できるのに対して、ADO はレガシーテクノロジーにつき、新機能の追加などの機能強化が行われる見込みは低いです。</li>
+<li>サポート対象外<br>何か問題が発生しても、ADODB.dll に起因する問題については、マイクロソフトのサポートを受けることができません。</li>
+</ul>
+<h2 id="移行の進め方"><a href="#移行の進め方" class="headerlink" title="移行の進め方"></a>移行の進め方</h2><p>.NET Framework および .NET には、<strong>ADO.NET</strong> という専用のマネージドデータアクセステクノロジーが用意されています。ADO の PIA (ADODB.dll) もしくは IA (Interop.ADODB.dll など) を使用している場合は、ADO.NET への移行を強く推奨します。</p>
+<h3 id="接続先-RDBMS-によるデータプロバイダーの決定"><a href="#接続先-RDBMS-によるデータプロバイダーの決定" class="headerlink" title="接続先 RDBMS によるデータプロバイダーの決定"></a>接続先 RDBMS によるデータプロバイダーの決定</h3><p>ADO.NET への移行にあたり重要となりますのは、アクセス先のデータベース (RDBMS) の種類です。</p>
+<p>ADO を使用するアプリケーションでは、RDBMS へのアクセスにはその RDBMS 提供元などからその RDBMS に対応する OLE DB プロバイダーが提供されており、必要に応じてそのインストールを行った上で、接続文字列における Provider キーワードに使用する OLE DB プロバイダー名を指定しているはずです。</p>
+<p>ADO.NET に移行する場合には、まずは使用している RDBMS の提供元から専用の .NET Framework データプロバイダーが提供されているかどうかを確認しましょう。たとえばマイクロソフト製品の SQL Server や Azure SQL Database を使用する場合には、以下のプロバイダーを使用できます。</p>
+<table>
+<thead>
+<tr>
+<th><nobr>データソース</nobr></th>
+<th>ADO.NET プロバイダー</th>
+<th>名前空間</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>SQL Server <br> Azure SQL</td>
+<td>Microsoft .NET Framework Data Provider for SQL Server</td>
+<td><code>System.Data.SqlClient</code> (.NET Framework/.NET Core/.NET 5+)</td>
+</tr>
+<tr>
+<td>SQL Server <br> Azure SQL</td>
+<td>Microsoft SqlClient Data Provider for SQL Server</td>
+<td><code>Microsoft.Data.SqlClient</code> (.NET Framework/NET Core/.NET 5+) (推奨)</td>
+</tr>
+</tbody></table>
+<p>一例ですが、ADODB を使用した SQL Server への接続処理は ADO.NET では次のように変更できます。(主に VB6.0 から VB.NET へ移行する際に ADODB を使用しているケースが多いため VB.NET のコード例を紹介します。)</p>
+<p>// ADODB を使用した SQL Server への接続</p>
+<figure class="highlight vb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Imports</span> ADODB</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line"><span class="keyword">Dim</span> connectionString <span class="keyword">As</span> <span class="type">String</span> = <span class="string">&quot;Provider=MSOLEDBSQL;Data Source=yourSQL;Initial Catalog=yourDB;Integrated Security=SSPI;&quot;</span></span><br><span class="line"><span class="keyword">Dim</span> con <span class="keyword">As</span> <span class="built_in">New</span> Connection()</span><br><span class="line">con.connectionString = connectionString</span><br><span class="line">con.Open()</span><br></pre></td></tr></table></figure>
+
+<p>// ADO.NET + Microsoft.Data.SqlClient を使用した SQL Server への接続</p>
+<figure class="highlight vb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Imports</span> Microsoft.Data.SqlClient</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line"><span class="keyword">Dim</span> connectionString <span class="keyword">As</span> <span class="type">String</span> = <span class="string">&quot;Data Source=yourSQL;Initial Catalog=yourDB;Integrated Security=SSPI;&quot;</span></span><br><span class="line"><span class="keyword">Dim</span> con <span class="keyword">As</span> <span class="built_in">New</span> SqlConnection()</span><br><span class="line">con.connectionString = connectionString</span><br><span class="line">con.Open()</span><br></pre></td></tr></table></figure>
+
+<p>また移行のススメ第 3 弾の <a href="https://jpdscore.github.io/blog/dataclient/Recommend-ProviderForOracle-Migration/">Oracle 向けデータプロバイダー移行のススメ</a> に記載の通り、Oracle へのアクセスにおいては Oracle 社提供の専用のデータプロバイダーを使用することもできます。</p>
+<p>このような専用のデータプロバイダーが提供されていない場合にも ADO.NET の利用は可能です。具体的には、ADO で使用していた OLE DB プロバイダーを引き続き使用することができます。もしくは、ODBC ドライバーを使用することも可能です。その際に使用できるのが、以下のデータプロバイダーです。</p>
+<table>
+<thead>
+<tr>
+<th><nobr>データソース</nobr></th>
+<th>ADO.NET プロバイダー</th>
+<th>名前空間</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>OLE DB データソース</td>
+<td>Microsoft .NET Framework Data Provider for OLE DB</td>
+<td><code>System.Data.OleDb</code></td>
+</tr>
+<tr>
+<td>ODBC データソース</td>
+<td>Microsoft .NET Framework Data Provider for ODBC</td>
+<td><code>System.Data.Odbc</code></td>
+</tr>
+</tbody></table>
+<p>例えば移行のススメ第 1 弾の <a href="https://jpdscore.github.io/blog/dataclient/Recommend-Jet-Migration/">Jet データベースエンジンの移行のススメ</a> に記載した移行先候補の Access ランタイムを使用する場合には、専用のマネージドのデータプロバイダーの提供はないため、次のように引き続き接続文字列に同じ OLE DB プロバイダーを指定してアクセスするよう実装できます。</p>
+<figure class="highlight vb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Imports</span> System.Data.OleDb</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line"><span class="keyword">Dim</span> connectionString <span class="keyword">As</span> <span class="type">String</span> = <span class="string">&quot;Provider=Microsoft.ACE.OLEDB.16.0;Data Source=C:\path\to\your\database.accdb;User ID=yourusername;Password=yourpassword;&quot;</span></span><br><span class="line"><span class="keyword">Dim</span> con <span class="keyword">As</span> <span class="built_in">New</span> OleDbConnection()</span><br><span class="line">con.connectionString = connectionString</span><br><span class="line">con.Open()</span><br></pre></td></tr></table></figure>
+
+<h3 id="ADO-と-ADO-NET-の実装差異の把握"><a href="#ADO-と-ADO-NET-の実装差異の把握" class="headerlink" title="ADO と ADO.NET の実装差異の把握"></a>ADO と ADO.NET の実装差異の把握</h3><p>参考までに、ADO で提供されるクラスの ADO.NET での対応関係を以下の通り示します。</p>
+<table>
+<thead>
+<tr>
+<th>ADO (ADODB)</th>
+<th>ADO.NET (xx.Data.SqlClient の例)</th>
+<th>ADO.NET (System.Data.OleDb の例)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>ADODB.Connection</code></td>
+<td><code>SqlConnection</code></td>
+<td><code>OleDbConnection</code></td>
+</tr>
+<tr>
+<td><code>ADODB.Command</code></td>
+<td><code>SqlCommand</code></td>
+<td><code>OleDbCommand</code></td>
+</tr>
+<tr>
+<td><code>ADODB.Recordset</code> (接続型)</td>
+<td><code>SqlDataReader</code></td>
+<td><code>OleDbDataReader</code></td>
+</tr>
+<tr>
+<td><code>ADODB.Recordset</code> (非接続型)</td>
+<td><code>DataSet</code> / <code>DataTable</code></td>
+<td><code>DataSet</code> / <code>DataTable</code></td>
+</tr>
+<tr>
+<td><code>ADODB.Parameter</code></td>
+<td><code>SqlParameter</code></td>
+<td><code>OleDbParameter</code></td>
+</tr>
+</tbody></table>
+<p>接続に関しては前述のコード例のように、使用する名前空間・クラス・接続文字列が主な変更点となります。</p>
+<p>一方で、ADO.NET における SQL 文の実行やデータの処理に関しては、単にクラスやメソッドを変更するのみではなく、設計の観点で考慮するとよい点があります。以下に補足します。</p>
+<ul>
+<li><p>接続型/非接続型<br>ADO.NET では、ADO では主流であった接続型よりも非接続型が主流となっています。具体的には、SQL 文を実行して得られたデータは <code>Recordset</code> を介して処理ができますが、この <code>Recordset</code> をクライアント カーソル (adUseClient) としてデータ取得した後、紐づく <code>ActiveConnection</code> を <code>Nothing</code> に設定する方法が非接続型です。&gt;&gt; 
+<a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/previous-versions/sql/ado/guide/data/disconnecting-and-reconnecting-the-recordset?view=sql-server-ver15">レコードセットの切断と再接続</a><br>このような手法を取っている ADO アプリケーションはあまり見ることはありませんが、ADO.NET ではこれと同等の <code>DataSet</code> や <code>DataTable</code> を使用する方法は ADO の非接続型の利用に比べて一般的です。これは長時間放置される可能性のある Web アプリケーション利用における特徴や、クライアントマシン性能向上が主な理由です。</p>
+</li>
+<li><p>カーソル<br>ADO では様々なサーバー カーソルを使用できましたが、ADO.NET における <code>DbDataReader</code> による接続型の処理では「前方スクロール+読み取り専用」のカーソルのみ使用可能です。つまり、引き続きサーバー カーソルを用いた読み取り操作は可能ですが、他の種類のカーソルを API カーソル (キーセット ドリブン カーソル、動的カーソル、静的カーソル) にて実現することはできません。</p>
+</li>
+<li><p>データの変更<br>ADO.NET においてはサーバー カーソルは読み取り専用のみとなりますので、カーソル位置指定更新はできません。<br>変更操作に関しては以下のいずれかにて対応します。</p>
+<ul>
+<li>ADO における <code>非接続型 Recordset</code> の <code>UpdateBatch</code> メソッドと同様に <code>DataSet</code> や <code>DataTable</code> を使用して変更操作を一括で反映する方法。(<code>DataTable</code> 内のレコードに対して実行された変更操作ごとに INSERT 文などの SQL 文が実行されます。) </li>
+<li>ADO における <code>Connection</code> または <code>Command</code> オブジェクトの <code>Execute</code> メソッドによる SQL 文 (ストアドプロシージャ含む) 実行と同様に、<code>DbCommand</code> (及びその派生クラス) の <code>ExecuteNonQuery</code> メソッドなどを実行する方法。</li>
+</ul>
+</li>
+<li><p>オプティミスティック同時実行制御<br>ADO による SQL 文実行においても <code>adLockOptimistic</code> というロック タイプで使用されるケースは多数ありますが、基本的に接続型で利用している限りは位置指定更新なども可能であったため、厳密なロック管理を必要としていない限りは、それほどこのオプティミスティック (楽観的) ロックを意識する必要がないケースもあります。しかし、ADO と ADO.NET のいずれにおいても非接続型とする場合は、接続を切断している間の RDBMS 側の変更を前提とした設計が必要となります。そのため、仮に ADO.NET に移行するにあたって変更操作を伴うデータ処理を非接続型にて行う場合には、オプティミスティック同時実行制御を念頭においた設計とする必要がある点にご留意ください。</p>
+</li>
+</ul>
+<p>ここで説明した ADO.NET での実装に関しては以下のページを参考にしてください。</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/dotnet/framework/data/adonet/ado-net-overview">ADO.NET の概要 | Microsoft Learn</a></li>
+<li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/dotnet/framework/data/adonet/retrieving-and-modifying-data">ADO.NET でのデータの取得と変更</a></li>
+<li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/dotnet/framework/data/adonet/ado-net-architecture#choosing-a-datareader-or-a-dataset">ADO.NET アーキテクチャ &gt; DataReader または DataSet の選択</a></li>
+<li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/dotnet/framework/data/adonet/transactions-and-concurrency">トランザクションとコンカレンシー</a></li>
+</ul>
+<h3 id="ADO-NET-への移行のメリット"><a href="#ADO-NET-への移行のメリット" class="headerlink" title="ADO.NET への移行のメリット"></a>ADO.NET への移行のメリット</h3><p>ADO.NET の基本機能に関する継続的なメンテナンスと機能強化、最新の .NET バージョンにへの対応などが行われていますので、それを踏まえた正式なサポートが受けられます。</p>
+<p>また後述しますが、RDBMS ごとのデータ プロバイダーに関してもその提供元にて RDBMS 自体の最新機能に対応するようバージョンアップおよびメンテナンスが行われています。たとえば SQL Server 向けのデータプロバイダーに関しては Always Encrypted、Microsoft Entra ID 認証など、SQL Server の最新機能を利用できます。</p>
+<p>また、専用のデータプロバイダーが提供されているケースのメリットですが、アクセス経路上の余計なモジュールが不要になる点もあげられます。</p>
+<ul>
+<li><strong>ADODB 利用</strong>: ADODB → OLE DB → OLE DB Provider → Network → RDBMS</li>
+<li><strong>ADO.NET 利用</strong>: Microsoft.Data.SqlClient → Network → RDBMS</li>
+</ul>
+<p>不要な処理が排除されることでわずかでもパフォーマンスにおける利点が得られること、ならびに、トラブルシューティングがシンプルになります。</p>
+<h2 id="まとめ：今すぐ移行計画を立てましょう"><a href="#まとめ：今すぐ移行計画を立てましょう" class="headerlink" title="まとめ：今すぐ移行計画を立てましょう"></a>まとめ：今すぐ移行計画を立てましょう</h2><p>ADODB.dll や Interop.ADODB.dll などの ADO のラッパーである相互運用機能アセンブリを .NET Framework や .NET で使用しているアプリケーションは、「動いているから問題ない」という状態とはいえず、元来 ADO.NET への移行を踏まえて利用されることが想定であったこと、そのアセンブリ自体はサポート対象外であることを把握できましたでしょうか。将来的なリスクを抱えていると言えますので、<strong>すぐに ADO.NET への移行計画を立てることをお勧めします。</strong></p>
+<p>移行には時間がかかるかもしれませんが、アプリケーションの安定性と保守性を考えると、早めの対応が重要です。まずは現状のコードを確認し、ADODB の使用箇所を特定するところから始めてみてはいかがでしょうか。</p>
+<p>ADO.NET についてご不明な点がございましたら、マイクロソフトのサポートチームまでお気軽にお問い合わせください。</p>
+
+      
+      
+        <div class="article-disclaimer">
+        
+          <p><hr>本ブログの内容は弊社の公式見解として保証されるものではなく、開発・運用時の参考情報としてご活用いただくことを目的としています。もし公式な見解が必要な場合は、弊社ドキュメント (<a target="_blank" rel="noopener" href="https://learn.microsoft.com/">https://learn.microsoft.com</a> や <a target="_blank" rel="noopener" href="https://support.microsoft.com">https://support.microsoft.com</a>) をご参照いただくか、もしくは私共サポートまでお問い合わせください。</p>
+        
+        </div>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/ADO-ActiveX-Data-Objects/" rel="tag">ADO (ActiveX Data Objects)</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/ADO-NET/" rel="tag">ADO.NET</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Data-Access/" rel="tag">Data Access</a></li></ul>
+
+      <!-- 
+      
+        <a href="https://github.com/jpdscore/blog/edit/master/articles/dataclient/Recommend-ADODB-Migration.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
+        
+      -->
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="../JDBC-TLS-Troubleshooting/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前の記事</strong>
+      <div class="article-nav-title">Microsoft JDBC Driver for SQL Server における TLS 関連の接続エラーのトラブルシューティング</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最近の投稿</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="">.NET アプリケーションでの ADODB.dll 利用から ADO.NET への移行のススメ</a>
+          </li>
+        
+          <li>
+            <a href="../JDBC-TLS-Troubleshooting/">Microsoft JDBC Driver for SQL Server における TLS 関連の接続エラーのトラブルシューティング</a>
+          </li>
+        
+          <li>
+            <a href="../../debugging/collect-procmon-with-adjusting-altitude/">Process Monitor の高度 (Altitude) を考慮した情報採取手順</a>
+          </li>
+        
+          <li>
+            <a href="../Recommend-ProviderForOracle-Migration/">Oracle 向けデータプロバイダー移行のススメ</a>
+          </li>
+        
+          <li>
+            <a href="../../devtestlabs/auto-shutdown-command/">自動シャットダウンをコマンドを使用して設定および確認する方法</a>
+          </li>
+        
+          <li>
+            <a href="../../vs/visual-studio-isenslogon-subscription-eventlog-warning/">Visual Studio ISensLogon Subscription に関する警告レベルのイベント ログについて</a>
+          </li>
+        
+          <li>
+            <a href="../../maui/iosWidgets/">.NET MAUI アプリで iosWidgets を利用する</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">タグ</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="../../tags/ALM/">ALM</a><span class="tag-list-count">17</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-DevOps-Server">Azure DevOps Server</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-DevOps-Services">Azure DevOps Services</a><span class="tag-list-count">9</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-Pipelines">Azure Pipelines</a><span class="tag-list-count">7</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-Repos">Azure Repos</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Devcontainer">Devcontainer</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/GitHub">GitHub</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/TFS">TFS</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Visual-Studio-Code">Visual Studio Code</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86">情報採取手順</a><span class="tag-list-count">4</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/">情報採取手順</a><span class="tag-list-count">6</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/ALM">ALM</a><span class="tag-list-count">4</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/Azure-DevOps-Server">Azure DevOps Server</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/Azure-DevOps-Services">Azure DevOps Services</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/Azure-Pipelines">Azure Pipelines</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/TFS">TFS</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Data-Access/">Data Access</a><span class="tag-list-count">6</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Data-Access/ADO-ActiveX-Data-Objects">ADO (ActiveX Data Objects)</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Data-Access/ADO-NET">ADO.NET</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Data-Access/JDBC-Driver">JDBC Driver</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Data-Access/Jet">Jet</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Data-Access/Oracle">Oracle</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Data-Access/SQL-Server">SQL Server</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Windows-SDK/">Windows SDK</a><span class="tag-list-count">9</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Debug">Debug</a><span class="tag-list-count">5</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Documents-and-Printing">Documents and Printing</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/GDI">GDI</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Leak">Leak</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Windows-Update-Agent-API">Windows Update Agent API</a><span class="tag-list-count">2</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Debug/">Debug</a><span class="tag-list-count">15</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/NET">.NET</a><span class="tag-list-count">4</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/AI">AI</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Leak">Leak</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Memory">Memory</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Visual-Studio">Visual Studio</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Windows-SDK">Windows SDK</a><span class="tag-list-count">5</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/AI/">AI</a><span class="tag-list-count">3</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/AI/NET">.NET</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/AI/Debug">Debug</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/AI/Visual-Studio">Visual Studio</a><span class="tag-list-count">2</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/NET/">.NET</a><span class="tag-list-count">18</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/NET-Framework">.NET Framework</a><span class="tag-list-count">11</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/AI">AI</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/Debug">Debug</a><span class="tag-list-count">4</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/%E6%9B%B4%E6%96%B0%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0">更新プログラム</a><span class="tag-list-count">2</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Deployment/">Deployment</a><span class="tag-list-count">3</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Deployment/ClickOnce">ClickOnce</a><span class="tag-list-count">3</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Dev-Box/">Dev Box</a><span class="tag-list-count">1</span><ul></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E5%85%A8%E8%88%AC/">全般</a><span class="tag-list-count">1</span><ul></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Azure-PlayFab/">Azure PlayFab</a><span class="tag-list-count">4</span><ul></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Visual-Studio/">Visual Studio</a><span class="tag-list-count">17</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/AI">AI</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/C">C#</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/C">C++</a><span class="tag-list-count">6</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/Debug">Debug</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/VB-NET">VB.NET</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/Visual-Studio-2026">Visual Studio 2026</a><span class="tag-list-count">1</span></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">アーカイブ</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2026/03/">2026 / 03</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2026/02/">2026 / 02</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2026/01/">2026 / 01</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/12/">2025 / 12</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/11/">2025 / 11</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/10/">2025 / 10</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/09/">2025 / 09</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/08/">2025 / 08</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/07/">2025 / 07</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/06/">2025 / 06</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/08/">2024 / 08</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/06/">2024 / 06</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/04/">2024 / 04</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/03/">2024 / 03</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/09/">2023 / 09</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/06/">2023 / 06</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/03/">2023 / 03</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/02/">2023 / 02</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/12/">2022 / 12</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/11/">2022 / 11</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/07/">2022 / 07</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/06/">2022 / 06</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/04/">2022 / 04</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/03/">2022 / 03</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/01/">2022 / 01</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/12/">2021 / 12</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/08/">2021 / 08</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/05/">2021 / 05</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/04/">2021 / 04</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/02/">2021 / 02</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/01/">2021 / 01</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/12/">2020 / 12</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/11/">2020 / 11</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/10/">2020 / 10</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/09/">2020 / 09</a><span class="archive-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">旧ブログ/フォーラム</h3>
+  <div class="widget">
+    <ul>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://social.msdn.microsoft.com/Forums/ja-jp/home?forum=visualstudiosupportteamja">Visual Studio サポートチーム フォーラム</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://social.msdn.microsoft.com/Forums/ja-jp/home?forum=windowssdksupportteamja&filter=alltypes&sort=lastpostdesc">Windows SDK サポートチーム フォーラム</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/archive/blogs/jpvsblog/">Visual Studio サポート チーム blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/archive/blogs/japan_platform_sdkwindows_sdk_support_team_blog/">JAPAN Platform SDK（Windows SDK） Support Team Blog</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">関連リンク</h3>
+  <div class="widget">
+    <ul>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://developercommunity.visualstudio.com/">Developer Community</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/dotnet/">.NET Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/visualstudio/">Visual Studio Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/cppblog/">C++ Team Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/xamarin/">Xamarin Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/devops/">Azure DevOps Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://techcommunity.microsoft.com/t5/azure-lab-services/bg-p/AzureLabServicesBlog/">Azure Lab Services Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/appcenter/">App Center Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://status.azure.com/status/">Azure Status</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://status.dev.azure.com/">Azure DevOps - Status</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2026 Developer Support Core Japan<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="../../index.html" class="mobile-nav-link">Home</a>
+  
+    <a href="../../archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+<script src="../../js/script.js"></script>
+
+
+<script src="../../js/toc.js"></script>
+
+
+
+
+
+
+  </div>
+</body>
+</html>

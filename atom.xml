@@ -6,7 +6,7 @@
   <link href="https://jpdscore.github.io/blog/atom.xml" rel="self"/>
   
   <link href="https://jpdscore.github.io/blog/"/>
-  <updated>2026-02-13T00:20:32.358Z</updated>
+  <updated>2026-03-02T00:56:26.185Z</updated>
   <id>https://jpdscore.github.io/blog/</id>
   
   <author>
@@ -17,11 +17,32 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>.NET アプリケーションでの ADODB.dll 利用から ADO.NET への移行のススメ</title>
+    <link href="https://jpdscore.github.io/blog/dataclient/Recommend-ADODB-Migration/"/>
+    <id>https://jpdscore.github.io/blog/dataclient/Recommend-ADODB-Migration/</id>
+    <published>2026-03-01T15:00:00.000Z</published>
+    <updated>2026-03-02T00:56:26.185Z</updated>
+    
+    
+    <summary type="html">.NET Framework もしくは .NET の開発アプリケーションでレガシーな ADO の PIA (ADODB.dll) もしくは IA (Interop.ADODB など) を使用するケースに対して ADO.NET へ移行が推奨される理由やその方法について説明します。</summary>
+    
+    
+    
+    
+    <category term="Data Access" scheme="https://jpdscore.github.io/blog/tags/Data-Access/"/>
+    
+    <category term="ADO.NET" scheme="https://jpdscore.github.io/blog/tags/ADO-NET/"/>
+    
+    <category term="ADO (ActiveX Data Objects)" scheme="https://jpdscore.github.io/blog/tags/ADO-ActiveX-Data-Objects/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Microsoft JDBC Driver for SQL Server における TLS 関連の接続エラーのトラブルシューティング</title>
     <link href="https://jpdscore.github.io/blog/dataclient/JDBC-TLS-Troubleshooting/"/>
     <id>https://jpdscore.github.io/blog/dataclient/JDBC-TLS-Troubleshooting/</id>
     <published>2026-02-12T15:00:00.000Z</published>
-    <updated>2026-02-13T00:20:32.358Z</updated>
+    <updated>2026-03-02T00:56:26.184Z</updated>
     
     
     <summary type="html">JDBC Driver による SQL Server への接続エラーのうち TLS 関連の設定に起因したトラブルを解決するための確認事項について説明します。</summary>
@@ -40,7 +61,7 @@
     <link href="https://jpdscore.github.io/blog/debugging/collect-procmon-with-adjusting-altitude/"/>
     <id>https://jpdscore.github.io/blog/debugging/collect-procmon-with-adjusting-altitude/</id>
     <published>2026-02-08T15:00:00.000Z</published>
-    <updated>2026-02-13T00:20:32.365Z</updated>
+    <updated>2026-03-02T00:56:26.193Z</updated>
     
     
       
@@ -63,7 +84,7 @@
     <link href="https://jpdscore.github.io/blog/dataclient/Recommend-ProviderForOracle-Migration/"/>
     <id>https://jpdscore.github.io/blog/dataclient/Recommend-ProviderForOracle-Migration/</id>
     <published>2026-02-01T15:00:00.000Z</published>
-    <updated>2026-02-13T00:20:32.358Z</updated>
+    <updated>2026-03-02T00:56:26.185Z</updated>
     
     
     <summary type="html">開発アプリケーションでマイクロソフトが提供する Oracle 向けデータ アクセス製品を使用しているケースに対して Oracle 提供の製品利用に移行を勧める理由やその方法について説明します。</summary>
@@ -82,7 +103,7 @@
     <link href="https://jpdscore.github.io/blog/devtestlabs/auto-shutdown-command/"/>
     <id>https://jpdscore.github.io/blog/devtestlabs/auto-shutdown-command/</id>
     <published>2026-01-27T00:00:00.000Z</published>
-    <updated>2026-02-13T00:20:32.387Z</updated>
+    <updated>2026-03-02T00:56:26.217Z</updated>
     
     
       
@@ -106,7 +127,7 @@
     <link href="https://jpdscore.github.io/blog/vs/visual-studio-isenslogon-subscription-eventlog-warning/"/>
     <id>https://jpdscore.github.io/blog/vs/visual-studio-isenslogon-subscription-eventlog-warning/</id>
     <published>2026-01-22T15:00:00.000Z</published>
-    <updated>2026-02-13T00:20:32.416Z</updated>
+    <updated>2026-03-02T00:56:26.247Z</updated>
     
     
     <summary type="html">Visual Studio や SQL Server Management Studio (SSMS) を使用しているときに記録される &quot;Visual Studio ISensLogon Subscription&quot; に関するイベント ID 4354 について解説します。</summary>
@@ -123,7 +144,7 @@
     <link href="https://jpdscore.github.io/blog/maui/iosWidgets/"/>
     <id>https://jpdscore.github.io/blog/maui/iosWidgets/</id>
     <published>2026-01-19T05:43:42.000Z</published>
-    <updated>2026-02-13T00:20:32.398Z</updated>
+    <updated>2026-03-02T00:56:26.228Z</updated>
     
     
     <summary type="html">.NET MAUI アプリと iOS WidgetKit を連携させる具体的な実現方法について翻訳しています。</summary>
@@ -140,7 +161,7 @@
     <link href="https://jpdscore.github.io/blog/dataclient/JDBC-Tracing/"/>
     <id>https://jpdscore.github.io/blog/dataclient/JDBC-Tracing/</id>
     <published>2026-01-14T08:24:05.000Z</published>
-    <updated>2026-02-13T00:20:32.358Z</updated>
+    <updated>2026-03-02T00:56:26.185Z</updated>
     
     
     <summary type="html">JDBC Driver でのトレース有効化手順と SSL/TLS デバッグ出力方法を説明します。</summary>
@@ -159,7 +180,7 @@
     <link href="https://jpdscore.github.io/blog/dataclient/Recommend-ODBCOLEDBFORSQL-Migration/"/>
     <id>https://jpdscore.github.io/blog/dataclient/Recommend-ODBCOLEDBFORSQL-Migration/</id>
     <published>2026-01-08T15:00:00.000Z</published>
-    <updated>2026-02-13T00:20:32.358Z</updated>
+    <updated>2026-03-02T00:56:26.185Z</updated>
     
     
       
@@ -184,7 +205,7 @@
     <link href="https://jpdscore.github.io/blog/vs/vs2026-msvc-lifecycle/"/>
     <id>https://jpdscore.github.io/blog/vs/vs2026-msvc-lifecycle/</id>
     <published>2025-12-25T15:00:00.000Z</published>
-    <updated>2026-02-13T00:20:32.418Z</updated>
+    <updated>2026-03-02T00:56:26.249Z</updated>
     
     
       
@@ -210,7 +231,7 @@
     <link href="https://jpdscore.github.io/blog/vs/vs2026-supportlifecycle/"/>
     <id>https://jpdscore.github.io/blog/vs/vs2026-supportlifecycle/</id>
     <published>2025-12-25T15:00:00.000Z</published>
-    <updated>2026-02-13T00:20:32.418Z</updated>
+    <updated>2026-03-02T00:56:26.249Z</updated>
     
     
       
@@ -236,7 +257,7 @@
     <link href="https://jpdscore.github.io/blog/dataclient/Recommend-Jet-Migration/"/>
     <id>https://jpdscore.github.io/blog/dataclient/Recommend-Jet-Migration/</id>
     <published>2025-12-17T05:19:47.000Z</published>
-    <updated>2026-02-13T00:20:32.358Z</updated>
+    <updated>2026-03-02T00:56:26.185Z</updated>
     
     
       
@@ -261,7 +282,7 @@
     <link href="https://jpdscore.github.io/blog/azuredevops/extensions-support/"/>
     <id>https://jpdscore.github.io/blog/azuredevops/extensions-support/</id>
     <published>2025-12-15T15:00:00.000Z</published>
-    <updated>2026-02-13T00:20:32.319Z</updated>
+    <updated>2026-03-02T00:56:26.139Z</updated>
     
     
       
@@ -287,7 +308,7 @@
     <link href="https://jpdscore.github.io/blog/azuredevops/hosted-images-update/"/>
     <id>https://jpdscore.github.io/blog/azuredevops/hosted-images-update/</id>
     <published>2025-12-06T15:00:00.000Z</published>
-    <updated>2026-02-13T00:20:32.321Z</updated>
+    <updated>2026-03-02T00:56:26.141Z</updated>
     
     
       
@@ -315,7 +336,7 @@
     <link href="https://jpdscore.github.io/blog/dotnet/dotnet-manual-updates/"/>
     <id>https://jpdscore.github.io/blog/dotnet/dotnet-manual-updates/</id>
     <published>2025-11-27T15:00:00.000Z</published>
-    <updated>2026-02-13T00:20:32.393Z</updated>
+    <updated>2026-03-02T00:56:26.224Z</updated>
     
     
       
@@ -341,7 +362,7 @@
     <link href="https://jpdscore.github.io/blog/dotnet/dotnet-auto-updates/"/>
     <id>https://jpdscore.github.io/blog/dotnet/dotnet-auto-updates/</id>
     <published>2025-11-26T15:00:00.000Z</published>
-    <updated>2026-02-13T00:20:32.393Z</updated>
+    <updated>2026-03-02T00:56:26.224Z</updated>
     
     
       
@@ -367,7 +388,7 @@
     <link href="https://jpdscore.github.io/blog/dotnet/netfx-4-upgrade/"/>
     <id>https://jpdscore.github.io/blog/dotnet/netfx-4-upgrade/</id>
     <published>2025-11-20T15:00:00.000Z</published>
-    <updated>2026-02-13T00:20:32.396Z</updated>
+    <updated>2026-03-02T00:56:26.226Z</updated>
     
     
       
@@ -393,7 +414,7 @@
     <link href="https://jpdscore.github.io/blog/dotnet/list-assemblies-in-gac-by-fusion-api/"/>
     <id>https://jpdscore.github.io/blog/dotnet/list-assemblies-in-gac-by-fusion-api/</id>
     <published>2025-11-09T15:00:00.000Z</published>
-    <updated>2026-02-13T00:20:32.395Z</updated>
+    <updated>2026-03-02T00:56:26.225Z</updated>
     
     
     <summary type="html">GAC に登録されているアセンブリを Fusion API を使用して一覧取得する方法について説明します。</summary>
@@ -412,7 +433,7 @@
     <link href="https://jpdscore.github.io/blog/devbox/timezone-in-devbox/"/>
     <id>https://jpdscore.github.io/blog/devbox/timezone-in-devbox/</id>
     <published>2025-10-30T15:00:00.000Z</published>
-    <updated>2026-02-13T00:20:32.387Z</updated>
+    <updated>2026-03-02T00:56:26.217Z</updated>
     
     
       
@@ -437,7 +458,7 @@
     <link href="https://jpdscore.github.io/blog/deployment/nothing-happens-when-attempting-to-launch-clickonce-apps/"/>
     <id>https://jpdscore.github.io/blog/deployment/nothing-happens-when-attempting-to-launch-clickonce-apps/</id>
     <published>2025-10-16T15:00:00.000Z</published>
-    <updated>2026-02-13T00:20:32.382Z</updated>
+    <updated>2026-03-02T00:56:26.213Z</updated>
     
     
       
@@ -454,30 +475,6 @@
     <category term="Deployment" scheme="https://jpdscore.github.io/blog/tags/Deployment/"/>
     
     <category term="ClickOnce" scheme="https://jpdscore.github.io/blog/tags/ClickOnce/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Visual Studio 2022 のライセンス認証について</title>
-    <link href="https://jpdscore.github.io/blog/vs/vs2022-update-license/"/>
-    <id>https://jpdscore.github.io/blog/vs/vs2022-update-license/</id>
-    <published>2025-10-09T15:00:00.000Z</published>
-    <updated>2026-02-13T00:20:32.418Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;こんにちは。Developer Support Core チームの上原です。今回は Visual Studio 2022 のライセンス認証について、手順や注意点をご紹介させていただきます。&lt;/p&gt;
-&lt;h2 id=&quot;はじめに&quot;&gt;&lt;a href=&quot;#はじめに&quot;</summary>
-        
-      
-    
-    
-    
-    
-    <category term="Visual Studio" scheme="https://jpdscore.github.io/blog/tags/Visual-Studio/"/>
     
   </entry>
   
