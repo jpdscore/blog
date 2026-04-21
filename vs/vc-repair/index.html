@@ -4,27 +4,24 @@
   <meta charset="utf-8">
   
   
-  <title>Azure Pipelines エージェントの更新について | JPDSC Blog</title>
+  <title>Visual C++ Redistributable の修復方法 | JPDSC Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="こんにちは、Japan Developer Support Core チームです🐶 今日は Azure DevOps における縁の下の力持ちである Azure Pipelines エージェントの更新についてのお話です。 Azure Pipelines エージェントは、Azure Pipelines">
+  <meta name="description" content="こんにちは、Japan Developer Support Core チームの上原です。 今回は、Visual C++ Redistributable(再頒布可能パッケージ) を修復する方法についてご紹介します。 はじめに弊社サポート窓口にお問い合わせいただく事例の中で、システムにインストールされて">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Azure Pipelines エージェントの更新について">
-<meta property="og:url" content="https://jpdscore.github.io/blog/azuredevops/pipelines-agent-update/index.html">
+<meta property="og:title" content="Visual C++ Redistributable の修復方法">
+<meta property="og:url" content="https://jpdscore.github.io/blog/vs/vc-repair/index.html">
 <meta property="og:site_name" content="Japan Developer Support Core Team Blog">
-<meta property="og:description" content="こんにちは、Japan Developer Support Core チームです🐶 今日は Azure DevOps における縁の下の力持ちである Azure Pipelines エージェントの更新についてのお話です。 Azure Pipelines エージェントは、Azure Pipelines">
+<meta property="og:description" content="こんにちは、Japan Developer Support Core チームの上原です。 今回は、Visual C++ Redistributable(再頒布可能パッケージ) を修復する方法についてご紹介します。 はじめに弊社サポート窓口にお問い合わせいただく事例の中で、システムにインストールされて">
 <meta property="og:locale" content="ja_JP">
-<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/pipelines-agent-update/updateagent.png">
-<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/pipelines-agent-update/updateenvironment.png">
-<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/pipelines-agent-update/autoupdate1.png">
-<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/pipelines-agent-update/autoupdate2.png">
-<meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/pipelines-agent-update/autoupdate3.png">
-<meta property="article:published_time" content="2024-04-01T00:59:40.000Z">
-<meta property="article:modified_time" content="2026-04-21T07:05:06.253Z">
+<meta property="og:image" content="https://jpdscore.github.io/blog/vs/vc-repair/vc-setup.jpg">
+<meta property="og:image" content="https://jpdscore.github.io/blog/vs/vc-repair/vc-setup.jpg">
+<meta property="article:published_time" content="2026-04-21T15:00:00.000Z">
+<meta property="article:modified_time" content="2026-04-21T07:05:06.335Z">
 <meta property="article:author" content="Developer Support Core Japan">
-<meta property="article:tag" content="ALM">
-<meta property="article:tag" content="Azure DevOps Services">
+<meta property="article:tag" content="Visual Studio">
+<meta property="article:tag" content="C++">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://jpdscore.github.io/blog/azuredevops/pipelines-agent-update/updateagent.png">
+<meta name="twitter:image" content="https://jpdscore.github.io/blog/vs/vc-repair/vc-setup.jpg">
   
     <link rel="alternate" href="/blog/atom.xml" title="Japan Developer Support Core Team Blog" type="application/atom+xml">
   
@@ -87,7 +84,7 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="devops-azuredevops/pipelines-agent-update" class="article article-type-devops" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-vs/vc-repair" class="article article-type-post" itemscope itemprop="blogPost">
   
     <aside id="toc" role="complementary" aria-label="Table of Contents"></aside>
   
@@ -99,7 +96,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Azure Pipelines エージェントの更新について
+      Visual C++ Redistributable の修復方法
     </h1>
   
 
@@ -107,7 +104,7 @@
       <div class="article-share">
         Last Update: 
         <a href="" class="article-date-single">
-  <time datetime="2024-04-01T00:59:40.000Z" itemprop="datePublished">2024-04-01</time>
+  <time datetime="2026-04-21T15:00:00.000Z" itemprop="datePublished">2026-04-22</time>
 </a>
         
         <div class="article-share-buttons">
@@ -115,7 +112,7 @@
         </div>
         <div class="article-share-buttons">
           <script src="https://platform.linkedin.com/in.js" type="text/javascript">lang: ja_JP</script>
-          <script type="IN/Share" data-url="https://jpdscore.github.io/blog/azuredevops/pipelines-agent-update/"></script>
+          <script type="IN/Share" data-url="https://jpdscore.github.io/blog/vs/vc-repair/"></script>
         </div>
         <div class="article-share-buttons">
           <a target="_blank" rel="noopener" href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
@@ -124,77 +121,44 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>こんにちは、Japan Developer Support Core チームです🐶</p>
-<p>今日は Azure DevOps における縁の下の力持ちである Azure Pipelines エージェントの更新についてのお話です。</p>
-<p>Azure Pipelines エージェントは、Azure Pipelines と連携してビルドやデプロイを行うプログラムであり、Azure DevOps では、数週間おきに新しいバージョンの Agent プログラムをリリースしています。Microsoft-hosted agent は自動更新されるため、常に最新の状態を保っています。一方、Azure Virtual Machine Scale Set agent や Self-hosted agent は既定で自動更新されますが、この設定を変更して自動更新を停止することも可能です。
-ただし、エージェントは最新バージョンのみがサポートされるため、トラブルが生じた場合は、特別な事情がない限り、最新バージョンの Agent プログラムの使用をお勧めします。</p>
-<p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/azure/devops/pipelines/agents/agents?view=azure-devops&tabs=yaml,browser#self-hosted-agents">セルフホステッド エージェント</a></p>
-<blockquote>
-<p>最新バージョンのエージェントのみをサポートしているのは、それがすべての最新のパッチとバグ修正が保証されている唯一のバージョンだからです。</p>
-</blockquote>
-<p>なお、エージェントを常に最新バージョンとすることで、以下のような問題を未然に防ぐことができます。</p>
-<ul>
-<li><strong>互換性の問題:</strong> 新しいバージョンの Azure DevOps や他のソフトウェアとの互換性が失われ、パイプラインの実行が不安定になる可能性があります。</li>
-<li><strong>セキュリティリスク:</strong> セキュリティ パッチが適用されず、セキュリティの脆弱性が修正されないため、攻撃者による悪用のリスクが増加します。</li>
-<li><strong>機能の制限:</strong> 最新の機能や改善が含まれるエージェント バージョンを利用できず、効率的な開発やデプロイメントが妨げられます。</li>
-<li><strong>サポートの終了:</strong> 古いバージョンのサポートを段階的に終了する可能性があるため、問題が発生した際にサポートを受けられなくなります。</li>
-<li><strong>パフォーマンスの低下:</strong> 古いバージョンは最新のハードウェアやソフトウェアの最適化が行われていないため、パフォーマンスが低下します。</li>
-</ul>
-<hr>
-<h2 id="互換性の問題の例"><a href="#互換性の問題の例" class="headerlink" title="互換性の問題の例"></a>互換性の問題の例</h2><hr>
-<p>Azure Pipelines のタスクは、Node.js で開発されており、Node.js のサポート期限などに応じて新しいバージョンに対応するよう変更が行われます。またこれに伴い、タスクの処理を実行するエージェントも変更に対応できるよう随時更新されています。
-たとえば、SSH タスクは Node.js バージョン 10 を使用していましたが、そのサポート終了に伴い、バージョン 16 以上へと更新されています。そして、エージェントでも v2.206.1 から Node.js のバージョン 16 に対応しています。これにより、v2.206.1 以前のエージェントで SSH タスクを使用すると、下記エラーが発生します。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[error]A supported task execution handler was not found. The task does not carry an implementation that is compatible with your current operating system &#x27;Windows(X64)&#x27;. Contact the task author for more details.</span><br></pre></td></tr></table></figure>
+        <p>こんにちは、Japan Developer Support Core チームの上原です。</p>
+<p>今回は、Visual C++ Redistributable(再頒布可能パッケージ) を修復する方法についてご紹介します。</p>
+<h2 id="はじめに"><a href="#はじめに" class="headerlink" title="はじめに"></a>はじめに</h2><p>弊社サポート窓口にお問い合わせいただく事例の中で、システムにインストールされている Visual C++ Redistributable が破損し、アップデートや Visual C++ アプリケーションの動作に問題が生じるケースがあります。
+そのような破損が疑われる場合には、Visual C++ Redistributable の修復を実施することで問題が解消する可能性がありますので、本記事では Visual C++ Redistributable の修復方法についてご案内いたします。</p>
+<p>なお、Visual C++ Redistributable に関する一般的なトラブルシューティングは、<a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/cpp/windows/troubleshoot-vc-redistributable-installation-issues?view=msvc-170">こちらの記事</a> に紹介がありますので、こちらも併せてご確認ください。</p>
+<p><em>注意: 本記事では Visual C++ 2015 以降のバージョンを、特に現在サポートされている Visual C++ 2017 以降のバージョンを前提にご説明しております。</em></p>
+<h2 id="概要"><a href="#概要" class="headerlink" title="概要"></a>概要</h2><p>Visual C++ Redistributable における修復とは、主にインストーラーから再度インストール(修復インストール) を実行することで、インストールしたファイルやレジストリの正常化を試みるものです。
+例えばシステムに Visual C++ バージョン 14.50 がインストールされており、修復を試みる場合には、バージョン 14.50 のインストーラーを実行し、修復を試みる必要があります。</p>
+<p>そのため、主な修復方法として <strong>(a)システム内のキャッシュを用いた修復方法</strong> と、対応するインストーラーを入手して実施する <strong>(b)インストーラーを用いた修復方法</strong> をご紹介します。</p>
+<h2 id="a-システム内のキャッシュを用いた修復方法"><a href="#a-システム内のキャッシュを用いた修復方法" class="headerlink" title="(a)システム内のキャッシュを用いた修復方法"></a>(a)システム内のキャッシュを用いた修復方法</h2><p>通常、システムに Visual C++ Redistributable がインストールされると、修復やアンインストールに備えて、インストールに利用したインストーラーがシステムにキャッシュされます。
+そのため、コントロールパネルや設定アプリなどのインストール済みアプリケーションの画面から、システムにキャッシュされたインストーラーを用いた修復を試みることができます。</p>
+<p>例えば、Windows 11 version 25H2 では、スタートメニューの <strong>設定/アプリ/インストールされているアプリ</strong> の画面から、修復対象の Visual C++ Redistributable の <strong>変更</strong> からインストーラーを実行し、表示されるダイアログから <strong>修復</strong> を実行します。</p>
+<p><img src="vc-setup.jpg" alt="Visual C++ Redistributable のセットアップ画面"></p>
+<p>なお、OS により具体的な手順は異なりますので、詳細は <a target="_blank" rel="noopener" href="https://support.microsoft.com/ja-jp/windows/windows-%E3%81%A7%E3%82%A2%E3%83%97%E3%83%AA%E3%81%A8%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0%E3%82%92%E4%BF%AE%E5%BE%A9%E3%81%99%E3%82%8B-e90eefe4-d0a2-7c1b-dd59-949a9030f317">弊社ドキュメント</a> をご参照ください。</p>
+<h2 id="b-インストーラーを用いた修復方法"><a href="#b-インストーラーを用いた修復方法" class="headerlink" title="(b)インストーラーを用いた修復方法"></a>(b)インストーラーを用いた修復方法</h2><p>インストールされている Visual C++ が破損している状況によっては、システムにキャッシュされているインストーラーが利用できないという可能性もあります。
+一例として、<a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/cpp/windows/troubleshoot-vc-redistributable-installation-issues?view=msvc-170#older-version-cant-be-removed">古いバージョンを削除できない</a> ため、上位バージョンのインストールに失敗するという事例では、古いバージョンのインストーラーが破損・消失しており、システムのキャッシュも含めて修復する必要があります。</p>
+<p>このような場合には、システムでインストールされている Visual C++ Redistributable と同一バージョンのインストーラーを入手し、入手したインストーラーを実行することで修復を実施する必要があります。</p>
+<h3 id="Visual-C-Redistributable-バージョンの確認"><a href="#Visual-C-Redistributable-バージョンの確認" class="headerlink" title="Visual C++ Redistributable バージョンの確認"></a>Visual C++ Redistributable バージョンの確認</h3><p>システムにインストールされている Visual C++ Redistributable のバージョンは、システムの <strong>設定/アプリ/インストールされているアプリ</strong> の画面などから、バージョン 14.x といった表記で確認することが可能です。
+なお、Visual C++ Redistributable には、x86、x64 などがそれぞれ独立したソフトウェアとして提供されていますので、修復対象のアーキテクチャについてもあわせてご確認ください。</p>
+<p>また、インストールされている Visual C++ Redistributable のバージョン番号は、<a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/cpp/windows/redistributing-visual-cpp-files?view=msvc-170#install-the-redistributable-packages">ドキュメント</a> 記載の以下のレジストリからもご確認いただけます。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\VisualStudio\14.0\VC\Runtimes\&#123;x86|x64|arm64&#125;</span><br></pre></td></tr></table></figure>
 
-<p>この場合は、エージェントのバージョンを v2.206.1 以降のバージョンに更新することで、エラーを解消できます。</p>
-<hr>
-<h2 id="エージェントの更新方法について"><a href="#エージェントの更新方法について" class="headerlink" title="エージェントの更新方法について"></a>エージェントの更新方法について</h2><hr>
-<p>エージェントの手動でのバージョンアップは、Azure DevOps Services の Web ポータルから行うことができます。以下に具体的な手順を紹介します。</p>
-<ol>
-<li>[Organization settings] - [Agent pools] ページを開きます。</li>
-<li>対象のエージェントがある Agent Pool を選択します。</li>
-<li>[Agents] タブを選択し、登録されているエージェントの一覧とバージョンを確認します。</li>
-<li>対象のエージェントの右端にある [Update agent] をクリックします。
-<img src="updateagent.png">
-※複数のエージェントを更新する場合は、右上にある [Update all agents] ボタンを使用できます。</li>
-<li>[Update] ボタンをクリックしてバージョンアップを進めます。</li>
-</ol>
-<p>エージェントがオンラインの場合、バージョンアップ用のジョブがキューに登録され、エージェントが自動的にパッケージのダウンロードからバージョンアップまでを行います。オフラインの場合は、エージェントを起動してから更新を実施してください。</p>
-<h4 id="注意点"><a href="#注意点" class="headerlink" title="注意点:"></a>注意点:</h4><ul>
-<li>エージェントがバージョンアップを行うためには、パッケージのダウンロードが可能である必要があります。ファイア ウォールやプロキシの設定を確認し、必要な URL へのアクセスを許可してください。これらの URL は、下記公式ドキュメントに「Agent Package」として記載されています。
-<a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/azure/devops/pipelines/agents/linux-agent?view=azure-devops#im-running-a-firewall-and-my-code-is-in-azure-repos-what-urls-does-the-agent-need-to-communicate-with">I&#39;m running a firewall and my code is in Azure Repos. What URLs does the agent need to communicate with?</a></li>
-<li>パッケージのダウンロードが許可されていない場合は、いったんエージェントを削除し、新しいバージョンのパッケージを使用して再登録する必要があります。具体的な手順については <a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/azure/devops/pipelines/agents/linux-agent?view=azure-devops#remove-and-reconfigure-an-agent">エージェントの削除と再構成</a> をご参照ください。</li>
-<li>Environments や Deployment groups にターゲット マシン（エージェント）を登録した場合は、最初にインストールしたエージェント バージョンにて動作し、Agent pools のように、自動的にエージェント バージョンを更新するような機能はありません。
-Environments の場合、エージェント バージョンを最新へ更新する方法としては、以下のとおりです。</li>
-</ul>
-<ol>
-<li><p>   [Organization Settings] &gt; [Deployment pools] を開きます。</p>
-</li>
-<li><p>   &quot;environment-&quot; から始まる名前の pool を確認し、更新対象のターゲット マシンを検索します。</p>
-</li>
-<li><p>&quot;environment-&quot; から [...] を選択して、[Update targets] を選択します。
-<img src="updateenvironment.png"></p>
-<p>Deployment groups の場合は、[Devployment groups] からエージェントを選択して、同様に [Update targets] から更新可能です。詳細については、<a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/azure/devops/pipelines/release/deployment-groups/?view=azure-devops#set-up-agents-on-deployment-groups">配置グループにエージェントを設定する</a> をご確認ください。</p>
-</li>
-</ol>
-<p>なお、通信上の問題等で自動更新の設定を変更したい場合は、以下のとおりです。</p>
-<hr>
-<h2 id="自動更新の設定変更方法について"><a href="#自動更新の設定変更方法について" class="headerlink" title="自動更新の設定変更方法について"></a>自動更新の設定変更方法について</h2><hr>
-<ol>
-<li><p>Azure DevOps ポータル (<a target="_blank" rel="noopener" href="https://dev.azure.com/%7BOrganization">https://dev.azure.com/{Organization</a> 名}) へアクセスし、[Organization settings] を選択します。
-<img src="autoupdate1.png"></p>
-</li>
-<li><p>[Agent pools] を選択し、目的の Agent pool を選択します。
-<img src="autoupdate2.png"></p>
-</li>
-<li><p>[Settings] タブ内、[Agent update settings] の [Allow agents in this pool to automatically update] を OFF にします。既定では ON です。
-<img src="autoupdate3.png"></p>
-</li>
-</ol>
-<p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/azure/devops/release-notes/2020/sprint-165-update#disable-automatic-agents-upgrades-at-a-pool-level">自動エージェントアップグレードの無効化</a></p>
-<p>自動更新には適切な通信設定が必要です。エージェントは Azure DevOps サービスと通信して最新の状態を保つため、ファイア ウォールやプロキシの設定を確認し、必要な通信が行えるようにしてください。通信上の問題で自動更新ができない場合は、上述の<a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/azure/devops/pipelines/agents/linux-agent?view=azure-devops#remove-and-reconfigure-an-agent">エージェントの削除と再構成</a>が必要です。</p>
-<p>最新の技術を安全に、そして効率的に利用するためにも、エージェントのバージョン管理には十分注意してください。
-皆様の開発環境が常に最良の状態であることを願っています。</p>
+<h3 id="インストーラーの入手"><a href="#インストーラーの入手" class="headerlink" title="インストーラーの入手"></a>インストーラーの入手</h3><p>修復対象のバージョンに対応する Visual C++ Redistributable のインストーラーについては、<a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/cpp/windows/troubleshoot-vc-redistributable-installation-issues?view=msvc-170#old-vcredist-versions">こちらのドキュメント</a> 記載の手順と URL で入手することが可能です。</p>
+<p>一例として、バージョン <em>14.30 から 14.44</em> のインストーラーは <code>https://aka.ms/vs/17/release/&lt;version&gt;/VC_redist.&lt;arch&gt;.exe</code> という形式で表記されるため、バージョン 14.32.31332 のインストーラーは <code>https://aka.ms/vs/17/release/14.32.31332/VC_redist.arm64.exe</code> からダウンロードが可能です。</p>
+<h3 id="修復の実施"><a href="#修復の実施" class="headerlink" title="修復の実施"></a>修復の実施</h3><p>入手したインストーラーを起動し、表示されるダイアログから <strong>修復</strong> を実行することで、Visual C++ の修復を試みることが可能です。</p>
+<p>具体的には、エクスプローラーから入手したインストーラー(例: vc_redist.x64.exe) をダブルクリックで起動し、表示されるダイアログから <strong>修復</strong> を実施します。</p>
+<p><img src="vc-setup.jpg" alt="(再掲)Visual C++ Redistributable のセットアップ画面"></p>
+<p>あるいは、コマンドプロンプトから <strong>/repair</strong> オプションを付与し、実行いただくことも可能です。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vc_redist.x64.exe /repair</span><br></pre></td></tr></table></figure>
+
+<h2 id="参考情報-原因調査について"><a href="#参考情報-原因調査について" class="headerlink" title="参考情報: 原因調査について"></a>参考情報: 原因調査について</h2><p>Visual C++ Redistributable の破損について、弊社サポート窓口では破損に至った原因の調査をご要望いただくことがあります。
+しかしながら、多くの場合、破損に至った原因の調査には、Visual C++ が破損した時点の状況を再現する必要があり、再現が難しい場合には、原因特定が困難であることが予想されます。</p>
+<p>一例としまして、Visual C++ ランタイムに含まれる vcruntime140.dll が消失しているケースでは、ランタイムが存在しないことで、Visual C++ アプリケーションが起動せず、エラーが表示されるといった問題が発生します。</p>
+<p>この場合、アプリケーションの起動に失敗する直接の要因は vcruntime140.dll が消失していることにありますが、ファイルが消失した、つまりファイルが削除された根本原因を特定するためには、削除された時点に遡って要因を調査する必要があります。
+通常、過去に削除されたファイルを、未来の時点から遡って調査する方法はありませんので、このような状況の場合にはファイルが削除される状況を意図的に再現し、削除を行っているプロセスやサービスなどを特定するといったアプローチが必要となります。</p>
+<p>上記のような事例では、調査には意図的に破損した時点を再現しての調査が必要となり、事象を意図的に再現することが難しい場合には、それ以上の調査が困難となります。</p>
+<p>Visual C++ の破損には様々な状況や要因が想定されますので、私たちサポート窓口にお問い合わせいただいた事例の中には、稀にシステムに標準で出力されるログなどから要因を推測することが可能であったという報告もあります。
+しかしながら、多くの場合、Visual C++ が破損した原因調査には、破損した時点を再現しての調査が必要となりますので、私どもサポート窓口に原因調査をご用命いただく際には、事前にクリーン環境から事象が再現可能であるかをご確認の上、お問い合わせいただけますと幸いです。</p>
 
       
       
@@ -208,11 +172,11 @@ Environments の場合、エージェント バージョンを最新へ更新す
     <footer class="article-footer">
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/ALM/" rel="tag">ALM</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Azure-DevOps-Services/" rel="tag">Azure DevOps Services</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/C/" rel="tag">C++</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Visual-Studio/" rel="tag">Visual Studio</a></li></ul>
 
       <!-- 
       
-        <a href="https://github.com/jpdscore/blog/edit/master/articles/azuredevops/pipelines-agent-update.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
+        <a href="https://github.com/jpdscore/blog/edit/master/articles/vs/vc-repair.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
         
       -->
     </footer>
@@ -221,19 +185,10 @@ Environments の場合、エージェント バージョンを最新へ更新す
     
 <nav id="article-nav">
   
-    <a href="../service-connection-update/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">次の記事</strong>
-      <div class="article-nav-title">
-        
-          Azure DevOps Service Connection の更新について
-        
-      </div>
-    </a>
   
-  
-    <a href="../tfs-basic-log-collection/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="../vs-verify-offline/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">前の記事</strong>
-      <div class="article-nav-title">Team Foundation Server / Azure DevOps Server のトラブルシューティング用データ採取について</div>
+      <div class="article-nav-title">Visual Studio オフライン インストーラーの検証</div>
     </a>
   
 </nav>
@@ -252,15 +207,15 @@ Environments の場合、エージェント バージョンを最新へ更新す
       <ul>
         
           <li>
-            <a href="../../vs/vc-repair/">Visual C++ Redistributable の修復方法</a>
+            <a href="">Visual C++ Redistributable の修復方法</a>
           </li>
         
           <li>
-            <a href="../../vs/vs-verify-offline/">Visual Studio オフライン インストーラーの検証</a>
+            <a href="../vs-verify-offline/">Visual Studio オフライン インストーラーの検証</a>
           </li>
         
           <li>
-            <a href="../../vs/vs-dev-essentials/">Visual Studio Dev Essentials のご紹介</a>
+            <a href="../vs-dev-essentials/">Visual Studio Dev Essentials のご紹介</a>
           </li>
         
           <li>
