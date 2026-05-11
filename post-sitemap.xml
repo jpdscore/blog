@@ -10,7 +10,7 @@
 
     <url>
         <loc>https://jpdscore.github.io/blog/xamarin/create-xamarinforms-try-xamarinuitest-vs2019/</loc>
-        <lastmod>2026-04-21T07:05:06.343Z</lastmod>
+        <lastmod>2026-05-11T09:01:03.637Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -18,7 +18,7 @@
 
     <url>
         <loc>https://jpdscore.github.io/blog/windowssdk/note-when-use-selectobject-function/</loc>
-        <lastmod>2026-04-21T07:05:06.342Z</lastmod>
+        <lastmod>2026-05-11T09:01:03.635Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -26,7 +26,7 @@
 
     <url>
         <loc>https://jpdscore.github.io/blog/windowssdk/printer-temporarily-appears-when-use-addprinter-function/</loc>
-        <lastmod>2026-04-21T07:05:06.342Z</lastmod>
+        <lastmod>2026-05-11T09:01:03.635Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -34,7 +34,7 @@
 
     <url>
         <loc>https://jpdscore.github.io/blog/windowssdk/wuaapi-install-later/</loc>
-        <lastmod>2026-04-21T07:05:06.342Z</lastmod>
+        <lastmod>2026-05-11T09:01:03.635Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -42,7 +42,7 @@
 
     <url>
         <loc>https://jpdscore.github.io/blog/windowssdk/wuaapi-install-updates/</loc>
-        <lastmod>2026-04-21T07:05:06.342Z</lastmod>
+        <lastmod>2026-05-11T09:01:03.635Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -50,79 +50,7 @@
 
     <url>
         <loc>https://jpdscore.github.io/blog/windowssdk/mouse-ops-on-windows-forms-with-activex/</loc>
-        <lastmod>2026-04-21T07:05:06.340Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://jpdscore.github.io/blog/vs/vs2015-support-retirement/</loc>
-        <lastmod>2026-04-21T07:05:06.338Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://jpdscore.github.io/blog/vs/vs2019-16-3-incorrectly-detect-avx512/</loc>
-        <lastmod>2026-04-21T07:05:06.338Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://jpdscore.github.io/blog/vs/vs2019-16-0-eos/</loc>
-        <lastmod>2026-04-21T07:05:06.338Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://jpdscore.github.io/blog/vs/vs2022-offline-install/</loc>
-        <lastmod>2026-04-21T07:05:06.338Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://jpdscore.github.io/blog/vs/vs2022-requirement/</loc>
-        <lastmod>2026-04-21T07:05:06.338Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://jpdscore.github.io/blog/vs/vs2022-update-license/</loc>
-        <lastmod>2026-04-21T07:05:06.338Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://jpdscore.github.io/blog/vs/vs2026-msvc-lifecycle/</loc>
-        <lastmod>2026-04-21T07:05:06.338Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://jpdscore.github.io/blog/vs/vs2026-supportlifecycle/</loc>
-        <lastmod>2026-04-21T07:05:06.338Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://jpdscore.github.io/blog/vs/what-developers-should-know-about-floating-point/</loc>
-        <lastmod>2026-04-21T07:05:06.338Z</lastmod>
+        <lastmod>2026-05-11T09:01:03.634Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -130,7 +58,31 @@
 
     <url>
         <loc>https://jpdscore.github.io/blog/vscode/devcontainer_intro/</loc>
-        <lastmod>2026-04-21T07:05:06.338Z</lastmod>
+        <lastmod>2026-05-11T09:01:03.632Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://jpdscore.github.io/blog/vs/vs2026-offline-update/</loc>
+        <lastmod>2026-05-11T09:01:03.632Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://jpdscore.github.io/blog/vs/vs2026-supportlifecycle/</loc>
+        <lastmod>2026-05-11T09:01:03.632Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://jpdscore.github.io/blog/vs/what-developers-should-know-about-floating-point/</loc>
+        <lastmod>2026-05-11T09:01:03.632Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -138,55 +90,63 @@
 
     <url>
         <loc>https://jpdscore.github.io/blog/vs/vs2013-signin-error/</loc>
-        <lastmod>2026-04-21T07:05:06.337Z</lastmod>
+        <lastmod>2026-05-11T09:01:03.631Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
     </url>
 
     <url>
-        <loc>https://jpdscore.github.io/blog/vs/vs-offline-install-certificate-error/</loc>
-        <lastmod>2026-04-21T07:05:06.336Z</lastmod>
+        <loc>https://jpdscore.github.io/blog/vs/vs2015-support-retirement/</loc>
+        <lastmod>2026-05-11T09:01:03.631Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
     </url>
 
     <url>
-        <loc>https://jpdscore.github.io/blog/vs/vs-verify-offline/</loc>
-        <lastmod>2026-04-21T07:05:06.336Z</lastmod>
+        <loc>https://jpdscore.github.io/blog/vs/vs2019-16-0-eos/</loc>
+        <lastmod>2026-05-11T09:01:03.631Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
     </url>
 
     <url>
-        <loc>https://jpdscore.github.io/blog/vs/vc-repair/</loc>
-        <lastmod>2026-04-21T07:05:06.335Z</lastmod>
+        <loc>https://jpdscore.github.io/blog/vs/vs2019-16-3-incorrectly-detect-avx512/</loc>
+        <lastmod>2026-05-11T09:01:03.631Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
     </url>
 
     <url>
-        <loc>https://jpdscore.github.io/blog/vs/vc-silent-install/</loc>
-        <lastmod>2026-04-21T07:05:06.335Z</lastmod>
+        <loc>https://jpdscore.github.io/blog/vs/vs2022-offline-install/</loc>
+        <lastmod>2026-05-11T09:01:03.631Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
     </url>
 
     <url>
-        <loc>https://jpdscore.github.io/blog/vs/vc2015-compatibility/</loc>
-        <lastmod>2026-04-21T07:05:06.335Z</lastmod>
+        <loc>https://jpdscore.github.io/blog/vs/vs2022-requirement/</loc>
+        <lastmod>2026-05-11T09:01:03.631Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
     </url>
 
     <url>
-        <loc>https://jpdscore.github.io/blog/vs/visual-studio-isenslogon-subscription-eventlog-warning/</loc>
-        <lastmod>2026-04-21T07:05:06.335Z</lastmod>
+        <loc>https://jpdscore.github.io/blog/vs/vs2022-update-license/</loc>
+        <lastmod>2026-05-11T09:01:03.631Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://jpdscore.github.io/blog/vs/vs2026-msvc-lifecycle/</loc>
+        <lastmod>2026-05-11T09:01:03.631Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -194,15 +154,55 @@
 
     <url>
         <loc>https://jpdscore.github.io/blog/vs/vs-dev-essentials/</loc>
-        <lastmod>2026-04-21T07:05:06.335Z</lastmod>
+        <lastmod>2026-05-11T09:01:03.630Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
     </url>
 
     <url>
-        <loc>https://jpdscore.github.io/blog/vs/troubleshooting-application-error-with-ghcopilot/</loc>
-        <lastmod>2026-04-21T07:05:06.332Z</lastmod>
+        <loc>https://jpdscore.github.io/blog/vs/vs-offline-install-certificate-error/</loc>
+        <lastmod>2026-05-11T09:01:03.630Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://jpdscore.github.io/blog/vs/vs-verify-offline/</loc>
+        <lastmod>2026-05-11T09:01:03.630Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://jpdscore.github.io/blog/vs/vc-repair/</loc>
+        <lastmod>2026-05-11T09:01:03.629Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://jpdscore.github.io/blog/vs/vc-silent-install/</loc>
+        <lastmod>2026-05-11T09:01:03.629Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://jpdscore.github.io/blog/vs/vc2015-compatibility/</loc>
+        <lastmod>2026-05-11T09:01:03.629Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://jpdscore.github.io/blog/vs/visual-studio-isenslogon-subscription-eventlog-warning/</loc>
+        <lastmod>2026-05-11T09:01:03.629Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -210,31 +210,15 @@
 
     <url>
         <loc>https://jpdscore.github.io/blog/vs/identity-of-build-artifacts-from-identical-source/</loc>
-        <lastmod>2026-04-21T07:05:06.331Z</lastmod>
+        <lastmod>2026-05-11T09:01:03.625Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
     </url>
 
     <url>
-        <loc>https://jpdscore.github.io/blog/playfab/order-of-leaderboard-positions/</loc>
-        <lastmod>2026-04-21T07:05:06.328Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://jpdscore.github.io/blog/playfab/studio-creation-recommendation/</loc>
-        <lastmod>2026-04-21T07:05:06.328Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://jpdscore.github.io/blog/vs/create-a-simple-app-with-ghcopilot/</loc>
-        <lastmod>2026-04-21T07:05:06.328Z</lastmod>
+        <loc>https://jpdscore.github.io/blog/vs/troubleshooting-application-error-with-ghcopilot/</loc>
+        <lastmod>2026-05-11T09:01:03.625Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -242,7 +226,31 @@
 
     <url>
         <loc>https://jpdscore.github.io/blog/playfab/grantitemstouser-timeout/</loc>
-        <lastmod>2026-04-21T07:05:06.327Z</lastmod>
+        <lastmod>2026-05-11T09:01:03.621Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://jpdscore.github.io/blog/playfab/order-of-leaderboard-positions/</loc>
+        <lastmod>2026-05-11T09:01:03.621Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://jpdscore.github.io/blog/playfab/studio-creation-recommendation/</loc>
+        <lastmod>2026-05-11T09:01:03.621Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://jpdscore.github.io/blog/vs/create-a-simple-app-with-ghcopilot/</loc>
+        <lastmod>2026-05-11T09:01:03.621Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -250,7 +258,7 @@
 
     <url>
         <loc>https://jpdscore.github.io/blog/playfab/dau-limit-exceeded/</loc>
-        <lastmod>2026-04-21T07:05:06.326Z</lastmod>
+        <lastmod>2026-05-11T09:01:03.620Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -258,7 +266,7 @@
 
     <url>
         <loc>https://jpdscore.github.io/blog/general/welcome/</loc>
-        <lastmod>2026-04-21T07:05:06.319Z</lastmod>
+        <lastmod>2026-05-11T09:01:03.612Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -266,15 +274,7 @@
 
     <url>
         <loc>https://jpdscore.github.io/blog/maui/iosWidgets/</loc>
-        <lastmod>2026-04-21T07:05:06.319Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://jpdscore.github.io/blog/dotnet/relationship-between-ndp-versions/</loc>
-        <lastmod>2026-04-21T07:05:06.318Z</lastmod>
+        <lastmod>2026-05-11T09:01:03.612Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -282,7 +282,7 @@
 
     <url>
         <loc>https://jpdscore.github.io/blog/dotnet/netfx-4-upgrade/</loc>
-        <lastmod>2026-04-21T07:05:06.317Z</lastmod>
+        <lastmod>2026-05-11T09:01:03.611Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -290,7 +290,15 @@
 
     <url>
         <loc>https://jpdscore.github.io/blog/dotnet/netfx-how-to-repair/</loc>
-        <lastmod>2026-04-21T07:05:06.317Z</lastmod>
+        <lastmod>2026-05-11T09:01:03.611Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://jpdscore.github.io/blog/dotnet/relationship-between-ndp-versions/</loc>
+        <lastmod>2026-05-11T09:01:03.611Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -298,7 +306,7 @@
 
     <url>
         <loc>https://jpdscore.github.io/blog/dotnet/gs-failure-during-gc/</loc>
-        <lastmod>2026-04-21T07:05:06.316Z</lastmod>
+        <lastmod>2026-05-11T09:01:03.610Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -306,39 +314,7 @@
 
     <url>
         <loc>https://jpdscore.github.io/blog/dotnet/list-assemblies-in-gac-by-fusion-api/</loc>
-        <lastmod>2026-04-21T07:05:06.316Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://jpdscore.github.io/blog/dotnet/ndp-upgrade-and-downgrade/</loc>
-        <lastmod>2026-04-21T07:05:06.316Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://jpdscore.github.io/blog/dotnet/ndp452-46-461-eos/</loc>
-        <lastmod>2026-04-21T07:05:06.316Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://jpdscore.github.io/blog/dotnet/netfx-4-compatibility/</loc>
-        <lastmod>2026-04-21T07:05:06.316Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://jpdscore.github.io/blog/dotnet/netfx-4-rollup/</loc>
-        <lastmod>2026-04-21T07:05:06.316Z</lastmod>
+        <lastmod>2026-05-11T09:01:03.610Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -346,31 +322,39 @@
 
     <url>
         <loc>https://jpdscore.github.io/blog/dotnet/memoryleak-using-sta-thread/</loc>
-        <lastmod>2026-04-21T07:05:06.316Z</lastmod>
+        <lastmod>2026-05-11T09:01:03.610Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
     </url>
 
     <url>
-        <loc>https://jpdscore.github.io/blog/dotnet/dotnet-auto-updates/</loc>
-        <lastmod>2026-04-21T07:05:06.315Z</lastmod>
+        <loc>https://jpdscore.github.io/blog/dotnet/ndp-upgrade-and-downgrade/</loc>
+        <lastmod>2026-05-11T09:01:03.610Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
     </url>
 
     <url>
-        <loc>https://jpdscore.github.io/blog/dotnet/dotnet-manual-updates/</loc>
-        <lastmod>2026-04-21T07:05:06.315Z</lastmod>
+        <loc>https://jpdscore.github.io/blog/dotnet/ndp452-46-461-eos/</loc>
+        <lastmod>2026-05-11T09:01:03.610Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
     </url>
 
     <url>
-        <loc>https://jpdscore.github.io/blog/dotnet/feee-managed-heap-corruption/</loc>
-        <lastmod>2026-04-21T07:05:06.315Z</lastmod>
+        <loc>https://jpdscore.github.io/blog/dotnet/netfx-4-compatibility/</loc>
+        <lastmod>2026-05-11T09:01:03.610Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://jpdscore.github.io/blog/dotnet/netfx-4-rollup/</loc>
+        <lastmod>2026-05-11T09:01:03.610Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -378,7 +362,7 @@
 
     <url>
         <loc>https://jpdscore.github.io/blog/dotnet/feee-when-managed-thread-is-terminated/</loc>
-        <lastmod>2026-04-21T07:05:06.315Z</lastmod>
+        <lastmod>2026-05-11T09:01:03.609Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -386,7 +370,31 @@
 
     <url>
         <loc>https://jpdscore.github.io/blog/dotnet/common-issues-caused-by-dotnet-profiler/</loc>
-        <lastmod>2026-04-21T07:05:06.314Z</lastmod>
+        <lastmod>2026-05-11T09:01:03.608Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://jpdscore.github.io/blog/dotnet/dotnet-manual-updates/</loc>
+        <lastmod>2026-05-11T09:01:03.608Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://jpdscore.github.io/blog/dotnet/dotnet-auto-updates/</loc>
+        <lastmod>2026-05-11T09:01:03.608Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://jpdscore.github.io/blog/dotnet/feee-managed-heap-corruption/</loc>
+        <lastmod>2026-05-11T09:01:03.608Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -394,7 +402,7 @@
 
     <url>
         <loc>https://jpdscore.github.io/blog/devtestlabs/auto-shutdown-permission/</loc>
-        <lastmod>2026-04-21T07:05:06.311Z</lastmod>
+        <lastmod>2026-05-11T09:01:03.604Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -402,7 +410,7 @@
 
     <url>
         <loc>https://jpdscore.github.io/blog/devbox/timezone-in-devbox/</loc>
-        <lastmod>2026-04-21T07:05:06.310Z</lastmod>
+        <lastmod>2026-05-11T09:01:03.603Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -410,7 +418,7 @@
 
     <url>
         <loc>https://jpdscore.github.io/blog/devtestlabs/auto-shutdown-command/</loc>
-        <lastmod>2026-04-21T07:05:06.310Z</lastmod>
+        <lastmod>2026-05-11T09:01:03.603Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -418,15 +426,7 @@
 
     <url>
         <loc>https://jpdscore.github.io/blog/deployment/unknown-publisher-on-clickonce-trust-prompt/</loc>
-        <lastmod>2026-04-21T07:05:06.308Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://jpdscore.github.io/blog/deployment/fail-to-launch-clickonce-apps-after-updated/</loc>
-        <lastmod>2026-04-21T07:05:06.305Z</lastmod>
+        <lastmod>2026-05-11T09:01:03.602Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -434,7 +434,7 @@
 
     <url>
         <loc>https://jpdscore.github.io/blog/deployment/nothing-happens-when-attempting-to-launch-clickonce-apps/</loc>
-        <lastmod>2026-04-21T07:05:06.305Z</lastmod>
+        <lastmod>2026-05-11T09:01:03.599Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -442,7 +442,15 @@
 
     <url>
         <loc>https://jpdscore.github.io/blog/debugging/using-WER/</loc>
-        <lastmod>2026-04-21T07:05:06.304Z</lastmod>
+        <lastmod>2026-05-11T09:01:03.598Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://jpdscore.github.io/blog/deployment/fail-to-launch-clickonce-apps-after-updated/</loc>
+        <lastmod>2026-05-11T09:01:03.598Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -450,7 +458,7 @@
 
     <url>
         <loc>https://jpdscore.github.io/blog/debugging/open-dump-by-windbg/</loc>
-        <lastmod>2026-04-21T07:05:06.302Z</lastmod>
+        <lastmod>2026-05-11T09:01:03.596Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -458,7 +466,7 @@
 
     <url>
         <loc>https://jpdscore.github.io/blog/debugging/understanding-symbol-files-and-visual-studios-symbol-settings/</loc>
-        <lastmod>2026-04-21T07:05:06.302Z</lastmod>
+        <lastmod>2026-05-11T09:01:03.596Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -466,7 +474,7 @@
 
     <url>
         <loc>https://jpdscore.github.io/blog/debugging/oom-on-x86apps/</loc>
-        <lastmod>2026-04-21T07:05:06.301Z</lastmod>
+        <lastmod>2026-05-11T09:01:03.595Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -474,7 +482,7 @@
 
     <url>
         <loc>https://jpdscore.github.io/blog/debugging/open-binaries-by-windbg/</loc>
-        <lastmod>2026-04-21T07:05:06.301Z</lastmod>
+        <lastmod>2026-05-11T09:01:03.595Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -482,7 +490,7 @@
 
     <url>
         <loc>https://jpdscore.github.io/blog/debugging/mcp-server-for-dbgeng/</loc>
-        <lastmod>2026-04-21T07:05:06.297Z</lastmod>
+        <lastmod>2026-05-11T09:01:03.590Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -490,7 +498,7 @@
 
     <url>
         <loc>https://jpdscore.github.io/blog/debugging/copilot-sdk-with-windbgx-as-tool/</loc>
-        <lastmod>2026-04-21T07:05:06.295Z</lastmod>
+        <lastmod>2026-05-11T09:01:03.589Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -498,15 +506,7 @@
 
     <url>
         <loc>https://jpdscore.github.io/blog/debugging/collect-procmon/</loc>
-        <lastmod>2026-04-21T07:05:06.291Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://jpdscore.github.io/blog/debugging/collect-procmon-with-adjusting-altitude/</loc>
-        <lastmod>2026-04-21T07:05:06.289Z</lastmod>
+        <lastmod>2026-05-11T09:01:03.584Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -514,7 +514,15 @@
 
     <url>
         <loc>https://jpdscore.github.io/blog/debugging/collect-dump/</loc>
-        <lastmod>2026-04-21T07:05:06.288Z</lastmod>
+        <lastmod>2026-05-11T09:01:03.582Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://jpdscore.github.io/blog/debugging/collect-procmon-with-adjusting-altitude/</loc>
+        <lastmod>2026-05-11T09:01:03.582Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -522,7 +530,7 @@
 
     <url>
         <loc>https://jpdscore.github.io/blog/debugging/collect-dump-ifeo/</loc>
-        <lastmod>2026-04-21T07:05:06.288Z</lastmod>
+        <lastmod>2026-05-11T09:01:03.581Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -530,71 +538,7 @@
 
     <url>
         <loc>https://jpdscore.github.io/blog/debugging/application-error-eventlog/</loc>
-        <lastmod>2026-04-21T07:05:06.285Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://jpdscore.github.io/blog/debugging/analyze-win32-heap-leak/</loc>
-        <lastmod>2026-04-21T07:05:06.283Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://jpdscore.github.io/blog/dataclient/JDBC-TLS-Troubleshooting/</loc>
-        <lastmod>2026-04-21T07:05:06.282Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://jpdscore.github.io/blog/dataclient/Recommend-ADODB-Migration/</loc>
-        <lastmod>2026-04-21T07:05:06.282Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://jpdscore.github.io/blog/dataclient/JDBC-Tracing/</loc>
-        <lastmod>2026-04-21T07:05:06.282Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://jpdscore.github.io/blog/dataclient/Recommend-ODBCOLEDBFORSQL-Migration/</loc>
-        <lastmod>2026-04-21T07:05:06.282Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://jpdscore.github.io/blog/dataclient/Recommend-ProviderForOracle-Migration/</loc>
-        <lastmod>2026-04-21T07:05:06.282Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://jpdscore.github.io/blog/dataclient/Recommend-Jet-Migration/</loc>
-        <lastmod>2026-04-21T07:05:06.282Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://jpdscore.github.io/blog/dataclient/Understand-ADONET-Connection-Pooling/</loc>
-        <lastmod>2026-04-21T07:05:06.282Z</lastmod>
+        <lastmod>2026-05-11T09:01:03.579Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -602,7 +546,55 @@
 
     <url>
         <loc>https://jpdscore.github.io/blog/debugging/UMDH/</loc>
-        <lastmod>2026-04-21T07:05:06.282Z</lastmod>
+        <lastmod>2026-05-11T09:01:03.576Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://jpdscore.github.io/blog/debugging/analyze-win32-heap-leak/</loc>
+        <lastmod>2026-05-11T09:01:03.576Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://jpdscore.github.io/blog/dataclient/Recommend-ADODB-Migration/</loc>
+        <lastmod>2026-05-11T09:01:03.575Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://jpdscore.github.io/blog/dataclient/Recommend-Jet-Migration/</loc>
+        <lastmod>2026-05-11T09:01:03.575Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://jpdscore.github.io/blog/dataclient/Recommend-ODBCOLEDBFORSQL-Migration/</loc>
+        <lastmod>2026-05-11T09:01:03.575Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://jpdscore.github.io/blog/dataclient/Recommend-ProviderForOracle-Migration/</loc>
+        <lastmod>2026-05-11T09:01:03.575Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://jpdscore.github.io/blog/dataclient/Understand-ADONET-Connection-Pooling/</loc>
+        <lastmod>2026-05-11T09:01:03.575Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -610,7 +602,23 @@
 
     <url>
         <loc>https://jpdscore.github.io/blog/dataclient/Do-Read-AllOfReceivedData/</loc>
-        <lastmod>2026-04-21T07:05:06.280Z</lastmod>
+        <lastmod>2026-05-11T09:01:03.574Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://jpdscore.github.io/blog/dataclient/JDBC-TLS-Troubleshooting/</loc>
+        <lastmod>2026-05-11T09:01:03.574Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://jpdscore.github.io/blog/dataclient/JDBC-Tracing/</loc>
+        <lastmod>2026-05-11T09:01:03.574Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -618,7 +626,7 @@
 
     <url>
         <loc>https://jpdscore.github.io/blog/azuredevops/wif-service-connection/</loc>
-        <lastmod>2026-04-21T07:05:06.279Z</lastmod>
+        <lastmod>2026-05-11T09:01:03.572Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -626,7 +634,7 @@
 
     <url>
         <loc>https://jpdscore.github.io/blog/azuredevops/use-repos-from-azuredevops/</loc>
-        <lastmod>2026-04-21T07:05:06.276Z</lastmod>
+        <lastmod>2026-05-11T09:01:03.570Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -634,7 +642,7 @@
 
     <url>
         <loc>https://jpdscore.github.io/blog/azuredevops/try-self-hosted-agent/</loc>
-        <lastmod>2026-04-21T07:05:06.272Z</lastmod>
+        <lastmod>2026-05-11T09:01:03.566Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -642,7 +650,7 @@
 
     <url>
         <loc>https://jpdscore.github.io/blog/azuredevops/signin-401-403-tsg/</loc>
-        <lastmod>2026-04-21T07:05:06.264Z</lastmod>
+        <lastmod>2026-05-11T09:01:03.557Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -650,7 +658,7 @@
 
     <url>
         <loc>https://jpdscore.github.io/blog/azuredevops/tfs-basic-log-collection/</loc>
-        <lastmod>2026-04-21T07:05:06.264Z</lastmod>
+        <lastmod>2026-05-11T09:01:03.557Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -658,7 +666,7 @@
 
     <url>
         <loc>https://jpdscore.github.io/blog/azuredevops/service-connection-update/</loc>
-        <lastmod>2026-04-21T07:05:06.258Z</lastmod>
+        <lastmod>2026-05-11T09:01:03.551Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -666,7 +674,7 @@
 
     <url>
         <loc>https://jpdscore.github.io/blog/azuredevops/pipelines-log-collection/</loc>
-        <lastmod>2026-04-21T07:05:06.256Z</lastmod>
+        <lastmod>2026-05-11T09:01:03.549Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -674,7 +682,7 @@
 
     <url>
         <loc>https://jpdscore.github.io/blog/azuredevops/pipelines-agents-ip-settings/</loc>
-        <lastmod>2026-04-21T07:05:06.255Z</lastmod>
+        <lastmod>2026-05-11T09:01:03.547Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -682,15 +690,7 @@
 
     <url>
         <loc>https://jpdscore.github.io/blog/azuredevops/pipelines-agent-update/</loc>
-        <lastmod>2026-04-21T07:05:06.253Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://jpdscore.github.io/blog/azuredevops/hosted-images-update/</loc>
-        <lastmod>2026-04-21T07:05:06.249Z</lastmod>
+        <lastmod>2026-05-11T09:01:03.546Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -698,7 +698,15 @@
 
     <url>
         <loc>https://jpdscore.github.io/blog/azuredevops/migrate-sp-to-mi/</loc>
-        <lastmod>2026-04-21T07:05:06.249Z</lastmod>
+        <lastmod>2026-05-11T09:01:03.542Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://jpdscore.github.io/blog/azuredevops/hosted-images-update/</loc>
+        <lastmod>2026-05-11T09:01:03.540Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -706,7 +714,7 @@
 
     <url>
         <loc>https://jpdscore.github.io/blog/azuredevops/extensions-support/</loc>
-        <lastmod>2026-04-21T07:05:06.247Z</lastmod>
+        <lastmod>2026-05-11T09:01:03.539Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -714,7 +722,7 @@
 
     <url>
         <loc>https://jpdscore.github.io/blog/azuredevops/deprecating-weak-cryptographic-standards-tls-1-0-and-tls-1-1-in-azure-devops/</loc>
-        <lastmod>2026-04-21T07:05:06.243Z</lastmod>
+        <lastmod>2026-05-11T09:01:03.536Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -722,7 +730,7 @@
 
     <url>
         <loc>https://jpdscore.github.io/blog/azuredevops/devops-log-collection/</loc>
-        <lastmod>2026-04-21T07:05:06.243Z</lastmod>
+        <lastmod>2026-05-11T09:01:03.536Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -730,7 +738,7 @@
 
     <url>
         <loc>https://jpdscore.github.io/blog/azuredevops/deploy-webapp-to-azure/</loc>
-        <lastmod>2026-04-21T07:05:06.239Z</lastmod>
+        <lastmod>2026-05-11T09:01:03.531Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -738,7 +746,7 @@
 
     <url>
         <loc>https://jpdscore.github.io/blog/azuredevops/DevOpsPricing/</loc>
-        <lastmod>2026-04-21T07:05:06.238Z</lastmod>
+        <lastmod>2026-05-11T09:01:03.530Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
