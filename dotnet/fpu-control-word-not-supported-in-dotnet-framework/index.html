@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>.NET Framework で浮動小数点制御ワードを変更した場合に発生する可能性がある問題について | JPDSC Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content=".NET Framework アプリケーションから _controlfp 等を呼び出して x87 FPU の制御ワードを変更すると、共通言語ランタイム (CLR) の想定外の動作によりスタック オーバーフロー等の異常終了を招く場合があることをご案内します。">
+<meta property="og:type" content="article">
+<meta property="og:title" content=".NET Framework で浮動小数点制御ワードを変更した場合に発生する可能性がある問題について">
+<meta property="og:url" content="https://jpdscore.github.io/blog/dotnet/fpu-control-word-not-supported-in-dotnet-framework/index.html">
+<meta property="og:site_name" content="Japan Developer Support Core Team Blog">
+<meta property="og:description" content=".NET Framework アプリケーションから _controlfp 等を呼び出して x87 FPU の制御ワードを変更すると、共通言語ランタイム (CLR) の想定外の動作によりスタック オーバーフロー等の異常終了を招く場合があることをご案内します。">
+<meta property="og:locale" content="ja_JP">
+<meta property="article:published_time" content="2026-05-21T15:00:00.000Z">
+<meta property="article:modified_time" content="2026-05-21T23:04:27.384Z">
+<meta property="article:author" content="Developer Support Core Japan">
+<meta property="article:tag" content="Debug">
+<meta property="article:tag" content=".NET">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/blog/atom.xml" title="Japan Developer Support Core Team Blog" type="application/atom+xml">
+  
+
+  <link rel="icon" href="../../favicon.ico">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="theme-color" content="#ffffff">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="../../css/style.css">
+
+  
+<link rel="stylesheet" href="../../css/copy-button.css">
+
+  
+<link rel="stylesheet" href="../../css/toc.css">
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="site-header-logo"></div>
+  <div id="site-header-blog-wrapper"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        <div id="ms-logo"></div>
+        
+          <a class="main-nav-link" href="../../index.html">Home</a>
+        
+          <a class="main-nav-link" href="../../archives">Archives</a>
+        
+        <a class="main-nav-link" target="_blank" rel="noopener" href="https://cssjpn.github.io/">サポート情報</a>
+        <a class="main-nav-link" href="/blog/general/welcome/">About</a>
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/blog/atom.xml" title="RSSフィード"></a>
+        
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//www.google.com/search" method="get" accept-charset="UTF-8" name="google-search" onsubmit="var f=this;if(f['q'].value){var searchUrl =  'https://www.google.com/search?q=' +  encodeURIComponent(f['q'].value + ' site:' + f['sitesearch'].value) ;window.open(searchUrl, 'blank') };return false;" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="検索"><button type="submit" id="nav-search-btn" class="search-form-submit"></button><input type="hidden" name="sitesearch" value="https://jpdscore.github.io/blog"></form>
+      </div>
+    </div>
+    <div id="header-title" class="inner">
+      <div id="logo-wrap">
+        <a href="../../index.html" id="logo">Japan Developer Support Core Team Blog</a>
+      </div>
+      
+        <div id="subtitle-wrap">
+          <a href="../../index.html" id="subtitle">日本マイクロソフトの Japan Developer Support Core チームのブログです。</a>
+        </div>
+      
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-dotnet/fpu-control-word-not-supported-in-dotnet-framework" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <aside id="toc" role="complementary" aria-label="Table of Contents"></aside>
+  
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header-single">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      .NET Framework で浮動小数点制御ワードを変更した場合に発生する可能性がある問題について
+    </h1>
+  
+
+      </header>
+      <div class="article-share">
+        Last Update: 
+        <a href="" class="article-date-single">
+  <time datetime="2026-05-21T15:00:00.000Z" itemprop="datePublished">2026-05-22</time>
+</a>
+        
+        <div class="article-share-buttons">
+          <a target="_blank" rel="noopener" href="https://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="basic-label" data-hatena-bookmark-lang="ja" data-hatena-bookmark-height="20" title="このエントリーをはてなブックマークに追加"><img src="https://b.st-hatena.com/images/v4/public/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+        </div>
+        <div class="article-share-buttons">
+          <script src="https://platform.linkedin.com/in.js" type="text/javascript">lang: ja_JP</script>
+          <script type="IN/Share" data-url="https://jpdscore.github.io/blog/dotnet/fpu-control-word-not-supported-in-dotnet-framework/"></script>
+        </div>
+        <div class="article-share-buttons">
+          <a target="_blank" rel="noopener" href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        </div>
+      </div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>こんにちは、Japan Developer Support Core チームの松井です。
+今回は、.NET Framework アプリケーションから x87 浮動小数点ユニット (FPU) の制御ワードを変更した場合に発生し得る、予期しない問題についてご案内します。</p>
+<h2 id="はじめに"><a href="#はじめに" class="headerlink" title="はじめに"></a>はじめに</h2><p>Visual C++ ランタイムの <code>_controlfp</code> や <code>_control87</code> といった関数を用いると、x86 アーキテクチャー上で動作するプロセスの x87 FPU 制御ワード (浮動小数点制御ワード) を変更できます。これにより、浮動小数点演算の精度・丸めモード・例外マスクなどを制御できます。</p>
+<p>しかしながら、**.NET Framework アプリケーションから FPU の制御ワードを変更することはサポートされていません**。.NET Framework は既定の浮動小数点制御ワードの値を前提として動作しており、これを変更するとアプリケーション内で予期しない問題が発生する場合があります。実際に弊社で確認している事例では、JIT コンパイラーや CLR の内部処理に影響して、スタック オーバーフロー例外やアクセス違反などにより異常終了するケースが報告されています。</p>
+<p>本記事では、簡単なサンプル コードを用いてこの問題を再現する例を示しつつ、推奨される対処方法についてご案内します。</p>
+<h2 id="1-背景"><a href="#1-背景" class="headerlink" title="1. 背景"></a>1. 背景</h2><p>公式ドキュメント <a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/cpp/c-runtime-library/reference/control87-controlfp-control87-2"><code>_control87</code>, <code>_controlfp</code>, <code>__control87_2</code></a> では、<code>/clr</code> (共通言語ランタイムのコンパイル) オプションを使ってコンパイルした場合についての説明として、次のように記載されています。</p>
+<blockquote>
+<p>これらの関数は、コンパイルに /clr (共通言語ランタイムのコンパイル) を使用する場合は無視されます。共通言語ランタイム (CLR) では、既定の浮動小数点精度のみをサポートします。</p>
+</blockquote>
+<p>これは C++/CLI からの呼び出しに関する記載ですが、CLR 自体が「既定の浮動小数点精度のみをサポートする」という前提で設計されている点が重要です。この前提は、C++/CLI から呼び出した場合に限らず、純粋な .NET (C# 等) のアプリケーションから P/Invoke を経由して制御ワードを変更した場合にも該当します。CLR や JIT コンパイラーは制御ワードが既定値であることを前提に各種の処理を行うため、これを変更すると内部処理の挙動が破綻し、ランタイム自体が異常な状態に陥る可能性があります。</p>
+<p>また、ゲーム開発者向けの公式ドキュメント <a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/windows/win32/dxtecharts/top-issues-for-windows-titles#manipulation-of-the-floating-point-control-word">Top Issues for Windows Titles - Manipulation of the Floating-Point Control Word</a> においても、浮動小数点制御ワードの操作について次のように案内されています。</p>
+<blockquote>
+<p>As a debugging aid, some developers have been enabling exceptions on the floating-point unit (FPU) via manipulations of the floating-point control word. Doing this is highly problematic and will likely cause the process to crash.
+(浮動小数点制御ワードを操作して FPU で例外を有効化する手法をデバッグ目的で利用する開発者がいますが、これは非常に問題が起きやすく、プロセスのクラッシュを招く可能性が高いです。)</p>
+</blockquote>
+<p>上記はゲーム開発における留意事項として案内されているものですが、同ドキュメントでは「FPU 制御ワードの操作はプロセスのクラッシュを招きやすい」という点や、「ライブラリー側で異なる丸めルールや例外動作が必要な場合は、ライブラリー内部で制御ワードを保存・復元するべきであり、外部の安全性が確認されていないコード (システム API を含む) を呼び出してはならない」という点について述べられており、これらは .NET Framework アプリケーションを設計・実装する際にも参考になる考え方です。</p>
+<h2 id="2-サンプル-コード"><a href="#2-サンプル-コード" class="headerlink" title="2. サンプル コード"></a>2. サンプル コード</h2><p>以下は x86 ターゲットで動作する .NET Framework のコンソール アプリケーションの例です。問題を再現させるためのコードを簡潔に示す目的で、P/Invoke を介して <code>ucrtbase.dll</code> の <code>_controlfp</code> を直接呼び出し、<code>_EM_INVALID</code> 例外マスクを解除しています。これにより、無効な浮動小数点演算が発生した際にハードウェア例外がスローされるようになります。</p>
+<p>なお、本サンプル コードでは説明を簡潔にする目的で .NET アプリケーション側のコードから直接 <code>_controlfp</code> を呼び出していますが、実際のお問い合わせ事例では、アプリケーション コードに <code>_controlfp</code> 等の直接的な呼び出しがないにもかかわらず、同等の問題が発生するケースもございます。代表的な原因としては、P/Invoke 経由で呼び出すネイティブ DLL、ActiveX コントロールや COM コンポーネント、サードパーティー製フレームワークなどが、内部処理として FPU 制御ワードを変更している場合があります。アプリケーション コードを見直しても問題の原因が特定できない場合は、利用しているネイティブ コンポーネントやライブラリーが制御ワードを変更していないかについてもご確認いただくことをお勧めいたします。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> System;</span><br><span class="line"><span class="keyword">using</span> System.Runtime.CompilerServices;</span><br><span class="line"><span class="keyword">using</span> System.Runtime.InteropServices;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">FpuControlWordRepro</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">internal</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title">Program</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// https://learn.microsoft.com/ja-jp/cpp/c-runtime-library/reference/control87-controlfp-control87-2</span></span><br><span class="line">        [<span class="meta">DllImport(<span class="string">&quot;ucrtbase.dll&quot;</span>, CallingConvention = CallingConvention.Cdecl)</span>]</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">extern</span> <span class="built_in">uint</span> _controlfp(<span class="built_in">uint</span> newControl, <span class="built_in">uint</span> mask);</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>()</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (RuntimeInformation.ProcessArchitecture != Architecture.X86)</span><br><span class="line">            &#123;</span><br><span class="line">                Console.WriteLine(<span class="string">&quot;Run this sample on x86 architecture.&quot;</span>);</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="built_in">uint</span> before = _controlfp(<span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">            Console.WriteLine(<span class="string">$&quot;Original control word = 0x<span class="subst">&#123;before:X4&#125;</span>&quot;</span>);</span><br><span class="line">            <span class="built_in">uint</span> after = _controlfp(<span class="number">0</span>, <span class="number">0x00000010</span> <span class="comment">/* _EM_INVALID */</span>);</span><br><span class="line">            Console.WriteLine(<span class="string">$&quot;Modified control word = 0x<span class="subst">&#123;after:X4&#125;</span>&quot;</span>);</span><br><span class="line"></span><br><span class="line">            DoSomethingWithFloatingPointValue(<span class="number">1.0</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        [<span class="meta">MethodImpl(MethodImplOptions.NoInlining)</span>]</span><br><span class="line">        <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">DoSomethingWithFloatingPointValue</span>(<span class="params"><span class="built_in">double</span> <span class="keyword">value</span></span>)</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (<span class="built_in">double</span>.IsPositiveInfinity(<span class="keyword">value</span>))</span><br><span class="line">            &#123;</span><br><span class="line">                Console.WriteLine(<span class="string">&quot;Value is positive infinity.&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (<span class="built_in">double</span>.IsNegativeInfinity(<span class="keyword">value</span>))</span><br><span class="line">            &#123;</span><br><span class="line">                Console.WriteLine(<span class="string">&quot;Value is negative infinity.&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                Console.WriteLine(<span class="string">$&quot;Value is <span class="subst">&#123;<span class="keyword">value</span>&#125;</span>&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            Console.WriteLine(<span class="string">&quot;Did not reproduce the issue here.&quot;</span>);</span><br><span class="line">            Console.WriteLine(<span class="string">&quot;Please note that reproducibility depends on multiple factors, such as the .NET runtime version, the CPU microarchitecture, and the specific code paths taken by the JIT compiler.&quot;</span>);</span><br><span class="line">            Console.WriteLine(<span class="string">&quot;Not reproducing the issue does not mean changing the control word has no problems. It may still cause issues in certain scenarios or under specific conditions.&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>このサンプル コードでは、制御ワードを変更した後、<code>DoSomethingWithFloatingPointValue</code> メソッドの中で <code>double.IsPositiveInfinity</code> および <code>double.IsNegativeInfinity</code> を呼び出して、浮動小数点値に対する単純な判定を行っています。</p>
+<p>なお、上記のサンプル コードは現象を再現させやすくするための例であり、再現性は .NET ランタイムのバージョン、CPU のマイクロアーキテクチャー、JIT コンパイラーが生成するコード パスなど、複数の要素に依存します。お手元の環境で問題が再現しない場合であっても、制御ワードを変更したことに起因する問題が潜在していないことを意味するわけではない点にご注意ください。</p>
+<h2 id="3-実行時に発生する事象"><a href="#3-実行時に発生する事象" class="headerlink" title="3. 実行時に発生する事象"></a>3. 実行時に発生する事象</h2><p>弊社で本サンプル コードを x86 構成 (32 ビット プロセス) でビルドし、.NET Framework 上で実行したところ、以下のように <code>Process is terminated due to StackOverflowException.</code> と表示されてアプリケーションが異常終了する挙動を確認しています。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Original control word = 0x9001F</span><br><span class="line">Modified control word = 0x9000F</span><br><span class="line"></span><br><span class="line">Process is terminated due to StackOverflowException.</span><br></pre></td></tr></table></figure>
+
+<p><code>Original control word = 0x9001F</code> は <code>_controlfp(0, 0)</code> の戻り値、<code>Modified control word = 0x9000F</code> は <code>_controlfp(0, 0x10)</code> で <code>_EM_INVALID</code> マスクを解除した後の戻り値です。この戻り値はハードウェアレジスターの生値ではなく、<code>_controlfp</code> がやり取りするための移植可能な抽象表現で、<code>float.h</code> で定義される定数のビットパターンに従います。<code>0x9001F</code> は <code>_EM_DENORMAL (0x80000)</code> <code>_PC_53 (0x10000)</code> <code>_EM_INVALID (0x10)</code> <code>_EM_ZERODIVIDE (0x08)</code> <code>_EM_OVERFLOW (0x04)</code> <code>_EM_UNDERFLOW (0x02)</code> <code>_EM_INEXACT (0x01)</code> の組み合わせと読み取れ、「精度 53 ビット、全 6 種類の例外マスクすべて設定」という既定の状態を表します。<code>_EM_INVALID (0x10)</code> をクリアした結果として <code>0x9000F</code> になり、<code>#IA</code> (無効な演算例外) のマスクが解除されたことが確認できます。</p>
+<p><code>Process is terminated due to StackOverflowException.</code> は .NET Framework ランタイムが <code>StackOverflowException</code> 発生時に標準エラー出力に表示するメッセージで、本サンプルではハードウェア例外の再帰的な起因により最終的にスタックを使い切ったことを示しています。</p>
+<p>引き続いて、Windows の Application イベント ログには以下のような Application Error (ソース: Application、イベント ID 1000) のログが記録されます。例外コードが <code>0xc00000fd</code> (<code>STATUS_STACK_OVERFLOW</code>) となっており、また障害が発生したモジュールが CLR ランタイム本体である <code>clr.dll</code> であることが確認できます。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">障害が発生しているアプリケーション名: FpuControlWordRepro.exe、バージョン: 1.0.0.0、タイム スタンプ: 0xdc53a7fd</span><br><span class="line">障害が発生したモジュール名: clr.dll、 バージョン: 4.8.9325.0、タイム スタンプ: 0x693b62aa</span><br><span class="line">例外コード: 0xc00000fd</span><br><span class="line">フォールト オフセット: 0x0045984a</span><br><span class="line">フォールト プロセス ID: 0x30D0</span><br><span class="line">アプリケーションのフォールトの開始時刻: 0x1DCE93290F356A1</span><br><span class="line">Faulting アプリケーション パス:  C:\Users\user1\Desktop\FpuControlWordRepro.exe</span><br><span class="line">Faulting モジュール パス:  C:\Windows\Microsoft.NET\Framework\v4.0.30319\clr.dll</span><br><span class="line">Report Id: ece04306-5e7e-4af8-8425-7a50fbd33b8f</span><br><span class="line">Faulting パッケージの完全名:</span><br><span class="line">Faulting パッケージ相対アプリケーション ID:</span><br></pre></td></tr></table></figure>
+
+<p>記事内ではこのスタック オーバーフローに至る以下の流れを、ダンプ ファイルのコール スタックを含めて詳しく見ていきます。</p>
+<ol>
+<li><code>_controlfp</code> 呼び出しにより、<code>_EM_INVALID</code> 例外マスクが解除される。</li>
+<li>その後、JIT コンパイラー (<code>clrjit.dll</code>) や JIT が生成したコードの内部で実行される浮動小数点演算において、無効な演算に該当する値が処理された際に浮動小数点ハードウェア例外 (<code>#IA</code>、Invalid Arithmetic Operation) が発生する。</li>
+<li>この浮動小数点ハードウェア例外を CLR が処理する過程で、CLR のベクター化例外ハンドラー (<code>clr!CLRVectoredExceptionHandler</code>) が呼び出されるが、このハンドラー内部の処理にも浮動小数点演算が含まれており、例外マスク解除済みの状態でこれが実行されるため、再びハードウェア例外がスローされる。</li>
+<li>これが繰り返されることで例外処理が再帰的に呼び出され、最終的にスタックを使い切ってスタック オーバーフローによる異常終了に至る。</li>
+</ol>
+<h3 id="3-1-WinDbg-でのコール-スタック解析"><a href="#3-1-WinDbg-でのコール-スタック解析" class="headerlink" title="3.1. WinDbg でのコール スタック解析"></a>3.1. WinDbg でのコール スタック解析</h3><p>異常終了時に取得したダンプ ファイルを WinDbg で開き、<code>knL</code> コマンドでコール スタックを表示すると、以下のように同じパターンのフレームが約 2,500 階層にわたって繰り返し積み上がっている状態が観測されました。下記はその全体のうち、最上部 (フレーム 00 〜 0d) と最下部 (フレーム a06 以降) のみを抜粋したものです。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line">0:000&gt; knL 1000</span><br><span class="line"> # ChildEBP RetAddr      </span><br><span class="line">00 00ee3eb0 7410653b     clr!DontCallDirectlyForceStackOverflow+0xf</span><br><span class="line">01 00ee3ed8 73f4f351     clr!CLRVectoredExceptionHandler+0xb3</span><br><span class="line">02 00ee3f24 7735382f     clr!CLRVectoredExceptionHandlerShim+0xd6</span><br><span class="line">03 00ee3f74 7734ec64     ntdll!RtlpCallVectoredHandlers+0xf8</span><br><span class="line">04 (Inline) --------     ntdll!RtlCallVectoredExceptionHandlers+0xa</span><br><span class="line">05 00ee400c 7735b5af     ntdll!RtlDispatchException+0x67</span><br><span class="line">06 00ee4b2c 73fe4c05     ntdll!KiUserExceptionDispatcher+0xf</span><br><span class="line">07 00ee4b2c 73fe4cba     clr!SOTolerantBoundaryFilter+0x66</span><br><span class="line">08 00fdee38 73e32f32     clr!invokeCompileMethodHelper+0x15e</span><br><span class="line">09 00fdee38 73e33fb0     VCRUNTIME140_CLR0400!_EH4_CallFilterFunc+0x12</span><br><span class="line">0a 00ee4b74 73f4f469     VCRUNTIME140_CLR0400!_except_handler4_common+0x80</span><br><span class="line">0b 00ee4b9c 77394822     clr!_except_handler4+0x29</span><br><span class="line">0c 00ee4bc0 773947f4     ntdll!ExecuteHandler2+0x26</span><br><span class="line">0d 00ee4c8c 7735b5af     ntdll!ExecuteHandler+0x24</span><br><span class="line"></span><br><span class="line">... (以下、フレーム 06 〜 0d とほぼ同じパターンが約 2,500 階層に渡って繰り返される) ...</span><br><span class="line"></span><br><span class="line">a01 00fdee38 73e33fb0     VCRUNTIME140_CLR0400!_EH4_CallFilterFunc+0x12</span><br><span class="line">a02 00fddef4 73f4f469     VCRUNTIME140_CLR0400!_except_handler4_common+0x80</span><br><span class="line">a03 00fddf1c 77394822     clr!_except_handler4+0x29</span><br><span class="line">a04 00fddf40 773947f4     ntdll!ExecuteHandler2+0x26</span><br><span class="line">a05 00fde00c 7735b5af     ntdll!ExecuteHandler+0x24</span><br><span class="line">a06 00fdeb34 728f4755     ntdll!KiUserExceptionDispatcher+0xf</span><br><span class="line">a07 00fdeb34 728b2fb5     clrjit!Compiler::gtHashValue+0x218</span><br><span class="line">a08 00fdeb68 728a4232     clrjit!Compiler::optCSEindex+0x39</span><br><span class="line">a09 00fdebc0 728a974a     clrjit!Compiler::optOptimizeCSEs+0xc2</span><br><span class="line">a0a 00fdebd8 728b5ed7     clrjit!Compiler::compCompile+0x344</span><br><span class="line">a0b 00fdec18 728b2468     clrjit!Compiler::compCompileHelper+0x32e</span><br><span class="line">a0c 00fdec90 728b25be     clrjit!Compiler::compCompile+0x2b0</span><br><span class="line">a0d 00fded90 728ba5ed     clrjit!jitNativeCode+0x1fa</span><br><span class="line">a0e 00fdeddc 73eb0b95     clrjit!CILJit::compileMethod+0x7d</span><br><span class="line">a0f 00fdee38 73eb0c65     clr!invokeCompileMethodHelper+0x10b</span><br><span class="line">a10 00fdee80 73eb0cba     clr!invokeCompileMethod+0x3d</span><br><span class="line">a11 00fdeeec 73eb0764     clr!CallCompileMethodWithSEHWrapper+0x3d</span><br><span class="line">a12 00fdf2ac 73eb0355     clr!UnsafeJitFunction+0x34a</span><br><span class="line">a13 00fdf3a8 73eafe41     clr!MethodDesc::MakeJitWorker+0x48c</span><br><span class="line">a14 00fdf418 73e884a4     clr!MethodDesc::DoPrestub+0x596</span><br><span class="line">a15 00fdf490 73e629ab     clr!PreStubWorker+0xef</span><br><span class="line">a16 00fdf4b4 0335092e     clr!ThePreStub+0x11</span><br><span class="line">a17 00fdf4e8 73e62526     FpuControlWordRepro!FpuControlWordRepro.Program.Main()+0xe6</span><br><span class="line">a18 00fdf4f4 73e6e549     clr!CallDescrWorkerInternal+0x34</span><br><span class="line">a19 00fdf548 73e6f217     clr!CallDescrWorkerWithHandler+0x6b</span><br><span class="line">a1a 00fdf5b8 73fab190     clr!MethodDescCallSite::CallTargetWorker+0x170</span><br><span class="line">a1b (Inline) --------     clr!MethodDescCallSite::Call+0xf</span><br><span class="line">a1c 00fdf6dc 73fab291     clr!RunMain+0x1c6</span><br><span class="line">a1d 00fdf948 73fab106     clr!Assembly::ExecuteMainMethod+0xf7</span><br><span class="line">a1e 00fdfe2c 73fab514     clr!SystemDomain::ExecuteMainMethod+0x61c</span><br><span class="line">a1f 00fdfe84 73fab45a     clr!ExecuteEXE+0x4c</span><br><span class="line">a20 00fdfec4 73edf24c     clr!_CorExeMainInternal+0xd8</span><br><span class="line">a21 00fdff00 7464a38e     clr!_CorExeMain+0x4d</span><br><span class="line">a22 00fdff3c 746dfbae     mscoreei!_CorExeMain+0x100</span><br><span class="line">a23 00fdff4c 746e5788     mscoree!ShellShim__CorExeMain+0x9e</span><br><span class="line">a24 00fdff64 74fe5d49     mscoree!_CorExeMain_Exported+0x8</span><br><span class="line">a25 00fdff64 7734d83b     kernel32!BaseThreadInitThunk+0x19</span><br><span class="line">a26 00fdffbc 7734d7c1     ntdll!__RtlUserThreadStart+0x2b</span><br><span class="line">a27 00fdffcc 00000000     ntdll!_RtlUserThreadStart+0x1b</span><br></pre></td></tr></table></figure>
+
+<p>スタックの最下部 (フレーム a17 以降) から、<code>FpuControlWordRepro.Program.Main()</code> メソッドが呼び出されている本来の処理の流れを確認できます。Main メソッドからのメソッド呼び出しに対する初回 JIT コンパイル中であるため、プリスタブ (<code>clr!ThePreStub</code>) を経由して JIT コンパイラー (<code>clrjit!Compiler::compCompile</code> 等) が実行されています。</p>
+<p>そして、フレーム a07 付近の JIT コンパイラー (<code>clrjit.dll</code>) の内部処理の最中で、最初の浮動小数点ハードウェア例外が発生しています。JIT コンパイル処理に含まれる浮動小数点演算が <code>_EM_INVALID</code> 例外マスク解除済みの状態で実行されたため、無効な演算による浮動小数点例外がスローされています。</p>
+<p>その後、フレーム a05 から 06 にかけて、以下のような Windows / CLR の例外処理パスが実行されます。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">ntdll!KiUserExceptionDispatcher       ← 浮動小数点例外を受け取る</span><br><span class="line">clr!SOTolerantBoundaryFilter</span><br><span class="line">clr!invokeCompileMethodHelper         ← JIT コンパイル中のフレーム</span><br><span class="line">VCRUNTIME140_CLR0400!_EH4_CallFilterFunc</span><br><span class="line">VCRUNTIME140_CLR0400!_except_handler4_common</span><br><span class="line">clr!_except_handler4</span><br><span class="line">ntdll!ExecuteHandler2</span><br><span class="line">ntdll!ExecuteHandler</span><br><span class="line">ntdll!RtlDispatchException</span><br><span class="line">ntdll!RtlCallVectoredExceptionHandlers</span><br><span class="line">ntdll!RtlpCallVectoredHandlers</span><br><span class="line">clr!CLRVectoredExceptionHandlerShim</span><br><span class="line">clr!CLRVectoredExceptionHandler       ← この内部で再度浮動小数点演算</span><br></pre></td></tr></table></figure>
+
+<p>CLR のベクター化例外ハンドラー (<code>clr!CLRVectoredExceptionHandler</code>) は、例外発生時の状況を解析するために内部処理として浮動小数点演算を含んでおり、これ自身が例外マスク解除済みの状態で実行されるため、再び浮動小数点ハードウェア例外を発生させます。これによりベクター化例外ハンドラーが再帰的に呼び出され、フレーム 06 〜 0d のパターンが約 2,500 階層に渡って積み重なります。最終的にスタックを使い切ったところで、フレーム 00 の <code>clr!DontCallDirectlyForceStackOverflow</code> (CLR が <code>STATUS_STACK_OVERFLOW</code> を明示的に発生させてプロセスを終了するためのヘルパー関数) に到達し、プロセスが異常終了しています。</p>
+<h3 id="3-2-WinDbg-での-FPU-制御ワードの確認"><a href="#3-2-WinDbg-での-FPU-制御ワードの確認" class="headerlink" title="3.2. WinDbg での FPU 制御ワードの確認"></a>3.2. WinDbg での FPU 制御ワードの確認</h3><p>WinDbg では <code>rF</code> コマンドで現在のスレッドの x87 FPU レジスターの状態を確認できます。これは「本当に制御ワードが変更されているのか」をダンプ ファイルから確認する際に有効なコマンドで、同種の問題を調査する際にご活用いただけます。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">0:000&gt; rF</span><br><span class="line">fpcw=027F: rn 53 puozdi  fpsw=0100: top=0 cc=0001 --------  fptw=FFFF</span><br><span class="line">fopcode=0000  fpip=0000:73f4f1fa  fpdp=0000:00000000</span><br><span class="line">st0= 0.000000000000000000000e+0000  st1= 0.000000000000000000000e+0000</span><br><span class="line">st2= 0.000000000000000000000e+0000  st3= 0.000000000000000000000e+0000</span><br><span class="line">st4= 0.000000000000000000000e+0000  st5= 1.000000000000000000000e+0000</span><br><span class="line">st6= 9.091796875000000000000e-0001  st7= 1.000000000000000000000e+0000</span><br><span class="line">clr!DontCallDirectlyForceStackOverflow+0xf:</span><br><span class="line">742a984a 832000          and     dword ptr [eax],0    ds:002b:00ee2eac=00000000</span><br></pre></td></tr></table></figure>
+
+<p><code>fpcw</code> が x87 FPU の制御ワード (FPCW レジスター) 、<code>fpsw</code> がステータス ワード、<code>fptw</code> がタグ ワードです。WinDbg は <code>fpcw</code> の値に加えて、そのビット表現を <code>rn 53 puozdi</code> のようにデコードして表示します。<code>rn</code> は丸めモード (round to nearest)、<code>53</code> は精度 53 ビット、続く小文字 6 つはマスクされている例外を表します (P=Precision/Inexact、U=Underflow、O=Overflow、Z=ZeroDivide、D=Denormal、I=Invalid)。例外がアンマスク (有効) になっている場合は、該当の文字が大文字 (<code>I</code> など) で表示されるため、一望で識別できます。</p>
+<h4 id="controlfp-の戻り値と-FPCW-レジスターの値が一致しないことについて"><a href="#controlfp-の戻り値と-FPCW-レジスターの値が一致しないことについて" class="headerlink" title="_controlfp の戻り値と FPCW レジスターの値が一致しないことについて"></a><code>_controlfp</code> の戻り値と FPCW レジスターの値が一致しないことについて</h4><p>ここで、アプリケーションが入力として出力した <code>_controlfp</code> の戻り値 (<code>0x9001F</code> および <code>0x9000F</code>) と、上記 <code>rF</code> の <code>fpcw=027F</code> が一致しない点にお気づきの方もいらっしゃるかもしれません。この不一致には以下の 2 つの要因が絡んでいます。</p>
+<p><strong>(1) <code>_controlfp</code> の戻り値はハードウェア レジスターの生値ではない</strong></p>
+<p>前述のとおり、<code>_controlfp</code> が戻す値は <code>float.h</code> で定義される抽象表現であり、ハードウェアの FPCW レジスターとはビットレイアウトが異なります。両者を同じ状態で並べると以下のようになります。</p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th><code>_controlfp</code> の戻り値</th>
+<th>FPCW レジスター</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>全 6 例外マスク + 53 ビット精度 + 最近接丸め (既定)</td>
+<td><code>0x9001F</code></td>
+<td><code>0x027F</code></td>
+</tr>
+<tr>
+<td><code>_EM_INVALID</code> をアンマスクした状態</td>
+<td><code>0x9000F</code></td>
+<td><code>0x027E</code></td>
+</tr>
+</tbody></table>
+<p>このように、<code>0x9001F</code> と <code>0x027F</code> は実際には同じ FPU 状態を表しており、表現形式が異なるだけです。</p>
+<p><strong>(2) ダンプ取得時点の制御ワードが既定値に戻っている</strong></p>
+<p>アプリケーション コードでは <code>_EM_INVALID</code> をアンマスクしたため、その直後のハードウェア FPCW は本来 <code>0x027E</code> となっていたはずです。しかし上記 <code>rF</code> の出力ではダンプ取得時に <code>fpcw=027F</code> (全例外マスク、つまり <code>_EM_INVALID</code> もマスク済み) となっており、アンマスクしたたずの <code>_EM_INVALID</code> がマスクされた状態に戻っています。</p>
+<p>この現象は、例外ディスパッチの過程で FPU 状態が退避・復元されることに起因します。Windows では x86 例外発生時に <code>CONTEXT</code> レコードを介して FPU 状態も含めたスレッド コンテキストが保存・復元されます。今回のようにベクター化例外ハンドラーが再帰的に呼び出されるケースでは、その途中で OS や CLR の内部処理が例外処理用のデフォルト状態を設定しているため、最終的にスタック オーバーフローに至る頂点 (<code>clr!DontCallDirectlyForceStackOverflow</code>) では FPCW が既定値に戻った状態となっているものと考えられます。</p>
+<p>そのため、「ダンプ取得時の FPCW が既定値だからといって、それまでの処理でも制御ワードが変更されていなかった」とは限りません。同種の問題を調査する際には、ダンプ取得時の FPCW の値だけではなく、コード上で <code>_controlfp</code> 等の呼び出しが行われていないか、例外発生時のコンテキスト レコード内の FPCW はどうなっていたか、などもあわせてご確認いただくことをお勧めいたします。</p>
+<h4 id="例外発生時のコンテキスト-レコードから元の-FPCW-を確認する"><a href="#例外発生時のコンテキスト-レコードから元の-FPCW-を確認する" class="headerlink" title="例外発生時のコンテキスト レコードから元の FPCW を確認する"></a>例外発生時のコンテキスト レコードから元の FPCW を確認する</h4><p>ベクター化例外ハンドラーが再帰的に呼び出される本ケースでは、最初の <code>#IA</code> 例外を引き起こした時点の FPCW を確認したい場合、再帰の最内側 (<code>clrjit.dll</code> の浮動小数点演算が例外を引き起こした地点) で発生した例外のコンテキスト レコードを参照する必要があります。コンテキスト レコードのアドレスは、コール スタック上の例外処理関連のフレームに渡された引数から取得できます。</p>
+<p>ここでは、本記事執筆時点の .NET Framework 4.x ランタイムに含まれる VC ランタイム (<code>VCRUNTIME140_CLR0400</code>) の <code>_except_handler4_common</code> (<code>C:\Program Files\Microsoft Visual Studio\&lt;vs version&gt;\&lt;edition&gt;\VC\Tools\MSVC\&lt;msvc version&gt;\crt\src\i386\chandler4.c</code>) がコンテキスト レコードを引数として受け取っていることを利用する例を示します。なお、このモジュール名や関数のシグネチャは将来のバージョンで変更される可能性があり、必ずしも常にそのまま適用できるとは限りません。実際の調査時には、お使いの環境のシンボル情報をもとに、コンテキスト レコードのアドレスを取得できるフレームをコール スタックから選んでいただく必要がある点にご留意ください。考え方の一例として参考にしていただければと思います。</p>
+<p>以下のように、再帰の最内側付近のフレーム a02 (<code>VCRUNTIME140_CLR0400!_except_handler4_common</code>) に切り替え、<code>dv</code> コマンドで引数の <code>ContextRecord</code> を確認します。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">0:000&gt; .frame /r a02</span><br><span class="line">a02 00fddef4 73f4f469     VCRUNTIME140_CLR0400!_except_handler4_common+0x80 </span><br><span class="line"></span><br><span class="line">0:000&gt; dv</span><br><span class="line">      CookiePointer = 0x74594000</span><br><span class="line">CookieCheckFunction = 0x73e62b80</span><br><span class="line">    ExceptionRecord = 0x00fde024</span><br><span class="line">   EstablisherFrame = 0x00fdee28</span><br><span class="line">      ContextRecord = 0x00fde074</span><br><span class="line">  DispatcherContext = 0x00fddfac</span><br><span class="line">         Revalidate = 0x00 &#x27;&#x27;</span><br><span class="line">           TryLevel = 0</span><br><span class="line">         ScopeTable = 0x73eb0c00</span><br><span class="line">        Disposition = ExceptionContinueSearch (0n1)</span><br><span class="line">   ScopeTableRecord = 0x73eb0c10</span><br><span class="line">       FilterResult = 0n20254208</span><br><span class="line">  ExceptionPointers = struct _EXCEPTION_POINTERS</span><br><span class="line">         FilterFunc = &lt;value unavailable&gt;</span><br><span class="line">       FramePointer = 0x00000000 &quot;&quot;</span><br><span class="line">     EnclosingLevel = 0</span><br></pre></td></tr></table></figure>
+
+<p><code>ContextRecord = 0x00fde074</code> が、この階層で発生した例外のコンテキスト レコードのアドレスです。<code>dx</code> コマンドで <code>_CONTEXT</code> 構造体としてデコードして表示します。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">0:000&gt; dx -r1 ((VCRUNTIME140_CLR0400!_CONTEXT *)0xfde074)</span><br><span class="line">((VCRUNTIME140_CLR0400!_CONTEXT *)0xfde074)                 : 0xfde074 [Type: _CONTEXT *]</span><br><span class="line">    [+0x000] ContextFlags     : 0x1007f [Type: unsigned long]</span><br><span class="line">    [+0x004] Dr0              : 0x0 [Type: unsigned long]</span><br><span class="line">    [+0x008] Dr1              : 0x0 [Type: unsigned long]</span><br><span class="line">    [+0x00c] Dr2              : 0x0 [Type: unsigned long]</span><br><span class="line">    [+0x010] Dr3              : 0x0 [Type: unsigned long]</span><br><span class="line">    [+0x014] Dr6              : 0x0 [Type: unsigned long]</span><br><span class="line">    [+0x018] Dr7              : 0x0 [Type: unsigned long]</span><br><span class="line">    [+0x01c] FloatSave        [Type: _FLOATING_SAVE_AREA]</span><br><span class="line">    [+0x08c] SegGs            : 0x2b [Type: unsigned long]</span><br><span class="line">    ...</span><br></pre></td></tr></table></figure>
+
+<p><code>_CONTEXT</code> 構造体のオフセット <code>+0x01c</code> に <code>FloatSave</code> メンバーがあり、これが FPU 状態を保持する <code>_FLOATING_SAVE_AREA</code> 構造体です。今回のコンテキスト レコード <code>0xfde074</code> における <code>FloatSave</code> のアドレスは <code>0xfde074 + 0x1c = 0xfde090</code> です。これを <code>_FLOATING_SAVE_AREA</code> 構造体としてデコードします。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">0:000&gt; dx -r1 (*((VCRUNTIME140_CLR0400!_FLOATING_SAVE_AREA *)0xfde090))</span><br><span class="line">(*((VCRUNTIME140_CLR0400!_FLOATING_SAVE_AREA *)0xfde090))                 [Type: _FLOATING_SAVE_AREA]</span><br><span class="line">    [+0x000] ControlWord      : 0x27e [Type: unsigned long]</span><br><span class="line">    [+0x004] StatusWord       : 0xb9a1 [Type: unsigned long]</span><br><span class="line">    [+0x008] TagWord          : 0xbfff [Type: unsigned long]</span><br><span class="line">    [+0x00c] ErrorOffset      : 0x728c4f77 [Type: unsigned long]</span><br><span class="line">    [+0x010] ErrorSelector    : 0x30c0000 [Type: unsigned long]</span><br><span class="line">    [+0x014] DataOffset       : 0xfdeb14 [Type: unsigned long]</span><br><span class="line">    [+0x018] DataSelector     : 0x0 [Type: unsigned long]</span><br><span class="line">    [+0x01c] RegisterArea     [Type: unsigned char [80]]</span><br><span class="line">    [+0x06c] Spare0           : 0x0 [Type: unsigned long]</span><br></pre></td></tr></table></figure>
+
+<p><code>ControlWord</code> が <code>0x27e</code> となっており、既定値の <code>0x27F</code> と比較すると最下位ビット (<code>_EM_INVALID</code> を表す <code>0x01</code> のビット) がクリアされていることが確認できます。これは、アプリケーション コードで <code>_controlfp(0, _EM_INVALID)</code> を呼び出して <code>_EM_INVALID</code> 例外マスクを解除した状態のままで、<code>clrjit.dll</code> の浮動小数点演算が実行され、<code>#IA</code> 例外が発生したことを示しています。<code>ErrorOffset</code> の <code>0x728c4f77</code> は例外を発生させた命令のアドレスを表しており、<code>ln</code> コマンドで確認すると、これがコール スタックのフレーム a07 付近の <code>clrjit.dll</code> 内のアドレスに該当することを確認できます。</p>
+<p>このように、例外発生時のコンテキスト レコードを参照することで、ダンプ取得時のスレッドの FPU 状態だけではなく、原因の最も近い状態を確認できます。</p>
+<p>この事象は、CLR や JIT が「浮動小数点制御ワードは既定値である」という前提で動作しているために発生します。例外マスクの解除といった一見軽微な変更であっても、CLR の内部処理が依存している前提を崩すため、結果としてランタイム全体の動作が破綻します。</p>
+<p>例外マスクの解除以外にも、精度の変更や丸めモードの変更を行った場合に、浮動小数点演算の結果が想定値と一致しなくなる、特定のメソッドの呼び出しで意図しない値が返却される、といった事象が発生し得ます。これらは必ずしも例外として顕在化せず、不可解な計算結果として現れる場合もあるため、一見すると原因の特定が非常に困難な不具合となります。</p>
+<h2 id="4-推奨される対処方法"><a href="#4-推奨される対処方法" class="headerlink" title="4. 推奨される対処方法"></a>4. 推奨される対処方法</h2><p>.NET Framework のアプリケーション コードや、そこから呼び出される P/Invoke、C++/CLI、ネイティブ DLL のいずれにおいても、浮動小数点制御ワードを<strong>既定値から変更しないこと</strong>を推奨いたします。</p>
+<h3 id="4-1-アプリケーション-コードから制御ワードを変更している場合"><a href="#4-1-アプリケーション-コードから制御ワードを変更している場合" class="headerlink" title="4.1. アプリケーション コードから制御ワードを変更している場合"></a>4.1. アプリケーション コードから制御ワードを変更している場合</h3><p><code>_controlfp</code>、<code>_control87</code>、<code>_controlfp_s</code>、<code>_set_controlfp</code>、インライン アセンブリーによる <code>fldcw</code> 命令、<code>fesetexceptflag</code>、<code>fesetround</code> などの呼び出しを取り除き、制御ワードを既定値のまま使用してください。</p>
+<p>特定の演算区間のみで丸めや例外動作の変更が必要な場合は、その区間に入る直前に元の制御ワードを保存し、区間の処理終了後 (例外発生時の経路も含む) に必ず元の値へ復元する必要があります。</p>
+<h3 id="4-2-サードパーティー-ライブラリーが制御ワードを変更している場合"><a href="#4-2-サードパーティー-ライブラリーが制御ワードを変更している場合" class="headerlink" title="4.2. サードパーティー ライブラリーが制御ワードを変更している場合"></a>4.2. サードパーティー ライブラリーが制御ワードを変更している場合</h3><p>P/Invoke 経由で呼び出すネイティブ ライブラリーが内部的に制御ワードを変更している場合があります。代表的な例として、DirectX を初期化する際、<code>D3DCREATE_FPU_PRESERVE</code> フラグが指定されていないと Direct3D ランタイムは FPU を単精度・最近接丸めに設定します (<a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/windows/win32/dxtecharts/top-issues-for-windows-titles#manipulation-of-the-floating-point-control-word">Top Issues for Windows Titles - Manipulation of the Floating-Point Control Word</a>)。</p>
+<p>ネイティブ ライブラリーをラップして .NET から利用される場合は、ライブラリー側で <code>D3DCREATE_FPU_PRESERVE</code> のような制御ワードを保持するオプションが提供されていればそれを利用するか、ライブラリーの呼び出し前後で制御ワードを保存・復元する仕組みを実装することをご検討ください。</p>
+<h3 id="4-3-デバッグ目的で例外を有効化したい場合"><a href="#4-3-デバッグ目的で例外を有効化したい場合" class="headerlink" title="4.3. デバッグ目的で例外を有効化したい場合"></a>4.3. デバッグ目的で例外を有効化したい場合</h3><p>「無効な浮動小数点演算が発生した箇所をすぐに検知したい」という目的で制御ワードの例外マスクを解除している場合がありますが、.NET アプリケーションにおいては、Visual Studio のデバッガーの設定で <code>NaN</code> や無限大の生成箇所をブレークポイントで停止させたり、コードのレビューで <code>double.IsNaN</code>、<code>double.IsInfinity</code> 等を用いたチェックを追加していただく方法をご検討ください。FPU 制御ワードを変更する手法は前述の通り CLR の前提と矛盾するため、デバッグ目的であってもご利用は推奨されません。</p>
+<h2 id="まとめ"><a href="#まとめ" class="headerlink" title="まとめ"></a>まとめ</h2><p>.NET Framework アプリケーションにおいて x87 FPU の浮動小数点制御ワードを変更することはサポートされておらず、CLR は制御ワードが既定値であることを前提として動作します。例外マスクの解除や精度・丸めモードの変更を行うと、スタック オーバーフローやアクセス違反による異常終了、計算結果の不整合といった予期しない問題を引き起こす場合があります。アプリケーション コードおよびそこから呼び出されるネイティブ コードのいずれにおいても、.NET Framework アプリケーションでは既定の浮動小数点制御ワードを維持することをお勧めします。</p>
+<p>本記事が .NET Framework アプリケーションのトラブルシューティングや設計の参考になれば幸いです。</p>
+
+      
+      
+        <div class="article-disclaimer">
+        
+          <p><hr>本ブログの内容は弊社の公式見解として保証されるものではなく、開発・運用時の参考情報としてご活用いただくことを目的としています。もし公式な見解が必要な場合は、弊社ドキュメント (<a target="_blank" rel="noopener" href="https://learn.microsoft.com/">https://learn.microsoft.com</a> や <a target="_blank" rel="noopener" href="https://support.microsoft.com">https://support.microsoft.com</a>) をご参照いただくか、もしくは私共サポートまでお問い合わせください。</p>
+        
+        </div>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/NET/" rel="tag">.NET</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Debug/" rel="tag">Debug</a></li></ul>
+
+      <!-- 
+      
+        <a href="https://github.com/jpdscore/blog/edit/master/articles/dotnet/fpu-control-word-not-supported-in-dotnet-framework.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
+        
+      -->
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="../../vs/vs2026-offline-update/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前の記事</strong>
+      <div class="article-nav-title">Visual Studio 2026 のオフライン アップデート</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最近の投稿</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="">.NET Framework で浮動小数点制御ワードを変更した場合に発生する可能性がある問題について</a>
+          </li>
+        
+          <li>
+            <a href="../../vs/vs2026-offline-update/">Visual Studio 2026 のオフライン アップデート</a>
+          </li>
+        
+          <li>
+            <a href="../../vs/vc-repair/">Visual C++ Redistributable の修復方法</a>
+          </li>
+        
+          <li>
+            <a href="../../vs/vs-verify-offline/">Visual Studio オフライン インストーラーの検証</a>
+          </li>
+        
+          <li>
+            <a href="../../vs/vs-dev-essentials/">Visual Studio Dev Essentials のご紹介</a>
+          </li>
+        
+          <li>
+            <a href="../../debugging/copilot-sdk-with-windbgx-as-tool/">GitHub Copilot SDK を使用した AI チャット形式のデバッガー アプリの実装</a>
+          </li>
+        
+          <li>
+            <a href="../../dataclient/Understand-ADONET-Connection-Pooling/">ADO.NET の接続プールをもっと理解しよう</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">タグ</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="../../tags/ALM/">ALM</a><span class="tag-list-count">17</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-DevOps-Server">Azure DevOps Server</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-DevOps-Services">Azure DevOps Services</a><span class="tag-list-count">9</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-Pipelines">Azure Pipelines</a><span class="tag-list-count">7</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-Repos">Azure Repos</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Devcontainer">Devcontainer</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/GitHub">GitHub</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/TFS">TFS</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Visual-Studio-Code">Visual Studio Code</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86">情報採取手順</a><span class="tag-list-count">4</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/">情報採取手順</a><span class="tag-list-count">6</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/ALM">ALM</a><span class="tag-list-count">4</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/Azure-DevOps-Server">Azure DevOps Server</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/Azure-DevOps-Services">Azure DevOps Services</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/Azure-Pipelines">Azure Pipelines</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/TFS">TFS</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Data-Access/">Data Access</a><span class="tag-list-count">8</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Data-Access/ADO-ActiveX-Data-Objects">ADO (ActiveX Data Objects)</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Data-Access/ADO-NET">ADO.NET</a><span class="tag-list-count">3</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Data-Access/JDBC-Driver">JDBC Driver</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Data-Access/Jet">Jet</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Data-Access/Oracle">Oracle</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Data-Access/SQL-Server">SQL Server</a><span class="tag-list-count">3</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Windows-SDK/">Windows SDK</a><span class="tag-list-count">9</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Debug">Debug</a><span class="tag-list-count">5</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Documents-and-Printing">Documents and Printing</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/GDI">GDI</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Leak">Leak</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Windows-Update-Agent-API">Windows Update Agent API</a><span class="tag-list-count">2</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Debug/">Debug</a><span class="tag-list-count">17</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/NET">.NET</a><span class="tag-list-count">5</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/AI">AI</a><span class="tag-list-count">3</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/GitHub-Copilot">GitHub Copilot</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Leak">Leak</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Memory">Memory</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Visual-Studio">Visual Studio</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Windows-SDK">Windows SDK</a><span class="tag-list-count">5</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/AI/">AI</a><span class="tag-list-count">4</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/AI/NET">.NET</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/AI/Debug">Debug</a><span class="tag-list-count">3</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/AI/GitHub-Copilot">GitHub Copilot</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/AI/Visual-Studio">Visual Studio</a><span class="tag-list-count">2</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/NET/">.NET</a><span class="tag-list-count">19</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/NET-Framework">.NET Framework</a><span class="tag-list-count">11</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/AI">AI</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/Debug">Debug</a><span class="tag-list-count">5</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/%E6%9B%B4%E6%96%B0%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0">更新プログラム</a><span class="tag-list-count">2</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Deployment/">Deployment</a><span class="tag-list-count">3</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Deployment/ClickOnce">ClickOnce</a><span class="tag-list-count">3</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Dev-Box/">Dev Box</a><span class="tag-list-count">1</span><ul></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E5%85%A8%E8%88%AC/">全般</a><span class="tag-list-count">1</span><ul></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Azure-PlayFab/">Azure PlayFab</a><span class="tag-list-count">4</span><ul></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Visual-Studio/">Visual Studio</a><span class="tag-list-count">21</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/AI">AI</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/C">C#</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/C">C++</a><span class="tag-list-count">7</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/Debug">Debug</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/VB-NET">VB.NET</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/Visual-Studio-2026">Visual Studio 2026</a><span class="tag-list-count">1</span></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">アーカイブ</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2026/05/">2026 / 05</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2026/04/">2026 / 04</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2026/03/">2026 / 03</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2026/02/">2026 / 02</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2026/01/">2026 / 01</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/12/">2025 / 12</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/11/">2025 / 11</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/10/">2025 / 10</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/09/">2025 / 09</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/08/">2025 / 08</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/07/">2025 / 07</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/06/">2025 / 06</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/08/">2024 / 08</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/06/">2024 / 06</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/04/">2024 / 04</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/03/">2024 / 03</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/09/">2023 / 09</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/06/">2023 / 06</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/03/">2023 / 03</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/02/">2023 / 02</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/12/">2022 / 12</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/11/">2022 / 11</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/07/">2022 / 07</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/06/">2022 / 06</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/04/">2022 / 04</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/03/">2022 / 03</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/01/">2022 / 01</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/12/">2021 / 12</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/08/">2021 / 08</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/05/">2021 / 05</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/04/">2021 / 04</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/02/">2021 / 02</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/01/">2021 / 01</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/12/">2020 / 12</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/11/">2020 / 11</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/10/">2020 / 10</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/09/">2020 / 09</a><span class="archive-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">旧ブログ/フォーラム</h3>
+  <div class="widget">
+    <ul>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://social.msdn.microsoft.com/Forums/ja-jp/home?forum=visualstudiosupportteamja">Visual Studio サポートチーム フォーラム</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://social.msdn.microsoft.com/Forums/ja-jp/home?forum=windowssdksupportteamja&filter=alltypes&sort=lastpostdesc">Windows SDK サポートチーム フォーラム</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/archive/blogs/jpvsblog/">Visual Studio サポート チーム blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/archive/blogs/japan_platform_sdkwindows_sdk_support_team_blog/">JAPAN Platform SDK（Windows SDK） Support Team Blog</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">関連リンク</h3>
+  <div class="widget">
+    <ul>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://developercommunity.visualstudio.com/">Developer Community</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/dotnet/">.NET Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/visualstudio/">Visual Studio Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/cppblog/">C++ Team Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/xamarin/">Xamarin Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/devops/">Azure DevOps Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://techcommunity.microsoft.com/t5/azure-lab-services/bg-p/AzureLabServicesBlog/">Azure Lab Services Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/appcenter/">App Center Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://status.azure.com/status/">Azure Status</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://status.dev.azure.com/">Azure DevOps - Status</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2026 Developer Support Core Japan<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="../../index.html" class="mobile-nav-link">Home</a>
+  
+    <a href="../../archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+<script src="../../js/script.js"></script>
+
+
+<script src="../../js/toc.js"></script>
+
+
+
+
+
+
+  </div>
+</body>
+</html>
