@@ -6,7 +6,7 @@
   <link href="https://jpdscore.github.io/blog/atom.xml" rel="self"/>
   
   <link href="https://jpdscore.github.io/blog/"/>
-  <updated>2026-05-21T23:04:27.384Z</updated>
+  <updated>2026-05-21T23:40:27.735Z</updated>
   <id>https://jpdscore.github.io/blog/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://jpdscore.github.io/blog/dotnet/fpu-control-word-not-supported-in-dotnet-framework/"/>
     <id>https://jpdscore.github.io/blog/dotnet/fpu-control-word-not-supported-in-dotnet-framework/</id>
     <published>2026-05-21T15:00:00.000Z</published>
-    <updated>2026-05-21T23:04:27.384Z</updated>
+    <updated>2026-05-21T23:40:27.735Z</updated>
     
     
     <summary type="html">.NET Framework アプリケーションから _controlfp 等を呼び出して x87 FPU の制御ワードを変更すると、共通言語ランタイム (CLR) の想定外の動作によりスタック オーバーフロー等の異常終了を招く場合があることをご案内します。</summary>
@@ -40,7 +40,7 @@
     <link href="https://jpdscore.github.io/blog/vs/vs2026-offline-update/"/>
     <id>https://jpdscore.github.io/blog/vs/vs2026-offline-update/</id>
     <published>2026-05-07T15:00:00.000Z</published>
-    <updated>2026-05-21T23:04:27.411Z</updated>
+    <updated>2026-05-21T23:40:27.759Z</updated>
     
     
       
@@ -65,7 +65,7 @@
     <link href="https://jpdscore.github.io/blog/vs/vc-repair/"/>
     <id>https://jpdscore.github.io/blog/vs/vc-repair/</id>
     <published>2026-04-21T15:00:00.000Z</published>
-    <updated>2026-05-21T23:04:27.406Z</updated>
+    <updated>2026-05-21T23:40:27.755Z</updated>
     
     
       
@@ -92,7 +92,7 @@
     <link href="https://jpdscore.github.io/blog/vs/vs-verify-offline/"/>
     <id>https://jpdscore.github.io/blog/vs/vs-verify-offline/</id>
     <published>2026-04-16T15:00:00.000Z</published>
-    <updated>2026-05-21T23:04:27.408Z</updated>
+    <updated>2026-05-21T23:40:27.756Z</updated>
     
     
       
@@ -116,7 +116,7 @@
     <link href="https://jpdscore.github.io/blog/vs/vs-dev-essentials/"/>
     <id>https://jpdscore.github.io/blog/vs/vs-dev-essentials/</id>
     <published>2026-04-13T15:00:00.000Z</published>
-    <updated>2026-05-21T23:04:27.408Z</updated>
+    <updated>2026-05-21T23:40:27.756Z</updated>
     
     
       
@@ -140,7 +140,7 @@
     <link href="https://jpdscore.github.io/blog/debugging/copilot-sdk-with-windbgx-as-tool/"/>
     <id>https://jpdscore.github.io/blog/debugging/copilot-sdk-with-windbgx-as-tool/</id>
     <published>2026-03-30T15:00:00.000Z</published>
-    <updated>2026-05-21T23:04:27.361Z</updated>
+    <updated>2026-05-21T23:40:27.712Z</updated>
     
     
       
@@ -167,7 +167,7 @@
     <link href="https://jpdscore.github.io/blog/dataclient/Understand-ADONET-Connection-Pooling/"/>
     <id>https://jpdscore.github.io/blog/dataclient/Understand-ADONET-Connection-Pooling/</id>
     <published>2026-03-29T15:00:00.000Z</published>
-    <updated>2026-05-21T23:04:27.346Z</updated>
+    <updated>2026-05-21T23:40:27.697Z</updated>
     
     
     <summary type="html">ADO.NET の SQL Server 向けデータプロバイダーで使用される接続プールに関して、ユーザーからよくいただくご質問を元に、よくある誤解について説明します。これにより、もっと接続プールの仕組みを理解でき、トラブルを未然に防ぐ、もしくはトラブル発生状況を適切に把握できるようになることが期待されます。</summary>
@@ -188,7 +188,7 @@
     <link href="https://jpdscore.github.io/blog/dataclient/Do-Read-AllOfReceivedData/"/>
     <id>https://jpdscore.github.io/blog/dataclient/Do-Read-AllOfReceivedData/</id>
     <published>2026-03-15T15:00:00.000Z</published>
-    <updated>2026-05-21T23:04:27.345Z</updated>
+    <updated>2026-05-21T23:40:27.696Z</updated>
     
     
     <summary type="html">SQL Server にアクセスする開発アプリケーションでクエリの実行結果の読み取りを途中までで終了する場合のリスクについて説明します。</summary>
@@ -211,7 +211,7 @@
     <link href="https://jpdscore.github.io/blog/dataclient/Recommend-ADODB-Migration/"/>
     <id>https://jpdscore.github.io/blog/dataclient/Recommend-ADODB-Migration/</id>
     <published>2026-03-01T15:00:00.000Z</published>
-    <updated>2026-05-21T23:04:27.346Z</updated>
+    <updated>2026-05-21T23:40:27.697Z</updated>
     
     
     <summary type="html">.NET Framework もしくは .NET の開発アプリケーションでレガシーな ADO の PIA (ADODB.dll) もしくは IA (Interop.ADODB など) を使用するケースに対して ADO.NET へ移行が推奨される理由やその方法について説明します。</summary>
@@ -232,7 +232,7 @@
     <link href="https://jpdscore.github.io/blog/dataclient/JDBC-TLS-Troubleshooting/"/>
     <id>https://jpdscore.github.io/blog/dataclient/JDBC-TLS-Troubleshooting/</id>
     <published>2026-02-12T15:00:00.000Z</published>
-    <updated>2026-05-21T23:04:27.346Z</updated>
+    <updated>2026-05-21T23:40:27.697Z</updated>
     
     
     <summary type="html">JDBC Driver による SQL Server への接続エラーのうち TLS 関連の設定に起因したトラブルを解決するための確認事項について説明します。</summary>
@@ -251,7 +251,7 @@
     <link href="https://jpdscore.github.io/blog/debugging/collect-procmon-with-adjusting-altitude/"/>
     <id>https://jpdscore.github.io/blog/debugging/collect-procmon-with-adjusting-altitude/</id>
     <published>2026-02-08T15:00:00.000Z</published>
-    <updated>2026-05-21T23:04:27.354Z</updated>
+    <updated>2026-05-21T23:40:27.705Z</updated>
     
     
       
@@ -274,7 +274,7 @@
     <link href="https://jpdscore.github.io/blog/dataclient/Recommend-ProviderForOracle-Migration/"/>
     <id>https://jpdscore.github.io/blog/dataclient/Recommend-ProviderForOracle-Migration/</id>
     <published>2026-02-01T15:00:00.000Z</published>
-    <updated>2026-05-21T23:04:27.346Z</updated>
+    <updated>2026-05-21T23:40:27.697Z</updated>
     
     
     <summary type="html">開発アプリケーションでマイクロソフトが提供する Oracle 向けデータ アクセス製品を使用しているケースに対して Oracle 提供の製品利用に移行を勧める理由やその方法について説明します。</summary>
@@ -293,7 +293,7 @@
     <link href="https://jpdscore.github.io/blog/devtestlabs/auto-shutdown-command/"/>
     <id>https://jpdscore.github.io/blog/devtestlabs/auto-shutdown-command/</id>
     <published>2026-01-27T00:00:00.000Z</published>
-    <updated>2026-05-21T23:04:27.376Z</updated>
+    <updated>2026-05-21T23:40:27.727Z</updated>
     
     
       
@@ -317,7 +317,7 @@
     <link href="https://jpdscore.github.io/blog/vs/visual-studio-isenslogon-subscription-eventlog-warning/"/>
     <id>https://jpdscore.github.io/blog/vs/visual-studio-isenslogon-subscription-eventlog-warning/</id>
     <published>2026-01-22T15:00:00.000Z</published>
-    <updated>2026-05-21T23:04:27.407Z</updated>
+    <updated>2026-05-21T23:40:27.756Z</updated>
     
     
     <summary type="html">Visual Studio や SQL Server Management Studio (SSMS) を使用しているときに記録される &quot;Visual Studio ISensLogon Subscription&quot; に関するイベント ID 4354 について解説します。</summary>
@@ -334,7 +334,7 @@
     <link href="https://jpdscore.github.io/blog/maui/iosWidgets/"/>
     <id>https://jpdscore.github.io/blog/maui/iosWidgets/</id>
     <published>2026-01-19T05:43:42.000Z</published>
-    <updated>2026-05-21T23:04:27.387Z</updated>
+    <updated>2026-05-21T23:40:27.738Z</updated>
     
     
     <summary type="html">.NET MAUI アプリと iOS WidgetKit を連携させる具体的な実現方法について翻訳しています。</summary>
@@ -351,7 +351,7 @@
     <link href="https://jpdscore.github.io/blog/dataclient/JDBC-Tracing/"/>
     <id>https://jpdscore.github.io/blog/dataclient/JDBC-Tracing/</id>
     <published>2026-01-14T08:24:05.000Z</published>
-    <updated>2026-05-21T23:04:27.346Z</updated>
+    <updated>2026-05-21T23:40:27.697Z</updated>
     
     
     <summary type="html">JDBC Driver でのトレース有効化手順と SSL/TLS デバッグ出力方法を説明します。</summary>
@@ -370,7 +370,7 @@
     <link href="https://jpdscore.github.io/blog/dataclient/Recommend-ODBCOLEDBFORSQL-Migration/"/>
     <id>https://jpdscore.github.io/blog/dataclient/Recommend-ODBCOLEDBFORSQL-Migration/</id>
     <published>2026-01-08T15:00:00.000Z</published>
-    <updated>2026-05-21T23:04:27.346Z</updated>
+    <updated>2026-05-21T23:40:27.697Z</updated>
     
     
       
@@ -395,7 +395,7 @@
     <link href="https://jpdscore.github.io/blog/vs/vs2026-msvc-lifecycle/"/>
     <id>https://jpdscore.github.io/blog/vs/vs2026-msvc-lifecycle/</id>
     <published>2025-12-25T15:00:00.000Z</published>
-    <updated>2026-05-21T23:04:27.411Z</updated>
+    <updated>2026-05-21T23:40:27.758Z</updated>
     
     
       
@@ -421,7 +421,7 @@
     <link href="https://jpdscore.github.io/blog/vs/vs2026-supportlifecycle/"/>
     <id>https://jpdscore.github.io/blog/vs/vs2026-supportlifecycle/</id>
     <published>2025-12-25T15:00:00.000Z</published>
-    <updated>2026-05-21T23:04:27.411Z</updated>
+    <updated>2026-05-21T23:40:27.759Z</updated>
     
     
       
@@ -447,7 +447,7 @@
     <link href="https://jpdscore.github.io/blog/dataclient/Recommend-Jet-Migration/"/>
     <id>https://jpdscore.github.io/blog/dataclient/Recommend-Jet-Migration/</id>
     <published>2025-12-17T05:19:47.000Z</published>
-    <updated>2026-05-21T23:04:27.346Z</updated>
+    <updated>2026-05-21T23:40:27.697Z</updated>
     
     
       
