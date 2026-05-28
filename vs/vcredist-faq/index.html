@@ -4,19 +4,20 @@
   <meta charset="utf-8">
   
   
-  <title>Visual Studio 2022 のシステム要件 | JPDSC Blog</title>
+  <title>Visual C++ Redistributable に関するよくあるお問い合わせ | JPDSC Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="こんにちは。Developer Support Core チームの上原です。今回は Visual Studio 2022 のシステム要件について解説いたします。 はじめにVisual Studio を利用する際には、インストール対象の環境がシステム要件を満たしている必要があります。 本記事では Vi">
+  <meta name="description" content="Visual C++ Redistributable (再頒布可能パッケージ) について、サポート窓口でよくお寄せいただくご質問を、公式ドキュメントに基づいて Q&amp;A 形式で整理します。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Visual Studio 2022 のシステム要件">
-<meta property="og:url" content="https://jpdscore.github.io/blog/vs/vs2022-requirement/index.html">
+<meta property="og:title" content="Visual C++ Redistributable に関するよくあるお問い合わせ">
+<meta property="og:url" content="https://jpdscore.github.io/blog/vs/vcredist-faq/index.html">
 <meta property="og:site_name" content="Japan Developer Support Core Team Blog">
-<meta property="og:description" content="こんにちは。Developer Support Core チームの上原です。今回は Visual Studio 2022 のシステム要件について解説いたします。 はじめにVisual Studio を利用する際には、インストール対象の環境がシステム要件を満たしている必要があります。 本記事では Vi">
+<meta property="og:description" content="Visual C++ Redistributable (再頒布可能パッケージ) について、サポート窓口でよくお寄せいただくご質問を、公式ドキュメントに基づいて Q&amp;A 形式で整理します。">
 <meta property="og:locale" content="ja_JP">
-<meta property="article:published_time" content="2025-10-02T15:00:00.000Z">
-<meta property="article:modified_time" content="2026-05-28T15:55:15.794Z">
+<meta property="article:published_time" content="2026-05-27T15:00:00.000Z">
+<meta property="article:modified_time" content="2026-05-28T15:55:15.791Z">
 <meta property="article:author" content="Developer Support Core Japan">
 <meta property="article:tag" content="Visual Studio">
+<meta property="article:tag" content="C++">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternate" href="/blog/atom.xml" title="Japan Developer Support Core Team Blog" type="application/atom+xml">
@@ -80,7 +81,7 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-vs/vs2022-requirement" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-vs/vcredist-faq" class="article article-type-post" itemscope itemprop="blogPost">
   
     <aside id="toc" role="complementary" aria-label="Table of Contents"></aside>
   
@@ -92,7 +93,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Visual Studio 2022 のシステム要件
+      Visual C++ Redistributable に関するよくあるお問い合わせ
     </h1>
   
 
@@ -100,7 +101,7 @@
       <div class="article-share">
         Last Update: 
         <a href="" class="article-date-single">
-  <time datetime="2025-10-02T15:00:00.000Z" itemprop="datePublished">2025-10-03</time>
+  <time datetime="2026-05-27T15:00:00.000Z" itemprop="datePublished">2026-05-28</time>
 </a>
         
         <div class="article-share-buttons">
@@ -108,7 +109,7 @@
         </div>
         <div class="article-share-buttons">
           <script src="https://platform.linkedin.com/in.js" type="text/javascript">lang: ja_JP</script>
-          <script type="IN/Share" data-url="https://jpdscore.github.io/blog/vs/vs2022-requirement/"></script>
+          <script type="IN/Share" data-url="https://jpdscore.github.io/blog/vs/vcredist-faq/"></script>
         </div>
         <div class="article-share-buttons">
           <a target="_blank" rel="noopener" href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
@@ -117,48 +118,53 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>こんにちは。Developer Support Core チームの上原です。今回は Visual Studio 2022 のシステム要件について解説いたします。</p>
-<h2 id="はじめに"><a href="#はじめに" class="headerlink" title="はじめに"></a>はじめに</h2><p>Visual Studio を利用する際には、インストール対象の環境がシステム要件を満たしている必要があります。
-本記事では <a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/visualstudio/releases/2022/system-requirements#visual-studio-2022-system-requirements">Visual Studio 2022 のシステム要件</a> を元に説明いたしますが、厳密には Visual Studio バージョンや、利用するコンポーネント等によって異なる場合があります。
-また、同じ Visual Studio ファミリ製品である Visual Studio Code(VS Code) についても、一部個別に言及している個所を除き、基本的には本記事の対象外となりますこと、あらかじめご了承ください。</p>
-<h2 id="Visual-Studio-2022-のシステム要件"><a href="#Visual-Studio-2022-のシステム要件" class="headerlink" title="Visual Studio 2022 のシステム要件"></a>Visual Studio 2022 のシステム要件</h2><p>Visual Studio 2022 におけるシステム要件は、<a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/visualstudio/releases/2022/system-requirements#visual-studio-2022-system-requirements">こちらのドキュメント</a>に記載されています。
-システム要件を満たさない環境ではいかなる動作も保証されず、また、サポートサービスも提供されませんので、事前に必ず問題がないかご確認ください。</p>
-<p>なお、Visual Studio インストーラーでは、インストール時に環境がシステム要件を満たしているかチェックし、要件を満たしていないと判断される場合には警告を出力します。
-しかしながら、これらの機能はあくまでも補助的なものであり、エラーや警告が表示されないことは必ずしもサポートされている環境であることを保証するものではありませんので、ご注意ください。</p>
-<h3 id="OS-バージョンのサポート-ライフサイクル"><a href="#OS-バージョンのサポート-ライフサイクル" class="headerlink" title="OS バージョンのサポート ライフサイクル"></a>OS バージョンのサポート ライフサイクル</h3><p>Visual Studio のサポート ライフサイクルに関わらず、サポートを終了した OS バージョン上での Visual Studio の利用はサポートされていません。
-例えば本記事執筆時点で Visual Studio 2022 はサポート期間内で、システム要件として Windows 11 はサポート対象 OS ですが、<a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/lifecycle/products/windows-11-home-and-pro">Windows 11 version 21H2 は 2023年に既にサポートを終了</a> していますので、Windows 11 version 21H2 での Visual Studio 2022 の利用は現在サポートされていません。
-各 OS バージョンのサポート期限等は、<a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/lifecycle/">ライフサイクル ポリシー</a>のサイトから確認いただけますので、必要に応じてまずはサポートされている OS バージョンであるかをご確認ください。</p>
-<h3 id="長期サポートバージョン-LTSC-はサポートされません"><a href="#長期サポートバージョン-LTSC-はサポートされません" class="headerlink" title="長期サポートバージョン(LTSC) はサポートされません"></a>長期サポートバージョン(LTSC) はサポートされません</h3><p>Visual Studio の利用がサポートされていない環境の 1つに、長期サポートバージョン(LTSC) での利用があります。
-<a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/windows/whats-new/ltsc/overview">Windows Enterprise LTSC</a> は、特定の目的に限定し長期に利用することを想定している OS となっており、Visual Studio をインストールし、アプリケーションを開発するといったシナリオはサポートされておりません。</p>
-<p>そのため、ドキュメントにも記載がある通り、Visual Studio で開発したアプリケーションを利用することは可能ですが、Windows Enterprise LTSC に Visual Studio をインストールし、利用することはサポートされておらず、いかなる動作も保証されませんので注意が必要です。</p>
-<blockquote>
-<p>Visual Studio の実行には、次の機能はサポートされていません。
-・Windows 11 Home (S モード)、Windows Enterprise IoT、Windows 10 IoT Core、Windows 10 Enterprise LTSC エディション、Windows 10 S、Windows 10 Team Edition。 これらのエディションの Windows 上で実行されるアプリは、Visual Studio 2022 を使用してビルドできます。
-・Windows Server 用の Server IoT および最小限のサーバー インターフェイス オプション。</p>
-</blockquote>
-<h3 id="複数ユーザーによる利用はサポートされません"><a href="#複数ユーザーによる利用はサポートされません" class="headerlink" title="複数ユーザーによる利用はサポートされません"></a>複数ユーザーによる利用はサポートされません</h3><p>Visual Studio では、同一環境上で複数のユーザーが同時に利用することはサポートされておりません。</p>
-<p>一例としまして、サーバー端末に対して複数のユーザーがリモートからサインインし、端末を利用するといったシナリオにおいて、端末にインストールされた Visual Studio を利用するといったケースが考えられます。
-この場合、2人以上のユーザーが同時に Visual Studio を起動するといった操作はサポートされておらず、いかなる動作も保証されておりません。
-一方で、必ずいずれか 1名のユーザーのみが Visual Studio を利用するという状況であれば本制約を回避することは可能ですが、その場合、他ユーザーの利用をブロックするといった機能はないため、運用ルールなどを用いて複数ユーザーによる利用を避けていただく必要があります。</p>
-<blockquote>
-<p>Visual Studio の実行には、次の機能はサポートされていません。
-・共有仮想デスクトップ インフラストラクチャ マシンやプールされた Windows Virtual Desktop ホスト プールなど、同じコンピューター上でソフトウェアを使用する複数の同時ユーザー。</p>
-</blockquote>
-<p>なお、本制約については、現時点で (2025年 10月) 全ての Visual Studio および <a target="_blank" rel="noopener" href="https://code.visualstudio.com/Docs/supporting/requirements">Visual Studio Code(VS Code)</a> が対象となっていますが、将来バージョンについては適宜最新の情報をご確認ください。</p>
-<h3 id="リモートデスクトップ-サービスはサポートされません"><a href="#リモートデスクトップ-サービスはサポートされません" class="headerlink" title="リモートデスクトップ サービスはサポートされません"></a>リモートデスクトップ サービスはサポートされません</h3><p>私たちサポートにお問い合わせいただく事例の中に、Windows Server 系 OS に Visual Studio(や、後述の SSMS) をインストールした際に、システム要件を満たしていないとの警告が表示されるが、心当たりがないといったケースがあります。</p>
-<p>システム要件を満たしているかは環境によって異なりますので、システム要件のドキュメントを元に確認いただく必要がありますが、特に見落としがちな制約として、<a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/windows-server/remote/remote-desktop-services/remote-desktop-services-overview">Windows Server におけるリモートデスクトップ サービス</a>があります。
-もし、リモートデスクトップ サービスが有効になっている場合には、システム要件を満たさず、サポートされない環境となりますため、サーバーマネージャーを起動し、 <em>リモートデスクトップ セッションホスト</em> の役割がインストールされているかをご確認ください。</p>
-<h3 id="コンテナや仮想マシン環境での利用"><a href="#コンテナや仮想マシン環境での利用" class="headerlink" title="コンテナや仮想マシン環境での利用"></a>コンテナや仮想マシン環境での利用</h3><p>Visual Studio のインストールには完全な Windows OS が必要です。
-そのため、Docker などのサードパーティー技術やサービスを含め、OS の機能を完全に提供していないコンテナーや仮想マシン環境での動作はサポートされていません。</p>
-<blockquote>
-<p>Visual Studio の実行には、次の機能はサポートされていません。
-・Visual Studio Build Tools を除く、Windows コンテナー。
-・完全な Windows オペレーティング システムなしの仮想マシン環境での実行。</p>
-</blockquote>
-<p>ただし、<a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/visualstudio/releases/2022/system-requirements#microsoft-visual-studio-build-tools-2022-system-requirements">Visual Studio Build Tools</a>については、Windows Server における Server Core オプションや、<a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/visualstudio/install/build-tools-container?view=vs-2022">コンテナでの利用</a>がサポートされています。</p>
-<h2 id="補足-SQL-Server-Management-Studio-SSMS-の利用に関して"><a href="#補足-SQL-Server-Management-Studio-SSMS-の利用に関して" class="headerlink" title="補足: SQL Server Management Studio(SSMS) の利用に関して"></a>補足: SQL Server Management Studio(SSMS) の利用に関して</h2><p>現在(2025年 10月)、最新の SSMS(SQL Server Management Studio) は Visual Studio インストーラーを用いてインストールされております。
-そのような背景から、本記事で解説した内容の一部は <a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/ssms/system-requirements#sql-server-management-studio-system-requirements">SSMS のシステム要件</a>でも同様となっています。</p>
-<p>Visual Studio と SSMS は別の製品であるため、それぞれの製品ドキュメントに沿ってシステム要件を確認いただく必要がありますが、共通している要件については本記事の内容が少しでもご参考になれば幸いです。</p>
+        <p>こんにちは、Japan Developer Support Core チームの松井です。今回は、私達のサポート チームでよくお寄せいただく Visual C++ Redistributable (再頒布可能パッケージ) に関するご質問を Q&amp;A 形式で整理します。なお、本記事は執筆時点 (2026 年 5 月) の情報および動作に基づいています。製品の仕様や提供形態は将来のバージョンで変更される可能性がありますので、最終的な判断は最新の公式ドキュメントをご確認ください。また、より細かい個別のトピックについては、過去の記事もあわせてご参照ください。</p>
+<ul>
+<li><a href="../vc-repair/">Visual C++ Redistributable の修復方法</a></li>
+<li><a href="../vc-silent-install/">コマンドからの Visual C++ 再頒布パッケージのインストール方法</a></li>
+<li><a href="../vc2015-compatibility/">Visual C++ の互換性について(Visual C++ 2015 以降)</a></li>
+<li><a href="../vs2026-msvc-lifecycle/">MSVC(Visual C++) 14.50 以降のリリースとサポートライフサイクル</a></li>
+</ul>
+<hr>
+<h2 id="Visual-C-Redistributable-とは何ですか？"><a href="#Visual-C-Redistributable-とは何ですか？" class="headerlink" title="Visual C++ Redistributable とは何ですか？"></a>Visual C++ Redistributable とは何ですか？</h2><p>Visual C++ Redistributable は、Visual C++ で作成されたアプリケーションを実行するために必要な C/C++ ランタイム ライブラリをインストールするためのパッケージです。Visual C++ で作成された多くのアプリケーションがこれらのライブラリを必要とするため、対象のアプリケーションを動作させるコンピューターにも、アプリケーションがビルドされた Visual C++ のバージョンと同等かより新しいバージョンの Visual C++ Redistributable をインストールしておく必要があります。</p>
+<hr>
+<h2 id="なぜ複数の-Visual-C-Redistributable-がインストールされているのですか？"><a href="#なぜ複数の-Visual-C-Redistributable-がインストールされているのですか？" class="headerlink" title="なぜ複数の Visual C++ Redistributable がインストールされているのですか？"></a>なぜ複数の Visual C++ Redistributable がインストールされているのですか？</h2><p>Visual C++ Redistributable はアーキテクチャ (x86 / x64 / ARM64) ごとに別々のパッケージとして提供されています。そのため、必要に応じて同じバージョンで複数のアーキテクチャ向けの Visual C++ Redistributable がインストールされることがあります。</p>
+<p>また、複数のアプリケーションがそれぞれ異なる Visual C++ のバージョンでビルドされている場合、複数の Visual C++ Redistributable が共存することがあります。たとえば、古いアプリケーションが Visual C++ 2008、2010、2013 のランタイムを必要とし、新しいアプリケーションが Visual Studio 2015 以降の v14 系ランタイムを必要とする場合などです。</p>
+<p>複数のバージョンが共存していること自体は、本記事執筆時点では珍しいものではなく、それぞれのアプリケーションが必要とするバージョンのランタイムをインストールしている状況とお考えいただいて差し支えありません。一方で、Visual Studio 2013 以前のバージョンはいずれも既にサポートが終了しています。それぞれのアプリケーションのサポート ライフサイクルや、Visual Studio 2015 以降の v14 系ランタイムへの移行が進むにつれて、Visual C++ 2013 以前の Redistributable を含む構成は今後一般的ではなくなっていくものと見込まれます。Visual C++ 2013 以前の Redistributable に依存しているアプリケーションについては、サポート終了済みのランタイムに依存していることも踏まえ、サポート対象の v14 系ランタイムへの移行をアプリケーション ベンダーへご相談いただくことをご検討ください。</p>
+<hr>
+<h2 id="Visual-C-Redistributable-のバージョン間に互換性はありますか？"><a href="#Visual-C-Redistributable-のバージョン間に互換性はありますか？" class="headerlink" title="Visual C++ Redistributable のバージョン間に互換性はありますか？"></a>Visual C++ Redistributable のバージョン間に互換性はありますか？</h2><p>Visual C++ 2015 以降の v14 系 Visual C++ ランタイムは、バイナリの後方互換性が保証されています。これは、特定の Visual C++ バージョンをターゲットに開発されたアプリケーションが、再ビルドすることなく、ターゲットより新しい v14 系ランタイム上でも互換性を維持して動作することを意味します。たとえば、Visual C++ 2019 でビルドされたアプリケーションは、Visual C++ 2019 以降の v14 系ランタイム上では互換性を保って動作することが想定されています。(参考情報: <a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/cpp/porting/binary-compat-2015-2017">Visual Studio のバージョン間の C++ バイナリ互換性</a>)</p>
+<p>このため、Visual C++ 2015 以降の v14 系でビルドされたアプリケーションについては、最新の v14 系 Visual C++ Redistributable をインストールしておけば動作することが期待できます。逆に、ビルドに使用した Visual C++ のバージョンより古いランタイムでの動作は保証されません。たとえば Visual C++ 2022 でビルドしたアプリケーションを Visual C++ 2019 のランタイム上で実行するケースの動作は保証されません。</p>
+<p>なお、Visual C++ 2013 以前と Visual C++ 2015 以降は別系列のランタイムであり、相互の互換性はありません。</p>
+<p>Visual C++ の互換性の考え方の詳細については、<a href="../vc2015-compatibility/">Visual C++ の互換性について(Visual C++ 2015 以降)</a> の記事もあわせてご参照ください。</p>
+<hr>
+<h2 id="Visual-C-2015-以降の-Redistributable-を複数バージョン同時にインストールすることは可能ですか？"><a href="#Visual-C-2015-以降の-Redistributable-を複数バージョン同時にインストールすることは可能ですか？" class="headerlink" title="Visual C++ 2015 以降の Redistributable を複数バージョン同時にインストールすることは可能ですか？"></a>Visual C++ 2015 以降の Redistributable を複数バージョン同時にインストールすることは可能ですか？</h2><p>Visual C++ 2015 以降の v14 系 Visual C++ Redistributable は新しいバージョンが古いバージョンを置き換えるため、同じアーキテクチャ (x86 / x64 / ARM64) 内では複数バージョンを同時にインストールすることはできません。</p>
+<hr>
+<h2 id="64-bit-Windows-では-x64-だけをインストールすればよいですか？-x86-も必要ですか？"><a href="#64-bit-Windows-では-x64-だけをインストールすればよいですか？-x86-も必要ですか？" class="headerlink" title="64 bit Windows では x64 だけをインストールすればよいですか？ x86 も必要ですか？"></a>64 bit Windows では x64 だけをインストールすればよいですか？ x86 も必要ですか？</h2><p>Visual C++ Redistributable のアーキテクチャは、OS のアーキテクチャではなくアプリケーションのターゲット アーキテクチャに合わせる必要があります。そのため、64 bit Windows であっても、x86 ターゲットのアプリケーションを動作させるためには x86 の Visual C++ Redistributable が必要になります。</p>
+<hr>
+<h2 id="古い-Visual-C-Redistributable-はアンインストールしてもよいですか？"><a href="#古い-Visual-C-Redistributable-はアンインストールしてもよいですか？" class="headerlink" title="古い Visual C++ Redistributable はアンインストールしてもよいですか？"></a>古い Visual C++ Redistributable はアンインストールしてもよいですか？</h2><p>Visual C++ Redistributable は、Visual C++ でビルドされたアプリケーションが必要とするランタイム ライブラリを提供するものであり、アプリケーションの前提条件となるコンポーネントです。Visual C++ Redistributable をアンインストールした場合、その Redistributable に依存するアプリケーションが動作しなくなる可能性があります。そのため、サポート終了の対応や容量削減などを目的に一律で古い Visual C++ Redistributable をアンインストールすることはお勧めしておりません。対象端末で動作させているアプリケーションのベンダーが公開しているシステム要件を踏まえ、影響がないことをご確認いただくようお願いします。特に Visual C++ 2013 以前の Redistributable は、Visual C++ 2015 以降の v14 系 Redistributable で代替できるものではありませんのでご注意ください。</p>
+<hr>
+<h2 id="Visual-C-Redistributable-は-Windows-Update-で自動的に更新されますか？"><a href="#Visual-C-Redistributable-は-Windows-Update-で自動的に更新されますか？" class="headerlink" title="Visual C++ Redistributable は Windows Update で自動的に更新されますか？"></a>Visual C++ Redistributable は Windows Update で自動的に更新されますか？</h2><p>現時点では、v14 系の Visual C++ Redistributable は Windows Update および Microsoft Update で提供されていません。そのため、Windows Update を通じて Visual C++ Redistributable 自体が単体で更新されることはありません。</p>
+<hr>
+<h2 id="意図せず-Visual-C-Redistributable-のバージョンが上がっていました。なぜですか？"><a href="#意図せず-Visual-C-Redistributable-のバージョンが上がっていました。なぜですか？" class="headerlink" title="意図せず Visual C++ Redistributable のバージョンが上がっていました。なぜですか？"></a>意図せず Visual C++ Redistributable のバージョンが上がっていました。なぜですか？</h2><p>Visual C++ Redistributable はシステム共通のコンポーネントとして提供されており、複数のアプリケーションから共有して利用される前提のソフトウェアです。そのため、Visual C++ ランタイムに依存する各アプリケーションのインストールや更新に伴って、そのアプリケーションが必要とするバージョンの Visual C++ Redistributable もインストールや更新が行われることがあります。</p>
+<p>具体的には、以下のようなタイミングで意図せずバージョンが上がるケースが考えられます。</p>
+<ul>
+<li>Visual Studio 自体のインストールや更新を行ったとき</li>
+<li>Visual C++ ランタイムを前提条件とするアプリケーションのインストールや更新を行ったとき</li>
+</ul>
+<hr>
+<h2 id="Visual-C-Redistributable-のバージョンを固定し、自動的な更新を抑制できますか？"><a href="#Visual-C-Redistributable-のバージョンを固定し、自動的な更新を抑制できますか？" class="headerlink" title="Visual C++ Redistributable のバージョンを固定し、自動的な更新を抑制できますか？"></a>Visual C++ Redistributable のバージョンを固定し、自動的な更新を抑制できますか？</h2><p>v14 系の Visual C++ Redistributable について、システムにインストールされているバージョンを特定のバージョンに固定し、それ以上の更新を抑制するような仕組みは提供されていません。Visual C++ Redistributable は複数のアプリケーションから共有して利用されるソフトウェアで、他のアプリケーションのインストールや更新に伴って必要なバージョンがインストールされることがあります。そのため、特定のバージョンに固定することは想定されていません。</p>
+<p>なお、予期せず Visual C++ Redistributable のバージョンが新しくなっていた場合、新しいバージョンが必要なアプリケーションのインストールや更新に伴って Visual C++ Redistributable が更新された可能性が高いと考えられます。この場合、古いバージョンに戻すとそのアプリケーションの動作で問題が生じる可能性がありますのでご注意ください。</p>
+<hr>
+<h2 id="インストールされている-Visual-C-Redistributable-のバージョンはどこで確認できますか？"><a href="#インストールされている-Visual-C-Redistributable-のバージョンはどこで確認できますか？" class="headerlink" title="インストールされている Visual C++ Redistributable のバージョンはどこで確認できますか？"></a>インストールされている Visual C++ Redistributable のバージョンはどこで確認できますか？</h2><p>「設定」アプリの「アプリ」&gt;「インストールされているアプリ」の一覧から、インストールされている Visual C++ Redistributable のバージョンを確認できます。&quot;Microsoft Visual C++&quot; の表示名で検索し、インストールされているバージョンとアーキテクチャを確認してください。</p>
+<p>また、レジストリの以下のキー配下の <code>Version</code> 値を確認することでもインストールされているバージョンを確認できます。(参考情報: <a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/cpp/windows/redistributing-visual-cpp-files?view=msvc-170#install-the-redistributable-packages">Visual C++ ファイルの再頒布</a>)</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\VisualStudio\14.0\VC\Runtimes\&#123;x86|x64|arm64&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="Visual-C-Redistributable-のインストール-アンインストール-修復には再起動が必要ですか？"><a href="#Visual-C-Redistributable-のインストール-アンインストール-修復には再起動が必要ですか？" class="headerlink" title="Visual C++ Redistributable のインストール/アンインストール/修復には再起動が必要ですか？"></a>Visual C++ Redistributable のインストール/アンインストール/修復には再起動が必要ですか？</h2><p>Visual C++ Redistributable のインストール/アンインストール/修復時に置き換え対象の Visual C++ ランタイム DLL が他のプロセスから使用中で更新できない場合、ランタイム DLL のファイル操作は再起動時に遅延され、コンピューターの再起動が要求されます。再起動の要否は Visual C++ Redistributable の実行時点のシステムの状態によって決まるため、事前に確実に判断したり再起動を回避することは難しい点にご注意ください。再起動が必要となる可能性があることを前提に作業を計画していただくことをお勧めします。</p>
+<hr>
+<h2 id="サイレントでインストール-アンインストール-修復はできますか？"><a href="#サイレントでインストール-アンインストール-修復はできますか？" class="headerlink" title="サイレントでインストール/アンインストール/修復はできますか？"></a>サイレントでインストール/アンインストール/修復はできますか？</h2><p><code>/quiet</code> または <code>/q</code> オプションを指定して Visual C++ Redistributable を実行することで、UI を表示せずにサイレントでインストール/アンインストール/修復を行うことができます。</p>
+<p>なお、サイレントで操作を行った際に再起動が要求されると、Visual C++ Redistributable によって自動的にコンピューターの再起動が行われます。意図しない再起動を避けるためには、<code>/quiet</code> や <code>/q</code> のオプションと組み合わせて <code>/norestart</code> を指定することが一般的です。この場合、再起動が要求されると Visual C++ Redistributable は終了コード 3010 を返します。終了コード 3010 は失敗を意味するものではなく、再起動が必要であることを示すコードですので、サイレント インストールの呼び出し元でこの終了コードを適切に処理する必要があります。</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># サイレント インストールの例</span></span><br><span class="line">VC_redist.x64.exe /quiet /norestart</span><br><span class="line"></span><br><span class="line"><span class="comment"># サイレント アンインストールの例</span></span><br><span class="line">VC_redist.x64.exe /uninstall /quiet /norestart</span><br><span class="line"></span><br><span class="line"><span class="comment"># サイレント 修復の例</span></span><br><span class="line">VC_redist.x64.exe /repair /quiet /norestart</span><br></pre></td></tr></table></figure>
 
       
       
@@ -172,11 +178,11 @@
     <footer class="article-footer">
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Visual-Studio/" rel="tag">Visual Studio</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/C/" rel="tag">C++</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Visual-Studio/" rel="tag">Visual Studio</a></li></ul>
 
       <!-- 
       
-        <a href="https://github.com/jpdscore/blog/edit/master/articles/vs/vs2022-requirement.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
+        <a href="https://github.com/jpdscore/blog/edit/master/articles/vs/vcredist-faq.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
         
       -->
     </footer>
@@ -185,19 +191,10 @@
     
 <nav id="article-nav">
   
-    <a href="../vs2022-update-license/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">次の記事</strong>
-      <div class="article-nav-title">
-        
-          Visual Studio 2022 のライセンス認証について
-        
-      </div>
-    </a>
   
-  
-    <a href="../../playfab/studio-creation-recommendation/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="../../dotnet/netfx35-in-26h1-and-later/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">前の記事</strong>
-      <div class="article-nav-title">タイトル・スタジオ作成時における推奨・注意事項</div>
+      <div class="article-nav-title">Windows 11 version 26H1 以降における .NET Framework 3.5 の展開方法の変更について</div>
     </a>
   
 </nav>
@@ -216,7 +213,7 @@
       <ul>
         
           <li>
-            <a href="../vcredist-faq/">Visual C++ Redistributable に関するよくあるお問い合わせ</a>
+            <a href="">Visual C++ Redistributable に関するよくあるお問い合わせ</a>
           </li>
         
           <li>
