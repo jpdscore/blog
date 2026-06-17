@@ -4,20 +4,19 @@
   <meta charset="utf-8">
   
   
-  <title>Fusion API を使用して GAC に登録されているアセンブリの一覧を取得する | JPDSC Blog</title>
+  <title>お客様が開発しているアプリケーションに関する問題でお問い合わせいただく際のサンプル提供のポイント | JPDSC Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="GAC に登録されているアセンブリを Fusion API を使用して一覧取得する方法について説明します。">
+  <meta name="description" content="サポートへのお問い合わせ時に提供いただく「最小限の再現サンプル」について、その定義・重要性・作成方法をわかりやすく解説します。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Fusion API を使用して GAC に登録されているアセンブリの一覧を取得する">
-<meta property="og:url" content="https://jpdscore.github.io/blog/dotnet/list-assemblies-in-gac-by-fusion-api/index.html">
+<meta property="og:title" content="お客様が開発しているアプリケーションに関する問題でお問い合わせいただく際のサンプル提供のポイント">
+<meta property="og:url" content="https://jpdscore.github.io/blog/general/minimal-reproducible-example/index.html">
 <meta property="og:site_name" content="Japan Developer Support Core Team Blog">
-<meta property="og:description" content="GAC に登録されているアセンブリを Fusion API を使用して一覧取得する方法について説明します。">
+<meta property="og:description" content="サポートへのお問い合わせ時に提供いただく「最小限の再現サンプル」について、その定義・重要性・作成方法をわかりやすく解説します。">
 <meta property="og:locale" content="ja_JP">
-<meta property="article:published_time" content="2025-11-09T15:00:00.000Z">
-<meta property="article:modified_time" content="2026-06-17T08:32:11.234Z">
+<meta property="article:published_time" content="2026-06-16T15:00:00.000Z">
+<meta property="article:modified_time" content="2026-06-17T08:32:11.238Z">
 <meta property="article:author" content="Developer Support Core Japan">
-<meta property="article:tag" content=".NET">
-<meta property="article:tag" content=".NET Framework">
+<meta property="article:tag" content="全般">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternate" href="/blog/atom.xml" title="Japan Developer Support Core Team Blog" type="application/atom+xml">
@@ -81,7 +80,7 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-dotnet/list-assemblies-in-gac-by-fusion-api" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-general/minimal-reproducible-example" class="article article-type-post" itemscope itemprop="blogPost">
   
     <aside id="toc" role="complementary" aria-label="Table of Contents"></aside>
   
@@ -93,7 +92,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Fusion API を使用して GAC に登録されているアセンブリの一覧を取得する
+      お客様が開発しているアプリケーションに関する問題でお問い合わせいただく際のサンプル提供のポイント
     </h1>
   
 
@@ -101,7 +100,7 @@
       <div class="article-share">
         Last Update: 
         <a href="" class="article-date-single">
-  <time datetime="2025-11-09T15:00:00.000Z" itemprop="datePublished">2025-11-10</time>
+  <time datetime="2026-06-16T15:00:00.000Z" itemprop="datePublished">2026-06-17</time>
 </a>
         
         <div class="article-share-buttons">
@@ -109,7 +108,7 @@
         </div>
         <div class="article-share-buttons">
           <script src="https://platform.linkedin.com/in.js" type="text/javascript">lang: ja_JP</script>
-          <script type="IN/Share" data-url="https://jpdscore.github.io/blog/dotnet/list-assemblies-in-gac-by-fusion-api/"></script>
+          <script type="IN/Share" data-url="https://jpdscore.github.io/blog/general/minimal-reproducible-example/"></script>
         </div>
         <div class="article-share-buttons">
           <a target="_blank" rel="noopener" href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
@@ -118,16 +117,113 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>こんにちは、Japan Developer Support Core チームの松井です。
-今回は、.NET Framework の Fusion API を使用して、グローバル アセンブリ キャッシュ (GAC) に登録されているアセンブリの一覧を取得する方法について説明します。</p>
-<h2 id="GAC-の概要"><a href="#GAC-の概要" class="headerlink" title="GAC の概要"></a>GAC の概要</h2><p>GAC とは、.NET Framework において共有アセンブリを格納するためのキャッシュの場所です。GAC に登録されたアセンブリは、複数の .NET Framework アプリケーションから共有して使用することができます。GAC に登録されているアセンブリの例としては、.NET Framework 自体が提供するフレームワーク ライブラリや、サードパーティ製の共有ライブラリなどがあります。もちろんアプリケーション固有のアセンブリを GAC に登録することも可能です。</p>
-<h2 id="GAC-に登録されているアセンブリの確認方法"><a href="#GAC-に登録されているアセンブリの確認方法" class="headerlink" title="GAC に登録されているアセンブリの確認方法"></a>GAC に登録されているアセンブリの確認方法</h2><p>GAC にインストールされているアセンブリを確認する一般的な方法としては、Visual Studio や .NET Framework SDK に付属する <a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/dotnet/framework/tools/gacutil-exe-gac-tool">gacutil.exe</a> を使用する方法があります。しかし、gacutil.exe の再頒布は許諾されていないため、運用環境で利用する場合は開発者ツールをインストールする必要があります。また、従来は .NET Framework に付属していたアセンブリ キャッシュ ビューアーのシェル拡張機能 (shfusion.dll) によりエクスプローラーから GAC の内容を参照することも可能でしたが、これは Windows 8 および Windows Server 2012 以降の OS バージョンでは廃止されており、.NET Framework 4 以降にも対応していません。</p>
-<h2 id="Fusion-API-を使用して-GAC-のアセンブリを一覧取得する方法"><a href="#Fusion-API-を使用して-GAC-のアセンブリを一覧取得する方法" class="headerlink" title="Fusion API を使用して GAC のアセンブリを一覧取得する方法"></a>Fusion API を使用して GAC のアセンブリを一覧取得する方法</h2><p>あまり知られていませんが、.NET Framework はアセンブリのインストール、アンインストール、検索などの操作をプログラムから行う方法として <a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/dotnet/framework/unmanaged-api/fusion/">Fusion API</a> を公開しています。Fusion API は COM ベースのインターフェイスで提供されており、C++ や C# などの言語から利用できる他、PowerShell からも呼び出すことも可能です。列挙体やインターフェイスなどの型を定義したヘッダー ファイルは .NET Framework SDK に付属しており、<code>C:\Program Files (x86)\Windows Kits\NETFXSDK\&lt;version&gt;\Include\um\fusion.h</code> に格納されています。以下では PowerShell スクリプトから Fusion API を呼び出して、GAC に登録されているアセンブリの一覧を取得するサンプルコードを示します。</p>
-<div class="admonition warning"><p class="admonition-title">注意事項
-</p><p>サンプルスクリプトは機能や使用方法を紹介する目的で提供しているものとなります。実際に運用環境で使用する場合はスクリプトの内容を理解した上で十分な動作確認とテストを行い、お客様の責任のもとでご利用ください。</p>
-</div>
+        <p>こんにちは、Japan Developer Support Core チームの松井です。</p>
+<p>私たちのサポート チームでは、弊社の開発者向け製品に関するお問い合わせの他、お客様が開発しているアプリケーションで発生する問題に対してトラブルシュートやデバッグの支援を承っています。その際、問題を再現するためのサンプル プログラムの提供をお客様へお願いすることがあります。しかし、以下のような理由で弊社で問題を再現できないサンプルをご提供いただくケースが少なくありません。</p>
+<ul>
+<li>実際のアプリケーションをそのまま添付されている (問題箇所が切り分けられていない)</li>
+<li>ビルドに必要なファイルや依存関係が不足しており、ビルドできない</li>
+<li>お客様固有のデータや環境に依存しており、そのままでは実行できない</li>
+</ul>
+<p>本記事では、お客様が開発しているアプリケーションに関する問題でお問い合わせいただく際に、サンプル提供のポイントとして「最小限の再現サンプル」の重要性と作成方法について解説します。</p>
+<p>なお、お客様が開発しているアプリケーションではないサードパーティ製品や弊社がサポートを提供していないオープンソース プロジェクトに関する問題については、弊社ではトラブルシュートやデバッグのご支援を承っていません。サードパーティ製品やオープンソース プロジェクトの開発元にお問い合わせください。</p>
+<h2 id="最小限の再現サンプル"><a href="#最小限の再現サンプル" class="headerlink" title="最小限の再現サンプル"></a>最小限の再現サンプル</h2><p>最小限の再現サンプルとは、問題を再現させるために必要な要素だけを含んだ、<strong>できる限り小さく、独立した、それ単体で実行可能なサンプル コード</strong>です。
+<strong>Minimal Reproducible Example</strong> (MRE) や <strong>Minimal, Complete, and Verifiable Example</strong> (MCVE) とも呼ばれます。
+Stack Overflow をはじめとする技術コミュニティでも、質問時に MRE を提供することが推奨されています。</p>
+<p>最小限の再現サンプルは、以下の 3 つの要素を満たしていることが重要です。</p>
+<table>
+<thead>
+<tr>
+<th>要素</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>最小 (Minimal)</strong></td>
+<td>問題の再現に無関係なコードをすべて取り除いた状態</td>
+</tr>
+<tr>
+<td><strong>再現可能 (Reproducible)</strong></td>
+<td>問題が確実に再現される状態</td>
+</tr>
+<tr>
+<td><strong>完結 (Complete)</strong></td>
+<td>受け取った側がそのままビルド・実行できる状態</td>
+</tr>
+</tbody></table>
+<h2 id="なぜ最小限の再現サンプルが必要なのか"><a href="#なぜ最小限の再現サンプルが必要なのか" class="headerlink" title="なぜ最小限の再現サンプルが必要なのか"></a>なぜ最小限の再現サンプルが必要なのか</h2><h3 id="問題箇所の特定が容易になる"><a href="#問題箇所の特定が容易になる" class="headerlink" title="問題箇所の特定が容易になる"></a>問題箇所の特定が容易になる</h3><p>実際のアプリケーションは多くの機能や依存関係を持っています。問題の原因が、ビジネス ロジックにあるのか、特定のライブラリの使い方にあるのか、それとも環境設定にあるのかを判断するだけでも多大な時間がかかります。</p>
+<p>また、お客様のアプリケーションを最も詳しく把握されているのは、通常はお客様ご自身です。問題が十分に切り分けられていない場合、サポート側ではまずアプリケーション全体の構成や前提条件の把握から着手する必要があり、調査に多くの時間を要する可能性があります。</p>
+<p>さらに、最小限の再現サンプルに絞り込む過程で、お客様ご自身がアプリケーションの問題の原因に気づくこともあります。これはいわゆる「ラバーダック・デバッグ」と呼ばれる手法に似た効果とも言えるかもしれません。</p>
+<h3 id="調査の効率が向上する"><a href="#調査の効率が向上する" class="headerlink" title="調査の効率が向上する"></a>調査の効率が向上する</h3><p>サポート エンジニアが問題を再現・調査するためには、まずプログラムを手元で動かせる状態にする必要があります。再現サンプルが小さくシンプルであるほど、サポート エンジニアが問題の本質に集中できるため、調査の速度が向上し、より早く解決策を提供できます。</p>
+<p>また、再現サンプルは修正案の妥当性を確認するうえでも有効です。事象の原因が弊社製品の不具合である場合でも、アプリケーション側の実装に起因する場合でも、同じ条件で修正前後を比較できるため影響範囲や改善有無を確認しやすくなります。</p>
+<p>なお、プロフェッショナル サポートではサポート契約のスコープとしてお客様アプリケーションで起きる問題の切り分け支援が対象外となるため、切り分けはお客様ご自身で行っていただく必要があります。しかし、切り分けのご支援を承っている上位サポート サービスでお問い合わせいただく際もこうした考え方は有効であり、最小限の再現サンプルを提供いただくことでスムーズに調査を進めることができます。</p>
+<h2 id="よくある問題と対処方法"><a href="#よくある問題と対処方法" class="headerlink" title="よくある問題と対処方法"></a>よくある問題と対処方法</h2><p>以下は代表的な例です。実際のアプリケーションでは、アーキテクチャや外部依存の性質によって、ここで挙げる形にそのまま当てはめることが難しい場合もあります。</p>
+<h3 id="問題-1-実際のアプリケーションをそのまま提供されている"><a href="#問題-1-実際のアプリケーションをそのまま提供されている" class="headerlink" title="問題 1: 実際のアプリケーションをそのまま提供されている"></a>問題 1: 実際のアプリケーションをそのまま提供されている</h3><p><strong>例</strong>: 数十のプロジェクトで構成されるソリューションを丸ごと添付される</p>
+<p><strong>対処方法</strong>: 問題が発生しているコードの箇所を特定し、そのコードだけを含む新しいプロジェクトを作成してください。</p>
+<hr>
+<h3 id="問題-2-ビルドできない"><a href="#問題-2-ビルドできない" class="headerlink" title="問題 2: ビルドできない"></a>問題 2: ビルドできない</h3><p><strong>例</strong>: 参照先のアセンブリや NuGet パッケージが不足している、独自の共通ライブラリへの参照が含まれている</p>
+<p><strong>対処方法</strong>: 提供したサンプルを別の環境 (例: 新規の Windows PC 上の Visual Studio) で開いてビルドできるかどうかをご確認ください。</p>
+<p>ビルドに必要な要素の確認観点は、プロジェクトの種類 (.NET、.NET Framework、Web アプリケーション、デスクトップ アプリケーションなど) によって異なります。
+例えば .NET / .NET Framework の場合は、以下のような点について確認してください。</p>
+<ul>
+<li><code>packages.config</code> や <code>.csproj</code> / <code>.vbproj</code> に記載されている NuGet パッケージはすべて含まれているか (または <code>dotnet restore</code> で自動取得できるか)</li>
+<li>社内の共通ライブラリや独自 DLL への参照を、標準的な NuGet パッケージや同等のコードに置き換えられているか</li>
+<li>ソリューション ファイル (<code>.sln</code>) を含めており、参照先プロジェクトがすべて含まれているか</li>
+</ul>
+<hr>
+<h3 id="問題-3-お客様固有のデータや環境に依存している"><a href="#問題-3-お客様固有のデータや環境に依存している" class="headerlink" title="問題 3: お客様固有のデータや環境に依存している"></a>問題 3: お客様固有のデータや環境に依存している</h3><p><strong>例</strong>: 特定のデータベース スキーマやデータがなければ動作しない、社内のファイル サーバーへのパスがハードコードされている</p>
+<p><strong>対処方法</strong>: 外部依存をできる限り排除し、サンプル内で完結するダミー データや設定値に置き換えてください。</p>
+<ul>
+<li>データベース接続が必要な場合: SQL Server LocalDB や SQLite など、環境を選ばない軽量なデータベースを使用し、テスト用のスキーマとデータをサンプル内でセットアップするコードを含める</li>
+<li>ファイル パスが必要な場合: ダミーのテキスト ファイルを同梱し、相対パスで参照する</li>
+<li>外部サービスへの接続が必要な場合: モック オブジェクトやスタブを使用して外部サービスへの依存を除去する</li>
+</ul>
+<hr>
+<h3 id="問題-4-問題が再現しない"><a href="#問題-4-問題が再現しない" class="headerlink" title="問題 4: 問題が再現しない"></a>問題 4: 問題が再現しない</h3><p><strong>例</strong>: 提供されたサンプルを実行しても、問題が発生しない</p>
+<p><strong>対処方法</strong>: 提供前に、ご自身の手元で問題が確実に再現することをご確認ください。また、問題を再現させるための手順を具体的に記載してください。</p>
+<ul>
+<li>どのような操作をすると問題が発生するか</li>
+<li>期待される動作と実際の動作の違い</li>
+<li>発生する例外やエラー メッセージ (スタック トレースを含む)</li>
+<li>問題が発生する条件 (常に発生するか、特定の条件下でのみ発生するか)</li>
+</ul>
+<p>また、問題発生時の画面のスクリーンショットや操作手順の画面録画をご提供いただくことも有効です。特に UI 上の表示に関わる問題や、操作手順が複雑な場合には、現象をより正確に伝えるうえで助けになります。</p>
+<h2 id="最小限の再現サンプルの作成手順"><a href="#最小限の再現サンプルの作成手順" class="headerlink" title="最小限の再現サンプルの作成手順"></a>最小限の再現サンプルの作成手順</h2><p>以下の手順は一例であり、すべてのアプリケーションで同じ進め方ができるとは限りません。実際には、利用している技術や依存関係に応じて、可能な範囲で再現条件を単純化していただくことが重要です。</p>
+<ol>
+<li><p><strong>新しいプロジェクトを作成する</strong>
+問題が発生しているプロジェクトを直接修正するのではなく、問題の種類に応じた新しいプロジェクト テンプレート (コンソール アプリ、Windows フォーム アプリなど) から始めます。</p>
+</li>
+<li><p><strong>問題を再現するコードを最小限追加する</strong>
+問題が発生している箇所のコードだけをコピーし、新しいプロジェクトに貼り付けます。業務ロジックや UI など、問題の再現に関係のない部分は含めません。</p>
+</li>
+<li><p><strong>外部依存を排除する</strong>
+データベース接続、外部サービス、独自ライブラリへの依存を、サンプル内で完結するダミー実装に置き換えます。</p>
+</li>
+<li><p><strong>問題が再現することを確認する</strong>
+新しいプロジェクト単体で問題が再現することを確認します。この時点で問題が再現しなければ、手順 2 に戻ってコードをさらに調整します。</p>
+</li>
+<li><p><strong>別の環境でビルド・実行できることを確認する</strong>
+可能であれば、開発環境とは別のクリーンな環境でサンプルをビルド・実行し、問題が再現することを確認します。</p>
+</li>
+<li><p><strong>再現手順を記載する</strong>
+サンプルを ZIP ファイルなどに圧縮してサポートに提供する際、問題を再現するための具体的な手順を別途テキストで記載します。</p>
+</li>
+<li><p><strong>切り分け前のサンプルも参考情報として提供する</strong>
+切り分けの過程で、見た目は同じ事象でも原因の異なる別の問題に変化してしまう場合があります。最小限の再現サンプルに加えて、可能であれば切り分け前のサンプルを参考情報として併せてご提供いただくと、変化の有無を確認しながら調査を進めやすくなります。</p>
+</li>
+</ol>
+<h2 id="まとめ"><a href="#まとめ" class="headerlink" title="まとめ"></a>まとめ</h2><p>最小限の再現サンプルを作成することは、私たちサポート側だけでなくお客様側にとってもメリットがあります。</p>
+<ul>
+<li>問題の本質を絞り込む過程で、ご自身で原因に気づくことがある</li>
+<li>サポート エンジニアが迅速に問題を再現・調査できるため、解決までの時間が短縮される</li>
+<li>問題の再現条件や変更点を共有しやすくなり、認識合わせを進めやすくなる</li>
+<li>修正案の妥当性を確認しやすく、検証結果に基づいた正確な解決策を提供できる</li>
+</ul>
+<p>お問い合わせの際は、ぜひ本記事を参考に最小限の再現サンプルをご用意いただければ幸いです。
+ご不明な点がございましたら、サポート担当者までお気軽にお問い合わせください。</p>
+<h2 id="参考資料"><a href="#参考資料" class="headerlink" title="参考資料"></a>参考資料</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://stackoverflow.com/help/minimal-reproducible-example">Stack Overflow - How to create a Minimal, Reproducible Example</a></li>
+</ul>
 
-<figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># List assemblies in the Global Assembly Cache (GAC) like &quot;gacutil.exe /l&quot; by calling the following Fusion APIs.</span></span><br><span class="line"><span class="comment"># https://learn.microsoft.com/en-us/dotnet/framework/unmanaged-api/fusion/createassemblyenum-function</span></span><br><span class="line"><span class="comment"># https://learn.microsoft.com/en-us/dotnet/framework/unmanaged-api/fusion/iassemblyenum-interface </span></span><br><span class="line"><span class="comment"># https://learn.microsoft.com/en-us/dotnet/framework/unmanaged-api/fusion/iassemblyname-interface</span></span><br><span class="line"><span class="comment"># https://learn.microsoft.com/en-us/dotnet/framework/unmanaged-api/fusion/asm-display-flags-enumeration</span></span><br><span class="line"><span class="variable">$source</span> = <span class="string">@&quot;</span></span><br><span class="line"><span class="string">   using Microsoft.Win32;</span></span><br><span class="line"><span class="string">   using System;</span></span><br><span class="line"><span class="string">   using System.Collections.Generic;</span></span><br><span class="line"><span class="string">   using System.ComponentModel;</span></span><br><span class="line"><span class="string">   using System.Diagnostics;</span></span><br><span class="line"><span class="string">   using System.IO;</span></span><br><span class="line"><span class="string">   using System.Runtime.InteropServices;</span></span><br><span class="line"><span class="string">   using System.Text;</span></span><br><span class="line"><span class="string"> </span></span><br><span class="line"><span class="string">   public class FusionAPi</span></span><br><span class="line"><span class="string">   &#123;</span></span><br><span class="line"><span class="string">       [ComImport, InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]</span></span><br><span class="line"><span class="string">       [Guid(&quot;21b8916c-f28e-11d2-a473-00c04f8ef448&quot;)]</span></span><br><span class="line"><span class="string">       internal interface IAssemblyEnum</span></span><br><span class="line"><span class="string">       &#123;</span></span><br><span class="line"><span class="string">           [PreserveSig]</span></span><br><span class="line"><span class="string">           int GetNextAssembly(IntPtr pvReserved, out IAssemblyName ppName, int flags);</span></span><br><span class="line"><span class="string">           int Reset();</span></span><br><span class="line"><span class="string">           int Clone(out IAssemblyEnum ppEnum);</span></span><br><span class="line"><span class="string">       &#125;</span></span><br><span class="line"><span class="string"> </span></span><br><span class="line"><span class="string">       [ComImport, InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]</span></span><br><span class="line"><span class="string">       [Guid(&quot;CD193BC0-B4BC-11d2-9833-00C04FC31D2E&quot;)]</span></span><br><span class="line"><span class="string">       internal interface IAssemblyName</span></span><br><span class="line"><span class="string">       &#123;</span></span><br><span class="line"><span class="string">           int SetProperty(int PropertyId, IntPtr pvProperty, int cbProperty);</span></span><br><span class="line"><span class="string">           int GetProperty(int PropertyId, IntPtr pvProperty, ref int pcbProperty);</span></span><br><span class="line"><span class="string">           int Finalize();</span></span><br><span class="line"><span class="string">           [PreserveSig]</span></span><br><span class="line"><span class="string">           int GetDisplayName(StringBuilder pDisplayName, ref int pccDisplayName, int displayFlags);</span></span><br><span class="line"><span class="string">           int Reserved(ref Guid guid, Object obj1, Object obj2, String string1, Int64 llFlags, IntPtr pvReserved, int cbReserved, out IntPtr ppv);</span></span><br><span class="line"><span class="string">           [PreserveSig]</span></span><br><span class="line"><span class="string">           int GetName(ref int pccBuffer, StringBuilder pwzName);</span></span><br><span class="line"><span class="string">           int GetVersion(out int versionHi, out int versionLow);</span></span><br><span class="line"><span class="string">           int IsEqual(IAssemblyName pAsmName, int cmpFlags);</span></span><br><span class="line"><span class="string">           int Clone(out IAssemblyName pAsmName);</span></span><br><span class="line"><span class="string">       &#125;</span></span><br><span class="line"><span class="string"> </span></span><br><span class="line"><span class="string">       [UnmanagedFunctionPointer(CallingConvention.Winapi, CharSet = CharSet.Unicode)]</span></span><br><span class="line"><span class="string">       private delegate int CreateAssemblyEnumDelegate(out IAssemblyEnum ppEnum, IntPtr pUnkReserved, IAssemblyName pName, int flags, IntPtr pvReserved);</span></span><br><span class="line"><span class="string"> </span></span><br><span class="line"><span class="string">       [DllImport(&quot;kernel32.dll&quot;, SetLastError=true)]</span></span><br><span class="line"><span class="string">       private static extern IntPtr LoadLibrary(string lpFileName);</span></span><br><span class="line"><span class="string"> </span></span><br><span class="line"><span class="string">       [DllImport(&quot;kernel32.dll&quot;, SetLastError=true)]</span></span><br><span class="line"><span class="string">       private static extern IntPtr GetProcAddress(IntPtr hModule, [MarshalAs(UnmanagedType.LPStr)] string procName);</span></span><br><span class="line"><span class="string"> </span></span><br><span class="line"><span class="string">       [DllImport(&quot;kernel32.dll&quot;)]</span></span><br><span class="line"><span class="string">       [return: MarshalAs(UnmanagedType.Bool)]</span></span><br><span class="line"><span class="string">       private static extern bool FreeLibrary(IntPtr hModule);</span></span><br><span class="line"><span class="string"> </span></span><br><span class="line"><span class="string">       public static List&lt;string&gt; GetGacAssemblies()</span></span><br><span class="line"><span class="string">       &#123;</span></span><br><span class="line"><span class="string">           RegistryKey regKeyNetFx = Registry.LocalMachine.OpenSubKey(@&quot;Software\Microsoft\.NETFramework&quot;, false);</span></span><br><span class="line"><span class="string">           string installRoot = Path.Combine(regKeyNetFx.GetValue(&quot;InstallRoot&quot;).ToString(), &quot;v4.0.30319&quot;);</span></span><br><span class="line"><span class="string">           string fusionDllPath = Path.Combine(installRoot, &quot;fusion.dll&quot;);</span></span><br><span class="line"><span class="string">           IntPtr hModule = LoadLibrary(fusionDllPath);</span></span><br><span class="line"><span class="string">           if (hModule == IntPtr.Zero)</span></span><br><span class="line"><span class="string">           &#123;</span></span><br><span class="line"><span class="string">               throw new Win32Exception(fusionDllPath);</span></span><br><span class="line"><span class="string">           &#125;</span></span><br><span class="line"><span class="string"> </span></span><br><span class="line"><span class="string">           List&lt;string&gt; result = new List&lt;string&gt;();</span></span><br><span class="line"><span class="string">           try</span></span><br><span class="line"><span class="string">           &#123;</span></span><br><span class="line"><span class="string">               if (hModule != IntPtr.Zero)</span></span><br><span class="line"><span class="string">               &#123;</span></span><br><span class="line"><span class="string">                   const string procName = &quot;CreateAssemblyEnum&quot;;</span></span><br><span class="line"><span class="string">                   IntPtr pfnCreateAssemblyEnum = GetProcAddress(hModule, procName);</span></span><br><span class="line"><span class="string">                   if (pfnCreateAssemblyEnum == IntPtr.Zero)</span></span><br><span class="line"><span class="string">                   &#123;</span></span><br><span class="line"><span class="string">                       throw new Win32Exception(procName);</span></span><br><span class="line"><span class="string">                   &#125;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">                   var d = (CreateAssemblyEnumDelegate)Marshal.GetDelegateForFunctionPointer(pfnCreateAssemblyEnum, typeof(CreateAssemblyEnumDelegate));</span></span><br><span class="line"><span class="string"> </span></span><br><span class="line"><span class="string">                   IAssemblyEnum assemblyEnum = null;</span></span><br><span class="line"><span class="string">                   int hr = d(out assemblyEnum, IntPtr.Zero, null, 2 /* AssemblyCacheFalgs.Gac */, IntPtr.Zero);</span></span><br><span class="line"><span class="string">                   if (hr &lt; 0)</span></span><br><span class="line"><span class="string">                   &#123;</span></span><br><span class="line"><span class="string">                       Marshal.ThrowExceptionForHR(hr);</span></span><br><span class="line"><span class="string">                   &#125;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">                   IAssemblyName assemblyName = null;</span></span><br><span class="line"><span class="string">                   while (assemblyEnum.GetNextAssembly(IntPtr.Zero, out assemblyName, 0) &gt;= 0 &amp;&amp; assemblyName != null)</span></span><br><span class="line"><span class="string">                   &#123;</span></span><br><span class="line"><span class="string">                       // ASM_DISPLAYF_VERSION | ASM_DISPLAYF_CULTURE | ASM_DISPLAYF_PUBLIC_KEY_TOKEN | ASM_DISPLAYF_PROCESSORARCHITECTURE | ASM_DISPLAYF_RETARGET</span></span><br><span class="line"><span class="string">                       const int displayFlag = 0xA7;</span></span><br><span class="line"><span class="string">                       int bufferSize = 0;</span></span><br><span class="line"><span class="string">                       StringBuilder buffer = null;</span></span><br><span class="line"><span class="string">                       assemblyName.GetDisplayName(buffer, ref bufferSize, displayFlag);</span></span><br><span class="line"><span class="string">                       buffer = new StringBuilder(bufferSize);</span></span><br><span class="line"><span class="string">                       assemblyName.GetDisplayName(buffer, ref bufferSize, displayFlag);</span></span><br><span class="line"><span class="string">                       result.Add(buffer.ToString());</span></span><br><span class="line"><span class="string">                   &#125;</span></span><br><span class="line"><span class="string">               &#125;</span></span><br><span class="line"><span class="string">           &#125;</span></span><br><span class="line"><span class="string">           finally</span></span><br><span class="line"><span class="string">           &#123;</span></span><br><span class="line"><span class="string">               FreeLibrary(hModule);</span></span><br><span class="line"><span class="string">           &#125;</span></span><br><span class="line"><span class="string">           return result;</span></span><br><span class="line"><span class="string">       &#125;</span></span><br><span class="line"><span class="string">   &#125;</span></span><br><span class="line"><span class="string">&quot;@</span></span><br><span class="line"><span class="built_in">Add-Type</span> <span class="literal">-Language</span> CSharp <span class="literal">-TypeDefinition</span> <span class="variable">$source</span></span><br><span class="line">[<span class="type">FusionApi</span>]::GetGacAssemblies()</span><br></pre></td></tr></table></figure>
       
       
         <div class="article-disclaimer">
@@ -140,11 +236,11 @@
     <footer class="article-footer">
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/NET/" rel="tag">.NET</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/NET-Framework/" rel="tag">.NET Framework</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/%E5%85%A8%E8%88%AC/" rel="tag">全般</a></li></ul>
 
       <!-- 
       
-        <a href="https://github.com/jpdscore/blog/edit/master/articles/dotnet/list-assemblies-in-gac-by-fusion-api.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
+        <a href="https://github.com/jpdscore/blog/edit/master/articles/general/minimal-reproducible-example.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
         
       -->
     </footer>
@@ -153,19 +249,10 @@
     
 <nav id="article-nav">
   
-    <a href="../netfx-4-upgrade/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">次の記事</strong>
-      <div class="article-nav-title">
-        
-          .NET Framework 3.5 から 4.x への移行
-        
-      </div>
-    </a>
   
-  
-    <a href="../../devbox/timezone-in-devbox/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="../../vs/vcredist-faq/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">前の記事</strong>
-      <div class="article-nav-title">Dev Box のタイムゾーンの動作と注意点</div>
+      <div class="article-nav-title">Visual C++ Redistributable に関するよくあるお問い合わせ</div>
     </a>
   
 </nav>
@@ -184,7 +271,7 @@
       <ul>
         
           <li>
-            <a href="../../general/minimal-reproducible-example/">お客様が開発しているアプリケーションに関する問題でお問い合わせいただく際のサンプル提供のポイント</a>
+            <a href="">お客様が開発しているアプリケーションに関する問題でお問い合わせいただく際のサンプル提供のポイント</a>
           </li>
         
           <li>
@@ -192,11 +279,11 @@
           </li>
         
           <li>
-            <a href="../netfx35-in-26h1-and-later/">Windows 11 version 26H1 以降における .NET Framework 3.5 の展開方法の変更について</a>
+            <a href="../../dotnet/netfx35-in-26h1-and-later/">Windows 11 version 26H1 以降における .NET Framework 3.5 の展開方法の変更について</a>
           </li>
         
           <li>
-            <a href="../fpu-control-word-not-supported-in-dotnet-framework/">.NET Framework で浮動小数点制御ワードを変更した場合に発生する可能性がある問題について</a>
+            <a href="../../dotnet/fpu-control-word-not-supported-in-dotnet-framework/">.NET Framework で浮動小数点制御ワードを変更した場合に発生する可能性がある問題について</a>
           </li>
         
           <li>

@@ -6,7 +6,7 @@
   <link href="https://jpdscore.github.io/blog/atom.xml" rel="self"/>
   
   <link href="https://jpdscore.github.io/blog/"/>
-  <updated>2026-06-04T05:51:14.578Z</updated>
+  <updated>2026-06-17T08:32:11.238Z</updated>
   <id>https://jpdscore.github.io/blog/</id>
   
   <author>
@@ -17,11 +17,28 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>お客様が開発しているアプリケーションに関する問題でお問い合わせいただく際のサンプル提供のポイント</title>
+    <link href="https://jpdscore.github.io/blog/general/minimal-reproducible-example/"/>
+    <id>https://jpdscore.github.io/blog/general/minimal-reproducible-example/</id>
+    <published>2026-06-16T15:00:00.000Z</published>
+    <updated>2026-06-17T08:32:11.238Z</updated>
+    
+    
+    <summary type="html">サポートへのお問い合わせ時に提供いただく「最小限の再現サンプル」について、その定義・重要性・作成方法をわかりやすく解説します。</summary>
+    
+    
+    
+    
+    <category term="全般" scheme="https://jpdscore.github.io/blog/tags/%E5%85%A8%E8%88%AC/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Visual C++ Redistributable に関するよくあるお問い合わせ</title>
     <link href="https://jpdscore.github.io/blog/vs/vcredist-faq/"/>
     <id>https://jpdscore.github.io/blog/vs/vcredist-faq/</id>
     <published>2026-05-27T15:00:00.000Z</published>
-    <updated>2026-06-04T05:51:14.578Z</updated>
+    <updated>2026-06-17T08:32:11.255Z</updated>
     
     
     <summary type="html">Visual C++ Redistributable (再頒布可能パッケージ) について、サポート窓口でよくお寄せいただくご質問を、公式ドキュメントに基づいて Q&amp;A 形式で整理します。</summary>
@@ -40,7 +57,7 @@
     <link href="https://jpdscore.github.io/blog/dotnet/netfx35-in-26h1-and-later/"/>
     <id>https://jpdscore.github.io/blog/dotnet/netfx35-in-26h1-and-later/</id>
     <published>2026-05-24T15:00:00.000Z</published>
-    <updated>2026-06-04T05:51:14.557Z</updated>
+    <updated>2026-06-17T08:32:11.236Z</updated>
     
     
     <summary type="html">Windows 11 version 26H1 以降で .NET Framework 3.5 の提供方式が FoD からスタンドアロン インストーラーに変更された点について、公式情報と運用上の注意点をまとめます。</summary>
@@ -59,7 +76,7 @@
     <link href="https://jpdscore.github.io/blog/dotnet/fpu-control-word-not-supported-in-dotnet-framework/"/>
     <id>https://jpdscore.github.io/blog/dotnet/fpu-control-word-not-supported-in-dotnet-framework/</id>
     <published>2026-05-21T15:00:00.000Z</published>
-    <updated>2026-06-04T05:51:14.555Z</updated>
+    <updated>2026-06-17T08:32:11.234Z</updated>
     
     
     <summary type="html">.NET Framework アプリケーションから _controlfp 等を呼び出して x87 FPU の制御ワードを変更すると、共通言語ランタイム (CLR) の想定外の動作によりスタック オーバーフロー等の異常終了を招く場合があることをご案内します。</summary>
@@ -78,7 +95,7 @@
     <link href="https://jpdscore.github.io/blog/vs/vs2026-offline-update/"/>
     <id>https://jpdscore.github.io/blog/vs/vs2026-offline-update/</id>
     <published>2026-05-07T15:00:00.000Z</published>
-    <updated>2026-06-04T05:51:14.581Z</updated>
+    <updated>2026-06-17T08:32:11.257Z</updated>
     
     
     <summary type="html">ネットワークに接続されていないオフライン環境で Visual Studio 2026 をアップデートする方法について、インストール レイアウトの作成手順を交えてご紹介します。</summary>
@@ -95,7 +112,7 @@
     <link href="https://jpdscore.github.io/blog/vs/vc-repair/"/>
     <id>https://jpdscore.github.io/blog/vs/vc-repair/</id>
     <published>2026-04-21T15:00:00.000Z</published>
-    <updated>2026-06-04T05:51:14.577Z</updated>
+    <updated>2026-06-17T08:32:11.254Z</updated>
     
     
     <summary type="html">システムにインストールされている Visual C++ Redistributable (再頒布可能パッケージ) の破損が疑われる場合に、修復を実施して問題を解消する方法をご紹介します。</summary>
@@ -114,7 +131,7 @@
     <link href="https://jpdscore.github.io/blog/vs/vs-verify-offline/"/>
     <id>https://jpdscore.github.io/blog/vs/vs-verify-offline/</id>
     <published>2026-04-16T15:00:00.000Z</published>
-    <updated>2026-06-04T05:51:14.578Z</updated>
+    <updated>2026-06-17T08:32:11.255Z</updated>
     
     
     <summary type="html">Visual Studio のオフライン インストールに利用するオフライン インストーラー (インストール レイアウト) が正しく作成されているかを検証する方法について紹介します。</summary>
@@ -131,7 +148,7 @@
     <link href="https://jpdscore.github.io/blog/vs/vs-dev-essentials/"/>
     <id>https://jpdscore.github.io/blog/vs/vs-dev-essentials/</id>
     <published>2026-04-13T15:00:00.000Z</published>
-    <updated>2026-06-04T05:51:14.578Z</updated>
+    <updated>2026-06-17T08:32:11.255Z</updated>
     
     
     <summary type="html">Microsoft アカウントを持つ誰でも無料で利用できる、開発者向けツールやクラウド クレジットを提供する Visual Studio Dev Essentials について、日本語でご紹介します。</summary>
@@ -148,7 +165,7 @@
     <link href="https://jpdscore.github.io/blog/debugging/copilot-sdk-with-windbgx-as-tool/"/>
     <id>https://jpdscore.github.io/blog/debugging/copilot-sdk-with-windbgx-as-tool/</id>
     <published>2026-03-30T15:00:00.000Z</published>
-    <updated>2026-06-04T05:51:14.532Z</updated>
+    <updated>2026-06-17T08:32:11.213Z</updated>
     
     
     <summary type="html">GitHub Copilot SDK を使用し、WinDbgX のデバッガー エンジンをツールとして実装して、自然言語で対話的にデバッグ情報を取得できるコンソール アプリの実装例を紹介します。</summary>
@@ -169,7 +186,7 @@
     <link href="https://jpdscore.github.io/blog/dataclient/Understand-ADONET-Connection-Pooling/"/>
     <id>https://jpdscore.github.io/blog/dataclient/Understand-ADONET-Connection-Pooling/</id>
     <published>2026-03-29T15:00:00.000Z</published>
-    <updated>2026-06-04T05:51:14.518Z</updated>
+    <updated>2026-06-17T08:32:11.197Z</updated>
     
     
     <summary type="html">ADO.NET の SQL Server 向けデータプロバイダーで使用される接続プールに関して、ユーザーからよくいただくご質問を元に、よくある誤解について説明します。これにより、もっと接続プールの仕組みを理解でき、トラブルを未然に防ぐ、もしくはトラブル発生状況を適切に把握できるようになることが期待されます。</summary>
@@ -190,7 +207,7 @@
     <link href="https://jpdscore.github.io/blog/dataclient/Do-Read-AllOfReceivedData/"/>
     <id>https://jpdscore.github.io/blog/dataclient/Do-Read-AllOfReceivedData/</id>
     <published>2026-03-15T15:00:00.000Z</published>
-    <updated>2026-06-04T05:51:14.517Z</updated>
+    <updated>2026-06-17T08:32:11.196Z</updated>
     
     
     <summary type="html">SQL Server にアクセスする開発アプリケーションでクエリの実行結果の読み取りを途中までで終了する場合のリスクについて説明します。</summary>
@@ -213,7 +230,7 @@
     <link href="https://jpdscore.github.io/blog/dataclient/Recommend-ADODB-Migration/"/>
     <id>https://jpdscore.github.io/blog/dataclient/Recommend-ADODB-Migration/</id>
     <published>2026-03-01T15:00:00.000Z</published>
-    <updated>2026-06-04T05:51:14.517Z</updated>
+    <updated>2026-06-17T08:32:11.197Z</updated>
     
     
     <summary type="html">.NET Framework もしくは .NET の開発アプリケーションでレガシーな ADO の PIA (ADODB.dll) もしくは IA (Interop.ADODB など) を使用するケースに対して ADO.NET へ移行が推奨される理由やその方法について説明します。</summary>
@@ -234,7 +251,7 @@
     <link href="https://jpdscore.github.io/blog/dataclient/JDBC-TLS-Troubleshooting/"/>
     <id>https://jpdscore.github.io/blog/dataclient/JDBC-TLS-Troubleshooting/</id>
     <published>2026-02-12T15:00:00.000Z</published>
-    <updated>2026-06-04T05:51:14.517Z</updated>
+    <updated>2026-06-17T08:32:11.197Z</updated>
     
     
     <summary type="html">JDBC Driver による SQL Server への接続エラーのうち TLS 関連の設定に起因したトラブルを解決するための確認事項について説明します。</summary>
@@ -253,7 +270,7 @@
     <link href="https://jpdscore.github.io/blog/debugging/collect-procmon-with-adjusting-altitude/"/>
     <id>https://jpdscore.github.io/blog/debugging/collect-procmon-with-adjusting-altitude/</id>
     <published>2026-02-08T15:00:00.000Z</published>
-    <updated>2026-06-04T05:51:14.525Z</updated>
+    <updated>2026-06-17T08:32:11.204Z</updated>
     
     
     <summary type="html">Process Monitor の既定の設定ではキャプチャできない、低い高度 (Altitude) で動作するフィルター ドライバーのアクティビティを採取するために Altitude を変更する手順を紹介します。</summary>
@@ -270,7 +287,7 @@
     <link href="https://jpdscore.github.io/blog/dataclient/Recommend-ProviderForOracle-Migration/"/>
     <id>https://jpdscore.github.io/blog/dataclient/Recommend-ProviderForOracle-Migration/</id>
     <published>2026-02-01T15:00:00.000Z</published>
-    <updated>2026-06-04T05:51:14.518Z</updated>
+    <updated>2026-06-17T08:32:11.197Z</updated>
     
     
     <summary type="html">開発アプリケーションでマイクロソフトが提供する Oracle 向けデータ アクセス製品を使用しているケースに対して Oracle 提供の製品利用に移行を勧める理由やその方法について説明します。</summary>
@@ -289,7 +306,7 @@
     <link href="https://jpdscore.github.io/blog/devtestlabs/auto-shutdown-command/"/>
     <id>https://jpdscore.github.io/blog/devtestlabs/auto-shutdown-command/</id>
     <published>2026-01-27T00:00:00.000Z</published>
-    <updated>2026-06-04T05:51:14.548Z</updated>
+    <updated>2026-06-17T08:32:11.228Z</updated>
     
     
     <summary type="html">Azure VM の自動シャットダウン機能の設定および確認を、Azure CLI、Azure PowerShell、REST API のコマンドから行う方法を紹介します。</summary>
@@ -306,7 +323,7 @@
     <link href="https://jpdscore.github.io/blog/vs/visual-studio-isenslogon-subscription-eventlog-warning/"/>
     <id>https://jpdscore.github.io/blog/vs/visual-studio-isenslogon-subscription-eventlog-warning/</id>
     <published>2026-01-22T15:00:00.000Z</published>
-    <updated>2026-06-04T05:51:14.578Z</updated>
+    <updated>2026-06-17T08:32:11.255Z</updated>
     
     
     <summary type="html">Visual Studio や SQL Server Management Studio (SSMS) を使用しているときに記録される &quot;Visual Studio ISensLogon Subscription&quot; に関するイベント ID 4354 について解説します。</summary>
@@ -323,7 +340,7 @@
     <link href="https://jpdscore.github.io/blog/maui/iosWidgets/"/>
     <id>https://jpdscore.github.io/blog/maui/iosWidgets/</id>
     <published>2026-01-19T05:43:42.000Z</published>
-    <updated>2026-06-04T05:51:14.560Z</updated>
+    <updated>2026-06-17T08:32:11.239Z</updated>
     
     
     <summary type="html">.NET MAUI アプリと iOS WidgetKit を連携させる具体的な実現方法について翻訳しています。</summary>
@@ -340,7 +357,7 @@
     <link href="https://jpdscore.github.io/blog/dataclient/JDBC-Tracing/"/>
     <id>https://jpdscore.github.io/blog/dataclient/JDBC-Tracing/</id>
     <published>2026-01-14T08:24:05.000Z</published>
-    <updated>2026-06-04T05:51:14.517Z</updated>
+    <updated>2026-06-17T08:32:11.197Z</updated>
     
     
     <summary type="html">JDBC Driver でのトレース有効化手順と SSL/TLS デバッグ出力方法を説明します。</summary>
@@ -359,7 +376,7 @@
     <link href="https://jpdscore.github.io/blog/dataclient/Recommend-ODBCOLEDBFORSQL-Migration/"/>
     <id>https://jpdscore.github.io/blog/dataclient/Recommend-ODBCOLEDBFORSQL-Migration/</id>
     <published>2026-01-08T15:00:00.000Z</published>
-    <updated>2026-06-04T05:51:14.517Z</updated>
+    <updated>2026-06-17T08:32:11.197Z</updated>
     
     
     <summary type="html">SQL Server へ接続する既存アプリケーションで利用されている古い ODBC ドライバー / OLE DB プロバイダー (SQLSRV32、SQLOLEDB、SQLNCLI) を使い続けるリスクと、新しいコンポーネントへの移行をお勧めする理由を説明します。</summary>
@@ -370,25 +387,6 @@
     <category term="Data Access" scheme="https://jpdscore.github.io/blog/tags/Data-Access/"/>
     
     <category term="SQL Server" scheme="https://jpdscore.github.io/blog/tags/SQL-Server/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>MSVC(Visual C++) 14.50 以降のリリースとサポートライフサイクル</title>
-    <link href="https://jpdscore.github.io/blog/vs/vs2026-msvc-lifecycle/"/>
-    <id>https://jpdscore.github.io/blog/vs/vs2026-msvc-lifecycle/</id>
-    <published>2025-12-25T15:00:00.000Z</published>
-    <updated>2026-06-04T05:51:14.580Z</updated>
-    
-    
-    <summary type="html">C++ Team Blog で発表された MSVC ビルドツール 14.50 以降のリリースサイクルとサポートライフサイクルに関する更新点を、一部加筆して日本語で説明します。</summary>
-    
-    
-    
-    
-    <category term="Visual Studio" scheme="https://jpdscore.github.io/blog/tags/Visual-Studio/"/>
-    
-    <category term="C++" scheme="https://jpdscore.github.io/blog/tags/C/"/>
     
   </entry>
   
