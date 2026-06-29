@@ -14,7 +14,7 @@
 <meta property="og:description" content="ネットワークに接続されていないオフライン環境で Visual Studio 2026 をアップデートする方法について、インストール レイアウトの作成手順を交えてご紹介します。">
 <meta property="og:locale" content="ja_JP">
 <meta property="article:published_time" content="2026-05-07T15:00:00.000Z">
-<meta property="article:modified_time" content="2026-06-19T01:28:08.032Z">
+<meta property="article:modified_time" content="2026-06-29T05:28:55.305Z">
 <meta property="article:author" content="Developer Support Core Japan">
 <meta property="article:tag" content="Visual Studio">
 <meta name="twitter:card" content="summary">
@@ -136,6 +136,8 @@
 <p>(コマンド例)</p>
 <figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vs_enterprise.exe --layout C:\VSLayout --config VS2026.vsconfig --lang ja-JP</span><br></pre></td></tr></table></figure>
 
+<h4 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h4><p>コンポーネントのサポート終了などの影響で、現在インストールしているコンポーネントがアップデート先の Visual Studio に含まれておらず、レイアウト作成時に <code>&quot;パッケージ xxx は認識されません。&quot;</code> といったエラーが発生することがあります。</p>
+<p>そのようなエラーが発生する場合には、.vsconfig ファイルをメモ帳などで開き、<strong>エラーの発生しているコンポーネントを削除する</strong>、あるいは、<strong>アップデート先の Visual Studio に含まれている別のコンポーネントに書き換える</strong>といった対応を実施して、再度レイアウトを作成してください。</p>
 <h3 id="b-必要なコンポーネントを指定してパッケージを作成する"><a href="#b-必要なコンポーネントを指定してパッケージを作成する" class="headerlink" title="(b) 必要なコンポーネントを指定してパッケージを作成する"></a>(b) 必要なコンポーネントを指定してパッケージを作成する</h3><p>アップデートに必要なコンポーネントが分かっている場合は、インストール時と同様に手動で必要なコンポーネントを指定して作成できます。
 具体的な手順は、オフライン インストール時と同様ですので、<a href="https://jpdscore.github.io/blog/vs/vs2022-offline-install/#Step-1-%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB-%E3%83%91%E3%83%83%E3%82%B1%E3%83%BC%E3%82%B8%E3%81%AE%E4%BD%9C%E6%88%90">こちら</a> を参考にパッケージを作成してください。</p>
 <p>なお、あらかじめ Visual Studio で選択可能なすべてのコンポーネントを含めるという方法もありますが、ファイルサイズやファイル数が膨大になるため、通常は必要最小限のコンポーネントやワークロードに限定したレイアウトの作成をおすすめしています。</p>
