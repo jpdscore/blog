@@ -15,7 +15,7 @@
 <meta property="og:locale" content="ja_JP">
 <meta property="og:image" content="https://jpdscore.github.io/blog/vs/vs-business-center-installer-install-failed/install-failed-dialog.png">
 <meta property="article:published_time" content="2026-07-22T15:00:00.000Z">
-<meta property="article:modified_time" content="2026-07-23T01:04:56.565Z">
+<meta property="article:modified_time" content="2026-07-23T03:01:43.140Z">
 <meta property="article:author" content="Developer Support Core Japan">
 <meta property="article:tag" content="Visual Studio">
 <meta name="twitter:card" content="summary">
@@ -123,13 +123,19 @@
 今回は、Microsoft Business Center や Microsoft 365 管理センターからダウンロードした Visual Studio のブートストラッパーを実行した際に、Visual Studio Installer によるインストールの実行に失敗する事例と、その回避方法についてご紹介します。</p>
 <h2 id="概要"><a href="#概要" class="headerlink" title="概要"></a>概要</h2><p>Microsoft Business Center や Microsoft 365 管理センターからダウンロードした Visual Studio のブートストラッパーを実行すると、Visual Studio Installer によるインストールの実行に失敗し、完了できない事例が確認されています。</p>
 <p>本ブログ記事では、本記事執筆時点（2026 年 7 月）の情報を元に、事象と回避方法をご紹介します。将来のバージョンで動作が変更される可能性がありますので、あらかじめご留意ください。</p>
+<div class="admonition info"><p class="admonition-title">2026 年 7 月 23 日 11 時更新
+</p><p>この事象は 2026 年 7 月 23 日の日本時間 11 時頃に解消しました。ブートストラッパーが使用するインストーラーの配布ポイント (サーバー側) での修正となるため、Business Center や Microsoft 365 管理センターからファイルをダウンロードしなおす必要はありません。ただし、すでに Visual Studio Installer がインストール済みで事象が発生している環境ではインストーラーを更新しない限りエラーが継続するため、後述の回避方法を適用してください。</p>
+</div>
+
 <h2 id="事象"><a href="#事象" class="headerlink" title="事象"></a>事象</h2><p>Business Center や Microsoft 365 管理センターから入手した Visual Studio のブートストラッパーを実行すると、Visual Studio Installer のコンポーネントが取得・展開された後、インストーラーが内部で必要なアセンブリの読み込みに失敗し、処理が中断される事象が確認されています。</p>
 <p>このとき、Visual Studio Installer の画面上には「申し訳ありません。問題が発生しました」「インストール操作に失敗しました。」といった汎用的なメッセージが表示されるのみで、具体的な原因を示す情報は表示されない場合があります。</p>
 <p><img src="install-failed-dialog.png" alt="「申し訳ありません。問題が発生しました」「インストール操作に失敗しました。」と表示されるエラー ダイアログ"></p>
 <p>また、Visual Studio Installer のログ（%TEMP%\dd_installer_*.log）には、以下のようにアセンブリの読み込みに失敗した旨のエラーが出力されます。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[3174:0026][2026-07-23T09:30:31] Error 0x80131040: Unhandled exception System.IO.FileLoadException encountered determining install operation result - ファイルまたはアセンブリ &#x27;System.Threading.Tasks.Extensions, Version=4.2.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51&#x27;、またはその依存関係の 1 つが読み込めませんでした。見つかったアセンブリのマニフェスト定義はアセンブリ参照に一致しません。 (HRESULT からの例外:0x80131040)</span><br><span class="line">   場所 Microsoft.VisualStudio.Setup.Installer.Rpc.RpcService..ctor(RpcServiceOptions serviceOptions)</span><br><span class="line">   場所 Microsoft.VisualStudio.Setup.Installer.Installer.InstallerServiceProxy..ctor(InstallerServiceOptions serviceOptions, IRpcConnector rpcConnector)</span><br><span class="line">   場所 Microsoft.VisualStudio.Setup.Installer.Installer.InstallerProxyFactory.Create(OperationContext operationContext)</span><br><span class="line">   場所 Microsoft.VisualStudio.Setup.Installer.ProductCard.ProductCardOperationCommand.&lt;GetResultAsync&gt;d__13.MoveNext()</span><br><span class="line">--- 直前に例外がスローされた場所からのスタック トレースの終わり ---</span><br><span class="line">   場所 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()</span><br><span class="line">   場所 Microsoft.VisualStudio.Setup.Installer.Commands.InstallOperationCommandBase`1.&lt;HandleAsync&gt;d__2.MoveNext()</span><br><span class="line">[3174:0026][2026-07-23T09:30:31] Showing error: インストール操作に失敗しました。</span><br></pre></td></tr></table></figure>
 
-<h2 id="回避方法"><a href="#回避方法" class="headerlink" title="回避方法"></a>回避方法</h2><p>本事象が発生した場合には、以下の Visual Studio のバージョン別リリース履歴ページから、エディションに応じた最新のブートストラッパーを入手し、そちらを使用することで回避できることが確認されています。</p>
+<h2 id="回避方法"><a href="#回避方法" class="headerlink" title="回避方法"></a>回避方法</h2><p>以下のいずれかの方法で問題を回避してインストールを進めることが可能です。
+問題が解決しない場合や他の事象が発生する場合は、弊社サポートまでお問い合わせください。</p>
+<h3 id="1-最新のブートストラッパーを使用してインストールする"><a href="#1-最新のブートストラッパーを使用してインストールする" class="headerlink" title="1. 最新のブートストラッパーを使用してインストールする"></a>1. 最新のブートストラッパーを使用してインストールする</h3><p>本事象が発生した場合には、以下の Visual Studio のバージョン別リリース履歴ページから、エディションに応じた最新のブートストラッパーを入手し、そちらを使用することで回避できることが確認されています。</p>
 <ul>
 <li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/visualstudio/releases/2026/release-history">Visual Studio 2026</a></li>
 <li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/visualstudio/releases/2022/release-history">Visual Studio 2022</a></li>
@@ -137,7 +143,8 @@
 </ul>
 <p>Business Center や Microsoft 365 管理センターから入手したブートストラッパーと上記のブートストラッパーで、インストールされる Visual Studio の機能に差異はありません。また、同一のプロダクト キーでご利用いただけます。</p>
 <p>なお、本事象が発生しない場合は、Business Center や Microsoft 365 管理センターから入手したブートストラッパーを使用しても問題ありません。</p>
-<p>問題が解決しない場合や他の事象が発生する場合は、弊社サポートまでお問い合わせください。</p>
+<h3 id="2-Visual-Studio-Installer-を削除して再インストールする"><a href="#2-Visual-Studio-Installer-を削除して再インストールする" class="headerlink" title="2. Visual Studio Installer を削除して再インストールする"></a>2. Visual Studio Installer を削除して再インストールする</h3><p><code>C:\Program Files (x86)\Microsoft Visual Studio\Installer</code> フォルダーを <code>Installer_</code> など別名でリネームした後、お手元のブートストラッパーから再度インストールをお試しください。</p>
+<p>リネーム後のフォルダーはインストールに成功した後は削除していただいて構いません。</p>
 
       
       
