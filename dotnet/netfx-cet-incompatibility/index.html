@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>.NET Framework と制御フロー強制テクノロジー (CET) の非互換性について | JPDSC Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content=".NET Framework は制御フロー強制テクノロジー (CET) と互換性がなく、CET が有効なプロセスで .NET Framework の処理が実行されると例外処理の際に fastfail が発生する場合があります。本記事では問題の詳細と対処方法についてご案内します。">
+<meta property="og:type" content="article">
+<meta property="og:title" content=".NET Framework と制御フロー強制テクノロジー (CET) の非互換性について">
+<meta property="og:url" content="https://jpdscore.github.io/blog/dotnet/netfx-cet-incompatibility/index.html">
+<meta property="og:site_name" content="Japan Developer Support Core Team Blog">
+<meta property="og:description" content=".NET Framework は制御フロー強制テクノロジー (CET) と互換性がなく、CET が有効なプロセスで .NET Framework の処理が実行されると例外処理の際に fastfail が発生する場合があります。本記事では問題の詳細と対処方法についてご案内します。">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:image" content="https://jpdscore.github.io/blog/dotnet/netfx-cet-incompatibility/vcxproj-linker-option.png">
+<meta property="og:image" content="https://jpdscore.github.io/blog/dotnet/netfx-cet-incompatibility/exploit-protection.png">
+<meta property="article:published_time" content="2026-08-09T15:00:00.000Z">
+<meta property="article:modified_time" content="2026-08-10T08:32:07.976Z">
+<meta property="article:author" content="Developer Support Core Japan">
+<meta property="article:tag" content="Debug">
+<meta property="article:tag" content=".NET">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jpdscore.github.io/blog/dotnet/netfx-cet-incompatibility/vcxproj-linker-option.png">
+  
+    <link rel="alternate" href="/blog/atom.xml" title="Japan Developer Support Core Team Blog" type="application/atom+xml">
+  
+
+  <link rel="icon" href="../../favicon.ico">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="theme-color" content="#ffffff">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="../../css/style.css">
+
+  
+<link rel="stylesheet" href="../../css/copy-button.css">
+
+  
+<link rel="stylesheet" href="../../css/toc.css">
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="site-header-logo"></div>
+  <div id="site-header-blog-wrapper"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        <div id="ms-logo"></div>
+        
+          <a class="main-nav-link" href="../../index.html">Home</a>
+        
+          <a class="main-nav-link" href="../../archives">Archives</a>
+        
+        <a class="main-nav-link" target="_blank" rel="noopener" href="https://cssjpn.github.io/">サポート情報</a>
+        <a class="main-nav-link" href="/blog/general/welcome/">About</a>
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/blog/atom.xml" title="RSSフィード"></a>
+        
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//www.google.com/search" method="get" accept-charset="UTF-8" name="google-search" onsubmit="var f=this;if(f['q'].value){var searchUrl =  'https://www.google.com/search?q=' +  encodeURIComponent(f['q'].value + ' site:' + f['sitesearch'].value) ;window.open(searchUrl, 'blank') };return false;" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="検索"><button type="submit" id="nav-search-btn" class="search-form-submit"></button><input type="hidden" name="sitesearch" value="https://jpdscore.github.io/blog"></form>
+      </div>
+    </div>
+    <div id="header-title" class="inner">
+      <div id="logo-wrap">
+        <a href="../../index.html" id="logo">Japan Developer Support Core Team Blog</a>
+      </div>
+      
+        <div id="subtitle-wrap">
+          <a href="../../index.html" id="subtitle">日本マイクロソフトの Japan Developer Support Core チームのブログです。</a>
+        </div>
+      
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-dotnet/netfx-cet-incompatibility/index" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <aside id="toc" role="complementary" aria-label="Table of Contents"></aside>
+  
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header-single">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      .NET Framework と制御フロー強制テクノロジー (CET) の非互換性について
+    </h1>
+  
+
+      </header>
+      <div class="article-share">
+        Last Update: 
+        <a href="" class="article-date-single">
+  <time datetime="2026-08-09T15:00:00.000Z" itemprop="datePublished">2026-08-10</time>
+</a>
+        
+        <div class="article-share-buttons">
+          <a target="_blank" rel="noopener" href="https://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="basic-label" data-hatena-bookmark-lang="ja" data-hatena-bookmark-height="20" title="このエントリーをはてなブックマークに追加"><img src="https://b.st-hatena.com/images/v4/public/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+        </div>
+        <div class="article-share-buttons">
+          <script src="https://platform.linkedin.com/in.js" type="text/javascript">lang: ja_JP</script>
+          <script type="IN/Share" data-url="https://jpdscore.github.io/blog/dotnet/netfx-cet-incompatibility/"></script>
+        </div>
+        <div class="article-share-buttons">
+          <a target="_blank" rel="noopener" href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        </div>
+      </div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>こんにちは、Japan Developer Support Core チームです。
+今回は、制御フロー強制テクノロジー (CET) が有効なプロセスで .NET Framework のコードを実行した場合に発生し得る問題についてご案内します。</p>
+<h2 id="はじめに"><a href="#はじめに" class="headerlink" title="はじめに"></a>はじめに</h2><p>制御フロー強制テクノロジー (Control Flow Enforcement Technology / CET) は、Intel および AMD が提供するハードウェア セキュリティ機能です。CET はシャドウ スタック (Shadow Stack) と間接分岐追跡 (Indirect Branch Tracking / IBT) の 2 つのメカニズムによって、リターン指向プログラミング (ROP) 攻撃や Jump-Oriented Programming (JOP) 攻撃などの制御フロー乗っ取り攻撃を防ぎます。</p>
+<p>シャドウ スタックは通常のスタックとは独立したメモリ領域に関数の戻りアドレスのコピーを保持します。関数からのリターン時に、プロセッサは通常スタックの戻りアドレスとシャドウ スタックの戻りアドレスが一致することを確認します。一致しない場合、プロセッサはセキュリティ違反として処理を停止します。</p>
+<p>Windows 11 をはじめとする比較的新しい環境では、CET 対応のハードウェア上で一部のシステム プロセスに対して CET が有効化されています。また、アプリケーション開発においても CET 対応が広まっており、 <strong>.NET 9 以降では CET 互換が既定で有効</strong> になっています。</p>
+<h2 id="発生する問題"><a href="#発生する問題" class="headerlink" title="発生する問題"></a>発生する問題</h2><p>CET が有効なプロセスで .NET Framework のコードを実行している際に、マネージド例外が発生すると、例外ハンドラーが定義されているにもかかわらずプロセスが例外コード <code>STATUS_STACK_BUFFER_OVERRUN</code> (0xC0000409) およびサブコード <code>FAST_FAIL_SET_CONTEXT_DENIED</code> (0x30) により強制終了 (fastfail) される場合があります。例えば、<code>NullReferenceException</code> が発生し <code>try-catch</code> ブロックで捕捉しようとしているケースでも、例外ハンドラーへの復帰が行われずプロセスが異常終了します。</p>
+<p>この問題は .NET Framework 単体で動作するアプリケーション (EXE が .NET Framework であるケース) では通常は発生しません。 <strong>CET が有効なプロセスから .NET Framework のコードを呼び出しているシナリオ</strong> で影響を受けます。具体的には以下のような状況が挙げられます。</p>
+<ol>
+<li><strong>COM 相互運用経由の呼び出し</strong>: ネイティブ アプリケーションや .NET 9 以降のアプリケーションが、.NET Framework でビルドされたクラス ライブラリを COM コンポーネントとして呼び出している</li>
+<li><strong>CLR Hosting API 経由の呼び出し</strong>: ネイティブ アプリケーションが CLR Hosting API (<code>ICLRRuntimeHost</code> 等) を使用して .NET Framework のランタイムをホストし、マネージド コードを実行している</li>
+</ol>
+<p>.NET 9 以降では CET 互換が既定で有効なため、.NET 9 以降のアプリケーションから .NET Framework のコードを呼び出している場合には特にご注意ください。</p>
+<p>このとき、イベント ビューアーの Application ログに以下のようなエラーが記録されます。</p>
+<ul>
+<li><p><strong>[Windows ログ] &gt; [Application]</strong></p>
+<p><strong>ソース: Application Error, イベント ID: 1000</strong></p>
+<p>障害が発生したモジュール名として、検証エラーを検出して fastfail した ntdll.dll が記録されます。また、例外コードは 0xC0000409 (STATUS_STACK_BUFFER_OVERRUN) となります。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">障害が発生しているアプリケーション名: NativeConsoleApp.exe、バージョン: 0.0.0.0、タイム スタンプ: 0x6a789571</span><br><span class="line">障害が発生したモジュール名: ntdll.dll、 バージョン: 10.0.26100.8875、タイム スタンプ: 0xba65e4a2</span><br><span class="line">例外コード: 0xc0000409</span><br><span class="line">フォールト オフセット: 0x000000000011f216</span><br><span class="line">フォールト プロセス ID: 0xB098</span><br><span class="line">アプリケーションのフォールトの開始時刻: 0x1DD280FC5612CF1</span><br><span class="line">Faulting アプリケーション パス:  C:\source\repos\Repro_SetContextDenied\x64\CETCompat\NativeConsoleApp.exe</span><br><span class="line">Faulting モジュール パス:  C:\WINDOWS\SYSTEM32\ntdll.dll</span><br><span class="line">Report Id: d696db0c-dde6-4e42-b70a-54fcefe36da1</span><br><span class="line">Faulting パッケージの完全名: </span><br><span class="line">Faulting パッケージ相対アプリケーション ID: </span><br></pre></td></tr></table></figure>
+
+<p><strong>ソース: Windows Error Reporting, イベント ID: 1001</strong></p>
+<p>例外コード 0xc0000409 (STATUS_STACK_BUFFER_OVERRUN) に加えて、サブコードとして 0x00000030 (FAST_FAIL_SET_CONTEXT_DENIED) が記録されます。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">障害バケット 1299601207904101592、種類 5</span><br><span class="line">イベント名: BEX64</span><br><span class="line">応答: 使用不可</span><br><span class="line">Cab ID: 1340475216456855262</span><br><span class="line"></span><br><span class="line">問題の署名:</span><br><span class="line">P1: NativeConsoleApp.exe</span><br><span class="line">P2: 0.0.0.0</span><br><span class="line">P3: 6a7894be</span><br><span class="line">P4: ntdll.dll</span><br><span class="line">P5: 10.0.26100.8875</span><br><span class="line">P6: ba65e4a2</span><br><span class="line">P7: 000000000011f216</span><br><span class="line">P8: c0000409</span><br><span class="line">P9: 0000000000000030</span><br><span class="line">P10: </span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>[アプリケーションとサービス ログ] &gt; [Microsoft] &gt; [Windows] &gt; [Security-Mitigations] &gt; [カーネル モード]</strong></p>
+<p><strong>ソース: Security-Mitigations, イベント ID: 28</strong></p>
+<p>検証に失敗したプロセスの名前、PID、検証モード、セット コンテキストの種類などが記録されます。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">シャドウ スタックのユーザー モードが有効になっているときに命令ポインター検証エラーが発生 </span><br><span class="line">したため、プロセス &#x27;\Device\HarddiskVolume3\source\repos\Repro_SetContextDenied\x64\CETCompat\NativeConsoleApp.exe&#x27; (PID 45208) は設定コンテキストからブロックされました。プロセス セット コンテキスト検証 strict モード: true</span><br><span class="line">セット コンテキストの種類: Exception handling unwind</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>クラッシュ ダンプ ファイルのコールスタック</strong></p>
+<p>例外コンテキストから ntdll!RcContinueExit で int 29h 命令 (fastfail) が実行されたことが確認できます。また、コールスタックからは .NET Framework の共通言語ランタイム (clr.dll) が例外処理からの復帰を試みていたことが確認できます。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">0:000&gt; .ecxr</span><br><span class="line">rax=00000000c000060a rbx=000000d1c86ff340 rcx=0000000000000030</span><br><span class="line">rdx=0000000000000000 rsi=00007ff8b3ec0928 rdi=000000d1c86ff6b8</span><br><span class="line">rip=00007ff94263f216 rsp=000000d1c86fc260 rbp=000000d1c86fc260</span><br><span class="line"> r8=000000d1c86fc258  r9=0000000000000000 r10=0000000000000000</span><br><span class="line">r11=0000000000000246 r12=000000d1c86fed00 r13=0000026777152380</span><br><span class="line">r14=0000026777154ae0 r15=000000d1c86fc980</span><br><span class="line">iopl=0         nv up ei pl zr na pe nc</span><br><span class="line">cs=0033  ss=002b  ds=002b  es=002b  fs=0053  gs=002b             efl=00000246</span><br><span class="line">ntdll!RcContinueExit+0x13:</span><br><span class="line">00007ff9`4263f216 cd29            int     29h</span><br><span class="line"></span><br><span class="line">0:000&gt; knL</span><br><span class="line"> # Child-SP          RetAddr               Call Site</span><br><span class="line">00 000000d1`c86fc260 00007ff9`1360de75     ntdll!RcContinueExit+0x13</span><br><span class="line">01 (Inline Function) --------`--------     clr!ExceptionTracker::ResumeExecution+0x26</span><br><span class="line">02 000000d1`c86fc2b0 00007ff9`4268481f     clr!ProcessCLRException+0x345</span><br><span class="line">03 000000d1`c86fc370 00007ff9`42562103     ntdll!RtlpExecuteHandlerForUnwind+0xf</span><br><span class="line">04 000000d1`c86fc3a0 00007ff9`1360d724     ntdll!RtlUnwindEx+0x283</span><br><span class="line">05 000000d1`c86fd0d0 00007ff9`1360ddfc     clr!ClrUnwindEx+0x40</span><br><span class="line">06 000000d1`c86fd5f0 00007ff9`4268479f     clr!ProcessCLRException+0x2cc</span><br><span class="line">07 000000d1`c86fd6b0 00007ff9`42565e97     ntdll!RtlpExecuteHandlerForException+0xf</span><br><span class="line">08 000000d1`c86fd6e0 00007ff9`425ad011     ntdll!RtlDispatchException+0x437</span><br><span class="line">09 000000d1`c86fdeb0 00007ff9`3f9f1ada     ntdll!RtlRaiseException+0x221</span><br><span class="line">0a 000000d1`c86fece0 00007ff9`1367eb09     KERNELBASE!RaiseException+0x8a</span><br><span class="line">0b 000000d1`c86fede0 00007ff9`1367eb3b     clr!NakedThrowHelper2+0x9</span><br><span class="line">0c 000000d1`c86fee10 00007ff9`1367eb45     clr!NakedThrowHelper_RspAligned+0x1e</span><br><span class="line">0d 000000d1`c86ff338 00007ff8`b3ec08eb     clr!NakedThrowHelper_FixRsp+0x5</span><br><span class="line">0e 000000d1`c86ff340 00007ff9`136816b3     NetFx48ClassLibrary!NetFx48ClassLibrary.NativeEntryPoints.Foo(System.String)+0x5b</span><br><span class="line">0f 000000d1`c86ff3c0 00007ff9`1353e2db     clr!CallDescrWorkerInternal+0x83</span><br><span class="line">10 000000d1`c86ff400 00007ff9`134f682a     clr!CallDescrWorkerWithHandler+0x47</span><br><span class="line">11 000000d1`c86ff440 00007ff9`138b54f6     clr!MethodDescCallSite::CallTargetWorker+0xfa</span><br><span class="line">12 (Inline Function) --------`--------     clr!MethodDescCallSite::Call_RetI4+0x15</span><br><span class="line">13 000000d1`c86ff540 00007ff7`ad931385     clr!CorHost2::ExecuteInDefaultAppDomain+0x4a6</span><br><span class="line">14 000000d1`c86ffb90 00007ff9`4124e957     NativeConsoleApp!main+0x265</span><br><span class="line">15 000000d1`c86ffc40 00007ff9`425cad6c     kernel32!BaseThreadInitThunk+0x17</span><br><span class="line">16 000000d1`c86ffc70 00000000`00000000     ntdll!RtlUserThreadStart+0x2c</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h2><p><strong>.NET Framework は CET と互換性がありません。</strong> .NET Framework の例外処理メカニズムは CET のシャドウ スタックに対応しておらず、CET が有効な環境では例外処理からの復帰の際にシャドウ スタックの整合性検証に失敗します。これにより、Windows は処理を継続できないと判断し、例外コード <code>STATUS_STACK_BUFFER_OVERRUN</code> (0xC0000409) およびサブコード <code>FAST_FAIL_SET_CONTEXT_DENIED</code> (0x30) によりプロセスを強制終了します。</p>
+<h2 id="対処方法"><a href="#対処方法" class="headerlink" title="対処方法"></a>対処方法</h2><p>本事象は .NET Framework の実装に起因するものであり、.NET Framework をターゲットにしているクラス ライブラリ側の修正では解決できません。そのため、以下のいずれかの方法によりアプリケーションの CET を無効化する必要があります。</p>
+<h3 id="方法-1-ビルド設定で-CET-互換フラグを無効にする"><a href="#方法-1-ビルド設定で-CET-互換フラグを無効にする" class="headerlink" title="方法 1: ビルド設定で CET 互換フラグを無効にする"></a>方法 1: ビルド設定で CET 互換フラグを無効にする</h3><p>ホスト アプリケーションのプロジェクト設定を変更し、ビルド時に CET 互換フラグを無効にする方法です。この設定はアプリケーションの PE ヘッダーの拡張 DLL 特性 (<code>ExtendedDllCharacteristics</code>) に反映されます。</p>
+<h4 id="C-C-プロジェクトの場合"><a href="#C-C-プロジェクトの場合" class="headerlink" title="C/C++ プロジェクトの場合"></a>C/C++ プロジェクトの場合</h4><p>Visual Studio のプロジェクト プロパティから、リンカーの設定で CET 互換フラグを無効にできます。</p>
+<ol>
+<li><p>ソリューション エクスプローラーでプロジェクトを右クリックし、[プロパティ] を開く</p>
+</li>
+<li><p>[構成プロパティ] → [リンカー] → [詳細設定] を選択する</p>
+</li>
+<li><p><strong>[CET シャドー スタック互換]</strong> を <strong>[いいえ (/CETCOMPAT:NO)]</strong> に設定する</p>
+<p><img src="vcxproj-linker-option.png" alt="C/C++ プロジェクトのプロパティ設定"></p>
+</li>
+</ol>
+<h4 id="NET-9-以降のプロジェクトの場合"><a href="#NET-9-以降のプロジェクトの場合" class="headerlink" title=".NET 9 以降のプロジェクトの場合"></a>.NET 9 以降のプロジェクトの場合</h4><p>.NET 9 以降の SDK スタイル プロジェクトでは、プロジェクト ファイルに <code>&lt;CETCompat&gt;false&lt;/CETCompat&gt;</code> プロパティを追加することで CET 互換フラグを無効にできます。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">Project</span> <span class="attr">Sdk</span>=<span class="string">&quot;Microsoft.NET.Sdk&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">PropertyGroup</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">OutputType</span>&gt;</span>Exe<span class="tag">&lt;/<span class="name">OutputType</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">TargetFramework</span>&gt;</span>net10.0<span class="tag">&lt;/<span class="name">TargetFramework</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">CETCompat</span>&gt;</span>false<span class="tag">&lt;/<span class="name">CETCompat</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">PropertyGroup</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">Project</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>詳細については、公式ドキュメント「<a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/dotnet/core/compatibility/interop/9.0/cet-support">既定でサポートされている CET</a>」をご参照ください。</p>
+<h3 id="方法-2-Windows-のセキュリティ設定でアプリケーション単位の-CET-を無効にする"><a href="#方法-2-Windows-のセキュリティ設定でアプリケーション単位の-CET-を無効にする" class="headerlink" title="方法 2: Windows のセキュリティ設定でアプリケーション単位の CET を無効にする"></a>方法 2: Windows のセキュリティ設定でアプリケーション単位の CET を無効にする</h3><p>Windows の Exploit Protection 設定から、特定のアプリケーションに対して CET (シャドウ スタック) を無効にすることができます。</p>
+<ol>
+<li><p><strong>Windows セキュリティ</strong> を開きます。</p>
+</li>
+<li><p><strong>[アプリとブラウザーのコントロール]</strong> を選択します。</p>
+</li>
+<li><p><strong>[Exploit Protection の設定]</strong> をクリックします。</p>
+</li>
+<li><p><strong>[プログラム設定]</strong> タブを選択します。</p>
+</li>
+<li><p>対象のアプリケーションの EXE を追加し、 <strong>[ハードウェア強制されたスタック保護]</strong> で**[システム設定の上書き]** にチェックを入れてトグルを <strong>[オフ]</strong> にする</p>
+<p><img src="exploit-protection.png" alt="Windows の Exploit Protection 設定"></p>
+</li>
+</ol>
+<h3 id="注意事項"><a href="#注意事項" class="headerlink" title="注意事項"></a>注意事項</h3><p>CET はアプリケーションに対して追加の防御層を提供するセキュリティ機能です。CET を無効にすることは、CET 導入以前のアプリケーションと同様のセキュリティ レベルに戻ることを意味し、既存の動作に新たな脆弱性を持ち込むものではありません。ただし、CET による ROP 攻撃などへの追加の保護が得られなくなる点はご留意ください。</p>
+<h3 id="長期的な対処方針"><a href="#長期的な対処方針" class="headerlink" title="長期的な対処方針"></a>長期的な対処方針</h3><p>CET はハードウェアおよびオペレーティング システムが提供するセキュリティ機能であり、今後その適用範囲は広がることが想定されます。根本的な解決策として、 <strong>.NET Framework のクラス ライブラリを .NET 9 以降へ移行することをお勧めします</strong> 。</p>
+<p>.NET 9 以降では CET 互換が既定で有効化されており、シャドウ スタックと互換性のある例外処理が実装されています。クラス ライブラリを .NET 9 以降へ移行することで、CET によるセキュリティ上の恩恵を享受しつつ、本問題を根本的に解消できます。</p>
+<p>.NET への移行に際しては、以下の公式ドキュメントが参考になります。</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/dotnet/core/porting/">.NET への移植の概要</a></li>
+<li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/dotnet/core/porting/upgrade-assistant-overview">.NET Upgrade Assistant の概要</a></li>
+</ul>
+<h2 id="まとめ"><a href="#まとめ" class="headerlink" title="まとめ"></a>まとめ</h2><p>本記事の内容をまとめます。</p>
+<ul>
+<li>.NET Framework は CET (制御フロー強制テクノロジー) と互換性がなく、CET が有効なプロセスで .NET Framework の例外処理 (例: <code>NullReferenceException</code>) が発生すると例外コード <code>STATUS_STACK_BUFFER_OVERRUN</code> (0xC0000409) により強制終了 (fastfail) される場合があります</li>
+<li>ネイティブ アプリケーションや .NET 9 以降のアプリケーションが COM 相互運用または CLR Hosting API 経由で .NET Framework のコードを呼び出している場合に影響を受けます</li>
+<li>対処方法として、C/C++ プロジェクトはリンカー設定 (<code>/CETCOMPAT:NO</code>)、.NET 9 以降のプロジェクトはプロジェクト ファイルの <code>&lt;CETCompat&gt;false&lt;/CETCompat&gt;</code> プロパティでビルド時に CET 互換フラグを無効にするか、Windows のエクスプロイト防止設定でアプリケーション単位のシャドウ スタックを無効にすることができます</li>
+<li>長期的には .NET Framework のクラス ライブラリを .NET 9 以降へ移行することが根本的な解決策となります</li>
+</ul>
+<p>本記事が問題の調査や対処の参考になれば幸いです。</p>
+
+      
+      
+        <div class="article-disclaimer">
+        
+          <p><hr>本ブログの内容は弊社の公式見解として保証されるものではなく、開発・運用時の参考情報としてご活用いただくことを目的としています。もし公式な見解が必要な場合は、弊社ドキュメント (<a target="_blank" rel="noopener" href="https://learn.microsoft.com/">https://learn.microsoft.com</a> や <a target="_blank" rel="noopener" href="https://support.microsoft.com">https://support.microsoft.com</a>) をご参照いただくか、もしくは私共サポートまでお問い合わせください。</p>
+        
+        </div>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/NET/" rel="tag">.NET</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Debug/" rel="tag">Debug</a></li></ul>
+
+      <!-- 
+      
+        <a href="https://github.com/jpdscore/blog/edit/master/articles/dotnet/netfx-cet-incompatibility/index.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
+        
+      -->
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="../../vs/vs-business-center-installer-install-failed/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前の記事</strong>
+      <div class="article-nav-title">Business Center から入手した Visual Studio インストーラーでインストールの実行に失敗する事例について</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最近の投稿</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="">.NET Framework と制御フロー強制テクノロジー (CET) の非互換性について</a>
+          </li>
+        
+          <li>
+            <a href="../../vs/vs-business-center-installer-install-failed/">Business Center から入手した Visual Studio インストーラーでインストールの実行に失敗する事例について</a>
+          </li>
+        
+          <li>
+            <a href="../faq-end-of-support-dotnet/">サポート終了した .NET の扱いに関するよくあるお問い合わせ</a>
+          </li>
+        
+          <li>
+            <a href="../../deployment/clickonce-sha384-sha512-unknown-publisher/">ClickOnce で SHA384 / SHA512 を使用した署名時に「不明な公開元」と表示される事象について</a>
+          </li>
+        
+          <li>
+            <a href="../../general/minimal-reproducible-example/">お客様が開発しているアプリケーションに関する問題でお問い合わせいただく際のサンプル提供のポイント</a>
+          </li>
+        
+          <li>
+            <a href="../../vs/vcredist-faq/">Visual C++ Redistributable に関するよくあるお問い合わせ</a>
+          </li>
+        
+          <li>
+            <a href="../netfx35-in-26h1-and-later/">Windows 11 version 26H1 以降における .NET Framework 3.5 の展開方法の変更について</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">タグ</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="../../tags/ALM/">ALM</a><span class="tag-list-count">17</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-DevOps-Server">Azure DevOps Server</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-DevOps-Services">Azure DevOps Services</a><span class="tag-list-count">9</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-Pipelines">Azure Pipelines</a><span class="tag-list-count">7</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-Repos">Azure Repos</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Devcontainer">Devcontainer</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/GitHub">GitHub</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/TFS">TFS</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Visual-Studio-Code">Visual Studio Code</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86">情報採取手順</a><span class="tag-list-count">4</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/">情報採取手順</a><span class="tag-list-count">6</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/ALM">ALM</a><span class="tag-list-count">4</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/Azure-DevOps-Server">Azure DevOps Server</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/Azure-DevOps-Services">Azure DevOps Services</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/Azure-Pipelines">Azure Pipelines</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/TFS">TFS</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Data-Access/">Data Access</a><span class="tag-list-count">8</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Data-Access/ADO-ActiveX-Data-Objects">ADO (ActiveX Data Objects)</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Data-Access/ADO-NET">ADO.NET</a><span class="tag-list-count">3</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Data-Access/JDBC-Driver">JDBC Driver</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Data-Access/Jet">Jet</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Data-Access/Oracle">Oracle</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Data-Access/SQL-Server">SQL Server</a><span class="tag-list-count">3</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Windows-SDK/">Windows SDK</a><span class="tag-list-count">9</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Debug">Debug</a><span class="tag-list-count">5</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Documents-and-Printing">Documents and Printing</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/GDI">GDI</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Leak">Leak</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Windows-Update-Agent-API">Windows Update Agent API</a><span class="tag-list-count">2</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Debug/">Debug</a><span class="tag-list-count">18</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/NET">.NET</a><span class="tag-list-count">6</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/AI">AI</a><span class="tag-list-count">3</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/GitHub-Copilot">GitHub Copilot</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Leak">Leak</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Memory">Memory</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Visual-Studio">Visual Studio</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Windows-SDK">Windows SDK</a><span class="tag-list-count">5</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/AI/">AI</a><span class="tag-list-count">4</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/AI/NET">.NET</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/AI/Debug">Debug</a><span class="tag-list-count">3</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/AI/GitHub-Copilot">GitHub Copilot</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/AI/Visual-Studio">Visual Studio</a><span class="tag-list-count">2</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/NET/">.NET</a><span class="tag-list-count">22</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/NET-Framework">.NET Framework</a><span class="tag-list-count">12</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/AI">AI</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/Debug">Debug</a><span class="tag-list-count">6</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/%E6%9B%B4%E6%96%B0%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0">更新プログラム</a><span class="tag-list-count">2</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Deployment/">Deployment</a><span class="tag-list-count">4</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Deployment/ClickOnce">ClickOnce</a><span class="tag-list-count">4</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Dev-Box/">Dev Box</a><span class="tag-list-count">1</span><ul></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E5%85%A8%E8%88%AC/">全般</a><span class="tag-list-count">2</span><ul></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Azure-PlayFab/">Azure PlayFab</a><span class="tag-list-count">4</span><ul></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Visual-Studio/">Visual Studio</a><span class="tag-list-count">23</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/AI">AI</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/C">C#</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/C">C++</a><span class="tag-list-count">8</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/Debug">Debug</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/VB-NET">VB.NET</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/Visual-Studio-2026">Visual Studio 2026</a><span class="tag-list-count">1</span></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">アーカイブ</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2026/08/">2026 / 08</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2026/07/">2026 / 07</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2026/06/">2026 / 06</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2026/05/">2026 / 05</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2026/04/">2026 / 04</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2026/03/">2026 / 03</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2026/02/">2026 / 02</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2026/01/">2026 / 01</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/12/">2025 / 12</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/11/">2025 / 11</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/10/">2025 / 10</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/09/">2025 / 09</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/08/">2025 / 08</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/07/">2025 / 07</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2025/06/">2025 / 06</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/08/">2024 / 08</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/06/">2024 / 06</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/04/">2024 / 04</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2024/03/">2024 / 03</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/09/">2023 / 09</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/06/">2023 / 06</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/03/">2023 / 03</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2023/02/">2023 / 02</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/12/">2022 / 12</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/11/">2022 / 11</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/07/">2022 / 07</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/06/">2022 / 06</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/04/">2022 / 04</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/03/">2022 / 03</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/01/">2022 / 01</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/12/">2021 / 12</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/08/">2021 / 08</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/05/">2021 / 05</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/04/">2021 / 04</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/02/">2021 / 02</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2021/01/">2021 / 01</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/12/">2020 / 12</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/11/">2020 / 11</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/10/">2020 / 10</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/09/">2020 / 09</a><span class="archive-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">旧ブログ/フォーラム</h3>
+  <div class="widget">
+    <ul>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://social.msdn.microsoft.com/Forums/ja-jp/home?forum=visualstudiosupportteamja">Visual Studio サポートチーム フォーラム</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://social.msdn.microsoft.com/Forums/ja-jp/home?forum=windowssdksupportteamja&filter=alltypes&sort=lastpostdesc">Windows SDK サポートチーム フォーラム</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/archive/blogs/jpvsblog/">Visual Studio サポート チーム blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/archive/blogs/japan_platform_sdkwindows_sdk_support_team_blog/">JAPAN Platform SDK（Windows SDK） Support Team Blog</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">関連リンク</h3>
+  <div class="widget">
+    <ul>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://developercommunity.visualstudio.com/">Developer Community</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/dotnet/">.NET Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/visualstudio/">Visual Studio Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/cppblog/">C++ Team Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/xamarin/">Xamarin Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/devops/">Azure DevOps Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://techcommunity.microsoft.com/t5/azure-lab-services/bg-p/AzureLabServicesBlog/">Azure Lab Services Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/appcenter/">App Center Blog</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://status.azure.com/status/">Azure Status</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="https://status.dev.azure.com/">Azure DevOps - Status</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2026 Developer Support Core Japan<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="../../index.html" class="mobile-nav-link">Home</a>
+  
+    <a href="../../archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+<script src="../../js/script.js"></script>
+
+
+<script src="../../js/toc.js"></script>
+
+
+
+
+
+
+  </div>
+</body>
+</html>
