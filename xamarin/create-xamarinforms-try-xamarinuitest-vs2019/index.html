@@ -40,7 +40,7 @@
 <meta property="og:image" content="https://jpdscore.github.io/blog/xamarin/create-xamarinforms-try-xamarinuitest-vs2019/25.png">
 <meta property="og:image" content="https://jpdscore.github.io/blog/xamarin/create-xamarinforms-try-xamarinuitest-vs2019/26.png">
 <meta property="article:published_time" content="2021-04-13T00:00:00.000Z">
-<meta property="article:modified_time" content="2026-08-19T07:54:30.646Z">
+<meta property="article:modified_time" content="2026-08-26T12:12:18.062Z">
 <meta property="article:author" content="Developer Support Core Japan">
 <meta property="article:tag" content="Xamarin">
 <meta property="article:tag" content="UITest">
@@ -148,15 +148,14 @@
         <p>こんにちは、Japan Developer Support Core チームです。  </p>
 <p>Xamarin.Forms アプリの User Interface (UI) テストを可能にするフレームワーク、Xamairn.UITest を皆様ご存じでしょうか？  </p>
 <ul>
-<li><p><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/appcenter/test-cloud/frameworks/uitest/" title="Xamarin.UITest">Xamarin.UITest</a></p>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/appcenter/test-cloud/frameworks/uitest/" title="Xamarin.UITest">Xamarin.UITest</a></li>
+</ul>
 <p>Microsoft の Docs サイトや Developer Community サイトでは、よく「Xamarin.UITest クロスプラットフォームのテストプロジェクト」を利用したチュートリアルが紹介されていますね。<br>今日は、必要なライブラリや UI Test の構成の理解を深めるために、この「Xamarin.UITest クロスプラットフォームのテストプロジェクト」を利用せず全て手作りで、Xamarin.UITest を使用した Xamarin.Forms アプリの UI Test にチャレンジしてみましょう！  </p>
 <p>早速ですが、本日のメニューはこちらです。</p>
 <p><a href="#1-%E7%92%B0%E5%A2%83%E3%81%AE%E6%BA%96%E5%82%99">1. 環境の準備</a><br><a href="#2-%E3%83%86%E3%82%B9%E3%83%88%E5%AF%BE%E8%B1%A1%E3%81%AB%E3%81%AA%E3%82%8B-Xamarin-Forms-%E3%82%A2%E3%83%97%E3%83%AA%E3%82%92%E4%BD%9C%E3%82%8B">2. テスト対象になる Xamarin.Forms アプリを作る</a><br><a href="#3-%E3%83%86%E3%82%B9%E3%83%88%E5%AF%BE%E8%B1%A1%E3%81%AE-Xamarin-Forms-%E3%82%A2%E3%83%97%E3%83%AA%E3%81%A7%E3%80%81UI-Test-%E3%81%AE%E6%BA%96%E5%82%99%E3%82%92%E3%81%99%E3%82%8B">3. テスト対象の Xamarin.Forms アプリで、UI Test の準備をする</a><br><a href="#4-%E4%BD%9C%E3%81%A3%E3%81%9F-Xamarin-Forms-%E3%82%A2%E3%83%97%E3%83%AA%E3%82%92%E3%83%91%E3%83%83%E3%82%B1%E3%83%BC%E3%82%B8%E5%8C%96%E3%81%99%E3%82%8B">4. 作った Xamarin.Forms アプリをパッケージ化する</a><br><a href="#5-Xamarin-UITest-%E3%83%97%E3%83%AD%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E3%82%92%E6%BA%96%E5%82%99%E3%81%99%E3%82%8B">5. Xamarin.UITest プロジェクトを準備する</a><br><a href="#6-UI-Test-%E3%82%92%E5%AE%9F%E6%96%BD%E3%81%99%E3%82%8B">6. UI Test を実施する</a>  </p>
-<h2 id="前提条件"><a href="#前提条件" class="headerlink" title="前提条件"></a>前提条件</h2></li>
-<li><p>Visual Studio 2019 (以降、VS2019) をご用意ください。</p>
-</li>
-<li><p>本記事では、Xamarin.Forms アプリや Xamarin.UITest モジュールの開発技法・コーディングについては詳しく言及していません。Xamarin.UITest を使用して Xamarin.Forms アプリの UI テストを行うために必要となるプロジェクト構成や、準備しておくべき設定、クラス、ソースコードのみを紹介します。</p>
-</li>
+<h2 id="前提条件"><a href="#前提条件" class="headerlink" title="前提条件"></a>前提条件</h2><ul>
+<li>Visual Studio 2019 (以降、VS2019) をご用意ください。</li>
+<li>本記事では、Xamarin.Forms アプリや Xamarin.UITest モジュールの開発技法・コーディングについては詳しく言及していません。Xamarin.UITest を使用して Xamarin.Forms アプリの UI テストを行うために必要となるプロジェクト構成や、準備しておくべき設定、クラス、ソースコードのみを紹介します。</li>
 </ul>
 <hr>
 <h2 id="1-環境の準備"><a href="#1-環境の準備" class="headerlink" title="1. 環境の準備"></a>1. 環境の準備</h2><hr>
@@ -195,16 +194,14 @@
 <h2 id="3-テスト対象の-Xamarin-Forms-アプリで、UI-Test-の準備をする"><a href="#3-テスト対象の-Xamarin-Forms-アプリで、UI-Test-の準備をする" class="headerlink" title="3. テスト対象の Xamarin.Forms アプリで、UI Test の準備をする"></a>3. テスト対象の Xamarin.Forms アプリで、UI Test の準備をする</h2><hr>
 <p>Xamarin.UITest では、ユーザーインターフェース (UI) のテスト対象となる各 UI 要素に対して、予め「AutomationId」を追加定義しておく必要があります。<br>詳しくは Microsoft Docs サイトをご照覧あれ。  </p>
 <ul>
-<li><p><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/appcenter/test-cloud/frameworks/uitest/xamarin-forms?tabs=windows#adding-uitest-support-to-xamarinforms-apps" title="Adding UITest support to Xamarin.Forms apps">Adding UITest support to Xamarin.Forms apps</a></p>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/appcenter/test-cloud/frameworks/uitest/xamarin-forms?tabs=windows#adding-uitest-support-to-xamarinforms-apps" title="Adding UITest support to Xamarin.Forms apps">Adding UITest support to Xamarin.Forms apps</a></li>
+</ul>
 <p>今しがた作成したばかりの Xamarin.Forms アプリの場合は、メインの UI を MyXamarinFormsApp\MainPage.xaml で定義しているので、ここを編集しておきましょう。<br>ちょっと手を抜いて、ここでは新しく追加した Button と Label のみを UITest 対象として、それぞれ AutomationId を定義しました。  </p>
-<p>// MyXamarinFormsApp\MainPage.xaml </p>
+<p>&#x2F;&#x2F; MyXamarinFormsApp\MainPage.xaml </p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;utf-8&quot;</span> ?&gt; </span><br><span class="line">&lt;ContentPage xmlns=<span class="string">&quot;http://xamarin.com/schemas/2014/forms&quot;</span> </span><br><span class="line">             xmlns:x=<span class="string">&quot;http://schemas.microsoft.com/winfx/2009/xaml&quot;</span> </span><br><span class="line">             x:Class=<span class="string">&quot;MyXamarinFormsApp.MainPage&quot;</span>&gt; </span><br><span class="line">    &lt;StackLayout&gt; </span><br><span class="line">        &lt;Frame BackgroundColor=<span class="string">&quot;#2196F3&quot;</span> Padding=<span class="string">&quot;24&quot;</span> CornerRadius=<span class="string">&quot;0&quot;</span>&gt; </span><br><span class="line">            &lt;Label Text=<span class="string">&quot;Welcome to Xamarin.Forms!&quot;</span> HorizontalTextAlignment=<span class="string">&quot;Center&quot;</span> TextColor=<span class="string">&quot;White&quot;</span> FontSize=<span class="string">&quot;36&quot;</span>/&gt; </span><br><span class="line">        &lt;/Frame&gt; </span><br><span class="line">        &lt;Label Text=<span class="string">&quot;Start developing now&quot;</span> FontSize=<span class="string">&quot;Title&quot;</span> Padding=<span class="string">&quot;30,10,30,10&quot;</span>/&gt; </span><br><span class="line">        &lt;Label Text=<span class="string">&quot;Make changes to your XAML file and save to see your UI update in the running app with XAML Hot Reload. Give it a try!&quot;</span> FontSize=<span class="string">&quot;16&quot;</span> Padding=<span class="string">&quot;30,0,30,0&quot;</span>/&gt; </span><br><span class="line">        &lt;Label FontSize=<span class="string">&quot;16&quot;</span> Padding=<span class="string">&quot;30,24,30,0&quot;</span>&gt; </span><br><span class="line">            &lt;Label.FormattedText&gt; </span><br><span class="line">                &lt;FormattedString&gt; </span><br><span class="line">                    &lt;FormattedString.Spans&gt; </span><br><span class="line">                        &lt;Span Text=<span class="string">&quot;Learn more at &quot;</span>/&gt; </span><br><span class="line">                        &lt;Span Text=<span class="string">&quot;https://aka.ms/xamarin-quickstart&quot;</span> FontAttributes=<span class="string">&quot;Bold&quot;</span>/&gt; </span><br><span class="line">                    &lt;/FormattedString.Spans&gt; </span><br><span class="line">                &lt;/FormattedString&gt; </span><br><span class="line">            &lt;/Label.FormattedText&gt; </span><br><span class="line">        &lt;/Label&gt; </span><br><span class="line">        &lt;Button x:Name=<span class="string">&quot;b&quot;</span> AutomationId=<span class="string">&quot;MyButton&quot;</span> Text=<span class="string">&quot;Click me&quot;</span>/&gt; </span><br><span class="line">        &lt;Label x:Name=<span class="string">&quot;l&quot;</span> AutomationId=<span class="string">&quot;MyLabel&quot;</span> Text=<span class="string">&quot;Hello, Xamarin.Forms!&quot;</span> /&gt; </span><br><span class="line">    &lt;/StackLayout&gt; </span><br><span class="line">&lt;/ContentPage&gt; </span><br></pre></td></tr></table></figure>
-
 <p>ここまで実装が完了したら、一度ソリューションを Debug モードでリビルドしてみましょう！  </p>
 <p>リビルドをパスしたら、ついでに Android のエミュレーター (下記例では「Pixel 2 Pie 9.0 - API 28」) 上でデバッグ実行・アプリが起動するところまで確認しておくと安心です。  </p>
 <p><img src="11.png"></p>
-</li>
-</ul>
 <hr>
 <h2 id="4-作った-Xamarin-Forms-アプリをパッケージ化する"><a href="#4-作った-Xamarin-Forms-アプリをパッケージ化する" class="headerlink" title="4. 作った Xamarin.Forms アプリをパッケージ化する"></a>4. 作った Xamarin.Forms アプリをパッケージ化する</h2><hr>
 <p>無事、UITest 準備を済ませた Xamarin.Forms アプリが出来上がったところで、今度はこのアプリをパッケージングしましょう。<br>因みに Android の場合は、拡張子「.APK」でパッケージングされますよ。  </p>
@@ -222,10 +219,6 @@
 </tr>
 <tr>
 <td><img src="12.png"></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
 <td></td>
 </tr>
 </tbody></table>
@@ -268,77 +261,16 @@
 <td><img src="14.png"></td>
 <td></td>
 </tr>
-<tr>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>画像が見切れちゃいました、すみません。。。</td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><img src="15.png"></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>プロジェクトのプロパティ設定を済ませたら、いよいよパッケージを作成します。</td>
-<td></td>
-</tr>
-<tr>
-<td>VS2019 のソリューション エクスプローラーから、デバイス (ここでは Android) 依存の実装を含むプロジェクト MyXamarinFormsApp.Android を右クリックして [アーカイブ] を選択します。</td>
-<td></td>
-</tr>
-<tr>
-<td>アーカイブが成功すると、アーカイブマネージャーの画面から [フォルダーを開く] ボタンをクリックして、生成された .apk ファイルを確認できますよ。</td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><img src="16.png"></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>割と深い階層にありますね、適宜見つけやすい場所にコピーしておくと良いかもしれません。</td>
-<td></td>
-</tr>
-<tr>
-<td>ここでは例として C:\TEMP フォルダ直下へコピーしておきましょう。</td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><img src="17.png"></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>【参考情報】</td>
-<td></td>
-</tr>
 </tbody></table>
+<p>画像が見切れちゃいました、すみません。。。  </p>
+<p><img src="15.png"></p>
+<p>プロジェクトのプロパティ設定を済ませたら、いよいよパッケージを作成します。<br>VS2019 のソリューション エクスプローラーから、デバイス (ここでは Android) 依存の実装を含むプロジェクト MyXamarinFormsApp.Android を右クリックして [アーカイブ] を選択します。<br>アーカイブが成功すると、アーカイブマネージャーの画面から [フォルダーを開く] ボタンをクリックして、生成された .apk ファイルを確認できますよ。  </p>
+<p><img src="16.png"></p>
+<p>割と深い階層にありますね、適宜見つけやすい場所にコピーしておくと良いかもしれません。<br>ここでは例として C:\TEMP フォルダ直下へコピーしておきましょう。  </p>
+<p><img src="17.png"></p>
+<p>【参考情報】  </p>
 <ul>
-<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/ja-jp/xamarin/android/deploy-test/release-prep/?tabs=windows" title="リリースに向けてアプリケーションを準備する">リリースに向けてアプリケーションを準備する</a>  </li>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/ja-jp/xamarin/android/deploy-test/release-prep/?tabs=windows" title="リリースに向けてアプリケーションを準備する">リリースに向けてアプリケーションを準備する</a></li>
 </ul>
 <hr>
 <h2 id="5-Xamarin-UITest-プロジェクトを準備する"><a href="#5-Xamarin-UITest-プロジェクトを準備する" class="headerlink" title="5. Xamarin.UITest プロジェクトを準備する"></a>5. Xamarin.UITest プロジェクトを準備する</h2><hr>
@@ -383,31 +315,9 @@
 <td>Xamarin.UITest</td>
 <td>v3.0.15</td>
 </tr>
-<tr>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><img src="23.png"></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>全てのパッケージのインストールが完了すると、先ほどから気になっていた「色々と using できていないエラー」が全て解消されています。</td>
-<td></td>
-</tr>
-<tr>
-<td>VS2019 のソリューションエクスプローラーから、UI テストを行うテスト モジュールを含むプロジェクト MyXamarinUITestDll を右クリックして、[リビルド] しておきましょう。</td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-</tr>
 </tbody></table>
+<p><img src="23.png"></p>
+<p>全てのパッケージのインストールが完了すると、先ほどから気になっていた「色々と using できていないエラー」が全て解消されています。<br>VS2019 のソリューションエクスプローラーから、UI テストを行うテスト モジュールを含むプロジェクト MyXamarinUITestDll を右クリックして、[リビルド] しておきましょう。  </p>
 <hr>
 <h2 id="6-UI-Test-を実施する"><a href="#6-UI-Test-を実施する" class="headerlink" title="6. UI Test を実施する"></a>6. UI Test を実施する</h2><hr>
 <p>それでは、いよいよ UITest を走らせてみましょう！  </p>
@@ -512,7 +422,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">タグ</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="../../tags/ALM/">ALM</a><span class="tag-list-count">17</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-DevOps-Server">Azure DevOps Server</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-DevOps-Services">Azure DevOps Services</a><span class="tag-list-count">9</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-Pipelines">Azure Pipelines</a><span class="tag-list-count">7</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-Repos">Azure Repos</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Devcontainer">Devcontainer</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/GitHub">GitHub</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/TFS">TFS</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Visual-Studio-Code">Visual Studio Code</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86">情報採取手順</a><span class="tag-list-count">4</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/">情報採取手順</a><span class="tag-list-count">6</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/ALM">ALM</a><span class="tag-list-count">4</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/Azure-DevOps-Server">Azure DevOps Server</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/Azure-DevOps-Services">Azure DevOps Services</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/Azure-Pipelines">Azure Pipelines</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/TFS">TFS</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Data-Access/">Data Access</a><span class="tag-list-count">8</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Data-Access/ADO-ActiveX-Data-Objects">ADO (ActiveX Data Objects)</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Data-Access/ADO-NET">ADO.NET</a><span class="tag-list-count">3</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Data-Access/JDBC-Driver">JDBC Driver</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Data-Access/Jet">Jet</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Data-Access/Oracle">Oracle</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Data-Access/SQL-Server">SQL Server</a><span class="tag-list-count">3</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Windows-SDK/">Windows SDK</a><span class="tag-list-count">9</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Debug">Debug</a><span class="tag-list-count">5</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Documents-and-Printing">Documents and Printing</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/GDI">GDI</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Leak">Leak</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Windows-Update-Agent-API">Windows Update Agent API</a><span class="tag-list-count">2</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Debug/">Debug</a><span class="tag-list-count">18</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/NET">.NET</a><span class="tag-list-count">6</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/AI">AI</a><span class="tag-list-count">3</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/GitHub-Copilot">GitHub Copilot</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Leak">Leak</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Memory">Memory</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Visual-Studio">Visual Studio</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Windows-SDK">Windows SDK</a><span class="tag-list-count">5</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/AI/">AI</a><span class="tag-list-count">4</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/AI/NET">.NET</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/AI/Debug">Debug</a><span class="tag-list-count">3</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/AI/GitHub-Copilot">GitHub Copilot</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/AI/Visual-Studio">Visual Studio</a><span class="tag-list-count">2</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/NET/">.NET</a><span class="tag-list-count">22</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/NET-Framework">.NET Framework</a><span class="tag-list-count">12</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/AI">AI</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/Debug">Debug</a><span class="tag-list-count">6</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/%E6%9B%B4%E6%96%B0%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0">更新プログラム</a><span class="tag-list-count">2</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Deployment/">Deployment</a><span class="tag-list-count">4</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Deployment/ClickOnce">ClickOnce</a><span class="tag-list-count">4</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Dev-Box/">Dev Box</a><span class="tag-list-count">1</span><ul></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Azure-PlayFab/">Azure PlayFab</a><span class="tag-list-count">4</span><ul></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E5%85%A8%E8%88%AC/">全般</a><span class="tag-list-count">2</span><ul></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Visual-Studio/">Visual Studio</a><span class="tag-list-count">23</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/AI">AI</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/C">C#</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/C">C++</a><span class="tag-list-count">8</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/Debug">Debug</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/VB-NET">VB.NET</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/Visual-Studio-2026">Visual Studio 2026</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Data-Client/">Data Client</a><span class="tag-list-count">1</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Data-Client/ODBC">ODBC</a><span class="tag-list-count">1</span></li></ul></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="../../tags/ALM/">ALM</a><span class="tag-list-count">17</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-DevOps-Server">Azure DevOps Server</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-DevOps-Services">Azure DevOps Services</a><span class="tag-list-count">9</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-Pipelines">Azure Pipelines</a><span class="tag-list-count">7</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-Repos">Azure Repos</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Devcontainer">Devcontainer</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/GitHub">GitHub</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/TFS">TFS</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Visual-Studio-Code">Visual Studio Code</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86">情報採取手順</a><span class="tag-list-count">4</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/">情報採取手順</a><span class="tag-list-count">6</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/ALM">ALM</a><span class="tag-list-count">4</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/Azure-DevOps-Server">Azure DevOps Server</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/Azure-DevOps-Services">Azure DevOps Services</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/Azure-Pipelines">Azure Pipelines</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/TFS">TFS</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Data-Access/">Data Access</a><span class="tag-list-count">8</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Data-Access/ADO-ActiveX-Data-Objects">ADO (ActiveX Data Objects)</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Data-Access/ADO-NET">ADO.NET</a><span class="tag-list-count">3</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Data-Access/JDBC-Driver">JDBC Driver</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Data-Access/Jet">Jet</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Data-Access/Oracle">Oracle</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Data-Access/SQL-Server">SQL Server</a><span class="tag-list-count">3</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Windows-SDK/">Windows SDK</a><span class="tag-list-count">9</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Debug">Debug</a><span class="tag-list-count">5</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Documents-and-Printing">Documents and Printing</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/GDI">GDI</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Leak">Leak</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Windows-Update-Agent-API">Windows Update Agent API</a><span class="tag-list-count">2</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Debug/">Debug</a><span class="tag-list-count">18</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/NET">.NET</a><span class="tag-list-count">6</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/AI">AI</a><span class="tag-list-count">3</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/GitHub-Copilot">GitHub Copilot</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Leak">Leak</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Memory">Memory</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Visual-Studio">Visual Studio</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Windows-SDK">Windows SDK</a><span class="tag-list-count">5</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/AI/">AI</a><span class="tag-list-count">4</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/AI/NET">.NET</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/AI/Debug">Debug</a><span class="tag-list-count">3</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/AI/GitHub-Copilot">GitHub Copilot</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/AI/Visual-Studio">Visual Studio</a><span class="tag-list-count">2</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/NET/">.NET</a><span class="tag-list-count">22</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/NET-Framework">.NET Framework</a><span class="tag-list-count">12</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/AI">AI</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/Debug">Debug</a><span class="tag-list-count">6</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/%E6%9B%B4%E6%96%B0%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0">更新プログラム</a><span class="tag-list-count">2</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Deployment/">Deployment</a><span class="tag-list-count">4</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Deployment/ClickOnce">ClickOnce</a><span class="tag-list-count">4</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Dev-Box/">Dev Box</a><span class="tag-list-count">1</span><ul></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E5%85%A8%E8%88%AC/">全般</a><span class="tag-list-count">2</span><ul></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Azure-PlayFab/">Azure PlayFab</a><span class="tag-list-count">4</span><ul></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Visual-Studio/">Visual Studio</a><span class="tag-list-count">23</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/AI">AI</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/C">C#</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/C">C++</a><span class="tag-list-count">8</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/Debug">Debug</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/VB-NET">VB.NET</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/Visual-Studio-2026">Visual Studio 2026</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Data-Client/">Data Client</a><span class="tag-list-count">1</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Data-Client/ODBC">ODBC</a><span class="tag-list-count">1</span></li></ul></li></ul>
     </div>
   </div>
 

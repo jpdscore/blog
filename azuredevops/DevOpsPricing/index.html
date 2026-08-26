@@ -19,7 +19,7 @@
 <meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/DevOpsPricing/pic5.png">
 <meta property="og:image" content="https://jpdscore.github.io/blog/azuredevops/DevOpsPricing/pic6.png">
 <meta property="article:published_time" content="2022-06-12T15:00:00.000Z">
-<meta property="article:modified_time" content="2026-08-19T07:54:30.532Z">
+<meta property="article:modified_time" content="2026-08-26T12:12:17.951Z">
 <meta property="article:author" content="Developer Support Core Japan">
 <meta property="article:tag" content="ALM">
 <meta property="article:tag" content="Azure DevOps Services">
@@ -130,25 +130,21 @@
 <h2 id="Azure-DevOps-Services-の始め方について"><a href="#Azure-DevOps-Services-の始め方について" class="headerlink" title="Azure DevOps Services の始め方について"></a>Azure DevOps Services の始め方について</h2><hr>
 <p>Azure DevOps Services は、無料で開始することができます。<br>開始方法は、<a target="_blank" rel="noopener" href="https://azure.microsoft.com/ja-jp/services/devops/">Azure DevOps Services のサービス ページ</a> から開始した場合と、 <a target="_blank" rel="noopener" href="https://portal.azure.com/">Azure Portal</a> の [DevOps Starter] から開始した場合の二通りあります。<br>自動で作成されるリソース等が異なるので、お好みの方法を選択ください。  </p>
 <ul>
-<li><p><a target="_blank" rel="noopener" href="https://azure.microsoft.com/ja-jp/services/devops/">Azure DevOps Services のサービスページ</a> から開始した場合:  </p>
+<li><a target="_blank" rel="noopener" href="https://azure.microsoft.com/ja-jp/services/devops/">Azure DevOps Services のサービスページ</a> から開始した場合:  <ul>
+<li>Azure DevOps Services のみのリソースを作成する</li>
+<li>Azure の権限が不要 (Azure サブスクリプションにおける管理者権限など)</li>
+</ul>
+</li>
+</ul>
+<p> <img src="pic1.png"></p>
 <ul>
-<li><p>Azure DevOps Services のみのリソースを作成する</p>
-</li>
-<li><p>Azure の権限が不要 (Azure サブスクリプションにおける管理者権限など)</p>
-<p><img src="pic1.png"></p>
-</li>
-</ul>
-</li>
-<li><p>DevOps Starter から開始した場合:  </p>
-<ul>
-<li><p>Azure DevOps Services およびデプロイ先のリソースを作成する (Azure App Services や VM などが一緒に作成される)</p>
-</li>
-<li><p>Azure DevOps Services からデプロイ先のリソースに対して CI/CD が設定されている状態で自動的にプロジェクトを作成する</p>
-<p><img src="pic2.png"></p>
-</li>
+<li>DevOps Starter から開始した場合:  <ul>
+<li>Azure DevOps Services およびデプロイ先のリソースを作成する (Azure App Services や VM などが一緒に作成される)</li>
+<li>Azure DevOps Services からデプロイ先のリソースに対して CI&#x2F;CD が設定されている状態で自動的にプロジェクトを作成する</li>
 </ul>
 </li>
 </ul>
+<p> <img src="pic2.png"></p>
 <hr>
 <h2 id="Azure-DevOps-Services-の課金シナリオについて"><a href="#Azure-DevOps-Services-の課金シナリオについて" class="headerlink" title="Azure DevOps Services の課金シナリオについて"></a>Azure DevOps Services の課金シナリオについて</h2><hr>
 <p>ここまでは無料で利用する場合のご案内でしたが、無料の枠を超えると従量課金制となり、毎月利用料金を支払うモデルとなります。<br>必要な時に必要な分を継続購入し、常に最新の環境を手に入れるというサービスです。<br>支払い用に Azure サブスクリプションを設定すると、課金が必要なサービスが利用可能となり、この設定をしない場合には勝手に課金されることはありません。  </p>
@@ -156,12 +152,10 @@
 <p>※ 以下のドキュメントで、Azure サブスクリプションの設定方法を紹介しています。<br><a target="_blank" rel="noopener" href="https://docs.microsoft.com/ja-jp/azure/devops/organizations/billing/set-up-billing-for-your-organization-vs?view=azure-devops">請求の設定</a></p>
 <p>また課金には、ユーザー ライセンスに対する課金と個別サービスに対する課金の二通りのシナリオがあります。</p>
 <ul>
-<li><p><strong>ユーザー ライセンス</strong><br>Basic プランまたは Basic + Test プランをユーザーに割り当てる</p>
-</li>
-<li><p><strong>個別サービス</strong><br>Azure Pipelines で追加の並列ジョブを購入、または Azure Artifacts で追加の容量を購入する  </p>
-<p>これら二つの課金シナリオについて、以下に詳しくご説明していきます。</p>
-</li>
+<li><strong>ユーザー ライセンス</strong><br>Basic プランまたは Basic + Test プランをユーザーに割り当てる</li>
+<li><strong>個別サービス</strong><br>Azure Pipelines で追加の並列ジョブを購入、または Azure Artifacts で追加の容量を購入する</li>
 </ul>
+<p>これら二つの課金シナリオについて、以下に詳しくご説明していきます。</p>
 <hr>
 <h3 id="ユーザー-ライセンスに対する課金について"><a href="#ユーザー-ライセンスに対する課金について" class="headerlink" title="ユーザー ライセンスに対する課金について"></a>ユーザー ライセンスに対する課金について</h3><hr>
 <p>Azure DevOps Services でご利用いただけるユーザー ライセンスは 4 通り存在します。<br>各ライセンスでご利用いただける機能は、<strong>Access Level</strong> (※) で許可・制限されます。</p>
@@ -171,59 +165,56 @@
 </li>
 <li><p><strong>Basic + Test Plans</strong><br>上記 Basic に加え、Azure Test Plans を利用するためのライセンスで、一人当たり $52(月額) です。<br>Basic に比較すると高額となるので、Azure Test Plans を利用したい場合は、まずは 30 日間の無料試用期間を利用してお試しいただくといいかもしれません。  </p>
 </li>
-<li><p><strong>Stakeholder (利害関係者)</strong><br>各機能へのアクセスが制限されている無料のライセンスです。<br>作業項目 (バグを含む) を作成および編集できますが、ビルドを実行したり、プルリクエストを表示したりすることはできません。<br>コードや CI/CD 機能にアクセスできないマネージャー アカウントと考えることができます。  </p>
+<li><p><strong>Stakeholder (利害関係者)</strong><br>各機能へのアクセスが制限されている無料のライセンスです。<br>作業項目 (バグを含む) を作成および編集できますが、ビルドを実行したり、プルリクエストを表示したりすることはできません。<br>コードや CI&#x2F;CD 機能にアクセスできないマネージャー アカウントと考えることができます。  </p>
 </li>
 <li><p><strong>Visual Studio Subscriber</strong><br>Visual Studio サブスクリプションを保持しているユーザーに対する無料のライセンスです。<br>Visual Studio のサブスクリプション レベルに応じて、利用できる範囲には制限がありますので、詳細については以下をご参照ください。<br><a target="_blank" rel="noopener" href="https://docs.microsoft.com/ja-jp/visualstudio/subscriptions/vs-azure-devops">Visual Studio サブスクリプションの Azure DevOps</a></p>
-<p>※ <strong>Access Level</strong> につきましては、以下弊社のドキュメントもご確認ください。  </p>
-<p><a target="_blank" rel="noopener" href="https://docs.microsoft.com/ja-jp/azure/devops/organizations/security/access-levels?view=azure-devops">アクセス レベルについて</a></p>
 </li>
 </ul>
+<p>※ <strong>Access Level</strong> につきましては、以下弊社のドキュメントもご確認ください。  </p>
+<p><a target="_blank" rel="noopener" href="https://docs.microsoft.com/ja-jp/azure/devops/organizations/security/access-levels?view=azure-devops">アクセス レベルについて</a></p>
 <hr>
 <h3 id="ユーザーが複数の-Organization-にまたがる場合"><a href="#ユーザーが複数の-Organization-にまたがる場合" class="headerlink" title="ユーザーが複数の Organization にまたがる場合"></a>ユーザーが複数の Organization にまたがる場合</h3><hr>
 <p>複数の Organization に同じユーザーが重複して登録される状況を考慮し、Azure DevOps Services には、以下の二種類の支払い方法があります。  </p>
 <ul>
-<li><p><strong>Single organization (既定はこちら)</strong></p>
-</li>
-<li><p><strong>Multi-organization (※)</strong></p>
+<li><strong>Single organization (既定はこちら)</strong></li>
+<li><strong>Multi-organization (※)</strong></li>
+</ul>
 <p>Single organization の場合は、1 Organization ごとに 5 名の Basic ユーザーを超えた場合に、ユーザーの課金額が計算されます。<br>この場合、もし複数の Organization にまたがって同一の Basic ユーザーが存在する場合は、同一ユーザーであったとしても Organization ごとに一人分の請求が発生します。<br>Multi-organization の場合は、同じ Azure サブスクリプションに紐づく Organization 全体で、Basic ユーザーの数が 5 名を超えた場合に、ユーザーの課金額が計算されます。  </p>
 <p>※ <strong>Multi-organization</strong> の設定方法につきましては、以下弊社のドキュメントをご確認ください。  </p>
 <p><a target="_blank" rel="noopener" href="https://docs.microsoft.com/ja-jp/azure/devops/organizations/billing/buy-basic-access-add-users?view=azure-devops#pay-for-a-user-once-across-multiple-organizations">複数の組織でユーザーに対して 1 回だけ支払う</a></p>
-</li>
-</ul>
 <p><strong>例) 同一サブスクリプションにて、Organization を A、B、C と三つ作成し、Organization 毎にユーザーを各 6 名ずつ追加する場合</strong>  </p>
 <ul>
-<li><p><strong>【Single organization 設定時】(既定はこちら)</strong>  </p>
-<p><img src="pic5.png">
-有料ユーザー 1 x 3 Organization = 3 ユーザー分の課金となり、$6 x 3 = $18(月額) の課金となります。<br>赤、青のユーザーは各 Organization ごとに異なるメンバーでもよく、Stakeholder、Visual Studio Subscriber は常に無料です。  </p>
-</li>
-<li><p><strong>【Multi-organization 設定時】</strong>  </p>
-<p><img src="pic6.png">
-有料ユーザー 1 x 1 サブスクリプション = 1 ユーザー分の課金となり、$6 x 1 = $6(月額) の課金となります。<br>ただし、赤と青のユーザーは全 Organization で共通となり、Stakeholder、Visual Studio Subscriber は常に無料です。  </p>
-<p>ほとんどのユーザーが一つの Organization しか利用しない場合は、Single organization が最もコスト効率が高くなります。<br>逆に、多くのユーザーが複数の Organization を利用する場合は、Multi-organization が最適な選択肢であると考えられます。  </p>
-</li>
+<li><strong>【Single organization 設定時】(既定はこちら)</strong></li>
 </ul>
+<p><img src="pic5.png">
+有料ユーザー 1 x 3 Organization &#x3D; 3 ユーザー分の課金となり、$6 x 3 &#x3D; $18(月額) の課金となります。<br>赤、青のユーザーは各 Organization ごとに異なるメンバーでもよく、Stakeholder、Visual Studio Subscriber は常に無料です。  </p>
+<ul>
+<li><strong>【Multi-organization 設定時】</strong></li>
+</ul>
+<p> <img src="pic6.png">
+有料ユーザー 1 x 1 サブスクリプション &#x3D; 1 ユーザー分の課金となり、$6 x 1 &#x3D; $6(月額) の課金となります。<br>ただし、赤と青のユーザーは全 Organization で共通となり、Stakeholder、Visual Studio Subscriber は常に無料です。  </p>
+<p>ほとんどのユーザーが一つの Organization しか利用しない場合は、Single organization が最もコスト効率が高くなります。<br>逆に、多くのユーザーが複数の Organization を利用する場合は、Multi-organization が最適な選択肢であると考えられます。  </p>
 <hr>
 <h3 id="個別サービスに対する課金について"><a href="#個別サービスに対する課金について" class="headerlink" title="個別サービスに対する課金について"></a>個別サービスに対する課金について</h3><hr>
 <p>Azure Pipelines と Azure Artifacts に無料で付属している個別サービスに対して、追加で購入する場合に課金されます。<br>Azure Repos のリポジトリ数およびソースコード等のデータ容量、 Azure Pipelines のビルド成果物などのリソースに対しての課金は発生しません。  </p>
 <ul>
-<li><p><strong>Azure Pipelines</strong><br>Microsoft ホステッド CI/CD(1,800 分／月)、1 個のセルフ ホステッド CI/CD(毎月の分数制限なし) が無料です。<br>最小の CI/CD を実現したいということであれば十分ですが、複数またはより大きなプロジェクトをホストしている場合は、追加で購入できます。  </p>
-<table>
-  <tr>
-    <td>Microsoft ホステッド CI/CD</td>
-    <td>無料並列ジョブ : 1 <br> 毎月の時間制限 : 一か月あたり最大 1,800 分 <br>有料の追加ジョブ : 追加並列ジョブごとに $40(月額)※</td>
-  </tr>
-  <tr>
-    <td>セルフ ホステッド CI/CD</td>
-    <td>無料並列ジョブ : 1 <br> 毎月の時間制限 : なし <br> 有料の追加ジョブ : 追加並列ジョブごとに $15(月額)※</td>
-  </tr>
-</table>
-
-</li>
+<li><strong>Azure Pipelines</strong><br>Microsoft ホステッド CI&#x2F;CD(1,800 分／月)、1 個のセルフ ホステッド CI&#x2F;CD(毎月の分数制限なし) が無料です。<br>最小の CI&#x2F;CD を実現したいということであれば十分ですが、複数またはより大きなプロジェクトをホストしている場合は、追加で購入できます。</li>
 </ul>
+ <table>
+    <tr>
+      <td>Microsoft ホステッド CI/CD</td>
+      <td>無料並列ジョブ : 1 <br> 毎月の時間制限 : 一か月あたり最大 1,800 分 <br>有料の追加ジョブ : 追加並列ジョブごとに $40(月額)※</td>
+    </tr>
+    <tr>
+      <td>セルフ ホステッド CI/CD</td>
+      <td>無料並列ジョブ : 1 <br> 毎月の時間制限 : なし <br> 有料の追加ジョブ : 追加並列ジョブごとに $15(月額)※</td>
+    </tr>
+ </table>
+
 <p>※ <strong>並列ジョブ</strong>の購入につきましては、以下弊社のドキュメントもご確認ください。  </p>
 <p><a target="_blank" rel="noopener" href="https://docs.microsoft.com/ja-jp/azure/devops/pipelines/licensing/concurrent-jobs?view=azure-devops&tabs=ms-hosted">並列ジョブの構成と支払い</a></p>
 <ul>
-<li><strong>Azure Artifacts</strong><br>Azure Artifacts では NuGet、npm、Python、Maven、Universal Packages 等様々なパッケージに対応しており、これらのパッケージを 2GiB までは無料で格納できます。<br>(現在使用中のサイズは、Azure DevOps ポータルの [Organization settings] - [Billing] ページ内 <strong>Artifacts</strong> の行の <strong>Used</strong> で確認できます。)<br>もし、無料の 2GiB を超えた場合は、支払用に Azure サブスクリプションを設定していれば自動的に超過分に対して課金が発生します。<br>Azure サブスクリプションを設定していない場合には、そのまま継続して利用できますが、パッケージの新たなアップロードはできません。<br>Azure Artifacts の超過分の料金は、次のとおりです。  </li>
+<li><strong>Azure Artifacts</strong><br>Azure Artifacts では NuGet、npm、Python、Maven、Universal Packages 等様々なパッケージに対応しており、これらのパッケージを 2GiB までは無料で格納できます。<br>(現在使用中のサイズは、Azure DevOps ポータルの [Organization settings] - [Billing] ページ内 <strong>Artifacts</strong> の行の <strong>Used</strong> で確認できます。)<br>もし、無料の 2GiB を超えた場合は、支払用に Azure サブスクリプションを設定していれば自動的に超過分に対して課金が発生します。<br>Azure サブスクリプションを設定していない場合には、そのまま継続して利用できますが、パッケージの新たなアップロードはできません。<br>Azure Artifacts の超過分の料金は、次のとおりです。</li>
 </ul>
 <table>
   <tr>
@@ -244,15 +235,13 @@
   </tr>
 </table>
   
-課金が必要なシナリオについては以上となります。  
-下記 **Azure の料金計算ツール**なども利用できますので、使用目的に沿って料金の見積りをお試しください。  
-
+<p>課金が必要なシナリオについては以上となります。<br>下記 <strong>Azure の料金計算ツール</strong>なども利用できますので、使用目的に沿って料金の見積りをお試しください。  </p>
 <p><a target="_blank" rel="noopener" href="https://azure.microsoft.com/ja-jp/pricing/calculator/">Azure の料金計算ツール</a></p>
 <hr>
 <h2 id="為替レートについて"><a href="#為替レートについて" class="headerlink" title="為替レートについて"></a>為替レートについて</h2><hr>
 <p>Azure DevOps Services を含む各種 Azure のサービスは、世界各地で米国ドルで価格が設定されています。<br>そして以下の FAQ のとおり、Azure DevOps Services を含む各種 Azure の請求では、前月最終日の為替レートが利用されます。  </p>
 <p><a target="_blank" rel="noopener" href="https://azure.microsoft.com/ja-jp/pricing/faq/">Azure の価格と請求に関する FAQ
-/ どの為替レートが使用されますか。また、請求金額の計算はどうなりますか。</a>  </p>
+&#x2F; どの為替レートが使用されますか。また、請求金額の計算はどうなりますか。</a>  </p>
 <blockquote>
 <p>前月末に取得され、翌暦月の 1 日に発効する Thomson Reuters 社のベンチマーク レートを使用しています。このレートは、翌月のすべての取引に適用されます。<br>たとえば、1 月の取引の為替レートは、12 月の最終日に初めて取得されます。このレートは、1 月に行われたすべての Azure の購入と、1 月のすべての Azure の使用量に適用されます。1 月の為替レートと現地通貨での請求額は、2 月初めに発行される 1 月分の請求書に記載されます。  </p>
 </blockquote>
@@ -352,7 +341,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">タグ</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="../../tags/ALM/">ALM</a><span class="tag-list-count">17</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-DevOps-Server">Azure DevOps Server</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-DevOps-Services">Azure DevOps Services</a><span class="tag-list-count">9</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-Pipelines">Azure Pipelines</a><span class="tag-list-count">7</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-Repos">Azure Repos</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Devcontainer">Devcontainer</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/GitHub">GitHub</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/TFS">TFS</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Visual-Studio-Code">Visual Studio Code</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86">情報採取手順</a><span class="tag-list-count">4</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/">情報採取手順</a><span class="tag-list-count">6</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/ALM">ALM</a><span class="tag-list-count">4</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/Azure-DevOps-Server">Azure DevOps Server</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/Azure-DevOps-Services">Azure DevOps Services</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/Azure-Pipelines">Azure Pipelines</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/TFS">TFS</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Data-Access/">Data Access</a><span class="tag-list-count">8</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Data-Access/ADO-ActiveX-Data-Objects">ADO (ActiveX Data Objects)</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Data-Access/ADO-NET">ADO.NET</a><span class="tag-list-count">3</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Data-Access/JDBC-Driver">JDBC Driver</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Data-Access/Jet">Jet</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Data-Access/Oracle">Oracle</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Data-Access/SQL-Server">SQL Server</a><span class="tag-list-count">3</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Windows-SDK/">Windows SDK</a><span class="tag-list-count">9</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Debug">Debug</a><span class="tag-list-count">5</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Documents-and-Printing">Documents and Printing</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/GDI">GDI</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Leak">Leak</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Windows-Update-Agent-API">Windows Update Agent API</a><span class="tag-list-count">2</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Debug/">Debug</a><span class="tag-list-count">18</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/NET">.NET</a><span class="tag-list-count">6</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/AI">AI</a><span class="tag-list-count">3</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/GitHub-Copilot">GitHub Copilot</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Leak">Leak</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Memory">Memory</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Visual-Studio">Visual Studio</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Windows-SDK">Windows SDK</a><span class="tag-list-count">5</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/AI/">AI</a><span class="tag-list-count">4</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/AI/NET">.NET</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/AI/Debug">Debug</a><span class="tag-list-count">3</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/AI/GitHub-Copilot">GitHub Copilot</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/AI/Visual-Studio">Visual Studio</a><span class="tag-list-count">2</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/NET/">.NET</a><span class="tag-list-count">22</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/NET-Framework">.NET Framework</a><span class="tag-list-count">12</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/AI">AI</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/Debug">Debug</a><span class="tag-list-count">6</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/%E6%9B%B4%E6%96%B0%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0">更新プログラム</a><span class="tag-list-count">2</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Deployment/">Deployment</a><span class="tag-list-count">4</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Deployment/ClickOnce">ClickOnce</a><span class="tag-list-count">4</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Dev-Box/">Dev Box</a><span class="tag-list-count">1</span><ul></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Azure-PlayFab/">Azure PlayFab</a><span class="tag-list-count">4</span><ul></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E5%85%A8%E8%88%AC/">全般</a><span class="tag-list-count">2</span><ul></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Visual-Studio/">Visual Studio</a><span class="tag-list-count">23</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/AI">AI</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/C">C#</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/C">C++</a><span class="tag-list-count">8</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/Debug">Debug</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/VB-NET">VB.NET</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/Visual-Studio-2026">Visual Studio 2026</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Data-Client/">Data Client</a><span class="tag-list-count">1</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Data-Client/ODBC">ODBC</a><span class="tag-list-count">1</span></li></ul></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="../../tags/ALM/">ALM</a><span class="tag-list-count">17</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-DevOps-Server">Azure DevOps Server</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-DevOps-Services">Azure DevOps Services</a><span class="tag-list-count">9</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-Pipelines">Azure Pipelines</a><span class="tag-list-count">7</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Azure-Repos">Azure Repos</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Devcontainer">Devcontainer</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/GitHub">GitHub</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/TFS">TFS</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/Visual-Studio-Code">Visual Studio Code</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/ALM/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86">情報採取手順</a><span class="tag-list-count">4</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/">情報採取手順</a><span class="tag-list-count">6</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/ALM">ALM</a><span class="tag-list-count">4</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/Azure-DevOps-Server">Azure DevOps Server</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/Azure-DevOps-Services">Azure DevOps Services</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/Azure-Pipelines">Azure Pipelines</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/%E6%83%85%E5%A0%B1%E6%8E%A1%E5%8F%96%E6%89%8B%E9%A0%86/TFS">TFS</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Data-Access/">Data Access</a><span class="tag-list-count">8</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Data-Access/ADO-ActiveX-Data-Objects">ADO (ActiveX Data Objects)</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Data-Access/ADO-NET">ADO.NET</a><span class="tag-list-count">3</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Data-Access/JDBC-Driver">JDBC Driver</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Data-Access/Jet">Jet</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Data-Access/Oracle">Oracle</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Data-Access/SQL-Server">SQL Server</a><span class="tag-list-count">3</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Windows-SDK/">Windows SDK</a><span class="tag-list-count">9</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Debug">Debug</a><span class="tag-list-count">5</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Documents-and-Printing">Documents and Printing</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/GDI">GDI</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Leak">Leak</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Windows-SDK/Windows-Update-Agent-API">Windows Update Agent API</a><span class="tag-list-count">2</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Debug/">Debug</a><span class="tag-list-count">18</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/NET">.NET</a><span class="tag-list-count">6</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/AI">AI</a><span class="tag-list-count">3</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/GitHub-Copilot">GitHub Copilot</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Leak">Leak</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Memory">Memory</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Visual-Studio">Visual Studio</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Debug/Windows-SDK">Windows SDK</a><span class="tag-list-count">5</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/AI/">AI</a><span class="tag-list-count">4</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/AI/NET">.NET</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/AI/Debug">Debug</a><span class="tag-list-count">3</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/AI/GitHub-Copilot">GitHub Copilot</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/AI/Visual-Studio">Visual Studio</a><span class="tag-list-count">2</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/NET/">.NET</a><span class="tag-list-count">22</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/NET-Framework">.NET Framework</a><span class="tag-list-count">12</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/AI">AI</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/Debug">Debug</a><span class="tag-list-count">6</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/NET/%E6%9B%B4%E6%96%B0%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0">更新プログラム</a><span class="tag-list-count">2</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Deployment/">Deployment</a><span class="tag-list-count">4</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Deployment/ClickOnce">ClickOnce</a><span class="tag-list-count">4</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Dev-Box/">Dev Box</a><span class="tag-list-count">1</span><ul></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/%E5%85%A8%E8%88%AC/">全般</a><span class="tag-list-count">2</span><ul></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Azure-PlayFab/">Azure PlayFab</a><span class="tag-list-count">4</span><ul></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Visual-Studio/">Visual Studio</a><span class="tag-list-count">23</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/AI">AI</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/C">C#</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/C">C++</a><span class="tag-list-count">8</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/Debug">Debug</a><span class="tag-list-count">1</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/VB-NET">VB.NET</a><span class="tag-list-count">2</span></li><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Visual-Studio/Visual-Studio-2026">Visual Studio 2026</a><span class="tag-list-count">1</span></li></ul></li><li class="tag-list-item"><a class="tag-list-link" href="../../tags/Data-Client/">Data Client</a><span class="tag-list-count">1</span><ul><li class="tag-list-item tag-list-item-child-tag"><a class="tag-list-link tag-list-link-child" href="../../tags/Data-Client/ODBC">ODBC</a><span class="tag-list-count">1</span></li></ul></li></ul>
     </div>
   </div>
 
