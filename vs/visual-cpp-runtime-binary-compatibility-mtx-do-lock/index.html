@@ -4,24 +4,21 @@
   <meta charset="utf-8">
   
   
-  <title>.NET Framework のプロファイル機能を利用する製品に起因する一般的な問題について | JPDSC Blog</title>
+  <title>Visual C++ ランタイムのバージョン不一致によるバイナリ互換性の問題 | JPDSC Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content=".NET Framework のプロファイル API を利用するプロファイラー製品の仕組みと、それに起因して発生する一般的な問題やトラブルシュートの考え方についてご案内します。">
+  <meta name="description" content="新しい MSVC ツールセットでビルドしたアプリケーションが古い Visual C++ ランタイムを読み込むことによるバイナリ互換性の問題について、msvcp140.dll の mutex 処理で観測された事象を一例として、実際に読み込まれた DLL の確認方法と対処方針を説明します。">
 <meta property="og:type" content="article">
-<meta property="og:title" content=".NET Framework のプロファイル機能を利用する製品に起因する一般的な問題について">
-<meta property="og:url" content="https://jpdscore.github.io/blog/dotnet/common-issues-caused-by-dotnet-profiler/index.html">
+<meta property="og:title" content="Visual C++ ランタイムのバージョン不一致によるバイナリ互換性の問題">
+<meta property="og:url" content="https://jpdscore.github.io/blog/vs/visual-cpp-runtime-binary-compatibility-mtx-do-lock/index.html">
 <meta property="og:site_name" content="Japan Developer Support Core Team Blog">
-<meta property="og:description" content=".NET Framework のプロファイル API を利用するプロファイラー製品の仕組みと、それに起因して発生する一般的な問題やトラブルシュートの考え方についてご案内します。">
+<meta property="og:description" content="新しい MSVC ツールセットでビルドしたアプリケーションが古い Visual C++ ランタイムを読み込むことによるバイナリ互換性の問題について、msvcp140.dll の mutex 処理で観測された事象を一例として、実際に読み込まれた DLL の確認方法と対処方針を説明します。">
 <meta property="og:locale" content="ja_JP">
-<meta property="og:image" content="https://jpdscore.github.io/blog/dotnet/common-issues-caused-by-dotnet-profiler/corprofiler.png">
-<meta property="og:image" content="https://jpdscore.github.io/blog/dotnet/common-issues-caused-by-dotnet-profiler/criticalerror.png">
-<meta property="article:published_time" content="2021-08-22T15:00:00.000Z">
-<meta property="article:modified_time" content="2026-08-31T08:14:29.814Z">
+<meta property="article:published_time" content="2026-08-30T15:00:00.000Z">
+<meta property="article:modified_time" content="2026-08-31T08:14:29.836Z">
 <meta property="article:author" content="Developer Support Core Japan">
-<meta property="article:tag" content=".NET">
-<meta property="article:tag" content=".NET Framework">
+<meta property="article:tag" content="Visual Studio">
+<meta property="article:tag" content="C++">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://jpdscore.github.io/blog/dotnet/common-issues-caused-by-dotnet-profiler/corprofiler.png">
   
     <link rel="alternate" href="/blog/atom.xml" title="Japan Developer Support Core Team Blog" type="application/atom+xml">
   
@@ -84,7 +81,7 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-dotnet/common-issues-caused-by-dotnet-profiler" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-vs/visual-cpp-runtime-binary-compatibility-mtx-do-lock/index" class="article article-type-post" itemscope itemprop="blogPost">
   
     <aside id="toc" role="complementary" aria-label="Table of Contents"></aside>
   
@@ -96,7 +93,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      .NET Framework のプロファイル機能を利用する製品に起因する一般的な問題について
+      Visual C++ ランタイムのバージョン不一致によるバイナリ互換性の問題
     </h1>
   
 
@@ -104,7 +101,7 @@
       <div class="article-share">
         Last Update: 
         <a href="" class="article-date-single">
-  <time datetime="2021-08-22T15:00:00.000Z" itemprop="datePublished">2021-08-23</time>
+  <time datetime="2026-08-30T15:00:00.000Z" itemprop="datePublished">2026-08-31</time>
 </a>
         
         <div class="article-share-buttons">
@@ -112,7 +109,7 @@
         </div>
         <div class="article-share-buttons">
           <script src="https://platform.linkedin.com/in.js" type="text/javascript">lang: ja_JP</script>
-          <script type="IN/Share" data-url="https://jpdscore.github.io/blog/dotnet/common-issues-caused-by-dotnet-profiler/"></script>
+          <script type="IN/Share" data-url="https://jpdscore.github.io/blog/vs/visual-cpp-runtime-binary-compatibility-mtx-do-lock/"></script>
         </div>
         <div class="article-share-buttons">
           <a target="_blank" rel="noopener" href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
@@ -121,63 +118,79 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>こんにちは、Japan Developer Support Core チームの松井です。 
-今回は、.NET Framework のプロファイル機能を利用する製品に起因する一般的な問題についてご案内します。</p>
-<h2 id="NET-Framework-のプロファイル機能"><a href="#NET-Framework-のプロファイル機能" class="headerlink" title=".NET Framework のプロファイル機能"></a>.NET Framework のプロファイル機能</h2><p>.NET Framework では、.NET Framework 上で動作するアプリケーションの実行を監視するためのプログラム (プロファイラー) が利用するための<a target="_blank" rel="noopener" href="https://docs.microsoft.com/ja-jp/dotnet/framework/unmanaged-api/profiling/">プロファイル API</a> が提供されています。プロファイラーの開発者は、この API を利用してデバッグの支援や各種メトリクスの計測などの様々な機能をプロファイラー DLL として実装します。プロファイル機能を有効にしてプロファイラー DLL が登録されると、.NET Framework アプリケーションは共通言語ランタイムの初期化処理の過程でプロセスにプロファイラー DLL をロードします。.NET Framework は、アプリケーションの実行を通じて発生するガベージ コレクションや JIT コンパイルなどの様々なイベントがプロファイラー DLL へ通知し、プロファイラーによってその内容が利用されます。</p>
-<h2 id="プロファイル機能を有効にする方法"><a href="#プロファイル機能を有効にする方法" class="headerlink" title="プロファイル機能を有効にする方法"></a>プロファイル機能を有効にする方法</h2><p>プロファイル機能は通常、COR_ENABLE_PROFILING と COR_PROFILER の 2 つの環境変数によって有効化されます。COR_ENABLE_PROFILING 環境変数を 1 に設定すると、プロファイル機能が有効になります。COR_PROFILER 環境変数には、プロファイラー DLL が実装するプロファイラーを指定します。プロファイル機能が有効化されプロファイラーが正常にロードされると、ソース .NET Runtime、ID 1022 の以下のようなメッセージがアプリケーションの起動時にイベント ログへ記録されます。</p>
-<blockquote>
-<p>.NET Runtime version 4.0.30319.0 - プロファイラーが正常に読み込まれました。  プロファイラーの CLSID: &#39;{909B2AD5-42DF-4832-8EA0-7808E80D7741}&#39;。  プロセス ID (10 進数): 12860。  メッセージ ID: [0x2507]。</p>
-</blockquote>
-<h2 id="よくある問題"><a href="#よくある問題" class="headerlink" title="よくある問題"></a>よくある問題</h2><p>プロファイラー DLL はアプリケーションと同じプロセスにロードされる性質のため、アプリケーションの動作に影響を与えないよう注意深く設計する必要があります。例えばプロファイラーの処理の内部でアクセス違反例外が発生した場合、プロファイラーの動作に問題が生じるだけでなくアプリケーション自体が異常終了します。一般的にはプロファイラーはアプリケーションのデバッグやテストの過程で対象のプロセスに限定して有効化することがほとんどですが、システム レベルでプロファイラーを有効にすると .NET Framework を利用するアプリケーションに影響を与える可能性があります。サーバー マネージャーや PowerShell など Windows の機能も .NET Framework 上で動作するため、システム レベルで有効化したプロファイラーの影響で Windows の機能が起動できなくなるといった事象が起こりえます。</p>
-<p>弊社へよくお問い合わせをいただく問題としては以下のようなものが挙げられます。</p>
-<ol>
-<li>イベント ログにソース .NET Runtime、イベント ID 1022 のエラーが頻繁に記録されるようになった。</li>
-<li>アプリケーションの開始時にエラーが発生して起動できなくなった。</li>
-<li>アプリケーションの実行中にエラーが発生して突然終了するようになった。</li>
-</ol>
-<p>プロファイル機能は開発者用ツールやセキュリティ ソフトウェアなどから利用されるケースが多く、このようなアプリケーションの導入や更新などが契機で上記のような事象が発生する場合は、問題の切り分けを実施した上で当該製品の開発元へお問い合わせすることも検討してください。</p>
-<h2 id="プロファイラーによって発生する問題の切り分け"><a href="#プロファイラーによって発生する問題の切り分け" class="headerlink" title="プロファイラーによって発生する問題の切り分け"></a>プロファイラーによって発生する問題の切り分け</h2><p>プロファイラーは下記 2 つの環境変数によって構成されるため、環境変数の設定を変更してプロファイラーを無効化し、問題の再現性に変化があるか確認することで問題の切り分けが可能です。プロファイラーを無効化したときには問題が発生しない場合、プロファイラーの動作が問題の原因の一つとなっていると考えられます。</p>
+        <p>こんにちは、Japan Developer Support Core チームの松井です。
+今回は、古い Visual C++ ランタイムによるバイナリ互換性の問題について、<code>msvcp140.dll!mtx_do_lock</code> でアクセス違反が発生する事象を一例として、確認すべきランタイムのバージョンと読み込み元を説明します。</p>
+<h2 id="はじめに"><a href="#はじめに" class="headerlink" title="はじめに"></a>はじめに</h2><p>Visual C++ 2015 以降の v14 系ランタイムにはバイナリ互換性があります。ただし、<strong>アプリケーションを構成するコンポーネントのうち、最も新しいビルド ツールと同じか、それより新しい Visual C++ ランタイムを使用する必要があります</strong>。</p>
+<p>この条件を満たさない構成では、バイナリ互換性に関するさまざまな問題が発生する可能性があります。本記事で扱う、新しい MSVC ツールセットでビルドしたバイナリが古い <code>msvcp140.dll</code> を読み込み、<code>std::mutex</code> の処理でアクセス違反が観測される事象は、その一例です。システムに新しい Visual C++ Redistributable がインストールされていても、アプリケーションや別のソフトウェアがローカル配置した古い DLL をプロセスが読み込んでいる可能性があります。</p>
+<p>本記事は、Visual C++ 2015 以降の v14 系ランタイムを動的リンクするデスクトップ アプリケーションを対象としています。内容は 2026 年 8 月時点の情報に基づきます。</p>
+<h2 id="std-mutex-で観測される事象の例"><a href="#std-mutex-で観測される事象の例" class="headerlink" title="std::mutex で観測される事象の例"></a><code>std::mutex</code> で観測される事象の例</h2><p>バイナリ互換性の条件を満たさない構成で発生する事象は、<code>std::mutex</code> の処理におけるアクセス違反に限定されません。ここでは、Visual Studio 2022 version 17.10 で行われた <a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/cpp/standard-library/mutex-class-stl?view=msvc-170"><code>std::mutex</code> コンストラクター実装が <code>constexpr</code> になった変更</a> に関連し、同バージョン以降でビルドしたプログラムで観測される事象を一例として説明します。<a target="_blank" rel="noopener" href="https://github.com/microsoft/STL/wiki/VS-2022-Changelog#vs-2022-1710">Microsoft STL の Visual Studio 2022 17.10 変更履歴</a> では、この変更後のプログラムが文書化されたバイナリ互換性の制限に従っていない場合、mutex の内部処理で null 参照が発生する可能性があると注意喚起しています。</p>
+<p>この制限を満たさない構成で問題が発生した例では、最初に <code>std::mutex::lock</code> などを呼び出した際に、次のような場所でアクセス違反例外が発生してアプリケーションが異常終了します。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">0:000&gt; knL</span><br><span class="line"> # Child-SP          RetAddr               Call Site</span><br><span class="line">00 000000ea`024ff9b0 00007ff7`faaf1060     MSVCP140!mtx_do_lock+0x74</span><br><span class="line">01 (Inline Function) --------`--------     MyApp1!std::_Mutex_base::lock+0xb</span><br><span class="line">02 (Inline Function) --------`--------     MyApp1!std::lock_guard&lt;std::mutex&gt;::&#123;ctor&#125;+0x15</span><br><span class="line">03 000000ea`024ffa10 00007ff7`faaf152f     MyApp1!main+0x60</span><br><span class="line">04 (Inline Function) --------`--------     MyApp1!invoke_main+0x22</span><br><span class="line">05 000000ea`024ffab0 00007ff8`e03accb7     MyApp1!__scrt_common_main_seh+0x10f</span><br><span class="line">06 000000ea`024ffaf0 00007ff8`e130ad6c     KERNEL32!BaseThreadInitThunk+0x17</span><br><span class="line">07 000000ea`024ffb20 00000000`00000000     ntdll!RtlUserThreadStart+0x2c</span><br></pre></td></tr></table></figure>
+
+<p>上記は、Visual Studio 2026 でビルドした以下のコードを、Visual C++ 2015-2022 Redistributable の古いバージョンをインストールしたコンピューターで実行した場合のコールスタックになります。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;mutex&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    std::mutex mtx;</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="function">std::lock_guard&lt;std::mutex&gt; <span class="title">lock</span><span class="params">(mtx)</span></span>;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;Hello World!\n&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>ただし、このコール スタックだけでは原因を確定できません。まず、プロセスが実際に読み込んだ <code>msvcp140.dll</code> のパスとバージョンを確認してください。</p>
+<h2 id="バイナリ互換性の条件"><a href="#バイナリ互換性の条件" class="headerlink" title="バイナリ互換性の条件"></a>バイナリ互換性の条件</h2><p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/cpp/porting/binary-compat-2015-2017?view=msvc-170">Visual Studio のバージョン間の C++ バイナリ互換性</a> では、Visual Studio 2015 以降の v14 系でビルドしたバイナリについて、次の条件が示されています。</p>
 <ul>
-<li>COR_ENABLE_PROFILING</li>
-<li>COR_PROFILER</li>
+<li>最終的なバイナリのリンクには、入力として使用するバイナリのうち最も新しいビルド ツールと同じか、それより新しいリンカーを使用する</li>
+<li>実行時には、アプリケーションを構成するコンポーネントのうち最も新しいビルド ツールと同じか、それより新しい Visual C++ Redistributable を使用する</li>
+<li><code>/GL</code> でコンパイルした静的ライブラリまたはオブジェクト ファイルを <code>/LTCG</code> で最終リンクする場合は、コンパイルと最終リンクに同じバージョンのビルド ツールを使用する</li>
 </ul>
-<h3 id="COR-ENABLE-PROFILING"><a href="#COR-ENABLE-PROFILING" class="headerlink" title="COR_ENABLE_PROFILING"></a>COR_ENABLE_PROFILING</h3><p>COR_ENABLE_PROFILING 環境変数はプロファイラーの機能を利用するかどうかを 0 (無効) または 1 (有効) で設定します。システム レベルでプロファイラーが有効となっている場合、ユーザー環境変数やシステム環境変数で COR_ENABLE_PROFILING が設定されていますので、環境変数の値を 0 に設定して問題が解消するかご確認ください。</p>
-<h3 id="COR-PROFILER"><a href="#COR-PROFILER" class="headerlink" title="COR_PROFILER"></a>COR_PROFILER</h3><p>COR_PROFILER 環境変数の値はプロファイラーの識別子となっており、レジストリで識別子とプロファイラー DLL のパスが関連付けられています。COR_PROFILER 環境変数の値でレジストリを検索することで、問題を引き起こしているプロファイラー DLL を特定できる場合があります。例えば COR_PROFILER&#x3D;{909B2AD5-42DF-4832-8EA0-7808E80D7741} の場合は以下のキーにプロファイラー DLL のパスが設定されています。</p>
-<blockquote>
-<p>\HKEY_CLASSES_ROOT\CLSID\{909B2AD5-42DF-4832-8EA0-7808E80D7741}\InprocServer32
-\HKEY_CLASSES_ROOT\WOW6432Node\CLSID\{909B2AD5-42DF-4832-8EA0-7808E80D7741}\InprocServer32</p>
-</blockquote>
-<p><img src="./corprofiler.png"></p>
-<p>なお、プロファイラー機能は弊社製品でも Visual Studio プロファイラーやコード カバレッジなど様々な機能で利用されていますが、システム レベルで永続的にプロファイラーを有効化することは通常ありません。</p>
-<h2 id="一般的なエラー内容"><a href="#一般的なエラー内容" class="headerlink" title="一般的なエラー内容"></a>一般的なエラー内容</h2><p>プロファイラーの設定や実装の問題に起因するエラーでよくお問い合わせいただくものとして、代表的なものをいくつか記載します。</p>
-<hr>
-<h3 id="CoCreateInstance-中に、プロファイラーを読み込めませんでした。-HRESULT-0x80040154"><a href="#CoCreateInstance-中に、プロファイラーを読み込めませんでした。-HRESULT-0x80040154" class="headerlink" title="CoCreateInstance 中に、プロファイラーを読み込めませんでした。(HRESULT: 0x80040154)"></a>CoCreateInstance 中に、プロファイラーを読み込めませんでした。(HRESULT: 0x80040154)</h3><blockquote>
-<p>.NET Runtime version 4.0.30319.0 - CoCreateInstance 中に、プロファイラーを読み込めませんでした。  プロファイラーの CLSID: &#39;{909B2AD5-42DF-4832-8EA0-7808E80D7741}&#39;。  HRESULT: 0x80040154。  プロセス ID (10 進数): 24504。  メッセージ ID: [0x2504]。</p>
-</blockquote>
-<p>0x80040154 は REGDB_E_CLASSNOTREG のエラー コードです。このコードがイベント ログに記録される場合、COR_ENABLE_PROFILING 環境変数でプロファイル機能が有効になっているにも関わらず、COR_PROFILER 環境変数に設定されている識別子がレジストリに登録されていないことを示しています。この場合、プロファイラー製品のインストールやアンインストール、更新に問題があり不完全な状態となっている可能性があります。</p>
-<h3 id="CoCreateInstance-中に、プロファイラーを読み込めませんでした。-HRESULT-0x8007007e"><a href="#CoCreateInstance-中に、プロファイラーを読み込めませんでした。-HRESULT-0x8007007e" class="headerlink" title="CoCreateInstance 中に、プロファイラーを読み込めませんでした。(HRESULT: 0x8007007e)"></a>CoCreateInstance 中に、プロファイラーを読み込めませんでした。(HRESULT: 0x8007007e)</h3><blockquote>
-<p>.NET Runtime version 4.0.30319.0 - CoCreateInstance 中に、プロファイラーを読み込めませんでした。  プロファイラーの CLSID: &#39;{909B2AD5-42DF-4832-8EA0-7808E80D7741}&#39;。  HRESULT: 0x8007007e。  プロセス ID (10 進数): 19528。  メッセージ ID: [0x2504]。</p>
-</blockquote>
-<p>0x8007007e は ERROR_MOD_NOT_FOUND のエラー コードです。このエラーはレジストリに設定されているプロファイラー DLL が見つからなかった場合に発生し、この場合もプロファイラー製品のインストールやアンインストール、更新に問題があり不完全な状態となっている可能性があります。</p>
-<h3 id="COR-ENABLE-PROFILING-は適切に設定されていましたが、COR-PROFILLER-が適切に設定されていませんでした。"><a href="#COR-ENABLE-PROFILING-は適切に設定されていましたが、COR-PROFILLER-が適切に設定されていませんでした。" class="headerlink" title="COR_ENABLE_PROFILING は適切に設定されていましたが、COR_PROFILLER が適切に設定されていませんでした。"></a>COR_ENABLE_PROFILING は適切に設定されていましたが、COR_PROFILLER が適切に設定されていませんでした。</h3><blockquote>
-<p>.NET Runtime version 4.0.30319.0 - プロファイラーを読み込めませんでした。  COR_ENABLE_PROFILING は適切に設定されていましたが、COR_PROFILER が適切に設定されていませんでした。  COR_PROFILER は、読み込むプロファイラーの CLSID に設定する必要があります。  プロセス ID (10 進数): 7852。  メッセージ ID: [0x2500]。</p>
-</blockquote>
-<p>このエラーは、COR_ENABLE_PROFILING 環境変数が設定されプロファイラーが有効化されているにも関わらず、COR_PROFILER が設定されていないためプロファイラー DLL がロードできなかった場合にイベント ログに記録されます。プロファイラーの機能を提供しているアプリケーションのインストールや更新、設定の変更などに伴って、環境変数の設定に不整合が生じている可能性があります。</p>
-<h3 id="CLR-エラー-80040005-プログラムを終了します。"><a href="#CLR-エラー-80040005-プログラムを終了します。" class="headerlink" title="CLR エラー: 80040005. プログラムを終了します。"></a>CLR エラー: 80040005. プログラムを終了します。</h3><blockquote>
-<p>致命的なエラー
-CLR エラー: 80004005. プログラムを終了します。
-<img src="./criticalerror.png"></p>
-</blockquote>
-<p>このエラーはイベント ログには記録されず、アプリケーション起動時にダイアログが表示されて開始できない状態になります。このエラーは、プロファイラー DLL がロードされた後の初期化処理中に致命的なエラーが発生してアプリケーションの起動が続行できない場合に表示されます。</p>
-<hr>
-<p>なお、プロファイラー DLL がロードされた後にプロファイラーの処理で発生する問題は、イベント ログやダイアログには表示されず突然アプリケーションが強制終了するといった事象で顕在化する可能性があり、プロファイラーの影響か判断することが困難な場合があります。もしくは、.NET Runtime のイベント ログ ID 1023 (.NET ランタイムの内部エラー) として顕在化する場合もあります。</p>
-<p>開発者ツールやセキュリティ ソフトウェアなどの導入が契機となり突然 .NET Framework アプリケーションに問題が生じるようになった場合や、イベント ID 1022 のイベント ログが記録されている場合は、プロファイラーの動作が影響している可能性が考えられます。そのような場合は、プロファイラーを無効化して問題の再現性に変化があるかご確認ください。また、プロファイラーの動作によって問題が生じている場合はプロファイラーの開発元へのお問い合わせをお願いします。</p>
-<h2 id="参考情報"><a href="#参考情報" class="headerlink" title="参考情報"></a>参考情報</h2><p>.NET Framework のプロファイル API については以下のドキュメントで詳細な情報を公開しています。
-<a target="_blank" rel="noopener" href="https://docs.microsoft.com/ja-jp/dotnet/framework/unmanaged-api/profiling/">https://docs.microsoft.com/ja-jp/dotnet/framework/unmanaged-api/profiling/</a></p>
-<p>また、プロファイル API が活用されているツールとして CLR Profiler や PerfView がオープン ソースで公開されています。
-<a target="_blank" rel="noopener" href="https://github.com/microsoftarchive/clrprofiler">https://github.com/microsoftarchive/clrprofiler</a>
-<a target="_blank" rel="noopener" href="https://github.com/microsoft/perfview">https://github.com/microsoft/perfview</a></p>
-<p>プロファイラー内部で問題が起きたときの動作を簡単に試せる Visual Studio 2019 でビルド可能なサンプル コードを<a href="./MyNetFxProfiler.zip">こちら</a>に置いていますので、興味のある方はダウンロードして試してみてください。</p>
+<p>つまり、新しいランタイムで古いツールセットのバイナリを動かす後方互換性はありますが、その逆方向の互換性は保証されません。Visual Studio 2022 version 17.10 以降でビルドしたコンポーネントに、それより古い <code>msvcp140.dll</code> を組み合わせる構成は、この条件を満たしません。</p>
+<h2 id="Redistributable-を更新しても古い-DLL-が読み込まれる理由"><a href="#Redistributable-を更新しても古い-DLL-が読み込まれる理由" class="headerlink" title="Redistributable を更新しても古い DLL が読み込まれる理由"></a>Redistributable を更新しても古い DLL が読み込まれる理由</h2><p>Visual C++ ランタイムには、主に次の配置方法があります。</p>
+<ul>
+<li>Visual C++ Redistributable を使用して、<code>System32</code> や <code>SysWOW64</code> などへ中央配置する</li>
+<li>ランタイム DLL をアプリケーションと同じフォルダーなどへローカル配置する</li>
+</ul>
+<p>Microsoft は、サービス性の観点から <a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/cpp/windows/deployment-in-visual-cpp?view=msvc-170">Visual C++ Redistributable による中央配置を推奨</a> しています。ローカル配置も可能ですが、アプリケーションの提供元がランタイム DLL を更新する必要があるため、<a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/cpp/windows/redistributing-visual-cpp-files?view=msvc-170">ローカル配置は推奨されていません</a>。</p>
+<p>非パッケージ デスクトップ アプリケーションの標準的な <a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/windows/win32/dlls/dynamic-link-library-search-order">DLL 検索順序</a> では、実行ファイルのフォルダーがシステム フォルダーより先に検索されます。また、同名の DLL がすでにプロセスへ読み込まれている場合、その DLL が使用されることがあります。マニフェスト、Known DLL、明示的なパス、DLL 検索 API などを使用している場合、実際の検索動作は異なります。</p>
+<p>このため、次のような構成では、システムにインストールした Redistributable の DLL とは異なる <code>msvcp140.dll</code> が使われる可能性があります。</p>
+<ul>
+<li>アプリケーションのフォルダーに古いランタイム DLL がある</li>
+<li>プロセスへ読み込まれるライブラリやセキュリティ ソフトウェアが、明示的なパスや変更した検索順序を使用して古いランタイム DLL を先に読み込んでいる</li>
+</ul>
+<h2 id="実際に読み込まれた-DLL-を確認する"><a href="#実際に読み込まれた-DLL-を確認する" class="headerlink" title="実際に読み込まれた DLL を確認する"></a>実際に読み込まれた DLL を確認する</h2><p>インストール済みの Visual C++ Redistributable の一覧だけではなく、問題が発生するプロセスが読み込んだ DLL を確認します。調査前に、クラッシュが発生した時刻、対象プロセス、例外コード、コール スタックなどの情報も記録してください。</p>
+<h3 id="イベント-ビューアーで確認する"><a href="#イベント-ビューアーで確認する" class="headerlink" title="イベント ビューアーで確認する"></a>イベント ビューアーで確認する</h3><p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/troubleshoot/windows-server/performance/troubleshoot-application-service-crashing-behavior">Windows のイベント ビューアー</a> で [Windows ログ] &gt; [Application] を開き、Application Error、イベント ID 1000 を確認します。バイナリ互換性が保証されないバージョンの組み合わせによって生じる問題は多岐にわたりますが、上記で取り上げたケースでは、下記例のように障害モジュール名、障害モジュールのバージョン、障害モジュールのパス、例外コードが確認できます。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">障害が発生しているアプリケーション名: MyApp1.exe、バージョン: 0.0.0.0、タイム スタンプ: 0x6a9517cc</span><br><span class="line">障害が発生したモジュール名: MSVCP140.dll、 バージョン: 14.20.27519.0、タイム スタンプ: 0x5d65c848</span><br><span class="line">例外コード: 0xc0000005</span><br><span class="line">フォールト オフセット: 0x0000000000018fd0</span><br><span class="line">フォールト プロセス ID: 0x1B14</span><br><span class="line">アプリケーションのフォールトの開始時刻: 0x1DD390DACA94E90</span><br><span class="line">Faulting アプリケーション パス:  C:\Users\user1\Desktop\MyApp1.exe</span><br><span class="line">Faulting モジュール パス:  C:\WINDOWS\SYSTEM32\MSVCP140.dll</span><br><span class="line">Report Id: 1e8e2600-d839-4e65-9f73-e9c62395ef9b</span><br><span class="line">Faulting パッケージの完全名: </span><br><span class="line">Faulting パッケージ相対アプリケーション ID: </span><br></pre></td></tr></table></figure>
+
+<p>イベント ログはプロセスの終了後にも参照できるため、クラッシュ後に実際に読み込まれていた障害モジュールのパスとバージョンを事後確認できます。実行中のプロセスを確認する場合や詳細に調査する場合は、次のツールも利用できます。</p>
+<h3 id="Process-Explorer-で確認する"><a href="#Process-Explorer-で確認する" class="headerlink" title="Process Explorer で確認する"></a>Process Explorer で確認する</h3><p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/sysinternals/downloads/process-explorer">Process Explorer</a> の DLL モードでは、選択したプロセスが読み込んでいる DLL を下部ペインに表示できます。</p>
+<ol>
+<li>問題が発生するプロセスを選択します。</li>
+<li>下部ペインを DLL モードに切り替えます。</li>
+<li><code>msvcp140.dll</code> を探し、完全なパスとバージョンを記録します。</li>
+<li><code>msvcp140_*.dll</code> および <code>vcruntime140*.dll</code> など他の Visual C++ ランタイム ファイルについても、異なる場所や古いバージョンから読み込まれていないか確認します。</li>
+</ol>
+<h3 id="ListDLLs-で確認する"><a href="#ListDLLs-で確認する" class="headerlink" title="ListDLLs で確認する"></a>ListDLLs で確認する</h3><p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/sysinternals/downloads/listdlls">ListDLLs</a> を使用すると、プロセス名またはプロセス ID を指定して、読み込まれた DLL の完全なパスとバージョン情報を確認できます。ListDLLs をダウンロードして展開し、展開先で実行してください。管理者としての実行が必要になる場合があります。たとえば、<code>MyApp.exe</code> について確認するコマンドは次のとおりです。</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.\Listdlls.exe <span class="literal">-v</span> MyApp.exe</span><br></pre></td></tr></table></figure>
+
+<p>出力から Visual C++ ランタイム ファイルの完全なパスとバージョンを記録します。</p>
+<p>プロセスが短時間でクラッシュして確認できない場合は、<a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/sysinternals/downloads/procmon">Process Monitor</a> で対象プロセスの <code>Load Image</code> イベントを記録し、<code>msvcp140.dll</code> の読み込み元を確認する方法もあります。</p>
+<h2 id="確認結果に応じた対処"><a href="#確認結果に応じた対処" class="headerlink" title="確認結果に応じた対処"></a>確認結果に応じた対処</h2><h3 id="システム-フォルダーの-DLL-が古い場合"><a href="#システム-フォルダーの-DLL-が古い場合" class="headerlink" title="システム フォルダーの DLL が古い場合"></a>システム フォルダーの DLL が古い場合</h3><p>対象 OS がシステム要件を満たすことを確認し、アプリケーションが必要とするアーキテクチャの <a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/cpp/windows/latest-supported-vc-redist?view=msvc-170">最新のサポート対象 Visual C++ Redistributable</a> を、アプリケーションの提供元が示す要件に従ってインストールまたは修復します。対象 OS がシステム要件を満たさない場合は、アプリケーションの提供元へ対応方法を確認してください。</p>
+<p>DLL ファイルだけを別の環境からコピーして置き換える方法は避けてください。Redistributable の正式なインストーラーを使用し、再起動を求められた場合は再起動後に確認します。</p>
+<p>なお、v14 Redistributable は複数のアプリケーションが使用する共有コンポーネントであり、新しいバージョンが古いバージョンを置き換え、古い v14 ツールセットでビルドされたバイナリとの後方互換性を提供します。IT 管理者のお客様から「Visual C++ Redistributable が管理基準より新しいバージョンへ意図せず更新されたため古いバージョンへ戻したい」といったお問い合わせをいただくことがありますが、これを実施すると新しいツールセットでビルドされた別のアプリケーションの必要条件を満たさなくなる場合がありますので、安易にロールバックしないでください。</p>
+<p>また、最新の Redistributable へ更新しても、他のソフトウェアやドライバーの更新またはインストールを契機に、予期せず古いバージョンへ置き換わるケースが報告されています。問題が再発する場合は、直前に行われた更新やインストールを確認し、該当する製品の提供元へ問い合わせてください。</p>
+<h3 id="アプリケーションのフォルダーから読み込まれている場合"><a href="#アプリケーションのフォルダーから読み込まれている場合" class="headerlink" title="アプリケーションのフォルダーから読み込まれている場合"></a>アプリケーションのフォルダーから読み込まれている場合</h3><p>アプリケーションの提供元へ、同梱されている Visual C++ ランタイムがビルドに使用したツールセット以上のバージョンか確認を依頼してください。利用者や IT 管理者の判断で DLL を削除、改名、または個別に差し替えると、別の依存関係を壊す可能性があります。提供元の更新プログラムまたは正式な修復手順を使用します。</p>
+<h3 id="ライブラリやセキュリティ-ソフトウェアのフォルダーから読み込まれている場合"><a href="#ライブラリやセキュリティ-ソフトウェアのフォルダーから読み込まれている場合" class="headerlink" title="ライブラリやセキュリティ ソフトウェアのフォルダーから読み込まれている場合"></a>ライブラリやセキュリティ ソフトウェアのフォルダーから読み込まれている場合</h3><p>該当ソフトウェアを最新の状態に更新したうえで、開発元へ調査を依頼してください。問い合わせ時には、対象プロセス、クラッシュ時刻、読み込まれた DLL の完全なパスとバージョン、コール スタックを伝えます。</p>
+<p>セキュリティ ソフトウェアの影響を切り分ける必要がある場合は、開発元へ手順を確認して一時的な無効化をお試しください。無効化だけでは完全に影響を取り除けない場合があるため、必要に応じて一時的にアンインストールすることもご検討ください。</p>
+<h2 id="開発者が配置時に確認すること"><a href="#開発者が配置時に確認すること" class="headerlink" title="開発者が配置時に確認すること"></a>開発者が配置時に確認すること</h2><p>アプリケーション、ライブラリ、プロセスへ介入するソフトウェアの開発者は、原則として Visual C++ Redistributable による中央配置を検討してください。要件によってローカル配置を選択する場合は、次の点を確認します。</p>
+<ul>
+<li>ビルドに使用した最も新しいツールセット以上のランタイムを配置する</li>
+<li>対象アーキテクチャと構成に必要な再頒布可能ファイル一式を、Visual Studio の再頒布可能ファイル ディレクトリから取得する</li>
+<li>アプリケーションやモジュールの更新時に、ローカル配置したランタイムも更新する</li>
+<li>他のプロセスへモジュールを読み込ませる製品では、そのプロセスが使用するランタイムへ与える影響も検証する</li>
+<li>単一の DLL だけを場当たり的に差し替えず、正式な配布セットを使用する</li>
+</ul>
+<p>必要な DLL の判断については、<a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/cpp/windows/determining-which-dlls-to-redistribute?view=msvc-170">再頒布する DLL の決定方法</a> を参照してください。</p>
+<h2 id="まとめ"><a href="#まとめ" class="headerlink" title="まとめ"></a>まとめ</h2><ul>
+<li>v14 系のバイナリ互換性を保つには、最も新しいビルド ツールと同じか、それより新しい Visual C++ ランタイムが必要です</li>
+<li>古い <code>msvcp140.dll</code> が読み込まれた構成におけるバイナリ互換性の問題の一例として、<code>msvcp140.dll!mtx_do_lock</code> のアクセス違反が観測される場合があります</li>
+<li>イベント ID 1000 に障害モジュールとして記録されている場合はイベント ビューアーで、実行中または詳細調査では Process Explorer、ListDLLs、または Process Monitor で DLL のパスとバージョンを確認します</li>
+<li>ローカル配置した DLL が原因の場合、利用者が DLL を個別に差し替えず、該当ソフトウェアの開発元へ更新または修復方法を確認します</li>
+<li>開発者は中央配置を優先し、ローカル配置する場合はランタイムを製品とともに継続して更新します</li>
+</ul>
+<p>本記事が Visual C++ アプリケーションの問題調査に役立てば幸いです。</p>
 
       
       
@@ -191,11 +204,11 @@ CLR エラー: 80004005. プログラムを終了します。
     <footer class="article-footer">
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/NET/" rel="tag">.NET</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/NET-Framework/" rel="tag">.NET Framework</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/C/" rel="tag">C++</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../../tags/Visual-Studio/" rel="tag">Visual Studio</a></li></ul>
 
       <!-- 
       
-        <a href="https://github.com/jpdscore/blog/edit/master/articles/dotnet/common-issues-caused-by-dotnet-profiler.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
+        <a href="https://github.com/jpdscore/blog/edit/master/articles/vs/visual-cpp-runtime-binary-compatibility-mtx-do-lock/index.md" class="article-github-edit-link" target="_blank" rel="noopener noreferrer">GitHub で編集</a>
         
       -->
     </footer>
@@ -204,19 +217,10 @@ CLR エラー: 80004005. プログラムを終了します。
     
 <nav id="article-nav">
   
-    <a href="../gs-failure-during-gc/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">次の記事</strong>
-      <div class="article-nav-title">
-        
-          .NET アプリケーションで GC 中に発生する例外コード 0xc0000409 のエラーについて
-        
-      </div>
-    </a>
   
-  
-    <a href="../../windowssdk/note-when-use-selectobject-function/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="../../dataclient/fix-odbc-administrator-layout/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">前の記事</strong>
-      <div class="article-nav-title">SelectObject 関数利用時の注意事項</div>
+      <div class="article-nav-title">ODBC データ ソース アドミニストレーターの表示レイアウトが崩れる事象について</div>
     </a>
   
 </nav>
@@ -235,7 +239,7 @@ CLR エラー: 80004005. プログラムを終了します。
       <ul>
         
           <li>
-            <a href="../../vs/visual-cpp-runtime-binary-compatibility-mtx-do-lock/">Visual C++ ランタイムのバージョン不一致によるバイナリ互換性の問題</a>
+            <a href="">Visual C++ ランタイムのバージョン不一致によるバイナリ互換性の問題</a>
           </li>
         
           <li>
@@ -243,15 +247,15 @@ CLR エラー: 80004005. プログラムを終了します。
           </li>
         
           <li>
-            <a href="../netfx-cet-incompatibility/">.NET Framework と制御フロー強制テクノロジー (CET) の非互換性について</a>
+            <a href="../../dotnet/netfx-cet-incompatibility/">.NET Framework と制御フロー強制テクノロジー (CET) の非互換性について</a>
           </li>
         
           <li>
-            <a href="../../vs/vs-business-center-installer-install-failed/">Business Center から入手した Visual Studio インストーラーでインストールの実行に失敗する事例について</a>
+            <a href="../vs-business-center-installer-install-failed/">Business Center から入手した Visual Studio インストーラーでインストールの実行に失敗する事例について</a>
           </li>
         
           <li>
-            <a href="../faq-end-of-support-dotnet/">サポート終了した .NET の扱いに関するよくあるお問い合わせ</a>
+            <a href="../../dotnet/faq-end-of-support-dotnet/">サポート終了した .NET の扱いに関するよくあるお問い合わせ</a>
           </li>
         
           <li>
