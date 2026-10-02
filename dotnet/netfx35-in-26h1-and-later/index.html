@@ -19,7 +19,7 @@
 <meta property="og:image" content="https://jpdscore.github.io/blog/dotnet/netfx35-in-26h1-and-later/netfx35-standalone-installaer.png">
 <meta property="og:image" content="https://jpdscore.github.io/blog/dotnet/netfx35-in-26h1-and-later/installation-logs.png">
 <meta property="article:published_time" content="2026-05-24T15:00:00.000Z">
-<meta property="article:modified_time" content="2026-09-29T16:33:46.481Z">
+<meta property="article:modified_time" content="2026-10-02T06:26:16.844Z">
 <meta property="article:author" content="Developer Support Core Japan">
 <meta property="article:tag" content=".NET">
 <meta property="article:tag" content=".NET Framework">
@@ -129,7 +129,7 @@
 <p>なお、展開方法の変更が行われた背景としては、.NET Framework 3.5 はすでにリリースから 15 年以上が経過しているレガシーとして位置づけられているフレームワーク バージョンで、サポート終了日も近づいていることが挙げられます。既存の .NET Framework 3.5 アプリケーションを継続運用する場合は、サポート終了を見据えて .NET Framework 4 系または .NET への移行計画を併せて検討することを強くお勧めします。</p>
 <h2 id="変更の概要"><a href="#変更の概要" class="headerlink" title="変更の概要"></a>変更の概要</h2><p>Windows 11 version 25H2 以前では、.NET Framework 3.5 は Windows の機能 (FoD: Features on Demand) として有効化できました。
 一方で、Windows 11 version 26H1 (ビルド 28000) 以降では、.NET Framework 3.5 はスタンドアロン インストーラーでのみ提供され、Windows コンポーネントとしての有効化はできません。</p>
-<p>また、25H2 以前向けの .NET Framework 3.5 の更新プログラムは <code>Windows</code> の製品分類となっていましたが、 26H1 以降向けの .NET Framework 3.5 の更新プログラムは <code>.NET Framework 3.5</code> の製品分類となります。</p>
+<p>また、25H2 以前向けの .NET Framework 3.5 の更新プログラムは <code>Windows</code> の製品分類となっていましたが、26H1 (ビルド 28000) 以降向けの .NET Framework 3.5 の更新プログラムは <code>.NET Framework 3.5</code> の製品分類となります。</p>
 <h2 id="公式ページ"><a href="#公式ページ" class="headerlink" title="公式ページ"></a>公式ページ</h2><ul>
 <li>FAQ<ul>
 <li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/dotnet/framework/install/dotnet-35-windows-11-faq">Windows 11 の .NET Framework 3.5 に関する FAQ</a></li>
@@ -149,12 +149,12 @@
 </ul>
 </li>
 </ul>
-<h2 id="更新プログラムの製品の変更と-WSUS-運用への影響"><a href="#更新プログラムの製品の変更と-WSUS-運用への影響" class="headerlink" title="更新プログラムの製品の変更と WSUS 運用への影響"></a>更新プログラムの製品の変更と WSUS 運用への影響</h2><p>Windows 11 version 26H1 以降の .NET Framework 3.5 の更新プログラムは、<code>Windows</code> ではなく <code>.NET Framework 3.5</code> の製品として提供されます。</p>
+<h2 id="更新プログラムの製品の変更と-WSUS-運用への影響"><a href="#更新プログラムの製品の変更と-WSUS-運用への影響" class="headerlink" title="更新プログラムの製品の変更と WSUS 運用への影響"></a>更新プログラムの製品の変更と WSUS 運用への影響</h2><p>Windows 11 version 26H1 (ビルド 28000) 以降の .NET Framework 3.5 の更新プログラムは、<code>Windows</code> ではなく <code>.NET Framework 3.5</code> の製品として提供されます。</p>
 <p><img src="./product-of-updates.png" alt="更新プログラムの製品"></p>
-<p>このため、従来どおり <code>Windows</code> のみを同期対象にしている WSUS 環境では、.NET Framework 3.5 の更新プログラムが同期されず、結果としてセキュリティ更新プログラムの適用漏れが発生する可能性があります。Windows 11 version 26H1 以降でも .NET Framework 3.5 の利用があり WSUS を運用されている場合は、同期や自動承認の構成を変更する必要がないか確認してください。</p>
+<p>このため、従来どおり <code>Windows</code> のみを同期対象にしている WSUS 環境では、.NET Framework 3.5 の更新プログラムが同期されず、結果としてセキュリティ更新プログラムの適用漏れが発生する可能性があります。Windows 11 version 26H1 (ビルド 28000) 以降でも .NET Framework 3.5 の利用があり WSUS を運用されている場合は、同期や自動承認の構成を変更する必要がないか確認してください。</p>
 <p><img src="./product-for-wsus-sync.png" alt="同期オプションの製品指定"></p>
-<h2 id="アップグレード時の影響"><a href="#アップグレード時の影響" class="headerlink" title="アップグレード時の影響"></a>アップグレード時の影響</h2><h3 id="25H2-以前から-26H1-以降へアップグレードする場合"><a href="#25H2-以前から-26H1-以降へアップグレードする場合" class="headerlink" title="25H2 以前から 26H1 以降へアップグレードする場合"></a>25H2 以前から 26H1 以降へアップグレードする場合</h3><p>FAQ に記載のとおり、Windows を次のリリースへアップグレードする場合、.NET Framework 3.5 は再インストールが必要です。
-そのため、25H2 以前の環境で .NET Framework 3.5 を利用していた場合でも、26H1 以降へアップグレード後は未インストール状態となるため、スタンドアロン インストーラーでの再導入を前提に運用計画を立てる必要があります。</p>
+<h2 id="アップグレード時の影響"><a href="#アップグレード時の影響" class="headerlink" title="アップグレード時の影響"></a>アップグレード時の影響</h2><h3 id="25H2-以前から-26H1-ビルド-28000-以降へアップグレードする場合"><a href="#25H2-以前から-26H1-ビルド-28000-以降へアップグレードする場合" class="headerlink" title="25H2 以前から 26H1 (ビルド 28000) 以降へアップグレードする場合"></a>25H2 以前から 26H1 (ビルド 28000) 以降へアップグレードする場合</h3><p>FAQ に記載のとおり、Windows を次のリリースへアップグレードする場合、.NET Framework 3.5 は再インストールが必要です。
+そのため、25H2 以前の環境で .NET Framework 3.5 を利用していた場合でも、26H1 (ビルド 28000) 以降へアップグレード後は未インストール状態となるため、スタンドアロン インストーラーでの再導入を前提に運用計画を立てる必要があります。</p>
 <h3 id="NET-Framework-3-5-の構成を変更している場合-GAC-NGen-machine-config-など"><a href="#NET-Framework-3-5-の構成を変更している場合-GAC-NGen-machine-config-など" class="headerlink" title=".NET Framework 3.5 の構成を変更している場合 (GAC, NGen, machine.config など)"></a>.NET Framework 3.5 の構成を変更している場合 (GAC, NGen, machine.config など)</h3><p>.NET Framework 3.5 の再インストールが必要になるため、.NET Framework 3.5 の構成を行っている場合は、アップグレード後に再適用が必要になる可能性があります。
 以下は代表例です。</p>
 <ul>
@@ -166,7 +166,7 @@
 <p>特に、手動運用で差分を管理している環境では、アップグレード前に現在の構成を採取し、アップグレード後に必要な構成の再適用・再検証を行う手順を準備しておくことをお勧めします。</p>
 <h2 id="NET-Framework-3-5-が未有効化の環境でのアプリ起動時の動作"><a href="#NET-Framework-3-5-が未有効化の環境でのアプリ起動時の動作" class="headerlink" title=".NET Framework 3.5 が未有効化の環境でのアプリ起動時の動作"></a>.NET Framework 3.5 が未有効化の環境でのアプリ起動時の動作</h2><p>25H2 以前では、.NET Framework 3.5 が未有効化の環境で対象アプリを起動すると、.NET Framework 3.5 を有効化するための FoD の画面が表示されていました。</p>
 <p><img src="./netfx35-fod.png" alt="FoD による .NET Framework 3.5 の有効化画面"></p>
-<p>26H1 以降では FAQ の記載のとおり、アプリケーション実行時に &quot;プログラム互換性アシスタント&quot; または .NET Framework ランタイムのメッセージ ボックスが表示され、.NET Framework 3.5 のインストール情報 (ダウンロード情報を含むドキュメント) に案内されます。</p>
+<p>26H1 (ビルド 28000) 以降では FAQ の記載のとおり、アプリケーション実行時に &quot;プログラム互換性アシスタント&quot; または .NET Framework ランタイムのメッセージ ボックスが表示され、.NET Framework 3.5 のインストール情報 (ダウンロード情報を含むドキュメント) に案内されます。</p>
 <p><img src="./netfx35-standalone-installaer.png" alt="スタンドアロン インストーラーによる .NET Framework 3.5 の案内画面"></p>
 <h2 id="スタンドアロン-インストーラーのログ採取"><a href="#スタンドアロン-インストーラーのログ採取" class="headerlink" title="スタンドアロン インストーラーのログ採取"></a>スタンドアロン インストーラーのログ採取</h2><p>.NET Framework 3.5 スタンドアロン インストーラー実行時には、インストーラーを実行したユーザー アカウントの一時フォルダー (<code>%temp%</code> フォルダー、通常は <code>C:\users\&lt;user name&gt;\AppData\Local\Temp</code>) 配下に <code>Microsoft_.NET_Framework_3.5</code> で始まるファイル名のログが出力されます。</p>
 <p><img src="./installation-logs.png" alt="スタンドアロン インストーラーのログ"></p>
@@ -182,6 +182,7 @@
 <div class="admonition note"><p class="admonition-title">Note</p><p>.NET Framework 3.5 のインストールを実行したアカウントで collect.exe を実行する必要があります。例えば SYSTEM アカウントで実行される構成管理ツールのエージェントを通じて .NET Framework 3.5 を展開している場合、<code>collect.exe -user:SYSTEM</code> のようにアカウントを指定する必要があります。</p>
 </div>
 
+<h2 id="2026-10-01-追記-Windows-11-version-26H2-は本記事の対象外です"><a href="#2026-10-01-追記-Windows-11-version-26H2-は本記事の対象外です" class="headerlink" title="2026&#x2F;10&#x2F;01 追記: Windows 11 version 26H2 は本記事の対象外です"></a>2026&#x2F;10&#x2F;01 追記: Windows 11 version 26H2 は本記事の対象外です</h2><p>本記事で説明している .NET Framework 3.5 の展開方法の変更は、ビルド 28000 以降が対象です。2026 年 9 月に一般提供が開始された Windows 11 version 26H2 の OS ビルド番号は 26300 であり、本記事の内容には該当しません。</p>
 
       
       
